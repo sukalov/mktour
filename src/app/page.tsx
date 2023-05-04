@@ -1,8 +1,10 @@
+import logo from './mktour-pascal.gif'
+import Image from 'next/image'
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-around p-24">
-      <h1 className='text-red-500'>hello world</h1>
+    <main className="flex min-h-screen flex-col items-centerjustify-around p-36">
+      <Image className='m-auto' src={logo} alt='mktour' width={200} />
     </main>
   )
 }
