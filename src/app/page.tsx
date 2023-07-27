@@ -1,7 +1,7 @@
 'use client'
 
 import { ModeToggler } from '@/components/mode-toggler'
-import mktour from '@/components/ui/mktourLogo'
+import Mktour from '@/components/ui/mktourLogo'
 
 export default function Home() {
 	return (
@@ -14,7 +14,7 @@ export default function Home() {
 				<ModeToggler />
 			</section>
 			{/* <Image className="m-auto" src={logo} alt="mktour" width={200} /> */}
-			{mktour()}
+			{Mktour()}
 		</main>
 	)
 }

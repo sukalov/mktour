@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 
 const turboPascal = localFont({ src: './TurboPascalFont.ttf' })
 
-const mktour = () => {
+const Mktour = () => {
 	const [isSymbolVisible, setIsSymbolVisible] = useState(true)
 
 	useEffect(() => {
@@ -23,4 +23,4 @@ const mktour = () => {
 	)
 }
 
-export default mktour
+export default Mktour
