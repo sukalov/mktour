@@ -1,7 +1,7 @@
-import { ModeToggler } from '@/components/mode-toggler'
+import ModeToggler from '@/components/mode-toggler'
 import Mktour from '@/components/mktour-logo'
 
-export default function Home() {
+const Home = () => {
 	return (
 		<main className={`flex min-h-screen flex-col items-center justify-around p-12`}>
 			<section style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
@@ -11,3 +11,5 @@ export default function Home() {
 		</main>
 	)
 }
+
+export default Home

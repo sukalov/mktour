@@ -1,4 +1,5 @@
-import { ThemeProvider } from '@/components/theme-provider'
+import ThemeProvider from '@/components/theme-provider'
+import { PropsWithChildren } from 'react'
 import './globals.css'
 
 export const metadata = {
@@ -6,7 +7,7 @@ export const metadata = {
 	description: 'an app for organazing complex tournament brackets of all kind',
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+const RootLayout = ({ children }: PropsWithChildren) => {
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body>
@@ -17,3 +18,5 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 		</html>
 	)
 }
+
+export default RootLayout
