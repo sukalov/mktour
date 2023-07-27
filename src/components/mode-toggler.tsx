@@ -14,13 +14,13 @@ export function ModeToggler() {
 	}, [])
 
 	if (!mounted) {
-		return null
+		return <Button variant='outline' className='aspect-square p-1'></Button>
 	}
 	return (
 		<Button
 			onClick={() => (theme === 'dark' ? setTheme('light') : setTheme('dark'))}
 			variant="outline"
-			style={{ aspectRatio: 1, padding: '.25rem' }}
+			className=' aspect-square p-1'
 		>
 			{theme === 'light' ? <SunMoonIcon /> : <MoonStarIcon />}
 		</Button>
