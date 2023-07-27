@@ -20,7 +20,7 @@ const mktour = () => {
 
 	return (
 		<h1 className={`${turboPascal.className} text-6xl m-auto select-none`}>
-			{isSymbolVisible ? <span>mktour_</span> : <h1>mktour&nbsp;</h1>}
+			{isSymbolVisible ? <span>mktour_</span> : <span>mktour&nbsp;</span>}
 		</h1>
 	)
 }
