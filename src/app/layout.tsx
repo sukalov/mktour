@@ -6,11 +6,7 @@ export const metadata = {
 	description: 'an app for organazing complex tournament brackets of all kind',
 }
 
-export default function RootLayout({
-	children,
-}: {
-	children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body>
