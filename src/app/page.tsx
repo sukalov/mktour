@@ -7,7 +7,6 @@ export default function Home() {
 			<section style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
 				<ModeToggler />
 			</section>
-			{/* <Image className="m-auto" src={logo} alt="mktour" width={200} /> */}
 			<Mktour />
 		</main>
 	)
