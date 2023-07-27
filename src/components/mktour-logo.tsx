@@ -17,7 +17,7 @@ const Mktour = () => {
 	// }, [])
 
 	return (
-		<h1 className={`${turboPascal.className} text-6xl m-auto select-none`}>
+		<h1 className={`${turboPascal.className} text-6xl font-bold m-auto select-none`}>
 			<span>mktour</span>
 			<span className="animate: animate-ping">_</span>
 		</h1>
