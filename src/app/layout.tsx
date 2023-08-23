@@ -1,5 +1,6 @@
 import ThemeProvider from '@/components/theme-provider'
 import { PropsWithChildren } from 'react'
+import { Analytics } from '@vercel/analytics/react';
 import './globals.css'
 
 export const metadata = {
@@ -13,6 +14,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
 			<body>
 				<ThemeProvider attribute="class" disableTransitionOnChange>
 					{children}
+					<Analytics />
 				</ThemeProvider>
 			</body>
 		</html>
