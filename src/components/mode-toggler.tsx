@@ -14,13 +14,13 @@ const ModeToggler = () => {
 	}, [])
 
 	if (!mounted) {
-		return <Button variant='outline' className='aspect-square p-1'></Button>
+		return <Button variant="outline" className="aspect-square p-1"></Button>
 	}
 	return (
 		<Button
 			onClick={() => (theme === 'dark' ? setTheme('light') : setTheme('dark'))}
 			variant="outline"
-			className='aspect-square p-1'
+			className="aspect-square p-1"
 		>
 			{theme === 'light' ? <SunMoonIcon /> : <MoonStarIcon />}
 		</Button>

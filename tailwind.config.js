@@ -65,16 +65,16 @@ module.exports = {
 					from: { height: 'var(--radix-accordion-content-height)' },
 					to: { height: 0 },
 				},
-        'logo-pulse': {
-          '0%': { opacity: 0 },
-		      '49%': {opacity: 0 },
-          '50%': { opacity: 100 }
-        }
+				'logo-pulse': {
+					'0%': { opacity: 0 },
+					'49%': { opacity: 0 },
+					'50%': { opacity: 100 },
+				},
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-        'logo-pulse': 'logo-pulse 1s infinite'
+				'logo-pulse': 'logo-pulse 1s infinite',
 			},
 		},
 	},

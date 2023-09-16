@@ -1,7 +1,8 @@
 import ThemeProvider from '@/components/theme-provider'
 import { PropsWithChildren } from 'react'
-import { Analytics } from '@vercel/analytics/react';
+import { Analytics } from '@vercel/analytics/react'
 import './globals.css'
+import Navbar from '@/components/navbar'
 
 export const metadata = {
 	title: 'mktour',
@@ -13,6 +14,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
 		<html lang="en" suppressHydrationWarning>
 			<body>
 				<ThemeProvider attribute="class" disableTransitionOnChange>
+					<Navbar />
 					{children}
 					<Analytics />
 				</ThemeProvider>
