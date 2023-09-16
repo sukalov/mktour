@@ -10,7 +10,7 @@ import ButtonForAuthorized from './button-for-authorized'
 export default function Navbar() {
 	return (
 		<SessionProvider>
-			<nav className="flex w-full border justify-end p-4 fixed gap-3">
+			<nav className="flex w-full border-b justify-end p-4 fixed gap-3">
 				<Link href="/">
 					<Button variant="outline">mktour_</Button>
 				</Link>

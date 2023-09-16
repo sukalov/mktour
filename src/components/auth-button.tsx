@@ -43,7 +43,7 @@ export default function AuthButton() {
 	return (
 		<div>
 			<Button variant="outline" onClick={handleSignOut}>
-				Sign Out from {session.user?.name}
+				Sign out from {session.user?.name}
 			</Button>
 		</div>
 	)
