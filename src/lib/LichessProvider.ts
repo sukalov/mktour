@@ -34,8 +34,6 @@ export default function LichessProvider(options: any): Provider {
 		},
 
 		profile(data: any) {
-			console.log('ЖОПА')
-			console.log(data)
 			return {
 				id: data.id,
 				username: data.username,

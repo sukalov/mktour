@@ -1,16 +1,15 @@
 'use client'
 
-import ModeToggler from '@/components/mode-toggler'
-import Mktour from '@/components/mktour-logo'
-import AuthButton from '@/components/auth-button'
+import Navbar from '@/components/navbar'
 import { SessionProvider } from 'next-auth/react'
+import HomeMobile from './mobile'
 
 const Home = () => {
 	return (
 		<SessionProvider>
 			<main className="flex min-h-screen flex-col items-center justify-around p-12">
-				<Mktour />
-			</main>
+			<HomeMobile />
+      </main>
 		</SessionProvider>
 	)
 }

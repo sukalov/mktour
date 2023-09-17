@@ -1,8 +1,10 @@
 import ThemeProvider from '@/components/theme-provider'
-import { PropsWithChildren } from 'react'
 import { Analytics } from '@vercel/analytics/react'
+import { PropsWithChildren, Suspense } from 'react'
 import './globals.css'
 import Navbar from '@/components/navbar'
+import NavbarIteratee from '@/components/navbar-iteratee'
+import Loading from './loading'
 
 export const metadata = {
 	title: 'mktour',
@@ -14,8 +16,10 @@ const RootLayout = ({ children }: PropsWithChildren) => {
 		<html lang="en" suppressHydrationWarning>
 			<body>
 				<ThemeProvider attribute="class" disableTransitionOnChange>
-					<Navbar />
+          <Suspense fallback={ <Loading /> } >
+          <NavbarIteratee />
 					{children}
+          </Suspense>
 					<Analytics />
 				</ThemeProvider>
 			</body>
