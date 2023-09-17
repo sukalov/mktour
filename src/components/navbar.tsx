@@ -6,6 +6,7 @@ import ModeToggler from './mode-toggler'
 import Link from 'next/link'
 import { Button } from './ui/button'
 import ButtonForAuthorized from './button-for-authorized'
+import MktourNavbar from './ui/mktour-logo-navbar'
 
 export default function Navbar() {
   const { data: session, status, update } = useSession()
@@ -16,7 +17,7 @@ export default function Navbar() {
 		<SessionProvider>
 			<nav className="flex w-full border-b justify-end p-4 fixed gap-3">
 				<Link href="/">
-					<Button variant="outline">mktour_</Button>
+					<Button className='' variant='ghost'><MktourNavbar /></Button>
 				</Link>
 				<ButtonForAuthorized text="issues" variant="outline" slug="issues" />
 				<div className="flex-grow"></div>

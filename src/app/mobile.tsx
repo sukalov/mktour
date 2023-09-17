@@ -1,16 +1,14 @@
 'use client'
 
 import AuthButton from '@/components/auth-button'
-import Mktour from '@/components/mktour-logo'
-import Navbar from '@/components/navbar'
+import Mktour from '@/components/ui/mktour-logo'
 import { useSession } from 'next-auth/react'
+import { useEffect } from 'react'
 
-const HomeMobile = () => {
+export default function HomeMobile() {
 	const { data: session, status, update } = useSession()
   const loading = status === 'loading'
-  console.log(loading)
-
+ 
+  if (loading) return <Mktour />
   return <AuthButton />
-} 
-
-export default HomeMobile
+}

@@ -5,7 +5,7 @@ import { Button } from './ui/button'
 import { SunMoonIcon, MoonStarIcon } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
-const ModeToggler = () => {
+export default function ModeToggler() {
 	const { theme, setTheme } = useTheme()
 	const [mounted, setMounted] = useState(false)
 
@@ -26,5 +26,3 @@ const ModeToggler = () => {
 		</Button>
 	)
 }
-
-export default ModeToggler

@@ -1,9 +1,8 @@
 import localFont from 'next/font/local'
-// import { useEffect, useState } from 'react'
 
-const turboPascal = localFont({ src: './fonts/TurboPascalFont.ttf' })
+const turboPascal = localFont({ src: '../fonts/TurboPascalFont.ttf' })
 
-const Mktour = () => {
+export default function Mktour() {
 	return (
 		<h1 className={`${turboPascal.className} text-6xl font-bold m-auto select-none`}>
 			<span>mktour</span>
@@ -11,5 +10,3 @@ const Mktour = () => {
 		</h1>
 	)
 }
-
-export default Mktour
