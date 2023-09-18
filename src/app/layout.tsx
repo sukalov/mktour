@@ -14,7 +14,6 @@ export default function RootLayout({ children }: PropsWithChildren) {
 		<html lang="en" suppressHydrationWarning>
 			<body>
 				<ThemeProvider attribute="class" disableTransitionOnChange>
-					<NavbarIteratee />
 					{children}
 					<Analytics />
 				</ThemeProvider>

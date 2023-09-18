@@ -11,6 +11,7 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import LichessLogo from './ui/lichess-logo'
+import { User2 } from 'lucide-react'
 
 interface AuthButtonProps {
 	session: Session | null
@@ -41,7 +42,7 @@ export default function AuthButton({ session }: AuthButtonProps) {
 		<div>
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
-					<Button variant="outline">{session.user?.username}</Button>
+					<Button variant="ghost" className='select-none'><User2 />{session.user?.username}</Button>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent className="w-max" onClick={handleSignOut}>
 					<DropdownMenuItem className="w-full">sign out</DropdownMenuItem>

@@ -6,8 +6,9 @@ import AuthButton from './auth-button'
 import ButtonForAuthorized from './button-for-authorized'
 import ModeToggler from './mode-toggler'
 import MktourNavbar from './ui/mktour-logo-navbar'
+import { AlignJustify, Menu } from 'lucide-react'
 
-export default function Navbar() {
+export default function NavbarMobile() {
 	const { data: session, status, update } = useSession()
 	const loading = status === 'loading'
 
@@ -15,15 +16,14 @@ export default function Navbar() {
 	return (
 		<SessionProvider>
 			<nav className="flex w-full border-b items-center justify-end p-4 fixed gap-3">
+				<Menu />
 				<Link href="/">
-					<div className="p-2">
+					<div className="p-2 select-none">
 						<MktourNavbar />
 					</div>
 				</Link>
-				<ButtonForAuthorized text="issues" variant="outline" slug="issues" session={session} />
 				<div className="flex-grow"></div>
 				<AuthButton session={session} />
-				<ModeToggler />
 			</nav>
 		</SessionProvider>
 	)
