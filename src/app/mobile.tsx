@@ -10,5 +10,5 @@ export default function HomeMobile() {
   const loading = status === 'loading'
  
   if (loading) return <Mktour />
-  return <AuthButton />
+  return <></>
 }
