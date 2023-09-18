@@ -7,12 +7,12 @@ import HomeDesktop from './desktop'
 import HomeMobile from './mobile'
 
 export default function Home() {
-  const isMobile = useMediaQuery({ maxWidth: 500 })
-  const Page = isMobile ? HomeMobile : HomeDesktop
+	const isMobile = useMediaQuery({ maxWidth: 500 })
+	const Page = isMobile ? HomeMobile : HomeDesktop
 
 	return (
 		<SessionProvider>
-				<NavbarIteratee />
+			<NavbarIteratee />
 			<main className="flex min-h-screen flex-col items-center justify-around p-12">
 				<Page />
 			</main>
