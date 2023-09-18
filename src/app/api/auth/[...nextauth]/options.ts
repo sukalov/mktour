@@ -4,7 +4,9 @@ import type { JWT } from 'next-auth/jwt'
 import { AdapterUser } from 'next-auth/adapters'
 
 
-interface SessionProps {
+
+
+interface MySessionProps {
     session: Session,
     token: JWT
     user: AdapterUser
@@ -13,10 +15,8 @@ interface SessionProps {
 
 export const options: NextAuthOptions = {
     callbacks: {
-        async session({ session, token, user }: SessionProps) {
-        //   session!.accessToken = token.accessToken
-        //   session.user.id = token.id  ДОДЕЛАТЬ
-          
+        async session({ session, token, user }: MySessionProps) {
+          session.user.username = token.sub as string
           return session
         }
       },
