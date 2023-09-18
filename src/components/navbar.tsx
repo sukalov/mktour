@@ -22,7 +22,7 @@ export default function Navbar() {
 						<MktourNavbar />
 					</div>
 				</Link>
-				<ButtonForAuthorized text="issues" variant="outline" slug="issues" />
+				<ButtonForAuthorized text="issues" variant="outline" slug="issues" session={session}/>
 				<div className="flex-grow"></div>
 				<AuthButton session={session} />
 				<ModeToggler />
