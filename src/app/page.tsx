@@ -8,8 +8,8 @@ export default function Home() {
 	return (
 		<SessionProvider>
 			<main className="flex min-h-screen flex-col items-center justify-around p-12">
-			<HomeMobile />
-      </main>
+				<HomeMobile />
+			</main>
 		</SessionProvider>
 	)
 }

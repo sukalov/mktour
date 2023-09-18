@@ -9,12 +9,12 @@ export const metadata = {
 	description: 'an app for organazing complex tournament brackets of all kind',
 }
 
-export default function RootLayout ({ children }: PropsWithChildren) {
+export default function RootLayout({ children }: PropsWithChildren) {
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body>
 				<ThemeProvider attribute="class" disableTransitionOnChange>
-          <NavbarIteratee />
+					<NavbarIteratee />
 					{children}
 					<Analytics />
 				</ThemeProvider>

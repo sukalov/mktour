@@ -7,8 +7,8 @@ import { useEffect } from 'react'
 
 export default function HomeMobile() {
 	const { data: session, status, update } = useSession()
-  const loading = status === 'loading'
- 
-  if (loading) return <Mktour />
-  return <></>
+	const loading = status === 'loading'
+
+	if (loading) return <Mktour />
+	return <></>
 }
