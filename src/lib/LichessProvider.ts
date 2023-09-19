@@ -1,4 +1,4 @@
-import { OAuthProvider, Provider } from 'next-auth/providers'
+import { Provider } from 'next-auth/providers'
 
 export default function LichessProvider(options: any): Provider {
 	return {

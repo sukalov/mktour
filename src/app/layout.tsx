@@ -1,4 +1,4 @@
-import NavbarIteratee from '@/components/navbar-iteratee'
+import NavbarWrapper from '@/components/navbar-wrapper'
 import ThemeProvider from '@/components/theme-provider'
 import { Analytics } from '@vercel/analytics/react'
 import { PropsWithChildren } from 'react'
@@ -11,9 +11,10 @@ export const metadata = {
 
 export default function RootLayout({ children }: PropsWithChildren) {
 	return (
-		<html lang="en" suppressHydrationWarning>
+		<html lang='en' suppressHydrationWarning>
 			<body>
-				<ThemeProvider attribute="class" disableTransitionOnChange>
+				<ThemeProvider attribute='class' disableTransitionOnChange>
+          <NavbarWrapper />
 					{children}
 					<Analytics />
 				</ThemeProvider>

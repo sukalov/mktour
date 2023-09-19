@@ -14,14 +14,14 @@ export default function Navbar() {
 	if (loading) return null
 	return (
 		<SessionProvider>
-			<nav className="flex w-full border-b items-center justify-end p-4 fixed gap-3">
-				<Link href="/">
-					<div className="p-2">
+			<nav className='flex w-full border-b items-center justify-end p-4 fixed gap-3'>
+				<Link href='/'>
+					<div className='p-2'>
 						<MktourNavbar />
 					</div>
 				</Link>
-				<ButtonForAuthorized text="issues" variant="outline" slug="issues" session={session} />
-				<div className="flex-grow"></div>
+				<ButtonForAuthorized text='issues' variant='outline' slug='issues' session={session} />
+				<div className='flex-grow'></div>
 				<AuthButton session={session} />
 				<ModeToggler />
 			</nav>

@@ -1,9 +1,7 @@
 'use client'
 
-import AuthButton from '@/components/auth-button'
 import Mktour from '@/components/ui/mktour-logo'
 import { useSession } from 'next-auth/react'
-import { useEffect } from 'react'
 
 export default function HomeDesktop() {
 	const { data: session, status, update } = useSession()

@@ -1,6 +1,5 @@
 'use client'
 
-import NavbarIteratee from '@/components/navbar-iteratee'
 import { SessionProvider } from 'next-auth/react'
 import { useMediaQuery } from 'react-responsive'
 import HomeDesktop from './desktop'
@@ -12,8 +11,7 @@ export default function Home() {
 
 	return (
 		<SessionProvider>
-			<NavbarIteratee />
-			<main className="flex min-h-screen flex-col items-center justify-around p-12">
+			<main className='flex min-h-screen flex-col items-center justify-around p-12'>
 				<Page />
 			</main>
 		</SessionProvider>

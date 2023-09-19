@@ -5,7 +5,7 @@ import NavbarDesktop from './navbarDesktop'
 import { useMediaQuery } from 'react-responsive'
 import NavbarMobile from './navbarMobile'
 
-export default function NavbarIteratee() {
+export default function NavbarWrapper() {
   const isMobile = useMediaQuery({ maxWidth: 500 })
   const Page = isMobile ? NavbarMobile : NavbarDesktop
 

@@ -7,8 +7,8 @@ import { Session } from 'next-auth'
 interface ButtonProps {
 	slug: string
 	variant: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link' | undefined
-	text: string | undefined,
-    session: Session | null
+	text: string | undefined
+	session: Session | null
 }
 
 export default function ButtonForAuthorized({ slug, text, variant, session }: ButtonProps) {
