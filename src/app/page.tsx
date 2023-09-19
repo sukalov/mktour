@@ -2,8 +2,8 @@
 
 import { SessionProvider } from 'next-auth/react'
 import { useMediaQuery } from 'react-responsive'
-import HomeDesktop from './desktop'
-import HomeMobile from './mobile'
+import HomeDesktop from './home-desktop'
+import HomeMobile from './home-mobile'
 
 export default function Home() {
 	const isMobile = useMediaQuery({ maxWidth: 500 })

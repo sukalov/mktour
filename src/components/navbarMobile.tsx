@@ -12,17 +12,15 @@ export default function NavbarMobile() {
 
 	if (loading) return null
 	return (
-		<SessionProvider>
-			<nav className='flex w-full border-b items-center justify-end p-4 fixed gap-3'>
-				<Menu />
-				<Link href='/'>
-					<div className='p-2 select-none'>
-						<MktourNavbar />
-					</div>
-				</Link>
-				<div className='flex-grow'></div>
-				<AuthButton session={session} />
-			</nav>
-		</SessionProvider>
+		<>
+			<Menu />
+			<Link href='/'>
+				<div className='p-2 select-none'>
+					<MktourNavbar />
+				</div>
+			</Link>
+			<div className='flex-grow'></div>
+			<AuthButton session={session} />
+		</>
 	)
 }

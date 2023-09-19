@@ -42,8 +42,8 @@ export default function AuthButton({ session }: AuthButtonProps) {
 		<div>
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
-					<Button variant='ghost' className='select-none p-0'>
-						<User2 className='m-2' />
+					<Button variant='ghost' className='select-none gap-2 p-3'>
+						<User2 />
 						{session.user?.username}
 					</Button>
 				</DropdownMenuTrigger>
