@@ -1,3 +1,5 @@
+'use client'
+
 import {
 	Menubar,
 	MenubarContent,
@@ -12,6 +14,9 @@ import { AuthButtonProps } from './auth-button'
 import ButtonForAuthorized from './button-for-authorized'
 import { Separator } from '@/components/ui/separator'
 import ModeToggler from './mode-toggler'
+import { Drawer } from 'vaul'
+import { useTheme } from 'next-themes'
+import { useState } from 'react'
 
 export function MenuSideBar({ session }: AuthButtonProps) {
 	return (
@@ -20,15 +25,15 @@ export function MenuSideBar({ session }: AuthButtonProps) {
 				<MenubarTrigger>
 					<Menu />
 				</MenubarTrigger>
-				<MenubarContent className='min-w-0'>
+				<MenubarContent className='min-w-0 p-0 m-0'>
 					<MenubarItem>
 						<ButtonForAuthorized text='Issues' variant='ghost' slug='issues' session={session} />
 						<MenubarShortcut>SLAY</MenubarShortcut>
 					</MenubarItem>
 					<Separator />
-					<MenubarItem className='justify-end'>
+					<div className='flex justify-end p-2'>
 						<ModeToggler />
-					</MenubarItem>
+					</div>
 				</MenubarContent>
 			</MenubarMenu>
 		</Menubar>

@@ -76,3 +76,8 @@
 		@apply bg-background text-foreground;
 	}
 }
+
+button {
+  user-select: none;
+  -webkit-tap-highlight-color: transparent
+}
