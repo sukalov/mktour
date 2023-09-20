@@ -5,6 +5,7 @@ import { SessionProvider, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import AuthButton from './auth-button'
 import MktourNavbar from './ui/mktour-logo-navbar'
+import { MenuSideBar } from './menu-bar'
 
 export default function NavbarMobile() {
 	const { data: session, status, update } = useSession()
@@ -13,7 +14,7 @@ export default function NavbarMobile() {
 	if (loading) return null
 	return (
     <nav className='flex min-w-max w-full border-b items-center justify-end p-4 fixed gap-3'>
-			<Menu />
+			<MenuSideBar session={session} />
 			<Link href='/'>
 				<div className='p-2 select-none'>
 					<MktourNavbar />

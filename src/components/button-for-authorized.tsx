@@ -14,7 +14,7 @@ interface ButtonProps {
 export default function ButtonForAuthorized({ slug, text, variant, session }: ButtonProps) {
 	const buttonVariant = variant ?? 'default'
 	return (
-		<Button variant={buttonVariant} disabled={session === null}>
+		<Button className='px-2' variant={buttonVariant} disabled={session === null}>
 			<Link href={`/${slug}`}>{text}</Link>
 		</Button>
 	)

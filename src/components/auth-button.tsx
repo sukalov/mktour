@@ -13,7 +13,7 @@ import React from 'react'
 import { Button } from './ui/button'
 import LichessLogo from './ui/lichess-logo'
 
-interface AuthButtonProps {
+export interface AuthButtonProps {
 	session: Session | null
 }
 
