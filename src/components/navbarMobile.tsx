@@ -12,7 +12,7 @@ export default function NavbarMobile() {
 
 	if (loading) return null
 	return (
-		<>
+    <nav className='flex min-w-max w-full border-b items-center justify-end p-4 fixed gap-3'>
 			<Menu />
 			<Link href='/'>
 				<div className='p-2 select-none'>
@@ -21,6 +21,6 @@ export default function NavbarMobile() {
 			</Link>
 			<div className='flex-grow'></div>
 			<AuthButton session={session} />
-		</>
+		</nav>
 	)
 }

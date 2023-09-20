@@ -1,5 +1,6 @@
 'use client'
 
+import { Sidebar } from '@/components/sidebar'
 import Mktour from '@/components/ui/mktour-logo'
 import { useSession } from 'next-auth/react'
 

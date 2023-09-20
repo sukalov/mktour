@@ -11,9 +11,7 @@ export default function NavbarWrapper() {
 
 	return (
 		<SessionProvider>
-			<nav className='flex min-w-max w-full border-b items-center justify-end p-4 fixed gap-3'>
-				<Page />
-			</nav>
+			<Page />
 		</SessionProvider>
 	)
 }
