@@ -1,17 +1,22 @@
 'use client'
 
 import { SessionProvider } from 'next-auth/react'
-import NavbarDesktop from './navbarDesktop'
+import { createContext } from 'react'
 import { useMediaQuery } from 'react-responsive'
-import NavbarMobile from './navbarMobile'
+import NavbarDesktop from './navbar-desktop'
+import NavbarMobile from './navbar-mobile'
+
+export const WidthContext = createContext(true)
 
 export default function NavbarWrapper() {
 	const isMobile = useMediaQuery({ maxWidth: 500 })
 	const Page = isMobile ? NavbarMobile : NavbarDesktop
 
 	return (
-		<SessionProvider>
-			<Page />
-		</SessionProvider>
+		<WidthContext.Provider value={isMobile}>
+			<SessionProvider>
+				<Page />
+			</SessionProvider>
+		</WidthContext.Provider>
 	)
 }
