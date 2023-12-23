@@ -1,10 +1,14 @@
+import { twc } from "react-twc";
+
+const Logo = twc.div`w-5 h-5`;
+
 import { FC } from "react"
 
 export type LogoProps = {
 	size: string
 }
 
-const LichessLogo: FC<LogoProps> = ({ size }) => {
+const LichessLogo : FC<LogoProps> = ({ size }) => {
 	return (
 		<svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox={`0 0 28 28`} className="fill-secondary stroke-secondary">
 			<path

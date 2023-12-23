@@ -12,9 +12,10 @@ export const metadata = {
 export default function RootLayout({ children }: PropsWithChildren) {
 	return (
 		<html lang='en' suppressHydrationWarning>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 			<body>
 				<ThemeProvider attribute='class' disableTransitionOnChange>
-          <NavbarWrapper />
+					<NavbarWrapper />
 					{children}
 					<Analytics />
 				</ThemeProvider>

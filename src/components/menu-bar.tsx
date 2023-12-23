@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/menubar'
 
 import { Menu } from 'lucide-react'
-import { AuthButtonProps } from './auth-button'
+import AuthButton, { AuthButtonProps } from './auth-button'
 import ButtonForAuthorized from './button-for-authorized'
 import { Separator } from '@/components/ui/separator'
 import ModeToggler from './mode-toggler'
@@ -28,7 +28,8 @@ export function MenuSideBar({ session }: AuthButtonProps) {
 				<MenubarContent className='min-w-0 p-0 m-0'>
 					<MenubarItem>
 						<ButtonForAuthorized text='Issues' variant='ghost' slug='issues' session={session} />
-						<MenubarShortcut>SLAY</MenubarShortcut>
+						</MenubarItem>
+						<MenubarItem>
 					</MenubarItem>
 					<Separator />
 					<div className='flex justify-end p-2'>
