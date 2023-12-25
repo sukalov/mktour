@@ -9,7 +9,7 @@ import NavbarMobile from './navbar-mobile'
 export const WidthContext = createContext(true)
 
 export default function NavbarWrapper() {
-	const isMobile = useMediaQuery({ maxWidth: 500 })
+	const isMobile = useMediaQuery({ maxWidth: 700 })
 	const Page = isMobile ? NavbarMobile : NavbarDesktop
 
 	return (

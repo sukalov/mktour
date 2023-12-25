@@ -21,5 +21,5 @@ export const options: NextAuthOptions = {
 			clientId: 'mktour.org',
 			clientSecret: process.env.LICHESS_CLIENT_SECRET,
 		}),
-	],
+	]
 }

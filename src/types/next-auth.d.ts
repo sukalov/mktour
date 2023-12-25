@@ -10,3 +10,22 @@ declare module 'next-auth' {
 		accessToken: string
 	}
 }
+
+export type NavbarItem = NavbarActionItem | NavbarRedirectItem
+
+export type NavbarActionItem = {
+	title: string
+	icon?: JSX.Element
+	type: 'action'
+	submenu?: boolean
+	action: Function
+}
+
+export type NavbarRedirectItem = {
+	title: string
+	path: string
+	icon?: JSX.Element
+	submenu?: boolean
+	subMenuItems?: NavbarRedirectItem[]
+	type: 'redirect'
+}

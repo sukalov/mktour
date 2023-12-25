@@ -22,7 +22,7 @@ export default function Navbar() {
 			<ButtonForAuthorized text='issues' variant='outline' slug='issues' session={session} />
 			<div className='flex-grow'></div>
 			<AuthButton session={session} />
-			<ModeToggler />
+			<ModeToggler variant='desktop' />
 		</nav>
 	)
 }

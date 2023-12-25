@@ -5,7 +5,11 @@ import { Button } from './ui/button'
 import { SunMoonIcon, MoonStarIcon } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
-export default function ModeToggler() {
+type ModeTogglerProps = {
+	variant: 'desktop' | 'mobile'
+}
+
+export default function ModeToggler({ variant }: ModeTogglerProps) {
 	const { theme, setTheme } = useTheme()
 	const [mounted, setMounted] = useState(false)
 
@@ -13,16 +17,24 @@ export default function ModeToggler() {
 		setMounted(true)
 	}, [])
 
+	const toggleTheme = () => {
+		setTheme(theme === 'light' ? 'dark' : 'light')
+	}
+
 	if (!mounted) {
 		return <Button variant='outline' className='aspect-square p-2'></Button>
 	}
 	return (
-		<Button
-			onClick={() => (theme === 'dark' ? setTheme('light') : setTheme('dark'))}
-			variant='outline'
-			className='aspect-square p-2'
-		>
-			{theme === 'light' ? <SunMoonIcon /> : <MoonStarIcon />}
-		</Button>
+		<>
+			{variant === 'desktop' ? (
+				<Button variant='outline' className='aspect-square p-2' onClick={() => toggleTheme()} >
+					{theme === 'light' ? <SunMoonIcon /> : <MoonStarIcon />}
+				</Button>
+			) : (
+				<button onClick={() => toggleTheme()}>
+					{theme === 'light' ? <SunMoonIcon /> : <MoonStarIcon />}
+				</button>
+			)}
+		</>
 	)
 }

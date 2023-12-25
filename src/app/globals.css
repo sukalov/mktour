@@ -78,6 +78,6 @@
 }
 
 button {
-  user-select: none;
-  -webkit-tap-highlight-color: transparent
+	user-select: none;
+	-webkit-tap-highlight-color: transparent;
 }
