@@ -4,7 +4,7 @@ import AuthButton from '@/components/auth-button'
 import { Button } from '@/components/ui/button'
 import LichessLogo from '@/components/ui/lichess-logo'
 import Mktour from '@/components/ui/mktour-logo'
-import { useSession } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 
 export default function HomeMobile() {
 	const { data: session, status, update } = useSession()
@@ -25,7 +25,8 @@ export default function HomeMobile() {
 			{!session && 
 			<Button 
 			className='flex flex-col gap-2 w-full h-auto min-h-24 font-bold'
-			variant='secondary'>
+			variant='secondary'
+			onClick={() => signIn('lichess', {redirect: false})}>
 				<div className=' grid-flow-col'></div>
 				<span className=' grid-col-3'><LichessLogo size='48'/></span>
 				<span className='font-light text-xl grid-col--9'>sign in with lichess</span>
