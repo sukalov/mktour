@@ -105,9 +105,9 @@ export default function NavbarMobile () {
 const MenuToggle = ({ toggle }: { toggle: any }) => (
 		<button
 			onClick={toggle}
-			className='pointer-events-auto absolute right-5 top-5 z-30 text-foreground'
+			className='pointer-events-auto absolute p-1 right-4 top-4 z-30 text-foreground'
 		>
-			<svg width='23' height='23' viewBox='0 0 23 23'>
+			<svg width='24' height='24' viewBox='0 0 23 23'>
 				<Path
 					variants={{
 						closed: { d: 'M 2 2.5 L 20 2.5' },

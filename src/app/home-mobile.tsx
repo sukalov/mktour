@@ -14,7 +14,7 @@ export default function HomeMobile() {
 	return (
 		<div className='w-full h-full flex-col gap-7 flex'>
 			<Button
-				className='flex flex-col gap-2 w-full h-auto min-h-24 font-bold'
+				className='flex flex-col gap-2 w-full h-auto min-h-24 font-bold max-w-[28rem] m-auto'
 				variant='default'
 			>
 				<h1 className=' text-3xl font-light'>make tournament</h1>
@@ -24,7 +24,7 @@ export default function HomeMobile() {
 			</Button>
 			{!session && 
 			<Button 
-			className='flex flex-col gap-2 w-full h-auto min-h-24 font-bold'
+			className='flex flex-col gap-2 w-full h-auto min-h-24 font-bold max-w-[28rem] m-auto'
 			variant='secondary'
 			onClick={() => signIn('lichess', {redirect: false})}>
 				<div className=' grid-flow-col'></div>
