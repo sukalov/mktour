@@ -3,19 +3,7 @@ import ThemeProvider from '@/components/theme-provider'
 import { Analytics } from '@vercel/analytics/react'
 import { PropsWithChildren } from 'react'
 import './globals.css'
-import { Azeret_Mono } from 'next/font/google'
-import localFont from 'next/font/local'
- 
-export const turboPascal = localFont({
-  src: './fonts/TurboPascalFont.ttf',
-  display: 'swap',
-})
- 
- 
-const azeretMono = Azeret_Mono({
-  subsets: ['latin'],
-  display: 'swap',
-})
+import { azeretMono } from './fonts'
 
 const metadata = {
 	title: 'mktour',
