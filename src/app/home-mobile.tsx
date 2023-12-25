@@ -12,7 +12,9 @@ export default function HomeMobile() {
 
 	if (loading) return <Mktour />
 	return (
-		<div className='w-full h-full flex-col gap-7 flex'>
+		<div className='w-full p-1 flex flex-col gap-7'>
+			{!session && <div className="text-5xl pt-16 font-bold w-full pb-24 text-start m-auto max-w-[28rem]">all chess tournaments in one place</div>}
+		<div className="flex-grow"></div>
 			<Button
 				className='flex flex-col gap-2 w-full h-auto min-h-24 font-bold max-w-[28rem] m-auto'
 				variant='default'
@@ -31,6 +33,5 @@ export default function HomeMobile() {
 				<span className=' grid-col-3'><LichessLogo size='48'/></span>
 				<span className='font-light text-xl grid-col--9'>sign in with lichess</span>
 		    </Button>}
-		</div>
-	)
+		</div>	)
 }

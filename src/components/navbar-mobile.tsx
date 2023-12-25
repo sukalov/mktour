@@ -39,7 +39,7 @@ export default function NavbarMobile () {
     console.log(status)
 
 	return (
-		<nav className='z-50 flex min-w-max w-full border-b items-center justify-start p-4 fixed gap-3'>
+		<nav className='z-50 flex min-w-max w-full border-b items-center justify-start p-4 fixed gap-3 bg-background/95'>
             <div><Link href='/'>
                 <MktourNavbar />
             </Link>
