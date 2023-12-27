@@ -18,7 +18,6 @@ export interface AuthButtonProps {
 }
 
 export default function AuthButton({ session }: AuthButtonProps) {
-
 	const handleSignIn = () => {
 		signIn(undefined, { callbackUrl: '/' })
 	}
@@ -30,9 +29,13 @@ export default function AuthButton({ session }: AuthButtonProps) {
 	if (!session) {
 		return (
 			<div>
-				<Button className='flex-row gap-2 p-2' variant='secondary' onClick={() => signIn('lichess')}>
-					<LichessLogo size='24'/>
-					 sign in with lichess
+				<Button
+					className='flex-row gap-2 p-2'
+					variant='secondary'
+					onClick={() => signIn('lichess')}
+				>
+					<LichessLogo size='24' />
+					sign in
 				</Button>
 			</div>
 		)

@@ -30,26 +30,26 @@ const sidebar = {
 	},
 }
 
-export default function NavbarMobile () {
+export default function NavbarMobile() {
 	const pathname = usePathname()
 	const containerRef = useRef(null)
 	const { height } = useDimensions(containerRef)
 	const [isOpen, toggleOpen] = useCycle(false, true)
-    const { data: session, status, update } = useSession()
-    console.log(status)
+	const { data: session, status, update } = useSession()
 
 	return (
-		<nav className='z-50 flex min-w-max w-full border-b items-center justify-start p-4 fixed gap-3 bg-background/95'>
-            <div><Link href='/'>
-                <MktourNavbar />
-            </Link>
-            </div>
-            <div className='flex-grow'></div>
+		<nav className='z-50 flex flex-row min-w-max w-full border-b items-center justify-start p-4 fixed gap-3 bg-background/95'>
+			<div>
+				<Link href='/'>
+					<MktourNavbar />
+				</Link>
+			</div>
+			<div className='flex-grow'></div>
 			<motion.nav
 				initial={false}
 				animate={isOpen ? 'open' : 'closed'}
 				custom={height}
-                className={`fixed inset-0 z-50 w-full md:hidden ${isOpen ? '' : 'pointer-events-none'}`}
+				className={`fixed inset-0 z-50 w-full md:hidden ${isOpen ? '' : 'pointer-events-none'}`}
 				ref={containerRef}
 			>
 				<motion.div className='absolute inset-0 right-0 w-full bg-secondary' variants={sidebar} />
@@ -89,11 +89,19 @@ export default function NavbarMobile () {
 							</div>
 						)
 					})}
-                    <MenuItem>
-						{status === 'unauthenticated' || status === 'loading' ? <button className='text-xl' onClick={() => signIn('lichess', {redirect: false})}>sign in with lichess</button> : <button  className='flex w-full text-xl' onClick={() => signOut()}>log out</button>}
+					<MenuItem>
+						{status === 'unauthenticated' || status === 'loading' ? (
+							<button className='text-xl' onClick={() => signIn('lichess', { redirect: false })}>
+								sign in with lichess
+							</button>
+						) : (
+							<button className='flex w-full text-xl' onClick={() => signOut()}>
+								log out
+							</button>
+						)}
 					</MenuItem>
 					<MenuItem>
-						<ModeToggler variant='mobile'/>
+						<ModeToggler variant='mobile' />
 					</MenuItem>
 				</motion.ul>
 				<MenuToggle toggle={toggleOpen} />
@@ -103,38 +111,38 @@ export default function NavbarMobile () {
 }
 
 const MenuToggle = ({ toggle }: { toggle: any }) => (
-		<button
-			onClick={toggle}
-			className='pointer-events-auto absolute p-1 right-4 top-4 z-30 text-foreground'
-		>
-			<svg width='24' height='24' viewBox='0 0 23 23'>
-				<Path
-					variants={{
-						closed: { d: 'M 2 2.5 L 20 2.5' },
-						open: { d: 'M 3 16.5 L 17 2.5' },
-					}}
-				/>
-				<Path
-					d='M 2 9.423 L 20 9.423'
-					variants={{
-						closed: { opacity: 1 },
-						open: { opacity: 0 },
-					}}
-					transition={{ duration: 0.1 }}
-				/>
-				<Path
-					variants={{
-						closed: { d: 'M 2 16.346 L 20 16.346' },
-						open: { d: 'M 3 2.5 L 17 16.346' },
-					}}
-				/>
-			</svg>
-		</button>
+	<button
+		onClick={toggle}
+		className='pointer-events-auto absolute p-1 right-4 top-4 z-30 text-foreground'
+	>
+		<svg width='24' height='24' viewBox='0 0 23 23'>
+			<Path
+				variants={{
+					closed: { d: 'M 2 2.5 L 20 2.5' },
+					open: { d: 'M 3 16.5 L 17 2.5' },
+				}}
+			/>
+			<Path
+				d='M 2 9.423 L 20 9.423'
+				variants={{
+					closed: { opacity: 1 },
+					open: { opacity: 0 },
+				}}
+				transition={{ duration: 0.1 }}
+			/>
+			<Path
+				variants={{
+					closed: { d: 'M 2 16.346 L 20 16.346' },
+					open: { d: 'M 3 2.5 L 17 16.346' },
+				}}
+			/>
+		</svg>
+	</button>
 )
 
 const Path = (props: any) => (
 	<motion.path
-        className='fill-primary stroke-primary'
+		className='fill-primary stroke-primary'
 		strokeWidth='3'
 		strokeLinecap='round'
 		{...props}

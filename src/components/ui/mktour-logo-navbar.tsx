@@ -1,5 +1,4 @@
-
-import { turboPascal } from "@/app/fonts"
+import { turboPascal } from '@/app/fonts'
 
 export default function MktourNavbar() {
 	return (
