@@ -11,7 +11,7 @@ export default function Home() {
 
 	return (
 		<SessionProvider>
-			<main className='min-h-screen flex flex-col gap-3 justify-center'>
+			<main className='min-h-[100svh] flex'>
 				<Page />
 			</main>
 		</SessionProvider>
