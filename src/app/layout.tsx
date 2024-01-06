@@ -1,6 +1,7 @@
 import NavbarWrapper from '@/components/navbar-wrapper'
 import ThemeProvider from '@/components/theme-provider'
 import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { PropsWithChildren } from 'react'
 import './globals.css'
 import { azeretMono } from './fonts'
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
 					<NavbarWrapper />
 					{children}
 					<Analytics />
+					<SpeedInsights />
 				</ThemeProvider>
 			</body>
 		</html>

@@ -1,0 +1,4 @@
+###
+POST https://lichess.org/api/account
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..I8lUekPamPIns3y-.9nMtSy02-rsZxXbXiOZkBEpzXpFnuKtawggs7o67HCUMbCxgaLiu465CJvGzNZVn-Zk9nmy_J3WuMPd5n2V5KzyOOoDeyiquWpe6-qd1Y4VYGcbDiY1KscfcqJdUxOV2CKGDZj2PmXP1jQOVrNlJ8Er3hc5N-DRQpmA0.BjzVFDuf6Sw98xhxncW-Ww

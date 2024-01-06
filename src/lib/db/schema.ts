@@ -1,4 +1,3 @@
-import { sql } from "drizzle-orm";
 import { integer, sqliteTable, text, primaryKey } from "drizzle-orm/sqlite-core"
 import type { AdapterAccount } from "@auth/core/adapters"
 
@@ -7,8 +6,7 @@ export const users = sqliteTable("user", {
  name: text("name"),
  email: text("email").notNull(),
  emailVerified: integer("emailVerified", { mode: "timestamp_ms" }),
- username: text("username").notNull(),
- created: text("created").notNull().default(sql`CURRENT_TIMESTAMP`)
+ image: text("image"),
 })
 
 export const accounts = sqliteTable(
