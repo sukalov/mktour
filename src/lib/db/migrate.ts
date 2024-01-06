@@ -2,8 +2,6 @@ import { migrate } from 'drizzle-orm/planetscale-serverless/migrator';
 import { drizzle } from 'drizzle-orm/planetscale-serverless';
 import { createClient } from '@libsql/client';
 
-import { fetch } from 'undici';
-
 import 'dotenv/config';
 
 const runMigrate = async () => {
