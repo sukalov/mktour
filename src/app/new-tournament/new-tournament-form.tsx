@@ -107,9 +107,9 @@ export default function NewTournamentForm() {
           render={({ field }) => (
             <FormItem>
         <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="grid grid-cols-3 sm:gap-4 gap-2">
-          <TypeCard name='solo'><MdPerson size={16}/></TypeCard>
+          <TypeCard name='solo'><MdPerson size={14}/></TypeCard>
           <TypeCard name='doubles'><MdGroup size={16}/></TypeCard>
-          <TypeCard name='team'><MdGroup size={18} min={18}/></TypeCard>
+          <TypeCard name='team'><MdGroups size={19}/></TypeCard>
         </RadioGroup>
         </FormItem>
           )}
