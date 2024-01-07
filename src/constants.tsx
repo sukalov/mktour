@@ -6,5 +6,5 @@ export const navbarItems: NavbarItem[] = [
 		title: 'issues',
 		path: '/issues',
 		type: 'redirect',
-	}
+	},
 ]

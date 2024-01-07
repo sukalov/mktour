@@ -1,5 +1,5 @@
 {
-  "version": "1",
-  "dialect": "sqlite",
-  "entries": []
+	"version": "1",
+	"dialect": "sqlite",
+	"entries": []
 }
