@@ -1,7 +1,6 @@
-import type { Config } from 'drizzle-kit'
-import 'dotenv/config'
+import { defineConfig } from 'drizzle-kit'
 
-export default {
+export default defineConfig({
 	schema: './src/lib/db/schema.ts',
 	out: './src/lib/db/migrations',
 	driver: 'turso',
@@ -10,4 +9,4 @@ export default {
 		authToken: process.env.DATABASE_AUTH_TOKEN,
 	},
 	breakpoints: true,
-} satisfies Config
+})
