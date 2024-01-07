@@ -9,13 +9,11 @@ export const turboPascal = localFont({
 export const robotoMono = Roboto_Mono({
 	subsets: ['latin', 'cyrillic'],
 	display: 'swap',
-	variable: '--roboto-mono'
+	variable: '--roboto-mono',
 })
 
 export const azeretMono = Azeret_Mono({
 	subsets: ['latin'],
 	display: 'swap',
-	fallback: ['roboto-mono']
+	fallback: ['var(--roboto-mono)'],
 })
-
-

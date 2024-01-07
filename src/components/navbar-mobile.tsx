@@ -69,7 +69,6 @@ export default function NavbarMobile() {
 											}}
 											className={`flex w-full text-2xl`}
 											name='menu'
-
 										>
 											{item.title}
 										</button>
@@ -93,7 +92,11 @@ export default function NavbarMobile() {
 					})}
 					<MenuItem>
 						{status === 'unauthenticated' || status === 'loading' ? (
-							<button className='text-xl' name='sign in with lichess' onClick={() => signIn('lichess', { redirect: false })}>
+							<button
+								className='text-xl'
+								name='sign in with lichess'
+								onClick={() => signIn('lichess', { redirect: false })}
+							>
 								sign in with lichess
 							</button>
 						) : (

@@ -27,7 +27,12 @@ export default function ModeToggler({ variant }: ModeTogglerProps) {
 	return (
 		<>
 			{variant === 'desktop' ? (
-				<Button variant='ghost' name='toggle theme' className='aspect-square p-2' onClick={() => toggleTheme()}>
+				<Button
+					variant='ghost'
+					name='toggle theme'
+					className='aspect-square p-2'
+					onClick={() => toggleTheme()}
+				>
 					{theme === 'light' ? <SunMoonIcon /> : <MoonStarIcon />}
 				</Button>
 			) : (

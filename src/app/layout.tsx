@@ -13,11 +13,8 @@ export const metadata = {
 
 export default function RootLayout({ children }: PropsWithChildren) {
 	return (
-		<html lang='en' suppressHydrationWarning >
-			<meta
-				name='viewport'
-				content='width=device-width, initial-scale=1.0, maximum-scale=1.0'
-			/>
+		<html lang='en' suppressHydrationWarning>
+			<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
 			<body className={`${azeretMono.className} ${robotoMono.variable}`}>
 				<ThemeProvider attribute='class' disableTransitionOnChange>
 					<NavbarWrapper />
