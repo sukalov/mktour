@@ -63,9 +63,9 @@ export default function NewTournamentForm() {
 	}
 	return (
     <Form {...form}>
-      <h2 className={`text-4xl font-semibold mt-4 mb-4 text-center ${turboPascal.className}`} > new tournament</h2>
+      <h2 className={`text-4xl  mt-4 mb-4 text-center ${turboPascal.className}`} > new tournament</h2>
       <Card className='max-w-[min(600px,98%)] mx-auto mt-2'>
-        <CardContent>
+        <CardContent className='p-4 sm:p-8 md:px-16'>
 			<form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8 pt-4'>
 				<FormField
 					control={form.control}
@@ -74,7 +74,7 @@ export default function NewTournamentForm() {
 						<FormItem>
 							<FormLabel>name</FormLabel>
 							<FormControl>
-								<Input {...field} />
+								<Input {...field} autoComplete='off'/>
 							</FormControl>
 							<FormMessage />
 						</FormItem>
