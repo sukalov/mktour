@@ -81,3 +81,7 @@ button {
 	user-select: none;
 	-webkit-tap-highlight-color: transparent;
 }
+
+input {
+	font-family: var(--roboto-mono);
+}

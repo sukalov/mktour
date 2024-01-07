@@ -1,24 +1,24 @@
 import NavbarWrapper from '@/components/navbar-wrapper'
 import ThemeProvider from '@/components/theme-provider'
 import { Analytics } from '@vercel/analytics/react'
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { PropsWithChildren } from 'react'
+import { azeretMono, robotoMono } from './fonts'
 import './globals.css'
-import { azeretMono } from './fonts'
 
-const metadata = {
+export const metadata = {
 	title: 'mktour',
 	description: 'an app for organazing complex tournament brackets of all kind',
 }
 
 export default function RootLayout({ children }: PropsWithChildren) {
 	return (
-		<html lang='en' suppressHydrationWarning className='min-w-[320px]'>
+		<html lang='en' suppressHydrationWarning >
 			<meta
 				name='viewport'
 				content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
 			/>
-			<body className={azeretMono.className}>
+			<body className={`${azeretMono.className} ${robotoMono.variable}`}>
 				<ThemeProvider attribute='class' disableTransitionOnChange>
 					<NavbarWrapper />
 					{children}

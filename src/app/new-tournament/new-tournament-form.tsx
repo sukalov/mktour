@@ -30,7 +30,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select'
-import { turboPascal } from '@/app/fonts'
+import { robotoMono, turboPascal } from '@/app/fonts'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { RadioGroup } from '@/components/ui/radio-group'
 import TypeCard from '@/app/new-tournament/type-card'
