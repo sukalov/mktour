@@ -8,5 +8,5 @@ export default function HomeDesktop() {
 	const loading = status === 'loading'
 
 	if (loading) return <Mktour />
-	return <h1>DESKTOP</h1>
+	return <h1 className='w-full h-svh flex items-center justify-center'>DESKTOP</h1>
 }
