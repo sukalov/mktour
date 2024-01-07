@@ -68,6 +68,8 @@ export default function NavbarMobile() {
 												item.action()
 											}}
 											className={`flex w-full text-2xl`}
+											name='menu'
+
 										>
 											{item.title}
 										</button>
@@ -91,11 +93,11 @@ export default function NavbarMobile() {
 					})}
 					<MenuItem>
 						{status === 'unauthenticated' || status === 'loading' ? (
-							<button className='text-xl' onClick={() => signIn('lichess', { redirect: false })}>
+							<button className='text-xl' name='sign in with lichess' onClick={() => signIn('lichess', { redirect: false })}>
 								sign in with lichess
 							</button>
 						) : (
-							<button className='flex w-full text-xl' onClick={() => signOut()}>
+							<button className='flex w-full text-xl' name='log out' onClick={() => signOut()}>
 								log out
 							</button>
 						)}
