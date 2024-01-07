@@ -13,7 +13,7 @@ export default function Navbar() {
 
 	if (loading) return null
 	return (
-		<nav className='flex min-w-max w-full border-b items-center justify-end p-4 fixed gap-3'>
+		<nav className='flex min-w-max w-full border-b items-center justify-end p-4 fixed gap-3 h-16'>
 			<Link href='/'>
 				<div className='p-2'>
 					<MktourNavbar />
