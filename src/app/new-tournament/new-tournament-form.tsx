@@ -11,7 +11,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
-import { MdGroups, MdGroup, MdPerson } from "react-icons/md";
+import { MdGroups, MdGroup, MdPerson } from 'react-icons/md'
 import {
 	Form,
 	FormControl,
@@ -34,125 +34,116 @@ import { robotoMono, turboPascal } from '@/app/fonts'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { RadioGroup } from '@/components/ui/radio-group'
 import TypeCard from '@/app/new-tournament/type-card'
+import FormDatePicker from '@/app/new-tournament/form-date-picker'
 
 const formSchema = z.object({
-	tournament: z.string({ required_error: 'name the tournament' }).min(2, { message: 'name the tournament' }),
+	tournament: z
+		.string({ required_error: 'name the tournament' })
+		.min(2, { message: 'name the tournament' }),
 	date: z
 		.date()
 		.min(new Date(new Date().toLocaleDateString()), { message: 'is it a time travel?' }),
-	format: z.string({ required_error: 'format not selected' }).min(1, {message: 'format not selected'}),
-  type: z.string(),
-  timestamp: z.string(),
+	format: z
+		.string({ required_error: 'format not selected' })
+		.min(1, { message: 'format not selected' }),
+	type: z.string(),
+	timestamp: z.string(),
 })
 
+export type NewTournamentForm = z.infer<typeof formSchema>
+
 export default function NewTournamentForm() {
-	const form = useForm<z.infer<typeof formSchema>>({
+	const form = useForm<NewTournamentForm>({
 		resolver: zodResolver(formSchema),
-		defaultValues: { 
-      tournament: '',
-      format: undefined,
+		defaultValues: {
+			tournament: '',
+			format: undefined,
 			date: new Date(),
-      timestamp: '',
-      type: 'solo'
+			timestamp: '',
+			type: 'solo',
 		},
 	})
 
-	function onSubmit(values: z.infer<typeof formSchema>) {
-    values.timestamp = new Date().toISOString(),
-    console.log(values)
+	function onSubmit(values: NewTournamentForm) {
+		;(values.timestamp = new Date().toISOString()), console.log(values)
 	}
 	return (
-    <Form {...form}>
-      <h2 className={`text-4xl  mt-4 mb-4 text-center ${turboPascal.className}`} > new tournament</h2>
-      <Card className='max-w-[min(600px,98%)] mx-auto mt-2'>
-        <CardContent className='p-4 sm:p-8 md:px-16'>
-			<form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8 pt-4'>
-				<FormField
-					control={form.control}
-					name='tournament'
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>name</FormLabel>
-							<FormControl>
-								<Input {...field} autoComplete='off'/>
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<FormField
-          control={form.control}
-          name="format"
-          render={({ field }) => (
-            <FormItem>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="choose a format" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="swiss">swiss</SelectItem>
-                  <SelectItem value="round robin">round robin</SelectItem>
-                  <SelectItem value="single elimination">single elimination</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="type"
-          render={({ field }) => (
-            <FormItem>
-        <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="grid grid-cols-3 sm:gap-4 gap-2">
-          <TypeCard name='solo'><MdPerson size={14}/></TypeCard>
-          <TypeCard name='doubles'><MdGroup size={16}/></TypeCard>
-          <TypeCard name='team'><MdGroups size={19}/></TypeCard>
-        </RadioGroup>
-        </FormItem>
-          )}
-        />
-				<FormField
-					control={form.control}
-					name='date'
-					render={({ field }) => (
-						<FormItem>
-							<FormControl>
-								<Popover>
-									<PopoverTrigger asChild>
-										<Button
-											variant={'outline'}
-											className={cn(
-												'w-full justify-start text-left font-normal',
-												!field.value && 'text-muted-foreground'
-											)}
-										>
-											<CalendarIcon className='mr-2 h-4 w-4' />
-											{field.value ? format(field.value, 'PPP') : <span>pick a date</span>}
-										</Button>
-									</PopoverTrigger>
-									<PopoverContent className='w-auto p-0'>
-										<Calendar
-                      required
-											mode='single'
-											selected={field.value}
-											onSelect={field.onChange}
-											initialFocus
-										/>
-									</PopoverContent>
-								</Popover>
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<Button type='submit' className='w-full'>
-					make tournament
-				</Button>
-			</form>
-      </CardContent></Card>
+		<Form {...form}>
+			<h2 className={`text-4xl  mt-4 mb-4 text-center ${turboPascal.className}`}>
+				{' '}
+				new tournament
+			</h2>
+			<Card className='max-w-[min(600px,98%)] mx-auto border-none sm:border-solid shadow-none sm:shadow-sm'>
+				<CardContent className='px-4 sm:px-16'>
+					<form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8 pt-2 sm:pt-4'>
+						<FormField
+							control={form.control}
+							name='tournament'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>name</FormLabel>
+									<FormControl>
+										<Input {...field} autoComplete='off' />
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name='format'
+							render={({ field }) => (
+								<FormItem>
+									<Select onValueChange={field.onChange} defaultValue={field.value}>
+										<FormControl>
+											<SelectTrigger>
+												<SelectValue placeholder='choose a format' />
+											</SelectTrigger>
+										</FormControl>
+										<SelectContent>
+											<SelectItem value='swiss'>swiss</SelectItem>
+											<SelectItem value='round robin'>round robin</SelectItem>
+											<SelectItem value='single elimination'>single elimination</SelectItem>
+										</SelectContent>
+									</Select>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name='type'
+							render={({ field }) => (
+								<FormItem>
+									<RadioGroup
+										onValueChange={field.onChange}
+										defaultValue={field.value}
+										className='grid grid-cols-3 sm:gap-4 gap-2'
+									>
+										<TypeCard name='solo'>
+											<MdPerson size={14} />
+										</TypeCard>
+										<TypeCard name='doubles'>
+											<MdGroup size={16} />
+										</TypeCard>
+										<TypeCard name='team'>
+											<MdGroups size={19} />
+										</TypeCard>
+									</RadioGroup>
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name='date'
+							render={({ field }) => <FormDatePicker field={field} />}
+						/>
+						<Button type='submit' className='w-full'>
+							make tournament
+						</Button>
+					</form>
+				</CardContent>
+			</Card>
 		</Form>
 	)
 }
