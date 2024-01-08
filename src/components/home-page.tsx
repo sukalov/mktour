@@ -27,14 +27,14 @@ export default function HomePage() {
 					<span className='font-light text-xl grid-col--9'>sign in with lichess</span>
 				</Button>
 			)}
-			<Link href='/new-tournament' className='w-full m-auto'>
+			<Link href='/new-tournament' className='w-full m-auto px-1'>
 				<Button
 					className='flex flex-col gap-2 w-full min-h-24 font-bold max-w-[28rem] m-auto'
 					variant='default'
 				>
-					<h1 className=' text-3xl font-light'>make tournament</h1>
+					<h1 className=' text-2xl sm:text-3xl font-light'>make tournament</h1>
 					<p className='font-extralight text-balance'>
-						{!session && `(sign in to save your tournaments' results)`}
+						{/* {!session && `(sign in to save your tournaments' results)`} */}
 					</p>
 				</Button>
 			</Link>
