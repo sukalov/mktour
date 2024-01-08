@@ -40,7 +40,7 @@ export default function Navbar() {
 	const { data: session, status, update } = useSession()
 
 	return (
-		<nav className='z-50 flex flex-row min-w-max w-full border-b items-center justify-start p-2 fixed gap-3 max-h-14 bg-background/95'>
+		<nav className='z-50 flex flex-row min-w-max md:pl-4 w-full border-b items-center justify-start p-2 fixed gap-3 max-h-14 bg-background/95'>
 			<div>
 				<Link href='/'>
 					<MktourNavbar />

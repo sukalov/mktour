@@ -1,16 +1,13 @@
 import { Button } from '@/components/ui/button'
 import LichessLogo from '@/components/ui/lichess-logo'
-import Mktour from '@/components/ui/mktour-logo'
 import { signIn, useSession } from 'next-auth/react'
 import Link from 'next/link'
 
-export default function HomeMobile() {
+export default function HomePage() {
 	const { data: session, status, update } = useSession()
 	const loading = status === 'loading'
 
-	if (loading) return <Mktour />
-
-	return (
+	if (!loading) return (
 		<div className='w-full mt-16 h-[calc(100svh-5rem)] p-1 flex flex-col gap-7'>
 			{!session && (
 				<div className='text-[clamp(3rem,8svh,6rem);] leading-none grow font-extrabold w-full m-auto max-w-[min(28rem,95%)] text-balance flex flex-auto items-center'>
@@ -43,4 +40,5 @@ export default function HomeMobile() {
 			</Link>
 		</div>
 	)
+	return <></>
 }

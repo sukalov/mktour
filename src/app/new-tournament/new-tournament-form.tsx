@@ -74,7 +74,7 @@ export default function NewTournamentForm() {
 				new tournament
 			</h2>
 			<Card className='max-w-[min(600px,98%)] mx-auto border-none sm:border-solid shadow-none sm:shadow-sm'>
-				<CardContent className='px-4 sm:px-16'>
+				<CardContent className='px-2 sm:px-16'>
 					<form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8 pt-2 sm:pt-4'>
 						<FormField
 							control={form.control}
