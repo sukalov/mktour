@@ -4,7 +4,7 @@ import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { PropsWithChildren } from 'react';
 import { azeretMono, robotoMono } from './fonts';
-import './globals.css';
+import '@/styles/globals.css'
 
 export const metadata = {
   title: 'mktour',

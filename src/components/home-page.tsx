@@ -3,10 +3,12 @@ import LichessLogo from '@/components/ui/lichess-logo';
 import { signIn, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import {TypeAnimation} from 'react-type-animation';
+import '@/styles/cursor.css'
 
 export default function HomePage() {
   const { data: session, status, update } = useSession();
   const loading = status === 'loading';
+  const cursor = 'custom-cursor'
 
   if (!loading)
     return (
@@ -19,12 +21,15 @@ export default function HomePage() {
 					'chess events',
 					400,
 					'chess events has become simple for everyone',
-                  () => {
-                    console.log('Sequence completed');
+					400,
+                  (el) => {
+					el?.classList.add('cursor-animation')
+                    console.log('Sequence completed')
                   },
                 ]}
                 wrapper="span"
-                cursor={true}
+                cursor={false}
+				className={cursor}
                 repeat={0}
               />
             </div>
