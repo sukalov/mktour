@@ -1,5 +1,3 @@
-'use client'
-
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -12,12 +10,14 @@ import { signIn, signOut } from 'next-auth/react'
 import { Button } from './ui/button'
 import LichessLogo from './ui/lichess-logo'
 import * as React from 'react'
+import { cn } from '@/lib/utils'
 
 export interface AuthButtonProps {
-	session: Session | null
+	session: Session | null,
+	className: string
 }
 
-export default function AuthButton({ session }: AuthButtonProps) {
+export default function AuthButton({ session, className }: AuthButtonProps) {
 	const handleSignIn = () => {
 		signIn(undefined, { callbackUrl: '/' })
 	}
@@ -28,10 +28,10 @@ export default function AuthButton({ session }: AuthButtonProps) {
 
 	if (!session) {
 		return (
-			<div>
+			<div className={className}>
 				<Button
-					className='flex-row gap-2 p-2'
-					variant='secondary'
+					className={`flex-row gap-2 p-2`}
+					variant='ghost'
 					onClick={() => signIn('lichess')}
 				>
 					<LichessLogo size='24' />
@@ -42,10 +42,10 @@ export default function AuthButton({ session }: AuthButtonProps) {
 	}
 
 	return (
-		<div>
+		<div className={className}>
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
-					<Button variant='secondary' className='select-none gap-2 p-3'>
+					<Button variant='ghost' className='select-none gap-2 p-3'>
 						<User2 />
 						{session.user?.username}
 					</Button>

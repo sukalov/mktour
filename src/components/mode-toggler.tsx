@@ -1,45 +1,24 @@
-'use client'
+"use client"
 
-import { useTheme } from 'next-themes'
-import { Button } from './ui/button'
+import * as React from "react"
 import { SunMoonIcon, MoonStarIcon } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { useTheme } from "next-themes"
 
-type ModeTogglerProps = {
-	variant: 'desktop' | 'mobile'
+import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
+
+interface ModeTogglerProps {
+	className: string
 }
 
-export default function ModeToggler({ variant }: ModeTogglerProps) {
-	const { theme, setTheme } = useTheme()
-	const [mounted, setMounted] = useState(false)
+export default function ModeToggler({ className }: ModeTogglerProps) {
+  const { setTheme, theme } = useTheme()
 
-	useEffect(() => {
-		setMounted(true)
-	}, [])
-
-	const toggleTheme = () => {
-		setTheme(theme === 'light' ? 'dark' : 'light')
-	}
-
-	if (!mounted) {
-		return <Button variant='outline' className='aspect-square p-2'></Button>
-	}
-	return (
-		<>
-			{variant === 'desktop' ? (
-				<Button
-					variant='ghost'
-					name='toggle theme'
-					className='aspect-square p-2'
-					onClick={() => toggleTheme()}
-				>
-					{theme === 'light' ? <SunMoonIcon /> : <MoonStarIcon />}
-				</Button>
-			) : (
-				<button name='toggle theme' onClick={() => toggleTheme()}>
-					{theme === 'light' ? <SunMoonIcon /> : <MoonStarIcon />}
-				</button>
-			)}
-		</>
-	)
+  return (
+    	<Button variant="ghost" className={cn(`px-2`, className)} onClick={() => setTheme(theme === 'light' ? 'dark' : "light")}>
+          <SunMoonIcon className=" dark:hidden block rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+          <MoonStarIcon className=" dark:block hidden rotate-290 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          <span className="sr-only">Toggle theme</span>
+        </Button>
+  )
 }
