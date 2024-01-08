@@ -12,6 +12,7 @@ import { signIn, signOut, useSession } from 'next-auth/react'
 import MktourNavbar from './ui/mktour-logo-navbar'
 import AuthButton from '@/components/auth-button'
 import { ChevronDown } from 'lucide-react'
+import ModeTogglerMobile from '@/components/mode-toggler-mobile'
 
 const sidebar = {
 	open: (height = 1000) => ({
@@ -108,7 +109,7 @@ export default function Navbar() {
 						)}
 					</MenuItem>
 					<MenuItem>
-						{/* <ModeToggler  /> */}
+						<ModeTogglerMobile />
 					</MenuItem>
 				</motion.ul>
 				<MenuToggle toggle={toggleOpen} />

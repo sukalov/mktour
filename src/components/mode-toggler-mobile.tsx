@@ -5,17 +5,17 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
 interface ModeTogglerProps {
-	className: string
+	className?: string
 }
 
-export default function ModeToggler({ className }: ModeTogglerProps) {
+export default function ModeTogglerMobile({ className }: ModeTogglerProps) {
   const { setTheme, theme } = useTheme()
 
   return (
-    	<Button variant="ghost" className={cn(`px-2`, className)} onClick={() => setTheme(theme === 'light' ? 'dark' : "light")}>
+    	<button className={cn(`text-lg`, className)} onClick={() => setTheme(theme === 'light' ? 'dark' : "light")}>
           <SunMoonIcon className=" dark:hidden block rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
           <MoonStarIcon className=" dark:block hidden rotate-290 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           <span className="sr-only">Toggle theme</span>
-        </Button>
+        </button>
   )
 }
