@@ -1,15 +1,15 @@
-'use client'
+'use client';
 
-import { SessionProvider } from 'next-auth/react'
-import  HomePage from '../components/home-page'
-import { count } from 'drizzle-orm'
+import { SessionProvider } from 'next-auth/react';
+import HomePage from '../components/home-page';
+import { count } from 'drizzle-orm';
 
 export default function Home() {
-	return (
-		<SessionProvider>
-			<main className='min-h-[100svh] flex'>
-				<HomePage />
-			</main>
-		</SessionProvider>
-	)
+  return (
+    <SessionProvider>
+      <main className="flex min-h-[100svh]">
+        <HomePage />
+      </main>
+    </SessionProvider>
+  );
 }

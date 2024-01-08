@@ -1,19 +1,19 @@
-import localFont from 'next/font/local'
-import { Azeret_Mono, Roboto_Mono } from 'next/font/google'
+import localFont from 'next/font/local';
+import { Azeret_Mono, Roboto_Mono } from 'next/font/google';
 
 export const turboPascal = localFont({
-	src: './fonts/TurboPascalFont.ttf',
-	display: 'swap',
-})
+  src: './fonts/TurboPascalFont.ttf',
+  display: 'swap',
+});
 
 export const robotoMono = Roboto_Mono({
-	subsets: ['latin', 'cyrillic'],
-	display: 'swap',
-	variable: '--roboto-mono',
-})
+  subsets: ['latin', 'cyrillic'],
+  display: 'swap',
+  variable: '--roboto-mono',
+});
 
 export const azeretMono = Azeret_Mono({
-	subsets: ['latin'],
-	display: 'swap',
-	fallback: ['var(--roboto-mono)'],
-})
+  subsets: ['latin'],
+  display: 'swap',
+  fallback: ['var(--roboto-mono)'],
+});

@@ -7,7 +7,10 @@ const runMigrate = async () => {
     throw new Error('DATABASE_URL is not defined');
   }
 
-  const client = createClient({ url: 'DATABASE_URL', authToken: 'DATABASE_AUTH_TOKEN' });
+  const client = createClient({
+    url: 'DATABASE_URL',
+    authToken: 'DATABASE_AUTH_TOKEN',
+  });
   const db = drizzle(client);
 
   console.log('⏳ Running migrations...');
