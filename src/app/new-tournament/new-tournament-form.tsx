@@ -39,6 +39,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { RadioGroup } from '@/components/ui/radio-group';
 import TypeCard from '@/app/new-tournament/type-card';
 import FormDatePicker from '@/app/new-tournament/form-date-picker';
+import { createTournament } from '@/lib/actions';
 
 const formSchema = z.object({
   tournament: z
@@ -68,9 +69,8 @@ export default function NewTournamentForm() {
     },
   });
 
-  function onSubmit(values: NewTournamentForm) {
-    (values.timestamp = new Date().toISOString()), console.log(values);
-  }
+  const onSubmit = (data: NewTournamentForm) => createTournament(JSON.parse(JSON.stringify(data)))
+
   return (
     <Form {...form}>
       <h2
