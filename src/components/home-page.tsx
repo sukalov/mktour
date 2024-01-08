@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import LichessLogo from '@/components/ui/lichess-logo';
 import { signIn, useSession } from 'next-auth/react';
 import Link from 'next/link';
+import {TypeAnimation} from 'react-type-animation';
 
 export default function HomePage() {
   const { data: session, status, update } = useSession();
@@ -13,7 +14,19 @@ export default function HomePage() {
         {!session ? (
           <div className="mt-16 flex h-[calc(100svh-5rem)] w-full flex-col gap-7 p-1 md:mt-2 md:gap-2">
             <div className="m-auto flex w-full max-w-[min(28rem,95%)] flex-auto grow items-center text-balance text-[clamp(3rem,8svh,6rem);] font-extrabold leading-none md:max-w-[min(70rem,90%)] md:text-center md:text-[clamp(5rem,10vw,6rem);]">
-              <p>chess events has become simple for everyone</p>
+              <TypeAnimation
+                sequence={[
+					'chess events',
+					400,
+					'chess events has become simple for everyone',
+                  () => {
+                    console.log('Sequence completed');
+                  },
+                ]}
+                wrapper="span"
+                cursor={true}
+                repeat={0}
+              />
             </div>
             <div className="max-w- flex flex-col items-center justify-center gap-4 md:mx-auto md:flex-row md:gap-2 md:px-12">
               <div className="m-auto h-auto w-full px-1">
