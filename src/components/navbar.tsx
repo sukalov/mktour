@@ -10,6 +10,7 @@ import { motion, useCycle } from 'framer-motion'
 import ModeToggler from './mode-toggler'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import MktourNavbar from './ui/mktour-logo-navbar'
+import AuthButton from '@/components/auth-button'
 
 const sidebar = {
 	open: (height = 1000) => ({
@@ -30,7 +31,7 @@ const sidebar = {
 	},
 }
 
-export default function NavbarMobile() {
+export default function Navbar() {
 	const pathname = usePathname()
 	const containerRef = useRef(null)
 	const { height } = useDimensions(containerRef)
@@ -38,7 +39,7 @@ export default function NavbarMobile() {
 	const { data: session, status, update } = useSession()
 
 	return (
-		<nav className='z-50 flex flex-row min-w-max w-full border-b items-center justify-start p-4 fixed gap-3 bg-background/95'>
+		<nav className='z-50 flex flex-row min-w-max w-full border-b items-center justify-start p-2 fixed gap-3 max-h-14 bg-background/95'>
 			<div>
 				<Link href='/'>
 					<MktourNavbar />
@@ -49,7 +50,7 @@ export default function NavbarMobile() {
 				initial={false}
 				animate={isOpen ? 'open' : 'closed'}
 				custom={height}
-				className={`fixed inset-0 z-50 w-full md:hidden ${isOpen ? '' : 'pointer-events-none'}`}
+				className={`fixed inset-0 z-50 w-full block md:hidden ${isOpen ? '' : 'pointer-events-none'}`}
 				ref={containerRef}
 			>
 				<motion.div className='absolute inset-0 right-0 w-full bg-secondary' variants={sidebar} />
@@ -106,11 +107,13 @@ export default function NavbarMobile() {
 						)}
 					</MenuItem>
 					<MenuItem>
-						<ModeToggler variant='mobile' />
+						{/* <ModeToggler  /> */}
 					</MenuItem>
 				</motion.ul>
 				<MenuToggle toggle={toggleOpen} />
 			</motion.nav>
+			<AuthButton session={session} className='hidden md:block'/>
+			<ModeToggler className='hidden md:block'/>
 		</nav>
 	)
 }
@@ -118,7 +121,7 @@ export default function NavbarMobile() {
 const MenuToggle = ({ toggle }: { toggle: any }) => (
 	<button
 		onClick={toggle}
-		className='pointer-events-auto absolute p-1 right-4 top-4 z-30 text-foreground'
+		className='pointer-events-auto stroke-none absolute p-1 right-4 flex items-center justify-center top-2.5 z-30 text-foreground'
 	>
 		<svg width='24' height='24' viewBox='0 0 23 23'>
 			<Path
