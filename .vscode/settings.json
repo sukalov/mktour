@@ -3,6 +3,6 @@
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "[plaintext]": {
-    "editor.wordWrap": "bounded",
-  },
+    "editor.wordWrap": "bounded"
+  }
 }

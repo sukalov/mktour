@@ -2,13 +2,13 @@ import { Button } from '@/components/ui/button';
 import LichessLogo from '@/components/ui/lichess-logo';
 import { signIn, useSession } from 'next-auth/react';
 import Link from 'next/link';
-import {TypeAnimation} from 'react-type-animation';
-import '@/styles/cursor.css'
+import { TypeAnimation } from 'react-type-animation';
+import '@/styles/cursor.css';
 
 export default function HomePage() {
   const { data: session, status, update } = useSession();
   const loading = status === 'loading';
-  const cursor = 'custom-cursor'
+  const cursor = 'custom-cursor';
 
   if (!loading)
     return (
@@ -18,18 +18,18 @@ export default function HomePage() {
             <div className="m-auto flex w-full max-w-[min(28rem,95%)] flex-auto grow items-center text-balance text-[clamp(3rem,8svh,6rem);] font-extrabold leading-none md:max-w-[min(70rem,90%)] md:text-center md:text-[clamp(5rem,10vw,6rem);]">
               <TypeAnimation
                 sequence={[
-					'chess events',
-					400,
-					'chess events has become simple for everyone',
-					400,
+                  'chess events',
+                  400,
+                  'chess events has become simple for everyone',
+                  400,
                   (el) => {
-					el?.classList.add('cursor-animation')
-                    console.log('Sequence completed')
+                    el?.classList.add('cursor-animation');
+                    console.log('Sequence completed');
                   },
                 ]}
                 wrapper="span"
                 cursor={false}
-				className={cursor}
+                className={cursor}
                 repeat={0}
               />
             </div>

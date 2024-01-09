@@ -69,7 +69,8 @@ export default function NewTournamentForm() {
     },
   });
 
-  const onSubmit = (data: NewTournamentForm) => createTournament(JSON.parse(JSON.stringify(data)))
+  const onSubmit = (data: NewTournamentForm) =>
+    createTournament(JSON.parse(JSON.stringify(data)));
 
   return (
     <Form {...form}>
