@@ -3,7 +3,7 @@
 import * as React from 'react';
 import * as z from 'zod';
 import { format } from 'date-fns';
-import { Calendar as CalendarIcon } from 'lucide-react';
+import { Calendar as CalendarIcon, Loader2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { Calendar } from '@/components/ui/calendar';
@@ -69,15 +69,24 @@ export default function NewTournamentForm() {
     },
   });
 
-  const onSubmit = (data: NewTournamentForm) =>
+  const onSubmit = (data: NewTournamentForm) => {
     createTournament(JSON.parse(JSON.stringify(data)));
+    setSubmitButton(<Button disabled className='w-full'>
+      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+      making...
+    </Button>)
+  }
+
+
+  const [submitButton, setSubmitButton] = React.useState(<Button type="submit" className="w-full">
+  make tournament
+</Button>);
 
   return (
     <Form {...form}>
       <h2
         className={`mb-4 mt-4 text-center text-4xl font-bold ${turboPascal.className}`}
       >
-        {' '}
         new tournament
       </h2>
       <Card className="mx-auto max-w-[min(600px,98%)] border-none shadow-none sm:border-solid sm:shadow-sm">
@@ -135,15 +144,9 @@ export default function NewTournamentForm() {
                     defaultValue={field.value}
                     className="grid grid-cols-3 gap-2 sm:gap-4"
                   >
-                    <TypeCard name="solo">
-                      <MdPerson size={14} />
-                    </TypeCard>
-                    <TypeCard name="doubles">
-                      <MdGroup size={16} />
-                    </TypeCard>
-                    <TypeCard name="team">
-                      <MdGroups size={19} />
-                    </TypeCard>
+                    <TypeCard name="solo" />
+                    <TypeCard name="doubles" />
+                    <TypeCard name="team" />
                   </RadioGroup>
                 </FormItem>
               )}
@@ -153,9 +156,7 @@ export default function NewTournamentForm() {
               name="date"
               render={({ field }) => <FormDatePicker field={field} />}
             />
-            <Button type="submit" className="w-full">
-              make tournament
-            </Button>
+            {submitButton}
           </form>
         </CardContent>
       </Card>
