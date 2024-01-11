@@ -11,9 +11,7 @@ declare module 'next-auth' {
   }
 }
 
-export type NavbarItem = NavbarItem;
-
-export type NavbarActionItem = {
+export type NavbarItem = {
   title: string;
   path: string;
   icon?: JSX.Element;

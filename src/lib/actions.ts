@@ -6,16 +6,23 @@ import { options } from '@/app/api/auth/[...nextauth]/options';
 import { redis } from '@/lib/db/redis';
 import { randomUUID } from 'crypto';
 
+export interface RedisTournamentInfo extends NewTournamentForm {
+  user: string | undefined
+}
+
 export const createTournament = async (values: NewTournamentForm) => {
   const user = (await getServerSession(options))?.user.username;
-  const newTournament = {
+  const newTournament: RedisTournamentInfo = {
     ...values,
     timestamp: new Date().toISOString(),
     user,
   };
+  console.log(newTournament)
   const newTournamentID = randomUUID();
-  console.log(newTournamentID);
-  console.log(newTournament);
-  await redis.set(newTournamentID, JSON.stringify(newTournament));
+  try {
+    await redis.set(newTournamentID, JSON.stringify(newTournament));
+  } catch (e) {
+    console.log(e)
+  }
   redirect(`/tournament/${newTournamentID}`);
 };

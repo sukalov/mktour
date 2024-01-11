@@ -5,6 +5,14 @@ export const navbarItems: NavbarItem[] = [
   {
     title: 'issues',
     path: '/issues',
-    type: 'redirect',
   },
-];
+  {
+    title: 'organizer',
+    path: '/organizer',
+  },
+  {
+    title: 'participant',
+    path: '/participant',
+  },
+  
+]
