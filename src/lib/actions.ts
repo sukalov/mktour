@@ -7,7 +7,7 @@ import { redis } from '@/lib/db/redis';
 import { randomUUID } from 'crypto';
 
 export interface RedisTournamentInfo extends NewTournamentForm {
-  user: string | undefined
+  user: string | undefined;
 }
 
 export const createTournament = async (values: NewTournamentForm) => {
@@ -17,12 +17,12 @@ export const createTournament = async (values: NewTournamentForm) => {
     timestamp: new Date().toISOString(),
     user,
   };
-  console.log(newTournament)
+  console.log(newTournament);
   const newTournamentID = randomUUID();
   try {
     await redis.set(newTournamentID, JSON.stringify(newTournament));
   } catch (e) {
-    console.log(e)
+    console.log(e);
   }
   redirect(`/tournament/${newTournamentID}`);
 };

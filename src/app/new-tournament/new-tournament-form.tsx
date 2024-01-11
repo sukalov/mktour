@@ -71,16 +71,19 @@ export default function NewTournamentForm() {
 
   const onSubmit = (data: NewTournamentForm) => {
     createTournament(JSON.parse(JSON.stringify(data)));
-    setSubmitButton(<Button disabled className='w-full'>
-      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-      making...
-    </Button>)
-  }
+    setSubmitButton(
+      <Button disabled className="w-full">
+        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+        making...
+      </Button>,
+    );
+  };
 
-
-  const [submitButton, setSubmitButton] = React.useState(<Button type="submit" className="w-full">
-  make tournament
-</Button>);
+  const [submitButton, setSubmitButton] = React.useState(
+    <Button type="submit" className="w-full">
+      make tournament
+    </Button>,
+  );
 
   return (
     <Form {...form}>

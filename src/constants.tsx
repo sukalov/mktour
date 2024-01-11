@@ -14,5 +14,4 @@ export const navbarItems: NavbarItem[] = [
     title: 'participant',
     path: '/participant',
   },
-  
-]
+];

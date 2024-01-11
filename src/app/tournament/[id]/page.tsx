@@ -8,7 +8,7 @@ export default async function Tournament({
 }: {
   params: { id: string };
 }) {
-  let data: RedisTournamentInfo
+  let data: RedisTournamentInfo;
   try {
     // data = await redis.get(params.id) as RedisTournamentInfo;
     data = {
@@ -17,21 +17,21 @@ export default async function Tournament({
       format: 'single elimination',
       type: 'solo',
       timestamp: '2024-01-09T08:59:11.487Z',
-      user: 'sukalov'
-    }
+      user: 'sukalov',
+    };
   } catch (e) {
-    console.log(e)
+    console.log(e);
     data = {
       tournament: 'test tournament',
       date: new Date('2024-01-09T08:58:56.329Z'),
       format: 'single elimination',
       type: 'solo',
       timestamp: '2024-01-09T08:59:11.487Z',
-      user: 'sukalov'
-    }
+      user: 'sukalov',
+    };
   }
   return (
-    <div className="pt-16 p-2">
+    <div className="p-2 pt-16">
       {/* @ts-expect-error Server Component */}
       <TournamentInfo data={data} />
       {/* <p>{JSON.stringify(params)}</p> */}
