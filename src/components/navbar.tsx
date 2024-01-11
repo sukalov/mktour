@@ -67,24 +67,9 @@ export default function Navbar() {
         >
           {navbarItems.map((item, idx) => {
             const isLastItem = idx === navbarItems.length - 1; // Check if it's the last item
-            const isAction = item.type === 'action';
 
             return (
               <div key={idx}>
-                {isAction ? (
-                  <MenuItem>
-                    <button
-                      onClick={() => {
-                        toggleOpen();
-                        item.action();
-                      }}
-                      className={`flex w-full text-2xl`}
-                      name="menu"
-                    >
-                      {item.title}
-                    </button>
-                  </MenuItem>
-                ) : (
                   <MenuItem>
                     <Link
                       href={item.path}
@@ -96,7 +81,6 @@ export default function Navbar() {
                       {item.title}
                     </Link>
                   </MenuItem>
-                )}
                 <MenuItem className="my-3 h-px w-full bg-gray-300" />
               </div>
             );
