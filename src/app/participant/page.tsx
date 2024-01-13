@@ -1,3 +1,3 @@
-export default function ParticipantPage () {
-    return <div></div>
+export default function ParticipantPage() {
+  return <div></div>;
 }

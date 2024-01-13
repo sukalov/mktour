@@ -1,3 +1,3 @@
-export default function OrganizerPage () {
-    return <div></div>
+export default function OrganizerPage() {
+  return <div></div>;
 }

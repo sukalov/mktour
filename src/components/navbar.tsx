@@ -70,17 +70,17 @@ export default function Navbar() {
 
             return (
               <div key={idx}>
-                  <MenuItem>
-                    <Link
-                      href={item.path}
-                      onClick={() => toggleOpen()}
-                      className={`flex w-full text-2xl ${
-                        item.path === pathname ? 'font-bold' : ''
-                      }`}
-                    >
-                      {item.title}
-                    </Link>
-                  </MenuItem>
+                <MenuItem>
+                  <Link
+                    href={item.path}
+                    onClick={() => toggleOpen()}
+                    className={`flex w-full text-2xl ${
+                      item.path === pathname ? 'font-bold' : ''
+                    }`}
+                  >
+                    {item.title}
+                  </Link>
+                </MenuItem>
                 <MenuItem className="my-3 h-px w-full bg-gray-300" />
               </div>
             );
