@@ -45,7 +45,7 @@ const formSchema = z.object({
   tournament: z
     .string({ required_error: 'name the tournament' })
     .min(2, { message: 'name the tournament' }),
-  date: z.date().min(new Date(new Date().toLocaleDateString()), {
+    date: z.date().min(new Date(new Date().setDate(new Date().getDate() - 1)), {
     message: 'is it a time travel?',
   }),
   format: z
