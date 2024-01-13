@@ -5,6 +5,7 @@ import { RedirectType, redirect } from 'next/navigation';
 import { options } from '@/app/api/auth/[...nextauth]/options';
 import { redis } from '@/lib/db/redis';
 import { randomUUID } from 'crypto';
+import { nanoid } from 'nanoid';
 
 export interface RedisTournamentInfo extends NewTournamentForm {
   user: string | undefined;
@@ -18,11 +19,11 @@ export const createTournament = async (values: NewTournamentForm) => {
     user,
   };
   console.log(newTournament);
-  const newTournamentID = randomUUID();
+  const newTournamentID = nanoid();
   try {
     await redis.set(newTournamentID, JSON.stringify(newTournament));
   } catch (e) {
-    console.log(e);
+    
   }
   redirect(`/tournament/${newTournamentID}`);
 };

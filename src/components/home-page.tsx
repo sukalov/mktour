@@ -24,7 +24,6 @@ export default function HomePage() {
                   400,
                   (el) => {
                     el?.classList.add('cursor-animation');
-                    console.log('Sequence completed');
                   },
                 ]}
                 wrapper="span"

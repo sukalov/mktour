@@ -1,4 +1,4 @@
-'use client';
+"use client"
 
 import { SessionProvider } from 'next-auth/react';
 import HomePage from '../components/home-page';
