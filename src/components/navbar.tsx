@@ -143,6 +143,7 @@ const MenuToggle = ({ toggle }: { toggle: any }) => (
         }}
       />
     </svg>
+    <span className='sr-only'>navigation menu</span>
   </button>
 );
 

@@ -37,12 +37,12 @@ import {
 import { robotoMono, turboPascal } from '@/app/fonts';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { RadioGroup } from '@/components/ui/radio-group';
-import TypeCard from '@/app/new-tournament/type-card';
+import TypeCard from '@/components/ui/type-card';
 import FormDatePicker from '@/app/new-tournament/form-date-picker';
 import { createTournament } from '@/lib/actions';
 
 const formSchema = z.object({
-  tournament: z
+  title: z
     .string({ required_error: 'name the tournament' })
     .min(2, { message: 'name the tournament' }),
   date: z.date().min(new Date(new Date().setDate(new Date().getDate() - 1)), {
@@ -61,7 +61,7 @@ export default function NewTournamentForm() {
   const form = useForm<NewTournamentForm>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      tournament: '',
+      title: '',
       format: undefined,
       date: new Date(),
       timestamp: '',
@@ -100,7 +100,7 @@ export default function NewTournamentForm() {
           >
             <FormField
               control={form.control}
-              name="tournament"
+              name="title"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>name</FormLabel>
@@ -126,11 +126,13 @@ export default function NewTournamentForm() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="swiss">swiss</SelectItem>
-                      <SelectItem value="round robin">round robin</SelectItem>
-                      <SelectItem value="single elimination">
-                        single elimination
-                      </SelectItem>
+                      <SelectGroup>
+                        <SelectItem value="swiss">swiss</SelectItem>
+                        <SelectItem value="round robin">round robin</SelectItem>
+                        <SelectItem value="single elimination">
+                          single elimination
+                        </SelectItem>
+                      </SelectGroup>
                     </SelectContent>
                   </Select>
                   <FormMessage />

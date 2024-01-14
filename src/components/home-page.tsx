@@ -10,11 +10,11 @@ export default function HomePage() {
   const loading = status === 'loading';
   const cursor = 'custom-cursor';
 
-  if (!loading)
+  if (!loading) {
     return (
       <>
         {!session ? (
-          <div className="mt-16 flex h-[calc(100svh-5rem)] w-full flex-col gap-7 p-1 md:mt-2 md:gap-2">
+          <div className="mt-16 flex h-[calc(100svh-5rem)] w-full flex-col gap-7 p-3 md:mt-2 md:gap-2">
             <div className="m-auto flex w-full max-w-[min(28rem,95%)] flex-auto grow items-center text-balance text-[clamp(3rem,8svh,6rem);] font-extrabold leading-none md:max-w-[min(70rem,90%)] md:text-center md:text-[clamp(5rem,10vw,6rem);]">
               <TypeAnimation
                 sequence={[
@@ -43,7 +43,7 @@ export default function HomePage() {
                   <span className=" grid-col-3">
                     <LichessLogo size="40" />
                   </span>
-                  <span className="grid-col--9 text-xl font-light">
+                  <span className="grid-col--9 text-[1.4rem] font-light">
                     sign in with lichess
                   </span>
                 </Button>
@@ -76,5 +76,6 @@ export default function HomePage() {
         )}
       </>
     );
+  }
   return <></>;
 }

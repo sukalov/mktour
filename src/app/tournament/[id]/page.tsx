@@ -13,15 +13,12 @@ export default async function Tournament({
   try {
     data = await redis.get(params.id) as RedisTournamentInfo;
   } catch (e) {
-    console.log(e);
-    notFound()
+    console.log(e)
   }
   return (
     <div className="p-2 pt-16">
       {/* @ts-expect-error Server Component */}
       {data ? <TournamentInfo data={data} /> : notFound()}
-      {/* <p>{JSON.stringify(params)}</p> */}
-      {/* {data && <div>{JSON.stringify(data, null, 2)}</div>} */}
     </div>
   );
 }
