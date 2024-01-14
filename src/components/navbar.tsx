@@ -41,7 +41,7 @@ export default function Navbar() {
   const { data: session, status, update } = useSession();
 
   return (
-    <nav className="fixed z-50 flex max-h-14 w-full min-w-max flex-row items-center justify-start gap-3 border-b bg-background/95 p-2 md:pl-4">
+    <nav className="fixed z-50 flex max-h-14 w-full min-w-max flex-row items-center justify-start gap-3 border-b bg-background/95 p-4 md:pl-4">
       <div>
         <Link href="/">
           <MktourNavbar />
@@ -119,7 +119,7 @@ export default function Navbar() {
 const MenuToggle = ({ toggle }: { toggle: any }) => (
   <button
     onClick={toggle}
-    className="pointer-events-auto absolute right-4 top-[14px] z-30 stroke-none text-foreground"
+    className="pointer-events-auto absolute right-4 top-[18px] z-30 stroke-none text-foreground"
   >
     <svg width="23" height="23" viewBox="0 0 23 23">
       <Path
