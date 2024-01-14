@@ -35,7 +35,7 @@ export default function HomePage() {
             <div className="max-w- flex flex-col items-center justify-center gap-4 md:mx-auto md:flex-row md:gap-2 md:px-12">
               <div className="m-auto h-auto w-full px-1">
                 <Button
-                  className="m-auto flex h-24 min-h-24 w-full max-w-[28rem] flex-none flex-col gap-2 px-1 font-bold"
+                  className="m-auto flex h-28 min-h-24 w-full max-w-[28rem] flex-none flex-col gap-2 px-1 font-bold"
                   variant="outline"
                   onClick={() => signIn('lichess', { redirect: false })}
                 >
@@ -43,14 +43,14 @@ export default function HomePage() {
                   <span className=" grid-col-3">
                     <LichessLogo size="40" />
                   </span>
-                  <span className="grid-col--9 text-[1.4rem] font-light">
+                  <span className="grid-col--9 text-[1.4rem] font-light leading-none">
                     sign in with lichess
                   </span>
                 </Button>
               </div>
               <Link href="/new-tournament" className="m-auto w-full px-1">
                 <Button
-                  className="m-auto flex min-h-24 w-full max-w-[28rem] flex-col gap-2 font-bold"
+                  className="m-auto flex min-h-28 w-full max-w-[28rem] flex-col gap-2 font-bold"
                   variant="default"
                 >
                   <h1 className=" text-2xl font-light min-[320px]:text-3xl">
