@@ -14,12 +14,12 @@
 % структура
     tournament dashboard:
         вкладки до начала: players, bracket
-        вкладки во время т-ра: ongoing games, bracket, standings (переименовывать игроков прямо там где стендингс)
+        вкладки во время т-ра: (?? ongoing games), bracket, standings (переименовывать игроков прямо там где стендингс)
 
 
 
 
-    NONorgamizer (after headers are checked) is redirected to /view 
+    NONorgamizer (after http headers are checked) is redirected to /view 
 
     кнопка перемешать находится не там где игрои, а там где сетка (у челонджа перетасовка там где игроки)
 

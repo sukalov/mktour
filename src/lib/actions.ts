@@ -1,22 +1,20 @@
 'use server';
 import { NewTournamentForm } from '@/app/new-tournament/new-tournament-form';
-import { getServerSession } from 'next-auth';
+// import { getServerSession } from 'next-auth';
 import { RedirectType, redirect } from 'next/navigation';
-import { options } from '@/app/api/auth/[...nextauth]/options';
 import { redis } from '@/lib/db/redis';
-import { randomUUID } from 'crypto';
 import { nanoid } from 'nanoid';
 
 export interface RedisTournamentInfo extends NewTournamentForm {
-  user: string | undefined;
+  user?: string;
 }
 
 export const createTournament = async (values: NewTournamentForm) => {
-  const user = (await getServerSession(options))?.user.username;
+  // const user = (await getServerSession(options))?.user.username;
   const newTournament: RedisTournamentInfo = {
     ...values,
     timestamp: new Date().toISOString(),
-    user,
+    // user,
   };
   console.log(newTournament);
   const newTournamentID = nanoid();

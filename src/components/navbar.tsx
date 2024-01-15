@@ -8,7 +8,7 @@ import { navbarItems } from '@/constants';
 import { MenuItemWithSubMenuProps, NavbarItem } from '@/types/next-auth';
 import { motion, useCycle } from 'framer-motion';
 import ModeToggler from './mode-toggler';
-import { signIn, signOut, useSession } from 'next-auth/react';
+// import { signIn, signOut, useSession } from 'next-auth/react';
 import MktourNavbar from './ui/mktour-logo-navbar';
 import AuthButton from '@/components/auth-button';
 import { ChevronDown } from 'lucide-react';
@@ -38,7 +38,7 @@ export default function Navbar() {
   const containerRef = useRef(null);
   const { height } = useDimensions(containerRef);
   const [isOpen, toggleOpen] = useCycle(false, true);
-  const { data: session, status, update } = useSession();
+  const status = "unauthenticated" // const { data: session, status, update } = useSession();
 
   return (
     <nav className="fixed z-50 flex max-h-14 w-full min-w-max flex-row items-center justify-start gap-3 border-b bg-background/95 p-4 md:pl-4">
@@ -90,7 +90,7 @@ export default function Navbar() {
               <button
                 className="text-xl"
                 name="sign in with lichess"
-                onClick={() => signIn('lichess', { redirect: false })}
+                // onClick={() => signIn('lichess', { redirect: false })}
               >
                 sign in with lichess
               </button>
@@ -98,7 +98,7 @@ export default function Navbar() {
               <button
                 className="flex w-full text-xl"
                 name="log out"
-                onClick={() => signOut()}
+                // onClick={() => signOut()}
               >
                 log out
               </button>
@@ -110,7 +110,10 @@ export default function Navbar() {
         </motion.ul>
         <MenuToggle toggle={toggleOpen} />
       </motion.nav>
-      <AuthButton session={session} className="hidden md:block" />
+      <AuthButton 
+        // session={session} 
+        className="hidden md:block"
+      />
       <ModeToggler className="hidden md:block" />
     </nav>
   );

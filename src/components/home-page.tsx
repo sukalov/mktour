@@ -1,19 +1,20 @@
 import { Button } from '@/components/ui/button';
 import LichessLogo from '@/components/ui/lichess-logo';
-import { signIn, useSession } from 'next-auth/react';
+// import { signIn, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { TypeAnimation } from 'react-type-animation';
 import '@/styles/cursor.css';
 
 export default function HomePage() {
-  const { data: session, status, update } = useSession();
-  const loading = status === 'loading';
+  // const { data: session, status, update } = useSession();
+  const loading = false // const loading = status === 'loading';
   const cursor = 'custom-cursor';
 
   if (!loading) {
     return (
       <>
-        {!session ? (
+        {/* {!session ? ( */}
+        {true ? (
           <div className="mt-16 flex h-[calc(100svh-5rem)] w-full flex-col gap-7 p-3 md:mt-2 md:gap-2">
             <div className="m-auto flex w-full max-w-[min(28rem,99.9%)] flex-auto grow items-center text-balance text-[clamp(3rem,8svh,6rem);] font-extrabold leading-none md:max-w-[min(70rem,90%)] md:text-center md:text-[clamp(5rem,10vw,6rem);]">
               <TypeAnimation
@@ -37,7 +38,7 @@ export default function HomePage() {
                 <Button
                   className="m-auto flex h-28 min-h-24 w-full max-w-[28rem] flex-none flex-col gap-2 px-1 font-bold"
                   variant="outline"
-                  onClick={() => signIn('lichess', { redirect: false })}
+                  // onClick={() => signIn('lichess', { redirect: false })}
                 >
                   <div className=" grid-flow-col"></div>
                   <span className=" grid-col-3">
