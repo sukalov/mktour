@@ -1,12 +1,12 @@
-import { defineConfig } from 'drizzle-kit';
+import type { Config } from 'drizzle-kit';
+import { env } from '@/lib/env.mjs';
 
-export default defineConfig({
-  schema: './src/lib/db/schema.ts',
+export default {
+  schema: './src/lib/db/schema',
   out: './src/lib/db/migrations',
   driver: 'turso',
   dbCredentials: {
-    url: process.env.DATABASE_URL!,
-    authToken: process.env.DATABASE_AUTH_TOKEN,
+    url: env.DATABASE_URL,
+    authToken: env.DATABASE_AUTH_TOKEN,
   },
-  breakpoints: true,
-});
+} satisfies Config;

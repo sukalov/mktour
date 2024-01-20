@@ -8,11 +8,12 @@ import { navbarItems } from '@/constants';
 import { MenuItemWithSubMenuProps, NavbarItem } from '@/types/next-auth';
 import { motion, useCycle } from 'framer-motion';
 import ModeToggler from './mode-toggler';
-import { signIn, signOut, useSession } from 'next-auth/react';
 import MktourNavbar from './ui/mktour-logo-navbar';
 import AuthButton from '@/components/auth-button';
 import { ChevronDown } from 'lucide-react';
 import ModeTogglerMobile from '@/components/mode-toggler-mobile';
+import { AuthSession } from '@/lib/auth/utils';
+import { getPageSession } from '@/lib/auth/lucia';
 
 const sidebar = {
   open: (height = 1000) => ({
@@ -33,13 +34,19 @@ const sidebar = {
   },
 };
 
-export default function Navbar() {
+type NavbarProps = {
+  authSession: AuthSession | null;
+};
+
+export default function Navbar({ authSession }: NavbarProps) {
   const pathname = usePathname();
   const containerRef = useRef(null);
   const { height } = useDimensions(containerRef);
   const [isOpen, toggleOpen] = useCycle(false, true);
-  const { data: session, status, update } = useSession();
-
+  const [user, setUser] = useState<Response | null>(null);
+  useEffect(() => {
+    fetch('/api/user').then((res) => setUser(res));
+  }, []);
   return (
     <nav className="fixed z-50 flex max-h-14 w-full min-w-max flex-row items-center justify-start gap-3 border-b bg-background/95 p-4 md:pl-4">
       <div>
@@ -86,11 +93,11 @@ export default function Navbar() {
             );
           })}
           <MenuItem>
-            {status === 'unauthenticated' || status === 'loading' ? (
+            {!user ? (
               <button
                 className="text-xl"
                 name="sign in with lichess"
-                onClick={() => signIn('lichess', { redirect: false })}
+                // onClick={() => signin('lichess', { redirect: false })}
               >
                 sign in with lichess
               </button>
@@ -98,7 +105,7 @@ export default function Navbar() {
               <button
                 className="flex w-full text-xl"
                 name="log out"
-                onClick={() => signOut()}
+                // onClick={() => signOut()}
               >
                 log out
               </button>
@@ -110,7 +117,7 @@ export default function Navbar() {
         </motion.ul>
         <MenuToggle toggle={toggleOpen} />
       </motion.nav>
-      <AuthButton session={session} className="hidden md:block" />
+      <AuthButton authSession={authSession} className="hidden md:block" />
       <ModeToggler className="hidden md:block" />
     </nav>
   );
@@ -143,7 +150,7 @@ const MenuToggle = ({ toggle }: { toggle: any }) => (
         }}
       />
     </svg>
-    <span className='sr-only'>navigation menu</span>
+    <span className="sr-only">navigation menu</span>
   </button>
 );
 

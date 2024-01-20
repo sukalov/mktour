@@ -2,7 +2,7 @@
 
 import { Button } from './ui/button';
 import Link from 'next/link';
-import { Session } from 'next-auth';
+// import { Session } from 'next-auth';
 
 interface ButtonProps {
   slug: string;
@@ -15,7 +15,8 @@ interface ButtonProps {
     | 'link'
     | undefined;
   text: string | undefined;
-  session: Session | null;
+  session: // Session
+  null;
 }
 
 export default function ButtonForAuthorized({

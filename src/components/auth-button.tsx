@@ -5,34 +5,41 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { User2 } from 'lucide-react';
-import type { Session } from 'next-auth';
-import { signIn, signOut } from 'next-auth/react';
 import { Button } from './ui/button';
 import LichessLogo from './ui/lichess-logo';
 import * as React from 'react';
 import { cn } from '@/lib/utils';
+import { Session } from 'lucia';
+import { AuthSession } from '@/lib/auth/utils';
+import { redirect } from 'next/navigation';
 
 export interface AuthButtonProps {
-  session: Session | null;
+  authSession?: AuthSession | null;
   className: string;
 }
 
-export default function AuthButton({ session, className }: AuthButtonProps) {
+export default function AuthButton({
+  className,
+  authSession,
+}: AuthButtonProps) {
   const handleSignIn = () => {
-    signIn(undefined, { callbackUrl: '/' });
+    redirect('/login/lichess');
   };
 
-  const handleSignOut = () => {
-    signOut({ callbackUrl: '/' });
+  const handleSignOut = async () => {
+    await fetch('/api/sign-out', {
+      method: 'POST',
+      redirect: 'manual',
+    });
   };
 
-  if (!session) {
+  if (!authSession?.session) {
     return (
       <div className={className}>
         <Button
           className={`flex-row gap-2 p-2`}
           variant="ghost"
-          onClick={() => signIn('lichess')}
+          onClick={handleSignIn}
         >
           <LichessLogo size="24" />
           sign in
@@ -47,7 +54,7 @@ export default function AuthButton({ session, className }: AuthButtonProps) {
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="select-none gap-2 p-3">
             <User2 />
-            {session.user?.username}
+            {authSession?.session?.user.username}
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent

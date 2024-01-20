@@ -1,4 +1,16 @@
 ###
-POST https://lichess.org/api/account
+GET https://lichess.org/api/account/email
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..I8lUekPamPIns3y-.9nMtSy02-rsZxXbXiOZkBEpzXpFnuKtawggs7o67HCUMbCxgaLiu465CJvGzNZVn-Zk9nmy_J3WuMPd5n2V5KzyOOoDeyiquWpe6-qd1Y4VYGcbDiY1KscfcqJdUxOV2CKGDZj2PmXP1jQOVrNlJ8Er3hc5N-DRQpmA0.BjzVFDuf6Sw98xhxncW-Ww
+Authorization: Bearer lip_D8TJFPK1r8qd9m7sXmxI
+
+###
+POST https://lichess.org/api/token
+Content-Type: application/json
+
+{
+    "code": "liu_njzoZQ9q6QwFcE09a1kaxA1rqOx9WxMm",
+		"grant_type": "authorization_code",
+		"code_verifier": "LtU3UnPQM02QGYseIBOKThd8XlIIadPRClZ08Sz9tzo",
+		"redirect_uri": "/",
+		"client_id": "mktour.org",
+}

@@ -1,15 +1,17 @@
-import { migrate } from 'drizzle-orm/planetscale-serverless/migrator';
+import { env } from '@/lib/env.mjs';
+
 import { createClient } from '@libsql/client';
-import { drizzle } from 'drizzle-orm/planetscale-serverless';
+import { drizzle } from 'drizzle-orm/libsql';
+import { migrate } from 'drizzle-orm/libsql/migrator';
 
 const runMigrate = async () => {
-  if (!process.env.DATABASE_URL) {
+  if (!env.DATABASE_URL) {
     throw new Error('DATABASE_URL is not defined');
   }
 
   const client = createClient({
-    url: 'DATABASE_URL',
-    authToken: 'DATABASE_AUTH_TOKEN',
+    url: env.DATABASE_URL,
+    authToken: env.DATABASE_AUTH_TOKEN,
   });
   const db = drizzle(client);
 
@@ -21,7 +23,7 @@ const runMigrate = async () => {
 
   const end = Date.now();
 
-  console.log(`✅ Migrations completed in ${end - start}ms`);
+  console.log('✅ Migrations completed in', end - start, 'ms');
 
   process.exit(0);
 };
