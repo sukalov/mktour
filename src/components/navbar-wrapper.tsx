@@ -1,15 +1,10 @@
-'use client';
 
-// import { SessionProvider } from 'next-auth/react';
-import { createContext } from 'react';
 import Navbar from './navbar';
+import { AuthSession, getUserAuth } from '@/lib/auth/utils';
 
-export const WidthContext = createContext(true);
-
-export default function NavbarWrapper() {
+export default async function NavbarWrapper() {
+  const authSession = await getUserAuth() as AuthSession;
   return (
-    // <SessionProvider>
-      <Navbar />
-    // </SessionProvider>
+      <Navbar authSession={authSession}/>
   );
 }

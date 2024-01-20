@@ -26,6 +26,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
           disableTransitionOnChange
         >
           <NavbarWrapper />
+          <div className='pt-12 px-8'></div>
           {children}
           <Analytics />
           <SpeedInsights />
