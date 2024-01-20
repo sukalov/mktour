@@ -1,10 +1,17 @@
-// import { getServerSession } from 'next-auth/next';
-// import { options } from '../api/auth/[...nextauth]/options';
-
-import { auth } from "@/lib/auth/lucia";
+import AuthForm from "@/components/auth/Form";
 import { getUserAuth } from "@/lib/auth/utils";
+import { redirect } from "next/navigation";
 
-export default async function Page() {
-  const { session } = await getUserAuth()
-  return <pre className="pt-24">{JSON.stringify(session, null, 2)}</pre>;
+export default async function Home() {
+  const { session } = await getUserAuth();
+  if (!session) redirect("/sign-up");
+  return (
+    <main className="">
+      <h1 className="text-2xl font-bold my-2">Profile</h1>
+      <pre className="bg-secondary p-4 rounded-lg mx-8">
+        {JSON.stringify(session, null, 2)}
+      </pre>
+      <AuthForm action="/api/sign-out" />
+    </main>
+  );
 }
