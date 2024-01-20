@@ -1,15 +1,17 @@
-"use client"
+import AuthForm from "@/components/auth/Form";
+import { getUserAuth } from "@/lib/auth/utils";
+import { redirect } from "next/navigation";
 
-// import { SessionProvider } from 'next-auth/react';
-import HomePage from '../components/home-page';
-import { count } from 'drizzle-orm';
-
-export default function Home() {
+export default async function Home() {
+  const { session } = await getUserAuth();
+  if (!session) redirect("/sign-up");
   return (
-    // <SessionProvider>
-      <main className="flex min-h-[100svh]">
-        <HomePage />
-      </main>
-    // </SessionProvider>
+    <main className="">
+      <h1 className="text-2xl font-bold my-2">Profile</h1>
+      <pre className="bg-secondary p-4 rounded-lg my-2">
+        {JSON.stringify(session, null, 2)}
+      </pre>
+      <AuthForm action="/api/sign-out" />
+    </main>
   );
 }
