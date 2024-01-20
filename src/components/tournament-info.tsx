@@ -20,12 +20,12 @@ export default async function TournamentInfo({ data }: TournamentInfoProps) {
       </p>
       <div></div>
       <div className="">
-        <span className="text-text flex flex-row items-center gap-2">
+        <span className=" flex flex-row items-center gap-2">
           <TypeIcon type={data.type} size={2} />
           {data.format}
         </span>
         {data.user ? (
-          <p className="text-sm">created by: {data.user}</p>
+          <p className="">created by: {data.user}</p>
         ) : (
           <p className="text-destructive">not signed in</p>
         )}

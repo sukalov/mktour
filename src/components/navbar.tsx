@@ -3,7 +3,7 @@
 import React, { ReactNode, useEffect, useRef, useState } from 'react';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { navbarItems } from '@/constants';
 import { MenuItemWithSubMenuProps, NavbarItem } from '@/types/next-auth';
 import { motion, useCycle } from 'framer-motion';
@@ -13,7 +13,7 @@ import AuthButton from '@/components/auth-button';
 import { ChevronDown } from 'lucide-react';
 import ModeTogglerMobile from '@/components/mode-toggler-mobile';
 import { AuthSession } from '@/lib/auth/utils';
-import { getPageSession } from '@/lib/auth/lucia';
+import { UserSchema } from 'lucia';
 
 const sidebar = {
   open: (height = 1000) => ({
@@ -35,7 +35,7 @@ const sidebar = {
 };
 
 type NavbarProps = {
-  authSession: AuthSession | null;
+  authSession: AuthSession;
 };
 
 export default function Navbar({ authSession }: NavbarProps) {
@@ -43,10 +43,18 @@ export default function Navbar({ authSession }: NavbarProps) {
   const containerRef = useRef(null);
   const { height } = useDimensions(containerRef);
   const [isOpen, toggleOpen] = useCycle(false, true);
-  const [user, setUser] = useState<Response | null>(null);
-  useEffect(() => {
-    fetch('/api/user').then((res) => setUser(res));
-  }, []);
+
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    const response = await fetch('/api/sign-out', {
+      method: 'POST',
+      redirect: 'manual',
+    });
+    if (response.status === 0) {
+      return router.refresh();
+    }
+  };
   return (
     <nav className="fixed z-50 flex max-h-14 w-full min-w-max flex-row items-center justify-start gap-3 border-b bg-background/95 p-4 md:pl-4">
       <div>
@@ -93,19 +101,18 @@ export default function Navbar({ authSession }: NavbarProps) {
             );
           })}
           <MenuItem>
-            {!user ? (
-              <button
+            {!authSession.session ? (
+              <Link
                 className="text-xl"
-                name="sign in with lichess"
-                // onClick={() => signin('lichess', { redirect: false })}
+                href="/login/lichess"
               >
                 sign in with lichess
-              </button>
+              </Link>
             ) : (
               <button
                 className="flex w-full text-xl"
                 name="log out"
-                // onClick={() => signOut()}
+                onClick={handleSignOut}
               >
                 log out
               </button>

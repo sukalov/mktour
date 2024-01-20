@@ -1,6 +1,5 @@
 'use server';
 import { NewTournamentForm } from '@/app/new-tournament/new-tournament-form';
-// import { getServerSession } from 'next-auth';
 import { RedirectType, redirect } from 'next/navigation';
 import { redis } from '@/lib/db/redis';
 import { nanoid } from 'nanoid';

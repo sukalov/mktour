@@ -1,4 +1,5 @@
 import AuthForm from '@/components/auth/Form';
+import SignInWithLichessButton from '@/components/sign-in-with-lichess-button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { getPageSession } from '@/lib/auth/lucia';
@@ -9,32 +10,8 @@ const Page = async () => {
   const session = await getPageSession();
   if (session?.user) redirect('/');
   return (
-    <main className="mx-auto my-4 max-w-lg bg-secondary p-10">
-      <h1 className="text-center text-2xl font-bold">
-        Sign in to your account
-      </h1>
-      <a href="/login/lichess">Sign in with LICHESS</a>
-      <AuthForm action="/api/sign-in">
-        <Label htmlFor="username" className="text-muted-foreground">
-          Username
-        </Label>
-        <Input name="username" id="username" />
-        <br />
-        <Label htmlFor="password" className="text-muted-foreground">
-          Password
-        </Label>
-        <Input type="password" name="password" id="password" />
-        <br />
-      </AuthForm>
-      <div className="mt-4 text-center text-sm text-muted-foreground">
-        Don&apos;t have an account yet?{' '}
-        <Link
-          href="/sign-up"
-          className="text-accent-foreground underline hover:text-primary"
-        >
-          Create an account
-        </Link>
-      </div>
+    <main className="mx-auto my-4 max-w-lg  p-10 w-full h-[calc(100svh-5rem)] flex flex-auto items-center justify-center">
+      <SignInWithLichessButton className='p-10 py-16'/>
     </main>
   );
 };

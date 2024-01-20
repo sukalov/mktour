@@ -1,10 +1,11 @@
 export default function Loading() {
   return (
+    <div className="w-full h-[calc(100svh-5rem)] flex items-center justify-center flex-auto">
     <div className="grid animate-pulse place-items-center p-4 text-muted-foreground">
       <div role="status">
         <svg
           aria-hidden="true"
-          className="h-8 w-8 animate-spin fill-muted text-muted-foreground"
+          className="h-16 w-16 animate-spin fill-muted text-muted-foreground"
           viewBox="0 0 100 101"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -20,6 +21,7 @@ export default function Loading() {
         </svg>
         <span className="sr-only">Loading...</span>
       </div>
+    </div>
     </div>
   );
 }

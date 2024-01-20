@@ -8,10 +8,9 @@ import { User2 } from 'lucide-react';
 import { Button } from './ui/button';
 import LichessLogo from './ui/lichess-logo';
 import * as React from 'react';
-import { cn } from '@/lib/utils';
-import { Session } from 'lucia';
 import { AuthSession } from '@/lib/auth/utils';
-import { redirect } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export interface AuthButtonProps {
   authSession?: AuthSession | null;
@@ -22,28 +21,32 @@ export default function AuthButton({
   className,
   authSession,
 }: AuthButtonProps) {
-  const handleSignIn = () => {
-    redirect('/login/lichess');
-  };
+
+  const router = useRouter();
 
   const handleSignOut = async () => {
-    await fetch('/api/sign-out', {
+    const response = await fetch('/api/sign-out', {
       method: 'POST',
       redirect: 'manual',
     });
+
+    if (response.status === 0) {
+      return router.refresh();
+    }
   };
 
   if (!authSession?.session) {
     return (
       <div className={className}>
+        <Link href="/login/lichess">
         <Button
           className={`flex-row gap-2 p-2`}
           variant="ghost"
-          onClick={handleSignIn}
         >
           <LichessLogo size="24" />
           sign in
         </Button>
+        </Link>
       </div>
     );
   }

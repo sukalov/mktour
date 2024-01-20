@@ -16,7 +16,7 @@ export default async function Tournament({
     console.log(e);
   }
   return (
-    <div className="p-2 pt-16">
+    <div className="p-2">
       {/* @ts-expect-error Server Component */}
       {data ? <TournamentInfo data={data} /> : notFound()}
     </div>

@@ -27,7 +27,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
         >
           {/* @ts-expect-error Server Component */}
           <NavbarWrapper />
-          <div className="px-8 pt-12"></div>
+          <div className="px-8 pt-16"></div>
           {children}
           <Analytics />
           <SpeedInsights />
