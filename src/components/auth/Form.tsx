@@ -29,12 +29,10 @@ const AuthForm = ({
         const response = await fetch(action, {
           method: 'POST',
           body: formData,
-          redirect: 'manual',
+          redirect: "manual",
         });
 
         if (response.status === 0) {
-          // redirected
-          // when using `redirect: "manual"`, response status 0 is returned
           return router.refresh();
         }
         setErrors(await response.json());
@@ -81,7 +79,7 @@ const SubmitButton = ({
       disabled={loading}
       variant={action === '/api/sign-out' ? 'destructive' : 'default'}
     >
-      Sign{loading ? 'ing' : ''} {buttonSuffix}
+      sign{loading ? 'ing' : ''} {buttonSuffix}
     </Button>
   );
 };

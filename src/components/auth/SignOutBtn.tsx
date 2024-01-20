@@ -2,7 +2,11 @@
 
 import { useRouter } from 'next/navigation';
 
-export default function SignOutBtn() {
+interface SignOutBtnProps {
+  className: string
+}
+
+export default function SignOutBtn({ className }: SignOutBtnProps) {
   const router = useRouter();
   const handleSignOut = async () => {
     const response = await fetch('/api/sign-out', {
@@ -17,7 +21,7 @@ export default function SignOutBtn() {
     }
   };
   return (
-    <button onClick={handleSignOut} className="w-full text-left">
+    <button onClick={handleSignOut} className={className}>
       Sign out
     </button>
   );
