@@ -12,7 +12,6 @@ import MktourNavbar from './ui/mktour-logo-navbar';
 import AuthButton from '@/components/auth-button';
 import { ChevronDown } from 'lucide-react';
 import ModeTogglerMobile from '@/components/mode-toggler-mobile';
-import { Session } from 'lucia';
 import { AuthSession } from '@/lib/auth/utils';
 
 const sidebar = {
@@ -43,6 +42,7 @@ export default function Navbar({ authSession }: NavbarProps) {
   const containerRef = useRef(null);
   const { height } = useDimensions(containerRef);
   const [isOpen, toggleOpen] = useCycle(false, true);
+  const status = authSession ? 'authenticated' : 'unauthenticated'
 
   return (
     <nav className="fixed z-50 flex max-h-14 w-full min-w-max flex-row items-center justify-start gap-3 border-b bg-background/95 p-4 md:pl-4">

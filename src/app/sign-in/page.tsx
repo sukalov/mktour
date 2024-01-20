@@ -13,6 +13,7 @@ const Page = async () => {
       <h1 className="text-2xl font-bold text-center">
         Sign in to your account
       </h1>
+      <a href="/login/lichess">Sign in with LICHESS</a>
       <AuthForm action="/api/sign-in">
         <Label htmlFor="username" className="text-muted-foreground">
           Username

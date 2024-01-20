@@ -4,6 +4,7 @@ import { cache } from "react";
 import * as context from "next/headers";
 import { libsql } from "@lucia-auth/adapter-sqlite";
 import { sqlite } from "@/lib/db/index"
+import { lichess } from "@lucia-auth/oauth/providers";
 
 export const auth = lucia({
   adapter: libsql(sqlite, {
@@ -21,6 +22,11 @@ export const auth = lucia({
       name: data.name,
     };
   },
+});
+
+export const lichessAuth = lichess(auth, {
+	clientId: process.env.LICHESS_CLIENT_ID ?? "",
+  redirectUri: 'http://localhost:3000/login/lichess/callback'
 });
 
 export type Auth = typeof auth;

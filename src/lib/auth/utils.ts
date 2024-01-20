@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { getPageSession } from "@/lib/auth/lucia";
+import { cache } from "react";
 
 export type AuthSession = {
   session: {
