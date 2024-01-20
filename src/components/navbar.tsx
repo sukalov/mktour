@@ -13,6 +13,7 @@ import AuthButton from '@/components/auth-button';
 import { ChevronDown } from 'lucide-react';
 import ModeTogglerMobile from '@/components/mode-toggler-mobile';
 import { AuthSession } from '@/lib/auth/utils';
+import { getPageSession } from '@/lib/auth/lucia';
 
 const sidebar = {
   open: (height = 1000) => ({
@@ -34,16 +35,18 @@ const sidebar = {
 };
 
 type NavbarProps = {
-  authSession: AuthSession | null
-}
+  authSession: AuthSession | null;
+};
 
 export default function Navbar({ authSession }: NavbarProps) {
   const pathname = usePathname();
   const containerRef = useRef(null);
   const { height } = useDimensions(containerRef);
   const [isOpen, toggleOpen] = useCycle(false, true);
-  const status = authSession ? 'authenticated' : 'unauthenticated'
-
+  const [user, setUser] = useState<Response | null>(null);
+  useEffect(() => {
+    fetch('/api/user').then((res) => setUser(res));
+  }, []);
   return (
     <nav className="fixed z-50 flex max-h-14 w-full min-w-max flex-row items-center justify-start gap-3 border-b bg-background/95 p-4 md:pl-4">
       <div>
@@ -90,7 +93,7 @@ export default function Navbar({ authSession }: NavbarProps) {
             );
           })}
           <MenuItem>
-            {status === 'unauthenticated' || status === 'loading' ? (
+            {!user ? (
               <button
                 className="text-xl"
                 name="sign in with lichess"
@@ -147,7 +150,7 @@ const MenuToggle = ({ toggle }: { toggle: any }) => (
         }}
       />
     </svg>
-    <span className='sr-only'>navigation menu</span>
+    <span className="sr-only">navigation menu</span>
   </button>
 );
 

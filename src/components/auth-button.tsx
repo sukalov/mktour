@@ -5,27 +5,32 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { User2 } from 'lucide-react';
-// import type { Session } from 'next-auth';
-// import { signIn, signOut } from 'next-auth/react';
 import { Button } from './ui/button';
 import LichessLogo from './ui/lichess-logo';
 import * as React from 'react';
 import { cn } from '@/lib/utils';
 import { Session } from 'lucia';
 import { AuthSession } from '@/lib/auth/utils';
+import { redirect } from 'next/navigation';
 
 export interface AuthButtonProps {
   authSession?: AuthSession | null;
   className: string;
 }
 
-export default function AuthButton({ className, authSession }: AuthButtonProps) {
+export default function AuthButton({
+  className,
+  authSession,
+}: AuthButtonProps) {
   const handleSignIn = () => {
-    // signIn('lichess', { callbackUrl: '/' });
+    redirect('/login/lichess');
   };
 
-  const handleSignOut = () => {
-    // signOut({ callbackUrl: '/' }); 
+  const handleSignOut = async () => {
+    await fetch('/api/sign-out', {
+      method: 'POST',
+      redirect: 'manual',
+    });
   };
 
   if (!authSession?.session) {

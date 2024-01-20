@@ -7,7 +7,7 @@ type TournamentInfoProps = {
 };
 
 export default async function TournamentInfo({ data }: TournamentInfoProps) {
-  const a = 1
+  const a = 1;
   return (
     <div className="p">
       <h1
@@ -20,12 +20,12 @@ export default async function TournamentInfo({ data }: TournamentInfoProps) {
       </p>
       <div></div>
       <div className="">
-      <span className="flex flex-row gap-2 text-text items-center">
+        <span className="text-text flex flex-row items-center gap-2">
           <TypeIcon type={data.type} size={2} />
           {data.format}
-        </span> 
+        </span>
         {data.user ? (
-          <p className='text-sm'>created by: {data.user}</p>
+          <p className="text-sm">created by: {data.user}</p>
         ) : (
           <p className="text-destructive">not signed in</p>
         )}

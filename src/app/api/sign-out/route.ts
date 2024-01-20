@@ -1,7 +1,7 @@
-import { auth } from "@/lib/auth/lucia";
-import * as context from "next/headers";
+import { auth } from '@/lib/auth/lucia';
+import * as context from 'next/headers';
 
-import type { NextRequest } from "next/server";
+import type { NextRequest } from 'next/server';
 
 export const POST = async (request: NextRequest) => {
   const authRequest = auth.handleRequest(request.method, context);
@@ -19,7 +19,7 @@ export const POST = async (request: NextRequest) => {
   return new Response(null, {
     status: 302,
     headers: {
-      Location: "/sign-in", // redirect to login page
+      Location: '/sign-in', // redirect to login page
     },
   });
 };

@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
 
 export default function SignOutBtn() {
   const router = useRouter();
   const handleSignOut = async () => {
-    const response = await fetch("/api/sign-out", {
-      method: "POST",
-      redirect: "manual",
+    const response = await fetch('/api/sign-out', {
+      method: 'POST',
+      redirect: 'manual',
     });
 
     if (response.status === 0) {

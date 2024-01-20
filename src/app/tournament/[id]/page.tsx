@@ -11,9 +11,9 @@ export default async function Tournament({
 }) {
   let data: RedisTournamentInfo;
   try {
-    data = await redis.get(params.id) as RedisTournamentInfo;
+    data = (await redis.get(params.id)) as RedisTournamentInfo;
   } catch (e) {
-    console.log(e)
+    console.log(e);
   }
   return (
     <div className="p-2 pt-16">

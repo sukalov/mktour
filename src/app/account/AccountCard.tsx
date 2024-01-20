@@ -1,4 +1,4 @@
-import { Card } from "@/components/ui/card";
+import { Card } from '@/components/ui/card';
 
 interface AccountCardProps {
   params: {
@@ -35,10 +35,10 @@ export function AccountCardFooter({
 }) {
   return (
     <div
-      className="bg-muted p-4 border dark:bg-card flex justify-between items-center rounded-b-lg"
+      className="flex items-center justify-between rounded-b-lg border bg-muted p-4 dark:bg-card"
       id="footer"
     >
-      <p className="text-muted-foreground text-sm">{description}</p>
+      <p className="text-sm text-muted-foreground">{description}</p>
       {children}
     </div>
   );

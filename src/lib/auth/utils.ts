@@ -1,6 +1,6 @@
-import { redirect } from "next/navigation";
-import { getPageSession } from "@/lib/auth/lucia";
-import { cache } from "react";
+import { redirect } from 'next/navigation';
+import { getPageSession } from '@/lib/auth/lucia';
+import { cache } from 'react';
 
 export type AuthSession = {
   session: {
@@ -29,5 +29,5 @@ export const getUserAuth = async (): Promise<AuthSession> => {
 
 export const checkAuth = async () => {
   const session = await getPageSession();
-  if (!session) redirect("/sign-in");
+  if (!session) redirect('/sign-in');
 };

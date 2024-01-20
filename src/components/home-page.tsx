@@ -7,7 +7,7 @@ import '@/styles/cursor.css';
 
 export default function HomePage() {
   // const { data: session, status, update } = useSession();
-  const loading = false // const loading = status === 'loading';
+  const loading = false; // const loading = status === 'loading';
   const cursor = 'custom-cursor';
 
   if (!loading) {

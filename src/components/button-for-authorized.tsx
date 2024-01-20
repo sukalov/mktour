@@ -15,9 +15,8 @@ interface ButtonProps {
     | 'link'
     | undefined;
   text: string | undefined;
-  session: 
-  // Session 
-  | null;
+  session: // Session
+  null;
 }
 
 export default function ButtonForAuthorized({

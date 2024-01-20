@@ -1,10 +1,10 @@
-"use client";
-import { AccountCard, AccountCardFooter, AccountCardBody } from "./AccountCard";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
-import { useTransition } from "react";
-import { useRouter } from "next/navigation";
+'use client';
+import { AccountCard, AccountCardFooter, AccountCardBody } from './AccountCard';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { useToast } from '@/components/ui/use-toast';
+import { useTransition } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function UpdateNameCard({ name }: { name: string }) {
   const { toast } = useToast();
@@ -17,20 +17,20 @@ export default function UpdateNameCard({ name }: { name: string }) {
     const { name } = Object.fromEntries(form.entries()) as { name: string };
     if (name.length < 3) {
       toast({
-        description: "Name must be longer than 3 characters.",
-        variant: "destructive",
+        description: 'Name must be longer than 3 characters.',
+        variant: 'destructive',
       });
       return;
     }
 
     startTransition(async () => {
-      const res = await fetch("/api/account", {
-        method: "PUT",
+      const res = await fetch('/api/account', {
+        method: 'PUT',
         body: JSON.stringify({ name }),
-        headers: { "Content-Type": "application/json" },
+        headers: { 'Content-Type': 'application/json' },
       });
       if (res.status === 200)
-        toast({ description: "Successfully updated name!" });
+        toast({ description: 'Successfully updated name!' });
       router.refresh();
     });
   };
@@ -38,14 +38,14 @@ export default function UpdateNameCard({ name }: { name: string }) {
   return (
     <AccountCard
       params={{
-        header: "Your Name",
+        header: 'Your Name',
         description:
-          "Please enter your full name, or a display name you are comfortable with.",
+          'Please enter your full name, or a display name you are comfortable with.',
       }}
     >
       <form onSubmit={handleSubmit}>
         <AccountCardBody>
-          <Input defaultValue={name ?? ""} name="name" disabled={isPending} />
+          <Input defaultValue={name ?? ''} name="name" disabled={isPending} />
         </AccountCardBody>
         <AccountCardFooter description="64 characters maximum">
           <Button disabled={isPending}>Update Name</Button>

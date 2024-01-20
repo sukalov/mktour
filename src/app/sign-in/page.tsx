@@ -1,16 +1,16 @@
-import AuthForm from "@/components/auth/Form";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { getPageSession } from "@/lib/auth/lucia";
-import Link from "next/link";
-import { redirect } from "next/navigation";
+import AuthForm from '@/components/auth/Form';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { getPageSession } from '@/lib/auth/lucia';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
 const Page = async () => {
   const session = await getPageSession();
-  if (session?.user) redirect("/");
+  if (session?.user) redirect('/');
   return (
-    <main className="max-w-lg mx-auto my-4 bg-secondary p-10">
-      <h1 className="text-2xl font-bold text-center">
+    <main className="mx-auto my-4 max-w-lg bg-secondary p-10">
+      <h1 className="text-center text-2xl font-bold">
         Sign in to your account
       </h1>
       <a href="/login/lichess">Sign in with LICHESS</a>
@@ -26,8 +26,8 @@ const Page = async () => {
         <Input type="password" name="password" id="password" />
         <br />
       </AuthForm>
-      <div className="mt-4 text-sm text-center text-muted-foreground">
-        Don&apos;t have an account yet?{" "}
+      <div className="mt-4 text-center text-sm text-muted-foreground">
+        Don&apos;t have an account yet?{' '}
         <Link
           href="/sign-up"
           className="text-accent-foreground underline hover:text-primary"

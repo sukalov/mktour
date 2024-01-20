@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 
-type Action = "/api/sign-in" | "/api/sign-up" | "/api/sign-out";
+type Action = '/api/sign-in' | '/api/sign-up' | '/api/sign-out';
 
 const AuthForm = ({
   children,
@@ -27,9 +27,9 @@ const AuthForm = ({
         setErrors(null);
         const formData = new FormData(e.currentTarget);
         const response = await fetch(action, {
-          method: "POST",
+          method: 'POST',
           body: formData,
-          redirect: "manual",
+          redirect: 'manual',
         });
 
         if (response.status === 0) {
@@ -42,8 +42,8 @@ const AuthForm = ({
       }}
     >
       {errors ? (
-        <div className="bg-red-100 p-3 my-4">
-          <h3 className="font-bold text-md">Error!</h3>
+        <div className="my-4 bg-red-100 p-3">
+          <h3 className="text-md font-bold">Error!</h3>
           <p className="text-sm">{errors.error}</p>
         </div>
       ) : null}
@@ -62,26 +62,26 @@ const SubmitButton = ({
   action: Action;
   loading: boolean;
 }) => {
-  let buttonSuffix = "";
+  let buttonSuffix = '';
   switch (action) {
-    case "/api/sign-in":
-      buttonSuffix = "in";
+    case '/api/sign-in':
+      buttonSuffix = 'in';
       break;
-    case "/api/sign-out":
-      buttonSuffix = "out";
+    case '/api/sign-out':
+      buttonSuffix = 'out';
       break;
-    case "/api/sign-up":
-      buttonSuffix = "up";
+    case '/api/sign-up':
+      buttonSuffix = 'up';
       break;
   }
   return (
     <Button
       type="submit"
-      className={action === "/api/sign-out" ? "" : "w-full"}
+      className={action === '/api/sign-out' ? '' : 'w-full'}
       disabled={loading}
-      variant={action === "/api/sign-out" ? "destructive" : "default"}
+      variant={action === '/api/sign-out' ? 'destructive' : 'default'}
     >
-      Sign{loading ? "ing" : ""} {buttonSuffix}
+      Sign{loading ? 'ing' : ''} {buttonSuffix}
     </Button>
   );
 };

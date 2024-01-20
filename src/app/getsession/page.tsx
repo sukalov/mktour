@@ -1,14 +1,15 @@
-import AuthForm from "@/components/auth/Form";
-import { getUserAuth } from "@/lib/auth/utils";
-import { redirect } from "next/navigation";
+import AuthForm from '@/components/auth/Form';
+import { getPageSession } from '@/lib/auth/lucia';
+import { getUserAuth } from '@/lib/auth/utils';
+import { redirect } from 'next/navigation';
 
 export default async function Home() {
-  const { session } = await getUserAuth();
-  if (!session) redirect("/sign-up");
+  const session = await getPageSession();
+  if (!session) redirect('/sign-up');
   return (
     <main className="">
-      <h1 className="text-2xl font-bold my-2">Profile</h1>
-      <pre className="bg-secondary p-4 rounded-lg mx-8">
+      <h1 className="my-2 text-2xl font-bold">Profile</h1>
+      <pre className="mx-8 rounded-lg bg-secondary p-4">
         {JSON.stringify(session, null, 2)}
       </pre>
       <AuthForm action="/api/sign-out" />

@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { useTheme } from "next-themes";
+import { Button } from '@/components/ui/button';
+import { useTheme } from 'next-themes';
 
 export default function Page() {
   const { setTheme } = useTheme();
   return (
     <div>
       <h1 className="text-2xl font-semibold">Settings</h1>
-      <div className="space-y-4 my-4">
+      <div className="my-4 space-y-4">
         <div>
           <h3 className="text-lg font-medium">Appearance</h3>
           <p className="text-sm text-muted-foreground">
@@ -18,9 +18,9 @@ export default function Page() {
         </div>
         <Button
           asChild
-          variant={"ghost"}
-          className="w-fit h-fit"
-          onClick={() => setTheme("light")}
+          variant={'ghost'}
+          className="h-fit w-fit"
+          onClick={() => setTheme('light')}
         >
           <div className="flex flex-col">
             <div className="items-center rounded-md border-2 border-muted p-1 hover:border-accent">
@@ -46,9 +46,9 @@ export default function Page() {
         </Button>
         <Button
           asChild
-          variant={"ghost"}
-          onClick={() => setTheme("dark")}
-          className="w-fit h-fit"
+          variant={'ghost'}
+          onClick={() => setTheme('dark')}
+          className="h-fit w-fit"
         >
           <div className="flex flex-col">
             <div className="items-center rounded-md border-2 border-muted bg-popover p-1 hover:bg-accent hover:text-accent-foreground">
@@ -74,9 +74,9 @@ export default function Page() {
         </Button>
         <Button
           asChild
-          variant={"ghost"}
-          onClick={() => setTheme("system")}
-          className="w-fit h-fit"
+          variant={'ghost'}
+          onClick={() => setTheme('system')}
+          className="h-fit w-fit"
         >
           <div className="flex flex-col">
             <div className="items-center rounded-md border-2 border-muted bg-popover p-1 hover:bg-accent hover:text-accent-foreground">
