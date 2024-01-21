@@ -1,5 +1,5 @@
 /** @type {import('next').NextConfig} */
-import { withAxiom } from 'next-axiom';
+const { withAxiom } = require('next-axiom');
 const nextConfig = {
   logging: {
     fetches: {
