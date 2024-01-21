@@ -29,7 +29,7 @@ const AuthForm = ({
         const response = await fetch(action, {
           method: 'POST',
           body: formData,
-          redirect: "manual",
+          redirect: 'manual',
         });
 
         if (response.status === 0) {

@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 
 interface SignOutBtnProps {
-  className: string
+  className: string;
 }
 
 export default function SignOutBtn({ className }: SignOutBtnProps) {

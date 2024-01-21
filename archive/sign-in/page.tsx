@@ -10,9 +10,7 @@ const Page = async () => {
   if (session?.user) redirect('/');
   return (
     <main className="mx-auto my-4 max-w-lg bg-secondary p-10">
-      <h1 className="text-center text-2xl font-bold">
-        sign in with lichess
-      </h1>
+      <h1 className="text-center text-2xl font-bold">sign in with lichess</h1>
       <a href="/login/lichess">Sign in with LICHESS</a>
       <AuthForm action="/api/sign-in">
         <Label htmlFor="username" className="text-muted-foreground">

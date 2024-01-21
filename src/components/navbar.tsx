@@ -102,10 +102,7 @@ export default function Navbar({ authSession }: NavbarProps) {
           })}
           <MenuItem>
             {!authSession.session ? (
-              <Link
-                className="text-xl"
-                href="/login/lichess"
-              >
+              <Link className="text-xl" href="/login/lichess">
                 sign in with lichess
               </Link>
             ) : (

@@ -21,7 +21,6 @@ export default function AuthButton({
   className,
   authSession,
 }: AuthButtonProps) {
-
   const router = useRouter();
 
   const handleSignOut = async () => {
@@ -39,13 +38,10 @@ export default function AuthButton({
     return (
       <div className={className}>
         <Link href="/login/lichess">
-        <Button
-          className={`flex-row gap-2 p-2`}
-          variant="ghost"
-        >
-          <LichessLogo size="24" />
-          sign in
-        </Button>
+          <Button className={`flex-row gap-2 p-2`} variant="ghost">
+            <LichessLogo size="24" />
+            sign in
+          </Button>
         </Link>
       </div>
     );

@@ -10,8 +10,8 @@ const Page = async () => {
   const session = await getPageSession();
   if (session?.user) redirect('/');
   return (
-    <main className="mx-auto my-4 max-w-lg  p-10 w-full h-[calc(100svh-5rem)] flex flex-auto items-center justify-center">
-      <SignInWithLichessButton className='p-10 py-16'/>
+    <main className="mx-auto my-4 flex  h-[calc(100svh-5rem)] w-full max-w-lg flex-auto items-center justify-center p-10">
+      <SignInWithLichessButton className="p-10 py-16" />
     </main>
   );
 };

@@ -21,7 +21,7 @@ export const auth = lucia({
       username: data.username,
       email: data.email,
       name: data.name,
-      lichess_blitz: data.lichess_blitz
+      lichess_blitz: data.lichess_blitz,
     };
   },
 });

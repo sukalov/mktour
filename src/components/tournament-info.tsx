@@ -15,9 +15,7 @@ export default async function TournamentInfo({ data }: TournamentInfoProps) {
       >
         {data.title}
       </h1>
-      <p className="">
-        {new Date(data.date).toDateString().slice(3, 15)}
-      </p>
+      <p className="">{new Date(data.date).toDateString().slice(3, 15)}</p>
       <div></div>
       <div className="">
         <span className=" flex flex-row items-center gap-2">

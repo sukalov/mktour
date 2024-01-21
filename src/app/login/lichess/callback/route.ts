@@ -34,9 +34,9 @@ export const GET = async (request: NextRequest) => {
           username: lichessUser.username,
           // @ts-expect-error
           name: `${lichessUser.profile.firstName} ${lichessUser.profile.lastName}`,
-		  email,
-		  // @ts-expect-error
-		  lichess_blitz: lichessUser.perfs.blitz.rating
+          email,
+          // @ts-expect-error
+          lichess_blitz: lichessUser.perfs.blitz.rating,
         },
       });
       return user;
@@ -51,7 +51,7 @@ export const GET = async (request: NextRequest) => {
       cookies,
       headers,
     });
-    log.info(session)
+    log.info(session);
     authRequest.setSession(session);
     return new Response(null, {
       status: 302,

@@ -33,18 +33,18 @@ export default async function HomePage() {
           </div>
         </div>
       ) : (
-        <div className="w-full min-h-[calc(100svh-5rem)] flex items-center justify-center flex-auto">
-        <Link href="/new-tournament" className="m-auto w-full px-1">
-          <Button
-            className="m-auto flex min-h-24 w-full max-w-[28rem] flex-col gap-2 font-bold"
-            variant="default"
-          >
-            <h1 className=" text-2xl font-light min-[320px]:text-3xl">
-              make tournament
-            </h1>
-            <p className="text-balance font-extralight"></p>
-          </Button>
-        </Link>
+        <div className="flex min-h-[calc(100svh-5rem)] w-full flex-auto items-center justify-center">
+          <Link href="/new-tournament" className="m-auto w-full px-1">
+            <Button
+              className="m-auto flex min-h-24 w-full max-w-[28rem] flex-col gap-2 font-bold"
+              variant="default"
+            >
+              <h1 className=" text-2xl font-light min-[320px]:text-3xl">
+                make tournament
+              </h1>
+              <p className="text-balance font-extralight"></p>
+            </Button>
+          </Link>
         </div>
       )}
     </div>
