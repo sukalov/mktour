@@ -4,6 +4,7 @@ import { cookies, headers } from 'next/headers';
 import { validateOAuth2AuthorizationCode } from '@lucia-auth/oauth';
 
 import type { NextRequest } from 'next/server';
+import { log } from 'next-axiom';
 
 export const GET = async (request: NextRequest) => {
   const storedState = cookies().get('lichess_oauth_state')?.value;
@@ -50,6 +51,7 @@ export const GET = async (request: NextRequest) => {
       cookies,
       headers,
     });
+    log.info(session)
     authRequest.setSession(session);
     return new Response(null, {
       status: 302,
