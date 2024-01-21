@@ -1,5 +1,5 @@
 ###
-GET https://lichess.org/api/account/email
+GET https://lichess.org/api/account
 Content-Type: application/json
 Authorization: Bearer lip_D8TJFPK1r8qd9m7sXmxI
 

@@ -12,7 +12,7 @@ export const metadata = {
   description: 'an app for organazing complex tournament brackets of all kind',
 };
 
-export default function RootLayout({ children }: PropsWithChildren) {
+function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en" suppressHydrationWarning>
       <meta
@@ -38,3 +38,5 @@ export default function RootLayout({ children }: PropsWithChildren) {
     </html>
   );
 }
+
+export default RootLayout

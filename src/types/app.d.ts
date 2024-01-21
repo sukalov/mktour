@@ -4,7 +4,7 @@
 import { LichessUser } from '@lucia-auth/oauth/providers';
 
 declare namespace Lucia {
-  type Auth = import('@/lib/auth/lucia').Auth;
+  type Auth = import('archive/lucia-old').Auth;
 
   type LuciaDatabaseUserAttributes = {
     name: string;

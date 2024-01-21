@@ -1,4 +1,4 @@
-import { getPageSession } from '@/lib/auth/lucia';
+import { getPageSession } from 'archive/lucia-old';
 
 export async function GET(request: Request) {
   const session = await getPageSession();

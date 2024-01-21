@@ -1,4 +1,4 @@
-import { auth } from '@/lib/auth/lucia';
+import { auth } from 'archive/lucia-old';
 import * as context from 'next/headers';
 
 import type { NextRequest } from 'next/server';

@@ -1,5 +1,5 @@
 import AuthForm from '@/components/auth/Form';
-import { getPageSession } from '@/lib/auth/lucia';
+import { getPageSession } from 'archive/lucia-old';
 import { getUserAuth } from '@/lib/auth/utils';
 import { redirect } from 'next/navigation';
 

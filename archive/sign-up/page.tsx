@@ -1,6 +1,6 @@
 import AuthForm from '@/components/auth/Form';
 import Link from 'next/link';
-import { getPageSession } from '@/lib/auth/lucia';
+import { getPageSession } from 'archive/lucia-old';
 import { redirect } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';

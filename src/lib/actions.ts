@@ -3,7 +3,7 @@ import { NewTournamentForm } from '@/app/new-tournament/new-tournament-form';
 import { RedirectType, redirect } from 'next/navigation';
 import { redis } from '@/lib/db/redis';
 import { nanoid } from 'nanoid';
-import { getPageSession } from '@/lib/auth/lucia';
+import { getPageSession } from 'archive/lucia-old';
 
 export interface RedisTournamentInfo extends NewTournamentForm {
   user?: string;
