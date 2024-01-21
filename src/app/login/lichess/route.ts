@@ -16,7 +16,7 @@ export async function GET(): Promise<Response> {
 		httpOnly: true,
 		sameSite: "lax"
 	});
-  cookies().set('lichess_oauth_code_validation', state, {
+  cookies().set('lichess_oauth_code_validation', codeVerifier, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     path: '/',

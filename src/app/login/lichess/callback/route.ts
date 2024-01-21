@@ -23,9 +23,7 @@ export async function GET(request: Request): Promise<Response> {
 	}
 
 	try {
-		log.info('FIRSTSTEP GOOOOD')
 		const tokens = await lichess.validateAuthorizationCode(code, {codeVerifier});
-		log.info(JSON.stringify(tokens))
 		const lichessUserResponse = await fetch("https://lichess.org/api/account", {
 			headers: {
 				Authorization: `Bearer ${tokens.accessToken}`
@@ -44,7 +42,7 @@ export async function GET(request: Request): Promise<Response> {
 			| undefined;
 
 		if (existingUser) {
-			const session = await lucia.createSession(existingUser.username, {});
+			const session = await lucia.createSession(existingUser.id, {});
 			const sessionCookie = lucia.createSessionCookie(session.id);
 			cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
 			return new Response(null, {

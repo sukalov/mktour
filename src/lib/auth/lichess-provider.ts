@@ -24,12 +24,17 @@ const tokenEndpoint = "https://lichess.org/api/token";
 export class Lichess implements OAuth2Provider {
 	private client: OAuth2Client;
 	private clientSecret: string;
+    private clientId: string;
+    private options: {
+        redirectURI: string,
+        scope: string[],
+    }
 
 	constructor(
 		clientId: string,
 		clientSecret: string,
-		options?: {
-			redirectURI?: string;
+		options: {
+			redirectURI: string;
             scope: string[];
 		}
 	) {
@@ -37,6 +42,8 @@ export class Lichess implements OAuth2Provider {
 			redirectURI: options?.redirectURI,
 		});
 		this.clientSecret = clientSecret;
+        this.options = options;
+        this.clientId = clientId;
 	}
 
 	public async createAuthorizationURL(
@@ -54,15 +61,16 @@ export class Lichess implements OAuth2Provider {
 	}
 
 	public async validateAuthorizationCode(code: string, options: {codeVerifier: string}): Promise<LichessTokens> {
-        const reqOptions = {
+        const reqOptions: ReqOptions = {
 			authenticateWith: "request_body",
-			credentials: this.clientSecret,
+			clientId: this.clientId,
             codeVerifier: options.codeVerifier,
-            
+            redirectURI: this.options.redirectURI,
+            credentials: this.clientSecret
 		}
         log.info(JSON.stringify(reqOptions))
 
-		const result = await this.client.validateAuthorizationCode(code, options);
+		const result = await this.client.validateAuthorizationCode(code, reqOptions);
 		const tokens: LichessTokens = {
 			accessToken: result.access_token
 		};
@@ -73,3 +81,11 @@ export class Lichess implements OAuth2Provider {
 export interface GitHubTokens {
 	accessToken: string;
 }
+
+interface ReqOptions {
+    authenticateWith: "request_body" | undefined,
+    clientId: string,
+    codeVerifier: string,
+    redirectURI: string,
+    credentials: string
+};
