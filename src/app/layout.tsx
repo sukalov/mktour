@@ -5,6 +5,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { PropsWithChildren } from 'react';
 import { azeretMono, robotoMono } from './fonts';
 import '@/styles/globals.css';
+import { AxiomWebVitals } from 'next-axiom';
 
 export const metadata = {
   title: 'mktour',
@@ -18,6 +19,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
         name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
       />
+      <AxiomWebVitals />
       <body className={`${azeretMono.className} ${robotoMono.variable}`}>
         <ThemeProvider
           attribute="class"
