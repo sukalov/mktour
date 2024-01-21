@@ -5,10 +5,7 @@ const nextConfig = {
     fetches: {
       fullUrl: true,
     },
-  },
-  experimental: {
-      serverComponentsExternalPackages: ["oslo"]
-    }
+  }
 };
 
 module.exports = withAxiom(nextConfig);
