@@ -1,8 +1,9 @@
+import { log } from "next-axiom";
 import { OAuth2Client } from "oslo/oauth2";
 
 export interface OAuth2Provider {
 	createAuthorizationURL(state: string): Promise<URL>;
-	validateAuthorizationCode(code: string): Promise<Tokens>;
+	validateAuthorizationCode(code: string, options: {codeVerifier: string}): Promise<Tokens>;
 	refreshAccessToken?(refreshToken: string): Promise<Tokens>;
 }
 
@@ -19,6 +20,7 @@ export interface LichessTokens extends Tokens {};
 const authorizeEndpoint = "https://lichess.org/oauth";
 const tokenEndpoint = "https://lichess.org/api/token";
 
+
 export class Lichess implements OAuth2Provider {
 	private client: OAuth2Client;
 	private clientSecret: string;
@@ -28,11 +30,11 @@ export class Lichess implements OAuth2Provider {
 		clientSecret: string,
 		options?: {
 			redirectURI?: string;
-            scopes: string[];
+            scope: string[];
 		}
 	) {
 		this.client = new OAuth2Client(clientId, authorizeEndpoint, tokenEndpoint, {
-			redirectURI: options?.redirectURI
+			redirectURI: options?.redirectURI,
 		});
 		this.clientSecret = clientSecret;
 	}
@@ -40,20 +42,27 @@ export class Lichess implements OAuth2Provider {
 	public async createAuthorizationURL(
 		state: string,
 		options?: {
-			scopes?: string[];
+			scope: string[];
+            codeVerifier: string;
 		}
 	): Promise<URL> {
 		return await this.client.createAuthorizationURL({
 			state,
-			scopes: options?.scopes ?? []
+			scopes: options?.scope ?? [],
+            codeVerifier: options?.codeVerifier ?? ''
 		});
 	}
 
-	public async validateAuthorizationCode(code: string): Promise<LichessTokens> {
-		const result = await this.client.validateAuthorizationCode(code, {
+	public async validateAuthorizationCode(code: string, options: {codeVerifier: string}): Promise<LichessTokens> {
+        const reqOptions = {
 			authenticateWith: "request_body",
-			credentials: this.clientSecret
-		});
+			credentials: this.clientSecret,
+            codeVerifier: options.codeVerifier,
+            
+		}
+        log.info(JSON.stringify(reqOptions))
+
+		const result = await this.client.validateAuthorizationCode(code, options);
 		const tokens: LichessTokens = {
 			accessToken: result.access_token
 		};

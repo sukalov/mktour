@@ -1,10 +1,14 @@
 import { lichess } from '@/lib/auth/lucia';
-import { generateState } from "arctic";
+import { generateCodeVerifier, generateState } from "arctic";
 import { cookies } from "next/headers";
 
 export async function GET(): Promise<Response> {
 	const state = generateState();
-	const url = await lichess.createAuthorizationURL(state);
+  const codeVerifier = generateCodeVerifier();
+	const url = await lichess.createAuthorizationURL(state, {
+    scope: ['email:read'],
+    codeVerifier
+  });
 
 	cookies().set("lichess_oauth_state", state, {
 		path: "/",

@@ -7,20 +7,25 @@ import { generateId } from "lucia";
 import { DatabaseUser, users } from "@/lib/db/schema/auth";
 import { LichessUser } from "@/types/lichess-api";
 import { eq } from "drizzle-orm";
+import { log } from "next-axiom";
 
 export async function GET(request: Request): Promise<Response> {
 	const url = new URL(request.url);
 	const code = url.searchParams.get("code");
 	const state = url.searchParams.get("state");
 	const storedState = cookies().get("lichess_oauth_state")?.value ?? null;
-	if (!code || !state || !storedState || state !== storedState) {
+	const codeVerifier = cookies().get("lichess_oauth_code_validation")?.value
+
+	if (!code || !state || !storedState || state !== storedState || !codeVerifier) {
 		return new Response(null, {
 			status: 400
 		});
 	}
 
 	try {
-		const tokens = await lichess.validateAuthorizationCode(code);
+		log.info('FIRSTSTEP GOOOOD')
+		const tokens = await lichess.validateAuthorizationCode(code, {codeVerifier});
+		log.info(JSON.stringify(tokens))
 		const lichessUserResponse = await fetch("https://lichess.org/api/account", {
 			headers: {
 				Authorization: `Bearer ${tokens.accessToken}`

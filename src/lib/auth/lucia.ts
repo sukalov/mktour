@@ -58,7 +58,7 @@ export const validateRequest = cache(
 	}
 );
 
-export const lichess = new Lichess(process.env.GITHUB_CLIENT_ID!, process.env.GITHUB_CLIENT_SECRET!, {
+export const lichess = new Lichess(process.env.LICHESS_CLIENT_ID!, process.env.LICHESS_CLIENT_SECRET!, {
 	redirectURI: `${BASE_URL}/login/lichess/callback`,
-	scopes: ['email:read']
+	scope: ['email:read']
 });
