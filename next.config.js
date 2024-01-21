@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+import { withAxiom } from 'next-axiom';
 const nextConfig = {
   logging: {
     fetches: {
@@ -7,4 +8,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+module.exports = withAxiom(nextConfig);
