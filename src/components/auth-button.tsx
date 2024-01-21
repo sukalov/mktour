@@ -11,15 +11,16 @@ import * as React from 'react';
 import { AuthSession } from '@/lib/auth/utils';
 import { redirect, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { User } from 'lucia';
 
 export interface AuthButtonProps {
-  authSession?: AuthSession | null;
+  user?: User | null;
   className: string;
 }
 
 export default function AuthButton({
   className,
-  authSession,
+  user,
 }: AuthButtonProps) {
   const router = useRouter();
 
@@ -34,7 +35,7 @@ export default function AuthButton({
     }
   };
 
-  if (!authSession?.session) {
+  if (!user) {
     return (
       <div className={className}>
         <Link href="/login/lichess">
@@ -53,7 +54,7 @@ export default function AuthButton({
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="select-none gap-2 p-3">
             <User2 />
-            {authSession?.session?.user.username}
+            {user.username}
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent

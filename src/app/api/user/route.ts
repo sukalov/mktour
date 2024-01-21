@@ -1,8 +1,8 @@
-import { getPageSession } from '@/lib/auth/lucia';
+import { validateRequest } from "@/lib/auth/lucia";
 
 export async function GET(request: Request) {
-  const session = await getPageSession();
-  return new Response(JSON.stringify(session), {
+  const {user, session} = await validateRequest();
+  return new Response(JSON.stringify({ user, session }), {
     status: 200,
     headers: {
       'content-type': 'application/json',

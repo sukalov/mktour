@@ -1,28 +1,27 @@
-import { lichessAuth } from '@/lib/auth/lucia';
-import * as context from 'next/headers';
+import { lichess } from '@/lib/auth/lucia';
+import { generateCodeVerifier, generateState } from "arctic";
+import { cookies } from "next/headers";
 
-import type { NextRequest } from 'next/server';
+export async function GET(): Promise<Response> {
+	const state = generateState();
+  const codeVerifier = generateCodeVerifier();
+	const url = await lichess.createAuthorizationURL(state, {
+    scope: ['email:read'],
+    codeVerifier
+  });
 
-export const GET = async (request: NextRequest) => {
-  const [url, state] = await lichessAuth.getAuthorizationUrl();
-  context
-    .cookies()
-    .set('lichess_oauth_state', String(url.searchParams.get('state')), {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      path: '/',
-      sameSite: 'lax',
-    });
-  context.cookies().set('lichess_oauth_code_validation', state, {
+	cookies().set("lichess_oauth_state", state, {
+		path: "/",
+		secure: process.env.NODE_ENV === "production",
+		httpOnly: true,
+		sameSite: "lax"
+	});
+  cookies().set('lichess_oauth_code_validation', codeVerifier, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     path: '/',
     sameSite: 'lax',
   });
-  return new Response(null, {
-    status: 302,
-    headers: {
-      Location: url.toString(),
-    },
-  });
-};
+
+	return Response.redirect(url);
+}

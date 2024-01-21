@@ -1,18 +1,16 @@
 import { Button } from '@/components/ui/button';
-import LichessLogo from '@/components/ui/lichess-logo';
 import Link from 'next/link';
-import { TypeAnimation } from 'react-type-animation';
 import '@/styles/cursor.css';
-import { getUserAuth } from '@/lib/auth/utils';
 import HomeText from '@/components/home-text';
 import SignInWithLichessButton from '@/components/sign-in-with-lichess-button';
+import { validateRequest } from '@/lib/auth/lucia';
 
 export default async function HomePage() {
-  const { session } = await getUserAuth();
+  const { user } = await validateRequest()
 
   return (
     <div>
-      {!session ? (
+      {!user ? (
         <div className="mt-16 flex h-[calc(100svh-5rem)] w-full flex-col gap-7 p-3 md:mt-2 md:gap-2">
           <HomeText />
           <div className="max-w- flex flex-col items-center justify-center gap-4 md:mx-auto md:flex-row md:gap-2 md:px-12">

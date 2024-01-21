@@ -1,75 +1,79 @@
-import { auth, lichessAuth } from '@/lib/auth/lucia';
-import { OAuthRequestError } from '@lucia-auth/oauth';
-import { cookies, headers } from 'next/headers';
-import { validateOAuth2AuthorizationCode } from '@lucia-auth/oauth';
+import { lichess, lucia } from "@/lib/auth/lucia";
+import { db } from "@/lib/db";
+import { cookies } from "next/headers";
+import { OAuth2RequestError } from "arctic";
+import { generateId } from "lucia";
 
-import type { NextRequest } from 'next/server';
-import { log } from 'next-axiom';
+import { DatabaseUser, users } from "@/lib/db/schema/auth";
+import { LichessUser } from "@/types/lichess-api";
+import { eq } from "drizzle-orm";
+import { log } from "next-axiom";
 
-export const GET = async (request: NextRequest) => {
-  const storedState = cookies().get('lichess_oauth_state')?.value;
-  const codeValidation = cookies().get('lichess_oauth_code_validation')!.value;
-  const url = new URL(request.url);
-  const state = url.searchParams.get('state');
-  const code = url.searchParams.get('code');
-  if (!storedState || !state || storedState !== state || !code) {
-    return new Response(null, {
-      status: 400,
-    });
-  }
-  try {
-    const { getExistingUser, lichessUser, createUser, lichessTokens } =
-      await lichessAuth.validateCallback(code, codeValidation);
-    const getUser = async () => {
-      const existingUser = await getExistingUser();
-      if (existingUser) return existingUser;
-      const emailRes = await fetch('https://lichess.org/api/account/email', {
-        headers: {
-          Authorization: `Bearer ${lichessTokens.accessToken}`,
-        },
-      });
-      const email = (await emailRes.json())!.email;
-      const user = await createUser({
-        attributes: {
-          username: lichessUser.username,
-          // @ts-expect-error
-          name: `${lichessUser.profile.firstName} ${lichessUser.profile.lastName}`,
-          email,
-          // @ts-expect-error
-          lichess_blitz: lichessUser.perfs.blitz.rating,
-        },
-      });
-      return user;
-    };
+export async function GET(request: Request): Promise<Response> {
+	const url = new URL(request.url);
+	const code = url.searchParams.get("code");
+	const state = url.searchParams.get("state");
+	const storedState = cookies().get("lichess_oauth_state")?.value ?? null;
+	const codeVerifier = cookies().get("lichess_oauth_code_validation")?.value
 
-    const user = await getUser();
-    const session = await auth.createSession({
-      userId: user.userId,
-      attributes: {},
-    });
-    const authRequest = auth.handleRequest(request.method, {
-      cookies,
-      headers,
-    });
-    log.info(session);
-    authRequest.setSession(session);
-    return new Response(null, {
-      status: 302,
-      headers: {
-        Location: '/', // redirect to profile page
-      },
-    });
-  } catch (e) {
-    if (e instanceof OAuthRequestError) {
-      // invalid code
-      console.log('=OAuthRequestError=', e);
-      return new Response(JSON.stringify(e), {
-        status: 400,
-      });
-    }
-    console.log(e);
-    return new Response(JSON.stringify(e), {
-      status: 500,
-    });
-  }
-};
+	if (!code || !state || !storedState || state !== storedState || !codeVerifier) {
+		return new Response(null, {
+			status: 400
+		});
+	}
+
+	try {
+		const tokens = await lichess.validateAuthorizationCode(code, {codeVerifier});
+		const lichessUserResponse = await fetch("https://lichess.org/api/account", {
+			headers: {
+				Authorization: `Bearer ${tokens.accessToken}`
+			}
+		})
+        const lichessUserEmailResponse = await fetch("https://lichess.org/api/account/email", {
+            headers: {
+                Authorization: `Bearer ${tokens.accessToken}`
+            }
+        })
+		const lichessUser: LichessUser = await lichessUserResponse.json();
+        const lichessUserEmail = (await lichessUserEmailResponse.json()).email as string;
+
+		const existingUser = (await db.select().from(users).where(eq(users.username, lichessUser.id))).at(0) as
+			| DatabaseUser
+			| undefined;
+
+		if (existingUser) {
+			const session = await lucia.createSession(existingUser.id, {});
+			const sessionCookie = lucia.createSessionCookie(session.id);
+			cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+			return new Response(null, {
+				status: 302,
+				headers: {
+					Location: "/"
+				}
+			});
+		}
+
+		const userId = generateId(15);
+        await db.insert(users).values({id: userId, lichess_blitz: lichessUser.perfs.blitz.rating, username: lichessUser.id, email: lichessUserEmail})
+
+		const session = await lucia.createSession(userId, {});
+		const sessionCookie = lucia.createSessionCookie(session.id);
+		cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+		return new Response(null, {
+			status: 302,
+			headers: {
+				Location: "/"
+			}
+		});
+	} catch (e) {
+		if (e instanceof OAuth2RequestError && e.message === "bad_verification_code") {
+			// invalid code
+			return new Response(null, {
+				status: 400
+			});
+		}
+		return new Response(null, {
+			status: 500
+		});
+	}
+}

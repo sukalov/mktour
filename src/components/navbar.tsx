@@ -12,8 +12,6 @@ import MktourNavbar from './ui/mktour-logo-navbar';
 import AuthButton from '@/components/auth-button';
 import { ChevronDown } from 'lucide-react';
 import ModeTogglerMobile from '@/components/mode-toggler-mobile';
-import { AuthSession } from '@/lib/auth/utils';
-import { UserSchema } from 'lucia';
 
 const sidebar = {
   open: (height = 1000) => ({
@@ -35,10 +33,10 @@ const sidebar = {
 };
 
 type NavbarProps = {
-  authSession: AuthSession;
+  user: any
 };
 
-export default function Navbar({ authSession }: NavbarProps) {
+export default function Navbar({ user }: NavbarProps) {
   const pathname = usePathname();
   const containerRef = useRef(null);
   const { height } = useDimensions(containerRef);
@@ -101,7 +99,7 @@ export default function Navbar({ authSession }: NavbarProps) {
             );
           })}
           <MenuItem>
-            {!authSession.session ? (
+            {!user ? (
               <Link className="text-xl" href="/login/lichess">
                 sign in with lichess
               </Link>
@@ -121,7 +119,7 @@ export default function Navbar({ authSession }: NavbarProps) {
         </motion.ul>
         <MenuToggle toggle={toggleOpen} />
       </motion.nav>
-      <AuthButton authSession={authSession} className="hidden md:block" />
+      <AuthButton user={user} className="hidden md:block" />
       <ModeToggler className="hidden md:block" />
     </nav>
   );

@@ -1,40 +1,64 @@
-import { lucia } from 'lucia';
-import { nextjs_future } from 'lucia/middleware';
-import { cache } from 'react';
-import * as context from 'next/headers';
-import { libsql } from '@lucia-auth/adapter-sqlite';
-import { sqlite } from '@/lib/db/index';
-import { lichess } from '@lucia-auth/oauth/providers';
-import { BASE_URL } from '@/config/env';
+import { Lucia } from "lucia";
+import { db } from "@/lib/db";
+import { cookies } from "next/headers";
+import { cache } from "react";
+import { Lichess } from "@/lib/auth/lichess-provider";
+import type { Session, User } from "lucia";
+import type { DatabaseUser } from "@/lib/db/schema/auth";
+import { adapter } from "@/lib/db/lucia-adapter";
+import { BASE_URL } from "@/config/env";
 
-export const auth = lucia({
-  adapter: libsql(sqlite, {
-    user: 'user',
-    key: 'user_key',
-    session: 'user_session',
-  }),
-  env: 'DEV',
-  middleware: nextjs_future(),
-  sessionCookie: { expires: false },
-  getUserAttributes: (data) => {
-    return {
-      username: data.username,
-      email: data.email,
-      name: data.name,
-      lichess_blitz: data.lichess_blitz,
-    };
-  },
+// import { webcrypto } from "crypto";
+// globalThis.crypto = webcrypto as Crypto;
+
+
+export const lucia = new Lucia(adapter, {
+	sessionCookie: {
+		attributes: {
+			secure: process.env.NODE_ENV === "production"
+		}
+	},
+	getUserAttributes: (attributes) => {
+		return {
+			username: attributes.username
+		};
+	}
 });
 
-export const lichessAuth = lichess(auth, {
-  clientId: process.env.LICHESS_CLIENT_ID ?? '',
-  redirectUri: `${BASE_URL}/login/lichess/callback`,
-  scope: ['email:read'],
-});
+declare module "lucia" {
+	interface Register {
+		Lucia: typeof lucia;
+		DatabaseUserAttributes: Omit<DatabaseUser, "id">;
+	}
+}
 
-export type Auth = typeof auth;
+export const validateRequest = cache(
+	async (): Promise<{ user: User; session: Session } | { user: null; session: null }> => {
+		const sessionId = cookies().get(lucia.sessionCookieName)?.value ?? null;
+		if (!sessionId) {
+			return {
+				user: null,
+				session: null
+			};
+		}
 
-export const getPageSession = cache(() => {
-  const authRequest = auth.handleRequest('GET', context);
-  return authRequest.validate();
+		const result = await lucia.validateSession(sessionId);
+		// next.js throws when you attempt to set cookie when rendering page
+		try {
+			if (result.session && result.session.fresh) {
+				const sessionCookie = lucia.createSessionCookie(result.session.id);
+				cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+			}
+			if (!result.session) {
+				const sessionCookie = lucia.createBlankSessionCookie();
+				cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+			}
+		} catch {}
+		return result;
+	}
+);
+
+export const lichess = new Lichess(process.env.LICHESS_CLIENT_ID!, process.env.LICHESS_CLIENT_SECRET!, {
+	redirectURI: `${BASE_URL}/login/lichess/callback`,
+	scope: ['email:read']
 });
