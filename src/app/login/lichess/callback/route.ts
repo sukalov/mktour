@@ -54,7 +54,7 @@ export async function GET(request: Request): Promise<Response> {
 		}
 
 		const userId = generateId(15);
-		const name = `${lichessUser.profile.firstName ?? ''}${lichessUser.profile.lastName ?? ''}`
+		const name = `${lichessUser.profile.firstName ?? ''}${lichessUser.profile.lastName ? ' ' + lichessUser.profile.lastName : ''}`
         await db.insert(users).values({id: userId, lichess_blitz: lichessUser.perfs.blitz.rating, username: lichessUser.id, email: lichessUserEmail, name })
 
 		const session = await lucia.createSession(userId, {});
