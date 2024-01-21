@@ -11,11 +11,13 @@ export const GET = async (request: NextRequest) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       path: '/',
+      sameSite: 'lax'
     });
   context.cookies().set('lichess_oauth_code_validation', state, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     path: '/',
+    sameSite: 'lax'
   });
   return new Response(null, {
     status: 302,
