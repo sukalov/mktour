@@ -17,7 +17,7 @@ export const createTournament = async (values: NewTournamentForm) => {
   try {
     await redis.set(newTournamentID, JSON.stringify(newTournament));
   } catch (e) {
-    throw new Error("tournament has NOT been saved to redis")
+    throw new Error('tournament has NOT been saved to redis');
   }
   redirect(`/tournament/${newTournamentID}`);
 };

@@ -6,6 +6,7 @@ import { PropsWithChildren } from 'react';
 import { azeretMono, robotoMono } from './fonts';
 import '@/styles/globals.css';
 import { AxiomWebVitals } from 'next-axiom';
+import { Toaster } from '@/components/ui/sonner';
 
 export const metadata = {
   title: 'mktour',
@@ -33,6 +34,7 @@ function RootLayout({ children }: PropsWithChildren) {
           {children}
           <Analytics />
           <SpeedInsights />
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

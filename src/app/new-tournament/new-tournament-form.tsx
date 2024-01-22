@@ -30,7 +30,10 @@ import { RadioGroup } from '@/components/ui/radio-group';
 import TypeCard from '@/components/ui/type-card';
 import FormDatePicker from '@/app/new-tournament/form-date-picker';
 import { createTournament } from '@/lib/actions';
-import { NewTournamentForm, newTournamentFormSchema } from '@/lib/zod/new-tournament-form';
+import {
+  NewTournamentForm,
+  newTournamentFormSchema,
+} from '@/lib/zod/new-tournament-form';
 
 export default function NewTournamentForm() {
   const form = useForm<NewTournamentForm>({
@@ -40,7 +43,7 @@ export default function NewTournamentForm() {
       format: undefined,
       date: new Date(),
       timestamp: '',
-      type: 'solo'
+      type: 'solo',
     },
   });
 

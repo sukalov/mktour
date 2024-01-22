@@ -4,9 +4,17 @@ import '@/styles/cursor.css';
 import HomeText from '@/components/home-text';
 import SignInWithLichessButton from '@/components/auth/sign-in-with-lichess-button';
 import { validateRequest } from '@/lib/auth/lucia';
+import { useRouter } from 'next/navigation';
+import { cookies } from 'next/headers';
+import { toast } from 'sonner';
 
 export default async function HomePage() {
   const { user } = await validateRequest();
+
+  // if (cookies().get('new_user')) {
+  //   toast("if you experience any difficulties in using the website, please describe the problem at mktour team forum (lichess.org/team/mktour)")
+  //   cookies().delete('new_user')
+  // }
 
   return (
     <div>

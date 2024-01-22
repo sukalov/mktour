@@ -23,10 +23,7 @@ const tokenEndpoint = 'https://lichess.org/api/token';
 export class Lichess implements OAuth2ProviderWithPKCE {
   private client: OAuth2Client;
 
-  constructor(
-    clientId: string,
-    redirectURI: string
-  ) {
+  constructor(clientId: string, redirectURI: string) {
     this.client = new OAuth2Client(clientId, authorizeEndpoint, tokenEndpoint, {
       redirectURI,
     });

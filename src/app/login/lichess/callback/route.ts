@@ -7,7 +7,7 @@ import { generateId } from 'lucia';
 import { DatabaseUser, users } from '@/lib/db/schema/auth';
 import { LichessUser } from '@/types/lichess-api';
 import { eq } from 'drizzle-orm';
-import { log } from 'next-axiom';
+import { toast } from 'sonner';
 
 export async function GET(request: Request): Promise<Response> {
   const url = new URL(request.url);
@@ -67,17 +67,22 @@ export async function GET(request: Request): Promise<Response> {
       });
     }
 
+    fetch('https://lichess.org/team/mktour/join', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${tokens.accessToken}`,
+      },
+    })
+
     const userId = generateId(15);
     const name = `${lichessUser.profile.firstName ?? ''}${lichessUser.profile.lastName ? ' ' + lichessUser.profile.lastName : ''}`;
-    await db
-      .insert(users)
-      .values({
-        id: userId,
-        lichess_blitz: lichessUser.perfs.blitz.rating,
-        username: lichessUser.id,
-        email: lichessUserEmail,
-        name,
-      });
+    await db.insert(users).values({
+      id: userId,
+      lichess_blitz: lichessUser.perfs.blitz.rating,
+      username: lichessUser.id,
+      email: lichessUserEmail,
+      name,
+    });
 
     const session = await lucia.createSession(userId, {});
     const sessionCookie = lucia.createSessionCookie(session.id);
@@ -86,6 +91,8 @@ export async function GET(request: Request): Promise<Response> {
       sessionCookie.value,
       sessionCookie.attributes,
     );
+    cookies().set('new_user', 'true')
+
     return new Response(null, {
       status: 302,
       headers: {

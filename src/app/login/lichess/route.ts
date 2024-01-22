@@ -6,7 +6,7 @@ export async function GET(): Promise<Response> {
   const state = generateState();
   const codeVerifier = generateCodeVerifier();
   const url = await lichess.createAuthorizationURL(state, codeVerifier, {
-    scopes: ['email:read'],
+    scopes: ['email:read', 'team:write'],
   });
 
   cookies().set('lichess_oauth_state', state, {
