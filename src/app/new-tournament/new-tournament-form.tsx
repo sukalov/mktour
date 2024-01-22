@@ -2,24 +2,14 @@
 
 import * as React from 'react';
 import * as z from 'zod';
-import { format } from 'date-fns';
 import { Calendar as CalendarIcon, Loader2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import { cn } from '@/lib/utils';
-import { Calendar } from '@/components/ui/calendar';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
-import { MdGroups, MdGroup, MdPerson } from 'react-icons/md';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -40,32 +30,17 @@ import { RadioGroup } from '@/components/ui/radio-group';
 import TypeCard from '@/components/ui/type-card';
 import FormDatePicker from '@/app/new-tournament/form-date-picker';
 import { createTournament } from '@/lib/actions';
-
-const formSchema = z.object({
-  title: z
-    .string({ required_error: 'name the tournament' })
-    .min(2, { message: 'name the tournament' }),
-  date: z.date().min(new Date(new Date().setDate(new Date().getDate() - 1)), {
-    message: 'is it a time travel?',
-  }),
-  format: z
-    .string({ required_error: 'format not selected' })
-    .min(1, { message: 'format not selected' }),
-  type: z.string(),
-  timestamp: z.string(),
-});
-
-export type NewTournamentForm = z.infer<typeof formSchema>;
+import { NewTournamentForm, newTournamentFormSchema } from '@/lib/zod/new-tournament-form';
 
 export default function NewTournamentForm() {
   const form = useForm<NewTournamentForm>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(newTournamentFormSchema),
     defaultValues: {
       title: '',
       format: undefined,
       date: new Date(),
       timestamp: '',
-      type: 'solo',
+      type: 'solo'
     },
   });
 

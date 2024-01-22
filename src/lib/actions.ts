@@ -1,17 +1,13 @@
 'use server';
-import { NewTournamentForm } from '@/app/new-tournament/new-tournament-form';
 import { RedirectType, redirect } from 'next/navigation';
 import { redis } from '@/lib/db/redis';
 import { nanoid } from 'nanoid';
 import { validateRequest } from '@/lib/auth/lucia';
-
-export interface RedisTournamentInfo extends NewTournamentForm {
-  user?: string;
-}
+import { NewTournamentForm } from '@/lib/zod/new-tournament-form';
 
 export const createTournament = async (values: NewTournamentForm) => {
   const { user } = await validateRequest();
-  const newTournament: RedisTournamentInfo = {
+  const newTournament: NewTournamentForm = {
     ...values,
     timestamp: new Date().toISOString(),
     user: user?.username,
@@ -20,6 +16,8 @@ export const createTournament = async (values: NewTournamentForm) => {
   const newTournamentID = nanoid();
   try {
     await redis.set(newTournamentID, JSON.stringify(newTournament));
-  } catch (e) {}
+  } catch (e) {
+    throw new Error("tournament has NOT been saved to redis")
+  }
   redirect(`/tournament/${newTournamentID}`);
 };

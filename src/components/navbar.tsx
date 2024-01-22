@@ -4,8 +4,7 @@ import React, { ReactNode, useEffect, useRef, useState } from 'react';
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { navbarItems } from '@/constants';
-import { MenuItemWithSubMenuProps, NavbarItem } from '@/types/next-auth';
+import { navbarItems } from '@/config/navbar-tabs';
 import { motion, useCycle } from 'framer-motion';
 import ModeToggler from './mode-toggler';
 import MktourNavbar from './ui/mktour-logo-navbar';

@@ -5,7 +5,7 @@ import { Lichess } from '@/lib/auth/lichess-provider';
 import type { Session, User } from 'lucia';
 import type { DatabaseUser } from '@/lib/db/schema/auth';
 import { adapter } from '@/lib/db/lucia-adapter';
-import { BASE_URL } from '@/config/env';
+import { BASE_URL } from '@/config/base-url';
 
 export const lucia = new Lucia(adapter, {
   sessionCookie: {

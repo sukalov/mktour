@@ -1,5 +1,3 @@
-import { NavbarItem } from './types/next-auth';
-
 export const navbarItems: NavbarItem[] = [
   {
     title: 'issues',

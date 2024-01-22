@@ -31,13 +31,13 @@ export default async function HomePage() {
           </div>
         </div>
       ) : (
-        <div className="flex min-h-[calc(100svh-3.5rem)] w-full flex-auto items-center justify-center">
-          <Link href="/new-tournament" className="m-auto w-full px-1">
+        <div className="flex min-h-[calc(100svh-3.5rem)] w-full flex-auto items-center justify-center p-3">
+          <Link href="/new-tournament" className="m-auto px-1">
             <Button
-              className="m-auto flex min-h-24 w-full max-w-[28rem] flex-col gap-2 font-bold"
+              className="m-auto flex min-h-24 w-full max-w-[32rem] flex-col gap-2 font-bold"
               variant="default"
             >
-              <h1 className=" text-2xl font-light min-[320px]:text-3xl">
+              <h1 className="text-2xl font-light min-[400px]:text-3xl sm:px-8">
                 make tournament
               </h1>
               <p className="text-balance font-extralight"></p>
