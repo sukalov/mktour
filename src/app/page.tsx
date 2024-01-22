@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import '@/styles/cursor.css';
 import HomeText from '@/components/home-text';
-import SignInWithLichessButton from '@/components/sign-in-with-lichess-button';
+import SignInWithLichessButton from '@/components/auth/sign-in-with-lichess-button';
 import { validateRequest } from '@/lib/auth/lucia';
 
 export default async function HomePage() {

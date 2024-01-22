@@ -1,4 +1,4 @@
-import SignInWithLichessButton from '@/components/sign-in-with-lichess-button';
+import SignInWithLichessButton from '@/components/auth/sign-in-with-lichess-button';
 import { validateRequest } from '@/lib/auth/lucia';
 import { redirect } from 'next/navigation';
 

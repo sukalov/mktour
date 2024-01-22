@@ -5,10 +5,9 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { User2 } from 'lucide-react';
-import { Button } from './ui/button';
-import LichessLogo from './ui/lichess-logo';
+import { Button } from '../ui/button';
+import LichessLogo from '../ui/lichess-logo';
 import * as React from 'react';
-import { AuthSession } from '@/lib/auth/utils';
 import { redirect, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { User } from 'lucia';

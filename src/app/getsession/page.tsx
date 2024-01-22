@@ -1,4 +1,4 @@
-import AuthForm from '@/components/auth/Form';
+import AuthForm from '@/components/auth/form';
 import { validateRequest } from '@/lib/auth/lucia';
 import { redirect } from 'next/navigation';
 

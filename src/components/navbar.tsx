@@ -9,7 +9,7 @@ import { MenuItemWithSubMenuProps, NavbarItem } from '@/types/next-auth';
 import { motion, useCycle } from 'framer-motion';
 import ModeToggler from './mode-toggler';
 import MktourNavbar from './ui/mktour-logo-navbar';
-import AuthButton from '@/components/auth-button';
+import AuthButton from '@/components/auth/auth-button';
 import { ChevronDown } from 'lucide-react';
 import ModeTogglerMobile from '@/components/mode-toggler-mobile';
 
