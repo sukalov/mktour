@@ -23,7 +23,7 @@ export async function GET(request: Request): Promise<Response> {
 	}
 
 	try {
-		const tokens = await lichess.validateAuthorizationCode(code, {codeVerifier});
+		const tokens = await lichess.validateAuthorizationCode(code, codeVerifier);
 		const lichessUserResponse = await fetch("https://lichess.org/api/account", {
 			headers: {
 				Authorization: `Bearer ${tokens.accessToken}`

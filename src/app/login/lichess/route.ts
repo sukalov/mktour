@@ -5,9 +5,8 @@ import { cookies } from "next/headers";
 export async function GET(): Promise<Response> {
 	const state = generateState();
   const codeVerifier = generateCodeVerifier();
-	const url = await lichess.createAuthorizationURL(state, {
-    scope: ['email:read'],
-    codeVerifier
+	const url = await lichess.createAuthorizationURL(state, codeVerifier, {
+    scopes: ['email:read']
   });
 
 	cookies().set("lichess_oauth_state", state, {

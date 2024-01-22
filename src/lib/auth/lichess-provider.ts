@@ -1,9 +1,8 @@
-import { log } from "next-axiom";
 import { OAuth2Client } from "oslo/oauth2";
 
-export interface OAuth2Provider {
-	createAuthorizationURL(state: string): Promise<URL>;
-	validateAuthorizationCode(code: string, options: {codeVerifier: string}): Promise<Tokens>;
+export interface OAuth2ProviderWithPKCE {
+	createAuthorizationURL(state: string, codeVerifier: string): Promise<URL>;
+	validateAuthorizationCode(code: string, codeVerifier: string): Promise<Tokens>;
 	refreshAccessToken?(refreshToken: string): Promise<Tokens>;
 }
 
@@ -15,62 +14,52 @@ export interface Tokens {
 	idToken?: string;
 }
 
-export interface LichessTokens extends Tokens {};
-
 const authorizeEndpoint = "https://lichess.org/oauth";
 const tokenEndpoint = "https://lichess.org/api/token";
 
-
-export class Lichess implements OAuth2Provider {
+export class Lichess implements OAuth2ProviderWithPKCE {
 	private client: OAuth2Client;
-	private clientSecret: string;
-    private clientId: string;
-    private options: {
-        redirectURI: string,
-        scope: string[],
-    }
+	private clientId: string;
+    private redirectURI: string;
+	private options?: {
+		scopes?: string[];
+	};
 
 	constructor(
 		clientId: string,
-		clientSecret: string,
-		options: {
-			redirectURI: string;
-            scope: string[];
+        redirectURI: string,
+		options?: {
+			scopes?: string[]
 		}
 	) {
 		this.client = new OAuth2Client(clientId, authorizeEndpoint, tokenEndpoint, {
-			redirectURI: options?.redirectURI,
+			redirectURI
 		});
-		this.clientSecret = clientSecret;
-        this.options = options;
-        this.clientId = clientId;
+		this.clientId = clientId;
+        this.redirectURI = redirectURI;
+		this.options = options;
 	}
 
 	public async createAuthorizationURL(
 		state: string,
+		codeVerifier: string,
 		options?: {
-			scope: string[];
-            codeVerifier: string;
+			scopes?: string[];
 		}
 	): Promise<URL> {
 		return await this.client.createAuthorizationURL({
 			state,
-			scopes: options?.scope ?? [],
-            codeVerifier: options?.codeVerifier ?? ''
+			scopes: options?.scopes ?? [],
+			codeVerifier
 		});
 	}
 
-	public async validateAuthorizationCode(code: string, options: {codeVerifier: string}): Promise<LichessTokens> {
-        const reqOptions: ReqOptions = {
-			authenticateWith: "request_body",
-			clientId: this.clientId,
-            codeVerifier: options.codeVerifier,
-            redirectURI: this.options.redirectURI,
-            credentials: this.clientSecret
-		}
-        log.info(JSON.stringify(reqOptions))
-
-		const result = await this.client.validateAuthorizationCode(code, reqOptions);
+	public async validateAuthorizationCode(code: string, codeVerifier: string): Promise<LichessTokens> {
+		const result = await this.client.validateAuthorizationCode(code, 
+            {
+                authenticateWith: "request_body",
+                codeVerifier,
+            });
 		const tokens: LichessTokens = {
 			accessToken: result.access_token
 		};
@@ -78,14 +67,6 @@ export class Lichess implements OAuth2Provider {
 	}
 }
 
-export interface GitHubTokens {
+export interface LichessTokens {
 	accessToken: string;
 }
-
-interface ReqOptions {
-    authenticateWith: "request_body" | undefined,
-    clientId: string,
-    codeVerifier: string,
-    redirectURI: string,
-    credentials: string
-};
