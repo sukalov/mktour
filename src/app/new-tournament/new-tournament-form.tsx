@@ -1,7 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import * as z from 'zod';
 import { Calendar as CalendarIcon, Loader2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -31,7 +30,7 @@ import TypeCard from '@/components/ui/type-card';
 import FormDatePicker from '@/app/new-tournament/form-date-picker';
 import { createTournament } from '@/lib/actions';
 import {
-  NewTournamentForm,
+  type NewTournamentForm,
   newTournamentFormSchema,
 } from '@/lib/zod/new-tournament-form';
 

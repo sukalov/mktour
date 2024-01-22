@@ -1,9 +1,9 @@
 import { turboPascal } from '@/app/fonts';
 import TypeIcon from '@/components/ui/type-icon';
-import { RedisTournamentInfo } from '@/lib/actions';
+import { NewTournamentForm } from '@/lib/zod/new-tournament-form';
 
 type TournamentInfoProps = {
-  data: RedisTournamentInfo;
+  data: NewTournamentForm;
 };
 
 export default async function TournamentInfo({ data }: TournamentInfoProps) {

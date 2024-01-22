@@ -1,4 +1,3 @@
-import { NewTournamentForm } from '@/app/new-tournament/new-tournament-form';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { FormControl, FormItem, FormMessage } from '@/components/ui/form';
@@ -8,6 +7,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
+import { NewTournamentForm } from '@/lib/zod/new-tournament-form';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 

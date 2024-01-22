@@ -1,7 +1,6 @@
-import { NewTournamentForm } from '@/app/new-tournament/new-tournament-form';
 import TournamentInfo from '@/components/tournament-info';
-import { RedisTournamentInfo } from '@/lib/actions';
 import { redis } from '@/lib/db/redis';
+import { NewTournamentForm } from '@/lib/zod/new-tournament-form';
 import { notFound } from 'next/navigation';
 
 export default async function Tournament({
@@ -9,9 +8,9 @@ export default async function Tournament({
 }: {
   params: { id: string };
 }) {
-  let data: RedisTournamentInfo;
+  let data: NewTournamentForm;
   try {
-    data = (await redis.get(params.id)) as RedisTournamentInfo;
+    data = (await redis.get(params.id)) as NewTournamentForm;
   } catch (e) {
     console.log(e);
   }
