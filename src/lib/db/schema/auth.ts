@@ -10,13 +10,13 @@ export const users = sqliteTable('user', {
   lichess_blitz: int('lichess_blitz'),
 });
 
-export const sessions = sqliteTable("user_session", {
-	id: text("id").notNull().primaryKey(),
-	userId: text("user_id")
-		.notNull()
-		.references(() => users.id),
-	expiresAt: integer("expires_at").notNull()
+export const sessions = sqliteTable('user_session', {
+  id: text('id').notNull().primaryKey(),
+  userId: text('user_id')
+    .notNull()
+    .references(() => users.id),
+  expiresAt: integer('expires_at').notNull(),
 });
 
 export type DatabaseSession = InferSelectModel<typeof sessions>;
-export type DatabaseUser = InferSelectModel<typeof users>
+export type DatabaseUser = InferSelectModel<typeof users>;

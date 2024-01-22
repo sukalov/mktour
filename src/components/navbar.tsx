@@ -33,7 +33,7 @@ const sidebar = {
 };
 
 type NavbarProps = {
-  user: any
+  user: any;
 };
 
 export default function Navbar({ user }: NavbarProps) {

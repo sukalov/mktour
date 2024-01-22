@@ -39,4 +39,4 @@ function RootLayout({ children }: PropsWithChildren) {
   );
 }
 
-export default RootLayout
+export default RootLayout;

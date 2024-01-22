@@ -14,6 +14,6 @@ export type AuthSession = {
 };
 
 export const checkAuth = async () => {
-  const { user } = await validateRequest()
+  const { user } = await validateRequest();
   if (!user) redirect('/sign-in');
 };

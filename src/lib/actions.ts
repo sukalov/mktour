@@ -10,7 +10,7 @@ export interface RedisTournamentInfo extends NewTournamentForm {
 }
 
 export const createTournament = async (values: NewTournamentForm) => {
-  const { user } = await validateRequest()
+  const { user } = await validateRequest();
   const newTournament: RedisTournamentInfo = {
     ...values,
     timestamp: new Date().toISOString(),

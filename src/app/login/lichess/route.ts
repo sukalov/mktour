@@ -1,20 +1,20 @@
 import { lichess } from '@/lib/auth/lucia';
-import { generateCodeVerifier, generateState } from "arctic";
-import { cookies } from "next/headers";
+import { generateCodeVerifier, generateState } from 'arctic';
+import { cookies } from 'next/headers';
 
 export async function GET(): Promise<Response> {
-	const state = generateState();
+  const state = generateState();
   const codeVerifier = generateCodeVerifier();
-	const url = await lichess.createAuthorizationURL(state, codeVerifier, {
-    scopes: ['email:read']
+  const url = await lichess.createAuthorizationURL(state, codeVerifier, {
+    scopes: ['email:read'],
   });
 
-	cookies().set("lichess_oauth_state", state, {
-		path: "/",
-		secure: process.env.NODE_ENV === "production",
-		httpOnly: true,
-		sameSite: "lax"
-	});
+  cookies().set('lichess_oauth_state', state, {
+    path: '/',
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    sameSite: 'lax',
+  });
   cookies().set('lichess_oauth_code_validation', codeVerifier, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
@@ -22,5 +22,5 @@ export async function GET(): Promise<Response> {
     sameSite: 'lax',
   });
 
-	return Response.redirect(url);
+  return Response.redirect(url);
 }

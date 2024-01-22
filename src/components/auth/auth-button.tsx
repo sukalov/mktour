@@ -17,10 +17,7 @@ export interface AuthButtonProps {
   className: string;
 }
 
-export default function AuthButton({
-  className,
-  user,
-}: AuthButtonProps) {
+export default function AuthButton({ className, user }: AuthButtonProps) {
   const router = useRouter();
 
   const handleSignOut = async () => {

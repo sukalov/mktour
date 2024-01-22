@@ -9,7 +9,7 @@ export default async function Home() {
     <main className="p-8">
       <h1 className="text-2xl font-bold"> </h1>
       <pre className="overflow-hidden rounded-lg bg-secondary p-4">
-        {JSON.stringify({user, session}, null, 2)}
+        {JSON.stringify({ user, session }, null, 2)}
       </pre>
       <AuthForm action="/api/sign-out" />
     </main>
