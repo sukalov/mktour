@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <div className="flex h-[calc(100svh-5rem)] w-full flex-auto items-center justify-center">
+    <div className="flex h-[calc(100svh-3.5rem)] w-full flex-auto items-center justify-center">
       <div className="grid animate-pulse place-items-center p-4 text-muted-foreground">
         <div role="status">
           <svg

@@ -29,7 +29,7 @@ function RootLayout({ children }: PropsWithChildren) {
         >
           {/* @ts-expect-error Server Component */}
           <NavbarWrapper />
-          <div className="px-8 pt-16"></div>
+          <div className="px-8 pt-14"></div>
           {children}
           <Analytics />
           <SpeedInsights />

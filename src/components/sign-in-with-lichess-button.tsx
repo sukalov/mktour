@@ -11,10 +11,10 @@ export default function SignInWithLichessButton({
   className,
 }: SignInWithLichessButtonProps) {
   return (
-    <Link href={'/login/lichess'}>
+    <Link href={'/login/lichess'} className='w-full'>
       <Button
         className={cn(
-          `m-auto flex h-28 min-h-24 w-full max-w-[28rem] flex-none flex-col gap-2 px-1 font-bold`,
+          `m-auto flex h-28 min-h-28 w-full max-w-[28rem] flex-none flex-col gap-2 px-1 font-bold`,
           className,
         )}
         variant="outline"
@@ -23,7 +23,7 @@ export default function SignInWithLichessButton({
         <span className=" grid-col-3">
           <LichessLogo size="40" />
         </span>
-        <span className="grid-col--9 text-[1.4rem] font-light leading-none">
+        <span className="grid-col--9 text-[1.4rem] font-light leading-none md:text-xl md:px-4">
           sign in with lichess
         </span>
       </Button>

@@ -6,7 +6,7 @@ const Page = async () => {
   const { user } = await validateRequest();
   if (user) redirect('/');
   return (
-    <main className="mx-auto my-4 flex  h-[calc(100svh-5rem)] w-full max-w-lg flex-auto items-center justify-center p-10">
+    <main className="mx-auto my-4 flex  h-[calc(100svh-3.5rem)] w-full max-w-lg flex-auto items-center justify-center p-10">
       <SignInWithLichessButton className="p-10 py-16" />
     </main>
   );
