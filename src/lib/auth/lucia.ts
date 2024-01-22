@@ -1,5 +1,4 @@
 import { Lucia } from "lucia";
-import { db } from "@/lib/db";
 import { cookies } from "next/headers";
 import { cache } from "react";
 import { Lichess } from "@/lib/auth/lichess-provider";
@@ -7,10 +6,6 @@ import type { Session, User } from "lucia";
 import type { DatabaseUser } from "@/lib/db/schema/auth";
 import { adapter } from "@/lib/db/lucia-adapter";
 import { BASE_URL } from "@/config/env";
-
-// import { webcrypto } from "crypto";
-// globalThis.crypto = webcrypto as Crypto;
-
 
 export const lucia = new Lucia(adapter, {
 	sessionCookie: {
@@ -20,7 +15,10 @@ export const lucia = new Lucia(adapter, {
 	},
 	getUserAttributes: (attributes) => {
 		return {
-			username: attributes.username
+			username: attributes.username,
+			name: attributes.name,
+			email: attributes.email,
+			lichess_blitz: attributes.lichess_blitz,
 		};
 	}
 });
