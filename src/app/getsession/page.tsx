@@ -1,4 +1,4 @@
-import AuthForm from '@/components/auth/form';
+import AuthForm from '@/components/auth/kirimase-button';
 import { validateRequest } from '@/lib/auth/lucia';
 import { redirect } from 'next/navigation';
 
