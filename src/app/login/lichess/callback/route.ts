@@ -7,7 +7,7 @@ import { generateId } from 'lucia';
 import { DatabaseUser, users } from '@/lib/db/schema/auth';
 import { LichessUser } from '@/types/lichess-api';
 import { eq } from 'drizzle-orm';
-import { toast } from 'sonner';
+import { redis } from '@/lib/db/redis';
 
 export async function GET(request: Request): Promise<Response> {
   const url = new URL(request.url);
@@ -47,6 +47,8 @@ export async function GET(request: Request): Promise<Response> {
     const lichessUserEmail = (await lichessUserEmailResponse.json())
       .email as string;
 
+    cookies().set('token', tokens.accessToken)
+
     const existingUser = (
       await db.select().from(users).where(eq(users.username, lichessUser.id))
     ).at(0) as DatabaseUser | undefined;
@@ -83,6 +85,8 @@ export async function GET(request: Request): Promise<Response> {
       email: lichessUserEmail,
       name,
     });
+    await redis.set(userId, true);
+    
 
     const session = await lucia.createSession(userId, {});
     const sessionCookie = lucia.createSessionCookie(session.id);
@@ -91,7 +95,6 @@ export async function GET(request: Request): Promise<Response> {
       sessionCookie.value,
       sessionCookie.attributes,
     );
-    cookies().set('new_user', 'true')
 
     return new Response(null, {
       status: 302,

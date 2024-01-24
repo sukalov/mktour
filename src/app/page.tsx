@@ -4,17 +4,19 @@ import '@/styles/cursor.css';
 import HomeText from '@/components/home-text';
 import SignInWithLichessButton from '@/components/auth/sign-in-with-lichess-button';
 import { validateRequest } from '@/lib/auth/lucia';
-import { useRouter } from 'next/navigation';
+import TeamJoinToaster from '@/components/team-join-toaster';
+import { redis } from '@/lib/db/redis';
 import { cookies } from 'next/headers';
-import { toast } from 'sonner';
 
 export default async function HomePage() {
   const { user } = await validateRequest();
+  const token = cookies().get('token')?.value;
+  let isNew: boolean | null = null
 
-  // if (cookies().get('new_user')) {
-  //   toast("if you experience any difficulties in using the website, please describe the problem at mktour team forum (lichess.org/team/mktour)")
-  //   cookies().delete('new_user')
-  // }
+  if (user) {
+    isNew = await redis.get(user.id)
+    if (isNew) await redis.del(user.id)
+  }
 
   return (
     <div>
@@ -50,6 +52,7 @@ export default async function HomePage() {
               </h1>
               <p className="text-balance font-extralight"></p>
             </Button>
+            {isNew && token && <TeamJoinToaster token={token}/> }
           </Link>
         </div>
       )}
