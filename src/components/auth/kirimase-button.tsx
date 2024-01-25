@@ -18,6 +18,7 @@ const AuthForm = ({
   const [loading, setLoading] = useState(false);
   return (
     <form
+      name = 'kirimase-button'
       action={action}
       method="post"
       className="mt-4"

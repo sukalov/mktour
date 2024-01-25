@@ -74,6 +74,7 @@ export default function NewTournamentForm() {
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-8 pt-2 sm:pt-4"
+            name='new-tournament-form'
           >
             <FormField
               control={form.control}
