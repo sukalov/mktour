@@ -13,13 +13,13 @@ export async function GET(): Promise<Response> {
     path: '/',
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
-    sameSite: 'lax',
+    sameSite: 'none',
   });
   cookies().set('lichess_oauth_code_validation', codeVerifier, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     path: '/',
-    sameSite: 'lax',
+    sameSite: 'none',
   });
 
   return Response.redirect(url);

@@ -47,7 +47,10 @@ export async function GET(request: Request): Promise<Response> {
     const lichessUserEmail = (await lichessUserEmailResponse.json())
       .email as string;
 
-    cookies().set('token', tokens.accessToken);
+    cookies().set('token', tokens.accessToken, {
+      sameSite: 'none',
+      secure: true,
+    });
 
     const existingUser = (
       await db.select().from(users).where(eq(users.username, lichessUser.id))
@@ -59,7 +62,8 @@ export async function GET(request: Request): Promise<Response> {
       cookies().set(
         sessionCookie.name,
         sessionCookie.value,
-        sessionCookie.attributes,
+        { ...sessionCookie.attributes, 
+        sameSite: 'none'},
       );
       return new Response(null, {
         status: 302,
