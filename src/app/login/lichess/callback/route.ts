@@ -47,7 +47,7 @@ export async function GET(request: Request): Promise<Response> {
     const lichessUserEmail = (await lichessUserEmailResponse.json())
       .email as string;
 
-    cookies().set('token', tokens.accessToken)
+    cookies().set('token', tokens.accessToken);
 
     const existingUser = (
       await db.select().from(users).where(eq(users.username, lichessUser.id))
@@ -74,7 +74,7 @@ export async function GET(request: Request): Promise<Response> {
       headers: {
         Authorization: `Bearer ${tokens.accessToken}`,
       },
-    })
+    });
 
     const userId = generateId(15);
     const name = `${lichessUser.profile.firstName ?? ''}${lichessUser.profile.lastName ? ' ' + lichessUser.profile.lastName : ''}`;
@@ -86,7 +86,6 @@ export async function GET(request: Request): Promise<Response> {
       name,
     });
     await redis.set(userId, true);
-    
 
     const session = await lucia.createSession(userId, {});
     const sessionCookie = lucia.createSessionCookie(session.id);

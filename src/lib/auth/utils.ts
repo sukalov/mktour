@@ -19,6 +19,6 @@ export const checkAuth = async () => {
 };
 
 export function timeout(ms: number) {
-  console.log(ms)
+  console.log(ms);
   return new Promise((resolve) => setTimeout(resolve, ms));
 }

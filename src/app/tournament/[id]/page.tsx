@@ -9,12 +9,12 @@ export default async function Tournament({
 }: {
   params: { id: string };
 }) {
-  let data: NewTournamentForm | undefined
+  let data: NewTournamentForm | undefined;
   try {
     data = (await redis.get(params.id)) as NewTournamentForm;
   } catch (e) {
     console.log(e);
-  };
+  }
   return (
     <div className="p-2">
       {/* @ts-expect-error Server Component */}

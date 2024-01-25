@@ -11,11 +11,11 @@ import { cookies } from 'next/headers';
 export default async function HomePage() {
   const { user } = await validateRequest();
   const token = cookies().get('token')?.value;
-  let isNew: boolean | null = null
+  let isNew: boolean | null = null;
 
   if (user) {
-    isNew = await redis.get(user.id)
-    if (isNew) await redis.del(user.id)
+    isNew = await redis.get(user.id);
+    if (isNew) await redis.del(user.id);
   }
 
   return (
@@ -52,7 +52,7 @@ export default async function HomePage() {
               </h1>
               <p className="text-balance font-extralight"></p>
             </Button>
-            {isNew && token && <TeamJoinToaster token={token}/> }
+            {isNew && token && <TeamJoinToaster token={token} />}
           </Link>
         </div>
       )}
