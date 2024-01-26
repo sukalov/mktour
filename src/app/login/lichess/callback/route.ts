@@ -23,7 +23,7 @@ export async function GET(request: Request): Promise<Response> {
     state !== storedState ||
     !codeVerifier
   ) {
-    return new Response(null, {
+    return new Response("code or state don't match stored to those stored in cookies" , {
       status: 400,
     });
   }
@@ -59,12 +59,10 @@ export async function GET(request: Request): Promise<Response> {
     if (existingUser) {
       const session = await lucia.createSession(existingUser.id, {});
       const sessionCookie = lucia.createSessionCookie(session.id);
-      cookies().set(
-        sessionCookie.name,
-        sessionCookie.value,
-        { ...sessionCookie.attributes, 
-        sameSite: 'none'},
-      );
+      cookies().set(sessionCookie.name, sessionCookie.value, {
+        ...sessionCookie.attributes,
+        sameSite: 'none',
+      });
       return new Response(null, {
         status: 302,
         headers: {
@@ -73,12 +71,17 @@ export async function GET(request: Request): Promise<Response> {
       });
     }
 
-    fetch('https://lichess.org/team/mktour/join', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${tokens.accessToken}`,
-      },
-    });
+    try {
+      await fetch('https://lichess.org/team/mktour/join', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${tokens.accessToken}`,
+        },
+      });
+  } catch (e) {
+    console.log(`user ${lichessUser.id} not added to the team`)
+  }
+
 
     const userId = generateId(15);
     const name = `${lichessUser.profile.firstName ?? ''}${lichessUser.profile.lastName ? ' ' + lichessUser.profile.lastName : ''}`;
@@ -110,8 +113,7 @@ export async function GET(request: Request): Promise<Response> {
       e instanceof OAuth2RequestError &&
       e.message === 'bad_verification_code'
     ) {
-      // invalid code
-      return new Response(null, {
+      return new Response(JSON.stringify(e), {
         status: 400,
       });
     }
