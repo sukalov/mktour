@@ -48,7 +48,7 @@ export async function GET(request: Request): Promise<Response> {
       .email as string;
 
     cookies().set('token', tokens.accessToken, {
-      sameSite: 'none',
+      sameSite: 'lax',
       secure: true,
     });
 
@@ -61,7 +61,7 @@ export async function GET(request: Request): Promise<Response> {
       const sessionCookie = lucia.createSessionCookie(session.id);
       cookies().set(sessionCookie.name, sessionCookie.value, {
         ...sessionCookie.attributes,
-        sameSite: 'none',
+        sameSite: 'lax',
       });
       return new Response(null, {
         status: 302,
