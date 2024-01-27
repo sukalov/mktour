@@ -10,7 +10,7 @@ export default function NotFound() {
     <div
       className={`${turboPascal.className} flex h-[calc(100svh-3.5rem)] flex-auto items-center justify-center align-middle`}
     >
-      <main className=" w-64">
+      <main className="w-64">
         <h1 className="text-3xl font-semibold">error 404</h1>
         <TypeAnimation
           sequence={[
@@ -22,7 +22,7 @@ export default function NotFound() {
           ]}
           wrapper="h2"
           cursor={false}
-          className={'custom-cursor text-3xl'}
+          className={'custom-cursor w-full text-3xl'}
           repeat={0}
         />
         <Link href="/" className="text-3xl underline hover:text-foreground/70">

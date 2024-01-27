@@ -5,20 +5,20 @@ import { Player, Tournament } from '@/lib/tournaments/models';
 import PlayersList from '@/components/tournament/players-lits';
 import { AddPlayerForm } from '@/components/tournament/add-player';
 
-
 type TournamentDashboardProps = {
   data: NewTournamentForm;
   id: string;
 };
 
 export default async function TournamentDashboard({
-  data, id
+  data,
+  id,
 }: TournamentDashboardProps) {
   return (
     <div>
-    <AddPlayerForm />
-    {/* @ts-expect-error Server Component */}
-    <PlayersList tournamentId={id} />
+      <AddPlayerForm />
+      {/* @ts-expect-error Server Component */}
+      <PlayersList tournamentId={id} />
     </div>
   );
 }

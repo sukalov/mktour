@@ -23,9 +23,12 @@ export async function GET(request: Request): Promise<Response> {
     state !== storedState ||
     !codeVerifier
   ) {
-    return new Response("code or state don't match stored to those stored in cookies" , {
-      status: 400,
-    });
+    return new Response(
+      "code or state don't match stored to those stored in cookies",
+      {
+        status: 400,
+      },
+    );
   }
 
   try {
@@ -61,7 +64,6 @@ export async function GET(request: Request): Promise<Response> {
       const sessionCookie = lucia.createSessionCookie(session.id);
       cookies().set(sessionCookie.name, sessionCookie.value, {
         ...sessionCookie.attributes,
-        sameSite: 'lax',
       });
       return new Response(null, {
         status: 302,
@@ -78,10 +80,9 @@ export async function GET(request: Request): Promise<Response> {
           Authorization: `Bearer ${tokens.accessToken}`,
         },
       });
-  } catch (e) {
-    console.log(`user ${lichessUser.id} not added to the team`)
-  }
-
+    } catch (e) {
+      console.log(`user ${lichessUser.id} not added to the team`);
+    }
 
     const userId = generateId(15);
     const name = `${lichessUser.profile.firstName ?? ''}${lichessUser.profile.lastName ? ' ' + lichessUser.profile.lastName : ''}`;

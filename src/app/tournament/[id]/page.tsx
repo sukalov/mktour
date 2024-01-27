@@ -12,7 +12,6 @@ export default async function Tournament({
   let data: NewTournamentForm | undefined;
   try {
     data = (await redis.get(params.id)) as NewTournamentForm;
-    
   } catch (e) {
     console.log(e);
   }

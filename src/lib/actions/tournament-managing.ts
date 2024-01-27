@@ -28,7 +28,7 @@ export async function addPlayer(
 
   try {
     const id = nanoid();
-    console.log(id, data.name)
+    console.log(id, data.name);
     await db.insert(players).values({ id, name: data.name });
     revalidatePath('/');
     return { message: `added player ${data.name}` };
@@ -48,15 +48,15 @@ export async function deletePlayer(
     name: z.string().min(1),
   });
   const data = schema.parse({
-    id: formData.get("id"),
-    name: formData.get("name"),
+    id: formData.get('id'),
+    name: formData.get('name'),
   });
 
   try {
-      await db.delete(players).where(eq(players.id, data.id))
-      revalidatePath("/");
+    await db.delete(players).where(eq(players.id, data.id));
+    revalidatePath('/');
     return { message: `deleted player ${data.name}` };
   } catch (e) {
-    return { message: "failed to delete player" };
+    return { message: 'failed to delete player' };
   }
 }

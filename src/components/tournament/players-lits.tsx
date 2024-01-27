@@ -1,23 +1,26 @@
-import { DeleteForm } from "@/components/tournament/delete-player";
-import { db } from "@/lib/db";
-import { players, playersToTournaments, tournaments } from "@/lib/db/schema/tournaments";
-import { eq } from "drizzle-orm";
+import { DeleteForm } from '@/components/tournament/delete-player';
+import { db } from '@/lib/db';
+import {
+  players,
+  playersToTournaments,
+  tournaments,
+} from '@/lib/db/schema/tournaments';
+import { eq } from 'drizzle-orm';
 
 interface PlayersListProps {
-    tournamentId: string
+  tournamentId: string;
 }
 
 export default async function PlayersList({ tournamentId }: PlayersListProps) {
+  //   let participants = await db.select()
+  //   .from(playersToTournaments)
+  //   .leftJoin(players, eq(playersToTournaments.player_id, players.id))
+  //   .leftJoin(tournaments, eq(playersToTournaments.tournament_id, tournaments.id))
+  //   .where(eq(tournaments.id, tournamentId))
+  //   .all()
 
-//   let participants = await db.select()
-//   .from(playersToTournaments)
-//   .leftJoin(players, eq(playersToTournaments.player_id, players.id))
-//   .leftJoin(tournaments, eq(playersToTournaments.tournament_id, tournaments.id))
-//   .where(eq(tournaments.id, tournamentId))
-//   .all()
-
-    const participants = await db.select().from(players)
-  console.log(participants)
+  const participants = await db.select().from(players);
+  console.log(participants);
 
   return (
     <main>

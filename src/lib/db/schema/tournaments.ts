@@ -45,4 +45,6 @@ export const games = sqliteTable('game', {
 export type DatabasePlayer = InferSelectModel<typeof players>;
 export type DarabaseTournament = InferSelectModel<typeof tournaments>;
 export type DarabaseGame = InferSelectModel<typeof games>;
-export type DatabasePlayerToTournament = InferSelectModel<typeof playersToTournaments>;
+export type DatabasePlayerToTournament = InferSelectModel<
+  typeof playersToTournaments
+>;
