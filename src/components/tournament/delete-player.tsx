@@ -18,13 +18,22 @@ function DeleteButton() {
   );
 }
 
-export function DeleteForm({ id, name }: { id: string; name: string | null }) {
+export function DeleteForm({
+  tournamentId,
+  playerId,
+  name,
+}: {
+  playerId: string;
+  name: string | null;
+  tournamentId: string;
+}) {
   const [state, formAction] = useFormState(deletePlayer, initialState);
 
   return (
     <form action={formAction}>
-      <input type="hidden" name="id" value={id} />
+      <input type="hidden" name="playerId" value={playerId} />
       <input type="hidden" name="name" value={String(name)} />
+      <input type="hidden" name="tournamentId" value={tournamentId} />
       <DeleteButton />
       <p aria-live="polite" className="sr-only" role="status">
         {state?.message}

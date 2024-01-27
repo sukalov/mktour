@@ -41,7 +41,7 @@ export default function NewTournamentForm() {
       title: '',
       format: undefined,
       date: new Date(),
-      timestamp: '',
+      timestamp: 0,
       type: 'solo',
     },
   });

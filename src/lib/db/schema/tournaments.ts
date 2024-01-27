@@ -1,7 +1,7 @@
 import { users } from '@/lib/db/schema/auth';
 import { Format, Result, TournamentType } from '@/types/tournaments';
 import { InferSelectModel } from 'drizzle-orm';
-import { int, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import { int, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
 export const players = sqliteTable('player', {
   id: text('id').primaryKey(),
@@ -13,11 +13,11 @@ export const players = sqliteTable('player', {
 
 export const tournaments = sqliteTable('tournament', {
   id: text('id').primaryKey(),
-  name: text('name'),
+  title: text('name'),
   format: text('format').$type<Format>(),
   type: text('type').$type<TournamentType>(),
-  date: text('date').$type<ValidModernISODate>(),
-  timestamp: text('timestamp'),
+  date: text('date'),
+  timestamp: integer('timestamp'),
   user_id: text('user_id').references(() => users.id),
 });
 
@@ -43,8 +43,8 @@ export const games = sqliteTable('game', {
 });
 
 export type DatabasePlayer = InferSelectModel<typeof players>;
-export type DarabaseTournament = InferSelectModel<typeof tournaments>;
-export type DarabaseGame = InferSelectModel<typeof games>;
+export type DatabaseTournament = InferSelectModel<typeof tournaments>;
+export type DatabaseGame = InferSelectModel<typeof games>;
 export type DatabasePlayerToTournament = InferSelectModel<
   typeof playersToTournaments
 >;

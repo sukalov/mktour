@@ -2,7 +2,7 @@ import { atom, useAtom } from 'jotai';
 
 import { NewTournamentForm } from '@/lib/zod/new-tournament-form';
 import { Player, Tournament } from '@/lib/tournaments/models';
-import PlayersList from '@/components/tournament/players-lits';
+import PlayersList from '@/components/tournament/players-list';
 import { AddPlayerForm } from '@/components/tournament/add-player';
 
 type TournamentDashboardProps = {
@@ -16,7 +16,7 @@ export default async function TournamentDashboard({
 }: TournamentDashboardProps) {
   return (
     <div>
-      <AddPlayerForm />
+      <AddPlayerForm tournamentId={id} />
       {/* @ts-expect-error Server Component */}
       <PlayersList tournamentId={id} />
     </div>
