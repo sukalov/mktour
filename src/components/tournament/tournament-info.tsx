@@ -7,7 +7,6 @@ type TournamentInfoProps = {
 };
 
 export default async function TournamentInfo({ data }: TournamentInfoProps) {
-  const a = 1;
   return (
     <div className="p">
       <h1

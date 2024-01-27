@@ -12,6 +12,7 @@ export default async function Tournament({
   let data: NewTournamentForm | undefined;
   try {
     data = (await redis.get(params.id)) as NewTournamentForm;
+    
   } catch (e) {
     console.log(e);
   }
@@ -19,7 +20,8 @@ export default async function Tournament({
     <div className="p-2">
       {/* @ts-expect-error Server Component */}
       {data ? <TournamentInfo data={data} /> : notFound()}
-      {data && <TournamentDashboard data={data} />}
+      {/* @ts-expect-error Server Component */}
+      {data && <TournamentDashboard data={data} id={params.id} />}
     </div>
   );
 }

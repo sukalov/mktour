@@ -1,25 +1,24 @@
-'use client';
+import { atom, useAtom } from 'jotai';
 
 import { NewTournamentForm } from '@/lib/zod/new-tournament-form';
-import { Tournament } from '@/lib/tournaments/models';
-import { useEffectOnce } from 'usehooks-ts'
+import { Player, Tournament } from '@/lib/tournaments/models';
+import PlayersList from '@/components/tournament/players-lits';
+import { AddPlayerForm } from '@/components/tournament/add-player';
 
 
 type TournamentDashboardProps = {
   data: NewTournamentForm;
+  id: string;
 };
 
-declare global {
-  interface Window {
-    tournament: typeof Tournament;
-  }
-}
-
-export default function TournamentDashboard({
-  data,
+export default async function TournamentDashboard({
+  data, id
 }: TournamentDashboardProps) {
-  useEffectOnce(() => {
-    window.tournament = Tournament;
-  })
-  return <></>;
+  return (
+    <div>
+    <AddPlayerForm />
+    {/* @ts-expect-error Server Component */}
+    <PlayersList tournamentId={id} />
+    </div>
+  );
 }
