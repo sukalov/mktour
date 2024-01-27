@@ -6,9 +6,6 @@ const nextConfig = {
       fullUrl: true,
     },
   },
-  experimental: {
-    serverMinification: false,
-},
 };
 
 module.exports = withAxiom(nextConfig);

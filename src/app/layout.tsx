@@ -7,6 +7,7 @@ import { azeretMono, robotoMono } from './fonts';
 import '@/styles/globals.css';
 import { AxiomWebVitals } from 'next-axiom';
 import { Toaster } from '@/components/ui/sonner';
+import { Provider as AtomsProvider } from 'jotai';
 
 export const metadata = {
   title: 'mktour',
@@ -22,20 +23,22 @@ function RootLayout({ children }: PropsWithChildren) {
       />
       <AxiomWebVitals />
       <body className={`${azeretMono.className} ${robotoMono.variable}`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {/* @ts-expect-error Server Component */}
-          <NavbarWrapper />
-          <div className="px-8 pt-14"></div>
-          {children}
-          <Analytics />
-          <SpeedInsights />
-          <Toaster />
-        </ThemeProvider>
+        <AtomsProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {/* @ts-expect-error Server Component */}
+            <NavbarWrapper />
+            <div className="px-8 pt-14"></div>
+            {children}
+            <Analytics />
+            <SpeedInsights />
+            <Toaster />
+          </ThemeProvider>
+        </AtomsProvider>
       </body>
     </html>
   );

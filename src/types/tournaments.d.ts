@@ -18,10 +18,12 @@ export interface GameModel {
   black: PlayerModel;
   white: PlayerModel;
   round: number;
-  result: '0-1' | '1-0' | '1/2-1/2' | undefined;
+  result: Result;
   num: number;
 }
 
 type Result = '0-1' | '1-0' | '1/2-1/2' | undefined;
 
-export type Format = 'swiss' | 'round robin' | 'double elimination';
+type Format = 'swiss' | 'round robin' | 'double elimination';
+
+type TournamentType = 'solo' | 'doubles' | 'team';

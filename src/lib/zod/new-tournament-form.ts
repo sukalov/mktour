@@ -1,3 +1,4 @@
+import { Format } from '@/types/tournaments';
 import * as z from 'zod';
 
 export const newTournamentFormSchema = z.object({
@@ -7,9 +8,7 @@ export const newTournamentFormSchema = z.object({
   date: z.date().min(new Date(new Date().setDate(new Date().getDate() - 1)), {
     message: 'is it a time travel?',
   }),
-  format: z
-    .string({ required_error: 'format not selected' })
-    .min(1, { message: 'format not selected' }),
+  format: z.custom<Format>(),
   type: z.string(),
   timestamp: z.string(),
   user: z.string().optional(),
