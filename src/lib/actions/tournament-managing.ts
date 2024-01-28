@@ -3,9 +3,33 @@
 import { db } from '@/lib/db';
 import { players, playersToTournaments } from '@/lib/db/schema/tournaments';
 import { and, eq } from 'drizzle-orm';
-import { nanoid } from 'nanoid';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
+import { RedirectType, redirect } from 'next/navigation';
+import { redis } from '@/lib/db/redis';
+import { nanoid } from 'nanoid';
+import { validateRequest } from '@/lib/auth/lucia';
+import { NewTournamentForm } from '@/lib/zod/new-tournament-form';
+import { DatabaseTournament, tournaments } from '@/lib/db/schema/tournaments';
+
+export const createTournament = async (values: NewTournamentForm) => {
+  const { user } = await validateRequest();
+  const newTournamentID = nanoid();
+  const newTournament: DatabaseTournament = {
+    ...values,
+    date: new Date(values.date).toISOString().slice(0, 10),
+    id: newTournamentID,
+    timestamp: new Date().getTime(),
+    user_id: user?.id ?? null,
+  };
+  try {
+    await db.insert(tournaments).values(newTournament);
+    await redis.set(newTournamentID, JSON.stringify(newTournament));
+  } catch (e) {
+    throw new Error('tournament has NOT been saved to redis');
+  }
+  redirect(`/tournament/${newTournamentID}`);
+};
 
 export async function addPlayer(
   prevState: {
