@@ -1,8 +1,8 @@
 'use client';
-import { toast } from 'sonner';
 import { azeretMono, turboPascal } from '@/app/fonts';
-import Link from 'next/link';
 import { X } from 'lucide-react';
+import Link from 'next/link';
+import { toast } from 'sonner';
 
 export default function TeamJoinToaster(props: { token: string }) {
   const abortTeamJoin = async () => {

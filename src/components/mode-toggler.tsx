@@ -1,8 +1,7 @@
-import * as React from 'react';
-import { SunMoonIcon, MoonStarIcon } from 'lucide-react';
-import { useTheme } from 'next-themes';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { MoonStarIcon, SunMoonIcon } from 'lucide-react';
+import { useTheme } from 'next-themes';
 
 interface ModeTogglerProps {
   className: string;

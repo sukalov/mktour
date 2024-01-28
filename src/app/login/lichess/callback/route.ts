@@ -1,13 +1,13 @@
 import { lichess, lucia } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
-import { cookies } from 'next/headers';
 import { OAuth2RequestError } from 'arctic';
 import { generateId } from 'lucia';
+import { cookies } from 'next/headers';
 
+import { redis } from '@/lib/db/redis';
 import { DatabaseUser, users } from '@/lib/db/schema/auth';
 import { LichessUser } from '@/types/lichess-api';
 import { eq } from 'drizzle-orm';
-import { redis } from '@/lib/db/redis';
 
 export async function GET(request: Request): Promise<Response> {
   const url = new URL(request.url);

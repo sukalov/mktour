@@ -1,5 +1,5 @@
-import localFont from 'next/font/local';
 import { Azeret_Mono, Roboto_Mono } from 'next/font/google';
+import localFont from 'next/font/local';
 
 export const turboPascal = localFont({
   src: './fonts/TurboPascalFont.ttf',

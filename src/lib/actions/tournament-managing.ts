@@ -1,16 +1,15 @@
 'use server';
 
-import { db } from '@/lib/db';
-import { players, playersToTournaments } from '@/lib/db/schema/tournaments';
-import { and, eq } from 'drizzle-orm';
-import { revalidatePath } from 'next/cache';
-import { z } from 'zod';
-import { RedirectType, redirect } from 'next/navigation';
-import { redis } from '@/lib/db/redis';
-import { nanoid } from 'nanoid';
 import { validateRequest } from '@/lib/auth/lucia';
+import { db } from '@/lib/db';
+import { redis } from '@/lib/db/redis';
+import { DatabaseTournament, players, playersToTournaments, tournaments } from '@/lib/db/schema/tournaments';
 import { NewTournamentForm } from '@/lib/zod/new-tournament-form';
-import { DatabaseTournament, tournaments } from '@/lib/db/schema/tournaments';
+import { and, eq } from 'drizzle-orm';
+import { nanoid } from 'nanoid';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
+import { z } from 'zod';
 
 export const createTournament = async (values: NewTournamentForm) => {
   const { user } = await validateRequest();

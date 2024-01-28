@@ -1,13 +1,13 @@
 import NavbarWrapper from '@/components/navbar-wrapper';
 import ThemeProvider from '@/components/theme-provider';
+import { Toaster } from '@/components/ui/sonner';
+import '@/styles/globals.css';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Provider as AtomsProvider } from 'jotai';
+import { AxiomWebVitals } from 'next-axiom';
 import { PropsWithChildren } from 'react';
 import { azeretMono, robotoMono } from './fonts';
-import '@/styles/globals.css';
-import { AxiomWebVitals } from 'next-axiom';
-import { Toaster } from '@/components/ui/sonner';
-import { Provider as AtomsProvider } from 'jotai';
 
 export const metadata = {
   title: 'mktour',

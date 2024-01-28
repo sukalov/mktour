@@ -2,15 +2,15 @@
 
 import React, { ReactNode, useEffect, useRef, useState } from 'react';
 
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import AuthButton from '@/components/auth/auth-button';
+import ModeTogglerMobile from '@/components/mode-toggler-mobile';
 import { navbarItems } from '@/config/navbar-tabs';
 import { motion, useCycle } from 'framer-motion';
+import { ChevronDown } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 import ModeToggler from './mode-toggler';
 import MktourNavbar from './ui/mktour-logo-navbar';
-import AuthButton from '@/components/auth/auth-button';
-import { ChevronDown } from 'lucide-react';
-import ModeTogglerMobile from '@/components/mode-toggler-mobile';
 
 const sidebar = {
   open: (height = 1000) => ({
