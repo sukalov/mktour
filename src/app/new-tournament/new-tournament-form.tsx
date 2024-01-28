@@ -28,7 +28,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { RadioGroup } from '@/components/ui/radio-group';
 import TypeCard from '@/components/ui/type-card';
 import FormDatePicker from '@/app/new-tournament/form-date-picker';
-import { createTournament } from '@/lib/actions';
+import { createTournament } from '@/lib/actions/tournament-managing';
 import {
   type NewTournamentForm,
   newTournamentFormSchema,
