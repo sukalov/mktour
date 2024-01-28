@@ -1,11 +1,11 @@
+import { BASE_URL } from '@/config/base-url';
+import { adapter } from '@/lib/db/lucia-adapter';
+import type { DatabaseUser } from '@/lib/db/schema/auth';
+import { Lichess } from 'arctic';
+import type { Session, User } from 'lucia';
 import { Lucia } from 'lucia';
 import { cookies } from 'next/headers';
 import { cache } from 'react';
-import { Lichess } from '@/lib/auth/lichess-provider';
-import type { Session, User } from 'lucia';
-import type { DatabaseUser } from '@/lib/db/schema/auth';
-import { adapter } from '@/lib/db/lucia-adapter';
-import { BASE_URL } from '@/config/base-url';
 
 export const lucia = new Lucia(adapter, {
   sessionCookie: {

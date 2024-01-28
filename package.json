@@ -86,5 +86,11 @@
   },
   "overrides": {
     "@types/react": "18.2.3"
+  },
+  "vsc-organize-imports": {
+    "orderSpecifiers": true,
+    "orderSpecifiersAsSingleLine": true,
+    "baseUrl": "src",
+    "emptyLinesAfterImports": 1
   }
 }

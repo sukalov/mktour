@@ -1,6 +1,5 @@
 import { validateRequest } from '@/lib/auth/lucia';
 import { redirect } from 'next/navigation';
-import { cache } from 'react';
 
 export type AuthSession = {
   session: {

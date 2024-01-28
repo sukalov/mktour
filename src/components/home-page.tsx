@@ -1,9 +1,9 @@
 import { Button } from '@/components/ui/button';
 import LichessLogo from '@/components/ui/lichess-logo';
 // import { signIn, useSession } from 'next-auth/react';
+import '@/styles/cursor.css';
 import Link from 'next/link';
 import { TypeAnimation } from 'react-type-animation';
-import '@/styles/cursor.css';
 
 export default function HomePage() {
   // const { data: session, status, update } = useSession();

@@ -1,6 +1,4 @@
 import { logout } from '@/lib/actions/logout';
-import { lucia } from '@/lib/auth/lucia';
-import * as context from 'next/headers';
 
 import type { NextRequest } from 'next/server';
 

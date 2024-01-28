@@ -1,9 +1,9 @@
 'use client';
 
 import { turboPascal } from '@/app/fonts';
-import { TypeAnimation } from 'react-type-animation';
 import '@/styles/cursor.css';
 import Link from 'next/link';
+import { TypeAnimation } from 'react-type-animation';
 
 export default function NotFound() {
   return (

@@ -1,7 +1,6 @@
 import { Label } from '@/components/ui/label';
 import { RadioGroupItem } from '@/components/ui/radio-group';
 import TypeIcon from '@/components/ui/type-icon';
-import { ReactNode } from 'react';
 
 type TypeCardProps = {
   name: string;

@@ -1,7 +1,6 @@
 'use client';
 
 import { ButtonProps } from '@/components/ui/button';
-import { useState } from 'react';
 
 interface ButtonWithLoadingProps extends ButtonProps {
   loadingText: string;
