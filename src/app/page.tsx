@@ -1,13 +1,11 @@
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import '@/styles/cursor.css';
-import HomeText from '@/components/home-text';
 import SignInWithLichessButton from '@/components/auth/sign-in-with-lichess-button';
-import { validateRequest } from '@/lib/auth/lucia';
+import CreateTournamentButton from '@/components/button-create-tournament';
+import HomeText from '@/components/home-text';
 import TeamJoinToaster from '@/components/team-join-toaster';
+import { validateRequest } from '@/lib/auth/lucia';
 import { redis } from '@/lib/db/redis';
+import '@/styles/cursor.css';
 import { cookies } from 'next/headers';
-import CreateTournamentButton from '@/components/create-tournament';
 
 export default async function HomePage() {
   const { user } = await validateRequest();
@@ -22,7 +20,7 @@ export default async function HomePage() {
           <div className="m-auto h-auto w-full px-1">
             <SignInWithLichessButton />
           </div>
-          <CreateTournamentButton isNew={isNew} token={token} />
+          <CreateTournamentButton />
         </div>
       </div>
     );
@@ -31,7 +29,8 @@ export default async function HomePage() {
   const Authorized = () => {
     return (
       <div className="flex min-h-[calc(100svh-3.5rem)] w-full flex-auto items-center justify-center p-3">
-          <CreateTournamentButton isNew={isNew} token={token} />
+        <CreateTournamentButton />
+        {isNew && token && <TeamJoinToaster token={token} />}
       </div>
     );
   };
