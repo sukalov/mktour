@@ -1,7 +1,7 @@
 import { BASE_URL } from '@/config/base-url';
-import { Lichess } from '@/lib/auth/lichess-provider';
 import { adapter } from '@/lib/db/lucia-adapter';
 import type { DatabaseUser } from '@/lib/db/schema/auth';
+import { Lichess } from 'arctic';
 import type { Session, User } from 'lucia';
 import { Lucia } from 'lucia';
 import { cookies } from 'next/headers';
