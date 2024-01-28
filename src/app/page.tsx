@@ -8,6 +8,9 @@ import '@/styles/cursor.css';
 import { cookies } from 'next/headers';
 
 export default async function HomePage() {
+  console.log(
+    'chess tournaments have become simple for everyone. \nexcept for devs. \nfor devs it’s still hard',
+  );
   const { user } = await validateRequest();
   const token = cookies().get('token')?.value;
   let isNew: boolean | null = null;
