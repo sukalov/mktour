@@ -1,5 +1,6 @@
 'use client';
-import { azeretMono, turboPascal } from '@/app/fonts';
+
+import { turboPascal } from '@/app/fonts';
 import { X } from 'lucide-react';
 import Link from 'next/link';
 import { toast } from 'sonner';
@@ -60,7 +61,7 @@ export default function TeamJoinToaster(props: { token: string }) {
       >
         WELCOME TO MKTOUR
       </h1>
-      <p className={`${azeretMono.className}`}>
+      <p>
         in case you experience any difficulties while using our app, please
         describe the problem at{' '}
         <Link
@@ -73,7 +74,7 @@ export default function TeamJoinToaster(props: { token: string }) {
         reach us any time!
       </p>
       <br />
-      <p className={`${azeretMono.className}`}>
+      <p>
         if you don&apos;t want to join any teams, that&apos;s fine,{' '}
         <button onClick={abortTeamJoin} className="font-bold underline">
           click here

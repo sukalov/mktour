@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  /* latin */
+  font-family: 'Main';
+  src: url('../app/fonts/Azeret_Mono/AzeretMono-VariableFont_wght.ttf') format('truetype');
+  unicode-range: U+0000-007F, U+0080-00FF;
+}
+
+@font-face {
+  /* cyrillic */
+  font-family: 'Main';
+  src: url('../app/fonts/Roboto_Mono/RobotoMono-VariableFont_wght.ttf') format('truetype');
+  unicode-range: U+0400-04FF, U+0500-052F, U+2DE0-2DFF, U+A640-A69F;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -77,11 +91,11 @@
   }
 }
 
+body {
+  font-family: 'Main';
+}
+
 button {
   user-select: none;
   -webkit-tap-highlight-color: transparent;
-}
-
-input {
-  font-family: var(--roboto-mono);
 }

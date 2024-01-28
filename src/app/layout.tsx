@@ -7,7 +7,6 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Provider as AtomsProvider } from 'jotai';
 import { AxiomWebVitals } from 'next-axiom';
 import { PropsWithChildren } from 'react';
-import { azeretMono, robotoMono } from './fonts';
 
 export const metadata = {
   title: 'mktour',
@@ -22,7 +21,7 @@ function RootLayout({ children }: PropsWithChildren) {
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
       />
       <AxiomWebVitals />
-      <body className={`${azeretMono.className} ${robotoMono.variable}`}>
+      <body>
         <AtomsProvider>
           <ThemeProvider
             attribute="class"
