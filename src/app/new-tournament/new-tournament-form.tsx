@@ -1,11 +1,9 @@
 'use client';
 
-import * as React from 'react';
-import { Calendar as CalendarIcon, Loader2 } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { turboPascal } from '@/app/fonts';
+import FormDatePicker from '@/app/new-tournament/form-date-picker';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -14,25 +12,26 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { RadioGroup } from '@/components/ui/radio-group';
 import {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from '@/components/ui/select';
-import { robotoMono, turboPascal } from '@/app/fonts';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { RadioGroup } from '@/components/ui/radio-group';
 import TypeCard from '@/components/ui/type-card';
-import FormDatePicker from '@/app/new-tournament/form-date-picker';
 import { createTournament } from '@/lib/actions/tournament-managing';
 import {
-  type NewTournamentForm,
   newTournamentFormSchema,
+  type NewTournamentForm,
 } from '@/lib/zod/new-tournament-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from 'lucide-react';
+import * as React from 'react';
+import { useForm } from 'react-hook-form';
 
 export default function NewTournamentForm() {
   const form = useForm<NewTournamentForm>({
