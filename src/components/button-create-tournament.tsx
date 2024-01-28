@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
-const CreateTournamentButton = () => {
+export default function CreateTournamentButton() {
   return (
     <Link href="/new-tournament" className="m-auto w-full px-1">
       <Button
@@ -16,6 +16,4 @@ const CreateTournamentButton = () => {
       </Button>
     </Link>
   );
-};
-
-export default CreateTournamentButton;
+}
