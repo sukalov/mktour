@@ -1,9 +1,7 @@
-'use client';
-
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
-export default function CreateTournamentButton() {
+export default function MakeTournamentButton() {
   return (
     <Link href="/new-tournament" className="m-auto w-full px-1">
       <Button

@@ -1,5 +1,5 @@
 import SignInWithLichessButton from '@/components/auth/sign-in-with-lichess-button';
-import CreateTournamentButton from '@/components/button-create-tournament';
+import MakeTournamentButton from '@/components/button-make-tournament';
 import HomeText from '@/components/home-text';
 import TeamJoinToaster from '@/components/team-join-toaster';
 import { validateRequest } from '@/lib/auth/lucia';
@@ -20,7 +20,7 @@ export default async function HomePage() {
           <div className="m-auto h-auto w-full px-1">
             <SignInWithLichessButton />
           </div>
-          <CreateTournamentButton />
+          <MakeTournamentButton />
         </div>
       </div>
     );
@@ -29,7 +29,7 @@ export default async function HomePage() {
   const Authorized = () => {
     return (
       <div className="flex min-h-[calc(100svh-3.5rem)] w-full flex-auto items-center justify-center p-3">
-        <CreateTournamentButton />
+        <MakeTournamentButton />
         {isNew && token && <TeamJoinToaster token={token} />}
       </div>
     );
