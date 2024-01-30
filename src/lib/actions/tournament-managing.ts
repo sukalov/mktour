@@ -3,7 +3,12 @@
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
 import { redis } from '@/lib/db/redis';
-import { DatabaseTournament, players, playersToTournaments, tournaments } from '@/lib/db/schema/tournaments';
+import {
+  DatabaseTournament,
+  players,
+  teams_to_users,
+  tournaments,
+} from '@/lib/db/schema/tournaments';
 import { NewTournamentForm } from '@/lib/zod/new-tournament-form';
 import { and, eq } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
@@ -14,12 +19,19 @@ import { z } from 'zod';
 export const createTournament = async (values: NewTournamentForm) => {
   const { user } = await validateRequest();
   const newTournamentID = nanoid();
+  const team_id = (await db
+    .select()
+    .from(teams_to_users)
+    .where(and(eq(teams_to_users.user_id, user!.id)))).at(0)?.team_id ?? null;
+
   const newTournament: DatabaseTournament = {
     ...values,
     date: new Date(values.date).toISOString().slice(0, 10),
     id: newTournamentID,
     timestamp: new Date().getTime(),
-    user_id: user?.id ?? null,
+    is_closed: false,
+    is_started: false,
+    team_id: ,
   };
   try {
     await db.insert(tournaments).values(newTournament);
