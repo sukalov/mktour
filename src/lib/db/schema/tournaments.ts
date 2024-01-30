@@ -1,7 +1,6 @@
 import { users } from '@/lib/db/schema/auth';
 import { Format, Result, TournamentType } from '@/types/tournaments';
 import { InferSelectModel } from 'drizzle-orm';
-import { boolean } from 'drizzle-orm/mysql-core';
 import { int, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
 export const players = sqliteTable('player', {
