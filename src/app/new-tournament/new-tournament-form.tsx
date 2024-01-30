@@ -9,7 +9,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -20,7 +19,7 @@ import {
   SelectGroup,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from '@/components/ui/select';
 import TypeCard from '@/components/ui/type-card';
 import { createTournament } from '@/lib/actions/tournament-managing';
@@ -80,9 +79,13 @@ export default function NewTournamentForm() {
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>name</FormLabel>
+                  {/* <FormLabel>name</FormLabel> */}
                   <FormControl>
-                    <Input {...field} autoComplete="off" />
+                    <Input
+                      {...field}
+                      autoComplete="off"
+                      placeholder="name your tournament..."
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -91,6 +94,7 @@ export default function NewTournamentForm() {
             <FormField
               control={form.control}
               name="format"
+              defaultValue="swiss"
               render={({ field }) => (
                 <FormItem>
                   <Select
