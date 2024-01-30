@@ -10,7 +10,7 @@ export const players = sqliteTable('player', {
   rating: int('rating'),
   team_id: text('team_id')
     .references(() => teams.id)
-    .notNull(), // todo add constraint on combination fo team_id and nickname
+    .notNull(), // TODO! add constraint on combination fo team_id and nickname
 });
 
 export const tournaments = sqliteTable('tournament', {
@@ -21,8 +21,8 @@ export const tournaments = sqliteTable('tournament', {
   date: text('date'),
   timestamp: integer('timestamp'),
   team_id: text('team_id').references(() => teams.id),
-  started: integer('is_started', { mode: 'boolean' }).$default(() => false),
-  closed: integer('is_closed', { mode: 'boolean' }).$default(() => false),
+  is_started: integer('is_started', { mode: 'boolean' }).$default(() => false),
+  is_closed: integer('is_closed', { mode: 'boolean' }).$default(() => false),
 });
 
 export const teams = sqliteTable('team', {
