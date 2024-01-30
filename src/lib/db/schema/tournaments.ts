@@ -1,7 +1,6 @@
 import { users } from '@/lib/db/schema/auth';
 import { Format, Result, TournamentType } from '@/types/tournaments';
 import { InferSelectModel } from 'drizzle-orm';
-import { boolean } from 'drizzle-orm/mysql-core';
 import { int, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
 export const players = sqliteTable('player', {
@@ -9,9 +8,9 @@ export const players = sqliteTable('player', {
   nickname: text('nickname'),
   user_id: text('user_id').references(() => users.id),
   rating: int('rating'),
-  org_id: text('org_id')
-    .references(() => orgs.id)
-    .notNull(), // todo add constraint on combination fo org_id and nickname
+  team_id: text('team_id')
+    .references(() => teams.id)
+    .notNull(), // todo add constraint on combination fo team_id and nickname
 });
 
 export const tournaments = sqliteTable('tournament', {
@@ -21,25 +20,26 @@ export const tournaments = sqliteTable('tournament', {
   type: text('type').$type<TournamentType>(),
   date: text('date'),
   timestamp: integer('timestamp'),
-  org_id: text('org_id').references(() => orgs.id),
-  closed: integer('closed', { mode: 'boolean' }).$default(() => false),
+  team_id: text('team_id').references(() => teams.id),
+  started: integer('is_started', { mode: 'boolean' }).$default(() => false),
+  closed: integer('is_closed', { mode: 'boolean' }).$default(() => false),
 });
 
-export const orgs = sqliteTable('org', {
+export const teams = sqliteTable('team', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
   lichess_team: text('lichess_team'),
-  is_default: integer('isDefault', { mode: 'boolean' }).$default(() => false),
+  is_default: integer('is_default', { mode: 'boolean' }).$default(() => false),
 });
 
-export const orgs_to_users = sqliteTable('orgsto_users', {
-  org_id: text('org_id')
+export const teams_to_users = sqliteTable('teams_to_users', {
+  team_id: text('team_id')
     .notNull()
-    .references(() => orgs.id),
+    .references(() => teams.id),
   user_id: text('user_id')
     .notNull()
     .references(() => users.id),
-  status: text('status').notNull().$type<StatusInOrg>(),
+  status: text('status').notNull().$type<StatusInTeam>(),
 });
 
 export const players_to_tournaments = sqliteTable('players_to_tournaments', {
@@ -72,4 +72,4 @@ export type DatabaseGame = InferSelectModel<typeof games>;
 export type DatabasePlayerToTournament = InferSelectModel<
   typeof players_to_tournaments
 >;
-export type StatusInOrg = 'admin' | 'moderator';
+export type StatusInTeam = 'admin' | 'moderator';
