@@ -16,8 +16,8 @@ export class Player implements PlayerModel {
   colorIndex: number = 0;
 
   constructor(props: DatabasePlayer) {
-    this.name = props.nickname ?? props.name ?? '';
-    this.rating = props.rating ?? 1500;
+    this.name = props?.nickname ?? '';
+    this.rating = props?.rating ?? 1500;
   }
 }
 
