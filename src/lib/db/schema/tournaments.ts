@@ -60,7 +60,7 @@ export const players_to_tournaments = sqliteTable('players_to_tournaments', {
 
 export const games = sqliteTable('game', {
   id: text('id').primaryKey(),
-  round_number: integer(''),
+  round_number: integer('round_number'),
   white_id: text('white_id').references(() => players.id),
   black_id: text('black_id').references(() => players.id),
   result: text('result').$type<Result>(),
