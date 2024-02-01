@@ -31,7 +31,7 @@ export const createTournament = async (values: NewTournamentForm) => {
     timestamp: new Date().getTime(),
     is_closed: false,
     is_started: false,
-    team_id: ,
+    team_id: '',
   };
   try {
     await db.insert(tournaments).values(newTournament);

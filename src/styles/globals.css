@@ -101,10 +101,3 @@ button {
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
-
-.rounded-lg,
-.rounded-md,
-.rounded-sm,
-.rounded-xs {
-  border-radius: 0;
-}
