@@ -1,3 +1,4 @@
+import Brackets from '@/app/test-dashboard/components/brackets';
 import StyledCard from '@/app/test-dashboard/components/styled-card';
 import TournamentTable from '@/app/test-dashboard/components/tournament-table';
 import {
@@ -13,6 +14,7 @@ const CarouselContainer = ({
   setCurrentTab,
   players,
   tabs,
+  handleResult,
 }: any) => {
   const [api, setApi] = useState<CarouselApi>();
   const currentIndex = tabs.indexOf(currentTab);
@@ -38,7 +40,7 @@ const CarouselContainer = ({
           </StyledCard>
         </CarouselItem>
         <CarouselItem>
-          <StyledCard>Brackets will be shown here</StyledCard>
+          <Brackets handleResult={handleResult} />
         </CarouselItem>
       </CarouselContent>
     </Carousel>

@@ -6,25 +6,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 
 const TournamentTable: FC<PlayersProps> = ({ players }) => {
-  const [playerStats, setPlayerStats] = useState(players);
-  console.log(players);
-
-  const handleResult = (
-    playerIndex: number,
-    stat: 'win' | 'loose' | 'draw',
-  ) => {
-    setPlayerStats((prevPlayers: any) => {
-      const newPlayers = [...prevPlayers];
-      newPlayers[playerIndex] = {
-        ...newPlayers[playerIndex],
-        [stat]: newPlayers[playerIndex][stat] + 1,
-      };
-      return newPlayers;
-    });
-  };
 
   return (
     <div className="w-full">
@@ -41,7 +25,7 @@ const TournamentTable: FC<PlayersProps> = ({ players }) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {playerStats.map((player: any) => (
+          {players.map((player: any) => (
             <TableRow key={player.name}>
               <TableCell className="font-medium">{player.name}</TableCell>
               <TableCell className="font-medium">{player.win}</TableCell>
