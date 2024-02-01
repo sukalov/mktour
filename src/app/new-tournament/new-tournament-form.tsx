@@ -9,6 +9,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -33,10 +34,11 @@ import * as React from 'react';
 import { useForm } from 'react-hook-form';
 
 export default function NewTournamentForm() {
+  const [defaultTeam, setDefaultTeam] = React.useState('');
   const form = useForm<NewTournamentForm>({
     resolver: zodResolver(newTournamentFormSchema),
     defaultValues: {
-      title: '',
+      title: defaultTeam,
       format: undefined,
       date: new Date(),
       timestamp: 0,
@@ -76,16 +78,25 @@ export default function NewTournamentForm() {
           >
             <FormField
               control={form.control}
+              name="team"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>organizing team</FormLabel>
+                  <FormControl>
+                    <Input {...field} autoComplete="off" disabled />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  {/* <FormLabel>name</FormLabel> */}
+                  <FormLabel>name</FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      autoComplete="off"
-                      placeholder="name your tournament..."
-                    />
+                    <Input {...field} autoComplete="off" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

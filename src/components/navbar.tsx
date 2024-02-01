@@ -33,7 +33,7 @@ const sidebar = {
 
 type NavbarProps = {
   user: any;
-  node_env: 'developement' | 'production' | 'test';
+  node_env: 'development' | 'production' | 'test';
 };
 
 export default function Navbar({ user, node_env }: NavbarProps) {

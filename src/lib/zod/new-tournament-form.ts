@@ -11,7 +11,7 @@ export const newTournamentFormSchema = z.object({
   format: z.custom<Format>(),
   type: z.custom<TournamentType>(),
   timestamp: z.number(),
-  user: z.string().optional(),
+  team: z.string().optional(),
 });
 
 export type NewTournamentForm = z.infer<typeof newTournamentFormSchema>;

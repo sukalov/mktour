@@ -18,7 +18,8 @@ export const lucia = new Lucia(adapter, {
       username: attributes.username,
       name: attributes.name,
       email: attributes.email,
-      lichess_blitz: attributes.lichess_blitz,
+      rating: attributes.rating,
+      default_club: attributes.default_club,
     };
   },
 });
