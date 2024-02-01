@@ -24,8 +24,8 @@ const CarouselContainer = ({
       return;
     }
 
-    api.on('slidesInView', () => {
-      let num = api.slidesInView()[0];
+    api.on('select', () => {
+      let num = api.selectedScrollSnap();
       setCurrentTab(tabs[num]);
     });
     if (currentTab) api.scrollTo(currentIndex);

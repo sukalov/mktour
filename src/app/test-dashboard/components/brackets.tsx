@@ -37,7 +37,7 @@ const Pair: React.FC<PairProps> = ({ handleResult, player1, player2 }) => {
 
   return (
     <Card>
-      <div className="flex justify-between p-8">
+      <div className="flex justify-between p-8" onClick={() => setSubmit(false)}>
         <div className="flex flex-col gap-6">
           <div>{player1.name}</div>
           <div>{player2.name}</div>
@@ -64,7 +64,7 @@ const SubmitForm = ({ handleClick }: any) => {
 
 const Controls = ({ handleClick, setSubmit }: any) => {
   return (
-    <Card className="border-red-50">
+    <Card className="border-white p-1">
       {[0, 1].map((index) => (
         <div
           key={index}
