@@ -1,4 +1,5 @@
 import { validateRequest } from '@/lib/auth/lucia';
+import { User } from 'lucia';
 import { redirect } from 'next/navigation';
 
 export type AuthSession = {
@@ -12,9 +13,10 @@ export type AuthSession = {
   } | null;
 };
 
-export const checkAuth = async () => {
+export async function getUser (): Promise<User | null> {
   const { user } = await validateRequest();
   if (!user) redirect('/sign-in');
+  return user
 };
 
 export function timeout(ms: number) {
