@@ -11,7 +11,14 @@
 4. Lichess oauth
 
 
-# 3. Creating the chess tournament
+# 3. You get the club assigned
+
+1. Creation of a club
+2. CHanging club name
+3. You are in the club
+
+
+# 4. Creating the chess tournament
 
 
 1. Form for tournament creatino
@@ -21,19 +28,32 @@
     4. Tournament date 
     5. Templates?
 
-# 4. Adding the players.
+# 5. Adding the players.
 
-You now enter the player's info -- FIDE, profiles, names and other stuff. If you want your net be nice, you should enter the information thoroughly.
+1. Adding players
+    1. They automatically are added to your club
+    2. Player adding form
+2. Removing players
 
-# 5. Net generation.
 
-Sit back and watch. (Something wild goes inside)
+# 6. Net generation.
 
-# 6. Filling the results and controlling the flow 
+internally
 
-Here is your second best chance to shine. You control the net, show who won, how and what was the party going. Who dropped, DSQed, and other stuff. The result would be one person winner. 
+1. Getting the list of players.
+2. Forming the initial standings, dependent on the tournament format.
+    1. RR is obviously made by sliding window
+    2. Swiss is complicated
 
-# 7. Receiving the standings
 
-You now want to finalize your tournament and ~~print the standings on your wall~~ get everyone a nice overview how the tournament went!
+# 7. Filling the results and controlling the flow 
+
+1. Adding the result in a generated net.
+2. Removing player. 
+3. Ending tournament
+
+# 8. Receiving the standings
+
+1. Receiving the link to the tournament
+2. Getting some type of results export ?
 
