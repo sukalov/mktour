@@ -1,3 +1,3 @@
 export default function TournamentView () {
-    return <></>
+    return <p>view</p>
 }

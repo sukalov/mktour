@@ -32,10 +32,14 @@ import {
 } from '@/lib/zod/new-tournament-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
+import Link from 'next/link';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
 
-export default function NewTournamentForm({ clubs, user }: NewTournamentFormProps) {
+export default function NewTournamentForm({
+  clubs,
+  user,
+}: NewTournamentFormProps) {
   const [defaultTeam, setDefaultTeam] = React.useState('');
   const form = useForm<NewTournamentForm>({
     resolver: zodResolver(newTournamentFormSchema),
@@ -90,14 +94,22 @@ export default function NewTournamentForm({ clubs, user }: NewTournamentFormProp
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue/>
+                        <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       <SelectGroup>
                         {clubs.map((club: DatabaseClub) => (
-                          <SelectItem key={club.id} value={club.id}>{club.name}</SelectItem>
+                          <SelectItem key={club.id} value={club.id}>
+                            {club.name}
+                          </SelectItem>
                         ))}
+                        <SelectGroup>
+                          <Link href="/new-club" className="">
+                            {/* TODO tol */}
+                            new club
+                          </Link>
+                        </SelectGroup>
                       </SelectGroup>
                     </SelectContent>
                   </Select>

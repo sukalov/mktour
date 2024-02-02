@@ -1,33 +1,66 @@
 import { getUser } from '@/lib/auth/utils';
-import { cookies } from 'next/headers';
-import Link from 'next/link';
+import { db } from '@/lib/db';
+import {
+  DatabaseClub,
+  DatabaseTournament,
+  clubs,
+  clubs_to_users,
+  tournaments,
+} from '@/lib/db/schema/tournaments';
+import { and, eq } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 
 export const revalidate = 0;
 
-export default async function TournamentPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default async function TournamentPage({ params }: TournamentPageProps) {
   const user = await getUser();
   if (!user) redirect(`/tournament/${params.id}/view`);
+  const { tournament, club } = (
+    await db // TODO tol - extract db queries to separate hook
+      .select()
+      .from(tournaments)
+      .where(eq(tournaments.id, params.id))
+      .leftJoin(clubs, eq(tournaments.club_id, clubs.id))
+  ).at(0) as TournamentToClubLeftJoin;
+  const status =
+    (
+      await db
+        .select()
+        .from(clubs_to_users)
+        .where(
+          and(
+            eq(clubs_to_users.user_id, user.id),
+            eq(clubs_to_users.club_id, club.id),
+          ),
+        )
+    )[0]?.status;
 
-  const req = await fetch('http://localhost:4000', {
-    next: { revalidate: 0 },
-    headers: {
-      Authorization: `Bearer ${cookies().get('token')?.value}`,
-    },
-  });
-  const res = await req.json();
-  console.log(res);
-  const room = res.status === 404 ? null : res;
+    if (status === undefined) redirect(`/tournament/${params.id}/view`);
+
+  // const req = await fetch('http://localhost:4000', {
+  //   next: { revalidate: 0 },
+  //   headers: {
+  //     Authorization: `Bearer ${cookies().get('token')?.value}`,
+  //   },
+  // });
+  // const res = await req.json();
+  // console.log(res);
+  // const room = res.status === 404 ? null : res;
 
   // fetch user session for server rendering
 
   return (
     <div className="flex w-full flex-col items-start justify-between gap-4">
-      {JSON.stringify(res)}
+      <pre>{JSON.stringify({ user, tournament, club, status }, null, 2)}</pre>
     </div>
   );
+}
+
+interface TournamentPageProps {
+  params: { id: string };
+}
+
+interface TournamentToClubLeftJoin {
+  tournament: DatabaseTournament;
+  club: DatabaseClub;
 }
