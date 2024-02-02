@@ -24,6 +24,8 @@ import {
 } from '@/components/ui/select';
 import TypeCard from '@/components/ui/type-card';
 import { createTournament } from '@/lib/actions/tournament-managing';
+import { DatabaseUser } from '@/lib/db/schema/auth';
+import { DatabaseClub } from '@/lib/db/schema/tournaments';
 import {
   newTournamentFormSchema,
   type NewTournamentForm,
@@ -33,7 +35,7 @@ import { Loader2 } from 'lucide-react';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
 
-export default function NewTournamentForm() {
+export default function NewTournamentForm({ clubs, user }: NewTournamentFormProps) {
   const [defaultTeam, setDefaultTeam] = React.useState('');
   const form = useForm<NewTournamentForm>({
     resolver: zodResolver(newTournamentFormSchema),
@@ -78,13 +80,27 @@ export default function NewTournamentForm() {
           >
             <FormField
               control={form.control}
-              name="team"
+              name="club_id"
+              defaultValue={user.default_club}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>organizing team</FormLabel>
-                  <FormControl>
-                    <Input {...field} autoComplete="off" disabled />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue/>
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectGroup>
+                        {clubs.map((club: DatabaseClub) => (
+                          <SelectItem key={club.id} value={club.id}>{club.name}</SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -159,4 +175,9 @@ export default function NewTournamentForm() {
       </Card>
     </Form>
   );
+}
+
+interface NewTournamentFormProps {
+  clubs: Array<DatabaseClub>,
+  user: DatabaseUser
 }

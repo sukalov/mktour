@@ -16,7 +16,7 @@ export default async function TournamentPage({
   const req = await fetch('http://localhost:4000', {
     next: { revalidate: 0 },
     headers: {
-      Authorization: `Bearer ${cookies().get('token')?.value}`
+      Authorization: `Bearer ${cookies().get('token')?.value}`,
     },
   });
   const res = await req.json();

@@ -2,12 +2,13 @@
 
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
+import { redis } from '@/lib/db/redis';
 import {
   DatabaseTournament,
-  players,
   clubs_to_users,
-  tournaments,
+  players,
   players_to_tournaments,
+  tournaments,
 } from '@/lib/db/schema/tournaments';
 import { NewTournamentForm } from '@/lib/zod/new-tournament-form';
 import { and, eq } from 'drizzle-orm';
@@ -19,10 +20,13 @@ import { z } from 'zod';
 export const createTournament = async (values: NewTournamentForm) => {
   const { user } = await validateRequest();
   const newTournamentID = nanoid();
-  const club_id = (await db
-    .select()
-    .from(clubs_to_users)
-    .where(and(eq(clubs_to_users.user_id, user!.id)))).at(0)?.club_id ?? null;
+  const club_id =
+    (
+      await db
+        .select()
+        .from(clubs_to_users)
+        .where(and(eq(clubs_to_users.user_id, user!.id)))
+    ).at(0)?.club_id ?? null;
 
   const newTournament: DatabaseTournament = {
     ...values,
@@ -35,9 +39,8 @@ export const createTournament = async (values: NewTournamentForm) => {
   };
   try {
     await db.insert(tournaments).values(newTournament);
-
-    const url = ''
-
+    await redis.set(`tournament ${newTournamentID}`, newTournament);
+    const url = '';
   } catch (e) {
     throw new Error('tournament has NOT been saved to redis');
   }
@@ -53,10 +56,12 @@ export async function addPlayer(
   const schema = z.object({
     tournamentId: z.string().min(1),
     name: z.string().min(1),
+    club_id: z.string().min(1),
   });
   const parse = schema.safeParse({
     tournamentId: formData.get('tournamentId'),
     name: formData.get('name'),
+    club_id: formData.get('club_id'),
   });
 
   if (!parse.success) {
@@ -68,7 +73,9 @@ export async function addPlayer(
   try {
     const id = nanoid();
     console.log(id, data.name, data.tournamentId);
-    await db.insert(players).values({ id, nickname: data.name, club_id });
+    await db
+      .insert(players)
+      .values({ id, nickname: data.name, club_id: data.club_id });
     await db
       .insert(players_to_tournaments)
       .values({ player_id: id, tournament_id: data.tournamentId });
@@ -99,11 +106,11 @@ export async function deletePlayer(
 
   try {
     await db
-      .delete(playersToTournaments)
+      .delete(players_to_tournaments)
       .where(
         and(
-          eq(playersToTournaments.player_id, data.playerId),
-          eq(playersToTournaments.tournament_id, data.tournamentId),
+          eq(players_to_tournaments.player_id, data.playerId),
+          eq(players_to_tournaments.tournament_id, data.tournamentId),
         ),
       );
 

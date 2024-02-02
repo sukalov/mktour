@@ -13,7 +13,7 @@ export type AuthSession = {
   } | null;
 };
 
-export async function getUser (): Promise<User | null> {
+export async function getUser (): Promise<User> {
   const { user } = await validateRequest();
   if (!user) redirect('/sign-in');
   return user
