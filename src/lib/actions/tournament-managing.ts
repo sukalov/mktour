@@ -2,12 +2,12 @@
 
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
-import { redis } from '@/lib/db/redis';
 import {
   DatabaseTournament,
   players,
-  teams_to_users,
+  clubs_to_users,
   tournaments,
+  players_to_tournaments,
 } from '@/lib/db/schema/tournaments';
 import { NewTournamentForm } from '@/lib/zod/new-tournament-form';
 import { and, eq } from 'drizzle-orm';
@@ -19,10 +19,10 @@ import { z } from 'zod';
 export const createTournament = async (values: NewTournamentForm) => {
   const { user } = await validateRequest();
   const newTournamentID = nanoid();
-  const team_id = (await db
+  const club_id = (await db
     .select()
-    .from(teams_to_users)
-    .where(and(eq(teams_to_users.user_id, user!.id)))).at(0)?.team_id ?? null;
+    .from(clubs_to_users)
+    .where(and(eq(clubs_to_users.user_id, user!.id)))).at(0)?.club_id ?? null;
 
   const newTournament: DatabaseTournament = {
     ...values,
@@ -31,11 +31,13 @@ export const createTournament = async (values: NewTournamentForm) => {
     timestamp: new Date().getTime(),
     is_closed: false,
     is_started: false,
-    team_id: '',
+    club_id: String(club_id),
   };
   try {
     await db.insert(tournaments).values(newTournament);
-    await redis.set(newTournamentID, JSON.stringify(newTournament));
+
+    const url = ''
+
   } catch (e) {
     throw new Error('tournament has NOT been saved to redis');
   }
@@ -66,9 +68,9 @@ export async function addPlayer(
   try {
     const id = nanoid();
     console.log(id, data.name, data.tournamentId);
-    await db.insert(players).values({ id, name: data.name });
+    await db.insert(players).values({ id, nickname: data.name, club_id });
     await db
-      .insert(playersToTournaments)
+      .insert(players_to_tournaments)
       .values({ player_id: id, tournament_id: data.tournamentId });
 
     revalidatePath('/');
