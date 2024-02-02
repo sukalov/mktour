@@ -5,23 +5,45 @@ import { int, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
 export const players = sqliteTable('player', {
   id: text('id').primaryKey(),
-  name: text('name'),
   nickname: text('nickname'),
   user_id: text('user_id').references(() => users.id),
   rating: int('rating'),
+  club_id: text('club_id')
+    .references(() => clubs.id)
+    .notNull(), // TODO! add constraint on combination fo club_id and nickname
 });
 
 export const tournaments = sqliteTable('tournament', {
   id: text('id').primaryKey(),
-  title: text('name'),
+  title: text('name').$default(() => 'tournament'),
   format: text('format').$type<Format>(),
   type: text('type').$type<TournamentType>(),
   date: text('date'),
   timestamp: integer('timestamp'),
-  user_id: text('user_id').references(() => users.id),
+  club_id: text('club_id')
+    .references(() => clubs.id)
+    .notNull(),
+  is_started: integer('is_started', { mode: 'boolean' }).$default(() => false),
+  is_closed: integer('is_closed', { mode: 'boolean' }).$default(() => false),
 });
 
-export const playersToTournaments = sqliteTable('players_to_tournaments', {
+export const clubs = sqliteTable('club', {
+  id: text('id').primaryKey(),
+  name: text('name').notNull(),
+  lichess_team: text('lichess_team'),
+});
+
+export const clubs_to_users = sqliteTable('clubs_to_users', {
+  club_id: text('club_id')
+    .notNull()
+    .references(() => clubs.id),
+  user_id: text('user_id')
+    .notNull()
+    .references(() => users.id),
+  status: text('status').notNull().$type<StatusInClub>(),
+});
+
+export const players_to_tournaments = sqliteTable('players_to_tournaments', {
   // join table where single tournament participants are stored
   player_id: text('player_id')
     .notNull()
@@ -33,9 +55,12 @@ export const playersToTournaments = sqliteTable('players_to_tournaments', {
   losses: int('losses').$default(() => 0),
   draws: int('draws').$default(() => 0),
   color_index: int('color_index').$default(() => 0),
+  place: int('place'),
 });
+
 export const games = sqliteTable('game', {
   id: text('id').primaryKey(),
+  round_number: integer('round_number'),
   white_id: text('white_id').references(() => players.id),
   black_id: text('black_id').references(() => players.id),
   result: text('result').$type<Result>(),
@@ -44,7 +69,10 @@ export const games = sqliteTable('game', {
 
 export type DatabasePlayer = InferSelectModel<typeof players>;
 export type DatabaseTournament = InferSelectModel<typeof tournaments>;
+export type DatabaseClub = InferSelectModel<typeof clubs>;
+export type DatabaseClubsToUsers = InferSelectModel<typeof clubs_to_users>;
 export type DatabaseGame = InferSelectModel<typeof games>;
 export type DatabasePlayerToTournament = InferSelectModel<
-  typeof playersToTournaments
+  typeof players_to_tournaments
 >;
+export type StatusInClub = 'admin' | 'moderator';

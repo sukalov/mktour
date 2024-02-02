@@ -1,13 +1,14 @@
 import { lichess, lucia } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
-import { OAuth2RequestError } from 'arctic';
-import { generateId } from 'lucia';
-import { cookies } from 'next/headers';
-
 import { redis } from '@/lib/db/redis';
 import { DatabaseUser, users } from '@/lib/db/schema/auth';
+import { clubs, clubs_to_users } from '@/lib/db/schema/tournaments';
 import { LichessUser } from '@/types/lichess-api';
+import { OAuth2RequestError } from 'arctic';
 import { eq } from 'drizzle-orm';
+import { generateId } from 'lucia';
+import { nanoid } from 'nanoid';
+import { cookies } from 'next/headers';
 
 export async function GET(request: Request): Promise<Response> {
   const url = new URL(request.url);
@@ -84,16 +85,34 @@ export async function GET(request: Request): Promise<Response> {
       console.log(`user ${lichessUser.id} not added to the team`);
     }
 
+    try {
     const userId = generateId(15);
+    const clubId = nanoid();
     const name = `${lichessUser.profile?.firstName ?? ''}${lichessUser.profile?.lastName ? ' ' + lichessUser.profile.lastName : ''}`;
+
+    await db.insert(clubs).values({
+      id: clubId,
+      name: `${lichessUser.id}'s chess club`,
+    });
     await db.insert(users).values({
       id: userId,
-      lichess_blitz: lichessUser.perfs.blitz.rating,
+      rating: lichessUser.perfs.blitz.rating,
       username: lichessUser.id,
       email: lichessUserEmail,
       name,
+      default_club: clubId,
     });
-    await redis.set(userId, true);
+    console.log({
+      club_id: clubId,
+      user_id: userId,
+      status: 'admin'
+    })
+    await db.insert(clubs_to_users).values({
+      club_id: clubId,
+      user_id: userId,
+      status: 'admin'
+    })
+        await redis.set(userId, 10);
 
     const session = await lucia.createSession(userId, {});
     const sessionCookie = lucia.createSessionCookie(session.id);
@@ -102,6 +121,10 @@ export async function GET(request: Request): Promise<Response> {
       sessionCookie.value,
       sessionCookie.attributes,
     );
+    }
+    catch (e) {
+      console.log(e)
+    }
 
     return new Response(null, {
       status: 302,
