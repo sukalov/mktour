@@ -6,14 +6,16 @@ so the CJM is:
 
 1. you are the organizer
 
-2. you log in on the platform
+2. you register in on the platform
 
-3. you create the tournament 
+3. you get the club
 
-4. you add the players into the tournament 
+4. you create the tournament 
 
-5. then a net is generated
+5. you add the players into the tournament 
 
-6. you fill the results
+6. then a net is generated
 
-7. you get the standings after the tournament.
+7. you fill the game results, or remove players 
+
+8. you get the standings after the tournament.
