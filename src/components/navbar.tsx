@@ -33,12 +33,14 @@ const sidebar = {
 
 type NavbarProps = {
   user: any;
+  node_env: 'development' | 'production' | 'test';
 };
 
-export default function Navbar({ user }: NavbarProps) {
-  console.log(
-    'chess tournaments have become simple for everyone. \nexcept for devs. \nfor devs it’s still hard.',
-  );
+export default function Navbar({ user, node_env }: NavbarProps) {
+  if (node_env === 'production')
+    console.log(
+      "chess tournaments have become simple for everyone. \nexcept for devs. \nfor devs it's still hard.",
+    );
   const pathname = usePathname();
   const containerRef = useRef(null);
   const { height } = useDimensions(containerRef);

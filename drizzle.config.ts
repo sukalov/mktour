@@ -1,4 +1,3 @@
-import { env } from '@/lib/env.mjs';
 import type { Config } from 'drizzle-kit';
 
 export default {
@@ -6,7 +5,7 @@ export default {
   out: './src/lib/db/migrations',
   driver: 'turso',
   dbCredentials: {
-    url: env.DATABASE_URL,
-    authToken: env.DATABASE_AUTH_TOKEN,
+    url: process.env.DATABASE_URL!,
+    authToken: process.env.DATABASE_AUTH_TOKEN,
   },
 } satisfies Config;

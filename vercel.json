@@ -1,0 +1,6 @@
+{
+    "crons": [{
+      "path": "/api/delete-expired-sessions",
+      "schedule": "0 10 * * *"
+    }]
+  }
