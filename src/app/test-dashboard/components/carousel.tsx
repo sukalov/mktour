@@ -1,4 +1,3 @@
-import Brackets from '@/app/test-dashboard/components/brackets';
 import StyledCard from '@/app/test-dashboard/components/styled-card';
 import TournamentTable from '@/app/test-dashboard/components/tournament-table';
 import {
@@ -8,6 +7,7 @@ import {
   CarouselItem,
 } from '@/components/ui/carousel';
 import { useEffect, useState } from 'react';
+import Brackets from './brackets';
 
 const CarouselContainer = ({
   currentTab,
@@ -18,13 +18,16 @@ const CarouselContainer = ({
 }: any) => {
   const [api, setApi] = useState<CarouselApi>();
   const currentIndex = tabs.indexOf(currentTab);
+  const [active, setActive] = useState(true);
+  console.log(active)
+  console.log(currentIndex, currentTab)
 
   useEffect(() => {
     if (!api) {
       return;
     }
-
     api.on('select', () => {
+      api.reInit()
       let num = api.selectedScrollSnap();
       setCurrentTab(tabs[num]);
     });
@@ -32,7 +35,7 @@ const CarouselContainer = ({
   }, [api, currentIndex, currentTab, setCurrentTab, tabs]);
 
   return (
-    <Carousel setApi={setApi}>
+    <Carousel opts={{ active: active }} setApi={setApi}>
       <CarouselContent>
         <CarouselItem>
           <StyledCard>
@@ -40,7 +43,7 @@ const CarouselContainer = ({
           </StyledCard>
         </CarouselItem>
         <CarouselItem>
-          <Brackets handleResult={handleResult} />
+          <Brackets handleResult={handleResult} setActive={setActive} />
         </CarouselItem>
       </CarouselContent>
     </Carousel>

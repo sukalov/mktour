@@ -31,8 +31,8 @@ import {
   type NewTournamentForm,
 } from '@/lib/zod/new-tournament-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2 } from 'lucide-react';
-import Link from 'next/link';
+import { Loader2, PlusIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -68,18 +68,20 @@ export default function NewTournamentForm({
     </Button>,
   );
 
+  const navigate = useRouter();
+
   return (
     <Form {...form}>
       <h2
-        className={`mb-4 mt-4 text-center text-4xl font-bold ${turboPascal.className}`}
+        className={`m-4 text-center text-4xl font-bold ${turboPascal.className}`}
       >
         new tournament
       </h2>
       <Card className="mx-auto max-w-[min(600px,98%)] border-none shadow-none sm:border-solid sm:shadow-sm">
-        <CardContent className="px-2 sm:px-16">
+        <CardContent className="p-8">
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-8 pt-2 sm:pt-4"
+            className="flex flex-col gap-8"
             name="new-tournament-form"
           >
             <FormField
@@ -105,10 +107,15 @@ export default function NewTournamentForm({
                           </SelectItem>
                         ))}
                         <SelectGroup>
-                          <Link href="/new-club" className="">
-                            {/* TODO tol */}
-                            new club
-                          </Link>
+                          <div className="m-2 flex flex-row items-center justify-center">
+                            <Button
+                              variant={'ghost'}
+                              onClick={() => navigate.push('/new-club')}
+                              className="flex flex-row gap-2 font-extralight"
+                            >
+                              <PlusIcon /> new club
+                            </Button>
+                          </div>
                         </SelectGroup>
                       </SelectGroup>
                     </SelectContent>
@@ -190,6 +197,6 @@ export default function NewTournamentForm({
 }
 
 interface NewTournamentFormProps {
-  clubs: Array<DatabaseClub>,
-  user: DatabaseUser
+  clubs: Array<DatabaseClub>;
+  user: DatabaseUser;
 }

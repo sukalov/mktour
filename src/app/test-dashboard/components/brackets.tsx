@@ -1,103 +1,120 @@
 import { players } from '@/app/test-dashboard/components/mocks';
 import { Card } from '@/components/ui/card';
-import { SetStateAction, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
+import { Joystick } from 'react-joystick-component';
 import OutsideClickHandler from 'react-outside-click-handler';
 
-export default function Brackets({ handleResult }: SetStateAction<any>) {
+export default function Brackets({
+  handleResult,
+  setActive,
+}: SetStateAction<any>) {
+  const [result, setResult] = useState<number | null>(null);
+  const [pos, setPos] = useState<any>({});
+  const [pressed, setPressed] = useState(false);
+  const color = 'hsl(var(--muted-foreground))';
+
+  // const bind = useLongPress(
+  //   useCallback(() => {
+  //     console.log('long-pressed');
+  //     setPressed(true);
+  //   }, []),
+  //   { onStart: () => {setActive(false), setPressed(true)},
+  //     onFinish: () => {setPressed(false), setActive(false)}
+  //   },
+  // );
+  const onEdit = !pressed ? '' : 'border-green-900';
+  const handleClick = (type: string) => {
+    if (type === 'start') {
+      setPressed(true);
+      setActive(false);
+    } else {
+      setPressed(false);
+      setActive(true);
+    }
+  };
+
+  useEffect(() => {
+    if (pos.direction === 'LEFT' && pos.distance === 100) {
+      setResult(-1);
+    }
+    if (pos.direction === 'FORWARD' && pos.distance === 100) {
+      setResult(0);
+    }
+    if (pos.direction === 'BACKWARD' && pos.distance === 100) {
+      setResult(1);
+    }
+    if (pos.direction === 'RIGHT' && pos.distance === 100) {
+      setResult(null);
+    }
+  }, [pos.direction, pos.distance]);
+
   return (
-    <div className="flex flex-col gap-2">
+    <Card
+      className={`flex flex-row items-center border ${onEdit} justify-between p-4`}
+    >
       <Pair
+        result={result}
+        setResult={setResult}
         handleResult={handleResult}
         player1={players[0]}
         player2={players[1]}
       />
-    </div>
+      <OutsideClickHandler onOutsideClick={() => setActive(true)}>
+        {/* <div {...bind()}> */}
+        <Joystick
+          // disabled={!pressed}
+          start={() => handleClick('start')}
+          stop={() => handleClick('')}
+          size={50}
+          baseColor=""
+          stickColor={color}
+          throttle={100}
+          move={(pos) => setPos(pos)}
+        />
+        {/* </div> */}
+      </OutsideClickHandler>
+    </Card>
   );
 }
 
+const Pair: React.FC<PairProps> = ({
+  result,
+  setResult,
+  handleResult,
+  player1,
+  player2,
+}) => {
+  const [submit, setSubmit] = useState(false);
+
+  return (
+    <div className="flex flex-row justify-between gap-4">
+      <div className="flex flex-col gap-6">
+        <div>{player1.name}</div>
+        <div>{player2.name}</div>
+      </div>
+      <Result setSubmit={setSubmit} result={result} />
+    </div>
+  );
+};
+
+const Result = ({ handleClick, setSubmit, result }: any) => {
+  const resultP1 = result === 0 ? '1' : result === -1 ? '½' : '0';
+  const resultP2 = result === 0 ? '0' : result === -1 ? '½' : '1';
+
+  if (result === null) return null;
+
+  return (
+    <div className={`flex w-[4rem] flex-col items-center justify-center gap-6`}>
+      <div>{resultP1}</div>
+      <div>{resultP2}</div>
+    </div>
+  );
+};
+
 interface PairProps {
+  result: number | null;
+  setResult: SetStateAction<any>;
   handleResult: (index: number, result: 'win' | 'loose' | 'draw') => void;
   player1: { name: string };
   player2: { name: string };
 }
-
-const Pair: React.FC<PairProps> = ({ handleResult, player1, player2 }) => {
-  const [submit, setSubmit] = useState(false);
-  const [result, setResult] = useState<number | null>(null);
-
-  const handleClick = (winnerIndex: number) => {
-    setSubmit(false);
-    if (winnerIndex < 0) {
-      setResult(-1);
-      handleResult(0, 'draw');
-      handleResult(1, 'draw');
-      return;
-    }
-    const loserIndex = 1 - winnerIndex;
-    setResult(winnerIndex);
-    handleResult(winnerIndex, 'win');
-    handleResult(loserIndex, 'loose');
-  };
-
-  return (
-    <OutsideClickHandler onOutsideClick={() => setResult(null)}>
-      <Card>
-        <div className="flex flex-row justify-between p-2">
-          <div className="flex flex-col gap-6 p-4">
-            <div>{player1.name}</div>
-            <div>{player2.name}</div>
-          </div>
-          {!submit ? (
-            <Controls setSubmit={setSubmit} result={result} />
-          ) : (
-            <SubmitForm handleClick={handleClick} setSubmit={setSubmit} />
-          )}
-        </div>
-      </Card>
-    </OutsideClickHandler>
-  );
-};
-
-const SubmitForm = ({ handleClick, setSubmit }: any) => {
-  return (
-    <OutsideClickHandler onOutsideClick={() => setSubmit(false)}>
-      <div
-        className="h-[33.3%] w-[4rem] flex-1 rounded-t-md bg-white"
-        onClick={() => handleClick(0)}
-      ></div>
-      <div
-        className="h-[33.3%] w-[4rem] flex-1 bg-gray-500"
-        onClick={() => handleClick(-1)}
-      ></div>
-      <div
-        className="h-[33.3%] w-[4rem] flex-1 bg-black"
-        onClick={() => handleClick(1)}
-      ></div>
-    </OutsideClickHandler>
-  );
-};
-
-const Controls = ({ handleClick, setSubmit, result }: any) => {
-  console.log(result);
-  const resultColor = result === 0 ? 'white' : result === -1 ? 'gray' : 'black';
-  const resultText = result === 0 ? '1-0' : result === -1 ? '½ ½' : '0-1';
-
-  if (result === null)
-    return (
-      <Card
-        className="flex w-[4rem] items-center justify-center border-white p-1"
-        onClick={() => setSubmit(true)}
-      >
-        ?
-      </Card>
-    );
-
-  return (
-    <div
-      style={{ backgroundColor: resultColor, border: '1px solid white' }}
-      className="flex flex-col justify-center items-center w-[4rem] border-t-white rounded-md text-cyan-400"
-    >
-      {resultText}
-    </div>
-  );
-};
