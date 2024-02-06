@@ -19,15 +19,16 @@ const CarouselContainer = ({
   const [api, setApi] = useState<CarouselApi>();
   const currentIndex = tabs.indexOf(currentTab);
   const [active, setActive] = useState(true);
-  console.log(active)
-  console.log(currentIndex, currentTab)
+  console.log(active);
+  console.log(currentIndex, currentTab);
 
   useEffect(() => {
     if (!api) {
       return;
     }
+    // !active && api?.reInit({ active: false });
+    // active && api?.reInit({ active: true });
     api.on('select', () => {
-      api.reInit()
       let num = api.selectedScrollSnap();
       setCurrentTab(tabs[num]);
     });
@@ -35,7 +36,7 @@ const CarouselContainer = ({
   }, [api, currentIndex, currentTab, setCurrentTab, tabs]);
 
   return (
-    <Carousel opts={{ active: active }} setApi={setApi}>
+    <Carousel setApi={setApi}>
       <CarouselContent>
         <CarouselItem>
           <StyledCard>
