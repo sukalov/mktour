@@ -1,5 +1,3 @@
-'use client';
-
 import { players } from '@/app/test-dashboard/components/mocks';
 import { Card } from '@/components/ui/card';
 import { SetStateAction, useState } from 'react';
