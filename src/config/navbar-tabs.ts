@@ -1,7 +1,7 @@
 export const navbarItems: NavbarItem[] = [
   {
-    title: 'issues',
-    path: '/issues',
+    title: 'all tournaments',
+    path: '/all-tournaments',
   },
   {
     title: 'organizer',

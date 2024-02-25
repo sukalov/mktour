@@ -8,7 +8,7 @@ export function TournamentDashboard({
   const [messages, setMessages] = useState([]);
   const [ws, setWs] = useState<WebSocket | undefined>(undefined)
   useEffect(() => {
-    setWs(new WebSocket(`ws://localhost:8080/${tournamentId}`));
+    setWs(new WebSocket(`wss://mktour-f4u4zj6bdq-lz.a.run.app/${tournamentId}`));
   }, [tournamentId])
 
   useEffect(() => {
