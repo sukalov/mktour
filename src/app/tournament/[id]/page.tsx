@@ -1,34 +1,16 @@
 import { TournamentDashboard } from '@/app/tournament/[id]/tournament-dashboard';
 import { getUser } from '@/lib/auth/utils';
-import { db } from '@/lib/db';
-import {
-  DatabaseClub,
-  DatabaseTournament,
-  clubs_to_users,
-} from '@/lib/db/schema/tournaments';
-import useTournamentToClubQuery from '@/lib/hooks/useTournamentToClubQuery';
-import { and, eq } from 'drizzle-orm';
+import useStatusQuery from '@/lib/db/hooks/useStatusQuery';
+import useTournamentToClubQuery from '@/lib/db/hooks/useTournamentToClubQuery';
 import { redirect } from 'next/navigation';
 
 export const revalidate = 0;
 
 export default async function TournamentPage({ params }: TournamentPageProps) {
   const user = await getUser();
-  console.log({user})
   if (!user) redirect(`/tournament/${params.id}/view`);
   const { tournament, club } = await useTournamentToClubQuery({ params });
-
-  const status = (
-    await db
-      .select()
-      .from(clubs_to_users)
-      .where(
-        and(
-          eq(clubs_to_users.user_id, user.id),
-          eq(clubs_to_users.club_id, club.id),
-        ),
-      )
-  )[0]?.status;
+  const status = await useStatusQuery({ user, club });
 
   if (status === undefined) redirect(`/tournament/${params.id}/view`);
 
@@ -53,9 +35,4 @@ export default async function TournamentPage({ params }: TournamentPageProps) {
 
 interface TournamentPageProps {
   params: { id: string };
-}
-
-interface TournamentToClubLeftJoin {
-  tournament: DatabaseTournament;
-  club: DatabaseClub;
 }
