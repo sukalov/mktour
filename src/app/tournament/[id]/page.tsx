@@ -14,6 +14,7 @@ export const revalidate = 0;
 
 export default async function TournamentPage({ params }: TournamentPageProps) {
   const user = await getUser();
+  console.log({user})
   if (!user) redirect(`/tournament/${params.id}/view`);
   const { tournament, club } = await useTournamentToClubQuery({ params });
 
