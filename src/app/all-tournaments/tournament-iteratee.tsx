@@ -19,7 +19,7 @@ const TournamentIteratee = (props: TournamentProps) => {
   return (
     <Card
       key={props.id}
-      className="flex w-[350px] flex-col"
+      className="flex w-full flex-col"
       onClick={() => navigate.push(`/tournament/${props.id}`)}
     >
       <CardHeader>
@@ -34,7 +34,7 @@ const TournamentIteratee = (props: TournamentProps) => {
   );
 };
 
-type TournamentProps = {
+export type TournamentProps = {
   id: string;
   title: string | null;
   date: string | null;
