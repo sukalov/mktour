@@ -9,7 +9,6 @@ import {
 import { FC } from 'react';
 
 const TournamentTable: FC<PlayersProps> = ({ players }) => {
-
   return (
     <div className="w-full">
       <div className="flex-row items-center justify-center pl-4 pt-2">
@@ -46,8 +45,8 @@ type Player = {
   win: number;
   loose: number;
   draw: number;
-}
+};
 
 type PlayersProps = {
   players: Player[];
-}
+};

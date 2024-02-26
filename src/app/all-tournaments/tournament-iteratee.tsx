@@ -1,6 +1,11 @@
 'use client';
 
-import { Card } from '@/components/ui/card';
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Format, TournamentType } from '@/types/tournaments';
 import { useRouter } from 'next/navigation';
 import { FC } from 'react';
@@ -13,13 +18,18 @@ const TournamentIteratee = (props: TournamentProps) => {
   const navigate = useRouter();
   return (
     <Card
-      className="m-2 flex min-w-[300px] flex-col gap-2 p-4"
+      key={props.id}
+      className="flex w-[350px] flex-col"
       onClick={() => navigate.push(`/tournament/${props.id}`)}
     >
-      <div>{props.title}</div>
-      <div>{props.format}</div>
-      <div>{props.type}</div>
-      <div>{props.date}</div>
+      <CardHeader>
+        <CardTitle className="">{props.title}</CardTitle>
+        <CardDescription className="flex gap-2">
+          <span>{props.date}</span>
+          <span>{props.format}</span>
+          <span>{props.type}</span>
+        </CardDescription>
+      </CardHeader>
     </Card>
   );
 };

@@ -1,4 +1,4 @@
-import { TournamentDashboard } from '@/app/tournament/[id]/tournament-dashboard';
+import Dashboard from '@/app/tournament/[id]/new-dashboard';
 import { getUser } from '@/lib/auth/utils';
 import useStatusQuery from '@/lib/db/hooks/useStatusQuery';
 import useTournamentToClubQuery from '@/lib/db/hooks/useTournamentToClubQuery';
@@ -26,9 +26,10 @@ export default async function TournamentPage({ params }: TournamentPageProps) {
 
   return (
     <div className="flex w-full flex-col items-start justify-between gap-4">
-      <pre>{JSON.stringify({ user, tournament, club, status }, null, 2)}</pre>
+      {/* <pre>{JSON.stringify({ user, tournament, club, status }, null, 2)}</pre> */}
       {/* <pre>{JSON.stringify({ req }, null, 2)}</pre> */}
-      <TournamentDashboard tournamentId={tournament.id} />
+      {/* <TournamentDashboard tournamentId={tournament.id} /> */}
+      <Dashboard />
     </div>
   );
 }

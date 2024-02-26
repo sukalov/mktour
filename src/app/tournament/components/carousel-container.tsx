@@ -1,5 +1,6 @@
-import StyledCard from '@/app/test-dashboard/components/styled-card';
-import TournamentTable from '@/app/test-dashboard/components/tournament-table';
+import Main from '@/app/tournament/(tabs)/main';
+import TournamentTable from '@/app/tournament/(tabs)/table';
+import StyledCard from '@/app/tournament/components/styled-card';
 import {
   Carousel,
   CarouselApi,
@@ -7,7 +8,7 @@ import {
   CarouselItem,
 } from '@/components/ui/carousel';
 import { useEffect, useState } from 'react';
-import Brackets from './brackets';
+import Brackets from '../(tabs)/brackets';
 
 const CarouselContainer = ({
   currentTab,
@@ -38,6 +39,11 @@ const CarouselContainer = ({
   return (
     <Carousel setApi={setApi}>
       <CarouselContent>
+      <CarouselItem>
+          <StyledCard>
+            <Main />
+          </StyledCard>
+        </CarouselItem>
         <CarouselItem>
           <StyledCard>
             <TournamentTable players={players} />

@@ -1,4 +1,4 @@
-export const tabs = ['table', 'brackets'];
+export const tabs = ['main', 'table', 'brackets'];
 
 export const players = Array.from({ length: 4 }, (_, i) => ({
   name: `player${i + 1}`,
@@ -6,5 +6,3 @@ export const players = Array.from({ length: 4 }, (_, i) => ({
   loose: 0,
   draw: 0,
 }));
-
-console.log(players)
