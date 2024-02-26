@@ -20,8 +20,6 @@ const CarouselContainer = ({
   const [api, setApi] = useState<CarouselApi>();
   const currentIndex = tabs.indexOf(currentTab);
   const [active, setActive] = useState(true);
-  console.log(active);
-  console.log(currentIndex, currentTab);
 
   useEffect(() => {
     if (!api) {
