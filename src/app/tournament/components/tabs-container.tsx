@@ -15,7 +15,7 @@ const TabsContainer = ({
 
   useEffect(() => {
     const scrollX = indexOfTab <= tabs.length / 2 ? -1000 : 1000;
-    tabRef.current?.scrollBy(scrollX, 0);
+    tabRef.current?.scroll(scrollX, 0);
   }, [indexOfTab, value]);
 
   const TabsIteratee = () => (
