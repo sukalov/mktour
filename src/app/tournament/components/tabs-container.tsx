@@ -1,21 +1,20 @@
 import { tabs } from '@/app/tournament/components/mocks';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useEffect, useRef } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 
 const TabsContainer = ({
   currentTab,
   setCurrentTab,
 }: {
   currentTab: string;
-  setCurrentTab: (value: string) => void;
+  setCurrentTab: Dispatch<SetStateAction<string>>;
 }) => {
   const value = currentTab || 'main';
   const tabRef = useRef<HTMLDivElement>(null);
   const indexOfTab = tabs.indexOf(value);
 
   useEffect(() => {
-    const scrollX = indexOfTab <= tabs.length / 2 ? -1000 : 1000;
-    tabRef.current?.scroll(scrollX, 0);
+    tabRef.current?.children[indexOfTab].scrollIntoView({ inline: 'center' });
   }, [indexOfTab, value]);
 
   const TabsIteratee = () => (

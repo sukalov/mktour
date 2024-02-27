@@ -2,33 +2,17 @@ import { players } from '@/app/tournament/components/mocks';
 import { Card } from '@/components/ui/card';
 import { SetStateAction, useState } from 'react';
 
-export default function Brackets({
-  handleResult
-}: SetStateAction<any>) {
+export default function Brackets() {
   const [result, setResult] = useState<number | null>(null);
-  const [pos, setPos] = useState<any>({});
-  const [pressed, setPressed] = useState(false);
-
-  // const bind = useLongPress(
-  //   useCallback(() => {
-  //     console.log('long-pressed');
-  //     setPressed(true);
-  //   }, []),
-  //   { onStart: () => {setActive(false), setPressed(true)},
-  //     onFinish: () => {setPressed(false), setActive(false)}
-  //   },
-  // );
-  const onEdit = !pressed ? '' : 'border-green-900';
 
   return (
     <Card
       id="resultCard"
-      className={`flex flex-row items-center border ${onEdit} justify-between p-4`}
+      className={`flex flex-row items-center border justify-between p-4`}
     >
       <Pair
         result={result}
         setResult={setResult}
-        handleResult={handleResult}
         player1={players[0]}
         player2={players[1]}
       />
@@ -65,7 +49,6 @@ const Result = ({ result }: any) => {
 interface PairProps {
   result: number | null;
   setResult: SetStateAction<any>;
-  handleResult: (index: number, result: 'win' | 'loose' | 'draw') => void;
   player1: { name: string };
   player2: { name: string };
 }

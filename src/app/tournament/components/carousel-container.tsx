@@ -1,4 +1,6 @@
 import Main from '@/app/tournament/(tabs)/main';
+import MockSlot from '@/app/tournament/(tabs)/mock-slot';
+import MockSlotWithLongTitle from '@/app/tournament/(tabs)/mock-slot-with-long-title';
 import TournamentTable from '@/app/tournament/(tabs)/table';
 import StyledCard from '@/app/tournament/components/styled-card';
 import {
@@ -14,8 +16,7 @@ const CarouselContainer = ({
   currentTab,
   setCurrentTab,
   players,
-  tabs,
-  handleResult,
+  tabs
 }: any) => {
   const [api, setApi] = useState<CarouselApi>();
   const currentIndex = tabs.indexOf(currentTab);
@@ -45,7 +46,13 @@ const CarouselContainer = ({
           </StyledCard>
         </CarouselItem>
         <CarouselItem>
-          <Brackets handleResult={handleResult} />
+          <Brackets />
+        </CarouselItem>
+        <CarouselItem>
+          <MockSlotWithLongTitle />
+        </CarouselItem>
+        <CarouselItem>
+          <MockSlot />
         </CarouselItem>
       </CarouselContent>
     </Carousel>
