@@ -101,3 +101,14 @@ button {
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
+
+.tabs-list {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+}
+
+.tabs-list::-webkit-scrollbar  {
+  display: none;
+}
+

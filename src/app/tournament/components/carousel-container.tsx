@@ -25,8 +25,6 @@ const CarouselContainer = ({
     if (!api) {
       return;
     }
-    // !active && api?.reInit({ active: false });
-    // active && api?.reInit({ active: true });
     api.on('select', () => {
       let num = api.selectedScrollSnap();
       setCurrentTab(tabs[num]);
@@ -37,7 +35,7 @@ const CarouselContainer = ({
   return (
     <Carousel setApi={setApi}>
       <CarouselContent>
-      <CarouselItem>
+        <CarouselItem>
           <StyledCard>
             <Main />
           </StyledCard>

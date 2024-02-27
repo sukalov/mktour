@@ -9,7 +9,6 @@ const Main = () => {
       <span>{tournament?.date}</span>
       <span>{tournament?.format}</span>
       <span>{tournament?.type}</span>
-      <span>{tournament?.format}</span>
       <span>{tournament?.is_closed}</span>
     </>
   );

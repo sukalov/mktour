@@ -1,4 +1,4 @@
-export const tabs = ['main', 'table', 'brackets'];
+export const tabs = ['main', 'table', 'brackets', 'testtest', 'testtesttest'];
 
 export const players = Array.from({ length: 4 }, (_, i) => ({
   name: `player${i + 1}`,

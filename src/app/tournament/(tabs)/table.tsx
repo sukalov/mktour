@@ -11,9 +11,6 @@ import { FC } from 'react';
 const TournamentTable: FC<PlayersProps> = ({ players }) => {
   return (
     <div className="w-full">
-      <div className="flex-row items-center justify-center pl-4 pt-2">
-        New Tournament
-      </div>
       <Table>
         <TableHeader>
           <TableRow>
