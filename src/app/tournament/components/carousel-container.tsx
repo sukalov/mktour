@@ -19,7 +19,6 @@ const CarouselContainer = ({
 }: any) => {
   const [api, setApi] = useState<CarouselApi>();
   const currentIndex = tabs.indexOf(currentTab);
-  const [active, setActive] = useState(true);
 
   useEffect(() => {
     if (!api) {
@@ -46,7 +45,7 @@ const CarouselContainer = ({
           </StyledCard>
         </CarouselItem>
         <CarouselItem>
-          <Brackets handleResult={handleResult} setActive={setActive} />
+          <Brackets handleResult={handleResult} />
         </CarouselItem>
       </CarouselContent>
     </Carousel>

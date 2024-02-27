@@ -1,6 +1,6 @@
 import { tabs } from '@/app/tournament/components/mocks';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 const TabsContainer = ({
   currentTab,
@@ -11,21 +11,12 @@ const TabsContainer = ({
 }) => {
   const value = currentTab || 'main';
   const tabRef = useRef<HTMLDivElement>(null);
+  const indexOfTab = tabs.indexOf(value);
 
-  const handleChange = (value: string) => {
-    const indexOfTab = tabs.indexOf(value);
-    let indexToScrollTo =
-      indexOfTab > 0
-        ? indexOfTab === tabs.length - 2
-          ? tabs.length - 1
-          : indexOfTab - 1
-        : 0;
-
-    setCurrentTab(value);
-    tabRef?.current?.children[indexToScrollTo].scrollIntoView({
-      behavior: 'smooth',
-    });
-  };
+  useEffect(() => {
+    const scrollX = indexOfTab <= tabs.length / 2 ? -1000 : 1000;
+    tabRef.current?.scrollBy(scrollX, 0);
+  }, [indexOfTab, value]);
 
   const TabsIteratee = () => (
     <>
@@ -40,13 +31,13 @@ const TabsContainer = ({
   return (
     <Tabs
       defaultValue="main"
-      onValueChange={(value) => handleChange(value)}
+      onValueChange={(value) => setCurrentTab(value)}
       value={value}
       className="w-full"
     >
       <TabsList
         ref={tabRef}
-        className="tabs-list flex w-full flex-row justify-between overflow-scroll"
+        className="scrollbar-hide flex w-full flex-row justify-between overflow-scroll"
       >
         <TabsIteratee />
       </TabsList>

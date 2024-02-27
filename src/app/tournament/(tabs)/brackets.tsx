@@ -3,8 +3,7 @@ import { Card } from '@/components/ui/card';
 import { SetStateAction, useState } from 'react';
 
 export default function Brackets({
-  handleResult,
-  setActive,
+  handleResult
 }: SetStateAction<any>) {
   const [result, setResult] = useState<number | null>(null);
   const [pos, setPos] = useState<any>({});

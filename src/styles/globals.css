@@ -102,13 +102,13 @@ button {
   -webkit-tap-highlight-color: transparent;
 }
 
-.tabs-list {
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+  scroll-behavior: smooth;
+}
+
+.scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
   scroll-behavior: smooth;
 }
-
-.tabs-list::-webkit-scrollbar  {
-  display: none;
-}
-

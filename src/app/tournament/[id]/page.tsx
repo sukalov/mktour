@@ -26,10 +26,7 @@ export default async function TournamentPage({ params }: TournamentPageProps) {
 
   return (
     <div className="w-full">
-      {/* <pre>{JSON.stringify({ user, tournament, club, status }, null, 2)}</pre> */}
-      {/* <pre>{JSON.stringify({ req }, null, 2)}</pre> */}
-      {/* <TournamentDashboard tournamentId={tournament.id} /> */}
-      <Dashboard tournament={tournament}/>
+      <Dashboard tournament={tournament} />
     </div>
   );
 }
