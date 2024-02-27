@@ -25,9 +25,9 @@ const TabsContainer = ({
       indexToScrollTo = 0;
     }
 
-    if (indexOfTab > 0) {
-      return indexOfTab === tabs.length - 2 ? tabs.length - 1 : indexOfTab - 1;
-    }
+    // if (indexOfTab > 0) {
+    //   return indexOfTab === tabs.length - 2 ? tabs.length - 1 : indexOfTab - 1;
+    // }
 
     setCurrentTab(value);
     tabRef?.current?.children[indexToScrollTo].scrollIntoView({
