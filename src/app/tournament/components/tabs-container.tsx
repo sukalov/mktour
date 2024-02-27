@@ -13,9 +13,26 @@ const TabsContainer = ({
   const tabRef = useRef<HTMLDivElement>(null);
 
   const handleChange = (value: string) => {
-    const index = tabs.indexOf(value);
+    const indexOfTab = tabs.indexOf(value);
+    let indexToScrollTo;
+    if (indexOfTab > 0) {
+      if (indexOfTab === tabs.length - 2) {
+        indexToScrollTo = tabs.length - 1;
+      } else {
+        indexToScrollTo = indexOfTab - 1;
+      }
+    } else {
+      indexToScrollTo = 0;
+    }
+
+    if (indexOfTab > 0) {
+      return indexOfTab === tabs.length - 2 ? tabs.length - 1 : indexOfTab - 1;
+    }
+
     setCurrentTab(value);
-    tabRef?.current?.children[index].scrollIntoView({ behavior: 'smooth' });
+    tabRef?.current?.children[indexToScrollTo].scrollIntoView({
+      behavior: 'smooth',
+    });
   };
 
   const TabsIteratee = () => (

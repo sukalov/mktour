@@ -29,7 +29,7 @@ export default function Dashboard({tournament}: {tournament: TournamentProps}) {
   return (
     <TournamentContext.Provider value={tournament}>
       <div className="flex flex-col gap-4 p-4">
-        {tournament.title}
+        {/* {tournament.title} */}
         <TabsContainer currentTab={currentTab} setCurrentTab={setCurrentTab} />
         <CarouselContainer
           currentTab={currentTab}
