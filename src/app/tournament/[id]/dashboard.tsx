@@ -10,7 +10,7 @@ export const TournamentContext = createContext<TournamentProps | null>(null); //
 
 export default function Dashboard({tournament}: {tournament: TournamentProps}) {
   const [currentTab, setCurrentTab] = useState('main');
-  const [playerStats, setPlayerStats] = useState(players);
+  const [playerStats] = useState(players)
 
   // const handleResult = (
   //   playerIndex: number,

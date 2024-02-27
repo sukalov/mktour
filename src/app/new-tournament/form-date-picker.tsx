@@ -7,14 +7,14 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
-import { NewTournamentForm } from '@/lib/zod/new-tournament-form';
+import { NewTournamentFormType } from '@/lib/zod/new-tournament-form';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 
 import { ControllerRenderProps } from 'react-hook-form';
 
 interface FormDatePickerProps {
-  field: ControllerRenderProps<NewTournamentForm, 'date'>;
+  field: ControllerRenderProps<NewTournamentFormType, 'date'>;
 }
 
 export default function FormDatePicker({ field }: FormDatePickerProps) {

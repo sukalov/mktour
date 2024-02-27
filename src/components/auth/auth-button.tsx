@@ -4,13 +4,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { User } from 'lucia';
 import { User2 } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Button } from '../ui/button';
 import LichessLogo from '../ui/lichess-logo';
-import * as React from 'react';
-import { redirect, useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { User } from 'lucia';
 
 export interface AuthButtonProps {
   user?: User | null;

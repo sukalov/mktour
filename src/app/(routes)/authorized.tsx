@@ -14,7 +14,7 @@ export default function Authorized({ user }: PageProps) {
   return (
     <div className="flex min-h-[calc(100svh-3.5rem)] w-full flex-auto items-center justify-center p-4">
       <MakeTournamentButton />
-      {isNew && token && <TeamJoinToaster token={token} />}
+      {isNew && token && <TeamJoinToaster />}
     </div>
   );
 }

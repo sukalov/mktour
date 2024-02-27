@@ -14,4 +14,4 @@ export const newTournamentFormSchema = z.object({
   club_id: z.string(),
 });
 
-export type NewTournamentForm = z.infer<typeof newTournamentFormSchema>;
+export type NewTournamentFormType = z.infer<typeof newTournamentFormSchema>;

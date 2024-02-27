@@ -27,8 +27,8 @@ import { createTournament } from '@/lib/actions/tournament-managing';
 import { DatabaseUser } from '@/lib/db/schema/auth';
 import { DatabaseClub } from '@/lib/db/schema/tournaments';
 import {
+  NewTournamentFormType,
   newTournamentFormSchema,
-  type NewTournamentForm,
 } from '@/lib/zod/new-tournament-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2, PlusIcon } from 'lucide-react';
@@ -40,11 +40,11 @@ export default function NewTournamentForm({
   clubs,
   user,
 }: NewTournamentFormProps) {
-  const [defaultTeam, setDefaultTeam] = React.useState('');
-  const form = useForm<NewTournamentForm>({
+  const [defaultClub] = React.useState('')
+  const form = useForm<NewTournamentFormType>({
     resolver: zodResolver(newTournamentFormSchema),
     defaultValues: {
-      title: defaultTeam,
+      title: defaultClub,
       format: undefined,
       date: new Date(),
       timestamp: 0,
@@ -52,7 +52,7 @@ export default function NewTournamentForm({
     },
   });
 
-  const onSubmit = (data: NewTournamentForm) => {
+  const onSubmit = (data: NewTournamentFormType) => {
     createTournament(JSON.parse(JSON.stringify(data)));
     setSubmitButton(
       <Button disabled className="w-full">

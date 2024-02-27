@@ -1,8 +1,6 @@
 import { logout } from '@/lib/actions/logout';
 
-import type { NextRequest } from 'next/server';
-
-export const POST = async (request: NextRequest) => {
+export const POST = async () => {
   await logout();
   return new Response(null, {
     status: 302,

@@ -10,14 +10,14 @@ import {
   players_to_tournaments,
   tournaments,
 } from '@/lib/db/schema/tournaments';
-import { NewTournamentForm } from '@/lib/zod/new-tournament-form';
+import { NewTournamentFormType } from '@/lib/zod/new-tournament-form';
 import { and, eq } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
-export const createTournament = async (values: NewTournamentForm) => {
+export const createTournament = async (values: NewTournamentFormType) => {
   const { user } = await validateRequest();
   const newTournamentID = nanoid();
   const club_id =
@@ -40,7 +40,6 @@ export const createTournament = async (values: NewTournamentForm) => {
   try {
     await db.insert(tournaments).values(newTournament);
     await redis.set(`tournament ${newTournamentID}`, newTournament);
-    const url = '';
   } catch (e) {
     throw new Error('tournament has NOT been saved to redis');
   }

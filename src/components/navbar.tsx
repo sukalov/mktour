@@ -1,14 +1,12 @@
 'use client';
 
-import React, { ReactNode, useEffect, useRef, useState } from 'react';
-
 import AuthButton from '@/components/auth/auth-button';
 import ModeTogglerMobile from '@/components/mode-toggler-mobile';
 import { navbarItems } from '@/config/navbar-tabs';
 import { motion, useCycle } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { ReactNode, useEffect, useRef } from 'react';
 import ModeToggler from './mode-toggler';
 import MktourNavbar from './ui/mktour-logo-navbar';
 
@@ -83,7 +81,7 @@ export default function Navbar({ user, node_env }: NavbarProps) {
           className="absolute grid w-full gap-3 px-10 py-16"
         >
           {navbarItems.map((item, idx) => {
-            const isLastItem = idx === navbarItems.length - 1; // Check if it's the last item
+            // const isLastItem = idx === navbarItems.length - 1; // Check if it's the last item
 
             return (
               <div key={idx}>
@@ -183,56 +181,58 @@ const MenuItem = ({
   );
 };
 
-const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({
-  item,
-  toggleOpen,
-}) => {
-  const pathname = usePathname();
-  const [subMenuOpen, setSubMenuOpen] = useState(false);
+//////// TODO: use 'em or loose 'em
 
-  return (
-    <>
-      <MenuItem>
-        <button
-          className="flex w-full text-2xl"
-          onClick={() => setSubMenuOpen(!subMenuOpen)}
-        >
-          <div className="flex w-full flex-row items-center justify-between">
-            <span
-              className={`${pathname.includes(item.path) ? 'font-bold' : ''}`}
-            >
-              {item.title}
-            </span>
-            <div className={`${subMenuOpen && 'rotate-180'}`}>
-              <ChevronDown width={24} height={24} />
-            </div>
-          </div>
-        </button>
-      </MenuItem>
-      <div className="ml-2 mt-2 flex flex-col space-y-2">
-        {subMenuOpen && (
-          <>
-            {item.subMenuItems?.map((subItem: NavbarItem, subIdx: number) => {
-              return (
-                <MenuItem key={subIdx}>
-                  <Link
-                    href={subItem.path}
-                    onClick={() => toggleOpen()}
-                    className={` ${
-                      subItem.path === pathname ? 'font-bold' : ''
-                    }`}
-                  >
-                    {subItem.title}
-                  </Link>
-                </MenuItem>
-              );
-            })}
-          </>
-        )}
-      </div>
-    </>
-  );
-};
+// const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({
+//   item,
+//   toggleOpen,
+// }) => {
+//   const pathname = usePathname();
+//   const [subMenuOpen, setSubMenuOpen] = useState(false);
+
+//   return (
+//     <>
+//       <MenuItem>
+//         <button
+//           className="flex w-full text-2xl"
+//           onClick={() => setSubMenuOpen(!subMenuOpen)}
+//         >
+//           <div className="flex w-full flex-row items-center justify-between">
+//             <span
+//               className={`${pathname.includes(item.path) ? 'font-bold' : ''}`}
+//             >
+//               {item.title}
+//             </span>
+//             <div className={`${subMenuOpen && 'rotate-180'}`}>
+//               <ChevronDown width={24} height={24} />
+//             </div>
+//           </div>
+//         </button>
+//       </MenuItem>
+//       <div className="ml-2 mt-2 flex flex-col space-y-2">
+//         {subMenuOpen && (
+//           <>
+//             {item.subMenuItems?.map((subItem: NavbarItem, subIdx: number) => {
+//               return (
+//                 <MenuItem key={subIdx}>
+//                   <Link
+//                     href={subItem.path}
+//                     onClick={() => toggleOpen()}
+//                     className={` ${
+//                       subItem.path === pathname ? 'font-bold' : ''
+//                     }`}
+//                   >
+//                     {subItem.title}
+//                   </Link>
+//                 </MenuItem>
+//               );
+//             })}
+//           </>
+//         )}
+//       </div>
+//     </>
+//   );
+// };
 
 const MenuItemVariants = {
   open: {

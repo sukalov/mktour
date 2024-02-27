@@ -51,7 +51,7 @@
     "drizzle-orm": "^0.29.3",
     "drizzle-zod": "^0.5.1",
     "embla-carousel-react": "^8.0.0-rc22",
-    "eslint": "^8.56.0",
+    "eslint": "^8.57.0",
     "eslint-config-next": "^14.0.4",
     "framer-motion": "^10.16.16",
     "jotai": "^2.6.3",
@@ -101,5 +101,10 @@
     "orderSpecifiersAsSingleLine": true,
     "baseUrl": "src",
     "emptyLinesAfterImports": 1
-  }
+  },
+  "eslintIgnore": [
+    "src/components/ui/**/*.ts",
+    "src/components/ui/**/*.tsx",
+    "src/types/**/*.ts"
+  ]
 }

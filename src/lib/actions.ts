@@ -1,16 +1,14 @@
 'use server';
 
-import { validateRequest } from '@/lib/auth/lucia';
-import { getUser } from '@/lib/auth/utils';
 import { db } from '@/lib/db';
 import { redis } from '@/lib/db/redis';
 import { DatabaseTournament, tournaments } from '@/lib/db/schema/tournaments';
-import { NewTournamentForm } from '@/lib/zod/new-tournament-form';
+import { NewTournamentFormType } from '@/lib/zod/new-tournament-form';
 import { nanoid } from 'nanoid';
 import { redirect } from 'next/navigation';
 
-export const createTournament = async (values: NewTournamentForm) => {
-  const user = await getUser();
+export const createTournament = async (values: NewTournamentFormType) => {
+  // const user = await getUser();
   const newTournamentID = nanoid();
   const newTournament: DatabaseTournament = {
     ...values,

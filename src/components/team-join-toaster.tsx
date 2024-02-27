@@ -5,7 +5,7 @@ import { X } from 'lucide-react';
 import Link from 'next/link';
 import { toast } from 'sonner';
 
-export default function TeamJoinToaster(props: { token: string }) {
+export default function TeamJoinToaster() {
   const abortTeamJoin = async () => {
     try {
       const res = await fetch('/api/leave-team', {
