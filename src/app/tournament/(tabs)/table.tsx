@@ -1,3 +1,4 @@
+import { TournamentContext } from '@/app/tournament/[id]/tournament-context';
 import {
   Table,
   TableBody,
@@ -6,9 +7,10 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 
-const TournamentTable: FC<PlayersProps> = ({ players }) => {
+const TournamentTable: FC = () => {
+  const { players } = useContext(TournamentContext)
   return (
     <div className="w-full">
       <Table>
@@ -36,14 +38,3 @@ const TournamentTable: FC<PlayersProps> = ({ players }) => {
 };
 
 export default TournamentTable;
-
-type Player = {
-  name: string;
-  win: number;
-  loose: number;
-  draw: number;
-};
-
-type PlayersProps = {
-  players: Player[];
-};

@@ -1,20 +1,27 @@
-import { players } from '@/app/tournament/components/mocks';
+import { TournamentContext } from '@/app/tournament/[id]/tournament-context';
 import { Card } from '@/components/ui/card';
-import { SetStateAction, useState } from 'react';
+import { SetStateAction, useContext, useState } from 'react';
 
 export default function Brackets() {
   const [result, setResult] = useState<number | null>(null);
+  const { players } = useContext(TournamentContext);
 
   return (
     <Card
       id="resultCard"
-      className={`flex flex-row items-center border justify-between p-4`}
+      className={`flex flex-row items-center justify-between border p-4`}
     >
       <Pair
         result={result}
         setResult={setResult}
         player1={players[0]}
         player2={players[1]}
+      />
+      <Pair
+        result={result}
+        setResult={setResult}
+        player1={players[2]}
+        player2={players[3]}
       />
     </Card>
   );
@@ -27,6 +34,7 @@ const Pair: React.FC<PairProps> = ({ result, player1, player2 }) => {
         <div>{player1.name}</div>
         <div>{player2.name}</div>
       </div>
+
       <Result result={result} />
     </div>
   );

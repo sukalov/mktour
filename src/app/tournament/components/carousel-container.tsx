@@ -2,6 +2,8 @@ import Main from '@/app/tournament/(tabs)/main';
 import MockSlot from '@/app/tournament/(tabs)/mock-slot';
 import MockSlotWithLongTitle from '@/app/tournament/(tabs)/mock-slot-with-long-title';
 import TournamentTable from '@/app/tournament/(tabs)/table';
+
+import { TournamentContext } from '@/app/tournament/[id]/tournament-context';
 import StyledCard from '@/app/tournament/components/styled-card';
 import {
   Carousel,
@@ -9,16 +11,12 @@ import {
   CarouselContent,
   CarouselItem,
 } from '@/components/ui/carousel';
-import { useEffect, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import Brackets from '../(tabs)/brackets';
 
-const CarouselContainer = ({
-  currentTab,
-  setCurrentTab,
-  players,
-  tabs
-}: any) => {
+const CarouselContainer: FC = () => {
   const [api, setApi] = useState<CarouselApi>();
+  const { tabs, currentTab, setCurrentTab } = useContext(TournamentContext);
   const currentIndex = tabs.indexOf(currentTab);
 
   useEffect(() => {
@@ -42,7 +40,7 @@ const CarouselContainer = ({
         </CarouselItem>
         <CarouselItem>
           <StyledCard>
-            <TournamentTable players={players} />
+            <TournamentTable />
           </StyledCard>
         </CarouselItem>
         <CarouselItem>

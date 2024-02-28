@@ -1,8 +1,9 @@
-import { TournamentContext } from '@/app/tournament/[id]/dashboard';
+
+import { TournamentContext } from '@/app/tournament/[id]/tournament-context';
 import { useContext } from 'react';
 
 const Main = () => {
-  const tournament = useContext(TournamentContext);
+  const { tournament } = useContext(TournamentContext);
 
   return (
     <>

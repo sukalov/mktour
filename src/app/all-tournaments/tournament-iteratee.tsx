@@ -1,12 +1,12 @@
 'use client';
 
+import { TournamentProps } from '@/app/tournament/[id]/dashboard';
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Format, TournamentType } from '@/types/tournaments';
 import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 
@@ -32,18 +32,6 @@ const TournamentIteratee = (props: TournamentProps) => {
       </CardHeader>
     </Card>
   );
-};
-
-export type TournamentProps = {
-  id: string;
-  title: string | null;
-  date: string | null;
-  format: Format | null;
-  type: TournamentType | null;
-  timestamp: number | null;
-  club_id: string;
-  is_started: boolean | null;
-  is_closed: boolean | null;
 };
 
 export default TournamentsContainer;

@@ -1,15 +1,11 @@
-import { tabs } from '@/app/tournament/components/mocks';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 
-const TabsContainer = ({
-  currentTab,
-  setCurrentTab,
-}: {
-  currentTab: string;
-  setCurrentTab: Dispatch<SetStateAction<string>>;
-}) => {
-  const value = currentTab || 'main';
+import { TournamentContext } from '@/app/tournament/[id]/tournament-context';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { FC, useContext, useEffect, useRef } from 'react';
+
+const TabsContainer: FC = () => {
+  const { tabs, currentTab, setCurrentTab } = useContext(TournamentContext);
+  const value = currentTab || tabs[0];
   const tabRef = useRef<HTMLDivElement>(null);
   const indexOfTab = tabs.indexOf(value);
 
@@ -19,7 +15,7 @@ const TabsContainer = ({
 
   const TabsIteratee = () => (
     <>
-      {tabs.map((tab) => (
+      {tabs.map((tab: string) => (
         <TabsTrigger key={tab} className="w-full" value={tab}>
           {tab}
         </TabsTrigger>

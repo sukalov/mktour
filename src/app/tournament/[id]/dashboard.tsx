@@ -1,16 +1,28 @@
 'use client';
 
-import { TournamentProps } from '@/app/all-tournaments/tournament-iteratee';
+import { TournamentContext } from '@/app/tournament/[id]/tournament-context';
 import CarouselContainer from '@/app/tournament/components/carousel-container';
-import { players, tabs } from '@/app/tournament/components/mocks';
 import TabsContainer from '@/app/tournament/components/tabs-container';
-import { createContext, useState } from 'react';
+import { Format, TournamentType } from '@/types/tournaments';
+import { FC, useState } from 'react';
 
-export const TournamentContext = createContext<TournamentProps | null>(null); // FIXME any
-
-export default function Dashboard({tournament}: {tournament: TournamentProps}) {
+const Dashboard: FC<DashboardProps> = ({tournament}) => {
   const [currentTab, setCurrentTab] = useState('main');
-  const [playerStats] = useState(players)
+  // const [playerStats] = useState(players);
+  const tabs = [
+    'main',
+    'table',
+    'brackets',
+    'mock slot with long title',
+    'mock slot',
+  ];
+  const players = Array.from({ length: 4 }, (_, i) => ({
+    name: `player${i + 1}`,
+    win: 0,
+    loose: 0,
+    draw: 0,
+  }));
+  const context = { tournament, tabs, currentTab, setCurrentTab, players };
 
   // const handleResult = (
   //   playerIndex: number,
@@ -27,18 +39,30 @@ export default function Dashboard({tournament}: {tournament: TournamentProps}) {
   // };
 
   return (
-    <TournamentContext.Provider value={tournament}>
+    <TournamentContext.Provider value={context}>
       <div className="flex flex-col gap-4 p-4">
         {/* {tournament.title} */}
-        <TabsContainer currentTab={currentTab} setCurrentTab={setCurrentTab} />
-        <CarouselContainer
-          currentTab={currentTab}
-          setCurrentTab={setCurrentTab}
-          players={playerStats}
-          tabs={tabs}
-          // handleResult={handleResult}
-        />
+        <TabsContainer />
+        <CarouselContainer />
       </div>
     </TournamentContext.Provider>
   );
+};
+
+interface DashboardProps {
+  tournament: TournamentProps;
 }
+
+export type TournamentProps = {
+  id: string;
+  title: string | null;
+  date: string | null;
+  format: Format | null;
+  type: TournamentType | null;
+  timestamp: number | null;
+  club_id: string;
+  is_started: boolean | null;
+  is_closed: boolean | null;
+};
+
+export default Dashboard;
