@@ -7,12 +7,30 @@ export const TournamentContext = createContext<TournamentContextType>({
   currentTab: '',
   setCurrentTab: '',
   players: [],
+  games: [[]],
+  currentRound: 0,
 });
+
+export type Player = {
+  name: string;
+  win: number;
+  loose: number;
+  draw: number;
+};
 
 export type TabType = {
   title: string;
   component: FC;
 };
+
+export type GameType = {
+  players: [Player, Player];
+  result: number;
+};
+
+export type Round = GameType[];
+
+export type GamesArray = Round[];
 
 export type TournamentContextType = {
   tournament: TournamentProps;
@@ -25,4 +43,6 @@ export type TournamentContextType = {
     loose: number;
     draw: number;
   }[];
+  games: GamesArray;
+  currentRound: number;
 };
