@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 
 import { TournamentContext } from '@/app/tournament/[id]/tournament-context';
-import StyledCard from '@/app/tournament/components/styled-card';
 import {
   Carousel,
   CarouselApi,
@@ -40,9 +39,7 @@ const CarouselContainer: FC = () => {
 const CarouselIteratee: FC<{ children: FC }> = ({ children: Component }) => {
   return (
     <CarouselItem>
-      <StyledCard>
-        <Component />
-      </StyledCard>
+      <Component />
     </CarouselItem>
   );
 };
