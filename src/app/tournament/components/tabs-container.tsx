@@ -10,7 +10,7 @@ const TabsContainer: FC = () => {
   const indexOfTab = tabs.indexOf(value);
 
   useEffect(() => {
-    tabRef.current?.children[indexOfTab].scrollIntoView({ inline: 'center' });
+    tabRef.current?.children[indexOfTab].scrollIntoView({ inline: 'center', block: 'end' });
   }, [indexOfTab, value]);
 
   const TabsIteratee = () => (

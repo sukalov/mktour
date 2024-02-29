@@ -16,7 +16,7 @@ const Dashboard: FC<DashboardProps> = ({tournament}) => {
     'mock slot with long title',
     'mock slot',
   ];
-  const players = Array.from({ length: 4 }, (_, i) => ({
+  const players = Array.from({ length: 16 }, (_, i) => ({
     name: `player${i + 1}`,
     win: 0,
     loose: 0,
