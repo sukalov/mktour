@@ -1,21 +1,26 @@
 'use client';
 
+import Brackets from '@/app/tournament/(tabs)/brackets';
+import Main from '@/app/tournament/(tabs)/main';
+import MockSlot from '@/app/tournament/(tabs)/mock-slot';
+import MockSlotWithLongTitle from '@/app/tournament/(tabs)/mock-slot-with-long-title';
+import TournamentTable from '@/app/tournament/(tabs)/table';
 import { TournamentContext } from '@/app/tournament/[id]/tournament-context';
 import CarouselContainer from '@/app/tournament/components/carousel-container';
 import TabsContainer from '@/app/tournament/components/tabs-container';
 import { Format, TournamentType } from '@/types/tournaments';
 import { FC, useState } from 'react';
 
-const Dashboard: FC<DashboardProps> = ({tournament}) => {
-  const [currentTab, setCurrentTab] = useState('main');
-  // const [playerStats] = useState(players);
+const Dashboard: FC<DashboardProps> = ({ tournament }) => {
+  const [currentTab, setCurrentTab] = useState<string>('main');
   const tabs = [
-    'main',
-    'table',
-    'brackets',
-    'mock slot with long title',
-    'mock slot',
+    { title: 'main', component: Main },
+    { title: 'table', component: TournamentTable },
+    { title: 'brackets', component: Brackets },
+    { title: 'mock slot with long title', component: MockSlotWithLongTitle },
+    { title: 'mock slot', component: MockSlot },
   ];
+  
   const players = Array.from({ length: 16 }, (_, i) => ({
     name: `player${i + 1}`,
     win: 0,
@@ -24,24 +29,9 @@ const Dashboard: FC<DashboardProps> = ({tournament}) => {
   }));
   const context = { tournament, tabs, currentTab, setCurrentTab, players };
 
-  // const handleResult = (
-  //   playerIndex: number,
-  //   stat: 'win' | 'loose' | 'draw',
-  // ) => {
-  //   setPlayerStats((prevPlayers: any) => {
-  //     const newPlayers = [...prevPlayers];
-  //     newPlayers[playerIndex] = {
-  //       ...newPlayers[playerIndex],
-  //       [stat]: newPlayers[playerIndex][stat] + 1,
-  //     };
-  //     return newPlayers;
-  //   });
-  // };
-
   return (
     <TournamentContext.Provider value={context}>
       <div className="flex flex-col gap-4 p-4">
-        {/* {tournament.title} */}
         <TabsContainer />
         <CarouselContainer />
       </div>

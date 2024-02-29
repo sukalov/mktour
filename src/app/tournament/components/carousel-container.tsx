@@ -1,7 +1,4 @@
-import Main from '@/app/tournament/(tabs)/main';
-import MockSlot from '@/app/tournament/(tabs)/mock-slot';
-import MockSlotWithLongTitle from '@/app/tournament/(tabs)/mock-slot-with-long-title';
-import TournamentTable from '@/app/tournament/(tabs)/table';
+/* eslint-disable no-unused-vars */
 
 import { TournamentContext } from '@/app/tournament/[id]/tournament-context';
 import StyledCard from '@/app/tournament/components/styled-card';
@@ -12,12 +9,11 @@ import {
   CarouselItem,
 } from '@/components/ui/carousel';
 import { FC, useContext, useEffect, useState } from 'react';
-import Brackets from '../(tabs)/brackets';
 
 const CarouselContainer: FC = () => {
   const [api, setApi] = useState<CarouselApi>();
   const { tabs, currentTab, setCurrentTab } = useContext(TournamentContext);
-  const currentIndex = tabs.indexOf(currentTab);
+  const indexOfTab = tabs.findIndex((tab) => tab.title === currentTab);
 
   useEffect(() => {
     if (!api) {
@@ -25,35 +21,29 @@ const CarouselContainer: FC = () => {
     }
     api.on('select', () => {
       let num = api.selectedScrollSnap();
-      setCurrentTab(tabs[num]);
+      setCurrentTab(tabs[num].title);
     });
-    if (currentTab) api.scrollTo(currentIndex);
-  }, [api, currentIndex, currentTab, setCurrentTab, tabs]);
+    if (currentTab) api.scrollTo(indexOfTab);
+  }, [api, currentTab, indexOfTab, setCurrentTab, tabs]);
 
   return (
     <Carousel setApi={setApi}>
       <CarouselContent>
-        <CarouselItem>
-          <StyledCard>
-            <Main />
-          </StyledCard>
-        </CarouselItem>
-        <CarouselItem>
-          <StyledCard>
-            <TournamentTable />
-          </StyledCard>
-        </CarouselItem>
-        <CarouselItem>
-          <Brackets />
-        </CarouselItem>
-        <CarouselItem>
-          <MockSlotWithLongTitle />
-        </CarouselItem>
-        <CarouselItem>
-          <MockSlot />
-        </CarouselItem>
+        {tabs.map((tab) => (
+          <CarouselIteratee key={tab.title}>{tab.component}</CarouselIteratee>
+        ))}
       </CarouselContent>
     </Carousel>
+  );
+};
+
+const CarouselIteratee: FC<{ children: FC }> = ({ children: Component }) => {
+  return (
+    <CarouselItem>
+      <StyledCard>
+        <Component />
+      </StyledCard>
+    </CarouselItem>
   );
 };
 

@@ -1,6 +1,5 @@
-
 import { TournamentProps } from '@/app/tournament/[id]/dashboard';
-import { createContext } from 'react';
+import { FC, createContext } from 'react';
 
 export const TournamentContext = createContext<TournamentContextType>({
   tournament: {} as TournamentProps,
@@ -10,9 +9,14 @@ export const TournamentContext = createContext<TournamentContextType>({
   players: [],
 });
 
-type TournamentContextType = {
+export type TabType = {
+  title: string;
+  component: FC;
+};
+
+export type TournamentContextType = {
   tournament: TournamentProps;
-  tabs: string[];
+  tabs: TabType[];
   currentTab: string;
   setCurrentTab: any;
   players: {
