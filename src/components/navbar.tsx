@@ -2,13 +2,13 @@
 
 import AuthButton from '@/components/auth/auth-button';
 import ModeTogglerMobile from '@/components/mode-toggler-mobile';
-import { navbarItems } from '@/config/navbar-tabs';
+import MktourNavbar from '@/components/ui/mktour-logo-navbar';
+import { navbarItems } from '@/config/navbar-items';
 import { motion, useCycle } from 'framer-motion';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { ReactNode, useEffect, useRef } from 'react';
 import ModeToggler from './mode-toggler';
-import MktourNavbar from './ui/mktour-logo-navbar';
 
 const sidebar = {
   open: (height = 1000) => ({
@@ -43,6 +43,7 @@ export default function Navbar({ user, node_env }: NavbarProps) {
   const containerRef = useRef(null);
   const { height } = useDimensions(containerRef);
   const [isOpen, toggleOpen] = useCycle(false, true);
+  const isHomepage = pathname === '/';
 
   const router = useRouter();
 
@@ -59,9 +60,12 @@ export default function Navbar({ user, node_env }: NavbarProps) {
     <nav className="fixed z-50 flex max-h-14 w-full min-w-max flex-row items-center justify-start gap-3 border-b bg-background/95 p-4 md:pl-4">
       <div>
         <Link href="/">
-          <MktourNavbar />
+          <MktourNavbar isHomepage={isHomepage} />
         </Link>
       </div>
+      {
+        // TODO: Separate into dedicated component! Otherwise it's пиздец
+      }
       <div className="flex-grow"></div>
       <motion.nav
         initial={false}
@@ -107,15 +111,17 @@ export default function Navbar({ user, node_env }: NavbarProps) {
               </Link>
             ) : (
               <button
-                className="flex w-full text-xl"
+                className="flex text-xl"
                 name="log out"
                 onClick={handleSignOut}
               >
                 log out
               </button>
             )}
+          <div className="my-3 h-px w-full bg-transparent" ></div>
           </MenuItem>
-          <MenuItem>
+          <MenuItem className='flex justify-end gap-6'>
+            EN { /* TODO: Button to change app language */}
             <ModeTogglerMobile />
           </MenuItem>
         </motion.ul>

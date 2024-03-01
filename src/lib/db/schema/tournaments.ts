@@ -10,7 +10,7 @@ export const players = sqliteTable('player', {
   rating: int('rating'),
   club_id: text('club_id')
     .references(() => clubs.id)
-    .notNull(), // TODO! add constraint on combination fo club_id and nickname
+    .notNull(), // TODO: add constraint on combination fo club_id and nickname
 });
 
 export const tournaments = sqliteTable('tournament', {

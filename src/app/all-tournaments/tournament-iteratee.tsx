@@ -1,6 +1,5 @@
 'use client';
-
-import { TournamentProps } from '@/app/tournament/[id]/dashboard';
+import { TournamentProps } from '@/app/tournament/[id]/tournament-context';
 import {
   Card,
   CardDescription,

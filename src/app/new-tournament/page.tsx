@@ -4,7 +4,7 @@ import useUserToClubsQuery from '@/lib/db/hooks/useUserToClubsQuery';
 import { DatabaseClub } from '@/lib/db/schema/tournaments';
 
 export default async function NewTournament() {
-  const user = await getUser(); // TODO Create Context for user object!
+  const user = await getUser(); // TODO: Create Context for user object!
   const userClubs = await useUserToClubsQuery({ user });
   const preparedUser = userClubs.map((el) => el.club) as DatabaseClub[];
   return (

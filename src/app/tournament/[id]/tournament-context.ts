@@ -1,5 +1,5 @@
-import { TournamentProps } from '@/app/tournament/[id]/dashboard';
-import { FC, createContext } from 'react';
+import { Format, TournamentType } from '@/types/tournaments';
+import { FC, SetStateAction, createContext } from 'react';
 
 export const TournamentContext = createContext<TournamentContextType>({
   tournament: {} as TournamentProps,
@@ -10,6 +10,18 @@ export const TournamentContext = createContext<TournamentContextType>({
   games: [[]],
   currentRound: 0,
 });
+
+export type TournamentProps = {
+  id: string;
+  title: string | null;
+  date: string | null;
+  format: Format | null;
+  type: TournamentType | null;
+  timestamp: number | null;
+  club_id: string;
+  is_started: boolean | null;
+  is_closed: boolean | null;
+};
 
 export type Player = {
   name: string;
@@ -36,7 +48,7 @@ export type TournamentContextType = {
   tournament: TournamentProps;
   tabs: TabType[];
   currentTab: string;
-  setCurrentTab: any;
+  setCurrentTab: SetStateAction<any>;
   players: {
     name: string;
     win: number;

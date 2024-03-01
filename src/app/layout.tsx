@@ -36,7 +36,7 @@ function RootLayout({ children }: PropsWithChildren) {
             {children}
             <Analytics />
             <SpeedInsights />
-            <Toaster />
+            <Toaster /> {/* what does it do here? */}
           </ThemeProvider>
         </AtomsProvider>
       </body>

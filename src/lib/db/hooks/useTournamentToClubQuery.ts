@@ -10,8 +10,6 @@ import { eq } from 'drizzle-orm';
 export default async function useTournamentToClubQuery({
   params,
 }: ParamsProps) {
-  console.log(params);
-
   const { tournament, club } = (
     await db
       .select()
