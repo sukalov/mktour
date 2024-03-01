@@ -26,7 +26,7 @@ const CarouselContainer: FC = () => {
   }, [api, currentTab, indexOfTab, setCurrentTab, tabs]);
 
   return (
-    <Carousel setApi={setApi}>
+    <Carousel setApi={setApi} opts={{ loop: true }}>
       <CarouselContent>
         {tabs.map((tab) => (
           <CarouselIteratee key={tab.title}>{tab.component}</CarouselIteratee>
@@ -39,7 +39,9 @@ const CarouselContainer: FC = () => {
 const CarouselIteratee: FC<{ children: FC }> = ({ children: Component }) => {
   return (
     <CarouselItem>
-      <Component />
+      <div className="m-4">
+        <Component />
+      </div>
     </CarouselItem>
   );
 };

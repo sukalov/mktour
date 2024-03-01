@@ -1,5 +1,5 @@
 import { TournamentContext } from '@/app/tournament/[id]/tournament-context';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { MkTabs, MkTabsList, MkTabsTrigger } from '@/components/customized-tabs';
 import { FC, useContext, useEffect, useRef } from 'react';
 
 const TabsContainer: FC = () => {
@@ -16,30 +16,31 @@ const TabsContainer: FC = () => {
   }, [indexOfTab]);
 
   return (
-    <Tabs
+    <MkTabs
       defaultValue="main"
       onValueChange={(value) => setCurrentTab(value)}
       value={value}
-      className="w-full"
+      className="sticky top-14 z-40 w-full rounded-none"
     >
-      <TabsList
+      <MkTabsList
         ref={tabRef}
-        className="scrollbar-hide flex w-full flex-row justify-between overflow-scroll"
+        className="scrollbar-hide w-full justify-between overflow-scroll rounded-none"
+        // here, justify-between is crucial for long lists, for lists without scroll use justify-around
       >
         {tabs.map((tab) => (
           <div key={tab.title}>
             <TabsIteratee title={tab.title} />
           </div>
         ))}
-      </TabsList>
-    </Tabs>
+      </MkTabsList>
+    </MkTabs>
   );
 };
 
 const TabsIteratee = ({ title }: { title: string }) => (
-  <TabsTrigger className="w-full" value={title}>
+  <MkTabsTrigger className="w-full" value={title}>
     {title}
-  </TabsTrigger>
+  </MkTabsTrigger>
 );
 
 export default TabsContainer;

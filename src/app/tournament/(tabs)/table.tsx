@@ -12,7 +12,7 @@ import { FC, useContext } from 'react';
 const TournamentTable: FC = () => {
   const { players } = useContext(TournamentContext)
   return (
-    <div className="w-full">
+    <div className="w-full m-0">
       <Table>
         <TableHeader>
           <TableRow>

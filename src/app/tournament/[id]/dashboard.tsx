@@ -36,11 +36,8 @@ const Dashboard: FC<DashboardProps> = ({ tournament }) => {
   if (!hydrated) return null;
   return (
     <TournamentContext.Provider value={context}>
-      <div className="flex flex-col gap-4 p-4 max-h-screen">
-        {tournament.title}
-        <TabsContainer />
-        <CarouselContainer />
-      </div>
+      <TabsContainer />
+      <CarouselContainer />
     </TournamentContext.Provider>
   );
 };

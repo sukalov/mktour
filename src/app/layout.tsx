@@ -11,7 +11,7 @@ import '@/styles/globals.css';
 
 export const metadata = {
   title: 'mktour',
-  description: 'an app for organazing complex tournament brackets of all kind',
+  description: 'an app for managing complex tournaments of all kind',
 };
 
 function RootLayout({ children }: PropsWithChildren) {

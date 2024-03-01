@@ -1,3 +1,5 @@
+import StyledCard from '@/app/tournament/components/styled-card';
+
 export default function MockSlotWithLongTitle() {
-  return null
+  return <StyledCard>Some mock data here</StyledCard>;
 }
