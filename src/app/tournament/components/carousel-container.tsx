@@ -39,7 +39,7 @@ const CarouselContainer: FC = () => {
 const CarouselIteratee: FC<{ children: FC }> = ({ children: Component }) => {
   return (
     <CarouselItem>
-      <div className="m-4">
+      <div className="m-4 mt-[4.5rem]"> {/* calculated from navbar height 3.5rem + carousel margin 1rem */}
         <Component />
       </div>
     </CarouselItem>

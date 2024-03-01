@@ -20,7 +20,7 @@ const TabsContainer: FC = () => {
       defaultValue="main"
       onValueChange={(value) => setCurrentTab(value)}
       value={value}
-      className="sticky top-14 z-40 w-full rounded-none"
+      className="fixed top-14 z-40 w-full rounded-none"
     >
       <MkTabsList
         ref={tabRef}
