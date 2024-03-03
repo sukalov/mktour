@@ -30,6 +30,7 @@ export const tournaments = sqliteTable('tournament', {
 export const clubs = sqliteTable('club', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
+  created_at: integer('created_at'),
   lichess_team: text('lichess_team'),
 });
 
