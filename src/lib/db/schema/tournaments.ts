@@ -34,6 +34,7 @@ export const clubs = sqliteTable('club', {
 });
 
 export const clubs_to_users = sqliteTable('clubs_to_users', {
+  id: text('id').primaryKey(),
   club_id: text('club_id')
     .notNull()
     .references(() => clubs.id),
