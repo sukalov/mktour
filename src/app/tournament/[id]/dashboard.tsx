@@ -12,7 +12,6 @@ import TabsContainer from '@/app/tournament/components/tabs-container';
 import { FC, useEffect, useState } from 'react';
 
 const Dashboard: FC<DashboardProps> = ({ tournament }) => {
-  const [hydrated, setHydrated] = useState(false); // helper for random result generator to avoid hydration error
   const [currentTab, setCurrentTab] = useState<string>('main');
   const [currentRound] = useState(0);
   const tabs = tabsArray;
@@ -27,9 +26,9 @@ const Dashboard: FC<DashboardProps> = ({ tournament }) => {
     games,
     currentRound,
   };
-
+  
+  const [hydrated, setHydrated] = useState(false); // helper for random result generator to avoid hydration error
   useEffect(() => {
-    // to avoid hydration error
     setHydrated(true);
   }, []);
 

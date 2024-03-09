@@ -3,13 +3,11 @@ import GameContainer from '@/app/tournament/components/game-container';
 import { SetStateAction } from 'jotai';
 import { FC, useState } from 'react';
 
-const CurrentRound: FC<any> = ({ games, currentRound }) => {
+const RoundItem: FC<{round: GameType[]}> = ({ round }) => {
   const [setResult] = useState<number | null>(null);
-
   return (
     <>
-      <h1 className="flex justify-center">Round {currentRound} (current)</h1>
-      {games[currentRound].map((game: GameType) => {
+      {round.map((game: GameType) => {
         return (
           <GamesIteratee
             key={game.players[0].name + game.players[1].name}
@@ -39,4 +37,4 @@ const GamesIteratee = ({
   );
 };
 
-export default CurrentRound;
+export default RoundItem;

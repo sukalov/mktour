@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-vars */ // FIXME
 
 import { TournamentContext } from '@/app/tournament/[id]/tournament-context';
 import {
