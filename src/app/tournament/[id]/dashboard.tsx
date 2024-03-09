@@ -13,7 +13,7 @@ import { FC, useEffect, useState } from 'react';
 
 const Dashboard: FC<DashboardProps> = ({ tournament }) => {
   const [currentTab, setCurrentTab] = useState<string>('main');
-  const [currentRound] = useState(0);
+  const [currentRound] = useState(7);
   const tabs = tabsArray;
   const players = playersArray;
   const games = generateGames(players);

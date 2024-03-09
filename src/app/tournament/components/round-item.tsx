@@ -3,7 +3,7 @@ import GameContainer from '@/app/tournament/components/game-container';
 import { SetStateAction } from 'jotai';
 import { FC, useState } from 'react';
 
-const RoundItem: FC<{round: GameType[]}> = ({ round }) => {
+const RoundItem: FC<{ round: GameType[] }> = ({ round }) => {
   const [setResult] = useState<number | null>(null);
   return (
     <>

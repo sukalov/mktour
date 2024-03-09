@@ -6,13 +6,12 @@ import RoundItem from '@/app/tournament/components/round-item';
 import { FC, useContext } from 'react';
 
 const RoundsContainer: FC = () => {
-  const { games } = useContext(TournamentContext);
-  console.log(games);
+  const { games, currentRound } = useContext(TournamentContext);
   return (
-    <div className='flex overflow-scroll'>
+    <div className="flex overflow-scroll">
       {games.map((round: GameType[], roundIndex: number) => (
-        <div key={roundIndex}>
-          {roundIndex}
+        <div className="flex flex-col justify-center" key={roundIndex}>
+          Round {roundIndex} {roundIndex === currentRound && '(current)'}
           <RoundItem key={roundIndex} round={round} />
         </div>
       ))}
