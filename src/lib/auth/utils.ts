@@ -20,6 +20,5 @@ export async function getUser (): Promise<User> {
 };
 
 export function timeout(ms: number) {
-  console.log(ms);
   return new Promise((resolve) => setTimeout(resolve, ms));
 }

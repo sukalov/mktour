@@ -30,10 +30,12 @@ export const tournaments = sqliteTable('tournament', {
 export const clubs = sqliteTable('club', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
+  created_at: integer('created_at'),
   lichess_team: text('lichess_team'),
 });
 
 export const clubs_to_users = sqliteTable('clubs_to_users', {
+  id: text('id').primaryKey(),
   club_id: text('club_id')
     .notNull()
     .references(() => clubs.id),

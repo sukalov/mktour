@@ -5,10 +5,13 @@ import { int, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 export const users = sqliteTable('user', {
   id: text('id').primaryKey(),
   name: text('name'),
-  email: text('email').notNull(),
-  username: text('username').notNull(),
+  email: text('email').notNull().unique(),
+  username: text('username').notNull().unique(),
   rating: int('rating'),
-  default_club: text('default_club').references(() => clubs.id).notNull()
+  default_club: text('default_club')
+    .references(() => clubs.id)
+    .notNull(),
+  created_at: integer('created_at'),
 });
 
 export const sessions = sqliteTable('user_session', {
