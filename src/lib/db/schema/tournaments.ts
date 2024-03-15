@@ -19,12 +19,12 @@ export const tournaments = sqliteTable('tournament', {
   format: text('format').$type<Format>(),
   type: text('type').$type<TournamentType>(),
   date: text('date'),
-  timestamp: integer('timestamp'),
+  created_at: integer('created_at'),
   club_id: text('club_id')
     .references(() => clubs.id)
     .notNull(),
-  is_started: integer('is_started', { mode: 'boolean' }).$default(() => false),
-  is_closed: integer('is_closed', { mode: 'boolean' }).$default(() => false),
+  started_at: integer('started_at'),
+  closed_at: integer('closed_at'),
 });
 
 export const clubs = sqliteTable('club', {
