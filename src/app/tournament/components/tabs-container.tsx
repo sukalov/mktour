@@ -1,5 +1,6 @@
 import { TournamentContext } from '@/app/tournament/[id]/tournament-context';
 import { MkTabs, MkTabsList, MkTabsTrigger } from '@/components/customized-tabs';
+
 import { FC, useContext, useEffect, useRef } from 'react';
 
 const TabsContainer: FC = () => {
@@ -24,8 +25,7 @@ const TabsContainer: FC = () => {
     >
       <MkTabsList
         ref={tabRef}
-        className="scrollbar-hide w-full justify-between overflow-scroll rounded-none"
-        // here, justify-between is crucial for long lists, for lists without scroll use justify-around
+        className="scrollbar-hide w-full justify-around md:justify-evenly overflow-scroll rounded-none"
       >
         {tabs.map((tab) => (
           <div key={tab.title}>
