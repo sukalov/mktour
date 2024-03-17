@@ -43,7 +43,7 @@
     "@upstash/redis": "1.28.1",
     "@vercel/analytics": "1.0.2",
     "@vercel/speed-insights": "1.0.2",
-    "arctic": "0.10.5",
+    "arctic": "1.2.1",
     "autoprefixer": "10.4.16",
     "class-variance-authority": "0.7.0",
     "clsx": "2.0.0",
