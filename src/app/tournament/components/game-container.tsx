@@ -5,7 +5,7 @@ import { FC } from 'react';
 
 const GameContainer: FC<GameProps> = ({ result, player1, player2 }) => {
   return (
-    <Card className={`flex flex-row items-center justify-between border p-4 my-4`}>
+    <Card className={`flex flex-row items-center justify-between border p-4 my-4 w-full`}>
       <div className="flex flex-col gap-2">
         <div>{player1.name}</div>
         <div>{player2.name}</div>
