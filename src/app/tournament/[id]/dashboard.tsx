@@ -1,14 +1,14 @@
 'use client';
 
 import {
-  TournamentContext,
-  TournamentProps,
+  TournamentContext
 } from '@/app/tournament/[id]/tournament-context';
 import CarouselContainer from '@/app/tournament/components/carousel-container';
 import generateGames from '@/app/tournament/components/helpers/generateGames';
 import { playersArray } from '@/app/tournament/components/helpers/players';
 import { tabsArray } from '@/app/tournament/components/helpers/tabs';
 import TabsContainer from '@/app/tournament/components/tabs-container';
+import { DatabaseTournament } from '@/lib/db/schema/tournaments';
 import { FC, useEffect, useState } from 'react';
 
 const Dashboard: FC<DashboardProps> = ({ tournament }) => {
@@ -42,7 +42,7 @@ const Dashboard: FC<DashboardProps> = ({ tournament }) => {
 };
 
 interface DashboardProps {
-  tournament: TournamentProps;
+  tournament: DatabaseTournament;
 }
 
 export default Dashboard;

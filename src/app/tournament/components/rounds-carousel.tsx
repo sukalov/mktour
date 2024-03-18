@@ -6,6 +6,7 @@ import { FC, useContext, useState } from 'react';
 const RoundsCarousel: FC = () => {
   const { games, currentRound } = useContext(TournamentContext);
   const [roundInView, setRoundInView] = useState(currentRound);
+  const round = games[roundInView];
 
   const handleClick = (direction: string) => {
     if (direction === 'left') {
@@ -22,16 +23,18 @@ const RoundsCarousel: FC = () => {
       }
     }
   };
-
   return (
     <div>
-      <div className="sticky top-3 flex items-center justify-between">
+      <div className="sticky top-2 mb-4 flex items-center justify-between">
         <Button onClick={() => handleClick('left')}>{'<'}</Button>
-        Round {roundInView} {roundInView === currentRound && '(current)'}
+        <div className="flex w-full flex-col items-center">
+          <span>Round {roundInView}</span>
+          <span>{roundInView === currentRound && '(current)'}</span>
+        </div>
         <Button onClick={() => handleClick('right')}>{'>'}</Button>
       </div>
-      <div className="flex flex-col items-center">
-        <RoundItem round={games[roundInView]} />
+      <div className="flex flex-col items-center gap-4">
+        <RoundItem round={round} />
       </div>
     </div>
   );

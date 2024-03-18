@@ -8,7 +8,7 @@ const Main = () => {
   return (
     <Card className='flex flex-col gap-8 p-4' >
       <div >{tournament?.title}</div>
-      <div className="flex flex-row self-end gap-4 text-secondary font-light">
+      <div className="flex flex-row self-end gap-2 text-xs font-thin">
         <span>{tournament?.type}</span>
         <div>{tournament?.format}</div>
         <div>{tournament?.date}</div>

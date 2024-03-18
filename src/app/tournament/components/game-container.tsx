@@ -5,10 +5,12 @@ import { FC } from 'react';
 
 const GameContainer: FC<GameProps> = ({ result, player1, player2 }) => {
   return (
-    <Card className={`flex flex-row items-center justify-between border p-4 my-4 w-full`}>
-      <div className="flex flex-col gap-2">
-        <div>{player1.name}</div>
-        <div>{player2.name}</div>
+    <Card
+      className={`flex w-full md:max-w-[250px] flex-row gap-2 items-center justify-between border p-4`}
+    >
+      <div className="flex max-w-[90%] flex-col gap-2">
+        <div className='truncate'>{player1.name}</div>
+        <div className='truncate'>{player2.name}</div>
       </div>
       <Result result={result} />
     </Card>

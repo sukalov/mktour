@@ -1,8 +1,8 @@
-import { Format, TournamentType } from '@/types/tournaments';
+import { DatabaseTournament } from '@/lib/db/schema/tournaments';
 import { FC, SetStateAction, createContext } from 'react';
 
 export const TournamentContext = createContext<TournamentContextType>({
-  tournament: {} as TournamentProps,
+  tournament: {} as DatabaseTournament,
   tabs: [],
   currentTab: '',
   setCurrentTab: '',
@@ -10,18 +10,6 @@ export const TournamentContext = createContext<TournamentContextType>({
   games: [[]],
   currentRound: 0,
 });
-
-export type TournamentProps = {
-  id: string;
-  title: string | null;
-  date: string | null;
-  format: Format | null;
-  type: TournamentType | null;
-  timestamp: number | null;
-  club_id: string;
-  is_started: boolean | null;
-  is_closed: boolean | null;
-};
 
 export type Player = {
   name: string;
@@ -45,7 +33,7 @@ export type Round = GameType[];
 export type GamesArray = Round[];
 
 export type TournamentContextType = {
-  tournament: TournamentProps;
+  tournament: DatabaseTournament;
   tabs: TabType[];
   currentTab: string;
   setCurrentTab: SetStateAction<any>;
@@ -55,6 +43,7 @@ export type TournamentContextType = {
     loose: number;
     draw: number;
   }[];
+  // players: DatabasePlayer[] // FIXME according to Schema
   games: GamesArray;
   currentRound: number;
 };
