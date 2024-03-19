@@ -32,9 +32,9 @@ export const createTournament = async (values: NewTournamentFormType) => {
     ...values,
     date: new Date(values.date).toISOString().slice(0, 10),
     id: newTournamentID,
-    timestamp: new Date().getTime(),
-    is_closed: false,
-    is_started: false,
+    created_at: new Date().getTime(),
+    closed_at: null,
+    started_at: null,
     club_id: String(club_id),
   };
   try {

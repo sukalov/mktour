@@ -1,19 +1,20 @@
 'use client';
-import { TournamentProps } from '@/app/tournament/[id]/tournament-context';
+
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { DatabaseTournament } from '@/lib/db/schema/tournaments';
 import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 
-const TournamentsContainer: FC<{ props: TournamentProps[] }> = ({ props }) => {
+const TournamentsContainer: FC<{ props: DatabaseTournament[] }> = ({ props }) => {
   return <>{props.map(TournamentIteratee)}</>;
 };
 
-const TournamentIteratee = (props: TournamentProps) => {
+const TournamentIteratee = (props: DatabaseTournament) => {
   const navigate = useRouter();
   return (
     <Card
