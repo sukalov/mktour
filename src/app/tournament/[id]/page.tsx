@@ -24,13 +24,14 @@ export default async function TournamentPage({ params }: TournamentPageProps) {
   // console.log(req);
   // const room = res.status === 404 ? null : res;
 
+  // TODO fix tournament title display
   return (
     <div className="w-full">
-      <div className="fixed top-5 z-50 flex w-full justify-center">
+      {/* <div className="fixed top-5 z-50 flex w-full justify-center">
         <div className="max-w-[50%] truncate text-xs">
           {tournament.title}
         </div>
-      </div>
+      </div> */}
       <Dashboard tournament={tournament} />
     </div>
   );

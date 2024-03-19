@@ -28,9 +28,14 @@ const Dashboard: FC<DashboardProps> = ({ tournament }) => {
   };
   
   const [hydrated, setHydrated] = useState(false); // helper for random result generator to avoid hydration error
+  
   useEffect(() => {
     setHydrated(true);
   }, []);
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [currentTab])
 
   if (!hydrated) return null;
   return (
