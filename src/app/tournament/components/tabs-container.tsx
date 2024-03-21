@@ -8,6 +8,7 @@ const TabsContainer: FC = () => {
   const value = currentTab;
   const tabRef = useRef<HTMLDivElement>(null);
   const indexOfTab = tabs?.findIndex((tab) => tab?.title === value);
+  console.log(indexOfTab)
 
   useEffect(() => {
     tabRef.current?.children[indexOfTab]?.scrollIntoView({

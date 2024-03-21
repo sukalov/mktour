@@ -3,15 +3,15 @@ import Link from 'next/link';
 
 export default function MakeTournamentButton() {
   return (
-    <Button
-      className="flex h-20 w-full max-w-[28rem] grow flex-col gap-2 font-bold"
-      variant="default"
-    >
-      <Link href="/new-tournament" className="w-full">
-        <h1 className="text-xl font-light min-[320px]:text-2xl">
+    <Link href="/new-tournament" className="m-auto w-full">
+      <Button
+        className="m-auto flex h-28 min-h-28 w-full max-w-[28rem] flex-col gap-2 font-bold"
+        variant="default"
+      >
+        <h1 className=" text-2xl font-light min-[320px]:text-3xl">
           make tournament
         </h1>
-      </Link>
-    </Button>
+      </Button>
+    </Link>
   );
 }

@@ -1,13 +1,31 @@
 import { TournamentContext } from '@/app/tournament/[id]/tournament-context';
 import RoundItem from '@/app/tournament/components/round-item';
 import { Button } from '@/components/ui/button';
+import {
+  Carousel,
+  CarouselApi,
+  CarouselContent,
+  CarouselItem,
+} from '@/components/ui/carousel';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { FC, useContext, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 
 const RoundsCarousel: FC = () => {
   const { games, currentRound } = useContext(TournamentContext);
   const [roundInView, setRoundInView] = useState(currentRound);
-  const round = games[roundInView];
+  const [api, setApi] = useState<CarouselApi>();
+  const { tabs, currentTab, setCurrentTab } = useContext(TournamentContext);
+
+  useEffect(() => {
+    if (!api) {
+      return;
+    }
+    api.on('select', () => {
+      let num = api.selectedScrollSnap();
+      setRoundInView(num);
+    });
+    if (roundInView) api.scrollTo(roundInView);
+  }, [api, currentTab, roundInView, setCurrentTab, tabs]);
 
   const handleClick = (direction: string) => {
     if (direction === 'left') {
@@ -24,6 +42,7 @@ const RoundsCarousel: FC = () => {
       }
     }
   };
+
   return (
     <div>
       <div className="sticky top-2 mb-4 flex items-center justify-between">
@@ -35,7 +54,9 @@ const RoundsCarousel: FC = () => {
           <ChevronLeft />
         </Button>
         <div className="flex w-full flex-col items-center">
-          <span>Round {roundInView}</span>
+          <Button variant="ghost" onClick={() => api?.scrollTo(currentRound)}>
+            <span className={roundInView === currentRound ? 'underline' : ''}>Round {roundInView}</span>
+          </Button>
           <span>{roundInView === currentRound && '(current)'}</span>
         </div>
         <Button
@@ -46,11 +67,19 @@ const RoundsCarousel: FC = () => {
           <ChevronRight />
         </Button>
       </div>
-      <div className="flex flex-col items-center gap-4">
-        <RoundItem round={round} />
-      </div>
+      <Carousel setApi={setApi}>
+        <CarouselContent>
+          {/* <div className='w-full flex flex-col gap-4 justify-center'> */}
+          {games.map((game, i) => (
+            <CarouselItem key={i}>
+              <RoundItem round={game} />
+            </CarouselItem>
+          ))}
+          {/* </div> */}
+        </CarouselContent>
+      </Carousel>
     </div>
-  );
+  );  
 };
 
 export default RoundsCarousel;

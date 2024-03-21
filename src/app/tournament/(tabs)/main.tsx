@@ -13,7 +13,6 @@ const Main = () => {
         <div>{tournament?.format}</div>
         <div>{tournament?.date}</div>
       </div>
-      {/* <span>{tournament?.is_closed}</span> */}
     </Card>
   );
 };

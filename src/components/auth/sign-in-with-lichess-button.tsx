@@ -11,23 +11,22 @@ export default function SignInWithLichessButton({
   className,
 }: SignInWithLichessButtonProps) {
   return (
-    <Button
-      className={cn(
-        `flex h-20 w-full max-w-[28rem] grow flex-col gap-2 font-bold`,
-        className,
-      )}
-      variant="outline"
-    >
-      <Link href={'/login/lichess'} className="w-full">
-        <div className="flex items-center justify-center gap-2">
-          <span className="grid-col-3">
-            <LichessLogo size="30" />
-          </span>
-          <span className="whitespace-nowrap text-xl font-light leading-none md:text-2xl">
-            sign in with lichess
-          </span>
-        </div>
-      </Link>
-    </Button>
+    <Link href={'/login/lichess'} className="w-full">
+      <Button
+        className={cn(
+          `m-auto flex h-28 min-h-28 w-full max-w-[28rem] flex-none flex-col gap-2 px-1 font-bold`,
+          className,
+        )}
+        variant="outline"
+      >
+        <div className=" grid-flow-col"></div>
+        <span className=" grid-col-3">
+          <LichessLogo size="40" />
+        </span>
+        <span className="grid-col--9 text-[1.4rem] font-light leading-none md:px-4 md:text-xl">
+          sign in with lichess
+        </span>
+      </Button>
+    </Link>
   );
 }
