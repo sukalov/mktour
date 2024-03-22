@@ -14,24 +14,11 @@ export default async function TournamentPage({ params }: TournamentPageProps) {
 
   if (status === undefined) redirect(`/tournament/${params.id}/view`);
 
-  // const req = await fetch('http://localhost:8080/', {
-  //   next: { revalidate: 0 },
-  //   headers: {
-  //     Authorization: `Bearer ${cookies().get('token')?.value}`,
-  //   },
-  // });
-  // const res = await req.json();
-  // console.log(req);
-  // const room = res.status === 404 ? null : res;
-
-  // TODO fix tournament title display
   return (
     <div className="w-full">
-      {/* <div className="fixed top-5 z-50 flex w-full justify-center">
-        <div className="max-w-[50%] truncate text-xs">
-          {tournament.title}
-        </div>
-      </div> */}
+      <div className="fixed left-0 right-0 top-5 z-50 m-auto w-[300px] max-w-[50%] truncate text-xs">
+        {tournament.title}
+      </div>
       <Dashboard tournament={tournament} />
     </div>
   );

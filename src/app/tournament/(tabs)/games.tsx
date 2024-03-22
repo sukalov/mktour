@@ -14,9 +14,15 @@ const Games: FC = () => {
 
   useEffect(() => {
     if (currentTab === 'games' && ref.current) {
-      ref.current.children[currentRound].scrollIntoView({ inline: 'center' });
+      ref.current.children[currentRound].scrollIntoView({
+        inline: 'center',
+      });
     }
   }, [currentRound, currentTab]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [currentTab])
 
   if (isMobile) return <RoundsCarousel />;
 

@@ -6,14 +6,16 @@ const Main = () => {
   const { tournament } = useContext(TournamentContext);
 
   return (
-    <Card className='flex flex-col gap-8 p-4' >
-      <div >{tournament?.title}</div>
-      <div className="flex flex-row self-end gap-2 text-xs font-thin">
-        <span>{tournament?.type}</span>
-        <div>{tournament?.format}</div>
-        <div>{tournament?.date}</div>
-      </div>
-    </Card>
+    <div className="px-4">
+      <Card className="flex flex-col gap-8 p-4">
+        <div>{tournament?.title}</div>
+        <div className="flex flex-row gap-2 self-end text-xs font-thin">
+          <span>{tournament?.type}</span>
+          <div>{tournament?.format}</div>
+          <div>{tournament?.date}</div>
+        </div>
+      </Card>
+    </div>
   );
 };
 

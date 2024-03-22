@@ -27,6 +27,36 @@ const RoundsCarousel: FC = () => {
     if (roundInView) api.scrollTo(roundInView);
   }, [api, currentTab, roundInView, setCurrentTab, tabs]);
 
+  // DOUBTFUL mechanic
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [roundInView])
+
+  return (
+    <div>
+      <div className="sticky top-[7rem] backdrop-blur-md z-50 mb-4 flex items-center justify-between">
+        <RoundsControls props={{ api, roundInView, games, setRoundInView, currentRound }} />
+      </div>
+      <Carousel setApi={setApi} opts={{ startIndex: currentRound }}>
+        <CarouselContent>
+          {games.map((game, i) => (
+            <CarouselItem key={i}>
+              <div className="flex w-full flex-col justify-center gap-4 px-4">
+                <RoundItem round={game} />
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+      </Carousel>
+    </div>
+  );
+};
+
+const RoundsControls: FC<any> = ({ props }) => {
+  const { roundInView, games, setRoundInView, api, currentRound } = props;
+  console.log(currentRound)
+
   const handleClick = (direction: string) => {
     if (direction === 'left') {
       if (roundInView === 0) {
@@ -42,44 +72,35 @@ const RoundsCarousel: FC = () => {
       }
     }
   };
-
   return (
-    <div>
-      <div className="sticky top-2 mb-4 flex items-center justify-between">
-        <Button
-          disabled={roundInView === 0}
-          onClick={() => handleClick('left')}
-          variant="ghost"
-        >
-          <ChevronLeft />
-        </Button>
-        <div className="flex w-full flex-col items-center">
-          <Button variant="ghost" onClick={() => api?.scrollTo(currentRound)}>
-            <span className={roundInView === currentRound ? 'underline' : ''}>Round {roundInView}</span>
-          </Button>
-          <span>{roundInView === currentRound && '(current)'}</span>
-        </div>
-        <Button
-          disabled={roundInView === games.length - 1}
-          onClick={() => handleClick('right')}
-          variant="ghost"
-        >
-          <ChevronRight />
+    <>
+      <Button
+        disabled={roundInView === 0}
+        onClick={() => handleClick('left')}
+        variant="ghost"
+      >
+        <ChevronLeft />
+      </Button>
+      <div className="flex w-full flex-col items-center">
+        <Button variant="ghost" onClick={() => api?.scrollTo(currentRound)}>
+          <span
+            className={
+              roundInView === currentRound ? 'underline underline-offset-4' : ''
+            }
+          >
+            Round {roundInView + 1}
+          </span>
         </Button>
       </div>
-      <Carousel setApi={setApi}>
-        <CarouselContent>
-          {/* <div className='w-full flex flex-col gap-4 justify-center'> */}
-          {games.map((game, i) => (
-            <CarouselItem key={i}>
-              <RoundItem round={game} />
-            </CarouselItem>
-          ))}
-          {/* </div> */}
-        </CarouselContent>
-      </Carousel>
-    </div>
-  );  
+      <Button
+        disabled={roundInView === games.length - 1}
+        onClick={() => handleClick('right')}
+        variant="ghost"
+      >
+        <ChevronRight />
+      </Button>
+    </>
+  );
 };
 
 export default RoundsCarousel;

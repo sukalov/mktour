@@ -29,26 +29,28 @@ const TournamentTable: FC = () => {
   };
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Name</TableHead>
-          <TableResultHeads />
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {players.map((player: any) => (
-          <TableRow key={player.name}>
-            <TableCell className="font-small max-w-[200px] truncate">
-              {player.name}
-            </TableCell>
-            <TableCell className="font-medium">{player.win}</TableCell>
-            <TableCell className="font-medium">{player.loose}</TableCell>
-            <TableCell className="font-medium">{player.draw}</TableCell>
+    <div className="px-4">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Name</TableHead>
+            <TableResultHeads />
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHeader>
+        <TableBody>
+          {players.map((player: any) => (
+            <TableRow key={player.name}>
+              <TableCell className="font-small max-w-[200px] truncate">
+                {player.name}
+              </TableCell>
+              <TableCell className="font-medium">{player.win}</TableCell>
+              <TableCell className="font-medium">{player.loose}</TableCell>
+              <TableCell className="font-medium">{player.draw}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
   );
 };
 
