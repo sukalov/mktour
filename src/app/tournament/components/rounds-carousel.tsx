@@ -73,7 +73,7 @@ const RoundsControls: FC<any> = ({ props }) => {
     }
   };
   return (
-    <>
+    <div className='flex w-full px-4'>
       <Button
         disabled={roundInView === 0}
         onClick={() => handleClick('left')}
@@ -99,7 +99,7 @@ const RoundsControls: FC<any> = ({ props }) => {
       >
         <ChevronRight />
       </Button>
-    </>
+    </div>
   );
 };
 
