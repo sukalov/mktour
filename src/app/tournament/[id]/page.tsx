@@ -16,7 +16,7 @@ export default async function TournamentPage({ params }: TournamentPageProps) {
 
   return (
     <div className="w-full">
-      <div className="fixed left-0 right-0 top-5 z-50 m-auto w-[300px] max-w-[50%] truncate text-xs">
+      <div className="fixed left-0 right-0 top-5 z-50 m-auto w-[300px] max-w-[50%] truncate opacity-30 text-xs">
         {tournament.title}
       </div>
       <Dashboard tournament={tournament} />

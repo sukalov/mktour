@@ -5,48 +5,43 @@ import ModeTogglerMobile from '@/components/mode-toggler-mobile';
 import MktourNavbar from '@/components/ui/mktour-logo-navbar';
 import { navbarItems } from '@/config/navbar-items';
 import { motion, useCycle } from 'framer-motion';
+import { User } from 'lucia';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { ReactNode, useEffect, useRef } from 'react';
+import { FC, ReactNode, useEffect, useRef } from 'react';
 import ModeToggler from './mode-toggler';
-
-const sidebar = {
-  open: (height = 1000) => ({
-    clipPath: `circle(${height * 2 + 200}px at 100% 0)`,
-    transition: {
-      type: 'spring',
-      stiffness: 20,
-      restDelta: 2,
-    },
-  }),
-  closed: {
-    clipPath: 'circle(0px at 100% 0)',
-    transition: {
-      type: 'spring',
-      stiffness: 400,
-      damping: 40,
-    },
-  },
-};
-
-type NavbarProps = {
-  user: any;
-  node_env: 'development' | 'production' | 'test';
-};
 
 export default function Navbar({ user, node_env }: NavbarProps) {
   if (node_env === 'production')
     console.log(
       "chess tournaments have become simple for everyone. \nexcept for devs. \nfor devs it's still hard.",
     );
+
   const pathname = usePathname();
-  const containerRef = useRef(null);
-  const { height } = useDimensions(containerRef);
-  const [isOpen, toggleOpen] = useCycle(false, true);
   const isHomepage = pathname === '/';
 
-  const router = useRouter();
+  return (
+    <nav className="fixed z-50 flex max-h-14 w-full min-w-max flex-row items-center justify-start gap-3 border-b bg-background p-4 md:pl-4">
+      <div className="flex flex-grow justify-start">
+        <Link href="/">
+          <MktourNavbar isHomepage={isHomepage} />
+        </Link>
+      </div>
+      <Motion pathname={pathname} user={user} />
+      <AuthButton user={user} className="hidden md:block" />
+      <ModeToggler className="hidden md:block" />
+    </nav>
+  );
+}
 
+const Motion: FC<{ pathname: string; user: User | null }> = ({
+  pathname,
+  user,
+}) => {
+  const containerRef = useRef(null);
+  const router = useRouter();
+  const { height } = useDimensions(containerRef);
+  const [isOpen, toggleOpen] = useCycle(false, true);
   const handleSignOut = async () => {
     const response = await fetch('/api/sign-out', {
       method: 'POST',
@@ -57,80 +52,64 @@ export default function Navbar({ user, node_env }: NavbarProps) {
     }
   };
   return (
-    <nav className="fixed z-50 flex max-h-14 w-full min-w-max flex-row items-center justify-start gap-3 border-b bg-background p-4 md:pl-4">
-      <div>
-        <Link href="/">
-          <MktourNavbar isHomepage={isHomepage} />
-        </Link>
-      </div>
-      {
-        // TODO: Separate into dedicated component! Otherwise it's пиздец
-      }
-      <div className="flex-grow"></div>
-      <motion.nav
-        initial={false}
-        animate={isOpen ? 'open' : 'closed'}
-        custom={height}
-        className={`fixed inset-0 z-50 block w-full md:hidden ${
-          isOpen ? '' : 'pointer-events-none'
-        }`}
-        ref={containerRef}
+    <motion.nav
+      initial={false}
+      animate={isOpen ? 'open' : 'closed'}
+      custom={height}
+      className={`fixed inset-0 z-50 block w-full md:hidden ${
+        isOpen ? '' : 'pointer-events-none'
+      }`}
+      ref={containerRef}
+    >
+      <motion.div
+        className="absolute inset-0 right-0 w-full bg-secondary"
+        variants={sidebar}
+      />
+      <motion.ul
+        variants={variants}
+        className="absolute grid w-full gap-3 px-10 py-16"
       >
-        <motion.div
-          className="absolute inset-0 right-0 w-full bg-secondary"
-          variants={sidebar}
-        />
-        <motion.ul
-          variants={variants}
-          className="absolute grid w-full gap-3 px-10 py-16"
-        >
-          {navbarItems.map((item, idx) => {
-            // const isLastItem = idx === navbarItems.length - 1; // Check if it's the last item
-            return (
-              <div key={idx}>
-                <MenuItem>
-                  <Link
-                    href={item.path}
-                    onClick={() => toggleOpen()}
-                    className={`flex w-full text-2xl ${
-                      item.path === pathname ? 'font-bold' : ''
-                    }`}
-                  >
-                    {item.title}
-                  </Link>
-                </MenuItem>
-                <MenuItem className="my-3 h-px w-full bg-gray-300" />
-              </div>
-            );
-          })}
-          <MenuItem>
-            {!user ? (
-              <Link className="text-xl" href="/login/lichess">
-                sign in with lichess
-              </Link>
-            ) : (
-              <button
-                className="flex text-xl"
-                name="log out"
-                onClick={handleSignOut}
+        {navbarItems.map((item, idx) => (
+          <div key={idx}>
+            <MenuItem>
+              <Link
+                href={item.path}
+                onClick={() => toggleOpen()}
+                className={`flex w-full text-2xl ${
+                  item.path === pathname ? 'font-bold' : ''
+                }`}
               >
-                log out
-              </button>
-            )}
-          <div className="my-3 h-px w-full bg-transparent" ></div>
-          </MenuItem>
-          <MenuItem className='flex justify-end gap-6'>
-            EN { /* TODO: Button to change app language */}
-            <ModeTogglerMobile />
-          </MenuItem>
-        </motion.ul>
-        <MenuToggle toggle={toggleOpen} />
-      </motion.nav>
-      <AuthButton user={user} className="hidden md:block" />
-      <ModeToggler className="hidden md:block" />
-    </nav>
+                {item.title}
+              </Link>
+            </MenuItem>
+            <MenuItem className="my-3 h-px w-full bg-gray-300" />
+          </div>
+        ))}
+        <MenuItem>
+          {!user ? (
+            <Link className="text-xl" href="/login/lichess">
+              sign in with lichess
+            </Link>
+          ) : (
+            <button
+              className="flex text-xl"
+              name="log out"
+              onClick={handleSignOut}
+            >
+              log out
+            </button>
+          )}
+          <div className="my-3 h-px w-full bg-transparent"></div>
+        </MenuItem>
+        <MenuItem className="flex justify-end gap-6">
+          EN {/* TODO: Button to change app language */}
+          <ModeTogglerMobile />
+        </MenuItem>
+      </motion.ul>
+      <MenuToggle toggle={toggleOpen} />
+    </motion.nav>
   );
-}
+};
 
 const MenuToggle = ({ toggle }: { toggle: any }) => (
   <button
@@ -186,6 +165,19 @@ const MenuItem = ({
   );
 };
 
+const useDimensions = (ref: any) => {
+  const dimensions = useRef({ width: 0, height: 0 });
+
+  useEffect(() => {
+    if (ref.current) {
+      dimensions.current.width = ref.current.offsetWidth;
+      dimensions.current.height = ref.current.offsetHeight;
+    }
+  }, [ref]);
+
+  return dimensions.current;
+};
+
 const MenuItemVariants = {
   open: {
     y: 0,
@@ -213,15 +205,26 @@ const variants = {
   },
 };
 
-const useDimensions = (ref: any) => {
-  const dimensions = useRef({ width: 0, height: 0 });
+const sidebar = {
+  open: (height = 1000) => ({
+    clipPath: `circle(${height * 2 + 200}px at 100% 0)`,
+    transition: {
+      type: 'spring',
+      stiffness: 20,
+      restDelta: 2,
+    },
+  }),
+  closed: {
+    clipPath: 'circle(0px at 100% 0)',
+    transition: {
+      type: 'spring',
+      stiffness: 400,
+      damping: 40,
+    },
+  },
+};
 
-  useEffect(() => {
-    if (ref.current) {
-      dimensions.current.width = ref.current.offsetWidth;
-      dimensions.current.height = ref.current.offsetHeight;
-    }
-  }, [ref]);
-
-  return dimensions.current;
+type NavbarProps = {
+  user: User | null;
+  node_env: 'development' | 'production' | 'test';
 };
