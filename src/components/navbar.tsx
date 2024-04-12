@@ -17,7 +17,7 @@ export default function Navbar({ user, node_env }: NavbarProps) {
       "chess tournaments have become simple for everyone. \nexcept for devs. \nfor devs it's still hard.",
     );
 
-  const pathname = usePathname().split('/')[1]
+  const pathname = usePathname().split('/')[1];
   const isTournament = pathname !== 'tournament';
 
   return (

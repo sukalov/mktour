@@ -27,15 +27,13 @@ const RoundsCarousel: FC = () => {
     if (roundInView) api.scrollTo(roundInView);
   }, [api, currentTab, roundInView, setCurrentTab, tabs]);
 
-  // DOUBTFUL mechanic
-
   useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [roundInView])
+    window.scrollTo(0, 0);
+  }, [roundInView]);
 
   return (
     <div>
-      <div className="sticky top-[7rem] backdrop-blur-md z-50 mb-4 flex items-center justify-between">
+      <div className="sticky top-[7rem] backdrop-blur-md z-40 mb-4 flex items-center justify-between">
         <RoundsControls props={{ api, roundInView, games, setRoundInView, currentRound }} />
       </div>
       <Carousel setApi={setApi} opts={{ startIndex: currentRound }}>
@@ -55,8 +53,6 @@ const RoundsCarousel: FC = () => {
 
 const RoundsControls: FC<any> = ({ props }) => {
   const { roundInView, games, setRoundInView, api, currentRound } = props;
-  console.log(currentRound)
-
   const handleClick = (direction: string) => {
     if (direction === 'left') {
       if (roundInView === 0) {
@@ -73,7 +69,7 @@ const RoundsControls: FC<any> = ({ props }) => {
     }
   };
   return (
-    <div className='flex w-full px-4'>
+    <div className="flex w-full px-4">
       <Button
         disabled={roundInView === 0}
         onClick={() => handleClick('left')}

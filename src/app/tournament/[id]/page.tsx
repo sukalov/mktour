@@ -12,7 +12,7 @@ export default async function TournamentPage({ params }: TournamentPageProps) {
   const { tournament, club } = await useTournamentToClubQuery({ params });
   const status = await useStatusQuery({ user, club });
 
-  if (status === undefined) redirect(`/tournament/${params.id}/view`);
+  if (!status) redirect(`/tournament/${params.id}/view`);
 
   return (
     <div className="w-full">
