@@ -9,6 +9,7 @@ const Main = () => {
   return (
     <div className="px-4">
       <Card className="flex flex-col items-center gap-8 p-4">
+        {/* TODO: Iteratee */}
         <div className="flex gap-2">
           <UserRound />
           {tournament?.type}
