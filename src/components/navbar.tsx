@@ -17,14 +17,14 @@ export default function Navbar({ user, node_env }: NavbarProps) {
       "chess tournaments have become simple for everyone. \nexcept for devs. \nfor devs it's still hard.",
     );
 
-  const pathname = usePathname();
-  const isHomepage = pathname === '/';
+  const pathname = usePathname().split('/')[1]
+  const isTournament = pathname !== 'tournament';
 
   return (
     <nav className="fixed z-50 flex max-h-14 w-full min-w-max flex-row items-center justify-start gap-3 border-b bg-background p-4 md:pl-4">
       <div className="flex flex-grow justify-start">
         <Link href="/">
-          <MktourNavbar isHomepage={isHomepage} />
+          <MktourNavbar isTournament={isTournament} />
         </Link>
       </div>
       <Motion pathname={pathname} user={user} />
