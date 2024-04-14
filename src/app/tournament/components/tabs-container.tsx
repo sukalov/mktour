@@ -13,6 +13,7 @@ const TabsContainer: FC = () => {
     tabRef.current?.children[indexOfTab]?.scrollIntoView({
       inline: 'center',
       block: 'end',
+      behavior: 'smooth'
     });
   }, [indexOfTab]);
 

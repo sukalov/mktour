@@ -8,6 +8,7 @@ import { tabsArray } from '@/app/tournament/components/helpers/tabs';
 import TabsContainer from '@/app/tournament/components/tabs-container';
 import { DatabaseTournament } from '@/lib/db/schema/tournaments';
 import { FC, useEffect, useState } from 'react';
+import useLocalStorageState from 'use-local-storage-state';
 
 const Dashboard: FC<DashboardProps> = ({ tournament }) => {
   const [currentTab, setCurrentTab] = useState<string>('main');
@@ -25,6 +26,14 @@ const Dashboard: FC<DashboardProps> = ({ tournament }) => {
     currentRound,
   };
 
+  // eslint-disable-next-line no-unused-vars
+  const [value, setValue, { removeItem }] = useLocalStorageState<{}>(
+    'tournament',
+    {
+      defaultValue: [tournament],
+    },
+  );
+
   const [hydrated, setHydrated] = useState(false); // helper for random result generator to avoid hydration error
 
   useEffect(() => {
@@ -32,8 +41,12 @@ const Dashboard: FC<DashboardProps> = ({ tournament }) => {
   }, []);
 
   useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [currentTab])
+    setValue(tournament);
+  }, [games, players, setValue, tournament]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentTab]);
 
   if (!hydrated) return null;
   return (

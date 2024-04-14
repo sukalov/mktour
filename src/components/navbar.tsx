@@ -4,11 +4,13 @@ import AuthButton from '@/components/auth/auth-button';
 import ModeTogglerMobile from '@/components/mode-toggler-mobile';
 import MktourNavbar from '@/components/ui/mktour-logo-navbar';
 import { navbarItems } from '@/config/navbar-items';
+import { DatabaseTournament } from '@/lib/db/schema/tournaments';
 import { motion, useCycle } from 'framer-motion';
 import { User } from 'lucia';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { FC, ReactNode, useEffect, useRef } from 'react';
+import { FC, ReactNode, useEffect, useRef, useSyncExternalStore } from 'react';
+import useLocalStorageState from 'use-local-storage-state';
 import ModeToggler from './mode-toggler';
 
 export default function Navbar({ user, node_env }: NavbarProps) {
@@ -18,14 +20,27 @@ export default function Navbar({ user, node_env }: NavbarProps) {
     );
 
   const pathname = usePathname().split('/')[1];
-  const isTournament = pathname !== 'tournament';
+  const isTournament = pathname === 'tournament';
+  const [tournament] = useLocalStorageState<DatabaseTournament>('tournament');
+  console.log(tournament);
+
+  function useIsServerRender() {
+    return useSyncExternalStore(() => {
+      return () => {}
+    }, () => false, () => true)
+  }
+  const isServer = useIsServerRender()
+  console.log(isServer)
 
   return (
-    <nav className="fixed z-50 flex max-h-14 w-full min-w-max flex-row items-center justify-start gap-3 border-b bg-background p-4 md:pl-4">
+    <nav className="fixed z-50 flex max-h-14 w-full min-w-max flex-row items-center justify-between border-b bg-background p-4 md:pl-4">
       <div className="flex flex-grow justify-start">
         <Link href="/">
           <MktourNavbar isTournament={isTournament} />
         </Link>
+      </div>
+      <div className="fixed left-0 right-0 top-5 z-50 m-auto w-[300px] max-w-[50%] truncate text-center text-xs opacity-30">
+        {!isServer && isTournament && tournament?.title}
       </div>
       <Motion pathname={pathname} user={user} />
       <AuthButton user={user} className="hidden md:block" />

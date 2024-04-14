@@ -6,7 +6,7 @@ export default function MktourNavbar({ isTournament }: { isTournament: boolean }
       className={`${turboPascal.className} m-auto select-none text-2xl font-bold`}
     >
       <span className="group">
-        {isTournament ? 'mktour' : 'm'}
+        { isTournament ? 'm' : 'mktour' }
         <span className="group-hover:animate-logo-pulse">_</span>
       </span>
     </h1>
