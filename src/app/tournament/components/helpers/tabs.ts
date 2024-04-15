@@ -1,7 +1,7 @@
 import Games from '@/app/tournament/(tabs)/games';
 import Main from '@/app/tournament/(tabs)/main';
 import TournamentTable from '@/app/tournament/(tabs)/table';
-import { TabType } from '@/app/tournament/[id]/tournament-context';
+import { TabType } from '@/app/tournament/[id]/dashboard';
 
 export const tabsArray: TabType[] = [
   { title: 'main', component: Main },

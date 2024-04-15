@@ -14,7 +14,7 @@ const TournamentTable: FC = () => {
   const { players } = useContext(TournamentContext);
   const isMobile = useMediaQuery({ maxWidth: 500 });
 
-  const tableResultTitles = ['Win', 'Loose', 'Draw'];
+  const tableResultTitles = ['Wins', 'Draws', 'Losses'];
 
   const TableResultHeads = () => {
     const shortenTitle = (title: string) =>
@@ -22,30 +22,38 @@ const TournamentTable: FC = () => {
     return (
       <>
         {tableResultTitles.map((title) => (
-          <TableHead key={title}>{shortenTitle(title)}</TableHead>
+          <TableHead key={title} className="p-1">
+            {shortenTitle(title)}
+          </TableHead>
         ))}
       </>
     );
   };
+
+  const TableResultCell: FC<{ stat: number | null }> = ({ stat }) => (
+    <TableCell className="p-1 font-medium">{stat}</TableCell>
+  );
 
   return (
     <div className="px-4">
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Name</TableHead>
+            <TableHead className='p-2'>#</TableHead>
+            <TableHead className='pl-0'>Name</TableHead>
             <TableResultHeads />
           </TableRow>
         </TableHeader>
         <TableBody>
-          {players.map((player: any) => (
-            <TableRow key={player.name}>
-              <TableCell className="font-small max-w-[200px] truncate">
-                {player.name}
+          {players.map((player, i) => (
+            <TableRow key={player.player_id}>
+              <TableCell className="font-small p-2">{i + 1}</TableCell>
+              <TableCell className="font-small max-w-[150px] truncate pl-0">
+                {player.nickname}
               </TableCell>
-              <TableCell className="font-medium">{player.win}</TableCell>
-              <TableCell className="font-medium">{player.loose}</TableCell>
-              <TableCell className="font-medium">{player.draw}</TableCell>
+              <TableResultCell stat={player.wins} />
+              <TableResultCell stat={player.draws} />
+              <TableResultCell stat={player.losses} />
             </TableRow>
           ))}
         </TableBody>

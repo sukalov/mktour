@@ -7,8 +7,9 @@ const Main = () => {
   const { tournament } = useContext(TournamentContext);
 
   return (
-    <div className="px-4">
-      <Card className="flex flex-col items-center gap-8 p-4">
+    <div className="flex flex-col gap-4 p-4">
+      <div className='text-4xl font-bold truncate whitespace-break-spaces'>{tournament.title}</div>
+      <Card className="flex w-full flex-col items-center gap-8 p-4">
         <InfoItem icon={<UserRound />} value={tournament?.type} />
         <InfoItem icon={<Dices />} value={tournament?.format} />
         <InfoItem icon={<CalendarDays />} value={tournament?.date} />

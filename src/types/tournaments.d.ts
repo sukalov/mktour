@@ -22,7 +22,7 @@ export interface GameModel {
   num: number;
 }
 
-type Result = '0-1' | '1-0' | '1/2-1/2' | undefined;
+export type Result = '0-1' | '1-0' | '1/2-1/2' | undefined;
 
 type Format = 'swiss' | 'round robin' | 'double elimination';
 

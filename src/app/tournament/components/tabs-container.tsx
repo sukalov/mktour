@@ -1,10 +1,13 @@
-import { TournamentContext } from '@/app/tournament/[id]/tournament-context';
-import { MkTabs, MkTabsList, MkTabsTrigger } from '@/components/customized-tabs';
+import { TabProps } from '@/app/tournament/[id]/dashboard';
+import {
+  MkTabs,
+  MkTabsList,
+  MkTabsTrigger,
+} from '@/components/customized-tabs';
 
-import { FC, useContext, useEffect, useRef } from 'react';
+import { FC, useEffect, useRef } from 'react';
 
-const TabsContainer: FC = () => {
-  const { tabs, currentTab, setCurrentTab } = useContext(TournamentContext);
+const TabsContainer: FC<TabProps> = ({ tabs, currentTab, setCurrentTab }) => {
   const value = currentTab;
   const tabRef = useRef<HTMLDivElement>(null);
   const indexOfTab = tabs?.findIndex((tab) => tab?.title === value);
@@ -12,8 +15,8 @@ const TabsContainer: FC = () => {
   useEffect(() => {
     tabRef.current?.children[indexOfTab]?.scrollIntoView({
       inline: 'center',
-      block: 'end',
-      behavior: 'smooth'
+      block: 'start',
+      behavior: 'smooth',
     });
   }, [indexOfTab]);
 
@@ -26,7 +29,7 @@ const TabsContainer: FC = () => {
     >
       <MkTabsList
         ref={tabRef}
-        className="scrollbar-hide w-full justify-around md:justify-evenly overflow-scroll rounded-none"
+        className="scrollbar-hide w-full justify-around overflow-scroll rounded-none md:justify-evenly"
       >
         {tabs.map((tab) => (
           <div key={tab.title}>

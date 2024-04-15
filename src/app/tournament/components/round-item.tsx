@@ -1,37 +1,39 @@
-import { GameType } from '@/app/tournament/[id]/tournament-context';
-import GameContainer from '@/app/tournament/components/game-container';
+import { Round, TournamentContextType } from '@/app/tournament/[id]/tournament-context';
+import GameItem from '@/app/tournament/components/game-item';
 import { SetStateAction } from 'jotai';
 import { FC, useState } from 'react';
 
-const RoundItem: FC<{ round: GameType[] }> = ({ round }) => {
+const RoundItem: FC<RoundItemProps> = ({ round }) => {
   const [setResult] = useState<number | null>(null);
   return (
     <>
-      {round.map((game: GameType) => {
-        return (
-          <GamesIteratee
-            key={game.players[0].name + game.players[1].name}
-            game={game}
-            setResult={setResult}
-          />
-        );
-      })}
+      {round.map((game: TournamentContextType['games'][0][0]) => (
+        <GamesIteratee
+          key={game.id} // Assuming 'id' is unique for each game
+          game={game}
+          setResult={setResult}
+        />
+      ))}
     </>
   );
 };
+
+type RoundItemProps = {
+  round: Round
+}
 
 const GamesIteratee = ({
   game,
   setResult,
 }: {
-  game: GameType;
+  game: TournamentContextType['games'][0][0];
   setResult: SetStateAction<any>;
 }) => {
   return (
-    <GameContainer
+    <GameItem
       result={game.result}
-      player1={game.players[0]}
-      player2={game.players[1]}
+      player1={game.white_nickname}
+      player2={game.black_nickname}
       setResult={setResult}
     />
   );
