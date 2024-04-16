@@ -1,16 +1,16 @@
 'use client';
 
 import {
+  DashboardContextType,
   Round,
-  TournamentContextType,
-} from '@/app/tournament/[id]/tournament-context';
+} from '@/app/tournament/[id]/dashboard-context';
 import { DatabasePlayerToTournament } from '@/lib/db/schema/tournaments';
 import { Result } from '@/types/tournaments';
 
 const generateGames = (
-  players: TournamentContextType['players'],
+  players: DashboardContextType['players'],
 ): any => {
-  const games: TournamentContextType['games'] = [];
+  const games: DashboardContextType['games'] = [];
   const results = generateResults(players);
   const totalPlayers = players.length;
   let resultIndex = 0;

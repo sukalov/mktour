@@ -1,4 +1,4 @@
-import { TournamentContext } from '@/app/tournament/[id]/tournament-context';
+import { DashboardContext } from '@/app/tournament/[id]/dashboard-context';
 import CarouselControls from '@/app/tournament/components/carousel-controls';
 import RoundItem from '@/app/tournament/components/round-item';
 import {
@@ -10,7 +10,7 @@ import {
 import { FC, useContext, useEffect, useState } from 'react';
 
 const RoundsMobile: FC = () => {
-  const { games, currentRound, top } = useContext(TournamentContext);
+  const { games, currentRound, top } = useContext(DashboardContext);
   const [roundInView, setRoundInView] = useState(currentRound);
   const [api, setApi] = useState<CarouselApi>();
 
@@ -29,11 +29,13 @@ const RoundsMobile: FC = () => {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }, [roundInView]);
 
-  const controlsTop = top === 'top-[3.5rem]' ? 'top-[7rem]' : 'top-[3.5rem]'
+  const controlsTop = top === 'top-[3.5rem]' ? 'top-[7rem]' : 'top-[3.5rem]';
 
   return (
     <div>
-      <div className={`sticky w-full z-40 ${controlsTop} flex transition-all duration-500 items-center justify-between backdrop-blur-md`}>
+      <div
+        className={`sticky z-40 w-full ${controlsTop} flex items-center justify-between backdrop-blur-md transition-all duration-500`}
+      >
         <CarouselControls
           props={{ api, roundInView, games, setRoundInView, currentRound }}
         />
@@ -55,5 +57,5 @@ const RoundsMobile: FC = () => {
     </div>
   );
 };
-       
+
 export default RoundsMobile;

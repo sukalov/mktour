@@ -1,8 +1,8 @@
-import { TournamentContextType } from '@/app/tournament/[id]/tournament-context';
+import { DashboardContextType } from '@/app/tournament/[id]/dashboard-context';
 
 const length = 16;
 
-export const playersArray: TournamentContextType['players'] = Array.from(
+export const playersArray: DashboardContextType['players'] = Array.from(
   { length },
   (_, i) => ({
     player_id: `${i + 100}`,

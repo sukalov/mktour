@@ -6,18 +6,18 @@ import {
 } from '@/lib/db/schema/tournaments';
 import { createContext } from 'react';
 
-export const TournamentContext = createContext<TournamentContextType>({
+export const DashboardContext = createContext<DashboardContextType>({
   tournament: {} as DatabaseTournament,
-  players: [] as TournamentContextType['players'],
-  games: [] as TournamentContextType['games'],
+  players: [] as DashboardContextType['players'],
+  games: [] as DashboardContextType['games'],
   currentRound: 0,
   currentTab: 'main',
-  top: ''
+  top: '',
 });
 
-export type Round = TournamentContextType['games'][0];
+export type Round = DashboardContextType['games'][0];
 
-export type TournamentContextType = {
+export type DashboardContextType = {
   tournament: DatabaseTournament;
   players: (DatabasePlayerToTournament & Pick<DatabasePlayer, 'nickname'>)[];
   games: (DatabaseGame & {
@@ -26,5 +26,5 @@ export type TournamentContextType = {
   })[][];
   currentRound: DatabaseGame['round_number'];
   currentTab: 'main' | 'table' | 'games';
-  top: string
+  top: string;
 };

@@ -1,4 +1,4 @@
-import { Round, TournamentContextType } from '@/app/tournament/[id]/tournament-context';
+import { DashboardContextType, Round } from '@/app/tournament/[id]/dashboard-context';
 import GameItem from '@/app/tournament/components/game-item';
 import { SetStateAction } from 'jotai';
 import { FC, useState } from 'react';
@@ -7,7 +7,7 @@ const RoundItem: FC<RoundItemProps> = ({ round }) => {
   const [setResult] = useState<number | null>(null);
   return (
     <>
-      {round.map((game: TournamentContextType['games'][0][0]) => (
+      {round.map((game: DashboardContextType['games'][0][0]) => (
         <GamesIteratee
           key={game.id} // Assuming 'id' is unique for each game
           game={game}
@@ -26,7 +26,7 @@ const GamesIteratee = ({
   game,
   setResult,
 }: {
-  game: TournamentContextType['games'][0][0];
+  game: DashboardContextType['games'][0][0];
   setResult: SetStateAction<any>;
 }) => {
   return (

@@ -1,4 +1,4 @@
-import { TournamentContext } from '@/app/tournament/[id]/tournament-context';
+import { DashboardContext } from '@/app/tournament/[id]/dashboard-context';
 import {
   Table,
   TableBody,
@@ -11,7 +11,7 @@ import { FC, useContext } from 'react';
 import { useMediaQuery } from 'react-responsive';
 
 const TournamentTable: FC = () => {
-  const { players } = useContext(TournamentContext);
+  const { players } = useContext(DashboardContext);
   const isMobile = useMediaQuery({ maxWidth: 500 });
 
   const tableResultTitles = ['Wins', 'Draws', 'Losses'];

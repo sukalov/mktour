@@ -4,7 +4,7 @@ import { FC } from 'react';
 import { useMediaQuery } from 'react-responsive';
 
 const Games: FC = () => {
-  // const { games, currentRound, currentTab } = useContext(TournamentContext);
+  // const { games, currentRound, currentTab } = useContext(DashboardContext);
   const isMobile = useMediaQuery({ maxWidth: 768 });
 
   if (isMobile) return <RoundsMobile />;

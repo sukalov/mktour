@@ -23,7 +23,7 @@ export default function Navbar({ user, node_env }: NavbarProps) {
   // const [tournament] =
   //   useLocalStorageState<
   //     Pick<
-  //       TournamentContextType,
+  //       DashboardContextType,
   //       'currentRound' | 'games' | 'players' | 'tournament'
   //     >
   //   >('tournament');
