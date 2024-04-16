@@ -16,10 +16,12 @@ function SwipeDetector({
   const touchEndX = useRef<number | null>(null);
 
   function handleTouchStart(event: React.TouchEvent<HTMLDivElement>) {
+    event.stopPropagation();
     touchStartX.current = event.touches[0].clientX;
   }
 
   function handleTouchMove(event: React.TouchEvent<HTMLDivElement>) {
+    event.stopPropagation();
     touchEndX.current = event.touches[0].clientX;
   }
 

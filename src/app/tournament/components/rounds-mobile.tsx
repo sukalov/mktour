@@ -34,7 +34,7 @@ const RoundsMobile: FC = () => {
   return (
     <div>
       <div
-        className={`sticky z-40 w-full ${controlsTop} flex items-center justify-between backdrop-blur-md transition-all duration-500`}
+        className={`fixed z-40 w-full ${controlsTop} flex items-center justify-between backdrop-blur-md transition-all duration-500`}
       >
         <CarouselControls
           props={{ api, roundInView, games, setRoundInView, currentRound }}
@@ -47,7 +47,7 @@ const RoundsMobile: FC = () => {
         <CarouselContent>
           {games.map((round, i) => (
             <CarouselItem key={i}>
-              <div className="flex w-full flex-col justify-center gap-4 px-4">
+              <div className="flex w-full flex-col justify-center mt-[52px] gap-4 px-4">
                 <RoundItem round={round} />
               </div>
             </CarouselItem>

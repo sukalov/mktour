@@ -53,14 +53,14 @@ const Dashboard: FC<DashboardProps> = ({ tournament }) => {
     const handleScroll = () => {
       let moving = window.scrollY;
 
-      setVisible(position > moving);
+      if (position > 10) setVisible(position > moving);
       setPosition(moving);
     };
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [position]);
+  });
 
   useEffect(() => {
     window.scrollTo(0, 0);

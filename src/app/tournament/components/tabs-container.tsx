@@ -28,18 +28,25 @@ const TabsContainer: FC<TabProps> = ({
     });
   }, [indexOfTab]);
 
-  const onSwipeLeft = () => {
+  const onSwipeRight = () => {
     if (indexOfTab > 0)
       setCurrentTab(
         tabsArray[indexOfTab - 1].title as DashboardContextType['currentTab'],
       );
+    else
+      setCurrentTab(
+        tabsArray[tabsArray.length - 1]
+          .title as DashboardContextType['currentTab'],
+      );
   };
 
-  const onSwipeRight = () => {
+  const onSwipeLeft = () => {
     if (indexOfTab < tabsArray.length - 1)
       setCurrentTab(
         tabsArray[indexOfTab + 1].title as DashboardContextType['currentTab'],
       );
+    else
+      setCurrentTab(tabsArray[0].title as DashboardContextType['currentTab']);
   };
 
   return (
