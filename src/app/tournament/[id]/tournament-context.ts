@@ -11,6 +11,8 @@ export const TournamentContext = createContext<TournamentContextType>({
   players: [] as TournamentContextType['players'],
   games: [] as TournamentContextType['games'],
   currentRound: 0,
+  currentTab: 'main',
+  top: ''
 });
 
 export type Round = TournamentContextType['games'][0];
@@ -23,4 +25,6 @@ export type TournamentContextType = {
     black_nickname: string;
   })[][];
   currentRound: DatabaseGame['round_number'];
+  currentTab: 'main' | 'table' | 'games';
+  top: string
 };

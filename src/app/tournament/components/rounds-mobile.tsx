@@ -9,8 +9,8 @@ import {
 } from '@/components/ui/carousel';
 import { FC, useContext, useEffect, useState } from 'react';
 
-const RoundsCarousel: FC = () => {
-  const { games, currentRound } = useContext(TournamentContext);
+const RoundsMobile: FC = () => {
+  const { games, currentRound, top } = useContext(TournamentContext);
   const [roundInView, setRoundInView] = useState(currentRound);
   const [api, setApi] = useState<CarouselApi>();
 
@@ -29,9 +29,11 @@ const RoundsCarousel: FC = () => {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }, [roundInView]);
 
+  const controlsTop = top === 'top-[3.5rem]' ? 'top-[7rem]' : 'top-[3.5rem]'
+
   return (
     <div>
-      <div className="fixed w-full top-[7rem] z-40 flex items-center justify-between backdrop-blur-md">
+      <div className={`sticky w-full z-40 ${controlsTop} flex transition-all duration-500 items-center justify-between backdrop-blur-md`}>
         <CarouselControls
           props={{ api, roundInView, games, setRoundInView, currentRound }}
         />
@@ -43,7 +45,7 @@ const RoundsCarousel: FC = () => {
         <CarouselContent>
           {games.map((round, i) => (
             <CarouselItem key={i}>
-              <div className="flex w-full mt-14 flex-col justify-center gap-4 px-4">
+              <div className="flex w-full flex-col justify-center gap-4 px-4">
                 <RoundItem round={round} />
               </div>
             </CarouselItem>
@@ -54,4 +56,4 @@ const RoundsCarousel: FC = () => {
   );
 };
        
-export default RoundsCarousel;
+export default RoundsMobile;

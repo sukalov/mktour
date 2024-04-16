@@ -4,11 +4,11 @@ import {
   TournamentContext,
   TournamentContextType,
 } from '@/app/tournament/[id]/tournament-context';
+import DashboardContent from '@/app/tournament/components/dashboard-content';
 import generateGames from '@/app/tournament/components/helpers/generateGames';
 import { playersArray } from '@/app/tournament/components/helpers/players';
 import { tabsArray } from '@/app/tournament/components/helpers/tabs';
 import TabsContainer from '@/app/tournament/components/tabs-container';
-import TournamentContent from '@/app/tournament/components/tournament-content';
 import { DatabaseTournament } from '@/lib/db/schema/tournaments';
 import {
   Dispatch,
@@ -21,20 +21,41 @@ import {
 import useLocalStorageState from 'use-local-storage-state';
 
 const Dashboard: FC<DashboardProps> = ({ tournament }) => {
-  const [currentTab, setCurrentTab] = useState<string>('main');
-  const players = playersArray
-  const { games, updatedPlayers } = generateGames(players);
+  const [currentTab, setCurrentTab] =
+    useState<TournamentContextType['currentTab']>('main');
+  const players = playersArray;
+  const { games, updatedPlayers } = useMemo(
+    () => generateGames(players),
+    [players],
+  );
   const [currentRound] = useState(games.length - 1);
+  const [position, setPosition] = useState(window.scrollY);
+  const [visible, setVisible] = useState(true);
+
   const localStorageContext: LocalStorageTournament = useMemo(() => {
     return { tournament, players: updatedPlayers, games, currentRound };
   }, [currentRound, games, tournament, updatedPlayers]);
 
-  const [value, setValue] = useLocalStorageState<LocalStorageTournament>(
-    'tournament',
-    {
+  const [localStorage, setLocalStorage] =
+    useLocalStorageState<LocalStorageTournament>('tournament', {
       defaultValue: localStorageContext,
-    },
-  );
+    });
+
+
+  useEffect(() => {
+    const handleScroll = () => {
+      let moving = window.scrollY;
+
+      setVisible(position > moving);
+      setPosition(moving);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  });
+
+  const top = visible ? 'top-[3.5rem]' : 'top-0';
 
   const [hydrated, setHydrated] = useState(false); // helper for random result generator to avoid hydration error
 
@@ -47,10 +68,15 @@ const Dashboard: FC<DashboardProps> = ({ tournament }) => {
   }, [currentTab]);
 
   useEffect(() => {
-    if (value.tournament?.id !== tournament?.id) {
-      setValue(localStorageContext);
+    if (localStorage.tournament?.id !== tournament?.id) {
+      setLocalStorage(localStorageContext);
     }
-  }, [localStorageContext, setValue, tournament?.id, value.tournament?.id]);
+  }, [
+    localStorage.tournament?.id,
+    localStorageContext,
+    setLocalStorage,
+    tournament?.id,
+  ]);
 
   if (!hydrated) return null;
   return (
@@ -60,14 +86,17 @@ const Dashboard: FC<DashboardProps> = ({ tournament }) => {
         players: updatedPlayers,
         games,
         currentRound,
+        currentTab,
+        top
       }}
     >
       <TabsContainer
         tabs={tabsArray}
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
+        top={top}
       />
-      <TournamentContent currentTab={currentTab} />
+      <DashboardContent currentTab={currentTab} />
     </TournamentContext.Provider>
   );
 };
@@ -78,8 +107,9 @@ interface DashboardProps {
 
 export type TabProps = {
   tabs: typeof tabsArray;
-  currentTab: string;
-  setCurrentTab: Dispatch<SetStateAction<string>>;
+  currentTab: TournamentContextType['currentTab'];
+  setCurrentTab: Dispatch<SetStateAction<TournamentContextType['currentTab']>>;
+  top?: string;
 };
 
 export type TabType = {

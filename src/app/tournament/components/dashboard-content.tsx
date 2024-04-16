@@ -1,7 +1,7 @@
 import { tabsArray } from '@/app/tournament/components/helpers/tabs';
 import { FC } from 'react';
 
-const TournamentContent: FC<{ currentTab: string }> = ({ currentTab }) => {
+const DashboardContent: FC<{ currentTab: string }> = ({ currentTab }) => {
   const Component =
     tabsArray.find((tab) => tab.title === currentTab)?.component ||
     tabsArray[0].component;
@@ -12,4 +12,4 @@ const TournamentContent: FC<{ currentTab: string }> = ({ currentTab }) => {
   );
 };
 
-export default TournamentContent
+export default DashboardContent
