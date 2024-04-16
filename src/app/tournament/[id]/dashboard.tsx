@@ -22,7 +22,6 @@ import {
 import useLocalStorageState from 'use-local-storage-state';
 
 const Dashboard: FC<DashboardProps> = ({ tournament }) => {
-  console.log(tournament);
   const [currentTab, setCurrentTab] =
     useState<DashboardContextType['currentTab']>('main');
   const players = playersArray;
@@ -36,7 +35,6 @@ const Dashboard: FC<DashboardProps> = ({ tournament }) => {
   const top = visible ? 'top-[3.5rem]' : 'top-0';
   const [hydrated, setHydrated] = useState(false); // helper for random result generator to avoid hydration error
   const params = useParams<{ id: string }>();
-  console.log(params);
 
   useEffect(() => {
     setHydrated(true);
@@ -50,8 +48,6 @@ const Dashboard: FC<DashboardProps> = ({ tournament }) => {
     useLocalStorageState<LocalStorageTournament>('tournament', {
       defaultValue: localStorageContext,
     });
-
-  console.log(localStorage.tournament);
 
   useEffect(() => {
     const handleScroll = () => {
