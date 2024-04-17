@@ -20,10 +20,8 @@ const ScrollDetector: FC<
         document.documentElement.scrollHeight,
       );
       const bottom = windowHeight + window.scrollY >= documentHeight;
-
       let moving = window.scrollY;
-      console.log(bottom, documentHeight);
-
+      
       if (position > 10 && !bottom) setVisible(position > moving);
       setPosition(moving);
     };
