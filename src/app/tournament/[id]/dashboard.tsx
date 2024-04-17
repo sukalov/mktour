@@ -9,8 +9,8 @@ import { playersArray } from '@/app/tournament/components/helpers/players';
 import { tabsArray } from '@/app/tournament/components/helpers/tabs';
 import TabContent from '@/app/tournament/components/tab-content';
 import TabsContainer from '@/app/tournament/components/tabs-container';
+import ScrollDetector from '@/components/scroll-detector';
 import { DatabaseTournament } from '@/lib/db/schema/tournaments';
-import { useParams } from 'next/navigation';
 import {
   Dispatch,
   FC,
@@ -30,11 +30,9 @@ const Dashboard: FC<DashboardProps> = ({ tournament }) => {
     [players],
   );
   const [currentRound] = useState(games.length - 1);
-  const [position, setPosition] = useState(0);
   const [visible, setVisible] = useState(true);
   const top = visible ? 'top-[3.5rem]' : 'top-0';
   const [hydrated, setHydrated] = useState(false); // helper for random result generator to avoid hydration error
-  const params = useParams<{ id: string }>();
 
   useEffect(() => {
     setHydrated(true);
@@ -50,49 +48,25 @@ const Dashboard: FC<DashboardProps> = ({ tournament }) => {
     });
 
   useEffect(() => {
-    const handleScroll = () => {
-      let moving = window.scrollY;
-
-      if (position > 10) setVisible(position > moving);
-      setPosition(moving);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  });
-
-  useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentTab]);
 
   useEffect(() => {
-    if (
-      tournament.id === params.id &&
-      localStorage?.tournament.id !== tournament.id
-    ) {
+    if (localStorage?.tournament.id !== tournament.id) {
       setLocalStorage(localStorageContext);
     }
   }, [
-    localStorage,
+    localStorage?.tournament.id,
     localStorageContext,
-    params.id,
     setLocalStorage,
-    tournament,
+    tournament.id,
   ]);
-
-  const getTournament = () => {
-    if (tournament.id) return tournament;
-    if (localStorage.tournament.id === params.id)
-      return localStorage.tournament;
-    return {} as DatabaseTournament;
-  };
 
   if (!hydrated) return null;
   return (
     <DashboardContext.Provider
       value={{
-        tournament: getTournament(),
+        tournament: tournament,
         players: updatedPlayers,
         games,
         currentRound,
@@ -106,7 +80,9 @@ const Dashboard: FC<DashboardProps> = ({ tournament }) => {
         setCurrentTab={setCurrentTab}
         top={top}
       />
-      <TabContent currentTab={currentTab} />
+      <ScrollDetector setVisible={setVisible}>
+        <TabContent currentTab={currentTab} />
+      </ScrollDetector>
     </DashboardContext.Provider>
   );
 };

@@ -28,29 +28,24 @@ const TabsContainer: FC<TabProps> = ({
     });
   }, [indexOfTab]);
 
-  const onSwipeRight = () => {
-    if (indexOfTab > 0)
-      setCurrentTab(
-        tabsArray[indexOfTab - 1].title as DashboardContextType['currentTab'],
-      );
-    else
-      setCurrentTab(
-        tabsArray[tabsArray.length - 1]
-          .title as DashboardContextType['currentTab'],
-      );
-  };
+  const handleSwipe = (direction: string) => {
+    let newIndex;
+    if (direction === '>') {
+      newIndex = indexOfTab > 0 ? indexOfTab - 1 : tabsArray.length - 1;
+    } else if (direction === '<') {
+      newIndex = indexOfTab < tabsArray.length - 1 ? indexOfTab + 1 : 0;
+    } else return; // Invalid direction
 
-  const onSwipeLeft = () => {
-    if (indexOfTab < tabsArray.length - 1)
-      setCurrentTab(
-        tabsArray[indexOfTab + 1].title as DashboardContextType['currentTab'],
-      );
-    else
-      setCurrentTab(tabsArray[0].title as DashboardContextType['currentTab']);
+    setCurrentTab(
+      tabsArray[newIndex].title as DashboardContextType['currentTab'],
+    );
   };
 
   return (
-    <SwipeDetector onSwipeLeft={onSwipeLeft} onSwipeRight={onSwipeRight}>
+    <SwipeDetector
+      onSwipeLeft={() => handleSwipe('<')}
+      onSwipeRight={() => handleSwipe('>')}
+    >
       <MkTabs
         defaultValue="main"
         onValueChange={(value) =>
