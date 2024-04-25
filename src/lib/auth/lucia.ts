@@ -1,5 +1,6 @@
-import { BASE_URL } from '@/config/base-url';
+import { BASE_URL } from '@/config/urls';
 import { adapter } from '@/lib/db/lucia-adapter';
+
 import type { DatabaseUser } from '@/lib/db/schema/auth';
 import { Lichess } from 'arctic';
 import type { Session, User } from 'lucia';
