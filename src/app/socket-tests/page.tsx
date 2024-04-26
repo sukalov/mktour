@@ -12,8 +12,8 @@ export default function SocketTests() {
 
   function connectSocket() {
     ws = new WebSocket(`${SOCKET_URL}/randomTournamentId`);
-    ws.onclose = () => connectSocket();
     ws.onopen = () => pingpong();
+    ws.onmessage = (message) => console.log(message.data)
   }
 
   function pingpong() {

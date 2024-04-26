@@ -91,6 +91,13 @@ export async function GET(request: Request): Promise<Response> {
     const ctuId = `${clubId}=${userId}`
     const name = `${lichessUser.profile?.firstName ?? ''}${lichessUser.profile?.lastName ? ' ' + lichessUser.profile.lastName : ''}`;
 
+
+    await db.insert(clubs).values({
+      id: clubId,
+      name: `${lichessUser.id}'s chess club`,
+      created_at: new Date().getTime()
+    });
+
     await db.insert(users).values({
       id: userId,
       rating: lichessUser.perfs.blitz.rating,
@@ -99,12 +106,6 @@ export async function GET(request: Request): Promise<Response> {
       name,
       default_club: clubId,
       created_at: new Date().getTime(),
-    });
-
-    await db.insert(clubs).values({
-      id: clubId,
-      name: `${lichessUser.id}'s chess club`,
-      created_at: new Date().getTime()
     });
 
     await db.insert(clubs_to_users).values({
