@@ -6,4 +6,4 @@ export const BASE_URL =
 export const SOCKET_URL =
     process.env.NODE_ENV === 'production'
       ? process.env.NEXT_PUBLIC_SOCKET_URL
-      : 'wss://localhost:7070';
+      : 'ws://localhost:7070';
