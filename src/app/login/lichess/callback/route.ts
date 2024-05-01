@@ -121,7 +121,7 @@ export async function GET(request: Request): Promise<Response> {
     cookies().set(
       sessionCookie.name,
       sessionCookie.value,
-      sessionCookie.attributes,
+      {...sessionCookie.attributes, sameSite: 'none'},
     );
     }
     catch (e) {
