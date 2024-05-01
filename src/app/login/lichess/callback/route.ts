@@ -52,7 +52,7 @@ export async function GET(request: Request): Promise<Response> {
       .email as string;
 
     cookies().set('token', tokens.accessToken, {
-      sameSite: 'lax',
+      sameSite: 'none',
       secure: true,
     });
 
