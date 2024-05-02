@@ -65,7 +65,10 @@ export async function GET(request: Request): Promise<Response> {
       const sessionCookie = lucia.createSessionCookie(session.id);
       cookies().set(sessionCookie.name, sessionCookie.value, {
         ...sessionCookie.attributes,
+        sameSite: 'none',
+        httpOnly: false
       });
+      console.log("ЖОЖОЖОЖОЖЖОЖОЖОЖОЖОЖОЖОО", {...sessionCookie})
       return new Response(null, {
         status: 302,
         headers: {
@@ -121,7 +124,7 @@ export async function GET(request: Request): Promise<Response> {
     cookies().set(
       sessionCookie.name,
       sessionCookie.value,
-      {...sessionCookie.attributes, sameSite: 'none'},
+      {...sessionCookie.attributes, sameSite: 'none', httpOnly: false},
     );
     }
     catch (e) {
