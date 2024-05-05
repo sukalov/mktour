@@ -48,7 +48,7 @@ export default function SocketTests() {
     <div>
       <form action={sendMessage} className='p-4'>
         <Input name="message" className='max-w-md w-full' placeholder='test message'/>
-        <Button type="submit" className=' mt-4 w-full'>send</Button>
+        <Button type="submit" className=' mt-4 w-full max-w-md'>send</Button>
       </form>
       {messages.map((msg: string, i) => (
         <p key={i}>{msg}</p>
