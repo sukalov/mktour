@@ -9,26 +9,25 @@ import useSWRSubscription from 'swr/subscription';
 export const dynamic = 'force-dynamic';
 
 interface SocketTestsProps {
-    session: string
+  session: string;
 }
 
-export default function SocketTests({session}: SocketTestsProps) {
-  const [messages, setMessages] = useState<string[]>([])
+export default function SocketTests({ session }: SocketTestsProps) {
+  const [messages, setMessages] = useState<string[]>([]);
   const ws = useRef<WebSocket>();
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const { data, error } = useSWRSubscription(
+  //   const { data, error } = useSWRSubscription(
+  useSWRSubscription(
     `${SOCKET_URL}/randomTournamentId?auth_session=${session}`,
     (key, { next }) => {
       ws.current = new WebSocket(key);
       ws.current.onopen = () => {
         pingpong();
-        console.log('WebSocket Connection');
       };
       ws.current.onmessage = (event) => {
-        console.log({ data, error });
         next(null, event.data);
-        console.log(event.data);
-        setMessages(prev => prev.concat(event.data))
+        setMessages((prev) => prev.concat(event.data));
       };
       ws.current.onerror = (error) => next(error, null);
       return () => ws.current?.close();
@@ -43,16 +42,29 @@ export default function SocketTests({session}: SocketTestsProps) {
   }
 
   const sendMessage = (formData: FormData) => {
-    if (!ws.current) {console.log('NOTSENT: ' + formData.get('message')); return }
+    if (!ws.current) {
+      console.log("we're offline");
+      return;
+    }
+    inputRef!.current!.value = '';
     ws.current.send(formData.get('message') ?? '');
-    setMessages(prev => [...prev, `me: ${formData.get('message') ?? ''}`]);
+    setMessages((prev) => [...prev, `me: ${formData.get('message')}`]);
   };
 
   return (
     <div>
-      <form action={sendMessage} className='p-4'>
-        <Input name="message" className='max-w-md w-full' placeholder='test message'/>
-        <Button type="submit" className=' mt-4 w-full max-w-md'>send</Button>
+      <form action={sendMessage} className="p-4">
+        <Input
+          name="message"
+          className="w-full max-w-md"
+          placeholder="test message"
+          ref={inputRef}
+          minLength={1}
+          required
+        />
+        <Button type="submit" className=" mt-4 w-full max-w-md">
+          send
+        </Button>
       </form>
       {messages.map((msg: string, i) => (
         <p key={i}>{msg}</p>
