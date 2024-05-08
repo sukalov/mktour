@@ -14,7 +14,7 @@ export default async function useStatusQuery({ user, club }: UserClubsQueryProps
           eq(clubs_to_users.club_id, club.id),
         ),
       )
-  )[0]?.status;
+  )[0]?.status ?? undefined;
 }
 
 export type UserClubsQueryProps = {
