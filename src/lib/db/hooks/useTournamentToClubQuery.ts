@@ -10,7 +10,7 @@ import { eq } from 'drizzle-orm';
 export default async function useTournamentToClubQuery({
   params,
 }: ParamsProps) {
-  const { tournament, club } = (
+  const result = (
     await db
       .select()
       .from(tournaments)
@@ -18,7 +18,9 @@ export default async function useTournamentToClubQuery({
       .leftJoin(clubs, eq(tournaments.club_id, clubs.id))
   ).at(0) as TournamentToClubLeftJoin;
 
-  return { tournament, club };
+  if (!result?.tournament || !result?.club)
+    return { tournament: undefined, club: undefined };
+  return { tournament: result.tournament, club: result.club };
 }
 
 interface ParamsProps {
