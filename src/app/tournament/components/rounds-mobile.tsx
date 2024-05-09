@@ -47,7 +47,7 @@ const RoundsMobile: FC = () => {
         <CarouselContent>
           {games.map((round, i) => (
             <CarouselItem key={i}>
-              <div className="flex w-full flex-col justify-center mt-[52px] gap-4 px-4">
+              <div className="mt-[52px] flex w-full flex-col justify-center gap-4 px-4">
                 <RoundItem round={round} />
               </div>
             </CarouselItem>

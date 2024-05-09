@@ -19,7 +19,7 @@ export default function Navbar({ user, node_env }: NavbarProps) {
 
   const pathname = usePathname().split('/')[1];
   const isTournament = pathname === 'tournament';
-  
+
   // const [tournament] =
   //   useLocalStorageState<
   //     Pick<

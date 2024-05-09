@@ -12,4 +12,4 @@ const TabContent: FC<{ currentTab: string }> = ({ currentTab }) => {
   );
 };
 
-export default TabContent
+export default TabContent;

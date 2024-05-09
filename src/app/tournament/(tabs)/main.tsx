@@ -8,7 +8,9 @@ const Main = () => {
 
   return (
     <div className="flex flex-col gap-4 p-4">
-      <div className='text-4xl font-bold truncate whitespace-break-spaces'>{tournament.title}</div>
+      <div className="truncate whitespace-break-spaces text-4xl font-bold">
+        {tournament.title}
+      </div>
       <Card className="flex w-full flex-col items-center gap-8 p-4">
         <InfoItem icon={<UserRound />} value={tournament?.type} />
         <InfoItem icon={<Dices />} value={tournament?.format} />

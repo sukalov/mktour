@@ -10,7 +10,9 @@ import { DatabaseTournament } from '@/lib/db/schema/tournaments';
 import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 
-const TournamentsContainer: FC<{ props: DatabaseTournament[] }> = ({ props }) => {
+const TournamentsContainer: FC<{ props: DatabaseTournament[] }> = ({
+  props,
+}) => {
   return <>{props.map(TournamentIteratee)}</>;
 };
 

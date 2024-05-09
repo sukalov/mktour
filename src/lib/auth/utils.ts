@@ -13,11 +13,11 @@ export type AuthSession = {
   } | null;
 };
 
-export async function getUser (): Promise<User> {
+export async function getUser(): Promise<User> {
   const { user } = await validateRequest();
   if (!user) redirect('/sign-in');
-  return user
-};
+  return user;
+}
 
 export function timeout(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));

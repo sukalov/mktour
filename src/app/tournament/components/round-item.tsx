@@ -1,4 +1,7 @@
-import { DashboardContextType, Round } from '@/app/tournament/[id]/dashboard-context';
+import {
+  DashboardContextType,
+  Round,
+} from '@/app/tournament/[id]/dashboard-context';
 import GameItem from '@/app/tournament/components/game-item';
 import { SetStateAction } from 'jotai';
 import { FC, useState } from 'react';
@@ -19,8 +22,8 @@ const RoundItem: FC<RoundItemProps> = ({ round }) => {
 };
 
 type RoundItemProps = {
-  round: Round
-}
+  round: Round;
+};
 
 const GamesIteratee = ({
   game,

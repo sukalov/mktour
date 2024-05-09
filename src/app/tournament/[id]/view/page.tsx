@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation';
 
 export default async function TournamentView({ params }: TournamentPageProps) {
   const { tournament } = await useTournamentToClubQuery({ params });
-  if (!tournament) notFound()
+  if (!tournament) notFound();
 
   return (
     <div className="w-full">

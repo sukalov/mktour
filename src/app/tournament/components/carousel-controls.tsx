@@ -4,7 +4,7 @@ import { FC } from 'react';
 
 const CarouselControls: FC<any> = ({ props }) => {
   const { roundInView, games, setRoundInView, api, currentRound } = props;
-  
+
   const handleClick = (direction: string) => {
     const lastIndex = games.length - 1;
     let newRoundInView;

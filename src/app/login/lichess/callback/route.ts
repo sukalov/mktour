@@ -86,46 +86,45 @@ export async function GET(request: Request): Promise<Response> {
     }
 
     try {
-    const userId = generateId(15);
-    const clubId = nanoid();
-    const ctuId = `${clubId}=${userId}`
-    const name = `${lichessUser.profile?.firstName ?? ''}${lichessUser.profile?.lastName ? ' ' + lichessUser.profile.lastName : ''}`;
+      const userId = generateId(15);
+      const clubId = nanoid();
+      const ctuId = `${clubId}=${userId}`;
+      const name = `${lichessUser.profile?.firstName ?? ''}${
+        lichessUser.profile?.lastName ? ' ' + lichessUser.profile.lastName : ''
+      }`;
 
+      await db.insert(clubs).values({
+        id: clubId,
+        name: `${lichessUser.id}'s chess club`,
+        created_at: new Date().getTime(),
+      });
 
-    await db.insert(clubs).values({
-      id: clubId,
-      name: `${lichessUser.id}'s chess club`,
-      created_at: new Date().getTime()
-    });
+      await db.insert(users).values({
+        id: userId,
+        rating: lichessUser.perfs.blitz.rating,
+        username: lichessUser.id,
+        email: lichessUserEmail,
+        name,
+        default_club: clubId,
+        created_at: new Date().getTime(),
+      });
 
-    await db.insert(users).values({
-      id: userId,
-      rating: lichessUser.perfs.blitz.rating,
-      username: lichessUser.id,
-      email: lichessUserEmail,
-      name,
-      default_club: clubId,
-      created_at: new Date().getTime(),
-    });
+      await db.insert(clubs_to_users).values({
+        id: ctuId,
+        club_id: clubId,
+        user_id: userId,
+        status: 'admin',
+      });
+      await redis.set(userId, 10);
 
-    await db.insert(clubs_to_users).values({
-      id: ctuId,
-      club_id: clubId,
-      user_id: userId,
-      status: 'admin'
-    })
-        await redis.set(userId, 10);
-
-    const session = await lucia.createSession(userId, {});
-    const sessionCookie = lucia.createSessionCookie(session.id);
-    cookies().set(
-      sessionCookie.name,
-      sessionCookie.value,
-      {...sessionCookie.attributes, sameSite: 'none'},
-    );
-    }
-    catch (e) {
-      console.log(e)
+      const session = await lucia.createSession(userId, {});
+      const sessionCookie = lucia.createSessionCookie(session.id);
+      cookies().set(sessionCookie.name, sessionCookie.value, {
+        ...sessionCookie.attributes,
+        sameSite: 'none',
+      });
+    } catch (e) {
+      console.log(e);
     }
 
     return new Response(null, {

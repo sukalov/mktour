@@ -1,3 +1,3 @@
 export default function NewClub() {
-  return null
+  return null;
 }

@@ -17,8 +17,16 @@ export default async function TournamentPage({ params }: PlayerPageProps) {
     return (
       <div className="w-full">
         <pre>{JSON.stringify({ player, club }, null, 2)}</pre>
-        <div>{status ? <p>you can edit this player because he is from {club.name}</p> : <p>you cannot edit this player, you are not admin of {club.name}</p>}</div>
-        <div>{isOwner ? <p>this player is you!!</p> : <p>it is NOT you</p>}</div>
+        <div>
+          {status ? (
+            <p>you can edit this player because he is from {club.name}</p>
+          ) : (
+            <p>you cannot edit this player, you are not admin of {club.name}</p>
+          )}
+        </div>
+        <div>
+          {isOwner ? <p>this player is you!!</p> : <p>it is NOT you</p>}
+        </div>
       </div>
     );
 }

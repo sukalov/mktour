@@ -8,7 +8,7 @@ const Games: FC = () => {
   const isMobile = useMediaQuery({ maxWidth: 768 });
 
   if (isMobile) return <RoundsMobile />;
-  return <RoundsDesktop/>
-}
+  return <RoundsDesktop />;
+};
 
 export default Games;

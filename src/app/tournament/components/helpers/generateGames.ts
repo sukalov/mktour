@@ -7,9 +7,7 @@ import {
 import { DatabasePlayerToTournament } from '@/lib/db/schema/tournaments';
 import { Result } from '@/types/tournaments';
 
-const generateGames = (
-  players: DashboardContextType['players'],
-): any => {
+const generateGames = (players: DashboardContextType['players']): any => {
   const games: DashboardContextType['games'] = [];
   const results = generateResults(players);
   const totalPlayers = players.length;

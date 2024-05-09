@@ -40,7 +40,7 @@ export default function NewTournamentForm({
   clubs,
   user,
 }: NewTournamentFormProps) {
-  const [defaultClub] = React.useState('')
+  const [defaultClub] = React.useState('');
   const form = useForm<NewTournamentFormType>({
     resolver: zodResolver(newTournamentFormSchema),
     defaultValues: {

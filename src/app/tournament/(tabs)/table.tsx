@@ -39,8 +39,8 @@ const TournamentTable: FC = () => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className='p-2'>#</TableHead>
-            <TableHead className='pl-0'>Name</TableHead>
+            <TableHead className="p-2">#</TableHead>
+            <TableHead className="pl-0">Name</TableHead>
             <TableResultHeads />
           </TableRow>
         </TableHeader>
