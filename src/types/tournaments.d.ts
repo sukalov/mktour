@@ -29,7 +29,6 @@ export interface TournamentModel {
   organizerId: string; // clubs.id
   status: TournamentStatus; // created according to started_at and closed_at
   rounds_number: number; // tournamnets.rounds_number
-  ongoing_round: number; // tournaments.ongoing_round
   games: Array<GameModel>; // games where tournament.id === id
   players: Array<PlayerModel>; // players_to_tournaments where tournament.id === id
 }

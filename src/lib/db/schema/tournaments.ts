@@ -27,7 +27,6 @@ export const tournaments = sqliteTable('tournament', {
   started_at: integer('started_at'),
   closed_at: integer('closed_at'),
   rounds_number: integer('rounds_number'), // necessary even if playing single elimination (final and match_for_third have same number)
-  ongoing_round: integer('ongoing_round'),
 });
 
 export const clubs = sqliteTable('club', {
