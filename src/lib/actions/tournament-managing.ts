@@ -36,6 +36,7 @@ export const createTournament = async (values: NewTournamentFormType) => {
     closed_at: null,
     started_at: null,
     club_id: String(club_id),
+    rounds_number: null,
   };
   try {
     await db.insert(tournaments).values(newTournament);
