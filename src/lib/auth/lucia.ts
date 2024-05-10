@@ -1,4 +1,4 @@
-import { BASE_URL } from '@/config/urls';
+import { BASE_URL } from '@/lib/config/urls';
 import { adapter } from '@/lib/db/lucia-adapter';
 
 import type { DatabaseUser } from '@/lib/db/schema/auth';

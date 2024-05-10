@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { SOCKET_URL } from '@/config/urls';
+import { SOCKET_URL } from '@/lib/config/urls';
 import { useRef, useState } from 'react';
 import useSWRSubscription from 'swr/subscription';
 
