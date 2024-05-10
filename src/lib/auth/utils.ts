@@ -18,7 +18,3 @@ export async function getUser(): Promise<User> {
   if (!user) redirect('/sign-in');
   return user;
 }
-
-export function timeout(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
