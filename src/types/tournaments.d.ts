@@ -15,7 +15,7 @@ export interface GameModel {
   black_name: string; // players where id === games.black_id  nickname;
   white_name: string; // players where id === games.white_id  nickname;
   round_number: number; // games.round_number
-  round_name: RoundName; // games.round_name
+  round_name?: RoundName; // games.round_name
   result: Result; //games.result
 }
 
