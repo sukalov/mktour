@@ -4,10 +4,10 @@ import {
   DashboardContext,
   DashboardContextType,
 } from '@/app/tournament/[id]/dashboard-context';
+import CarouselContainer from '@/app/tournament/components/carousel-container';
 import generateGames from '@/app/tournament/components/helpers/generateGames';
 import { playersArray } from '@/app/tournament/components/helpers/players';
 import { tabsArray } from '@/app/tournament/components/helpers/tabs';
-import TabContent from '@/app/tournament/components/tab-content';
 import TabsContainer from '@/app/tournament/components/tabs-container';
 import ScrollDetector from '@/components/scroll-detector';
 import { DatabaseTournament } from '@/lib/db/schema/tournaments';
@@ -81,7 +81,10 @@ const Dashboard: FC<DashboardProps> = ({ tournament }) => {
         top={top}
       />
       <ScrollDetector setVisible={setVisible}>
-        <TabContent currentTab={currentTab} />
+        <CarouselContainer
+          currentTab={currentTab}
+          setCurrentTab={setCurrentTab}
+        />
       </ScrollDetector>
     </DashboardContext.Provider>
   );

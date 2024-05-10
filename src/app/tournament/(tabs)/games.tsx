@@ -6,9 +6,9 @@ import { useMediaQuery } from 'react-responsive';
 const Games: FC = () => {
   // const { games, currentRound, currentTab } = useContext(DashboardContext);
   const isMobile = useMediaQuery({ maxWidth: 768 });
+  const component = isMobile ? <RoundsMobile /> : <RoundsDesktop />;
 
-  if (isMobile) return <RoundsMobile />;
-  return <RoundsDesktop />;
+  return component;
 };
 
 export default Games;
