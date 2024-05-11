@@ -26,9 +26,9 @@ export interface TournamentModel {
   type: TournamentType | undefined; // tournaments.type
   format: Format | undefined; // tournaments.format
   organizer: string; // clubs.name
-  organizer_id: string; // clubs.id
+  organizerId: string; // clubs.id
   status: TournamentStatus | undefined; // created according to started_at and closed_at
-  rounds_number: number | null; // tournamnets.rounds_number
+  roundsNumber: number | null; // tournamnets.rounds_number
   games: Array<GameModel>; // games where tournament.id === id
   players: Array<PlayerModel>; // players_to_tournaments where tournament.id === id
 }

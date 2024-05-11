@@ -41,9 +41,9 @@ export const getTournamentState = async (
     type: tournamentDb.tournament.type,
     format: tournamentDb.tournament.format,
     organizer: tournamentDb.club!.name,
-    organizer_id: tournamentDb.tournament.club_id,
+    organizerId: tournamentDb.tournament.club_id,
     status,
-    rounds_number: tournamentDb.tournament.rounds_number,
+    roundsNumber: tournamentDb.tournament.rounds_number,
     games: [],
     players: [],
   };
