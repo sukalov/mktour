@@ -7,6 +7,7 @@ import {
   TournamentStatus,
   TournamentType,
 } from '@/types/tournaments';
+import { makeObservable } from 'mobx';
 // import { action, observable } from 'mobx';
 
 export class TournamentStore implements TournamentModel {
@@ -24,6 +25,20 @@ export class TournamentStore implements TournamentModel {
 
   constructor(id: string) {
     this.loadTournament(id);
+    makeObservable(this, {
+      id: true,
+      date: true,
+      title: true,
+      type: true,
+      format: true,
+      organizer: true,
+      organizer_id: true,
+      status: true,
+      rounds_number: true,
+      players: true,
+      games: true,
+      isLoading: true
+    });
   }
 
   async loadTournament(id: string) {
@@ -39,6 +54,7 @@ export class TournamentStore implements TournamentModel {
     this.rounds_number = tournament.rounds_number;
     this.players = tournament.players;
     this.games = tournament.games;
+    this.isLoading = false;
   }
 
   isLoading = this.organizer_id === '';
