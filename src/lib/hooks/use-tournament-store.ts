@@ -74,3 +74,8 @@ export const useTournamentStore = create<TournamentStore>((set) => ({
     }
     set(state => ({ players: [...state.players, newPlayer] }))},
 }));
+
+export const addPlayer = (player: DatabasePlayer) => useTournamentStore.setState(state => {
+  state.addPlayer(player)
+  return state
+})

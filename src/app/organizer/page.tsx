@@ -1,17 +1,11 @@
-'use client';
+import OrganizerPageContent from '@/app/organizer/page-content';
+import { cookies } from 'next/headers';
 
-import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
-
-const OrganizerPage = () => {
-  const tournament = useTournamentStore();
-  console.log(tournament);
+export default function SocketTestsPage() {
+  const session = cookies().get('auth_session')?.value ?? '';
   return (
     <div>
-      <pre>{JSON.stringify(tournament, null, 2)}</pre>
-      <br />
-      {/* <button onClick={() => tournament.addPlayer('')}>dsf;lsdjf;ls</button> */}
+      <OrganizerPageContent session={session} />
     </div>
   );
-};
-
-export default OrganizerPage;
+}
