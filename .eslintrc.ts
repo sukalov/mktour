@@ -3,7 +3,7 @@ export default {
   extends: ['next/core-web-vitals', 'plugin:mobx/recommended'],
   rules: {
     'no-unused-vars': [
-      "error",
+      'error',
       { vars: 'all', args: 'after-used', ignoreRestSiblings: false },
     ],
     'mobx-missed-observer': 'off',

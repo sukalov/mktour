@@ -10,8 +10,8 @@ export interface PlayerModel {
 
 export interface GameModel {
   id: string; // games.id
-  black_id: string // games.black_id;
-  white_id: string // games.white_id;
+  black_id: string; // games.black_id;
+  white_id: string; // games.white_id;
   black_nickname: string; // players where id === games.black_id  nickname;
   white_nickname: string; // players where id === games.white_id  nickname;
   round_number: number; // games.round_number

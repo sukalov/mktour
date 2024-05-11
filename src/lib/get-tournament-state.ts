@@ -1,20 +1,22 @@
 import { db } from '@/lib/db';
 import {
-    DatabaseGame,
-    clubs,
-    games,
-    players,
-    players_to_tournaments,
-    tournaments,
+  DatabaseGame,
+  clubs,
+  games,
+  players,
+  players_to_tournaments,
+  tournaments,
 } from '@/lib/db/schema/tournaments';
 import {
-    GameModel,
-    TournamentModel,
-    TournamentStatus,
+  GameModel,
+  TournamentModel,
+  TournamentStatus,
 } from '@/types/tournaments';
 import { eq } from 'drizzle-orm';
 
-export const getTournamentState = async (id: string): Promise<TournamentModel> => {
+export const getTournamentState = async (
+  id: string,
+): Promise<TournamentModel> => {
   const tournamentDb = (
     await db
       .select()
@@ -67,19 +69,19 @@ export const getTournamentState = async (id: string): Promise<TournamentModel> =
     .from(games)
     .where(eq(games.tournament_id, id));
 
-  if (!games) return tournament
+  if (!games) return tournament;
 
-    tournament.games = gamesDb.map((game: DatabaseGame): GameModel => {
-      const white_nickname = tournament.players.find(
-        (player) => player.id === game.white_id,
-      )!.nickname;
-      const black_nickname = tournament.players.find(
-        (player) => player.id === game.black_id,
-      )!.nickname;
-      // eslint-disable-next-line no-unused-vars
-      const {tournament_id, ...gamenew} = game
-      return { ...gamenew, white_nickname, black_nickname };
-    });
+  tournament.games = gamesDb.map((game: DatabaseGame): GameModel => {
+    const white_nickname = tournament.players.find(
+      (player) => player.id === game.white_id,
+    )!.nickname;
+    const black_nickname = tournament.players.find(
+      (player) => player.id === game.black_id,
+    )!.nickname;
+    // eslint-disable-next-line no-unused-vars
+    const { tournament_id, ...gamenew } = game;
+    return { ...gamenew, white_nickname, black_nickname };
+  });
 
   return tournament;
 };

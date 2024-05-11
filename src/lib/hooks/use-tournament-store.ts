@@ -1,5 +1,12 @@
 import { getTournamentState } from '@/lib/get-tournament-state';
-import { Format, GameModel, PlayerModel, TournamentModel, TournamentStatus, TournamentType } from '@/types/tournaments';
+import {
+  Format,
+  GameModel,
+  PlayerModel,
+  TournamentModel,
+  TournamentStatus,
+  TournamentType,
+} from '@/types/tournaments';
 // import { action, observable } from 'mobx';
 
 export class TournamentStore implements TournamentModel {
@@ -15,8 +22,8 @@ export class TournamentStore implements TournamentModel {
   public players: Array<PlayerModel> = [];
   public games: Array<GameModel> = [];
 
-  constructor (id: string) {
-    this.loadTournament(id)
+  constructor(id: string) {
+    this.loadTournament(id);
   }
 
   async loadTournament(id: string) {
@@ -32,7 +39,6 @@ export class TournamentStore implements TournamentModel {
     this.rounds_number = tournament.rounds_number;
     this.players = tournament.players;
     this.games = tournament.games;
-
   }
 
   isLoading = this.organizer_id === '';

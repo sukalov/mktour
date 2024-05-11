@@ -20,10 +20,10 @@ const Main = () => {
   );
 };
 
-const InfoItem: FC<{ icon: ReactNode; value: string | number | null | undefined}> = ({
-  icon,
-  value,
-}) => (
+const InfoItem: FC<{
+  icon: ReactNode;
+  value: string | number | null | undefined;
+}> = ({ icon, value }) => (
   <div className="flex gap-2">
     {icon}
     {value}

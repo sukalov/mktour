@@ -6,7 +6,7 @@ import { redis } from '@/lib/db/redis';
 import {
   DatabaseTournament,
   clubs_to_users,
-  tournaments
+  tournaments,
 } from '@/lib/db/schema/tournaments';
 import { NewTournamentFormType } from '@/lib/zod/new-tournament-form';
 import { and, eq } from 'drizzle-orm';

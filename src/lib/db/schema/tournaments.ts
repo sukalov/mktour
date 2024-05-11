@@ -58,10 +58,18 @@ export const players_to_tournaments = sqliteTable('players_to_tournaments', {
   tournament_id: text('tournament_id')
     .notNull()
     .references(() => tournaments.id),
-  wins: int('wins').$default(() => 0).notNull(),
-  losses: int('losses').$default(() => 0).notNull(),
-  draws: int('draws').$default(() => 0).notNull(),
-  color_index: int('color_index').$default(() => 0).notNull(),
+  wins: int('wins')
+    .$default(() => 0)
+    .notNull(),
+  losses: int('losses')
+    .$default(() => 0)
+    .notNull(),
+  draws: int('draws')
+    .$default(() => 0)
+    .notNull(),
+  color_index: int('color_index')
+    .$default(() => 0)
+    .notNull(),
   place: int('place'),
 });
 
@@ -69,10 +77,16 @@ export const games = sqliteTable('game', {
   id: text('id').primaryKey(),
   round_number: integer('round_number').notNull(),
   round_name: text('round_name').$type<RoundName>(),
-  white_id: text('white_id').references(() => players.id).notNull(),
-  black_id: text('black_id').references(() => players.id).notNull(),
+  white_id: text('white_id')
+    .references(() => players.id)
+    .notNull(),
+  black_id: text('black_id')
+    .references(() => players.id)
+    .notNull(),
   result: text('result').$type<Result>(),
-  tournament_id: text('tournament_id').references(() => tournaments.id).notNull(),
+  tournament_id: text('tournament_id')
+    .references(() => tournaments.id)
+    .notNull(),
 });
 
 export type DatabasePlayer = InferSelectModel<typeof players>;
