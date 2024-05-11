@@ -21,8 +21,10 @@ const OrganizerPageContent = ({ session }: { session: string }) => {
     shouldReconnect: () => true,
     heartbeat: {
       interval: 5000,
+      message: '',
     },
     onMessage: (event) => {
+      if (!event.data) return;
       const message = JSON.parse(event.data);
       handleSocketMessage(message);
     },
