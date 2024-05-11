@@ -6,11 +6,11 @@ export class TournamentStore implements TournamentModel {
   public id: string = '';
   public date: string = '';
   public title: string = '';
-  public type: TournamentType = undefined; // Assuming TournamentType is defined elsewhere
-  public format: Format = undefined; // Assuming Format is defined elsewhere
+  public type: TournamentType | undefined = undefined; // Assuming TournamentType is defined elsewhere
+  public format: Format | undefined = undefined; // Assuming Format is defined elsewhere
   public organizer: string = '';
   public organizer_id: string = '';
-  public status: TournamentStatus = undefined; // Assuming TournamentStatus is defined elsewhere
+  public status: TournamentStatus | undefined = undefined; // Assuming TournamentStatus is defined elsewhere
   public rounds_number: number | null = null;
   public players: Array<PlayerModel> = [];
   public games: Array<GameModel> = [];
