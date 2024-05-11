@@ -1,11 +1,11 @@
 export interface PlayerModel {
   id: string;
-  name: string; // players.nickname
-  rating?: number;
+  nickname: string; // players.nickname
+  rating?: number | null;
   wins: number;
   draws: number;
   losses: number;
-  colorIndex: number;
+  color_index: number;
 }
 
 export interface GameModel {
@@ -15,7 +15,7 @@ export interface GameModel {
   black_nickname: string; // players where id === games.black_id  nickname;
   white_nickname: string; // players where id === games.white_id  nickname;
   round_number: number; // games.round_number
-  round_name?: RoundName; // games.round_name
+  round_name: RoundName; // games.round_name
   result: Result; //games.result
 }
 
@@ -26,20 +26,20 @@ export interface TournamentModel {
   type: TournamentType; // tournaments.type
   format: Format; // tournaments.format
   organizer: string; // clubs.name
-  organizerId: string; // clubs.id
+  organizer_id: string; // clubs.id
   status: TournamentStatus; // created according to started_at and closed_at
-  rounds_number: number; // tournamnets.rounds_number
+  rounds_number: number | null; // tournamnets.rounds_number
   games: Array<GameModel>; // games where tournament.id === id
   players: Array<PlayerModel>; // players_to_tournaments where tournament.id === id
 }
 
-type Result = '0-1' | '1-0' | '1/2-1/2' | undefined;
+type Result = '0-1' | '1-0' | '1/2-1/2' | null;
 
-type Format = 'swiss' | 'round robin' | 'double elimination';
+type Format = 'swiss' | 'round robin' | 'double elimination' | undefined;
 
-type TournamentType = 'solo' | 'doubles' | 'team';
+type TournamentType = 'solo' | 'doubles' | 'team' | undefined;
 
-type TournamentStatus = 'not started' | 'ongoing' | 'finished';
+type TournamentStatus = 'not started' | 'ongoing' | 'finished' | undefined;
 
 type RoundName =
   | 'final'
@@ -50,4 +50,5 @@ type RoundName =
   | '1/16'
   | '1/32'
   | '1/64'
-  | '1/128';
+  | '1/128'
+  | null;
