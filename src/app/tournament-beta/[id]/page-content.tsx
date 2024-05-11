@@ -6,14 +6,14 @@ import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
 import { useEffect } from 'react';
 import useWebSocket from 'react-use-websocket';
 
-const OrganizerPageContent = ({ session }: { session: string }) => {
+const TournamentPageContent = ({ session, id }: TournamentPageContentProps) => {
   const { isLoading, addPlayer, ...tournament } = useTournamentStore();
   console.log(tournament);
   useEffect(() => {
-    tournament.init('OuFEd-CU3jhYKpP-e-SIk');
+    tournament.init(id);
   }, []);
 
-  const { sendJsonMessage } = useWebSocket(`${SOCKET_URL}/test-usews-hook`, {
+  const { sendJsonMessage } = useWebSocket(`${SOCKET_URL}/${id}`, {
     queryParams: {
       auth_session: session,
     },
@@ -53,4 +53,9 @@ const OrganizerPageContent = ({ session }: { session: string }) => {
   );
 };
 
-export default OrganizerPageContent;
+interface TournamentPageContentProps {
+  session: string;
+  id: string;
+}
+
+export default TournamentPageContent;

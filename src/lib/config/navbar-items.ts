@@ -4,8 +4,8 @@ export const navbarItems: NavbarItem[] = [
     path: '/all-tournaments',
   },
   {
-    title: 'organizer',
-    path: '/organizer',
+    title: 'beta tournament',
+    path: '/tournament-beta/OuFEd-CU3jhYKpP-e-SIk',
   },
   {
     title: 'participant',

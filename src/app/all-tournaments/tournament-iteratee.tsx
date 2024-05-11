@@ -1,5 +1,3 @@
-'use client';
-
 import {
   Card,
   CardDescription,
@@ -7,7 +5,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { DatabaseTournament } from '@/lib/db/schema/tournaments';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { FC } from 'react';
 
 const TournamentsContainer: FC<{ props: DatabaseTournament[] }> = ({
@@ -17,22 +15,19 @@ const TournamentsContainer: FC<{ props: DatabaseTournament[] }> = ({
 };
 
 const TournamentIteratee = (props: DatabaseTournament) => {
-  const navigate = useRouter();
   return (
-    <Card
-      key={props.id}
-      className="flex w-full flex-col"
-      onClick={() => navigate.push(`/tournament/${props.id}`)}
-    >
-      <CardHeader>
-        <CardTitle className="">{props.title}</CardTitle>
-        <CardDescription className="flex gap-2">
-          <span>{props.date}</span>
-          <span>{props.format}</span>
-          <span>{props.type}</span>
-        </CardDescription>
-      </CardHeader>
-    </Card>
+    <Link href={`/tournament-beta/${props.id}`} className="flex w-full flex-col">
+      <Card key={props.id}>
+        <CardHeader>
+          <CardTitle className="">{props.title}</CardTitle>
+          <CardDescription className="flex gap-2">
+            <span>{props.date}</span>
+            <span>{props.format}</span>
+            <span>{props.type}</span>
+          </CardDescription>
+        </CardHeader>
+      </Card>
+    </Link>
   );
 };
 
