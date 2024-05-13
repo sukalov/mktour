@@ -20,7 +20,7 @@
   "dependencies": {
     "@hookform/resolvers": "3.3.4",
     "@libsql/client": "0.4.0-pre.7",
-    "@lucia-auth/adapter-drizzle": "beta",
+    "@lucia-auth/adapter-drizzle": "^1.0.0-beta.7",
     "@lucia-auth/adapter-sqlite": "2.0.1",
     "@lucia-auth/oauth": "3.5.2",
     "@radix-ui/react-avatar": "1.0.4",

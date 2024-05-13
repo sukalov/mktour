@@ -3,7 +3,6 @@ import {
   Round,
 } from '@/app/tournament/[id]/dashboard-context';
 import GameItem from '@/app/tournament/components/game-item';
-import { SetStateAction } from 'jotai';
 import { FC, useState } from 'react';
 
 const RoundItem: FC<RoundItemProps> = ({ round }) => {
@@ -30,7 +29,7 @@ const GamesIteratee = ({
   setResult,
 }: {
   game: DashboardContextType['games'][0][0];
-  setResult: SetStateAction<any>;
+  setResult: any;
 }) => {
   return (
     <GameItem

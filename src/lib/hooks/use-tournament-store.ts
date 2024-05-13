@@ -69,8 +69,9 @@ export const useTournamentStore = create<TournamentStore>((set) => ({
   },
   addPlayer: (player) => {
     const newPlayer: PlayerModel = {
-      nickname: player.nickname,
       id: player.id,
+      nickname: player.nickname,
+      rating: player.rating,
       wins: 0,
       draws: 0,
       losses: 0,
