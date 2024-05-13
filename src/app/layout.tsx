@@ -3,7 +3,6 @@ import ThemeProvider from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { Provider as AtomsProvider } from 'jotai';
 import { AxiomWebVitals } from 'next-axiom';
 import { PropsWithChildren } from 'react';
 
@@ -23,7 +22,6 @@ function RootLayout({ children }: PropsWithChildren) {
       />
       <AxiomWebVitals />
       <body>
-        <AtomsProvider>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -38,7 +36,6 @@ function RootLayout({ children }: PropsWithChildren) {
             <SpeedInsights />
             <Toaster /> {/* what does it do here? */}
           </ThemeProvider>
-        </AtomsProvider>
       </body>
     </html>
   );

@@ -43,7 +43,8 @@ import { create } from 'zustand';
 interface TournamentStore extends TournamentModel {
   isLoading: boolean;
   addPlayer: (player: DatabasePlayer) => void;
-  init: (id: string) => void;
+  initAsync: (id: string) => void;
+  init: (state: TournamentModel) => void
 }
 
 export const useTournamentStore = create<TournamentStore>((set) => ({
@@ -59,9 +60,12 @@ export const useTournamentStore = create<TournamentStore>((set) => ({
   players: [],
   games: [],
   isLoading: true,
-  init: async (id) => {
+  initAsync: async (id) => {
     const initialState = await getTournamentState(id)
     set({...initialState, isLoading: false})
+  },
+  init: (state) => {
+    set({...state, isLoading: false})
   },
   addPlayer: (player) => {
     const newPlayer: PlayerModel = {

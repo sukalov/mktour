@@ -3,14 +3,15 @@
 import { SOCKET_URL } from '@/lib/config/urls';
 import { handleSocketMessage } from '@/lib/handle-socket-message';
 import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
+import { TournamentModel } from '@/types/tournaments';
 import { useEffect } from 'react';
 import useWebSocket from 'react-use-websocket';
 
-const TournamentPageContent = ({ session, id }: TournamentPageContentProps) => {
+const TournamentPageContent = ({ session, id, state }: TournamentPageContentProps) => {
   const { isLoading, addPlayer, ...tournament } = useTournamentStore();
   console.log(tournament);
   useEffect(() => {
-    tournament.init(id);
+    tournament.init(state);
   }, []);
 
   const { sendJsonMessage } = useWebSocket(`${SOCKET_URL}/${id}`, {
@@ -56,6 +57,7 @@ const TournamentPageContent = ({ session, id }: TournamentPageContentProps) => {
 interface TournamentPageContentProps {
   session: string;
   id: string;
+  state: TournamentModel;
 }
 
 export default TournamentPageContent;
