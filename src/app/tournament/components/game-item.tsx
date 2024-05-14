@@ -1,5 +1,5 @@
 import { Card } from '@/components/ui/card';
-import { Result } from '@/types/tournaments';
+import { Result as ResultModel } from '@/types/tournaments';
 import { FC } from 'react';
 
 const GameItem: FC<GameProps> = ({ result, player1, player2 }) => {
@@ -35,7 +35,7 @@ const Result = ({ result }: any) => {
 };
 
 interface GameProps {
-  result: Result | null;
+  result: ResultModel | null;
   setResult: any;
   player1: string;
   player2: string;
