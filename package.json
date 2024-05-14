@@ -2,7 +2,7 @@
   "name": "mktour",
   "version": "0.1.0",
   "private": true,
-  "packageManager": "bun@1.0.24",
+  "packageManager": "bun@1.1.8",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
