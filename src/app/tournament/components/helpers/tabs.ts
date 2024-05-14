@@ -3,7 +3,7 @@ import Main from '@/app/tournament/(tabs)/main';
 import TournamentTable from '@/app/tournament/(tabs)/table';
 import { TabType } from '@/app/tournament/[id]/dashboard';
 
-export const tabsArray: TabType[] = [
+export const tabs: TabType[] = [
   { title: 'main', component: Main },
   { title: 'table', component: TournamentTable },
   { title: 'games', component: Games },

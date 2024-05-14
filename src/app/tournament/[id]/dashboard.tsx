@@ -7,9 +7,9 @@ import {
 import CarouselContainer from '@/app/tournament/components/carousel-container';
 import generateGames from '@/app/tournament/components/helpers/generateGames';
 import { playersArray } from '@/app/tournament/components/helpers/players';
-import { tabsArray } from '@/app/tournament/components/helpers/tabs';
+import { tabs } from '@/app/tournament/components/helpers/tabs';
+import RoundControls from '@/app/tournament/components/round-controls';
 import TabsContainer from '@/app/tournament/components/tabs-container';
-import ScrollDetector from '@/components/scroll-detector';
 import { DatabaseTournament } from '@/lib/db/schema/tournaments';
 import {
   Dispatch,
@@ -30,8 +30,10 @@ const Dashboard: FC<DashboardProps> = ({ tournament }) => {
     [players],
   );
   const [currentRound] = useState(games.length - 1);
-  const [visible, setVisible] = useState(true);
-  const top = visible ? 'top-[3.5rem]' : 'top-0';
+  // const [visible, setVisible] = useState(true);
+  // const top = visible ? 'top-[3.5rem]' : 'top-0';
+  const [controlsTop, setControlsTop] = useState('top-0');
+  const [roundInView, setRoundInView] = useState(currentRound);
   const [hydrated, setHydrated] = useState(false); // helper for random result generator to avoid hydration error
 
   useEffect(() => {
@@ -71,21 +73,30 @@ const Dashboard: FC<DashboardProps> = ({ tournament }) => {
         games,
         currentRound,
         currentTab,
-        top,
       }}
     >
       <TabsContainer
-        tabs={tabsArray}
+        tabs={tabs}
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
-        top={top}
       />
-      <ScrollDetector setVisible={setVisible}>
-        <CarouselContainer
-          currentTab={currentTab}
-          setCurrentTab={setCurrentTab}
+
+        <RoundControls
+          props={{
+            roundInView,
+            games,
+            setRoundInView,
+            currentRound,
+            controlsTop,
+          }}
         />
-      </ScrollDetector>
+      {/* <ScrollDetector setVisible={setVisible}> */}
+      <CarouselContainer
+        currentTab={currentTab}
+        setCurrentTab={setCurrentTab}
+        setControlsTop={setControlsTop}
+      />
+      {/* </ScrollDetector> */}
     </DashboardContext.Provider>
   );
 };
@@ -95,7 +106,7 @@ interface DashboardProps {
 }
 
 export type TabProps = {
-  tabs: typeof tabsArray;
+  tabs: typeof tabs;
   currentTab: DashboardContextType['currentTab'];
   setCurrentTab: Dispatch<SetStateAction<DashboardContextType['currentTab']>>;
   top?: string;

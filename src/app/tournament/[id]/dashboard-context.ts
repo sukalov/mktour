@@ -26,5 +26,5 @@ export type DashboardContextType = {
   })[][];
   currentRound: DatabaseGame['round_number'];
   currentTab: 'main' | 'table' | 'games';
-  top: string;
+  top?: string;
 };

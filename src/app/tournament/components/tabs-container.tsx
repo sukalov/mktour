@@ -1,12 +1,7 @@
 import { TabProps } from '@/app/tournament/[id]/dashboard';
 import { DashboardContextType } from '@/app/tournament/[id]/dashboard-context';
-import { tabsArray } from '@/app/tournament/components/helpers/tabs';
-import {
-  MkTabs,
-  MkTabsList,
-  MkTabsTrigger,
-} from '@/components/customized-tabs';
 import SwipeDetector from '@/components/swipe-detector';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import { FC, useEffect, useRef } from 'react';
 
@@ -31,13 +26,13 @@ const TabsContainer: FC<TabProps> = ({
   const handleSwipe = (direction: string) => {
     let newIndex;
     if (direction === '>') {
-      newIndex = indexOfTab > 0 ? indexOfTab - 1 : tabsArray.length - 1;
+      newIndex = indexOfTab > 0 ? indexOfTab - 1 : tabs.length - 1;
     } else if (direction === '<') {
-      newIndex = indexOfTab < tabsArray.length - 1 ? indexOfTab + 1 : 0;
+      newIndex = indexOfTab < tabs.length - 1 ? indexOfTab + 1 : 0;
     } else return; // Invalid direction
 
     setCurrentTab(
-      tabsArray[newIndex].title as DashboardContextType['currentTab'],
+      tabs[newIndex].title as DashboardContextType['currentTab'],
     );
   };
 
@@ -46,7 +41,7 @@ const TabsContainer: FC<TabProps> = ({
       onSwipeLeft={() => handleSwipe('<')}
       onSwipeRight={() => handleSwipe('>')}
     >
-      <MkTabs
+      <Tabs
         defaultValue="main"
         onValueChange={(value) =>
           setCurrentTab(value as DashboardContextType['currentTab'])
@@ -54,19 +49,19 @@ const TabsContainer: FC<TabProps> = ({
         value={value}
         className={`${top} fixed z-40 w-full rounded-none transition-all duration-500`}
       >
-        <MkTabsList
+        <TabsList
           ref={tabRef}
           className={`scrollbar-hide w-full justify-around overflow-scroll rounded-none md:justify-evenly`}
         >
           {tabs.map((tab) => (
             <div key={tab.title}>
-              <MkTabsTrigger className="w-full" value={tab.title}>
+              <TabsTrigger className="w-full" value={tab.title}>
                 {tab.title}
-              </MkTabsTrigger>
+              </TabsTrigger>
             </div>
           ))}
-        </MkTabsList>
-      </MkTabs>
+        </TabsList>
+      </Tabs>
     </SwipeDetector>
   );
 };
