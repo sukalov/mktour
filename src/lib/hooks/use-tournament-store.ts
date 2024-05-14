@@ -8,7 +8,7 @@ interface TournamentStore extends TournamentModel {
   isLoading: boolean;
   addNewPlayer: (player: DatabasePlayer) => void;
   initAsync: (id: string) => void;
-  init: (state: TournamentModel) => void
+  init: (state: TournamentModel) => void;
 }
 
 export const useTournamentStore = create<TournamentStore>((set) => ({
@@ -25,11 +25,11 @@ export const useTournamentStore = create<TournamentStore>((set) => ({
   games: [],
   isLoading: true,
   initAsync: async (id) => {
-    const initialState = await getTournamentState(id)
-    set({...initialState, isLoading: false})
+    const initialState = await getTournamentState(id);
+    set({ ...initialState, isLoading: false });
   },
   init: (state) => {
-    set({...state, isLoading: false})
+    set({ ...state, isLoading: false });
   },
   addNewPlayer: (player) => {
     const newPlayer: PlayerModel = {
@@ -39,12 +39,14 @@ export const useTournamentStore = create<TournamentStore>((set) => ({
       wins: 0,
       draws: 0,
       losses: 0,
-      color_index: 0
-    }
-    set(state => ({ players: [...state.players, newPlayer] }))},
+      color_index: 0,
+    };
+    set((state) => ({ players: [...state.players, newPlayer] }));
+  },
 }));
 
-export const addNewPlayer = (player: DatabasePlayer) => useTournamentStore.setState(state => {
-  state.addNewPlayer(player)
-  return state
-})
+export const addNewPlayer = (player: DatabasePlayer) =>
+  useTournamentStore.setState((state) => {
+    state.addNewPlayer(player);
+    return state;
+  });

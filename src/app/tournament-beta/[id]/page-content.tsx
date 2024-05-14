@@ -10,7 +10,11 @@ import { Message } from '@/types/ws-events';
 import { useEffect } from 'react';
 import useWebSocket from 'react-use-websocket';
 
-const TournamentPageContent = ({ session, id, state }: TournamentPageContentProps) => {
+const TournamentPageContent = ({
+  session,
+  id,
+  state,
+}: TournamentPageContentProps) => {
   const { isLoading, addNewPlayer, ...tournament } = useTournamentStore();
   console.log(tournament);
   useEffect(() => {
@@ -35,7 +39,7 @@ const TournamentPageContent = ({ session, id, state }: TournamentPageContentProp
   });
 
   const handleClick = () => {
-    const id = newid()
+    const id = newid();
     const newPlayer: DatabasePlayer = {
       id,
       nickname: 'NEW PLAYER',
@@ -45,18 +49,21 @@ const TournamentPageContent = ({ session, id, state }: TournamentPageContentProp
       rating: null,
     };
     addNewPlayer(newPlayer);
-    const message: Message = { body: newPlayer, type: 'add-new-player' }
+    const message: Message = { body: newPlayer, type: 'add-new-player' };
     sendJsonMessage(message);
   };
 
-  return (<>{
-    isLoading ? <p>Loading...</p> :
-    <div>
-      <pre>{JSON.stringify(tournament, null, 2)}</pre>
-      <br />
-      <button onClick={handleClick}>ADD NEW PLAYER AND SEND HIM</button>
-    </div>
-}
+  return (
+    <>
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <div>
+          <pre>{JSON.stringify(tournament, null, 2)}</pre>
+          <br />
+          <button onClick={handleClick}>ADD NEW PLAYER AND SEND HIM</button>
+        </div>
+      )}
     </>
   );
 };

@@ -7,7 +7,7 @@ export default async function TournamentPage({ params }: TournamentPageProps) {
   const state = await getTournamentState(params.id);
   return (
     <div>
-      <TournamentPageContent session={session} id={params.id} state={state}/>
+      <TournamentPageContent session={session} id={params.id} state={state} />
     </div>
   );
 }

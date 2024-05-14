@@ -22,19 +22,19 @@ function RootLayout({ children }: PropsWithChildren) {
       />
       <AxiomWebVitals />
       <body>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <NavbarWrapper />
-            <div className="px-8 pt-14"></div>
-            {children}
-            <Analytics />
-            <SpeedInsights />
-            <Toaster />
-          </ThemeProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <NavbarWrapper />
+          <div className="px-8 pt-14"></div>
+          {children}
+          <Analytics />
+          <SpeedInsights />
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );

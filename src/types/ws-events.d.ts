@@ -1,11 +1,11 @@
-import { DatabasePlayer } from "@/lib/db/schema/tournaments";
+import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 
 interface Message {
-    type: MessageType;
-    body: DatabasePlayer;
-};
+  type: MessageType;
+  body: DatabasePlayer;
+}
 
-type MessageType = 'add-existing-player' | 'add-new-player'
+type MessageType = 'add-existing-player' | 'add-new-player';
 
 interface PlayerModel {
   id: string;

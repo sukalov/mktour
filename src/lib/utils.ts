@@ -10,4 +10,7 @@ export function timeout(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export const newid = customAlphabet('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', 8);
+export const newid = customAlphabet(
+  'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',
+  8,
+);
