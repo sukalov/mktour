@@ -5,7 +5,7 @@ import {
   DashboardContextType,
 } from '@/app/tournament/[id]/dashboard-context';
 import CarouselContainer from '@/app/tournament/components/carousel-container';
-import generateGames from '@/app/tournament/components/helpers/generateGames';
+import generateGames from '@/app/tournament/components/helpers/generate-games';
 import { playersArray } from '@/app/tournament/components/helpers/players';
 import { tabs } from '@/app/tournament/components/helpers/tabs';
 import RoundControls from '@/app/tournament/components/round-controls';

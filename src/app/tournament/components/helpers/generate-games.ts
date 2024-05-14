@@ -54,6 +54,8 @@ const generateGames = (players: DashboardContextType['players']): any => {
         result: result,
         white_nickname: player1.nickname || '',
         black_nickname: player2.nickname || '',
+        white_prev_game_id: null,
+        black_prev_game_id: null
       };
 
       round.push(game);

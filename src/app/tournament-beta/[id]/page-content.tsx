@@ -2,7 +2,6 @@
 
 import { Button } from '@/components/ui/button';
 import { SOCKET_URL } from '@/lib/config/urls';
-import { db } from '@/lib/db';
 import { Status } from '@/lib/db/hooks/use-status-in-tournament';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { handleSocketMessage } from '@/lib/handle-socket-message';
@@ -27,8 +26,19 @@ const TournamentPageContent = ({
   }, []);
 
   useEffect(() => {
-    
-    tournament.initPossiblePlayers();
+    (async () => {
+      const possiblePlayersReq = await fetch('/api/tournament-possible-players', {
+        method: 'POST',
+        body: JSON.stringify({
+          id,
+          tournament: state
+        })
+      });
+      console.log(possiblePlayersReq)
+      const possiblePlayers = await possiblePlayersReq.json() as Array<DatabasePlayer>
+      console.log(possiblePlayers)
+      tournament.initPossiblePlayers(possiblePlayers);
+    })();
   }, []);
 
   const { sendJsonMessage } = useWebSocket(`${SOCKET_URL}/${id}`, {
@@ -54,7 +64,7 @@ const TournamentPageContent = ({
     const newPlayer: DatabasePlayer = {
       id,
       nickname: name,
-      club_id: tournament.organizerId,
+      club_id: tournament.organizer.id,
       realname: name,
       user_id: null,
       rating: Math.floor(Math.random() * 1200 + 1200),
