@@ -13,6 +13,7 @@ export const DashboardContext = createContext<DashboardContextType>({
   currentRound: 0,
   currentTab: 'main',
   top: '',
+  roundInView: 0
 });
 
 export type Round = DashboardContextType['games'][0];
@@ -27,4 +28,5 @@ export type DashboardContextType = {
   currentRound: DatabaseGame['round_number'];
   currentTab: 'main' | 'table' | 'games';
   top?: string;
+  roundInView: number
 };

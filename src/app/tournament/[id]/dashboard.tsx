@@ -73,6 +73,7 @@ const Dashboard: FC<DashboardProps> = ({ tournament }) => {
         games,
         currentRound,
         currentTab,
+        roundInView
       }}
     >
       <TabsContainer

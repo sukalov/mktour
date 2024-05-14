@@ -1,17 +1,14 @@
 import { DashboardContext } from '@/app/tournament/[id]/dashboard-context';
 import RoundItem from '@/app/tournament/components/round-item';
-import { FC, useContext, useEffect, useState } from 'react';
+import { FC, useContext, useEffect } from 'react';
 
 const RoundsMobile: FC = () => {
-  const { games, currentRound, top } = useContext(DashboardContext);
-  const [roundInView, setRoundInView] = useState(currentRound);
+  const { games, roundInView } = useContext(DashboardContext);
   const round = games[roundInView];
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }, [roundInView]);
-
-  const controlsTop = top === 'top-[3.5rem]' ? 'top-[7.5rem]' : 'top-[3.5rem]';
 
   return (
     <div>
