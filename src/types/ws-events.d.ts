@@ -10,7 +10,7 @@ type MessageType = 'add-existing-player' | 'add-new-player';
 interface PlayerModel {
   id: string;
   nickname: string;
-  fullname?: string | null;
+  realname?: string | null;
   rating?: number | null;
   club_id: string;
   wins: number;

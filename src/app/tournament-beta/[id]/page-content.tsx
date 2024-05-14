@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { SOCKET_URL } from '@/lib/config/urls';
+import { Status } from '@/lib/db/hooks/use-status-in-tournament';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { handleSocketMessage } from '@/lib/handle-socket-message';
 import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
@@ -16,9 +17,10 @@ const TournamentPageContent = ({
   session,
   id,
   state,
+  status,
 }: TournamentPageContentProps) => {
   const { isLoading, addNewPlayer, ...tournament } = useTournamentStore();
-  console.log(tournament);
+
   useEffect(() => {
     tournament.init(state);
   }, []);
@@ -42,7 +44,7 @@ const TournamentPageContent = ({
 
   const handleClick = () => {
     const id = newid();
-    const name = faker.person.fullName()
+    const name = faker.person.fullName();
     const newPlayer: DatabasePlayer = {
       id,
       nickname: name,
@@ -64,12 +66,14 @@ const TournamentPageContent = ({
         <div>
           <pre>{JSON.stringify(tournament, null, 2)}</pre>
           <br />
-          <Button onClick={handleClick}>ADD COMPLETELY NEW PLAYER AND SEND HIM</Button>
+          {status === 'organizer' && (
+            <Button onClick={handleClick}>
+              ADD COMPLETELY NEW PLAYER AND SEND HIM
+            </Button>
+          )}
           <div className="p-12"></div>
-          {tournament.possiblePlayers.map(player => {
-            return (
-              <pre>{JSON.stringify(player, null, 2)}</pre>
-            )
+          {tournament.possiblePlayers.map((player) => {
+            return <pre>{JSON.stringify(player, null, 2)}</pre>;
           })}
         </div>
       )}
@@ -81,6 +85,7 @@ interface TournamentPageContentProps {
   session: string;
   id: string;
   state: TournamentModel;
+  status: Status;
 }
 
 export default TournamentPageContent;
