@@ -120,7 +120,6 @@ export async function GET(request: Request): Promise<Response> {
       const sessionCookie = lucia.createSessionCookie(session.id);
       cookies().set(sessionCookie.name, sessionCookie.value, {
         ...sessionCookie.attributes,
-        sameSite: 'none',
       });
     } catch (e) {
       console.log(e);
