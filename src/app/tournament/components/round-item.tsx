@@ -1,15 +1,12 @@
-import {
-  DashboardContextType,
-  Round,
-} from '@/app/tournament/[id]/dashboard-context';
 import GameItem from '@/app/tournament/components/game-item';
 import { FC, useState } from 'react';
 
 const RoundItem: FC<RoundItemProps> = ({ round }) => {
   const [setResult] = useState<number | null>(null);
+  
   return (
     <>
-      {round.map((game: DashboardContextType['games'][0][0]) => (
+      {round.map((game: any) => (
         <GamesIteratee
           key={game.id} // Assuming 'id' is unique for each game
           game={game}
@@ -21,14 +18,14 @@ const RoundItem: FC<RoundItemProps> = ({ round }) => {
 };
 
 type RoundItemProps = {
-  round: Round;
+  round: any;
 };
 
 const GamesIteratee = ({
   game,
   setResult,
 }: {
-  game: DashboardContextType['games'][0][0];
+  game: any;
   setResult: any;
 }) => {
   return (

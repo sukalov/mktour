@@ -3,11 +3,11 @@ import { createContext } from 'react';
 
 export const DashboardContext = createContext<DashboardContextType>({
   currentTab: 'main',
-  roundInView: 0
+  roundInView: 1
 });
 
 export type DashboardContextType = {
   tournament?: TournamentModel;
   currentTab: 'main' | 'table' | 'games';
-  roundInView: number
+  roundInView: number;
 };

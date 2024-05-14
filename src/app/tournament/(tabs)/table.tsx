@@ -11,7 +11,8 @@ import { FC, useContext } from 'react';
 import { useMediaQuery } from 'react-responsive';
 
 const TournamentTable: FC = () => {
-  const { players } = useContext(DashboardContext);
+  const { tournament } = useContext(DashboardContext);
+  const players = tournament?.players
   const isMobile = useMediaQuery({ maxWidth: 500 });
 
   const tableResultTitles = ['Wins', 'Draws', 'Losses'];
@@ -45,8 +46,8 @@ const TournamentTable: FC = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {players.map((player, i) => (
-            <TableRow key={player.player_id}>
+          {players?.map((player, i) => (
+            <TableRow key={player.id}>
               <TableCell className="font-small p-2">{i + 1}</TableCell>
               <TableCell className="font-small max-w-[150px] truncate pl-0">
                 {player.nickname}

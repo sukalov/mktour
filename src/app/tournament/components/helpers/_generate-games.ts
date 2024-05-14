@@ -1,4 +1,7 @@
+//@ts-nocheck
+
 'use client';
+
 
 import {
   DashboardContextType,

@@ -6,6 +6,8 @@ const RoundsMobile: FC = () => {
   const { tournament, roundInView } = useContext(DashboardContext);
   const round = tournament?.games[roundInView];
 
+  console.log(tournament?.games)
+
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }, [roundInView]);

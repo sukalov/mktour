@@ -40,12 +40,16 @@ export const getTournamentState = async (
     title: tournamentDb.tournament.title,
     type: tournamentDb.tournament.type,
     format: tournamentDb.tournament.format,
-    organizer: tournamentDb.club!.name,
-    organizerId: tournamentDb.tournament.club_id,
+    organizer: {
+      id: tournamentDb.tournament.club_id,
+      name: tournamentDb.club!.name
+    },
     status,
     roundsNumber: tournamentDb.tournament.rounds_number,
     games: [],
     players: [],
+    ongoingRound: 1,
+    possiblePlayers: []
   };
 
   const playersDb = await db

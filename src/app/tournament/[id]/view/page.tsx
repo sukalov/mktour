@@ -1,15 +1,18 @@
 import Dashboard from '@/app/tournament/[id]/dashboard';
 import { TournamentPageProps } from '@/app/tournament/[id]/page';
-import useTournamentToClubQuery from '@/lib/db/hooks/use-tournament-to-club-query';
+import { getTournamentState } from '@/lib/get-tournament-state';
+import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
 
 export default async function TournamentView({ params }: TournamentPageProps) {
-  const { tournament } = await useTournamentToClubQuery({ params });
-  if (!tournament) notFound();
+  const state = await getTournamentState(params.id);
+  const session = cookies().get('auth_session')?.value ?? '';
+
+  if (!state) notFound();
 
   return (
     <div className="w-full">
-      <Dashboard tournament={tournament} />
+      <Dashboard state={state} session={session} />
     </div>
   );
 }
