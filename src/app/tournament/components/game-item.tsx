@@ -1,6 +1,5 @@
 import { Card } from '@/components/ui/card';
-import { Result } from '@/types/tournaments';
-import { SetStateAction } from 'jotai';
+import { Result as ResultModel } from '@/types/tournaments';
 import { FC } from 'react';
 
 const GameItem: FC<GameProps> = ({ result, player1, player2 }) => {
@@ -36,8 +35,8 @@ const Result = ({ result }: any) => {
 };
 
 interface GameProps {
-  result: Result | null;
-  setResult: SetStateAction<any>;
+  result: ResultModel | null;
+  setResult: any;
   player1: string;
   player2: string;
 }

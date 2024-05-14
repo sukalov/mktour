@@ -46,8 +46,9 @@ const generateGames = (players: DashboardContextType['players']): any => {
       // Create game between player1 and player2 with pre-generated result
       const game = {
         id: `game_${roundNum}_${i}`, // Unique ID for the game
-        tournament_id: null, // Set based on your application logic
+        tournament_id: '', // Set based on your application logic
         round_number: roundNum + 1,
+        round_name: null,
         white_id: player1.player_id,
         black_id: player2.player_id,
         result: result,

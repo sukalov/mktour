@@ -2,7 +2,7 @@ import { turboPascal } from '@/app/fonts';
 
 export default function Mktour() {
   return (
-    <div className="h-svh flex flex-auto items-center justify-center">
+    <div className="flex h-svh flex-auto items-center justify-center">
       <h1
         className={`${turboPascal.className} m-auto select-none text-6xl font-bold`}
       >

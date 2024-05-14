@@ -3,7 +3,7 @@
 import AuthButton from '@/components/auth/auth-button';
 import ModeTogglerMobile from '@/components/mode-toggler-mobile';
 import MktourNavbar from '@/components/ui/mktour-logo-navbar';
-import { navbarItems } from '@/config/navbar-items';
+import { navbarItems } from '@/lib/config/navbar-items';
 import { motion, useCycle } from 'framer-motion';
 import { User } from 'lucia';
 import Link from 'next/link';

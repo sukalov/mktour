@@ -12,18 +12,18 @@ const Main = () => {
         {tournament.title}
       </div>
       <Card className="flex w-full flex-col items-center gap-8 p-4">
-        <InfoItem icon={<UserRound />} value={tournament?.type} />
-        <InfoItem icon={<Dices />} value={tournament?.format} />
-        <InfoItem icon={<CalendarDays />} value={tournament?.date} />
+        <InfoItem icon={<UserRound />} value={tournament.type} />
+        <InfoItem icon={<Dices />} value={tournament!.format} />
+        <InfoItem icon={<CalendarDays />} value={tournament!.date} />
       </Card>
     </div>
   );
 };
 
-const InfoItem: FC<{ icon: ReactNode; value: string | number | null }> = ({
-  icon,
-  value,
-}) => (
+const InfoItem: FC<{
+  icon: ReactNode;
+  value: string | number | null | undefined;
+}> = ({ icon, value }) => (
   <div className="flex gap-2">
     {icon}
     {value}

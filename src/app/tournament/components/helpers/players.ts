@@ -6,6 +6,7 @@ export const playersArray: DashboardContextType['players'] = Array.from(
   { length },
   (_, i) => ({
     player_id: `${i + 100}`,
+    id: `${i + 100}`,
     tournament_id: `${i + 111}`, //FIXME get from tournament!
     wins: 0,
     losses: 0,
