@@ -1,12 +1,13 @@
 import {
-  DashboardContext,
-  Round,
+  DashboardContext
 } from '@/app/tournament/[id]/dashboard-context';
 import RoundItem from '@/app/tournament/components/round-item';
 import { FC, useContext, useRef } from 'react';
 
 const RoundsDesktop: FC = () => {
-  const { games, currentRound } = useContext(DashboardContext);
+  const { tournament } = useContext(DashboardContext);
+  const games = tournament?.games
+  const currentRound = tournament?.ongoingRound
   const ref = useRef<any>(null);
 
   // useEffect(() => {
@@ -24,7 +25,7 @@ const RoundsDesktop: FC = () => {
       id="rounds"
       className="scrollbar-hide flex justify-between gap-8 overflow-scroll p-4"
     >
-      {games.map((round: Round, roundIndex: number) => (
+      {games?.map((round: any, roundIndex: number) => (
         <div
           className="flex flex-col justify-center gap-4 text-center"
           key={roundIndex}
