@@ -1,6 +1,6 @@
 import NewTournamentForm from '@/app/new-tournament/new-tournament-form';
 import { getUser } from '@/lib/auth/utils';
-import useUserToClubsQuery from '@/lib/db/hooks/useUserToClubsQuery';
+import useUserToClubsQuery from '@/lib/db/hooks/use-user-to-clubs-query';
 import { DatabaseClub } from '@/lib/db/schema/tournaments';
 import { redirect } from 'next/navigation';
 

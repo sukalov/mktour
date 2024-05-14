@@ -1,5 +1,5 @@
 import TournamentsContainer from '@/app/all-tournaments/tournament-iteratee';
-import useAllTournamentsQuery from '@/lib/db/hooks/useAllTournamentsQuery';
+import useAllTournamentsQuery from '@/lib/db/hooks/use-all-tournaments-query';
 
 export default async function Tournaments() {
   const { allTournaments } = await useAllTournamentsQuery();

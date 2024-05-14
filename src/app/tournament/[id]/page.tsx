@@ -1,7 +1,7 @@
 import Dashboard from '@/app/tournament/[id]/dashboard';
 import { getUser } from '@/lib/auth/utils';
-import useStatusQuery from '@/lib/db/hooks/useStatusQuery';
-import useTournamentToClubQuery from '@/lib/db/hooks/useTournamentToClubQuery';
+import useStatusQuery from '@/lib/db/hooks/use-status-query';
+import useTournamentToClubQuery from '@/lib/db/hooks/use-tournament-to-club-query';
 import { notFound, redirect } from 'next/navigation';
 
 export const revalidate = 0;

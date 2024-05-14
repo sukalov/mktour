@@ -1,5 +1,5 @@
 import { db } from '@/lib/db';
-import { UserClubsQueryProps } from '@/lib/db/hooks/useStatusQuery';
+import { UserClubsQueryProps } from '@/lib/db/hooks/use-status-query';
 import { clubs, clubs_to_users } from '@/lib/db/schema/tournaments';
 import { eq } from 'drizzle-orm';
 
