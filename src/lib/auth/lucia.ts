@@ -14,7 +14,7 @@ export const lucia = new Lucia(adapter, {
       secure: process.env.NODE_ENV === 'production',
     },
   },
-  getUserAttributes: (attributes) => {
+  getUserAttributes: (attributes: Omit<DatabaseUser, 'id'>) => {
     return {
       username: attributes.username,
       name: attributes.name,

@@ -3,11 +3,10 @@ import { db } from '@/lib/db';
 import { redis } from '@/lib/db/redis';
 import { DatabaseUser, users } from '@/lib/db/schema/auth';
 import { clubs, clubs_to_users } from '@/lib/db/schema/tournaments';
+import { newid } from '@/lib/utils';
 import { LichessUser } from '@/types/lichess-api';
 import { OAuth2RequestError } from 'arctic';
 import { eq } from 'drizzle-orm';
-import { generateId } from 'lucia';
-import { nanoid } from 'nanoid';
 import { cookies } from 'next/headers';
 
 export async function GET(request: Request): Promise<Response> {
@@ -86,8 +85,8 @@ export async function GET(request: Request): Promise<Response> {
     }
 
     try {
-      const userId = generateId(15);
-      const clubId = nanoid();
+      const userId = newid();
+      const clubId = newid();
       const ctuId = `${clubId}=${userId}`;
       const name = `${lichessUser.profile?.firstName ?? ''}${
         lichessUser.profile?.lastName ? ' ' + lichessUser.profile.lastName : ''
