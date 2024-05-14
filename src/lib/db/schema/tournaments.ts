@@ -12,6 +12,7 @@ export const players = sqliteTable('player', {
   club_id: text('club_id')
     .references(() => clubs.id)
     .notNull(), // TODO: add constraint on combination fo club_id and nickname
+  last_seen: integer('last_seen'), // equals closed_at() last tournament they participated
 });
 
 export const tournaments = sqliteTable('tournament', {
@@ -89,7 +90,7 @@ export const games = sqliteTable('game', {
   result: text('result').$type<Result>(),
   tournament_id: text('tournament_id')
     .references(() => tournaments.id)
-    .notNull()
+    .notNull(),
 });
 
 export type DatabasePlayer = InferSelectModel<typeof players>;
