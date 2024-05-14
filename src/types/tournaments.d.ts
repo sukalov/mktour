@@ -1,6 +1,7 @@
 export interface PlayerModel {
   id: string;
   nickname: string; // players.nickname
+  realname?: string | null;
   rating?: number | null;
   wins: number;
   draws: number;
