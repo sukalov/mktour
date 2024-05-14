@@ -49,12 +49,15 @@ const TournamentPageContent = ({ session, id, state }: TournamentPageContentProp
     sendJsonMessage(message);
   };
 
-  return (
+  return (<>{
+    isLoading ? <p>Loading...</p> :
     <div>
       <pre>{JSON.stringify(tournament, null, 2)}</pre>
       <br />
       <button onClick={handleClick}>ADD NEW PLAYER AND SEND HIM</button>
     </div>
+}
+    </>
   );
 };
 
