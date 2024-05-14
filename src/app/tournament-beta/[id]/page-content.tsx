@@ -68,6 +68,7 @@ const TournamentPageContent = ({
       realname: name,
       user_id: null,
       rating: Math.floor(Math.random() * 1200 + 1200),
+      last_seen: 0,
     };
     addNewPlayer(newPlayer);
     const message: Message = { body: newPlayer, type: 'add-new-player' };
