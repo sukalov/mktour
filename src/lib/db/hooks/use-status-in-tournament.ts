@@ -13,7 +13,7 @@ export type Status = 'organizer' | 'player' | 'viewer';
 export const useStatusInTournament = async (
   user: User | null,
   tournamentId: string,
-) => {
+): Promise<Status> => {
   if (!user) return 'viewer';
   const clubId = (
     await db
