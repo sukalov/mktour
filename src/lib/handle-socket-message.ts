@@ -1,17 +1,10 @@
-import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
-
-type Message =
-  | {
-      type: 'add-player';
-      body: DatabasePlayer;
-    }
-  | { type: ''; body: '' };
+import { Message } from '@/types/ws-events';
 
 export const handleSocketMessage = ({ type, body }: Message) => {
   switch (type) {
-    case 'add-player':
-      useTournamentStore.getState().addPlayer(body);
+    case 'add-new-player':
+      useTournamentStore.getState().addNewPlayer(body);
       break;
 
     default:

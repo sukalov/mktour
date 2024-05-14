@@ -1,14 +1,17 @@
 'use client';
 
 import { SOCKET_URL } from '@/lib/config/urls';
+import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { handleSocketMessage } from '@/lib/handle-socket-message';
 import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
+import { newid } from '@/lib/utils';
 import { TournamentModel } from '@/types/tournaments';
+import { Message } from '@/types/ws-events';
 import { useEffect } from 'react';
 import useWebSocket from 'react-use-websocket';
 
 const TournamentPageContent = ({ session, id, state }: TournamentPageContentProps) => {
-  const { isLoading, addPlayer, ...tournament } = useTournamentStore();
+  const { isLoading, addNewPlayer, ...tournament } = useTournamentStore();
   console.log(tournament);
   useEffect(() => {
     tournament.init(state);
@@ -32,8 +35,8 @@ const TournamentPageContent = ({ session, id, state }: TournamentPageContentProp
   });
 
   const handleClick = () => {
-    const id = String(Math.floor(Math.random() * 999999));
-    const newPlayer = {
+    const id = newid()
+    const newPlayer: DatabasePlayer = {
       id,
       nickname: 'NEW PLAYER',
       club_id: '',
@@ -41,8 +44,9 @@ const TournamentPageContent = ({ session, id, state }: TournamentPageContentProp
       user_id: null,
       rating: null,
     };
-    addPlayer(newPlayer);
-    sendJsonMessage({ body: newPlayer, type: 'add-player' });
+    addNewPlayer(newPlayer);
+    const message: Message = { body: newPlayer, type: 'add-new-player' }
+    sendJsonMessage(message);
   };
 
   return (

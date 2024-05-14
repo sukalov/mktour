@@ -11,7 +11,6 @@ const isNew = await checkUser(user);
     <div className="flex min-h-[calc(100svh-3.5rem)] w-full flex-auto items-center justify-center p-4">
       <MakeTournamentButton />
       {isNew && <TeamJoinToaster />}
-      {/* <TeamJoinToaster /> */}
     </div>
   );
 }
