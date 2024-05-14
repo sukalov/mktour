@@ -19,12 +19,15 @@ export const useTournamentStore = create<TournamentStore>((set) => ({
   title: '',
   type: undefined,
   format: undefined,
-  organizer: '',
-  organizerId: '',
+  organizer: {
+    id: '',
+    name: '',
+  },
   status: undefined,
   roundsNumber: null,
   players: [],
   games: [],
+  ongoingRound: 1,
   possiblePlayers: [],
   isLoading: true,
   initAsync: async (id) => {

@@ -1,3 +1,5 @@
+import { DatabasePlayer } from "@/lib/db/schema/tournaments";
+
 export interface PlayerModel {
   id: string;
   nickname: string; // players.nickname
@@ -15,6 +17,8 @@ export interface GameModel {
   white_id: string; // games.white_id;
   black_nickname: string; // players where id === games.black_id  nickname;
   white_nickname: string; // players where id === games.white_id  nickname;
+  black_prev_game_id: string | null; // links to other games necessary for elimination-brackets
+  white_prev_game_id: string | null; // links to other games necessary for elimination-brackets
   round_number: number; // games.round_number
   round_name: RoundName | null; // games.round_name
   result: Result | null; //games.result
@@ -26,12 +30,16 @@ export interface TournamentModel {
   title: string; // tournaments.title
   type: TournamentType | undefined; // tournaments.type
   format: Format | undefined; // tournaments.format
-  organizer: string; // clubs.name
-  organizerId: string; // clubs.id
+  organizer: {
+    id: string; // club.id
+    name: string; // club.name
+  }
   status: TournamentStatus | undefined; // created according to started_at and closed_at
   roundsNumber: number | null; // tournamnets.rounds_number
+  ongoingRound: number;
   games: Array<GameModel>; // games where tournament.id === id
   players: Array<PlayerModel>; // players_to_tournaments where tournament.id === id
+  possiblePlayers: Array<DatabasePlayer> // players of organizer club except already added
 }
 
 type Result = '0-1' | '1-0' | '1/2-1/2';

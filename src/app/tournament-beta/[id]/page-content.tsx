@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { SOCKET_URL } from '@/lib/config/urls';
+import { db } from '@/lib/db';
 import { Status } from '@/lib/db/hooks/use-status-in-tournament';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { handleSocketMessage } from '@/lib/handle-socket-message';
@@ -23,6 +24,11 @@ const TournamentPageContent = ({
 
   useEffect(() => {
     tournament.init(state);
+  }, []);
+
+  useEffect(() => {
+    
+    tournament.initPossiblePlayers();
   }, []);
 
   const { sendJsonMessage } = useWebSocket(`${SOCKET_URL}/${id}`, {
