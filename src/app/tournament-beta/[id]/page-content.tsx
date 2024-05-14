@@ -25,10 +25,21 @@ const TournamentPageContent = ({
     tournament.init(state);
   }, []);
 
-  // useEffect(() => {
-    
-  //   tournament.initPossiblePlayers();
-  // }, []);
+  useEffect(() => {
+    (async () => {
+      const possiblePlayersReq = await fetch('/api/tournament-possible-players', {
+        method: 'POST',
+        body: JSON.stringify({
+          id,
+          tournament: state
+        })
+      });
+      console.log(possiblePlayersReq)
+      const possiblePlayers = await possiblePlayersReq.json() as Array<DatabasePlayer>
+      console.log(possiblePlayers)
+      tournament.initPossiblePlayers(possiblePlayers);
+    })();
+  }, []);
 
   const { sendJsonMessage } = useWebSocket(`${SOCKET_URL}/${id}`, {
     queryParams: {

@@ -50,6 +50,8 @@ export const getTournamentState = async (
     players: [],
     ongoingRound: 1,
     possiblePlayers: []
+    ongoingRound: 1,
+    possiblePlayers: []
   };
 
   const playersDb = await db
