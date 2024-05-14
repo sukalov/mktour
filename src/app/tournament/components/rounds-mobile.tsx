@@ -3,8 +3,8 @@ import RoundItem from '@/app/tournament/components/round-item';
 import { FC, useContext, useEffect } from 'react';
 
 const RoundsMobile: FC = () => {
-  const { games, roundInView } = useContext(DashboardContext);
-  const round = games[roundInView];
+  const { tournament, roundInView } = useContext(DashboardContext);
+  const round = tournament?.games[roundInView];
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
