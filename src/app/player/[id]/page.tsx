@@ -1,6 +1,6 @@
 import { getUser } from '@/lib/auth/utils';
-import usePlayerQuery from '@/lib/db/hooks/usePlayerQuery';
-import useStatusQuery from '@/lib/db/hooks/useStatusQuery';
+import usePlayerQuery from '@/lib/db/hooks/use-player-query';
+import useStatusQuery from '@/lib/db/hooks/use-status-query';
 import { StatusInClub } from '@/lib/db/schema/tournaments';
 import { notFound } from 'next/navigation';
 

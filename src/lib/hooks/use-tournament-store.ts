@@ -9,6 +9,8 @@ interface TournamentStore extends TournamentModel {
   addNewPlayer: (player: DatabasePlayer) => void;
   initAsync: (id: string) => void;
   init: (state: TournamentModel) => void;
+  possiblePlayers: Array<DatabasePlayer>;
+  initPossiblePlayers: (players: Array<DatabasePlayer>) => void;
 }
 
 export const useTournamentStore = create<TournamentStore>((set) => ({
@@ -23,10 +25,14 @@ export const useTournamentStore = create<TournamentStore>((set) => ({
   roundsNumber: null,
   players: [],
   games: [],
+  possiblePlayers: [],
   isLoading: true,
   initAsync: async (id) => {
     const initialState = await getTournamentState(id);
     set({ ...initialState, isLoading: false });
+  },
+  initPossiblePlayers: (players) => {
+    set((state) => ({ possiblePlayers: players }));
   },
   init: (state) => {
     set({ ...state, isLoading: false });

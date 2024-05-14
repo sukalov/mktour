@@ -1,6 +1,6 @@
 import Dashboard from '@/app/tournament/[id]/dashboard';
 import { TournamentPageProps } from '@/app/tournament/[id]/page';
-import useTournamentToClubQuery from '@/lib/db/hooks/useTournamentToClubQuery';
+import useTournamentToClubQuery from '@/lib/db/hooks/use-tournament-to-club-query';
 import { notFound } from 'next/navigation';
 
 export default async function TournamentView({ params }: TournamentPageProps) {

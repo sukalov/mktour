@@ -1,5 +1,6 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import { SOCKET_URL } from '@/lib/config/urls';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { handleSocketMessage } from '@/lib/handle-socket-message';
@@ -7,6 +8,7 @@ import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
 import { newid } from '@/lib/utils';
 import { TournamentModel } from '@/types/tournaments';
 import { Message } from '@/types/ws-events';
+import { faker } from '@faker-js/faker';
 import { useEffect } from 'react';
 import useWebSocket from 'react-use-websocket';
 
@@ -40,13 +42,14 @@ const TournamentPageContent = ({
 
   const handleClick = () => {
     const id = newid();
+    const name = faker.person.fullName()
     const newPlayer: DatabasePlayer = {
       id,
-      nickname: 'NEW PLAYER',
-      club_id: '',
-      realname: null,
+      nickname: name,
+      club_id: tournament.organizerId,
+      realname: name,
       user_id: null,
-      rating: null,
+      rating: Math.floor(Math.random() * 1200 + 1200),
     };
     addNewPlayer(newPlayer);
     const message: Message = { body: newPlayer, type: 'add-new-player' };
@@ -61,7 +64,13 @@ const TournamentPageContent = ({
         <div>
           <pre>{JSON.stringify(tournament, null, 2)}</pre>
           <br />
-          <button onClick={handleClick}>ADD NEW PLAYER AND SEND HIM</button>
+          <Button onClick={handleClick}>ADD COMPLETELY NEW PLAYER AND SEND HIM</Button>
+          <div className="p-12"></div>
+          {tournament.possiblePlayers.map(player => {
+            return (
+              <pre>{JSON.stringify(player, null, 2)}</pre>
+            )
+          })}
         </div>
       )}
     </>
