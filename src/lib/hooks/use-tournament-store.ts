@@ -4,7 +4,7 @@ import { PlayerModel, TournamentModel } from '@/types/tournaments';
 
 import { create } from 'zustand';
 
-interface TournamentStore extends TournamentModel {
+export interface TournamentStore extends TournamentModel {
   isLoading: boolean;
   addPlayer: (player: DatabasePlayer) => void;
   initAsync: (id: string) => void;

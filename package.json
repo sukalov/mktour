@@ -25,6 +25,7 @@
     "@lucia-auth/adapter-sqlite": "3.0.1",
     "@lucia-auth/oauth": "3.5.3",
     "@radix-ui/react-avatar": "1.0.4",
+    "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-dropdown-menu": "2.0.6",
     "@radix-ui/react-label": "2.0.2",
     "@radix-ui/react-menubar": "1.0.4",
@@ -84,6 +85,7 @@
     "use-local-storage-state": "^19.2.0",
     "use-long-press": "3.2.0",
     "usehooks-ts": "3.1.0",
+    "vaul": "^0.9.1",
     "vercel": "34.1.14",
     "zod": "3.23.8",
     "zustand": "^4.5.2"
