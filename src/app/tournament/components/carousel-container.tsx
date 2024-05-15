@@ -11,6 +11,7 @@ const CarouselContainer: FC<any> = ({
   currentTab,
   setCurrentTab,
   setControlsTop,
+  tournament
 }) => {
   const [api, setApi] = useState<CarouselApi>();
   const indexOfTab = tabs.findIndex((tab) => tab.title === currentTab);
@@ -47,7 +48,7 @@ const CarouselIteratee: FC<{ children: FC }> = ({ children: Component }) => {
   return (
     <CarouselItem>
       <div className='mt-10'>
-      <Component />
+      <Component/>
       </div>
     </CarouselItem>
   );

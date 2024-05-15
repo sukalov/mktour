@@ -1,6 +1,5 @@
-'use client'
+'use client';
 
-import { DashboardContext } from '@/app/tournament/[id]/dashboard-context';
 import {
   Table,
   TableBody,
@@ -9,11 +8,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { FC, useContext } from 'react';
+import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
+import { FC } from 'react';
 import { useMediaQuery } from 'react-responsive';
 
 const TournamentTable: FC = () => {
-  const { tournament } = useContext(DashboardContext);
+  const tournament = useTournamentStore();
   const players = tournament?.players;
   const isMobile = useMediaQuery({ maxWidth: 500 });
 
@@ -21,8 +21,9 @@ const TournamentTable: FC = () => {
 
   const TableResultHeads = () => {
     const shortenTitle = (title: string) =>
+      // FIXME:
       // isMobile ? title.slice(0, 1) : title;
-      title.slice(0, 1)
+      title.slice(0, 1);
     return (
       <>
         {tableResultTitles.map((title) => (
@@ -64,7 +65,6 @@ const TournamentTable: FC = () => {
           </TableBody>
         </Table>
       </div>
-     
     </div>
   );
 };

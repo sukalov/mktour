@@ -1,13 +1,15 @@
 'use client';
 
 import { DashboardContext } from '@/app/tournament/[id]/dashboard-context';
+import { onClickAddNewPlayer } from '@/app/tournament/components/helpers/on-click-handlers';
 import { Button } from '@/components/ui/button';
+import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
 import { UserPlus } from 'lucide-react';
 import { FC, useContext } from 'react';
 
-const Fab: FC<any> = ({ currentTab }) => {
-  const { tournament, sendJsonMessage } = useContext(DashboardContext)
-
+const Fab: FC = () => {
+  const { sendJsonMessage } = useContext(DashboardContext);
+  const tournament = useTournamentStore()
 
   return (
     <Button
@@ -15,6 +17,7 @@ const Fab: FC<any> = ({ currentTab }) => {
       variant="secondary"
       size="icon"
       style={{ scale: 1.5 }}
+      onClick={() => onClickAddNewPlayer(tournament, sendJsonMessage)}
     >
       <UserPlus className="h-4 w-4" />
     </Button>

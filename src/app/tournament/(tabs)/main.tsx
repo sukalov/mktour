@@ -1,10 +1,11 @@
-import { DashboardContext } from '@/app/tournament/[id]/dashboard-context';
 import { Card } from '@/components/ui/card';
+import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
 import { CalendarDays, Dices, UserRound } from 'lucide-react';
-import { FC, ReactNode, useContext } from 'react';
+import { FC, ReactNode } from 'react';
 
 const Main = () => {
-  const { tournament } = useContext(DashboardContext);
+
+  const { ...tournament } = useTournamentStore()
 
   return (
     <div className="flex flex-col gap-4 p-4">
