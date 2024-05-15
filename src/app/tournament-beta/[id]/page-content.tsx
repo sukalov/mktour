@@ -1,5 +1,6 @@
 'use client';
 
+import TestOtherClientComponent from '@/app/tournament-beta/[id]/test-other-client-component';
 import { Button } from '@/components/ui/button';
 import { SOCKET_URL } from '@/lib/config/urls';
 import { Status } from '@/lib/db/hooks/use-status-in-tournament';
@@ -90,9 +91,13 @@ const TournamentPageContent = ({
   return (
     <>
       {isLoading ? (
-        <p>Loading...</p>
+        <div>
+        <TestOtherClientComponent />
+        Loading...
+        </div>
       ) : (
         <div>
+          <TestOtherClientComponent />
           <pre>{JSON.stringify(tournament, null, 2)}</pre>
           <br />
           {status === 'organizer' && (
@@ -105,6 +110,7 @@ const TournamentPageContent = ({
             possiblePlayers.map((player) => {
               return <Button className="p-2 m-2" onClick={() => onClickAddExistingPlayer(player)}>Add {player.nickname}</Button>;
             })}
+
         </div>
       )}
     </>
