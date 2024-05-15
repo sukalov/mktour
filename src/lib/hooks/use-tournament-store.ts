@@ -6,11 +6,12 @@ import { create } from 'zustand';
 
 interface TournamentStore extends TournamentModel {
   isLoading: boolean;
-  addNewPlayer: (player: DatabasePlayer) => void;
+  addPlayer: (player: DatabasePlayer) => void;
   initAsync: (id: string) => void;
   init: (state: TournamentModel) => void;
   possiblePlayers: Array<DatabasePlayer>;
   initPossiblePlayers: (players: Array<DatabasePlayer>) => void;
+  removePossiblePlayer: (player: DatabasePlayer) => void;
 }
 
 export const useTournamentStore = create<TournamentStore>((set) => ({
@@ -40,7 +41,7 @@ export const useTournamentStore = create<TournamentStore>((set) => ({
   init: (state) => {
     set({ ...state, isLoading: false });
   },
-  addNewPlayer: (player) => {
+  addPlayer: (player) => {
     const newPlayer: PlayerModel = {
       id: player.id,
       nickname: player.nickname,
@@ -52,10 +53,17 @@ export const useTournamentStore = create<TournamentStore>((set) => ({
     };
     set((state) => ({ players: [...state.players, newPlayer] }));
   },
+  removePossiblePlayer: (player) => {
+    set((state) => ({
+      possiblePlayers: state.possiblePlayers.filter(
+        (someone) => someone.id !== player.id,
+      ),
+    }));
+  },
 }));
 
-export const addNewPlayer = (player: DatabasePlayer) =>
+export const addPlayer = (player: DatabasePlayer) =>
   useTournamentStore.setState((state) => {
-    state.addNewPlayer(player);
+    state.addPlayer(player);
     return state;
   });

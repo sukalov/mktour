@@ -19,7 +19,8 @@ const TournamentPageContent = ({
   state,
   status,
 }: TournamentPageContentProps) => {
-  const { isLoading, addNewPlayer, ...tournament } = useTournamentStore();
+  const { isLoading, addPlayer, possiblePlayers, ...tournament } =
+    useTournamentStore();
 
   useEffect(() => {
     tournament.init(state);
@@ -27,16 +28,20 @@ const TournamentPageContent = ({
 
   useEffect(() => {
     (async () => {
-      const possiblePlayersReq = await fetch('/api/tournament-possible-players', {
-        method: 'POST',
-        body: JSON.stringify({
-          id,
-          tournament: state
-        })
-      });
-      console.log(possiblePlayersReq)
-      const possiblePlayers = await possiblePlayersReq.json() as Array<DatabasePlayer>
-      console.log(possiblePlayers)
+      const possiblePlayersReq = await fetch(
+        '/api/tournament-possible-players',
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            id,
+            tournament: state,
+          }),
+        },
+      );
+      console.log(possiblePlayersReq);
+      const possiblePlayers =
+        (await possiblePlayersReq.json()) as Array<DatabasePlayer>;
+      console.log(possiblePlayers);
       tournament.initPossiblePlayers(possiblePlayers);
     })();
   }, []);
@@ -58,7 +63,7 @@ const TournamentPageContent = ({
     },
   });
 
-  const handleClick = () => {
+  const onClickAddNewPlayer = () => {
     const id = newid();
     const name = faker.person.fullName();
     const newPlayer: DatabasePlayer = {
@@ -70,10 +75,17 @@ const TournamentPageContent = ({
       rating: Math.floor(Math.random() * 1200 + 1200),
       last_seen: 0,
     };
-    addNewPlayer(newPlayer);
+    addPlayer(newPlayer);
     const message: Message = { body: newPlayer, type: 'add-new-player' };
     sendJsonMessage(message);
   };
+
+  const onClickAddExistingPlayer = (player: DatabasePlayer) => {
+    tournament.removePossiblePlayer(player)
+    addPlayer(player);
+    const message: Message = { body: player, type: 'add-existing-player' };
+    sendJsonMessage(message);
+  }
 
   return (
     <>
@@ -84,14 +96,15 @@ const TournamentPageContent = ({
           <pre>{JSON.stringify(tournament, null, 2)}</pre>
           <br />
           {status === 'organizer' && (
-            <Button onClick={handleClick}>
+            <Button onClick={onClickAddNewPlayer}>
               ADD COMPLETELY NEW PLAYER AND SEND HIM
             </Button>
           )}
           <div className="p-12"></div>
-          {tournament.possiblePlayers.map((player) => {
-            return <pre>{JSON.stringify(player, null, 2)}</pre>;
-          })}
+          {possiblePlayers[0] !== undefined &&
+            possiblePlayers.map((player) => {
+              return <Button className="p-2 m-2" onClick={() => onClickAddExistingPlayer(player)}>Add {player.nickname}</Button>;
+            })}
         </div>
       )}
     </>
