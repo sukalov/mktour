@@ -9,18 +9,25 @@ export const revalidate = 0;
 
 export default async function TournamentPage({ params }: TournamentPageProps) {
   const session = cookies().get('auth_session')?.value ?? '';
-  const state = await getTournamentState(params.id);
+  let state;
+  try {
+    state = await getTournamentState(params.id);
+  } catch {
+    notFound();
+  }
   const user = await getUser();
   let status = await useStatusInTournament(user, params.id);
 
-  console.log(session, state, user, status)
-
-  if (!state) notFound();
   if (!user || !status) redirect(`/tournament/${params.id}/view`);
 
   return (
     <div className="w-full">
-      <Dashboard state={state} session={session} id={params.id} status={status} />
+      <Dashboard
+        state={state}
+        session={session}
+        id={params.id}
+        status={status}
+      />
     </div>
   );
 }
