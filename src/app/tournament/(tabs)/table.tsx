@@ -1,5 +1,7 @@
 'use client';
 
+import { DashboardContext } from '@/app/tournament/[id]/dashboard-context';
+import { onClickRemovePlayer } from '@/app/tournament/components/helpers/on-click-handlers';
 import {
   Table,
   TableBody,
@@ -9,15 +11,15 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import { useMediaQuery } from 'react-responsive';
 
 const TournamentTable: FC = () => {
   const tournament = useTournamentStore();
-  const players = tournament?.players;
+  const { sendJsonMessage } = useContext(DashboardContext)
   const isMobile = useMediaQuery({ maxWidth: 500 });
 
-  const tableResultTitles = ['Wins', 'Draws', 'Losses'];
+  const tableResultTitles = ['wins', 'draws', 'losses'];
 
   const TableResultHeads = () => {
     const shortenTitle = (title: string) =>
@@ -51,8 +53,8 @@ const TournamentTable: FC = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {players?.map((player, i) => (
-              <TableRow key={player.id}>
+            {tournament.players?.map((player, i) => (
+              <TableRow key={player.id} onClick={() => onClickRemovePlayer(player.id, tournament, sendJsonMessage)}>
                 <TableCell className="font-small p-2">{i + 1}</TableCell>
                 <TableCell className="font-small max-w-[150px] truncate pl-0">
                   {player.nickname}

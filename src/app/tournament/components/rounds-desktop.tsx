@@ -1,11 +1,9 @@
-import {
-  DashboardContext
-} from '@/app/tournament/[id]/dashboard-context';
 import RoundItem from '@/app/tournament/components/round-item';
-import { FC, useContext, useRef } from 'react';
+import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
+import { FC, useRef } from 'react';
 
 const RoundsDesktop: FC = () => {
-  const { tournament } = useContext(DashboardContext);
+  const tournament = useTournamentStore();
   const games = tournament?.games
   const currentRound = tournament?.ongoingRound
   const ref = useRef<any>(null);

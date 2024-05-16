@@ -10,10 +10,8 @@ const getPossiblePlayers = async (id: string, state: TournamentModel, tournament
       tournament: state,
     }),
   });
-  console.log(possiblePlayersReq);
   const possiblePlayers =
     (await possiblePlayersReq.json()) as Array<DatabasePlayer>;
-  console.log(possiblePlayers);
   tournament.initPossiblePlayers(possiblePlayers);
 };
 

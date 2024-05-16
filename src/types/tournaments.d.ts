@@ -1,4 +1,4 @@
-import { DatabasePlayer } from "@/lib/db/schema/tournaments";
+import { DatabasePlayerSlice } from "@/lib/hooks/use-tournament-store";
 
 export interface PlayerModel {
   id: string;
@@ -39,7 +39,7 @@ export interface TournamentModel {
   ongoingRound: number;
   games: Array<GameModel>; // games where tournament.id === id
   players: Array<PlayerModel>; // players_to_tournaments where tournament.id === id
-  possiblePlayers: Array<DatabasePlayer> // players of organizer club except already added
+  possiblePlayers: Array<DatabasePlayerSlice> // players of organizer club except already added
 }
 
 type Result = '0-1' | '1-0' | '1/2-1/2';

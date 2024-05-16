@@ -9,7 +9,6 @@ import { handleSocketMessage } from '@/lib/handle-socket-message';
 import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
 import { newid } from '@/lib/utils';
 import { TournamentModel } from '@/types/tournaments';
-import { Message } from '@/types/ws-events';
 import { faker } from '@faker-js/faker';
 import { useEffect } from 'react';
 import useWebSocket from 'react-use-websocket';
@@ -20,7 +19,7 @@ const TournamentPageContent = ({
   state,
   status,
 }: TournamentPageContentProps) => {
-  const { isLoading, addPlayer, possiblePlayers, ...tournament } =
+  const tournament =
     useTournamentStore();
 
   useEffect(() => {
@@ -76,21 +75,20 @@ const TournamentPageContent = ({
       rating: Math.floor(Math.random() * 1200 + 1200),
       last_seen: 0,
     };
-    addPlayer(newPlayer);
+    tournament.addNewPlayer(newPlayer);
     const message: Message = { body: newPlayer, type: 'add-new-player' };
     sendJsonMessage(message);
   };
 
-  const onClickAddExistingPlayer = (player: DatabasePlayer) => {
-    tournament.removePossiblePlayer(player)
-    addPlayer(player);
-    const message: Message = { body: player, type: 'add-existing-player' };
+  const onClickAddExistingPlayer = (id: string) => {
+    tournament.addPlayer(id);
+    const message: Message = { id: id, type: 'add-existing-player' };
     sendJsonMessage(message);
   }
 
   return (
     <>
-      {isLoading ? (
+      {tournament.isLoading ? (
         <div>
         <TestOtherClientComponent />
         Loading...
@@ -106,9 +104,9 @@ const TournamentPageContent = ({
             </Button>
           )}
           <div className="p-12"></div>
-          {possiblePlayers[0] !== undefined &&
-            possiblePlayers.map((player) => {
-              return <Button className="p-2 m-2" onClick={() => onClickAddExistingPlayer(player)}>Add {player.nickname}</Button>;
+          {tournament.possiblePlayers[0] !== undefined &&
+            tournament.possiblePlayers.map((player) => {
+              return <Button className="p-2 m-2" onClick={() => onClickAddExistingPlayer(player.id)}>Add {player.nickname}</Button>;
             })}
 
         </div>

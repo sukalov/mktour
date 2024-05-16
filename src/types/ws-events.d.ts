@@ -1,18 +1,14 @@
-import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 
-interface Message {
-  type: MessageType;
-  body: DatabasePlayer;
-}
-
-type MessageType = 'add-existing-player' | 'add-new-player';
+type Message = 
+  | {type: 'add-existing-player', id: string}
+  | {type: 'add-new-player', body: DatabasePlayer}
+  | {type: 'remove-player', id: string}
 
 interface PlayerModel {
   id: string;
   nickname: string;
   realname?: string | null;
   rating?: number | null;
-  club_id: string;
   wins: number;
   draws: number;
   losses: number;
