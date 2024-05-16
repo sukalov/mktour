@@ -73,6 +73,7 @@ export const players_to_tournaments = sqliteTable('players_to_tournaments', {
     .$default(() => 0)
     .notNull(),
   place: int('place'),
+  exited: int('exited', { mode: 'boolean' }),
 });
 
 export const games = sqliteTable('game', {
