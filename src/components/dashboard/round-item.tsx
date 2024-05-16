@@ -1,4 +1,4 @@
-import GameItem from '@/app/tournament/components/game-item';
+import GameItem from '@/components/dashboard/game-item';
 import { FC, useState } from 'react';
 
 const RoundItem: FC<RoundItemProps> = ({ round }) => {

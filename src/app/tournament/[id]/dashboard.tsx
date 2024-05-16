@@ -1,16 +1,16 @@
 'use client';
 
+import CarouselContainer from '@/components/dashboard/carousel-container';
 import {
   DashboardContext,
   DashboardContextType,
-} from '@/app/tournament/[id]/dashboard-context';
-import CarouselContainer from '@/app/tournament/components/carousel-container';
-import Fab from '@/app/tournament/components/fab';
-import getPossiblePlayers from '@/app/tournament/components/helpers/get-possible-players';
-import getWsConfig from '@/app/tournament/components/helpers/get-ws-config';
-import { tabs } from '@/app/tournament/components/helpers/tabs';
-import RoundControls from '@/app/tournament/components/round-controls';
-import TabsContainer from '@/app/tournament/components/tabs-container';
+} from '@/components/dashboard/dashboard-context';
+import Fab from '@/components/dashboard/fab';
+import getPossiblePlayers from '@/components/dashboard/helpers/get-possible-players';
+import getWsConfig from '@/components/dashboard/helpers/get-ws-config';
+import { tabs } from '@/components/dashboard/helpers/tabs';
+import RoundControls from '@/components/dashboard/round-controls';
+import TabsContainer from '@/components/dashboard/tabs-container';
 import { SOCKET_URL } from '@/lib/config/urls';
 import { Status } from '@/lib/db/hooks/use-status-in-tournament';
 import { useTournamentStore } from '@/lib/hooks/use-tournament-store';

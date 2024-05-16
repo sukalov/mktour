@@ -1,4 +1,4 @@
-import { tabs } from '@/app/tournament/components/helpers/tabs';
+import { tabs } from '@/components/dashboard/helpers/tabs';
 import {
   Carousel,
   CarouselApi,

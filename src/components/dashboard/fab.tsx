@@ -1,7 +1,7 @@
 'use client';
 
-import { DashboardContext } from '@/app/tournament/[id]/dashboard-context';
-import { onClickAddNewPlayer } from '@/app/tournament/components/helpers/on-click-handlers';
+import { DashboardContext } from '@/components/dashboard/dashboard-context';
+import { onClickAddNewPlayer } from '@/components/dashboard/helpers/on-click-handlers';
 import { Button } from '@/components/ui/button';
 import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
 import { UserPlus } from 'lucide-react';

@@ -1,4 +1,4 @@
-import RoundItem from '@/app/tournament/components/round-item';
+import RoundItem from '@/components/dashboard/round-item';
 import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
 import { FC, useRef } from 'react';
 

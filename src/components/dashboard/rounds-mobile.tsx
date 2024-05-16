@@ -1,5 +1,5 @@
-import { DashboardContext } from '@/app/tournament/[id]/dashboard-context';
-import RoundItem from '@/app/tournament/components/round-item';
+import { DashboardContext } from '@/components/dashboard/dashboard-context';
+import RoundItem from '@/components/dashboard/round-item';
 import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
 import { FC, useContext, useEffect } from 'react';
 

@@ -1,6 +1,6 @@
-import Main from '@/app/tournament/(tabs)/main';
-import TournamentTable from '@/app/tournament/(tabs)/table';
 import { TabType } from '@/app/tournament/[id]/dashboard';
+import Main from '@/components/dashboard/tabs/main';
+import TournamentTable from '@/components/dashboard/tabs/table';
 
 export const tabs: TabType[] = [
   { title: 'main', component: Main },

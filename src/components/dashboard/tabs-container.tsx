@@ -1,5 +1,5 @@
 import { TabProps } from '@/app/tournament/[id]/dashboard';
-import { DashboardContextType } from '@/app/tournament/[id]/dashboard-context';
+import { DashboardContextType } from '@/components/dashboard/dashboard-context';
 import SwipeDetector from '@/components/swipe-detector';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 

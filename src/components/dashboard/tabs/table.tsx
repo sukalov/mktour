@@ -1,7 +1,7 @@
 'use client';
 
-import { DashboardContext } from '@/app/tournament/[id]/dashboard-context';
-import { onClickRemovePlayer } from '@/app/tournament/components/helpers/on-click-handlers';
+import { DashboardContext } from '@/components/dashboard/dashboard-context';
+import { onClickRemovePlayer } from '@/components/dashboard/helpers/on-click-handlers';
 import {
   Table,
   TableBody,

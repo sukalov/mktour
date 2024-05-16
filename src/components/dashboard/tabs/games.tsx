@@ -1,5 +1,5 @@
-import RoundsDesktop from '@/app/tournament/components/rounds-desktop';
-import RoundsMobile from '@/app/tournament/components/rounds-mobile';
+import RoundsDesktop from '@/components/dashboard/rounds-desktop';
+import RoundsMobile from '@/components/dashboard/rounds-mobile';
 import { FC } from 'react';
 import { useMediaQuery } from 'react-responsive';
 
