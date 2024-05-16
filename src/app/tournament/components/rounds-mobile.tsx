@@ -1,9 +1,11 @@
 import { DashboardContext } from '@/app/tournament/[id]/dashboard-context';
 import RoundItem from '@/app/tournament/components/round-item';
+import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
 import { FC, useContext, useEffect } from 'react';
 
 const RoundsMobile: FC = () => {
-  const { tournament, roundInView } = useContext(DashboardContext);
+  const tournament = useTournamentStore()
+  const { roundInView } = useContext(DashboardContext);
   const round = tournament?.games[roundInView];
 
   console.log(tournament?.games)
