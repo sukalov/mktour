@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { turboPascal } from '@/app/fonts';
 import FormDatePicker from '@/app/new-tournament/form-date-picker';
@@ -13,6 +13,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { RadioGroup } from '@/components/ui/radio-group';
 import {
   Select,
@@ -108,7 +109,7 @@ export default function NewTournamentForm({
                         ))}
                         <SelectGroup>
                           <div className="m-2 flex flex-row items-center justify-center">
-                            <Link href='/new-club'>
+                            <Link href="/new-club">
                               <Button
                                 variant={'ghost'}
                                 className="flex flex-row gap-2 font-extralight"
@@ -192,7 +193,20 @@ export default function NewTournamentForm({
             <FormField
               control={form.control}
               name="rated"
-              render={({ field }) => <Switch value="rated"></Switch>}
+              render={({ field }) => (
+                <div className="group flex items-center space-x-2">
+                  <Label htmlFor="rated">rated</Label>
+                  <Switch
+                    id="rated"
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                    disabled
+                  />
+                  <p className="hidden text-sm text-muted-foreground group-hover:block">
+                    <span className=" text-xs">*</span>comming soon
+                  </p>
+                </div>
+              )}
             />
             {submitButton}
           </form>

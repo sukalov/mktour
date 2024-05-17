@@ -95,7 +95,7 @@ export async function GET(request: Request): Promise<Response> {
       await db.insert(clubs).values({
         id: clubId,
         name: `${lichessUser.id}'s chess club`,
-        created_at: new Date().getTime(),
+        created_at: new Date(),
       });
 
       await db.insert(users).values({
@@ -105,7 +105,7 @@ export async function GET(request: Request): Promise<Response> {
         email: lichessUserEmail,
         name,
         default_club: clubId,
-        created_at: new Date().getTime(),
+        created_at: new Date(),
       });
 
       await db.insert(clubs_to_users).values({

@@ -11,7 +11,7 @@ export const users = sqliteTable('user', {
   default_club: text('default_club')
     .references(() => clubs.id)
     .notNull(),
-  created_at: integer('created_at'),
+  created_at: integer('created_at', { mode: 'timestamp' }),
 });
 
 export const sessions = sqliteTable('user_session', {
