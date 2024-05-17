@@ -33,7 +33,7 @@ const TournamentTable: FC = () => {
             <TableRow
               key={player.id}
               onClick={() =>
-                onClickRemovePlayer(player.id, tournament, sendJsonMessage)
+                onClickRemovePlayer(player.id, sendJsonMessage)
               }
             >
               <TableCell className="font-small p-2">{i + 1}</TableCell>
