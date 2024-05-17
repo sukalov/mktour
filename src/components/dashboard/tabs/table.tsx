@@ -16,7 +16,7 @@ import { FC, useContext } from 'react';
 const TournamentTable: FC = () => {
   const tournament = useTournamentStore();
   const { sendJsonMessage } = useContext(DashboardContext)
-  // const isMobile = useMediaQuery({ maxWidth: 500 });
+  // const isMobile = useMediaQuery({ maxWidth: 500 }); 
 
   const tableResultTitles = ['wins', 'draws', 'losses'];
 
