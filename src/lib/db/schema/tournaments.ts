@@ -23,14 +23,15 @@ export const tournaments = sqliteTable('tournament', {
   format: text('format').$type<Format>().notNull(),
   type: text('type').$type<TournamentType>().notNull(),
   date: text('date').notNull(),
-  created_at: integer('created_at').notNull(),
+  created_at: integer('created_at', { mode: 'timestamp' }).notNull(),
   club_id: text('club_id')
     .references(() => clubs.id)
     .notNull(),
-  started_at: integer('started_at'),
-  closed_at: integer('closed_at'),
+  started_at: integer('started_at', { mode: 'timestamp' }),
+  closed_at: integer('closed_at', { mode: 'timestamp' }),
   rounds_number: integer('rounds_number'), // necessary even if playing single elimination (final and match_for_third have same number);
   ongoing_round: integer('ongoing_round'),
+  rated: integer('rated', { mode: 'boolean' }),
 });
 
 export const clubs = sqliteTable('club', {
