@@ -54,7 +54,7 @@ const TournamentTable: FC = () => {
           </TableHeader>
           <TableBody>
             {tournament.players?.map((player, i) => (
-              <TableRow key={player.id} onClick={() => onClickRemovePlayer(player.id, tournament, sendJsonMessage)}>
+              <TableRow key={player.id} onClick={() => onClickRemovePlayer(player.id, sendJsonMessage)}>
                 <TableCell className="font-small p-2">{i + 1}</TableCell>
                 <TableCell className="font-small max-w-[150px] truncate pl-0">
                   {player.nickname}
