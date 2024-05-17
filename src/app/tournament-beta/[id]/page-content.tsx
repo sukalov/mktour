@@ -106,7 +106,7 @@ const TournamentPageContent = ({
           <div className="p-12"></div>
           {tournament.possiblePlayers[0] !== undefined &&
             tournament.possiblePlayers.map((player) => {
-              return <Button className="p-2 m-2" onClick={() => onClickAddExistingPlayer(player.id)}>Add {player.nickname}</Button>;
+              return <Button key={player.id} className="p-2 m-2" onClick={() => onClickAddExistingPlayer(player.id)}>Add {player.nickname}</Button>;
             })}
 
         </div>
