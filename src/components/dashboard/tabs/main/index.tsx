@@ -4,8 +4,7 @@ import { CalendarDays, Dices, UserRound } from 'lucide-react';
 import { FC, ReactNode } from 'react';
 
 const Main = () => {
-
-  const { ...tournament } = useTournamentStore()
+  const { ...tournament } = useTournamentStore();
 
   return (
     <div className="flex flex-col gap-4 p-4">

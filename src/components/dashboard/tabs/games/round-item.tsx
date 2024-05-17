@@ -1,9 +1,9 @@
-import GameItem from '@/components/dashboard/game-item';
+import GameItem from '@/components/dashboard/tabs/games/game-item';
 import { FC, useState } from 'react';
 
 const RoundItem: FC<RoundItemProps> = ({ round }) => {
   const [setResult] = useState<number | null>(null);
-  
+
   return (
     <>
       {round.map((game: any) => (
@@ -17,17 +17,7 @@ const RoundItem: FC<RoundItemProps> = ({ round }) => {
   );
 };
 
-type RoundItemProps = {
-  round: any;
-};
-
-const GamesIteratee = ({
-  game,
-  setResult,
-}: {
-  game: any;
-  setResult: any;
-}) => {
+const GamesIteratee = ({ game, setResult }: { game: any; setResult: any }) => {
   return (
     <GameItem
       result={game.result}
@@ -36,6 +26,10 @@ const GamesIteratee = ({
       setResult={setResult}
     />
   );
+};
+
+type RoundItemProps = {
+  round: any;
 };
 
 export default RoundItem;

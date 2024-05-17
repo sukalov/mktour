@@ -1,17 +1,16 @@
-import { tabs } from '@/components/dashboard/helpers/tabs';
+import { DashboardContextType } from '@/components/dashboard/dashboard-context';
+import tabs from '@/components/dashboard/tabs';
 import {
   Carousel,
   CarouselApi,
   CarouselContent,
   CarouselItem,
 } from '@/components/ui/carousel';
-import { FC, useEffect, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 
-const CarouselContainer: FC<any> = ({
+const CarouselContainer: FC<CarouselProps> = ({
   currentTab,
   setCurrentTab,
-  setControlsTop,
-  tournament
 }) => {
   const [api, setApi] = useState<CarouselApi>();
   const indexOfTab = tabs.findIndex((tab) => tab.title === currentTab);
@@ -20,16 +19,10 @@ const CarouselContainer: FC<any> = ({
     if (!api) {
       return;
     }
-    api
-      .on('select', () => {
-        let num = api.selectedScrollSnap();
-
-        setCurrentTab(tabs[num].title);
-      })
-      .on('scroll', () => {
-        if (currentTab === 'games') setControlsTop('top-[6rem]');
-        else setControlsTop('top-0');
-      });
+    api.on('select', () => {
+      let num = api.selectedScrollSnap();
+      setCurrentTab(tabs[num].title);
+    });
     if (currentTab) api.scrollTo(indexOfTab);
   }, [api, currentTab, indexOfTab, setCurrentTab, tabs]);
 
@@ -47,11 +40,16 @@ const CarouselContainer: FC<any> = ({
 const CarouselIteratee: FC<{ children: FC }> = ({ children: Component }) => {
   return (
     <CarouselItem>
-      <div className='mt-10'>
-      <Component/>
+      <div className="mt-10">
+        <Component />
       </div>
     </CarouselItem>
   );
+};
+
+type CarouselProps = {
+  currentTab: SetStateAction<DashboardContextType['currentTab']>;
+  setCurrentTab: Dispatch<SetStateAction<DashboardContextType['currentTab']>>;
 };
 
 export default CarouselContainer;

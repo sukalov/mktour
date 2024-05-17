@@ -1,11 +1,12 @@
-import RoundItem from '@/components/dashboard/round-item';
+import { gamesMock } from '@/app/tournament/[id]/dashboard';
+import RoundItem from '@/components/dashboard/tabs/games/round-item';
 import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
 import { FC, useRef } from 'react';
 
 const RoundsDesktop: FC = () => {
   const tournament = useTournamentStore();
-  const games = tournament?.games
-  const currentRound = tournament?.ongoingRound
+  const games = gamesMock;
+  const currentRound = tournament?.ongoingRound;
   const ref = useRef<any>(null);
 
   // useEffect(() => {
@@ -21,14 +22,14 @@ const RoundsDesktop: FC = () => {
     <div
       ref={ref}
       id="rounds"
-      className="scrollbar-hide flex justify-between gap-8 overflow-scroll p-4"
+      className="scrollbar-hide mt-20 flex justify-between gap-8 overflow-scroll p-4"
     >
       {games?.map((round: any, roundIndex: number) => (
         <div
           className="flex flex-col justify-center gap-4 text-center"
           key={roundIndex}
         >
-          Round {roundIndex}
+          Round {roundIndex + 1}
           {roundIndex === currentRound && '(current)'}
           <RoundItem key={roundIndex} round={round} />
         </div>
