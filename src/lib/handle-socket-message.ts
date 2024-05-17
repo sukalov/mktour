@@ -1,4 +1,9 @@
+'use client'
+
+
+import { handleSocketError } from '@/lib/handle-socket-error';
 import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
+import { toast } from 'sonner';
 
 export const handleSocketMessage = (message: Message) => {
   switch (message.type) {
@@ -11,7 +16,9 @@ export const handleSocketMessage = (message: Message) => {
     case 'remove-player':
       useTournamentStore.getState().removePlayer(message.id);
       break;
-
+    case 'error' :
+      toast.error(`server couldn't do this action "${message.data.type}"`)
+      handleSocketError(message.data)
     default:
       break;
   }

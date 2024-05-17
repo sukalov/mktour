@@ -12,6 +12,7 @@ export interface TournamentStore extends TournamentModel {
   addNewPlayer: (player: DatabasePlayerSlice) => void;
   addPlayer: (id: string) => void;
   removePlayer: (id: string) => void;
+  removeNewPlayer: (id: string) => void;
 }
 
 export const useTournamentStore = create<TournamentStore>((set) => ({
@@ -84,14 +85,18 @@ export const useTournamentStore = create<TournamentStore>((set) => ({
         id: player.id,
         nickname: player.nickname,
         realname: player.realname,
-        rating: player.rating
-      }
+        rating: player.rating,
+      };
       return {
         players: state.players.filter((someone) => someone.id !== id),
         possiblePlayers: state.possiblePlayers.concat(newPlayer),
       };
     });
   },
+  removeNewPlayer: (id) =>
+    set((state) => ({
+      players: state.players.filter((someone) => someone.id !== id),
+    })),
 }));
 
 export interface DatabasePlayerSlice {
