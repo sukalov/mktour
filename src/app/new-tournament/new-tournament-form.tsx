@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import { turboPascal } from '@/app/fonts';
 import FormDatePicker from '@/app/new-tournament/form-date-picker';
@@ -22,6 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
 import TypeCard from '@/components/ui/type-card';
 import { createTournament } from '@/lib/actions/tournament-managing';
 import { DatabaseUser } from '@/lib/db/schema/auth';
@@ -32,7 +33,7 @@ import {
 } from '@/lib/zod/new-tournament-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2, PlusIcon } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -49,6 +50,7 @@ export default function NewTournamentForm({
       date: new Date(),
       timestamp: 0,
       type: 'solo',
+      rated: false,
     },
   });
 
@@ -67,8 +69,6 @@ export default function NewTournamentForm({
       make tournament
     </Button>,
   );
-
-  const navigate = useRouter();
 
   return (
     <Form {...form}>
@@ -108,13 +108,14 @@ export default function NewTournamentForm({
                         ))}
                         <SelectGroup>
                           <div className="m-2 flex flex-row items-center justify-center">
-                            <Button
-                              variant={'ghost'}
-                              onClick={() => navigate.push('/new-club')}
-                              className="flex flex-row gap-2 font-extralight"
-                            >
-                              <PlusIcon /> new club
-                            </Button>
+                            <Link href='/new-club'>
+                              <Button
+                                variant={'ghost'}
+                                className="flex flex-row gap-2 font-extralight"
+                              >
+                                <PlusIcon /> new club
+                              </Button>
+                            </Link>
                           </div>
                         </SelectGroup>
                       </SelectGroup>
@@ -187,6 +188,11 @@ export default function NewTournamentForm({
               control={form.control}
               name="date"
               render={({ field }) => <FormDatePicker field={field} />}
+            />
+            <FormField
+              control={form.control}
+              name="rated"
+              render={({ field }) => <Switch value="rated"></Switch>}
             />
             {submitButton}
           </form>
