@@ -1,16 +1,12 @@
 import { TabProps } from '@/app/tournament/[id]/dashboard';
 import { DashboardContextType } from '@/components/dashboard/dashboard-context';
+import handleSwipe from '@/components/dashboard/helpers/handle-swipe';
+import tabs from '@/components/dashboard/tabs';
 import SwipeDetector from '@/components/swipe-detector';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-
 import { FC, useEffect, useRef } from 'react';
 
-const TabsContainer: FC<TabProps> = ({
-  tabs,
-  currentTab,
-  setCurrentTab,
-  top,
-}) => {
+const TabsContainer: FC<TabProps> = ({ currentTab, setCurrentTab, top }) => {
   const value: DashboardContextType['currentTab'] = currentTab;
   const tabRef = useRef<HTMLDivElement>(null);
   const indexOfTab = tabs?.findIndex((tab) => tab?.title === value);
@@ -23,23 +19,13 @@ const TabsContainer: FC<TabProps> = ({
     });
   }, [indexOfTab]);
 
-  const handleSwipe = (direction: string) => {
-    let newIndex;
-    if (direction === '>') {
-      newIndex = indexOfTab > 0 ? indexOfTab - 1 : tabs.length - 1;
-    } else if (direction === '<') {
-      newIndex = indexOfTab < tabs.length - 1 ? indexOfTab + 1 : 0;
-    } else return; // Invalid direction
-
-    setCurrentTab(
-      tabs[newIndex].title as DashboardContextType['currentTab'],
-    );
-  };
+  const onSwipe = (direction: string) =>
+    handleSwipe(direction, indexOfTab, setCurrentTab);
 
   return (
     <SwipeDetector
-      onSwipeLeft={() => handleSwipe('<')}
-      onSwipeRight={() => handleSwipe('>')}
+      onSwipeLeft={() => onSwipe('<')}
+      onSwipeRight={() => onSwipe('>')}
     >
       <Tabs
         defaultValue="main"

@@ -1,10 +1,11 @@
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { FC } from 'react';
+import { FC, PropsWithChildren } from 'react';
 
 const RoundControls: FC<any> = ({ props }) => {
-  const { roundInView, games, setRoundInView, currentRound, controlsTop } =
+  const { roundInView, games, setRoundInView, currentRound, currentTab } =
     props;
+  const top = currentTab === 'games' ? 'top-24' : 'top-0';
 
   const handleClick = (direction: string) => {
     const lastIndex = games.length - 1;
@@ -17,12 +18,17 @@ const RoundControls: FC<any> = ({ props }) => {
     setRoundInView(newRoundInView);
   };
 
-  return (
-    <div
-      className={`fixed z-20 w-full px-4 ${controlsTop} flex items-center justify-between backdrop-blur-md transition-all duration-500`}
-    >
+  const ControlButtons: FC<PropsWithChildren> = ({ children }) => {
+    if (
+      games.length === 1 ||
+      roundInView === 0 ||
+      roundInView === games.length - 1
+    )
+      return children;
+    return (
+      <>
         <Button
-          disabled={roundInView === 0}
+          disabled={roundInView === 0 || games.length === 1}
           onClick={() => handleClick('<')}
           variant="ghost"
           size="sm"
@@ -30,11 +36,30 @@ const RoundControls: FC<any> = ({ props }) => {
         >
           <ChevronLeft />
         </Button>
-        <div className="flex w-full flex-col items-center justify-center">
+        {children}
+        <Button
+          disabled={roundInView === games.length - 1}
+          onClick={() => handleClick('>')}
+          variant="ghost"
+          size="sm"
+          className="m-2"
+        >
+          <ChevronRight />
+        </Button>
+      </>
+    );
+  };
+
+  return (
+    <div
+      className={`fixed ${top} z-10 flex w-full items-center justify-between backdrop-blur-md transition-all duration-500`}
+    >
+      <ControlButtons>
+        <div className="flex h-[52px] w-full flex-col items-center justify-center">
           <Button
             variant="ghost"
             size={'sm'}
-            onClick={() => setRoundInView(currentRound)}
+            onClick={() => setRoundInView(currentRound - 1)}
           >
             <span
               className={
@@ -47,17 +72,8 @@ const RoundControls: FC<any> = ({ props }) => {
             </span>
           </Button>
         </div>
-        <Button
-          disabled={roundInView === games.length - 1}
-          onClick={() => handleClick('>')}
-          variant="ghost"
-          size="sm"
-          className="m-2"
-        >
-          <ChevronRight />
-        </Button>
-      </div>
-
+      </ControlButtons>
+    </div>
   );
 };
 
