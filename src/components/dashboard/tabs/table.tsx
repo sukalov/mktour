@@ -12,12 +12,11 @@ import {
 } from '@/components/ui/table';
 import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
 import { FC, useContext } from 'react';
-import { useMediaQuery } from 'react-responsive';
 
 const TournamentTable: FC = () => {
   const tournament = useTournamentStore();
   const { sendJsonMessage } = useContext(DashboardContext)
-  const isMobile = useMediaQuery({ maxWidth: 500 });
+  // const isMobile = useMediaQuery({ maxWidth: 500 });
 
   const tableResultTitles = ['wins', 'draws', 'losses'];
 
