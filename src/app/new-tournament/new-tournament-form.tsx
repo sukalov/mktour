@@ -194,15 +194,17 @@ export default function NewTournamentForm({
               control={form.control}
               name="rated"
               render={({ field }) => (
-                <div className="group flex items-center space-x-2">
-                  <Label htmlFor="rated">rated</Label>
-                  <Switch
-                    id="rated"
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                    disabled
-                  />
-                  <p className="hidden text-sm text-muted-foreground group-hover:block">
+                <div className="flex items-center space-x-2">
+                  <div className="peer flex items-center space-x-2">
+                    <Label htmlFor="rated">rated</Label>
+                    <Switch
+                      id="rated"
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      disabled
+                    />
+                  </div>
+                  <p className="hidden text-sm text-muted-foreground peer-hover:block">
                     <span className=" text-xs">*</span>comming soon
                   </p>
                 </div>
