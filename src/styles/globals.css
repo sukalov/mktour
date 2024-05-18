@@ -2,7 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-@media screen and (-webkit-min-device-pixel-ratio:0) { 
+/* disables all pinch-zoom on mobile-devices: */
+
+:root {
+  touch-action: pan-x pan-y;
+  height: 100%;
+}
+
+/* disables auto-zoom on select/input: */
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
   select:focus,
   textarea:focus,
   input:focus {
