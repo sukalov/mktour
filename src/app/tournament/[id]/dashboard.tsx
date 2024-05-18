@@ -29,12 +29,13 @@ const Dashboard: FC<TournamentPageContentProps> = ({
     useTournamentStore();
   const { ongoingRound } = useTournamentStore();
   const [roundInView, setRoundInView] = useState(0);
+  const { sendJsonMessage } = useWebSocket(
+    `${SOCKET_URL}/${id}`,
+    getWsConfig(session),
+  );
 
   useEffect(() => {
     tournament.init(state);
-  }, []);
-
-  useEffect(() => {
     getPossiblePlayers(id, state, {
       isLoading,
       addPlayer,
@@ -42,11 +43,6 @@ const Dashboard: FC<TournamentPageContentProps> = ({
       ...tournament,
     });
   }, []);
-
-  const { sendJsonMessage } = useWebSocket(
-    `${SOCKET_URL}/${id}`,
-    getWsConfig(session),
-  );
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
