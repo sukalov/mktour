@@ -38,7 +38,7 @@ export const createTournament = async (values: NewTournamentFormType) => {
   try {
     await db.insert(tournaments).values(newTournament);
   } catch (e) {
-    throw new Error('tournament has NOT been saved to redis');
+    throw new Error('tournament has NOT been saved');
   }
   redirect(`/tournament/${newTournamentID}`);
 };
