@@ -114,7 +114,7 @@ export default function NewTournamentForm({
                           >
                             <Button
                               variant="ghost"
-                              className="flex h-[30px] w-full flex-row justify-start gap-2 pl-7 font-extrabold text-muted-foreground"
+                              className="flex h-[30px] w-full flex-row justify-end gap-2 pl-7 font-extrabold text-muted-foreground"
                             >
                               <PlusIcon fontStyle='bold' /> new club
                             </Button>
@@ -197,7 +197,7 @@ export default function NewTournamentForm({
               render={({ field }) => (
                 <div className="flex items-center space-x-2">
                   <div className="peer flex items-center space-x-2">
-                    <Label htmlFor="rated">rated</Label>
+                    <Label htmlFor="rated" className='text-muted-foreground'>rated</Label>
                     <Switch
                       id="rated"
                       checked={field.value}
