@@ -23,17 +23,19 @@ import * as React from 'react';
 import { useForm } from 'react-hook-form';
 
 export default function NewClubForm({ clubs, user }: NewTournamentFormProps) {
-  const [teams, setTeams] = React.useState<Array<Team>>([]);
+  const [teams, setTeams] = React.useState<Array<string>>([]);
 
   React.useEffect(() => {
     (async () => {
       const res = await fetch(
         `https://lichess.org/api/team/of/${user.username}`,
       );
-      const teams = await res.json();
-      setTeams(teams);
+      const teamsFull = await res.json() as Array<Team>;
+      const teamsNames = teamsFull.map(el => el.name)
+      setTeams(teamsNames);
     })();
-  });
+  }, []);
+
 
   const form = useForm<NewClubFormType>({
     resolver: zodResolver(newClubFormSchema),
