@@ -11,34 +11,12 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
-import { FC, useContext } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
+import { useMediaQuery } from 'react-responsive';
 
 const TournamentTable: FC = () => {
   const tournament = useTournamentStore();
-  const { sendJsonMessage } = useContext(DashboardContext)
-  // const isMobile = useMediaQuery({ maxWidth: 500 }); 
-
-  const tableResultTitles = ['wins', 'draws', 'losses'];
-
-  const TableResultHeads = () => {
-    const shortenTitle = (title: string) =>
-      // FIXME:
-      // isMobile ? title.slice(0, 1) : title;
-      title.slice(0, 1);
-    return (
-      <>
-        {tableResultTitles.map((title) => (
-          <TableHead key={title} className="p-1">
-            {shortenTitle(title)}
-          </TableHead>
-        ))}
-      </>
-    );
-  };
-
-  const TableResultCell: FC<{ stat: number | null }> = ({ stat }) => (
-    <TableCell className="p-1 font-medium">{stat}</TableCell>
-  );
+  const { sendJsonMessage } = useContext(DashboardContext);
 
   return (
     <div>
@@ -53,7 +31,10 @@ const TournamentTable: FC = () => {
           </TableHeader>
           <TableBody>
             {tournament.players?.map((player, i) => (
-              <TableRow key={player.id} onClick={() => onClickRemovePlayer(player.id, sendJsonMessage)}>
+              <TableRow
+                key={player.id}
+                onClick={() => onClickRemovePlayer(player.id, sendJsonMessage)}
+              >
                 <TableCell className="font-small p-2">{i + 1}</TableCell>
                 <TableCell className="font-small max-w-[150px] truncate pl-0">
                   {player.nickname}
@@ -69,5 +50,31 @@ const TournamentTable: FC = () => {
     </div>
   );
 };
+
+const TableResultHeads = () => {
+  const isMobile = useMediaQuery({ maxWidth: 500 });
+  const defaultTitles = ['wins', 'draws', 'losses'];
+  const [titles, setTitles] = useState(defaultTitles);
+
+  useEffect(() => {
+    isMobile
+      ? setTitles(titles.map((title) => title.slice(0, 1)))
+      : setTitles(defaultTitles);
+  }, [isMobile]);
+
+  return (
+    <>
+      {titles.map((title) => (
+        <TableHead key={title} className="p-1">
+          {title}
+        </TableHead>
+      ))}
+    </>
+  );
+};
+
+const TableResultCell: FC<{ stat: number | null }> = ({ stat }) => (
+  <TableCell className="p-1 font-medium">{stat}</TableCell>
+);
 
 export default TournamentTable;
