@@ -73,3 +73,22 @@ export interface ChessGameStats {
   prog: number;
   prov?: boolean;
 }
+
+
+interface Team {
+  id: string;
+  name: string;
+  description: string;
+  open: boolean;
+  leader: {
+    name: string;
+    patron: boolean;
+    id: string;
+  };
+  nbMembers: number;
+  leaders: Array<{
+    name: string;
+    patron: boolean;
+    id: string;
+  }>;
+}

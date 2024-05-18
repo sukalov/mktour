@@ -56,7 +56,7 @@ export default function NewTournamentForm({
   });
 
   const onSubmit = (data: NewTournamentFormType) => {
-    createTournament(JSON.parse(JSON.stringify(data)));
+    createTournament(data);
     setSubmitButton(
       <Button disabled className="w-full">
         <Loader2 className="mr-2 h-4 w-4 animate-spin" />

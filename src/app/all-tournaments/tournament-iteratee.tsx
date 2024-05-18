@@ -17,7 +17,7 @@ const TournamentsContainer: FC<{ props: DatabaseTournament[] }> = ({
 const TournamentIteratee = (props: DatabaseTournament) => {
   return (
     <Link
-      href={`/tournament-beta/${props.id}`}
+      href={`/tournament/${props.id}`}
       className="flex w-full flex-col"
     >
       <Card key={props.id}>
