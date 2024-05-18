@@ -108,16 +108,17 @@ export default function NewTournamentForm({
                           </SelectItem>
                         ))}
                         <SelectGroup>
-                          <div className="m-2 flex flex-row items-center justify-center">
-                            <Link href="/new-club">
-                              <Button
-                                variant={'ghost'}
-                                className="flex flex-row gap-2 font-extralight"
-                              >
-                                <PlusIcon /> new club
-                              </Button>
-                            </Link>
-                          </div>
+                          <Link
+                            href="/clubs/create"
+                            className="m-0 box-border h-[30px] w-full p-0"
+                          >
+                            <Button
+                              variant="ghost"
+                              className="flex h-[30px] w-full flex-row justify-start gap-2 pl-7 font-extrabold text-muted-foreground"
+                            >
+                              <PlusIcon fontStyle='bold' /> new club
+                            </Button>
+                          </Link>
                         </SelectGroup>
                       </SelectGroup>
                     </SelectContent>
