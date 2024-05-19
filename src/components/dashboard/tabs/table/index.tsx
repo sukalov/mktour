@@ -21,6 +21,7 @@ const TournamentTable: FC = () => {
   const [selectedPlayerId, setPlayerId] = useState('');
   const bind = useLongPress(() => {
     if (confirm('Delete player?'))
+      console.log(selectedPlayerId)
       onClickRemovePlayer(selectedPlayerId, sendJsonMessage);
   });
 
@@ -41,6 +42,7 @@ const TournamentTable: FC = () => {
                 key={player.id}
                 {...bind()}
                 onTouchStart={() => setPlayerId(player.id)}
+                onMouseDown={() => setPlayerId(player.id)}
               >
                 <TableCell className="font-small p-2">{i + 1}</TableCell>
                 <TableCell className="font-small max-w-[150px] truncate pl-0">

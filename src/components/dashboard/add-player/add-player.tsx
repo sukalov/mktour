@@ -7,7 +7,11 @@ import {
 import { Plus } from 'lucide-react';
 import { Dispatch, FC, SetStateAction } from 'react';
 
-const AddPlayer: FC<PlayerProps> = ({ value, setAddingNewPlayer, handleAddPlayer }) => {
+const AddPlayer: FC<PlayerProps> = ({
+  value,
+  setAddingNewPlayer,
+  handleAddPlayer,
+}) => {
   const { possiblePlayers, addPlayer } = useTournamentStore();
   const filteredPlayers = possiblePlayers.filter(
     (player: DatabasePlayerSlice) => {
@@ -30,20 +34,20 @@ const AddPlayer: FC<PlayerProps> = ({ value, setAddingNewPlayer, handleAddPlayer
         </Button>
       </SheetHeader>
       <div className="scrollbar-hide flex h-full w-full flex-col items-start gap-2 overflow-y-scroll p-4 pt-4">
-        <PossiblePlayers players={filteredPlayers} addPlayer={handleAddPlayer} />
+        <PossiblePlayers
+          players={filteredPlayers}
+          addPlayer={handleAddPlayer}
+        />
         {/* {getMockList(50)} */}
       </div>
     </>
   );
 };
 
-const PossiblePlayers: FC<PossiblePlayersProps> = ({
-  players,
-  addPlayer
-}) => {
-
+const PossiblePlayers: FC<PossiblePlayersProps> = ({ players, addPlayer }) => {
   return players.map((player) => (
     <div
+      key={player.id}
       className="flex w-full justify-between"
       onClick={() => addPlayer(player.id)}
     >
@@ -58,11 +62,10 @@ type PossiblePlayersProps = {
   addPlayer: (id: string) => void;
 };
 
-
 export type PlayerProps = {
   value: string;
   setAddingNewPlayer: Dispatch<SetStateAction<boolean>>;
-  handleAddPlayer: (id: string) => void;
+  handleAddPlayer: (id?: string) => void;
 };
 
 export default AddPlayer;

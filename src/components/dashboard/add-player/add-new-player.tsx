@@ -16,7 +16,7 @@ const AddNewPlayer: FC<PlayerProps> = ({ value, handleAddPlayer }) => {
           size={'sm'}
           className="flex w-full gap-2 text-muted shadow-current drop-shadow-md"
           variant={'outline'}
-          onClick={() => handleAddPlayer('')} // FIXME find better abstraction
+          onClick={() => handleAddPlayer()}
         >
           <Save /> save
         </Button>
