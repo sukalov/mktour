@@ -6,13 +6,14 @@ import {
   onClickAddExistingPlayer,
   onClickAddNewPlayer,
 } from '@/components/dashboard/helpers/on-click-handlers';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { DatabasePlayer } from '@/lib/db/schema/tournaments';
-import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
 import { faker } from '@faker-js/faker';
+import { Plus, Save } from 'lucide-react';
 import {
   Dispatch,
+  FC,
   SetStateAction,
   createElement,
   useContext,
@@ -23,27 +24,32 @@ const AddPlayerSheet = () => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
   const [addingNewPlayer, setAddingNewPlayer] = useState(false);
-  const { addPlayer, addNewPlayer } = useTournamentStore();
+  const [sliderValue, setSliderValue] = useState([1500]);
   const { sendJsonMessage } = useContext(DashboardContext);
+  
   const handleClose = () => {
     setValue('');
     setAddingNewPlayer(false);
   };
 
-  const handleAddPlayer = (id?: string, rating?: DatabasePlayer['rating']) => {
-    if (id) {
-      onClickAddExistingPlayer(id, sendJsonMessage);
-    } else {
-      onClickAddNewPlayer(value, rating!, sendJsonMessage);
-    }
+  const handleAddPlayer = ({ id, rating }: HandlerProps) => {
+    if (id) onClickAddExistingPlayer(id, sendJsonMessage);
+    if (rating) onClickAddNewPlayer(value, rating!, sendJsonMessage);
     setOpen(false);
     setValue('');
   };
+
+  const button = createElement(
+    addingNewPlayer ? AddNewPlayerButton : AddPlayerButton,
+    { value, setAddingNewPlayer, sliderValue, handleAddPlayer },
+  );
 
   const content = createElement(addingNewPlayer ? AddNewPlayer : AddPlayer, {
     value,
     setAddingNewPlayer,
     handleAddPlayer,
+    sliderValue,
+    setSliderValue,
   });
 
   return (
@@ -56,16 +62,53 @@ const AddPlayerSheet = () => {
       <SheetContent
         onCloseAutoFocus={handleClose}
         onOpenAutoFocus={(e) => e.preventDefault()}
-        className="h-full w-[75vw] p-1"
+        className="w-[75vw] p-1"
       >
         <Input
           value={value}
           placeholder="search"
           onChange={(e) => setValue(e.target.value)}
         />
-        <div className="mt-2">{content}</div>
+        <div>{button}</div>
+        <div className="scrollbar-hide flex h-[85svh] w-full flex-col items-start gap-2 overflow-scroll p-4 pt-2">
+          {content}
+        </div>
       </SheetContent>
     </Sheet>
+  );
+};
+
+// FIXME any
+const AddPlayerButton: FC<any> = ({ value, setAddingNewPlayer }) => {
+  return (
+    <Button
+      disabled={!value}
+      size={'sm'}
+      className="flex w-full gap-2 text-muted shadow-current drop-shadow-md"
+      variant={'outline'}
+      onClick={() => setAddingNewPlayer(true)}
+    >
+      <Plus /> add new player
+    </Button>
+  );
+};
+
+// FIXME any
+const AddNewPlayerButton: FC<any> = ({
+  value,
+  handleAddPlayer,
+  sliderValue,
+}) => {
+  return (
+    <Button
+      disabled={!value}
+      size={'sm'}
+      className="flex w-full gap-2 text-muted shadow-current drop-shadow-md"
+      variant={'outline'}
+      onClick={() => handleAddPlayer({ rating: sliderValue[0] })}
+    >
+      <Save /> save
+    </Button>
   );
 };
 
@@ -77,7 +120,14 @@ const getMockList = (n: number) =>
 export type PlayerProps = {
   value: string;
   setAddingNewPlayer: Dispatch<SetStateAction<boolean>>;
-  handleAddPlayer: (id?: string, rating?: number) => void;
+  handleAddPlayer: (arg0: HandlerProps) => void;
+  sliderValue: number[];
+  setSliderValue: Dispatch<SetStateAction<number[]>>;
+};
+
+export type HandlerProps = {
+  id?: string;
+  rating?: any;
 };
 
 export default AddPlayerSheet;
