@@ -1,23 +1,33 @@
 import AddNewPlayer from '@/components/dashboard/add-player/add-new-player';
 import AddPlayer from '@/components/dashboard/add-player/add-player';
+import { DashboardContext } from '@/components/dashboard/dashboard-context';
 import Fab from '@/components/dashboard/fab';
+import { onClickAddExistingPlayer, onClickAddNewPlayer } from '@/components/dashboard/helpers/on-click-handlers';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { DatabasePlayerSlice } from '@/lib/hooks/use-tournament-store';
 import { faker } from '@faker-js/faker';
-import { FC, createElement, useState } from 'react';
+import { createElement, useContext, useState } from 'react';
 
 const AddPlayerSheet = () => {
   const [value, setValue] = useState('');
   const [addingNewPlayer, setAddingNewPlayer] = useState(false);
+  const { sendJsonMessage } = useContext(DashboardContext)
   const handleClose = () => {
     setValue('');
     setAddingNewPlayer(false);
   };
 
+  const handleAddPlayer = (id: string) => {
+    addingNewPlayer 
+      ? onClickAddNewPlayer(sendJsonMessage)
+      : onClickAddExistingPlayer(id, sendJsonMessage)
+    handleClose()
+  }
+
   const content = createElement(addingNewPlayer ? AddNewPlayer : AddPlayer, {
     value,
     setAddingNewPlayer,
+    handleAddPlayer
   });
 
   return (
@@ -41,26 +51,6 @@ const AddPlayerSheet = () => {
       </SheetContent>
     </Sheet>
   );
-};
-
-export const PossiblePlayers: FC<PossiblePlayersProps> = ({
-  players,
-  addPlayer,
-}) => {
-  return players.map((player) => (
-    <div
-      className="flex w-full justify-between"
-      onClick={() => addPlayer(player.id)}
-    >
-      <span>{player.nickname}</span>
-      <span className="text-muted">{player.rating}</span>
-    </div>
-  ));
-};
-
-type PossiblePlayersProps = {
-  players: DatabasePlayerSlice[];
-  addPlayer: (id: string) => void;
 };
 
 const getMockList = (n: number) =>
