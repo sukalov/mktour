@@ -112,6 +112,7 @@
 
 body {
   font-family: 'Main';
+  user-select: none;
 }
 
 button {

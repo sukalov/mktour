@@ -28,7 +28,7 @@ const CarouselContainer: FC<CarouselProps> = ({
 
   return (
     <Carousel setApi={setApi} opts={{ loop: true }}>
-      <CarouselContent>
+      <CarouselContent className='h-[100vh]'>
         {tabs.map((tab) => (
           <CarouselIteratee key={tab.title}>{tab.component}</CarouselIteratee>
         ))}

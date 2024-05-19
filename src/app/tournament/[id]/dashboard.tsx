@@ -5,7 +5,7 @@ import {
   DashboardContext,
   DashboardContextType,
 } from '@/components/dashboard/dashboard-context';
-import Fab from '@/components/dashboard/fab';
+import FabWrapper from '@/components/dashboard/fab-wrapper';
 import getPossiblePlayers from '@/components/dashboard/helpers/get-possible-players';
 import getWsConfig from '@/components/dashboard/helpers/get-ws-config';
 import TabsContainer from '@/components/dashboard/tabs-container';
@@ -52,7 +52,7 @@ const Dashboard: FC<TournamentPageContentProps> = ({
     <DashboardContext.Provider
       value={{
         currentTab,
-        sendJsonMessage,
+        sendJsonMessage
       }}
     >
       <TabsContainer currentTab={currentTab} setCurrentTab={setCurrentTab} />
@@ -69,7 +69,7 @@ const Dashboard: FC<TournamentPageContentProps> = ({
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
       />
-      {status === 'organizer' && <Fab />}
+      <FabWrapper status={status} currentTab={currentTab} />
     </DashboardContext.Provider>
   );
 };

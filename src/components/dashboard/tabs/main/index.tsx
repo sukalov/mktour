@@ -39,8 +39,8 @@ const LoadingElement = () => {
       <Skeleton className="h-10 w-full" />
       <Card className="flex w-full flex-col items-center gap-8 p-4">
         <Skeleton className="h-6 w-[150px]" />
-        <Skeleton className="h-6 w-[200px]" />
-        <Skeleton className="h-6 w-[250px]" />
+        <Skeleton className="h-6 w-[150px]" />
+        <Skeleton className="h-6 w-[150px]" />
       </Card>
     </div>
   );
