@@ -26,7 +26,7 @@ const AddPlayerSheet = () => {
   const [addingNewPlayer, setAddingNewPlayer] = useState(false);
   const [sliderValue, setSliderValue] = useState([1500]);
   const { sendJsonMessage } = useContext(DashboardContext);
-  
+
   const handleClose = () => {
     setValue('');
     setAddingNewPlayer(false);
@@ -62,7 +62,7 @@ const AddPlayerSheet = () => {
       <SheetContent
         onCloseAutoFocus={handleClose}
         onOpenAutoFocus={(e) => e.preventDefault()}
-        className="w-[75vw] p-1"
+        className="flex w-[75vw] flex-col gap-2 p-1"
       >
         <Input
           value={value}
@@ -70,7 +70,7 @@ const AddPlayerSheet = () => {
           onChange={(e) => setValue(e.target.value)}
         />
         <div>{button}</div>
-        <div className="scrollbar-hide flex h-[85svh] w-full flex-col items-start gap-2 overflow-scroll p-4 pt-2">
+        <div className="scrollbar-hide flex h-[85svh] w-full flex-col items-start gap-2 overflow-scroll p-4 pt-0">
           {content}
         </div>
       </SheetContent>
@@ -84,7 +84,7 @@ const AddPlayerButton: FC<any> = ({ value, setAddingNewPlayer }) => {
     <Button
       disabled={!value}
       size={'sm'}
-      className="flex w-full gap-2 text-muted shadow-current drop-shadow-md"
+      className="flex w-full gap-2 text-muted shadow-md shadow-background"
       variant={'outline'}
       onClick={() => setAddingNewPlayer(true)}
     >
@@ -103,7 +103,7 @@ const AddNewPlayerButton: FC<any> = ({
     <Button
       disabled={!value}
       size={'sm'}
-      className="flex w-full gap-2 text-muted shadow-current drop-shadow-md"
+      className="flex w-full gap-2 text-muted shadow-md shadow-background"
       variant={'outline'}
       onClick={() => handleAddPlayer({ rating: sliderValue[0] })}
     >
