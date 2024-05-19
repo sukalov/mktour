@@ -34,7 +34,6 @@ const AddPlayerSheet = () => {
     if (id) {
       onClickAddExistingPlayer(id, sendJsonMessage);
     } else {
-      console.log(value, rating)
       onClickAddNewPlayer(value, rating!, sendJsonMessage);
     }
     setOpen(false);
