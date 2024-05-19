@@ -20,9 +20,9 @@ const TournamentTable: FC = () => {
   const { sendJsonMessage } = useContext(DashboardContext);
   const [selectedPlayerId, setPlayerId] = useState('');
   const bind = useLongPress(() => {
-    if (confirm('Delete player?'))
-      console.log(selectedPlayerId)
+    if (window && window.confirm('Delete player?')) {
       onClickRemovePlayer(selectedPlayerId, sendJsonMessage);
+    }
   });
 
   return (
