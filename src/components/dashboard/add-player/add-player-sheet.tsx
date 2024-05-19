@@ -28,13 +28,12 @@ const AddPlayerSheet = () => {
     if (id) {
       addPlayer(id);
       onClickAddExistingPlayer(id, sendJsonMessage);
-      setOpen(false);
-      setValue('');
     } else {
       addNewPlayer({ id: newid(), nickname: value });
       onClickAddNewPlayer(sendJsonMessage);
-      setAddingNewPlayer(false);
     }
+    setOpen(false);
+    setValue('');
   };
 
   const content = createElement(addingNewPlayer ? AddNewPlayer : AddPlayer, {
