@@ -8,10 +8,16 @@ import {
 } from '@/components/dashboard/helpers/on-click-handlers';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
-import { newid } from '@/lib/utils';
 import { faker } from '@faker-js/faker';
-import { createElement, useContext, useState } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  createElement,
+  useContext,
+  useState,
+} from 'react';
 
 const AddPlayerSheet = () => {
   const [open, setOpen] = useState(false);
@@ -24,13 +30,12 @@ const AddPlayerSheet = () => {
     setAddingNewPlayer(false);
   };
 
-  const handleAddPlayer = (id?: string) => {
+  const handleAddPlayer = (id?: string, rating?: DatabasePlayer['rating']) => {
     if (id) {
-      addPlayer(id);
       onClickAddExistingPlayer(id, sendJsonMessage);
     } else {
-      addNewPlayer({ id: newid(), nickname: value });
-      onClickAddNewPlayer(sendJsonMessage);
+      console.log(value, rating)
+      onClickAddNewPlayer(value, rating!, sendJsonMessage);
     }
     setOpen(false);
     setValue('');
@@ -69,5 +74,11 @@ const getMockList = (n: number) =>
   Array(n)
     .fill('')
     .map((_, i) => <div key={i}>{i + '. ' + faker.person.fullName()}</div>);
+
+export type PlayerProps = {
+  value: string;
+  setAddingNewPlayer: Dispatch<SetStateAction<boolean>>;
+  handleAddPlayer: (id?: string, rating?: number) => void;
+};
 
 export default AddPlayerSheet;

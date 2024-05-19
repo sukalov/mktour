@@ -1,21 +1,21 @@
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
 import { newid } from '@/lib/utils';
-import { faker } from '@faker-js/faker';
 import { SendJsonMessage } from 'react-use-websocket/dist/lib/types';
 
 export const onClickAddNewPlayer = (
+  name: DatabasePlayer['nickname'],
+  rating: DatabasePlayer['rating'],
   sendJsonMessage: SendJsonMessage,
 ) => {
   const id = newid();
-  const name = faker.person.fullName();
   const newPlayer: DatabasePlayer = {
     id,
     nickname: name,
     club_id: useTournamentStore.getState().organizer.id,
     realname: name,
     user_id: null,
-    rating: Math.floor(Math.random() * 1200 + 1200),
+    rating,
     last_seen: 0,
   };
   useTournamentStore.getState().addNewPlayer(newPlayer)

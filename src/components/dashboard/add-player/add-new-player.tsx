@@ -1,4 +1,4 @@
-import { PlayerProps } from '@/components/dashboard/add-player/add-player';
+import { PlayerProps } from '@/components/dashboard/add-player/add-player-sheet';
 import { Button } from '@/components/ui/button';
 import { SheetHeader } from '@/components/ui/sheet';
 import { Slider } from '@/components/ui/slider';
@@ -16,7 +16,7 @@ const AddNewPlayer: FC<PlayerProps> = ({ value, handleAddPlayer }) => {
           size={'sm'}
           className="flex w-full gap-2 text-muted shadow-current drop-shadow-md"
           variant={'outline'}
-          onClick={() => handleAddPlayer()}
+          onClick={() => handleAddPlayer('', sliderValue[0])}
         >
           <Save /> save
         </Button>

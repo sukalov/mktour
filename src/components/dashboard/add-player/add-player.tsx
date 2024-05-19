@@ -1,3 +1,4 @@
+import { PlayerProps } from '@/components/dashboard/add-player/add-player-sheet';
 import { Button } from '@/components/ui/button';
 import { SheetHeader } from '@/components/ui/sheet';
 import {
@@ -5,7 +6,7 @@ import {
   useTournamentStore,
 } from '@/lib/hooks/use-tournament-store';
 import { Plus } from 'lucide-react';
-import { Dispatch, FC, SetStateAction } from 'react';
+import { FC } from 'react';
 
 const AddPlayer: FC<PlayerProps> = ({
   value,
@@ -60,12 +61,6 @@ const PossiblePlayers: FC<PossiblePlayersProps> = ({ players, addPlayer }) => {
 type PossiblePlayersProps = {
   players: DatabasePlayerSlice[];
   addPlayer: (id: string) => void;
-};
-
-export type PlayerProps = {
-  value: string;
-  setAddingNewPlayer: Dispatch<SetStateAction<boolean>>;
-  handleAddPlayer: (id?: string) => void;
 };
 
 export default AddPlayer;
