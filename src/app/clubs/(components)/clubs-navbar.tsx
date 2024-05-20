@@ -3,7 +3,7 @@
 import {
   ClubsNavbarItem,
   clubsNavbarItems,
-} from '@/components/clubs/clubs-navbar-items';
+} from '@/app/clubs/(components)/clubs-navbar-items';
 import { User } from 'lucia';
 import { Link } from 'next-view-transitions';
 import { useSelectedLayoutSegment } from 'next/navigation';
