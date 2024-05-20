@@ -7,8 +7,8 @@ import {
   onClickAddNewPlayer,
 } from '@/components/dashboard/helpers/on-click-handlers';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
 import { faker } from '@faker-js/faker';
 import { Plus, Save } from 'lucide-react';
 import {
@@ -19,6 +19,7 @@ import {
   useContext,
   useState,
 } from 'react';
+import { Drawer } from 'vaul';
 
 const AddPlayerSheet = () => {
   const [open, setOpen] = useState(false);
@@ -52,29 +53,33 @@ const AddPlayerSheet = () => {
     setSliderValue,
   });
 
+  const tags = Array.from({ length: 50 }).map(
+    (_, i, a) => `v1.2.0-beta.${a.length - i}`,
+  );
+
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger asChild>
-        <div>
-          <Fab />
-        </div>
-      </SheetTrigger>
-      <SheetContent
-        onCloseAutoFocus={handleClose}
-        onOpenAutoFocus={(e) => e.preventDefault()}
-        className="flex w-[75vw] flex-col gap-2 p-1"
-      >
-        <Input
-          value={value}
-          placeholder="search"
-          onChange={(e) => setValue(e.target.value)}
-        />
-        <div>{button}</div>
-        <div className="scrollbar-hide flex h-[85svh] w-full flex-col items-start gap-2 overflow-scroll p-4 pt-0">
-          {content}
-        </div>
-      </SheetContent>
-    </Sheet>
+    <Drawer.Root shouldScaleBackground direction="right" preventScrollRestoration={false}>
+      <Drawer.Trigger asChild>
+        <Fab />
+      </Drawer.Trigger>
+      <Drawer.Portal>
+        <Drawer.Overlay className="fixed inset-0 top-0 bg-black/40" />
+        <Drawer.Content className="fixed bottom-0 left-4 right-0 top-0 z-50 flex flex-col">
+          <div className="flex-1 rounded-l-[10px] bg-muted p-6">
+            <ScrollArea className="h-full w-full rounded-md border border-primary">
+              <ul>
+              {tags.map((tag) => (
+                  <li key={tag} className="text-sm">
+                    {tag}
+                  <Separator className="my-2" />
+                  </li>
+              ))}
+              </ul>
+            </ScrollArea>
+          </div>
+        </Drawer.Content>
+      </Drawer.Portal>
+    </Drawer.Root>
   );
 };
 

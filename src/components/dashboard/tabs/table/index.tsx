@@ -2,6 +2,7 @@
 
 import { DashboardContext } from '@/components/dashboard/dashboard-context';
 import { onClickRemovePlayer } from '@/components/dashboard/helpers/on-click-handlers';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Table,
   TableBody,
@@ -28,33 +29,35 @@ const TournamentTable: FC = () => {
   return (
     <div>
       <div className="px-4">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="p-2">#</TableHead>
-              <TableHead className="pl-0">Name</TableHead>
-              <TableResultHeads />
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {players?.map((player, i) => (
-              <TableRow
-                key={player.id}
-                {...bind()}
-                onTouchStart={() => setPlayerId(player.id)}
-                onMouseDown={() => setPlayerId(player.id)}
-              >
-                <TableCell className="font-small p-2">{i + 1}</TableCell>
-                <TableCell className="font-small max-w-[150px] truncate pl-0">
-                  {player.nickname}
-                </TableCell>
-                <TableResultCell stat={player.wins} />
-                <TableResultCell stat={player.draws} />
-                <TableResultCell stat={player.losses} />
+        <ScrollArea className='fixed' color='white'>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="p-2">#</TableHead>
+                <TableHead className="pl-0">Name</TableHead>
+                <TableResultHeads />
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {players?.map((player, i) => (
+                <TableRow
+                  key={player.id}
+                  {...bind()}
+                  onTouchStart={() => setPlayerId(player.id)}
+                  onMouseDown={() => setPlayerId(player.id)}
+                >
+                  <TableCell className="font-small p-2">{i + 1}</TableCell>
+                  <TableCell className="font-small max-w-[150px] truncate pl-0">
+                    {player.nickname}
+                  </TableCell>
+                  <TableResultCell stat={player.wins} />
+                  <TableResultCell stat={player.draws} />
+                  <TableResultCell stat={player.losses} />
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </ScrollArea>
       </div>
     </div>
   );
