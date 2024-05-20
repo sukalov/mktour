@@ -1,58 +1,29 @@
-import { HandlerProps } from '@/components/dashboard/add-player';
+import { PlayerProps } from '@/components/dashboard/add-player';
 import { Button } from '@/components/ui/button';
 import { Plus, Save } from 'lucide-react';
-import { createElement as $, Dispatch, FC, SetStateAction } from 'react';
+import { FC } from 'react';
 
-const AddButton: FC<ButtonProps> = ({
+const AddButton: FC<PlayerProps> = ({
   addingNewPlayer,
   value,
-  sliderValue,
   setAddingNewPlayer,
   handleAddPlayer,
+  sliderValue,
 }) => {
-  return addingNewPlayer
-    ? $(AddNewPlayerButton, { value, sliderValue, handleAddPlayer })
-    : $(AddExistingPlayerButton, { value, setAddingNewPlayer });
-};
-
-const AddExistingPlayerButton: FC<
-  Pick<ButtonProps, 'value' | 'setAddingNewPlayer'>
-> = ({ value, setAddingNewPlayer }) => {
   return (
     <Button
-      disabled={!value}
+      disabled={!value && addingNewPlayer}
       size={'sm'}
-      className="flex w-full gap-2 text-muted shadow-md shadow-background"
-      variant={'outline'}
-      onClick={() => setAddingNewPlayer(true)}
+      className="flex w-full gap-2"
+      onClick={() => {
+        if (!addingNewPlayer) setAddingNewPlayer(true);
+        else handleAddPlayer({ rating: sliderValue[0] });
+      }}
     >
-      <Plus /> add new player
+      {!addingNewPlayer ? <Plus /> : <Save />}
+      {!addingNewPlayer ? 'add new player' : 'save'}
     </Button>
   );
-};
-
-const AddNewPlayerButton: FC<
-  Pick<ButtonProps, 'value' | 'sliderValue' | 'handleAddPlayer'>
-> = ({ value, sliderValue, handleAddPlayer }) => {
-  return (
-    <Button
-      disabled={!value}
-      size={'sm'}
-      className="flex w-full gap-2 text-muted shadow-md shadow-background"
-      variant={'outline'}
-      onClick={() => handleAddPlayer({ rating: sliderValue[0] })}
-    >
-      <Save /> save
-    </Button>
-  );
-};
-
-type ButtonProps = {
-  value: string;
-  sliderValue: number[];
-  addingNewPlayer: boolean;
-  setAddingNewPlayer: Dispatch<SetStateAction<boolean>>;
-  handleAddPlayer: (arg0: HandlerProps) => void;
 };
 
 export default AddButton;

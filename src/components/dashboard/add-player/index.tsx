@@ -1,6 +1,7 @@
 import AddButton from '@/components/dashboard/add-player/add-button';
-import AddExistingPlayer from '@/components/dashboard/add-player/add-existing-player';
 import AddNewPlayer from '@/components/dashboard/add-player/add-new-player';
+import AddPlayer from '@/components/dashboard/add-player/add-player';
+import FabClose from '@/components/dashboard/add-player/fab-close';
 import { DashboardContext } from '@/components/dashboard/dashboard-context';
 import Fab from '@/components/dashboard/fab';
 import {
@@ -8,16 +9,16 @@ import {
   onClickAddNewPlayer,
 } from '@/components/dashboard/helpers/on-click-handlers';
 import { Input } from '@/components/ui/input';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import {
-  createElement as $,
   Dispatch,
   SetStateAction,
+  createElement,
   useContext,
   useState,
 } from 'react';
+import { Drawer } from 'vaul';
 
-const AddPlayerSheet = () => {
+const AddPlayerDrawer = () => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
   const [addingNewPlayer, setAddingNewPlayer] = useState(false);
@@ -25,6 +26,7 @@ const AddPlayerSheet = () => {
   const { sendJsonMessage } = useContext(DashboardContext);
 
   const handleClose = () => {
+    setOpen(false);
     setValue('');
     setAddingNewPlayer(false);
   };
@@ -36,7 +38,7 @@ const AddPlayerSheet = () => {
     setValue('');
   };
 
-  const content = $(addingNewPlayer ? AddNewPlayer : AddExistingPlayer, {
+  const content = createElement(addingNewPlayer ? AddNewPlayer : AddPlayer, {
     value,
     setAddingNewPlayer,
     handleAddPlayer,
@@ -45,41 +47,49 @@ const AddPlayerSheet = () => {
   });
 
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger asChild>
+    <Drawer.Root
+      shouldScaleBackground
+      direction="right"
+      preventScrollRestoration={false}
+      onClose={handleClose}
+      open={open}
+    >
+      <Drawer.Trigger asChild>
         <div>
-          <Fab />
+          <Fab onClick={() => setOpen(true)} />
         </div>
-      </SheetTrigger>
-      <SheetContent
-        onCloseAutoFocus={handleClose}
-        onOpenAutoFocus={(e) => e.preventDefault()}
-        className="flex w-[75vw] flex-col gap-2 p-1"
-      >
-        <Input
-          value={value}
-          placeholder="search"
-          onChange={(e) => setValue(e.target.value)}
-        />
-        <div>
-          <AddButton
-            value={value}
-            sliderValue={sliderValue}
-            addingNewPlayer={addingNewPlayer}
-            setAddingNewPlayer={setAddingNewPlayer}
-            handleAddPlayer={handleAddPlayer}
-          />
-        </div>
-        <div className="scrollbar-hide flex h-[85svh] w-full flex-col items-start gap-2 overflow-scroll p-4 pt-0">
-          {content}
-        </div>
-      </SheetContent>
-    </Sheet>
+      </Drawer.Trigger>
+      <Drawer.Portal>
+        <Drawer.Overlay className="fixed inset-0 top-0 bg-black/80" />
+        <Drawer.Content className="fixed bottom-0 left-4 right-0 top-0 z-50 flex flex-col">
+          <div className="flex flex-1 flex-col gap-3 rounded-l-[10px] border border-secondary bg-background px-6 pt-8">
+            <AddButton
+              addingNewPlayer={addingNewPlayer}
+              value={value}
+              setAddingNewPlayer={setAddingNewPlayer}
+              handleAddPlayer={handleAddPlayer}
+              sliderValue={sliderValue}
+              setSliderValue={setSliderValue}
+            />
+            <Input
+              value={value}
+              placeholder={addingNewPlayer ? 'name' : 'search'}
+              onChange={(e) => setValue(e.target.value)}
+            />
+            <div className="scrollbar-hide rounded-2 flex h-[79svh] w-full flex-col items-start gap-2 overflow-scroll py-0">
+              {content}
+            </div>
+          </div>
+          <FabClose onClick={() => setOpen(false)} />
+        </Drawer.Content>
+      </Drawer.Portal>
+    </Drawer.Root>
   );
 };
 
 export type PlayerProps = {
   value: string;
+  addingNewPlayer?: boolean;
   setAddingNewPlayer: Dispatch<SetStateAction<boolean>>;
   handleAddPlayer: (arg0: HandlerProps) => void;
   sliderValue: number[];
@@ -91,4 +101,4 @@ export type HandlerProps = {
   rating?: any;
 };
 
-export default AddPlayerSheet;
+export default AddPlayerDrawer;
