@@ -1,14 +1,17 @@
 import { PlayerProps } from '@/components/dashboard/add-player';
 import {
+  Table,
+  TableBody,
+  TableCell,
+  TableRow
+} from '@/components/ui/table';
+import {
   DatabasePlayerSlice,
   useTournamentStore,
 } from '@/lib/hooks/use-tournament-store';
 import { FC } from 'react';
 
-const AddPlayer: FC<PlayerProps> = ({
-  value,
-  handleAddPlayer,
-}) => {
+const AddPlayer: FC<PlayerProps> = ({ value, handleAddPlayer }) => {
   const { possiblePlayers } = useTournamentStore();
   const filteredPlayers = possiblePlayers.filter(
     (player: DatabasePlayerSlice) => {
@@ -18,24 +21,21 @@ const AddPlayer: FC<PlayerProps> = ({
     },
   );
   return (
-    <>
-      <PossiblePlayers players={filteredPlayers} addPlayer={handleAddPlayer} />
-      {/* {getMockList(50)} */}
-    </>
+    <Table>
+      <TableBody>
+        {filteredPlayers.map((player) => (
+          <TableRow
+            key={player.id}
+            onClick={() => handleAddPlayer({ id: player.id })}
+            className='p-0'
+          >
+            <TableCell>{player.nickname}</TableCell>
+            <TableCell>{player.rating}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
-};
-
-const PossiblePlayers: FC<PossiblePlayersProps> = ({ players, addPlayer }) => {
-  return players.map((player) => (
-    <div
-      key={player.id}
-      className="flex w-full justify-between"
-      onClick={() => addPlayer({ id: player.id })}
-    >
-      <span>{player.nickname}</span>
-      <span className="text-muted">{player.rating}</span>
-    </div>
-  ));
 };
 
 type PossiblePlayersProps = {

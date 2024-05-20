@@ -1,5 +1,6 @@
 import AddNewPlayer from '@/components/dashboard/add-player/add-new-player';
 import AddPlayer from '@/components/dashboard/add-player/add-player';
+import FabClose from '@/components/dashboard/add-player/fab-close';
 import { DashboardContext } from '@/components/dashboard/dashboard-context';
 import Fab from '@/components/dashboard/fab';
 import {
@@ -7,9 +8,7 @@ import {
   onClickAddNewPlayer,
 } from '@/components/dashboard/helpers/on-click-handlers';
 import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
-import { faker } from '@faker-js/faker';
+import { Input } from '@/components/ui/input';
 import { Plus, Save } from 'lucide-react';
 import {
   Dispatch,
@@ -21,7 +20,7 @@ import {
 } from 'react';
 import { Drawer } from 'vaul';
 
-const AddPlayerSheet = () => {
+const AddPlayerDrawer = () => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
   const [addingNewPlayer, setAddingNewPlayer] = useState(false);
@@ -29,6 +28,7 @@ const AddPlayerSheet = () => {
   const { sendJsonMessage } = useContext(DashboardContext);
 
   const handleClose = () => {
+    setOpen(false)
     setValue('');
     setAddingNewPlayer(false);
   };
@@ -38,12 +38,8 @@ const AddPlayerSheet = () => {
     if (rating) onClickAddNewPlayer(value, rating!, sendJsonMessage);
     setOpen(false);
     setValue('');
-  };
 
-  const button = createElement(
-    addingNewPlayer ? AddNewPlayerButton : AddPlayerButton,
-    { value, setAddingNewPlayer, sliderValue, handleAddPlayer },
-  );
+  };
 
   const content = createElement(addingNewPlayer ? AddNewPlayer : AddPlayer, {
     value,
@@ -53,30 +49,39 @@ const AddPlayerSheet = () => {
     setSliderValue,
   });
 
-  const tags = Array.from({ length: 50 }).map(
-    (_, i, a) => `v1.2.0-beta.${a.length - i}`,
-  );
-
   return (
-    <Drawer.Root shouldScaleBackground direction="right" preventScrollRestoration={false}>
+    <Drawer.Root
+      shouldScaleBackground
+      direction="right"
+      preventScrollRestoration={false}
+      onClose={handleClose}
+      open={open}
+    >
       <Drawer.Trigger asChild>
-        <Fab />
+        <Fab onClick={() => setOpen(true)}/>
       </Drawer.Trigger>
       <Drawer.Portal>
-        <Drawer.Overlay className="fixed inset-0 top-0 bg-black/40" />
-        <Drawer.Content className="fixed bottom-0 left-4 right-0 top-0 z-50 flex flex-col">
-          <div className="flex-1 rounded-l-[10px] bg-muted p-6">
-            <ScrollArea className="h-full w-full rounded-md border border-primary">
-              <ul>
-              {tags.map((tag) => (
-                  <li key={tag} className="text-sm">
-                    {tag}
-                  <Separator className="my-2" />
-                  </li>
-              ))}
-              </ul>
-            </ScrollArea>
+        <Drawer.Overlay className="fixed inset-0 top-0 bg-black/80" />
+        <Drawer.Content className="fixed left-4 right-0 top-0 z-50 bottom-0 flex flex-col">
+          <div className="flex flex-1 flex-col gap-3 rounded-l-[10px] bg-background border border-secondary px-6 pt-8">
+            <AddPlayerButton
+              addingNewPlayer={addingNewPlayer}
+              value={value}
+              setAddingNewPlayer={setAddingNewPlayer}
+              handleAddPlayer={handleAddPlayer}
+              sliderValue={sliderValue}
+              setSliderValue={setSliderValue}
+            />
+            <Input
+              value={value}
+              placeholder={addingNewPlayer ? 'name' : 'search'}
+              onChange={(e) => setValue(e.target.value)}
+            />
+                <div className="scrollbar-hide flex rounded-2 h-[79svh] w-full flex-col items-start gap-2 overflow-scroll py-0">
+                  {content}
+                </div>
           </div>
+          <FabClose onClick={() => setOpen(false)}/>
         </Drawer.Content>
       </Drawer.Portal>
     </Drawer.Root>
@@ -84,43 +89,29 @@ const AddPlayerSheet = () => {
 };
 
 // FIXME any
-const AddPlayerButton: FC<any> = ({ value, setAddingNewPlayer }) => {
-  return (
-    <Button
-      disabled={!value}
-      size={'sm'}
-      className="flex w-full gap-2 text-muted shadow-md shadow-background"
-      variant={'outline'}
-      onClick={() => setAddingNewPlayer(true)}
-    >
-      <Plus /> add new player
-    </Button>
-  );
-};
-
-// FIXME any
-const AddNewPlayerButton: FC<any> = ({
+const AddPlayerButton: FC<any> = ({
+  addingNewPlayer,
   value,
+  setAddingNewPlayer,
   handleAddPlayer,
   sliderValue,
+  setSliderValue,
 }) => {
   return (
     <Button
-      disabled={!value}
+      disabled={!value && addingNewPlayer}
       size={'sm'}
-      className="flex w-full gap-2 text-muted shadow-md shadow-background"
-      variant={'outline'}
-      onClick={() => handleAddPlayer({ rating: sliderValue[0] })}
+      className="flex w-full gap-2"
+      onClick={() => {
+        if (!addingNewPlayer) setAddingNewPlayer(true);
+        else handleAddPlayer({ rating: sliderValue[0] });
+      }}
     >
-      <Save /> save
+      {!addingNewPlayer ? <Plus /> : <Save />}
+      {!addingNewPlayer ? 'add new player' : 'save'}
     </Button>
   );
 };
-
-const getMockList = (n: number) =>
-  Array(n)
-    .fill('')
-    .map((_, i) => <div key={i}>{i + '. ' + faker.person.fullName()}</div>);
 
 export type PlayerProps = {
   value: string;
@@ -135,4 +126,4 @@ export type HandlerProps = {
   rating?: any;
 };
 
-export default AddPlayerSheet;
+export default AddPlayerDrawer;
