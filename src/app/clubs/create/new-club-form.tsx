@@ -2,16 +2,15 @@
 
 import ClubDescription from '@/app/clubs/create/description';
 import { TeamSelector } from '@/app/clubs/create/team-selector';
-import { turboPascal } from '@/app/fonts';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -57,11 +56,6 @@ export default function NewClubForm({ clubs, user, teams }: NewClubFormProps) {
 
   return (
     <Form {...form}>
-      <h2
-        className={`m-4 text-center text-4xl font-bold ${turboPascal.className}`}
-      >
-        new club
-      </h2>
       <Card className="mx-auto max-w-[min(600px,98%)] border-none shadow-none sm:border-solid sm:shadow-sm">
         <CardContent className="p-8">
           <form
