@@ -9,13 +9,12 @@ import {
 } from '@/components/dashboard/helpers/on-click-handlers';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { faker } from '@faker-js/faker';
 import {
   createElement as $,
   Dispatch,
   SetStateAction,
   useContext,
-  useState
+  useState,
 } from 'react';
 
 const AddPlayerSheet = () => {
@@ -78,11 +77,6 @@ const AddPlayerSheet = () => {
     </Sheet>
   );
 };
-
-const getMockList = (n: number) =>
-  Array(n)
-    .fill('')
-    .map((_, i) => <div key={i}>{i + '. ' + faker.person.fullName()}</div>);
 
 export type PlayerProps = {
   value: string;
