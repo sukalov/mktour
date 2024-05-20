@@ -5,7 +5,7 @@ import {
 } from '@/lib/hooks/use-tournament-store';
 import { FC } from 'react';
 
-const AddPlayer: FC<PlayerProps> = ({
+const AddExistingPlayer: FC<PlayerProps> = ({
   value,
   handleAddPlayer,
 }) => {
@@ -43,4 +43,4 @@ type PossiblePlayersProps = {
   addPlayer: any;
 };
 
-export default AddPlayer;
+export default AddExistingPlayer;

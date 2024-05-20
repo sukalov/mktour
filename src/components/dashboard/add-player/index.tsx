@@ -1,23 +1,21 @@
+import AddButton from '@/components/dashboard/add-player/add-button';
+import AddExistingPlayer from '@/components/dashboard/add-player/add-existing-player';
 import AddNewPlayer from '@/components/dashboard/add-player/add-new-player';
-import AddPlayer from '@/components/dashboard/add-player/add-player';
 import { DashboardContext } from '@/components/dashboard/dashboard-context';
 import Fab from '@/components/dashboard/fab';
 import {
   onClickAddExistingPlayer,
   onClickAddNewPlayer,
 } from '@/components/dashboard/helpers/on-click-handlers';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { faker } from '@faker-js/faker';
-import { Plus, Save } from 'lucide-react';
 import {
+  createElement as $,
   Dispatch,
-  FC,
   SetStateAction,
-  createElement,
   useContext,
-  useState,
+  useState
 } from 'react';
 
 const AddPlayerSheet = () => {
@@ -39,12 +37,7 @@ const AddPlayerSheet = () => {
     setValue('');
   };
 
-  const button = createElement(
-    addingNewPlayer ? AddNewPlayerButton : AddPlayerButton,
-    { value, setAddingNewPlayer, sliderValue, handleAddPlayer },
-  );
-
-  const content = createElement(addingNewPlayer ? AddNewPlayer : AddPlayer, {
+  const content = $(addingNewPlayer ? AddNewPlayer : AddExistingPlayer, {
     value,
     setAddingNewPlayer,
     handleAddPlayer,
@@ -69,46 +62,20 @@ const AddPlayerSheet = () => {
           placeholder="search"
           onChange={(e) => setValue(e.target.value)}
         />
-        <div>{button}</div>
+        <div>
+          <AddButton
+            value={value}
+            sliderValue={sliderValue}
+            addingNewPlayer={addingNewPlayer}
+            setAddingNewPlayer={setAddingNewPlayer}
+            handleAddPlayer={handleAddPlayer}
+          />
+        </div>
         <div className="scrollbar-hide flex h-[85svh] w-full flex-col items-start gap-2 overflow-scroll p-4 pt-0">
           {content}
         </div>
       </SheetContent>
     </Sheet>
-  );
-};
-
-// FIXME any
-const AddPlayerButton: FC<any> = ({ value, setAddingNewPlayer }) => {
-  return (
-    <Button
-      disabled={!value}
-      size={'sm'}
-      className="flex w-full gap-2 text-muted shadow-md shadow-background"
-      variant={'outline'}
-      onClick={() => setAddingNewPlayer(true)}
-    >
-      <Plus /> add new player
-    </Button>
-  );
-};
-
-// FIXME any
-const AddNewPlayerButton: FC<any> = ({
-  value,
-  handleAddPlayer,
-  sliderValue,
-}) => {
-  return (
-    <Button
-      disabled={!value}
-      size={'sm'}
-      className="flex w-full gap-2 text-muted shadow-md shadow-background"
-      variant={'outline'}
-      onClick={() => handleAddPlayer({ rating: sliderValue[0] })}
-    >
-      <Save /> save
-    </Button>
   );
 };
 
