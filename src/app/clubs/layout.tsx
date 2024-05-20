@@ -1,18 +1,19 @@
-import { getUser } from '@/lib/auth/utils';
+import ClubsNavbar from '@/app/clubs/(components)/clubs-navbar';
+import { validateRequest } from '@/lib/auth/lucia';
+import { ViewTransitions } from 'next-view-transitions';
 import { ReactNode } from 'react';
 
-export default function ClubsPageLayout({ children }: ClubsPageLayoutProps) {
-    const user = getUser();
-    if (!user) return children;
-
+export default async function ClubsPageLayout({ children }: ClubsPageLayoutProps) {
+  const { user } = await validateRequest()
   return (
-    <>
-      <div>{children}</div>
-    </>
+    <ViewTransitions>
+      <ClubsNavbar user={user} />
+      <div className="pt-10">{children}</div>
+    </ViewTransitions>
   );
 }
 
 interface ClubsPageLayoutProps {
   children: ReactNode;
-//   create: ReactNode;
+  //   create: ReactNode;
 }

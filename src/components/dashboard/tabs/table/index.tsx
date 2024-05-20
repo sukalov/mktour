@@ -23,7 +23,7 @@ const TournamentTable: FC = () => {
     if (window && window.confirm('Delete player?')) {
       onClickRemovePlayer(selectedPlayerId, sendJsonMessage);
     }
-  });
+  }, { cancelOnMovement: true });
 
   return (
     <div>

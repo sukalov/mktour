@@ -5,7 +5,6 @@ import { FC } from "react";
 
 const FabWrapper: FC<FabWrapperProps> = ({ status, currentTab }) => {
   if (status !== 'organizer') return null
-  // if (currentTab === 'table') return <AddPlayerDrawer/>
   if (currentTab === 'table') return <AddPlayerSheet/>
   return
 }
