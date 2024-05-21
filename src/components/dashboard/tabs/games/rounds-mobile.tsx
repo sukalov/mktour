@@ -25,7 +25,7 @@ const RoundsMobile: FC = () => {
       />
       <ScrollArea className="h-full">
         <div className="mb-4 mt-16 flex w-full flex-col justify-center gap-4 px-4">
-          {Array(10).fill(<RoundItem round={round} />)}
+          {Array(10).fill('').map((_, i) => <RoundItem round={round} key={i}/>)}
         </div>
       </ScrollArea>
     </div>
