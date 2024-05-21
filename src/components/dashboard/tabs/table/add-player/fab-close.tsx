@@ -3,7 +3,6 @@
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
 import { FC, SetStateAction } from 'react';
-import { IconType } from 'react-icons';
 
 const FabClose: FC<FabProps> = ({ onClick }) => {
   return (
@@ -21,7 +20,6 @@ const FabClose: FC<FabProps> = ({ onClick }) => {
 
 type FabProps = {
   onClick?: SetStateAction<any>;
-  icon?: IconType;
 };
 
 export default FabClose;
