@@ -1,4 +1,3 @@
-import AddButton from '@/components/dashboard/add-player/add-button';
 import AddNewPlayer from '@/components/dashboard/add-player/add-new-player';
 import AddPlayer from '@/components/dashboard/add-player/add-player';
 import FabClose from '@/components/dashboard/add-player/fab-close';
@@ -8,7 +7,9 @@ import {
   onClickAddExistingPlayer,
   onClickAddNewPlayer,
 } from '@/components/dashboard/helpers/on-click-handlers';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Plus, Save } from 'lucide-react';
 import {
   Dispatch,
   SetStateAction,
@@ -46,6 +47,11 @@ const AddPlayerDrawer = () => {
     setSliderValue,
   });
 
+  const onAddButtonClick = () => {
+    if (!addingNewPlayer) setAddingNewPlayer(true);
+    else handleAddPlayer({ rating: sliderValue[0] });
+  };
+
   return (
     <Drawer.Root
       shouldScaleBackground
@@ -61,16 +67,17 @@ const AddPlayerDrawer = () => {
       </Drawer.Trigger>
       <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 top-0 bg-black/80" />
-        <Drawer.Content className="fixed bottom-0 left-4 right-0 top-0 z-50 flex flex-col">
+        <Drawer.Content className="fixed bottom-0 left-4 right-0 top-0 z-50 flex flex-col outline-none">
           <div className="flex flex-1 flex-col gap-3 rounded-l-[10px] border border-secondary bg-background px-6 pt-8">
-            <AddButton
-              addingNewPlayer={addingNewPlayer}
-              value={value}
-              setAddingNewPlayer={setAddingNewPlayer}
-              handleAddPlayer={handleAddPlayer}
-              sliderValue={sliderValue}
-              setSliderValue={setSliderValue}
-            />
+            <Button
+              disabled={!value && addingNewPlayer}
+              size={'sm'}
+              className="flex w-full gap-2"
+              onClick={onAddButtonClick}
+            >
+              {!addingNewPlayer ? <Plus /> : <Save />}
+              {!addingNewPlayer ? 'add new player' : 'save'}
+            </Button>
             <Input
               value={value}
               placeholder={addingNewPlayer ? 'name' : 'search'}
