@@ -2,7 +2,6 @@
 
 import { DashboardContext } from '@/components/dashboard/dashboard-context';
 import { onClickRemovePlayer } from '@/components/dashboard/helpers/on-click-handlers';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Table,
   TableBody,
@@ -20,50 +19,51 @@ const TournamentTable: FC = () => {
   const { players } = useTournamentStore();
   const { sendJsonMessage } = useContext(DashboardContext);
   const [selectedPlayerId, setPlayerId] = useState('');
-  const bind = useLongPress(() => {
-    if (window && window.confirm('Delete player?')) {
-      onClickRemovePlayer(selectedPlayerId, sendJsonMessage);
-    }
-  }, { cancelOnMovement: true });
+  const bind = useLongPress(
+    () => {
+      if (window && window.confirm('Delete player?')) {
+        onClickRemovePlayer(selectedPlayerId, sendJsonMessage);
+      }
+    },
+    { cancelOnMovement: true },
+  );
 
   return (
-    <div>
-      <div className="px-4">
-        <ScrollArea className='fixed' color='white'>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="p-2">#</TableHead>
-                <TableHead className="pl-0">Name</TableHead>
-                <TableResultHeads />
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {players?.map((player, i) => (
-                <TableRow
-                  key={player.id}
-                  {...bind()}
-                  onTouchStart={() => setPlayerId(player.id)}
-                  onMouseDown={() => setPlayerId(player.id)}
-                >
-                  <TableCell className="font-small p-2">{i + 1}</TableCell>
-                  <TableCell className="font-small max-w-[150px] truncate pl-0">
-                    {player.nickname}
-                  </TableCell>
-                  <TableResultCell stat={player.wins} />
-                  <TableResultCell stat={player.draws} />
-                  <TableResultCell stat={player.losses} />
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </ScrollArea>
-      </div>
-    </div>
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead className="pl-4 pr-0">#</TableHead>
+          <TableHead className="pl-0">
+            Name ({players.length} players)
+          </TableHead>
+          <TableStatsHeads />
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {players?.map((player, i) => (
+          <TableRow
+            key={player.id}
+            {...bind()}
+            onTouchStart={() => setPlayerId(player.id)}
+            onMouseDown={() => setPlayerId(player.id)}
+          >
+            <TableCell className="font-small pl-4 pr-0">{i + 1}</TableCell>
+            <TableCell className="font-small max-w-[150px] truncate pl-0">
+              {player.nickname}
+            </TableCell>
+            <TableCell className="px-1 font-medium">{player.wins}</TableCell>
+            <TableCell className="px-1 font-medium">{player.draws}</TableCell>
+            <TableCell className="px-1 pr-2 font-medium">
+              {player.losses}
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 };
 
-const TableResultHeads = () => {
+const TableStatsHeads = () => {
   const isMobile = useMediaQuery({ maxWidth: 500 });
   const defaultTitles = ['wins', 'draws', 'losses'];
   const [titles, setTitles] = useState(defaultTitles);
@@ -77,16 +77,12 @@ const TableResultHeads = () => {
   return (
     <>
       {titles.map((title) => (
-        <TableHead key={title} className="p-1">
+        <TableHead key={title} className="px-1">
           {title}
         </TableHead>
       ))}
     </>
   );
 };
-
-const TableResultCell: FC<{ stat: number | null }> = ({ stat }) => (
-  <TableCell className="p-1 font-medium">{stat}</TableCell>
-);
 
 export default TournamentTable;
