@@ -26,8 +26,6 @@ const Dashboard: FC<TournamentPageContentProps> = ({
     useState<DashboardContextType['currentTab']>('main');
   const { isLoading, addPlayer, possiblePlayers, ...tournament } =
     useTournamentStore();
-  const { ongoingRound } = useTournamentStore();
-
   const { sendJsonMessage } = useWebSocket(
     `${SOCKET_URL}/${id}`,
     getWsConfig(session),
@@ -53,7 +51,7 @@ const Dashboard: FC<TournamentPageContentProps> = ({
       value={{
         currentTab,
         sendJsonMessage,
-        ongoingRound,
+        status
       }}
     >
       <TabsContainer currentTab={currentTab} setCurrentTab={setCurrentTab} />

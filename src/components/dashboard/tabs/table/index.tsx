@@ -17,11 +17,11 @@ import { useLongPress } from 'use-long-press';
 
 const TournamentTable: FC = () => {
   const { players } = useTournamentStore();
-  const { sendJsonMessage } = useContext(DashboardContext);
+  const { status, sendJsonMessage } = useContext(DashboardContext);
   const [selectedPlayerId, setPlayerId] = useState('');
   const bind = useLongPress(
     () => {
-      if (window && window.confirm('Delete player?')) {
+      if (status === 'organizer' && window.confirm('Delete player?')) {
         onClickRemovePlayer(selectedPlayerId, sendJsonMessage);
       }
     },
