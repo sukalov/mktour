@@ -100,7 +100,12 @@ export default function NewTournamentForm({
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
+                    <SelectContent
+                      ref={(ref) => {
+                        if (!ref || ref.id === 'removeSelection') return;
+                        ref.ontouchstart = (e) => e.preventDefault();
+                      }}
+                    >
                       <SelectGroup>
                         {clubs.map((club: DatabaseClub) => (
                           <SelectItem key={club.id} value={club.id}>
@@ -116,7 +121,7 @@ export default function NewTournamentForm({
                               variant="ghost"
                               className="flex h-[30px] w-full flex-row justify-end gap-2 pl-7 font-extrabold text-muted-foreground"
                             >
-                              <PlusIcon fontStyle='bold' /> new club
+                              <PlusIcon fontStyle="bold" /> new club
                             </Button>
                           </Link>
                         </SelectGroup>
@@ -155,7 +160,12 @@ export default function NewTournamentForm({
                         <SelectValue placeholder="choose a format" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
+                    <SelectContent
+                      ref={(ref) => {
+                        if (!ref || ref.id === 'removeSelection') return;
+                        ref.ontouchstart = (e) => e.preventDefault();
+                      }}
+                    >
                       <SelectGroup>
                         <SelectItem value="swiss">swiss</SelectItem>
                         <SelectItem value="round robin">round robin</SelectItem>
@@ -197,7 +207,9 @@ export default function NewTournamentForm({
               render={({ field }) => (
                 <div className="flex items-center space-x-2">
                   <div className="peer flex items-center space-x-2">
-                    <Label htmlFor="rated" className='text-muted-foreground'>rated</Label>
+                    <Label htmlFor="rated" className="text-muted-foreground">
+                      rated
+                    </Label>
                     <Switch
                       id="rated"
                       checked={field.value}
