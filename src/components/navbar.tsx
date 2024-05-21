@@ -1,14 +1,17 @@
 'use client';
 
 import AuthButton from '@/components/auth/auth-button';
+import { LocaleContext } from '@/components/locale-context';
 import ModeTogglerMobile from '@/components/mode-toggler-mobile';
+import { Button } from '@/components/ui/button';
 import MktourNavbar from '@/components/ui/mktour-logo-navbar';
 import { navbarItems } from '@/lib/config/navbar-items';
 import { motion, useCycle } from 'framer-motion';
 import { User } from 'lucia';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { FC, ReactNode, useEffect, useRef } from 'react';
+import { FC, ReactNode, useContext, useEffect, useRef } from 'react';
+import { FormattedMessage } from 'react-intl';
 import ModeToggler from './mode-toggler';
 
 export default function Navbar({ user, node_env }: NavbarProps) {
@@ -53,6 +56,12 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
   const router = useRouter();
   const { height } = useDimensions(containerRef);
   const [isOpen, toggleOpen] = useCycle(false, true);
+  const { locale, setLocale } = useContext(LocaleContext);
+  const handleClickLocale = () => {
+    console.log(locale);
+    if (locale === 'en') setLocale('ru');
+    else setLocale('en');
+  };
   const handleSignOut = async () => {
     const response = await fetch('/api/sign-out', {
       method: 'POST',
@@ -90,7 +99,7 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
                   item.path === pathname ? 'font-bold' : ''
                 }`}
               >
-                {item.title}
+                <FormattedMessage id={`menu.${item.title.replaceAll(' ', '-')}`} />
               </Link>
             </MenuItem>
             <MenuItem className="my-3 h-px w-full bg-gray-300" />
@@ -107,13 +116,19 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
               name="log out"
               onClick={handleSignOut}
             >
-              log out
+              <FormattedMessage id="menu.logout" />
             </button>
           )}
           <div className="my-3 h-px w-full bg-transparent"></div>
         </MenuItem>
         <MenuItem className="flex justify-end gap-6">
-          EN {/* TODO: Button to change app language */}
+          <Button
+            variant={'ghost'}
+            size={'icon'}
+            onClick={() => handleClickLocale()}
+          >
+            {locale.toUpperCase()}
+          </Button>
           <ModeTogglerMobile />
         </MenuItem>
       </motion.ul>
