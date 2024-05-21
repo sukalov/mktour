@@ -6,6 +6,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { AxiomWebVitals } from 'next-axiom';
 import { PropsWithChildren } from 'react';
 
+import IntlProvider from '@/components/intl-provider';
 import '@/styles/globals.css';
 
 export const metadata = {
@@ -28,12 +29,14 @@ function RootLayout({ children }: PropsWithChildren) {
           enableSystem
           disableTransitionOnChange
         >
-          <NavbarWrapper />
-          <div className="px-8 pt-14"></div>
-          {children}
-          <Analytics />
-          <SpeedInsights />
-          <Toaster />
+          <IntlProvider>
+            <NavbarWrapper />
+            <div className="px-8 pt-14"></div>
+            {children}
+            <Analytics />
+            <SpeedInsights />
+            <Toaster />
+          </IntlProvider>
         </ThemeProvider>
       </body>
     </html>
