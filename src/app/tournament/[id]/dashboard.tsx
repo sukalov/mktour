@@ -9,7 +9,6 @@ import FabProvider from '@/components/dashboard/fab-provider';
 import getPossiblePlayers from '@/components/dashboard/helpers/get-possible-players';
 import getWsConfig from '@/components/dashboard/helpers/get-ws-config';
 import TabsContainer from '@/components/dashboard/tabs-container';
-import RoundControls from '@/components/dashboard/tabs/games/round-controls';
 import { SOCKET_URL } from '@/lib/config/urls';
 import { Status } from '@/lib/db/hooks/use-status-in-tournament';
 import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
@@ -28,7 +27,7 @@ const Dashboard: FC<TournamentPageContentProps> = ({
   const { isLoading, addPlayer, possiblePlayers, ...tournament } =
     useTournamentStore();
   const { ongoingRound } = useTournamentStore();
-  const [roundInView, setRoundInView] = useState(0);
+
   const { sendJsonMessage } = useWebSocket(
     `${SOCKET_URL}/${id}`,
     getWsConfig(session),
@@ -45,26 +44,19 @@ const Dashboard: FC<TournamentPageContentProps> = ({
   }, []);
 
   useEffect(() => {
+    // FIXME Might be redundant after ScrollArea is in use
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-  }, [roundInView, currentTab]);
+  }, [currentTab]);
 
   return (
     <DashboardContext.Provider
       value={{
         currentTab,
-        sendJsonMessage
+        sendJsonMessage,
+        ongoingRound,
       }}
     >
       <TabsContainer currentTab={currentTab} setCurrentTab={setCurrentTab} />
-      <RoundControls
-        props={{
-          roundInView,
-          games: gamesMock,
-          setRoundInView,
-          currentRound: ongoingRound,
-          currentTab,
-        }}
-      />
       <CarouselContainer
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}

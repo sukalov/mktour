@@ -2,10 +2,11 @@ import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { FC, PropsWithChildren } from 'react';
 
+// FIXME any
 const RoundControls: FC<any> = ({ props }) => {
   const { roundInView, games, setRoundInView, currentRound, currentTab } =
     props;
-  const top = currentTab === 'games' ? 'top-24' : 'top-0';
+  const top = currentTab === 'games' ? 'top-10' : 'top-0';
 
   const handleClick = (direction: string) => {
     const lastIndex = games.length - 1;

@@ -41,10 +41,7 @@ const CarouselContainer: FC<CarouselProps> = ({
 const CarouselIteratee: FC<{ children: FC }> = ({ children: Component }) => {
   return (
     <CarouselItem>
-      <ScrollArea
-        data-state="hidden"
-        className="scrollbar-hide mt-10 h-[80svh]"
-      >
+      <ScrollArea data-state="hidden" className="mt-10 h-[85svh]">
         <Component />
       </ScrollArea>
     </CarouselItem>
