@@ -3,7 +3,7 @@ import { RadioGroupItem } from '@/components/ui/radio-group';
 import TypeIcon from '@/components/ui/type-icon';
 
 type TypeCardProps = {
-  name: string;
+  name: 'solo' | 'doubles' | 'team';
 };
 
 export default function TypeCard({ name }: TypeCardProps) {

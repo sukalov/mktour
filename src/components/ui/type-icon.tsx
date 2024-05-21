@@ -1,16 +1,13 @@
-import { mdiAccount, mdiAccountGroup, mdiAccountMultiple } from '@mdi/js';
-import Icon from '@mdi/react';
+import Icon from "@/components/ui/icon";
 
 interface TypeIconProps {
-  // type: 'solo' | 'doubles' | 'team'
-  type: string;
-  size?: number;
+  type: 'solo' | 'doubles' | 'team';
 }
 
-export default function TypeIcon({ type, size = 0 }: TypeIconProps) {
-  if (type === 'solo') return <Icon path={mdiAccount} className="inline" size={size + .8} />;
+export default function TypeIcon({ type }: TypeIconProps) {
+  if (type === 'solo') return <Icon name='person' className="inline -translate-y-[1px]" width={17} height={17} />;
   if (type === 'doubles')
-    return <Icon path={mdiAccountMultiple} className="inline" size={size + .8} />;
-  if (type === 'team') return <Icon path={mdiAccountGroup} className="inline -translate-y-[2px]" size={size + .9} />;
+    return <Icon name='group' className="inline -translate-y-[1px]" width={17} height={17}  />;
+  if (type === 'team') return <Icon name='groups' className="inline pr-0.5 -translate-y-[2px]" width={26} height={26}  />;
   else return <></>;
 }
