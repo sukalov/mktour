@@ -9,7 +9,7 @@ import {
 } from '@/components/dashboard/helpers/on-click-handlers';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Plus, Save } from 'lucide-react';
+import { Plus, Save, UserPlus } from 'lucide-react';
 import {
   Dispatch,
   SetStateAction,
@@ -62,7 +62,7 @@ const AddPlayerDrawer = () => {
     >
       <Drawer.Trigger asChild>
         <div>
-          <Fab onClick={() => setOpen(true)} />
+          <Fab onClick={() => setOpen(true)} icon={UserPlus} />
         </div>
       </Drawer.Trigger>
       <Drawer.Portal>
