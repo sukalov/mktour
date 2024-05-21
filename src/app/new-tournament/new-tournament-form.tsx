@@ -102,7 +102,7 @@ export default function NewTournamentForm({
                     </FormControl>
                     <SelectContent
                       ref={(ref) => {
-                        if (!ref || ref.id === 'removeSelection') return;
+                        if (!ref) return;
                         ref.ontouchstart = (e) => e.preventDefault();
                       }}
                     >
@@ -162,7 +162,7 @@ export default function NewTournamentForm({
                     </FormControl>
                     <SelectContent
                       ref={(ref) => {
-                        if (!ref || ref.id === 'removeSelection') return;
+                        if (!ref) return;
                         ref.ontouchstart = (e) => e.preventDefault();
                       }}
                     >
