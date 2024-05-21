@@ -1,8 +1,8 @@
-import { PlayerProps } from '@/components/dashboard/tabs/table/add-player';
+import { DrawerProps } from '@/components/dashboard/tabs/table/add-player';
 import { Slider } from '@/components/ui/slider';
 import { FC } from 'react';
 
-const AddNewPlayer: FC<PlayerProps> = ({ sliderValue, setSliderValue }) => {
+const AddNewPlayer: FC<DrawerProps> = ({ sliderValue, setSliderValue }) => {
   return (
     <>
       estimated rating: {sliderValue}

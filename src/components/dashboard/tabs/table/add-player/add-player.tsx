@@ -1,4 +1,4 @@
-import { PlayerProps } from '@/components/dashboard/tabs/table/add-player';
+import { DrawerProps } from '@/components/dashboard/tabs/table/add-player';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 import {
   DatabasePlayerSlice,
@@ -6,7 +6,7 @@ import {
 } from '@/lib/hooks/use-tournament-store';
 import { FC } from 'react';
 
-const AddPlayer: FC<PlayerProps> = ({ value, handleAddPlayer }) => {
+const AddPlayer: FC<DrawerProps> = ({ value, handleAddPlayer }) => {
   const { possiblePlayers } = useTournamentStore();
   const filteredPlayers = possiblePlayers.filter(
     (player: DatabasePlayerSlice) => {

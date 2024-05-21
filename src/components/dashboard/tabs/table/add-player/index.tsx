@@ -94,7 +94,7 @@ const AddPlayerDrawer = () => {
   );
 };
 
-export type PlayerProps = {
+export type DrawerProps = {
   value: string;
   addingNewPlayer?: boolean;
   setAddingNewPlayer: Dispatch<SetStateAction<boolean>>;
