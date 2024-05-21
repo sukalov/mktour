@@ -1,12 +1,12 @@
-import AddNewPlayer from '@/components/dashboard/add-player/add-new-player';
-import AddPlayer from '@/components/dashboard/add-player/add-player';
-import FabClose from '@/components/dashboard/add-player/fab-close';
 import { DashboardContext } from '@/components/dashboard/dashboard-context';
 import Fab from '@/components/dashboard/fab';
 import {
   onClickAddExistingPlayer,
   onClickAddNewPlayer,
 } from '@/components/dashboard/helpers/on-click-handlers';
+import AddNewPlayer from '@/components/dashboard/tabs/table/add-player/add-new-player';
+import AddPlayer from '@/components/dashboard/tabs/table/add-player/add-player';
+import FabClose from '@/components/dashboard/tabs/table/add-player/fab-close';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Plus, Save, UserPlus } from 'lucide-react';

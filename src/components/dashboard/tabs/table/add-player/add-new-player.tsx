@@ -1,4 +1,4 @@
-import { PlayerProps } from '@/components/dashboard/add-player';
+import { PlayerProps } from '@/components/dashboard/tabs/table/add-player';
 import { Slider } from '@/components/ui/slider';
 import { FC } from 'react';
 
