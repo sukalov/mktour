@@ -1,5 +1,4 @@
 import { Group, Groups, Person } from "@/components/icons";
-import Icon from "@/components/ui/icon";
 
 interface TypeIconProps {
   type: 'solo' | 'doubles' | 'team';

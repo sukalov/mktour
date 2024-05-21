@@ -2,7 +2,7 @@ import { TabType } from '@/app/tournament/[id]/dashboard';
 import Fab from '@/components/dashboard/fab';
 import AddPlayerDrawer from '@/components/dashboard/tabs/table/add-player';
 import { Status } from '@/lib/db/hooks/use-status-in-tournament';
-import { Flag, Shuffle } from 'lucide-react';
+import { Shuffle } from 'lucide-react';
 import { FC } from 'react';
 
 const FabProvider: FC<FabProviderProps> = ({ status, currentTab }) => {
@@ -11,7 +11,7 @@ const FabProvider: FC<FabProviderProps> = ({ status, currentTab }) => {
 };
 
 const fabTabMap = {
-  main: <Fab icon={Flag} onClick={console.log} />,
+  main: <AddPlayerDrawer />,
   table: <AddPlayerDrawer />,
   games: <Fab icon={Shuffle} onClick={console.log} />,
 };

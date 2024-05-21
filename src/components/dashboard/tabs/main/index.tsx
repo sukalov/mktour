@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
@@ -7,7 +8,7 @@ import { FC, ReactNode } from 'react';
 const Main = () => {
   const { title, type, format, date, isLoading } = useTournamentStore();
 
-  if (isLoading) return <LoadingElement />
+  if (isLoading) return <LoadingElement />;
 
   return (
     <div className="flex flex-col gap-4 p-4">
@@ -19,6 +20,8 @@ const Main = () => {
         <InfoItem icon={<Dices />} value={format} />
         <InfoItem icon={<CalendarDays />} value={date} />
       </Card>
+      {/* here is place to chose number of rounds in swiss */}
+      <Button onClick={() => console.log('tournament started')}>start tournament</Button>
     </div>
   );
 };
