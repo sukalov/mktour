@@ -58,9 +58,7 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
   const [isOpen, toggleOpen] = useCycle(false, true);
   const { locale, setLocale } = useContext(LocaleContext);
   const handleClickLocale = () => {
-    console.log(locale);
-    if (locale === 'en') setLocale('ru');
-    else setLocale('en');
+    setLocale(locale === 'en' ? 'ru' : 'en');
   };
   const handleSignOut = async () => {
     const response = await fetch('/api/sign-out', {
@@ -99,7 +97,9 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
                   item.path === pathname ? 'font-bold' : ''
                 }`}
               >
-                <FormattedMessage id={`menu.${item.title.replaceAll(' ', '-')}`} />
+                <FormattedMessage
+                  id={`menu.${item.title.replaceAll(' ', '-')}`}
+                />
               </Link>
             </MenuItem>
             <MenuItem className="my-3 h-px w-full bg-gray-300" />
@@ -122,11 +122,7 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
           <div className="my-3 h-px w-full bg-transparent"></div>
         </MenuItem>
         <MenuItem className="flex justify-end gap-6">
-          <Button
-            variant={'ghost'}
-            size={'icon'}
-            onClick={() => handleClickLocale()}
-          >
+          <Button variant={'ghost'} size={'icon'} onClick={handleClickLocale}>
             {locale.toUpperCase()}
           </Button>
           <ModeTogglerMobile />
