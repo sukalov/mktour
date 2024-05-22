@@ -1,35 +1,103 @@
 import { DrawerProps } from '@/components/dashboard/tabs/table/add-player';
 import { Button } from '@/components/ui/button';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import { Slider } from '@/components/ui/slider';
-import { Save } from 'lucide-react';
+import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
+import {
+  NewPlayerFormType,
+  newPlayerFormSchema,
+} from '@/lib/zod/new-player-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2, Save } from 'lucide-react';
 import { FC } from 'react';
+import { useForm } from 'react-hook-form';
 
-const AddNewPlayer: FC<DrawerProps> = ({
-  sliderValue,
-  setSliderValue,
-  handleAddPlayer,
-  value,
-}) => {
+const AddNewPlayer: FC<DrawerProps> = ({ handleAddPlayer }) => {
+  const form = useForm<NewPlayerFormType>({
+    resolver: zodResolver(newPlayerFormSchema),
+    defaultValues: {
+      name: '',
+      rating: 1500,
+      club_id: useTournamentStore.getState().organizer.id,
+    },
+    reValidateMode: 'onSubmit',
+  });
+
+  function onSubmit({ name, rating }: NewPlayerFormType) {
+    handleAddPlayer({ type: 'new', name, rating });
+  }
   return (
-    <div className="flex flex-col gap-2">
-      estimated rating: {sliderValue}
-      <Slider
-        data-vaul-no-drag
-        defaultValue={[1500]}
-        max={3000}
-        step={50}
-        className="w-full pb-4"
-        value={sliderValue}
-        onValueChange={(e) => setSliderValue(e)}
-      />
-      <Button
-        size="sm"
-        onClick={() => handleAddPlayer({ rating: sliderValue[0] })}
-        disabled={value === ''}
-      >
-        <Save /> &nbsp;save
-      </Button>
-    </div>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  placeholder="name"
+                  {...field}
+                  autoComplete="off"
+                  onKeyUp={() => {
+                    form.clearErrors();
+                  }}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="rating"
+          render={({ field: { value, onChange } }) => (
+            <FormItem>
+              <FormLabel>estimated rating: {value}</FormLabel>
+              <FormControl>
+                <Slider
+                  data-vaul-no-drag
+                  step={50}
+                  min={0}
+                  max={3000}
+                  className="w-full"
+                  defaultValue={[value]}
+                  onValueChange={(vals) => {
+                    onChange(vals[0]);
+                  }}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormMessage />
+        <Button
+          type="submit"
+          className="w-full"
+          disabled={form.formState.isSubmitting || form.formState.isValidating}
+        >
+          {form.formState.isSubmitting || form.formState.isValidating ? (
+            <>
+              <Loader2 className="animate-spin" />
+              &nbsp;save
+            </>
+          ) : (
+            <>
+              <Save />
+              &nbsp;save
+            </>
+          )}
+        </Button>
+      </form>
+    </Form>
   );
 };
 
