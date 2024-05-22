@@ -41,11 +41,9 @@ const CarouselContainer: FC<CarouselProps> = ({
 const CarouselIteratee: FC<{ children: FC }> = ({ children: Component }) => {
   return (
     <CarouselItem>
-      {/* <div className="mt-10 w-full h-[85svh] small-scrollbar overflow-auto"> */}
       <ScrollArea className="mt-10 h-[85svh]">
         <Component />
       </ScrollArea>
-      {/* </div> */}
     </CarouselItem>
   );
 };

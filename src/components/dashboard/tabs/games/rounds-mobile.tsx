@@ -22,9 +22,13 @@ const RoundsMobile: FC = () => {
           currentTab,
         }}
       />
-        <div className="mb-4 mt-16 flex w-full flex-col justify-center gap-4 px-4">
-          {Array(10).fill('').map((_, i) => <RoundItem round={round} key={i}/>)}
-        </div>
+      <div className="mb-4 mt-16 flex w-full flex-col justify-center gap-4 px-4">
+        {Array(10)
+          .fill('')
+          .map((_, i) => (
+            <RoundItem round={round} key={i} />
+          ))}
+      </div>
     </div>
   );
 };

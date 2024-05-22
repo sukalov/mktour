@@ -22,7 +22,7 @@ function RootLayout({ children }: PropsWithChildren) {
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
       />
       <AxiomWebVitals />
-      <body>
+      <body className="touch-pan-x touch-pan-y">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
