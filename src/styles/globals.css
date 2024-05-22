@@ -9,6 +9,20 @@
   height: 100%;
 }
 
+/* disables overflow scrolling to reload page: */
+
+html {
+  overflow: hidden;
+  height: 100%;
+}
+
+body {
+  font-family: 'Main';
+  user-select: none;
+  height: 100%;
+  overflow: auto;
+}
+
 /* disables auto-zoom on select/input: */
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
@@ -16,6 +30,10 @@
   textarea:focus,
   input:focus {
     font-size: 16px;
+  }
+  html {
+    touch-action: pan-x pan-y;
+    height: 100%;
   }
 }
 
@@ -108,11 +126,6 @@
   body {
     @apply bg-background text-foreground;
   }
-}
-
-body {
-  font-family: 'Main';
-  user-select: none;
 }
 
 button {
