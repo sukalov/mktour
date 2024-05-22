@@ -23,6 +23,7 @@ const AddNewPlayer: FC<DrawerProps> = ({
         onValueChange={(e) => setSliderValue(e)}
       />
       <Button
+        size="sm"
         onClick={() => handleAddPlayer({ rating: sliderValue[0] })}
         disabled={value === ''}
       >

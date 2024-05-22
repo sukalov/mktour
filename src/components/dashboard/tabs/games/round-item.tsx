@@ -1,35 +1,49 @@
 import GameItem from '@/components/dashboard/tabs/games/game-item';
-import { FC, useState } from 'react';
+import GameItemCompact from '@/components/dashboard/tabs/games/game-item-compact';
+import { GameModel, Result } from '@/types/tournaments';
+import { FC, SetStateAction, createElement, useState } from 'react';
 
-const RoundItem: FC<RoundItemProps> = ({ round }) => {
-  const [setResult] = useState<number | null>(null);
+const RoundItem: FC<RoundItemProps> = ({ round, compact = false }) => {
+  const [setResult] = useState<Result | null>(null);
 
   return (
     <>
-      {round.map((game: any) => (
+      {round.map((game, index) => (
         <GamesIteratee
-          key={game.id} // Assuming 'id' is unique for each game
-          game={game}
+          key={index}
+          {...game}
           setResult={setResult}
+          compact={compact}
         />
       ))}
     </>
   );
 };
 
-const GamesIteratee = ({ game, setResult }: { game: any; setResult: any }) => {
-  return (
-    <GameItem
-      result={game.result}
-      player1={game.white_nickname}
-      player2={game.black_nickname}
-      setResult={setResult}
-    />
-  );
+const GamesIteratee = ({
+  result,
+  white_nickname,
+  black_nickname,
+  setResult,
+  compact,
+}: GameModel & GamesIterateeProps) => {
+  const component = createElement(compact ? GameItemCompact : GameItem, {
+    result,
+    player1: white_nickname,
+    player2: black_nickname,
+    setResult,
+  });
+  return <>{component}</>;
 };
 
 type RoundItemProps = {
-  round: any;
+  round: GameModel[];
+  compact?: boolean;
+};
+
+type GamesIterateeProps = {
+  setResult: SetStateAction<Result | null>;
+  compact: boolean;
 };
 
 export default RoundItem;
