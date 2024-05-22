@@ -2,20 +2,18 @@ import { Card } from '@/components/ui/card';
 import { Result as ResultModel } from '@/types/tournaments';
 import { FC } from 'react';
 
-const GameItem: FC<GameProps> = ({ result, player1, player2 }) => {
+const GameItemCompact: FC<GameProps> = ({ result, player1, player2 }) => {
   return (
     <Card
-      className={`flex w-full flex-row items-center justify-between gap-2 border p-4 md:max-w-[250px]`}
+      className={`flex w-full justify-between border p-2 px-4 text-xs md:max-w-[250px]`}
     >
-      <div className="flex max-w-[90%] flex-col gap-2">
-        <div className={`truncate ${result === '0-1' && 'opacity-30'}`}>
-          {player1}
-        </div>
-        <div className={`truncate ${result === '1-0' && 'opacity-30'}`}>
-          {player2}
-        </div>
+      <div className={`truncate ${result === '0-1' && 'opacity-30'}`}>
+        {player1}
       </div>
       <Result result={result} />
+      <div className={`truncate ${result === '1-0' && 'opacity-30'}`}>
+        {player2}
+      </div>
     </Card>
   );
 };
@@ -28,8 +26,9 @@ const Result = ({ result }: { result: ResultModel | null }) => {
   if (!result) return null;
 
   return (
-    <div className={`flex w-[1rem] flex-col items-center justify-center gap-2`}>
+    <div className="flex flex-grow justify-center gap-2">
       <div className={`${result === '0-1' && 'opacity-30'}`}>{resultP1}</div>
+      <div>:</div>
       <div className={`${result === '1-0' && 'opacity-30'}`}>{resultP2}</div>
     </div>
   );
@@ -42,4 +41,4 @@ interface GameProps {
   player2: string;
 }
 
-export default GameItem;
+export default GameItemCompact;
