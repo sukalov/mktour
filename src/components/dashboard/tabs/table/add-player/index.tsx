@@ -66,7 +66,7 @@ const AddPlayerDrawer = () => {
         <Drawer.Content className="fixed bottom-0 left-4 right-0 top-0 z-50 flex flex-col outline-none">
           <div className="flex flex-1 flex-col gap-3 rounded-l-[10px] border border-secondary bg-background px-6 pt-8">
             <Button
-              size={'sm'}
+              size="sm"
               className="flex w-full gap-2"
               onClick={() => setAddingNewPlayer((prev) => !prev)}
               variant={addingNewPlayer ? 'outline' : 'default'}
