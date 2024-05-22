@@ -2,6 +2,7 @@
 
 import { DashboardContext } from '@/components/dashboard/dashboard-context';
 import { onClickRemovePlayer } from '@/components/dashboard/helpers/on-click-handlers';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Table,
   TableBody,

@@ -9,13 +9,14 @@ import AddPlayer from '@/components/dashboard/tabs/table/add-player/add-player';
 import FabClose from '@/components/dashboard/tabs/table/add-player/fab-close';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { ArrowLeft, Plus, UserPlus } from 'lucide-react';
 import {
   Dispatch,
   SetStateAction,
   createElement,
   useContext,
-  useState
+  useState,
 } from 'react';
 import { Drawer } from 'vaul';
 
@@ -67,7 +68,7 @@ const AddPlayerDrawer = () => {
             <Button
               size={'sm'}
               className="flex w-full gap-2"
-              onClick={() => setAddingNewPlayer(prev => !prev)}
+              onClick={() => setAddingNewPlayer((prev) => !prev)}
               variant={addingNewPlayer ? 'outline' : 'default'}
             >
               {!addingNewPlayer ? <Plus /> : <ArrowLeft />}
@@ -78,9 +79,8 @@ const AddPlayerDrawer = () => {
               placeholder={addingNewPlayer ? 'name' : 'search'}
               onChange={(e) => setValue(e.target.value)}
             />
-            <div className="rounded-2 h-[79svh] w-full py-0 overflow-auto small-scrollbar">
-              {content}
-            </div>
+            <div className="absolute h-1 w-full shadow-red-600 drop-shadow-2xl"></div>
+            <ScrollArea className="rounded-2 h-[79svh]">{content}</ScrollArea>
           </div>
           <FabClose onClick={() => setOpen(false)} />
         </Drawer.Content>

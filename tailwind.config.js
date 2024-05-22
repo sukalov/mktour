@@ -94,19 +94,17 @@ module.exports = {
         'scrollbar-width': 'none'
       },
       ".small-scrollbar": {
-        "-ms-overflow-style": "hsl(var(--muted))",
+        "-ms-overflow-style": "none",
         "scrollbar-width": "4px"
       },
       ".small-scrollbar::-webkit-scrollbar": {
         "background-color": "transparent",
         "width": "4px",
-        "scroll-behavior": "smooth"
       },
       ".small-scrollbar::-webkit-scrollbar-thumb": {
         "background": "hsl(var(--muted))",
         "border-radius": "3px",
-        "max-height": "10px",
-        "transform": "rotate(45deg)"
+        'z-index': '20'
       },
       ".small-scrollbar::-webkit-scrollbar-track": {
         "background-clip": "content-box",

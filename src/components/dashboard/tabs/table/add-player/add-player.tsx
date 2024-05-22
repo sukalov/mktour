@@ -16,20 +16,20 @@ const AddPlayer: FC<DrawerProps> = ({ value, handleAddPlayer }) => {
     },
   );
   return (
-    <Table>
-      <TableBody>
-        {filteredPlayers.map((player) => (
-          <TableRow
-            key={player.id}
-            onClick={() => handleAddPlayer({ id: player.id })}
-            className="p-0"
-          >
-            <TableCell>{player.nickname}</TableCell>
-            <TableCell>{player.rating}</TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+      <Table>
+        <TableBody>
+          {filteredPlayers.map((player) => (
+            <TableRow
+              key={player.id}
+              onClick={() => handleAddPlayer({ id: player.id })}
+              className="p-0"
+            >
+              <TableCell>{player.nickname}</TableCell>
+              <TableCell>{player.rating}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
   );
 };
 
