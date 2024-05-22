@@ -6,7 +6,6 @@ import {
   CarouselContent,
   CarouselItem,
 } from '@/components/ui/carousel';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 
 const CarouselContainer: FC<CarouselProps> = ({
@@ -41,9 +40,9 @@ const CarouselContainer: FC<CarouselProps> = ({
 const CarouselIteratee: FC<{ children: FC }> = ({ children: Component }) => {
   return (
     <CarouselItem>
-      <ScrollArea className="mt-10 h-[85svh]">
+      <div className="mt-10 w-full h-[85svh] small-scrollbar overflow-auto">
         <Component />
-      </ScrollArea>
+      </div>
     </CarouselItem>
   );
 };

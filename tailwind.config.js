@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const plugin = require('tailwindcss/plugin')
+
 module.exports = {
   darkMode: ['class'],
   content: [
@@ -81,5 +83,37 @@ module.exports = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [require('tailwindcss-animate'),
+  plugin(function ({ addUtilities }) {
+    addUtilities({
+      '.no-scrollbar::-webkit-scrollbar': {
+        'display': 'none'
+      },
+      '.no-scrollbar': {
+        '-ms-overflow-style': 'none',
+        'scrollbar-width': 'none'
+      },
+      ".small-scrollbar": {
+        "-ms-overflow-style": "hsl(var(--muted))",
+        "scrollbar-width": "4px"
+      },
+      ".small-scrollbar::-webkit-scrollbar": {
+        "background-color": "transparent",
+        "width": "4px",
+        "scroll-behavior": "smooth"
+      },
+      ".small-scrollbar::-webkit-scrollbar-thumb": {
+        "background": "hsl(var(--muted))",
+        "border-radius": "3px",
+        "max-height": "10px",
+        "transform": "rotate(45deg)"
+      },
+      ".small-scrollbar::-webkit-scrollbar-track": {
+        "background-clip": "content-box",
+        "margin-bottom": "10px",
+        "margin-top": "10px"
+      }
+    })
+  })
+  ],
 };

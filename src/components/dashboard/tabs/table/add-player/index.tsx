@@ -9,13 +9,13 @@ import AddPlayer from '@/components/dashboard/tabs/table/add-player/add-player';
 import FabClose from '@/components/dashboard/tabs/table/add-player/fab-close';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Plus, Save, UserPlus } from 'lucide-react';
+import { ArrowLeft, Plus, UserPlus } from 'lucide-react';
 import {
   Dispatch,
   SetStateAction,
   createElement,
   useContext,
-  useState,
+  useState
 } from 'react';
 import { Drawer } from 'vaul';
 
@@ -47,11 +47,6 @@ const AddPlayerDrawer = () => {
     setSliderValue,
   });
 
-  const onAddButtonClick = () => {
-    if (!addingNewPlayer) setAddingNewPlayer(true);
-    else handleAddPlayer({ rating: sliderValue[0] });
-  };
-
   return (
     <Drawer.Root
       shouldScaleBackground
@@ -70,20 +65,20 @@ const AddPlayerDrawer = () => {
         <Drawer.Content className="fixed bottom-0 left-4 right-0 top-0 z-50 flex flex-col outline-none">
           <div className="flex flex-1 flex-col gap-3 rounded-l-[10px] border border-secondary bg-background px-6 pt-8">
             <Button
-              disabled={!value && addingNewPlayer}
               size={'sm'}
               className="flex w-full gap-2"
-              onClick={onAddButtonClick}
+              onClick={() => setAddingNewPlayer(prev => !prev)}
+              variant={addingNewPlayer ? 'outline' : 'default'}
             >
-              {!addingNewPlayer ? <Plus /> : <Save />}
-              {!addingNewPlayer ? 'add new player' : 'save'}
+              {!addingNewPlayer ? <Plus /> : <ArrowLeft />}
+              {!addingNewPlayer ? 'add new player' : 'back'}
             </Button>
             <Input
               value={value}
               placeholder={addingNewPlayer ? 'name' : 'search'}
               onChange={(e) => setValue(e.target.value)}
             />
-            <div className="scrollbar-hide rounded-2 flex h-[79svh] w-full flex-col items-start gap-2 overflow-scroll py-0">
+            <div className="rounded-2 h-[79svh] w-full py-0 overflow-auto small-scrollbar">
               {content}
             </div>
           </div>

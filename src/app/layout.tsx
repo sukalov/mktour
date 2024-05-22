@@ -31,8 +31,7 @@ function RootLayout({ children }: PropsWithChildren) {
         >
           <IntlProvider>
             <NavbarWrapper />
-            <div className="px-8 pt-14"></div>
-            {children}
+            <div className="pt-14">{children}</div>
             <Analytics />
             <SpeedInsights />
             <Toaster />

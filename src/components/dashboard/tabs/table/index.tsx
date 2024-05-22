@@ -34,7 +34,7 @@ const TournamentTable: FC = () => {
         <TableRow>
           <TableHead className="pl-4 pr-0">#</TableHead>
           <TableHead className="pl-0">
-            Name ({players.length} players)
+            name ({players.length} players)
           </TableHead>
           <TableStatsHeads />
         </TableRow>
