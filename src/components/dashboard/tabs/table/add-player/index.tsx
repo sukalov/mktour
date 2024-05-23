@@ -8,45 +8,26 @@ import AddNewPlayer from '@/components/dashboard/tabs/table/add-player/add-new-p
 import AddPlayer from '@/components/dashboard/tabs/table/add-player/add-player';
 import FabClose from '@/components/dashboard/tabs/table/add-player/fab-close';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { ArrowLeft, Plus, UserPlus } from 'lucide-react';
-import {
-  Dispatch,
-  SetStateAction,
-  createElement,
-  useContext,
-  useState,
-} from 'react';
+import { useContext, useState } from 'react';
 import { Drawer } from 'vaul';
 
 const AddPlayerDrawer = () => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState('');
   const [addingNewPlayer, setAddingNewPlayer] = useState(false);
-  const [sliderValue, setSliderValue] = useState([1500]);
   const { sendJsonMessage } = useContext(DashboardContext);
 
   const handleClose = () => {
     setOpen(false);
-    setValue('');
     setAddingNewPlayer(false);
   };
 
-  const handleAddPlayer = ({ id, rating }: HandlerProps) => {
-    if (id) onClickAddExistingPlayer(id, sendJsonMessage);
-    if (rating) onClickAddNewPlayer(value, rating!, sendJsonMessage);
+  const handleAddPlayer = (props: HandlerProps) => {
+    if (props.type === 'existing')
+      onClickAddExistingPlayer(props.id, sendJsonMessage);
+    else onClickAddNewPlayer(props.name, props.rating, sendJsonMessage);
     setOpen(false);
-    setValue('');
   };
-
-  const content = createElement(addingNewPlayer ? AddNewPlayer : AddPlayer, {
-    value,
-    setAddingNewPlayer,
-    handleAddPlayer,
-    sliderValue,
-    setSliderValue,
-  });
 
   return (
     <Drawer.Root
@@ -74,13 +55,12 @@ const AddPlayerDrawer = () => {
               {!addingNewPlayer ? <Plus /> : <ArrowLeft />}
               {!addingNewPlayer ? 'add new player' : 'back'}
             </Button>
-            <Input
-              value={value}
-              placeholder={addingNewPlayer ? 'name' : 'search'}
-              onChange={(e) => setValue(e.target.value)}
-            />
             <div className="absolute h-1 w-full shadow-red-600 drop-shadow-2xl"></div>
-            <ScrollArea className="rounded-2 h-[79svh]">{content}</ScrollArea>
+            {addingNewPlayer ? (
+              <AddNewPlayer handleAddPlayer={handleAddPlayer} />
+            ) : (
+              <AddPlayer handleAddPlayer={handleAddPlayer} />
+            )}
           </div>
           <FabClose onClick={() => setOpen(false)} />
         </Drawer.Content>
@@ -90,17 +70,18 @@ const AddPlayerDrawer = () => {
 };
 
 export type DrawerProps = {
-  value: string;
-  addingNewPlayer?: boolean;
-  setAddingNewPlayer: Dispatch<SetStateAction<boolean>>;
   handleAddPlayer: (arg0: HandlerProps) => void;
-  sliderValue: number[];
-  setSliderValue: Dispatch<SetStateAction<number[]>>;
 };
 
-export type HandlerProps = {
-  id?: string;
-  rating?: any;
-};
+export type HandlerProps =
+  | {
+      type: 'existing';
+      id: string;
+    }
+  | {
+      type: 'new';
+      name: string;
+      rating: number;
+    };
 
 export default AddPlayerDrawer;

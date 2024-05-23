@@ -44,10 +44,6 @@ export default function NewClubForm({ clubs, user, teams }: NewClubFormProps) {
       );
     };
 
-//   function onSubmit(data: NewClubFormType) {
-//     console.log(data);
-//   }
-
   const [submitButton, setSubmitButton] = React.useState(
     <Button type="submit" className="w-full">
       make new club
