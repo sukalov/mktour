@@ -74,7 +74,6 @@ export interface ChessGameStats {
   prov?: boolean;
 }
 
-
 interface Team {
   id: string;
   name: string;

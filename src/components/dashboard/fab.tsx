@@ -13,7 +13,7 @@ const Fab: FC<FabProps> = ({ onClick, icon: Icon }) => {
       style={{ scale: 1.5 }}
       onClick={onClick}
     >
-      <Icon className='h-4 w-4'/>
+      <Icon className="h-4 w-4" />
     </Button>
   );
 };

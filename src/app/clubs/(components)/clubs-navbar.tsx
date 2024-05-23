@@ -14,7 +14,7 @@ export default function ClubsNavbar({ user }: ClubsNavbarProps) {
       <nav className="fixed z-30 flex max-h-10 w-full min-w-max flex-row items-center justify-between bg-background p-4 md:pl-4">
         <div className="flex flex-grow justify-start">
           {clubsNavbarItems.map((item) => (
-            <NavItem key={item.slug} item={item} user={user}/>
+            <NavItem key={item.slug} item={item} user={user} />
           ))}
         </div>
       </nav>
@@ -22,9 +22,9 @@ export default function ClubsNavbar({ user }: ClubsNavbarProps) {
   }
 }
 
-function NavItem({ item, user }: { item: ClubsNavbarItem, user: User | null }) {
+function NavItem({ item, user }: { item: ClubsNavbarItem; user: User | null }) {
   const isActive = item.slug === useSelectedLayoutSegment();
-  const slug = '/clubs/'
+  const slug = '/clubs/';
   return (
     <Link href={`${slug}${item.slug}`} className="p-2">
       <div

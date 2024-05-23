@@ -21,7 +21,9 @@ const Main = () => {
         <InfoItem icon={<CalendarDays />} value={date} />
       </Card>
       {/* here is place to chose number of rounds in swiss */}
-      <Button onClick={() => console.log('tournament started')}>start tournament</Button>
+      <Button onClick={() => console.log('tournament started')}>
+        start tournament
+      </Button>
     </div>
   );
 };

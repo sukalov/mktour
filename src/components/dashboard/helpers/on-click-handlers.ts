@@ -18,7 +18,7 @@ export const onClickAddNewPlayer = (
     rating,
     last_seen: 0,
   };
-  useTournamentStore.getState().addNewPlayer(newPlayer)
+  useTournamentStore.getState().addNewPlayer(newPlayer);
   const message: Message = { body: newPlayer, type: 'add-new-player' };
   sendJsonMessage(message);
 };

@@ -1,5 +1,11 @@
 import { NewClubForm } from '@/app/clubs/create/new-club-form';
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
 
 export default function ClubDescription({ form }: ClubDescriptionProps) {
@@ -12,7 +18,7 @@ export default function ClubDescription({ form }: ClubDescriptionProps) {
           <FormLabel>description</FormLabel>
           <FormControl>
             <Textarea
-              placeholder="what's your club?"
+              placeholder="tell something about your club..."
               {...field}
             />
           </FormControl>
@@ -21,8 +27,8 @@ export default function ClubDescription({ form }: ClubDescriptionProps) {
       )}
     />
   );
-};
+}
 
 interface ClubDescriptionProps {
-    form: NewClubForm
+  form: NewClubForm;
 }

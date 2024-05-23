@@ -11,7 +11,6 @@ export async function validateData({
   name: string;
   club_id: string;
 }) {
-
   const isValid = await db
     .select()
     .from(players)

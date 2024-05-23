@@ -3,8 +3,10 @@ import { validateRequest } from '@/lib/auth/lucia';
 import { ViewTransitions } from 'next-view-transitions';
 import { ReactNode } from 'react';
 
-export default async function ClubsPageLayout({ children }: ClubsPageLayoutProps) {
-  const { user } = await validateRequest()
+export default async function ClubsPageLayout({
+  children,
+}: ClubsPageLayoutProps) {
+  const { user } = await validateRequest();
   return (
     <ViewTransitions>
       <ClubsNavbar user={user} />

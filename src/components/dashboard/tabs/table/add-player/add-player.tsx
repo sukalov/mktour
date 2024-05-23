@@ -2,7 +2,10 @@
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
-import { DatabasePlayerSlice, useTournamentStore } from '@/lib/hooks/use-tournament-store';
+import {
+  DatabasePlayerSlice,
+  useTournamentStore,
+} from '@/lib/hooks/use-tournament-store';
 import { FC, useState } from 'react';
 
 const AddPlayer: FC<any> = ({ handleAddPlayer }) => {
@@ -16,7 +19,7 @@ const AddPlayer: FC<any> = ({ handleAddPlayer }) => {
     },
   );
   return (
-    <div className='flex flex-col gap-3'>
+    <div className="flex flex-col gap-3">
       <Input
         value={value}
         placeholder="search"
@@ -28,7 +31,9 @@ const AddPlayer: FC<any> = ({ handleAddPlayer }) => {
             {filteredPlayers.map((player) => (
               <TableRow
                 key={player.id}
-                onClick={() => handleAddPlayer({ type: 'existing', id: player.id })}
+                onClick={() =>
+                  handleAddPlayer({ type: 'existing', id: player.id })
+                }
                 className="p-0"
               >
                 <TableCell>{player.nickname}</TableCell>

@@ -51,7 +51,7 @@ const Dashboard: FC<TournamentPageContentProps> = ({
       value={{
         currentTab,
         sendJsonMessage,
-        status
+        status,
       }}
     >
       <TabsContainer currentTab={currentTab} setCurrentTab={setCurrentTab} />

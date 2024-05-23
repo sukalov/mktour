@@ -5,11 +5,11 @@ import { SendJsonMessage } from 'react-use-websocket/dist/lib/types';
 export const DashboardContext = createContext<DashboardContextType>({
   currentTab: 'main',
   sendJsonMessage: () => null,
-  status: 'viewer'
+  status: 'viewer',
 });
 
 export type DashboardContextType = {
   currentTab: 'main' | 'table' | 'games';
   sendJsonMessage: SendJsonMessage;
-  status: Status
+  status: Status;
 };

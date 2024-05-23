@@ -4,9 +4,9 @@ import { getUser } from '@/lib/auth/utils';
 import { db } from '@/lib/db';
 import { users } from '@/lib/db/schema/auth';
 import {
-    DatabaseClubsToUsers,
-    clubs,
-    clubs_to_users,
+  DatabaseClubsToUsers,
+  clubs,
+  clubs_to_users,
 } from '@/lib/db/schema/tournaments';
 import { newid } from '@/lib/utils';
 import { NewClubFormType } from '@/lib/zod/new-club-form';

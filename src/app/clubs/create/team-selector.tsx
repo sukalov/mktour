@@ -29,9 +29,7 @@ export function TeamSelector({ teams, form }: TeamSelectorProps) {
                 <SelectValue placeholder="connect lichess team!" />
               </SelectTrigger>
             </FormControl>
-            <SelectContent
-              ref={selectRef}
-            >
+            <SelectContent ref={selectRef}>
               {teams.map((team) => (
                 <SelectItem
                   key={team.value}
