@@ -10,7 +10,7 @@ import { FC, useState } from 'react';
 
 const AddPlayer: FC<any> = ({ handleAddPlayer }) => {
   const [value, setValue] = useState('');
-  const { possiblePlayers } = useTournamentStore();
+  const { possiblePlayers, players } = useTournamentStore();
   const filteredPlayers = possiblePlayers.filter(
     (player: DatabasePlayerSlice) => {
       const regex = new RegExp(value, 'i');
@@ -25,6 +25,12 @@ const AddPlayer: FC<any> = ({ handleAddPlayer }) => {
         placeholder="search"
         onChange={(e) => setValue(e.target.value)}
       />
+      {possiblePlayers.length === 0 && players.length === 0 && (
+        <p className="pl-[10%] pt-4 text-sm text-muted-foreground">
+          nobody in your club yet! <br />
+          go add some new people
+        </p>
+      )}
       <ScrollArea className="rounded-2 h-[79svh]">
         <Table>
           <TableBody>
