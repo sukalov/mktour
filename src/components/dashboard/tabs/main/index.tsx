@@ -2,11 +2,11 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
-import { CalendarDays, Dices, UserRound } from 'lucide-react';
+import { CalendarDays, Dices, NotebookPen, UserRound } from 'lucide-react';
 import { FC, ReactNode } from 'react';
 
 const Main = () => {
-  const { title, type, format, date, isLoading } = useTournamentStore();
+  const { title, type, format, date, isLoading, organizer } = useTournamentStore();
 
   if (isLoading) return <LoadingElement />;
 
@@ -15,13 +15,16 @@ const Main = () => {
       <div className="truncate whitespace-break-spaces text-4xl font-bold">
         {title}
       </div>
-      <Card className="flex w-full flex-col items-center gap-8 p-4">
+      <Card className="flex w-full flex-col items-left gap-8 p-4 pl-[15%]">
+        <InfoItem icon={<NotebookPen />} value={organizer.name} />
         <InfoItem icon={<UserRound />} value={type} />
         <InfoItem icon={<Dices />} value={format} />
         <InfoItem icon={<CalendarDays />} value={date} />
       </Card>
       {/* here is place to chose number of rounds in swiss */}
-      <Button onClick={() => console.log('tournament started')}>start tournament</Button>
+      <Button onClick={() => console.log('tournament started')}>
+        start tournament
+      </Button>
     </div>
   );
 };

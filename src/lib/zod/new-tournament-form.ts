@@ -12,7 +12,7 @@ export const newTournamentFormSchema = z.object({
   type: z.custom<TournamentType>(),
   timestamp: z.number(),
   club_id: z.string(),
-  rated: z.boolean()
+  rated: z.boolean(),
 });
 
 export type NewTournamentFormType = z.infer<typeof newTournamentFormSchema>;

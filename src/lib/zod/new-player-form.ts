@@ -15,8 +15,11 @@ export const newPlayerFormSchema = z
       .default(1500),
     club_id: z.string(),
   })
-  .refine(async (data) => {
-   return await validateData(data)
-  }, {message: 'this player already exists!', "path": [ "name" ]});
+  .refine(
+    async (data) => {
+      return await validateData(data);
+    },
+    { message: 'this player already exists!', path: ['name'] },
+  );
 
 export type NewPlayerFormType = z.infer<typeof newPlayerFormSchema>;

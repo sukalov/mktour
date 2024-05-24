@@ -5,7 +5,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -61,7 +60,7 @@ const AddNewPlayer: FC<DrawerProps> = ({ handleAddPlayer }) => {
           name="rating"
           render={({ field: { value, onChange } }) => (
             <FormItem>
-              <FormLabel>estimated rating: {value}</FormLabel>
+              <legend>estimated rating: {value}</legend>
               <FormControl>
                 <Slider
                   data-vaul-no-drag

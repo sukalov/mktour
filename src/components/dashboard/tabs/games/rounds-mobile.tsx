@@ -27,7 +27,7 @@ const RoundsMobile: FC = () => {
       />
 
       <div className="mb-4 mt-14 flex w-full flex-col gap-4 px-4">
-        <div className="flex items-center w-full justify-end space-x-2 scale-75 ml-[2.5rem]">
+        <div className="ml-[2.5rem] flex w-full scale-75 items-center justify-end space-x-2">
           <Switch
             id="compact"
             checked={compact}

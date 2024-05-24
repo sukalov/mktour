@@ -22,7 +22,7 @@ const RoundsDesktop: FC = () => {
     <div
       ref={ref}
       id="rounds"
-      className="no-scrollbar flex justify-between gap-8 overflow-scroll p-4"
+      className="flex justify-between gap-8 overflow-scroll p-4 no-scrollbar"
     >
       {games?.map((round: any, roundIndex: number) => (
         <div

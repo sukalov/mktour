@@ -37,7 +37,7 @@ const TabsContainer: FC<TabProps> = ({ currentTab, setCurrentTab, top }) => {
       >
         <TabsList
           ref={tabRef}
-          className={`no-scrollbar w-full justify-around overflow-scroll rounded-none md:justify-evenly`}
+          className={`w-full justify-around overflow-scroll rounded-none no-scrollbar md:justify-evenly`}
         >
           {tabs.map((tab) => (
             <div key={tab.title}>

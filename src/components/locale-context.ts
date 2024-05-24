@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, createContext } from 'react';
 
 export const LocaleContext = createContext<LocaleProps>({
   locale: 'en',
-  setLocale: () => null
+  setLocale: () => null,
 });
 
 export type LocaleProps = {

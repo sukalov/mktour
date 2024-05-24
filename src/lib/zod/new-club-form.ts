@@ -7,7 +7,7 @@ export const newClubFormSchema = z.object({
   description: z.string().optional(),
   created_at: z.date().optional(),
   lichess_team: z.string().optional(),
-  set_default: z.boolean().optional()
+  set_default: z.boolean().optional(),
 });
 
 export type NewClubFormType = z.infer<typeof newClubFormSchema>;
