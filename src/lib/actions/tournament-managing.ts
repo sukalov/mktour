@@ -12,6 +12,7 @@ import { redirect } from 'next/navigation';
 
 export const createTournament = async (values: NewTournamentFormType) => {
   const { user } = await validateRequest();
+  if (!user) throw new Error('unauthorized request');
   const newTournamentID = newid();
   const newTournament: DatabaseTournament = {
     ...values,
