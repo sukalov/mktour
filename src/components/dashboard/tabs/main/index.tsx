@@ -43,10 +43,11 @@ const LoadingElement = () => {
   return (
     <div className="flex flex-col gap-4 p-4">
       <Skeleton className="h-10 w-full" />
-      <Card className="flex w-full flex-col items-center gap-8 p-4">
-        <Skeleton className="h-6 w-[150px]" />
-        <Skeleton className="h-6 w-[150px]" />
-        <Skeleton className="h-6 w-[150px]" />
+      <Card className="flex w-full flex-col items-left gap-8 p-4 pl-[15%]">
+        <Skeleton className="h-6 w-full" />
+        <Skeleton className="h-6 w-full" />
+        <Skeleton className="h-6 w-full" />
+        <Skeleton className="h-6 w-full" />
       </Card>
     </div>
   );
