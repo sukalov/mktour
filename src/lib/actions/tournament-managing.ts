@@ -2,10 +2,7 @@
 
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
-import {
-  DatabaseTournament,
-  tournaments
-} from '@/lib/db/schema/tournaments';
+import { DatabaseTournament, tournaments } from '@/lib/db/schema/tournaments';
 import { newid } from '@/lib/utils';
 import { NewTournamentFormType } from '@/lib/zod/new-tournament-form';
 import { redirect } from 'next/navigation';

@@ -1,7 +1,7 @@
 'use client';
 
-import { NewClubForm, TeamSlice } from '@/app/clubs/create/new-club-form';
-import selectRef from '@/app/clubs/create/select-content-ref';
+import { NewClubForm, TeamSlice } from '@/app/club/create/new-club-form';
+import selectRef from '@/app/club/create/select-content-ref';
 import { Button } from '@/components/ui/button';
 import { FormControl, FormField, FormItem } from '@/components/ui/form';
 import {

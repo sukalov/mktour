@@ -1,4 +1,4 @@
-import { NewClubForm } from '@/app/clubs/create/new-club-form';
+import { NewClubForm } from '@/app/club/create/new-club-form';
 import {
   FormControl,
   FormField,
