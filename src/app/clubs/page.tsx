@@ -3,6 +3,6 @@ import { redirect } from 'next/navigation';
 
 export default async function ClubPage() {
   const { user } = await validateRequest();
-  if (user) redirect(`/clubs/${user.default_club}`);
+  if (user) redirect(`/clubs/${user.selected_club}`);
   return <div>no user</div>;
 }
