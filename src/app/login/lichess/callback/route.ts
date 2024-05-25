@@ -1,7 +1,7 @@
 import { lichess, lucia } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
 import { redis } from '@/lib/db/redis';
-import { DatabaseUser, users } from '@/lib/db/schema/auth';
+import { DatabaseUser, user_preferences, users } from '@/lib/db/schema/auth';
 import { clubs, clubs_to_users } from '@/lib/db/schema/tournaments';
 import { newid } from '@/lib/utils';
 import { LichessUser } from '@/types/lichess-api';
@@ -104,7 +104,7 @@ export async function GET(request: Request): Promise<Response> {
         username: lichessUser.id,
         email: lichessUserEmail,
         name,
-        default_club: clubId,
+        selected_club: clubId,
         created_at: new Date(),
       });
 
@@ -114,6 +114,11 @@ export async function GET(request: Request): Promise<Response> {
         user_id: userId,
         status: 'admin',
       });
+      await db.insert(user_preferences).values({
+        user_id: userId,
+        language: 'en',
+      });
+
       await redis.set(userId, 10);
 
       const session = await lucia.createSession(userId, {});

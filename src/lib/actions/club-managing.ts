@@ -33,7 +33,7 @@ export const createClub = async (values: NewClubFormType) => {
     if (values.set_default) {
       await db
         .update(users)
-        .set({ default_club: id })
+        .set({ selected_club: id })
         .where(eq(users.id, requestor.id));
     }
   } catch (e) {

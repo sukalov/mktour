@@ -1,5 +1,9 @@
 export const clubsNavbarItems: ClubsNavbarItem[] = [
   {
+    title: 'dashboard',
+    slug: ''
+  },
+  {
     title: 'settings',
     slug: 'settings',
   },

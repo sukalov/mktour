@@ -6,7 +6,8 @@ import { CalendarDays, Dices, NotebookPen, UserRound } from 'lucide-react';
 import { FC, ReactNode } from 'react';
 
 const Main = () => {
-  const { title, type, format, date, isLoading, organizer } = useTournamentStore();
+  const { title, type, format, date, isLoading, organizer } =
+    useTournamentStore();
 
   if (isLoading) return <LoadingElement />;
 
@@ -15,7 +16,7 @@ const Main = () => {
       <div className="truncate whitespace-break-spaces text-4xl font-bold">
         {title}
       </div>
-      <Card className="flex w-full flex-col items-left gap-8 p-4 pl-[15%]">
+      <Card className="items-left flex w-full flex-col gap-8 p-4 pl-[15%]">
         <InfoItem icon={<NotebookPen />} value={organizer.name} />
         <InfoItem icon={<UserRound />} value={type} />
         <InfoItem icon={<Dices />} value={format} />

@@ -1,4 +1,4 @@
-import ClubsNavbar from '@/app/clubs/(components)/clubs-navbar';
+import ClubsNavbar from '@/app/club/(components)/club-navbar';
 import { validateRequest } from '@/lib/auth/lucia';
 import { ViewTransitions } from 'next-view-transitions';
 import { ReactNode } from 'react';

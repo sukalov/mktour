@@ -20,7 +20,7 @@ export const lucia = new Lucia(adapter, {
       name: attributes.name,
       email: attributes.email,
       rating: attributes.rating,
-      default_club: attributes.default_club,
+      selected_club: attributes.selected_club,
       created_at: attributes.created_at,
     };
   },

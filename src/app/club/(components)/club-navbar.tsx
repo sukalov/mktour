@@ -3,7 +3,7 @@
 import {
   ClubsNavbarItem,
   clubsNavbarItems,
-} from '@/app/clubs/(components)/clubs-navbar-items';
+} from '@/app/club/(components)/club-navbar-items';
 import { User } from 'lucia';
 import { Link } from 'next-view-transitions';
 import { useSelectedLayoutSegment } from 'next/navigation';
@@ -23,8 +23,9 @@ export default function ClubsNavbar({ user }: ClubsNavbarProps) {
 }
 
 function NavItem({ item, user }: { item: ClubsNavbarItem; user: User | null }) {
-  const isActive = item.slug === useSelectedLayoutSegment();
-  const slug = '/clubs/';
+  const selection = useSelectedLayoutSegment() ?? '';
+  const isActive = item.slug === selection;
+  const slug = '/club/';
   return (
     <Link href={`${slug}${item.slug}`} className="p-2">
       <div

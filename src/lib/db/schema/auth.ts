@@ -8,10 +8,17 @@ export const users = sqliteTable('user', {
   email: text('email').notNull().unique(),
   username: text('username').notNull().unique(),
   rating: int('rating'),
-  default_club: text('default_club')
+  selected_club: text('selected_club')
     .references(() => clubs.id)
     .notNull(),
   created_at: integer('created_at', { mode: 'timestamp' }),
+});
+
+export const user_preferences = sqliteTable('user_preferences', {
+  user_id: text('user_id')
+    .primaryKey()
+    .references(() => users.id),
+  language: text('language').$default(() => 'en'),
 });
 
 export const sessions = sqliteTable('user_session', {
