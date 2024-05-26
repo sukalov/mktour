@@ -1,4 +1,4 @@
-import TournamentsContainer from '@/app/tournaments/explore/tournament-iteratee';
+import TournamentsContainer from '@/app/tournaments/all/tournament-iteratee';
 import useAllTournamentsQuery from '@/lib/db/hooks/use-all-tournaments-query';
 
 export const revalidate = 0;

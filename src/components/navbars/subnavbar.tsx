@@ -1,13 +1,14 @@
 'use client';
 
+import { ScrollArea } from '@radix-ui/react-scroll-area';
 import { User } from 'lucia';
 import { Link } from 'next-view-transitions';
 import { useSelectedLayoutSegment } from 'next/navigation';
 
 export default function SubNavbar({ user, items, root }: SubNavbarProps) {
   return (
-    <nav className="fixed z-30 flex max-h-10 w-full min-w-max flex-row items-center justify-between bg-background p-4 md:pl-4">
-      <div className="flex flex-grow justify-start">
+    <nav className="fixed z-30 flex max-h-10 w-full min-w-max flex-row items-center justify-between bg-background p-4 pl-0">
+      <ScrollArea className="flex w-full flex-grow justify-start" aria-orientation='horizontal'>
         {items.map((item) => (
           <>
             {(user || (!user && !item.userOnly)) && (
@@ -15,7 +16,7 @@ export default function SubNavbar({ user, items, root }: SubNavbarProps) {
             )}
           </>
         ))}
-      </div>
+      </ScrollArea>
     </nav>
   );
 }
@@ -34,7 +35,7 @@ function NavItem({
   return (
     <Link href={`${root}${item.path}`} className="p-2">
       <div
-        className={`px-3 ${isActive ? 'underline underline-offset-4' : 'hover:text-foreground/70'}`}
+        className={`px-2 ${isActive ? 'underline underline-offset-4 font-bold' : 'hover:text-foreground/70'}`}
       >
         {item.title}
       </div>

@@ -1,3 +1,5 @@
+import { tournamentsNavbarItems } from '@/components/navbars/tournaments-navbar-items';
+
 export const navbarItems: NavbarItem[] = [
   {
     title: 'club',
@@ -9,8 +11,8 @@ export const navbarItems: NavbarItem[] = [
         path: '/club/dashboard',
       },
       {
-        title: 'explore',
-        path: '/club/explore',
+        title: 'all clubs',
+        path: '/club/all',
       },
       {
         title: 'new club',
@@ -22,20 +24,17 @@ export const navbarItems: NavbarItem[] = [
     title: 'tournaments',
     path: '/tournaments',
     submenu: true,
+    subMenuItems: tournamentsNavbarItems,
+  },
+  {
+    title: 'about us',
+    path: '/about',
+    submenu: true,
     subMenuItems: [
       {
-        title: 'make tournament',
-        path: '/tournaments/create',
+        title: 'FAQ',
+        path: '/about/faq',
       },
     ],
-  },
-  {
-    title: 'about mktour_',
-    path: '/about',
-  },
-  {
-    title: 'my profile',
-    path: '/user',
-    userOnly: true,
   },
 ];

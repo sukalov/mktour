@@ -1,17 +1,17 @@
-import { SubNavbarItem } from "@/components/navbars/subnavbar";
+import { SubNavbarItem } from '@/components/navbars/subnavbar';
 
 export const tournamentsNavbarItems: SubNavbarItem[] = [
   {
+    title: 'all tournaments',
+    path: '/tournaments/all',
+  },
+  {
     title: 'my tournaments',
-    path: '',
+    path: '/tournaments/my',
     userOnly: true,
   },
   {
-    title: 'explore',
-    path: 'explore',
-  },
-  {
     title: 'make tournament',
-    path: 'create'
-  }
+    path: '/tournaments/create',
+  },
 ];
