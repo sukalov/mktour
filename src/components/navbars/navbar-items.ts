@@ -37,4 +37,9 @@ export const navbarItems: NavbarItem[] = [
       },
     ],
   },
+  {
+    title: 'profile',
+    path: '/user',
+    userOnly: true,
+  },
 ];

@@ -15,7 +15,7 @@ import { FC, ReactNode, useContext, useEffect, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 const selected =
-  'inline-block py-1 px-3 -ml-1.5 bg-primary text-primary-foreground w-fit rounded-sm';
+  'py-1 px-3 -ml-1.5 bg-primary text-primary-foreground w-fit rounded-sm';
 // const selected = 'underline underline-offset-4 font-bold'
 
 export default function Navbar({ user, node_env }: NavbarProps) {
@@ -87,7 +87,7 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
                 <Link
                   href={item.path}
                   onClick={() => toggleOpen()}
-                  className={`flex w-full text-2xl ${
+                  className={`text-2xl ${
                     item.path.replaceAll('/', '') === pathname ? selected : ''
                   }`}
                 >
@@ -196,7 +196,7 @@ const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({
     <>
       <MenuItem>
         <Link
-          className={`flex w-full text-2xl ${
+          className={`flex text-2xl ${
             item.path=== pathname ? selected : ''
           }`}
           onClick={() => toggleOpen()}

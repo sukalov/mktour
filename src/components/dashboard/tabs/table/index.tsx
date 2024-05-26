@@ -2,7 +2,6 @@
 
 import { DashboardContext } from '@/components/dashboard/dashboard-context';
 import { onClickRemovePlayer } from '@/components/dashboard/helpers/on-click-handlers';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Table,
   TableBody,
@@ -52,9 +51,9 @@ const TournamentTable: FC = () => {
             <TableCell className="font-small max-w-[150px] truncate pl-0">
               {player.nickname}
             </TableCell>
-            <TableCell className="px-1 font-medium">{player.wins}</TableCell>
-            <TableCell className="px-1 font-medium">{player.draws}</TableCell>
-            <TableCell className="px-1 pr-2 font-medium">
+            <TableCell className="px-1 font-medium text-center">{player.wins}</TableCell>
+            <TableCell className="px-1 font-medium text-center">{player.draws}</TableCell>
+            <TableCell className="px-1 pr-2 font-medium text-center">
               {player.losses}
             </TableCell>
           </TableRow>
@@ -78,7 +77,7 @@ const TableStatsHeads = () => {
   return (
     <>
       {titles.map((title) => (
-        <TableHead key={title} className="px-1">
+        <TableHead key={title} className="px-1 text-center">
           {title}
         </TableHead>
       ))}
