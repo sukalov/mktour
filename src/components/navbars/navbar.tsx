@@ -212,7 +212,7 @@ const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({
           </div>
         </Link>
       </MenuItem>
-      <div className="ml-2 mt-2 flex flex-col space-y-2">
+      <div className="ml-4 mt-2 flex flex-col space-y-2">
         {item.subMenuItems.map((subItem: NavbarItem, subIdx: number) => {
           return (
             <MenuItem key={subIdx}>
