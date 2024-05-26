@@ -1,4 +1,3 @@
-import NavbarWrapper from '@/components/navbar-wrapper';
 import ThemeProvider from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
 import { Analytics } from '@vercel/analytics/react';
@@ -7,7 +6,9 @@ import { AxiomWebVitals } from 'next-axiom';
 import { PropsWithChildren } from 'react';
 
 import IntlProvider from '@/components/intl-provider';
+import NavbarWrapper from '@/components/navbars/navbar-wrapper';
 import '@/styles/globals.css';
+import { ViewTransitions } from 'next-view-transitions';
 
 export const metadata = {
   title: 'mktour',
@@ -31,7 +32,9 @@ function RootLayout({ children }: PropsWithChildren) {
         >
           <IntlProvider>
             <NavbarWrapper />
-            <div className="pt-14">{children}</div>
+            <ViewTransitions>
+              <div className="pt-14">{children}</div>
+            </ViewTransitions>
             <Analytics />
             <SpeedInsights />
             <Toaster />

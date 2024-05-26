@@ -30,14 +30,12 @@ export const createClub = async (values: NewClubFormType) => {
   try {
     await db.insert(clubs).values(newClub);
     await db.insert(clubs_to_users).values(newRelation);
-    if (values.set_default) {
-      await db
-        .update(users)
-        .set({ selected_club: id })
-        .where(eq(users.id, requestor.id));
-    }
+    await db
+      .update(users)
+      .set({ selected_club: id })
+      .where(eq(users.id, requestor.id));
   } catch (e) {
     throw new Error('club has NOT been saved');
   }
-  redirect(`/clubs/${id}`);
+  redirect('/club/dashboard');
 };
