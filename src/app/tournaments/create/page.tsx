@@ -1,4 +1,4 @@
-import NewTournamentForm from '@/app/new-tournament/new-tournament-form';
+import NewTournamentForm from '@/app/tournaments/create/new-tournament-form';
 import { getUser } from '@/lib/auth/utils';
 import useUserToClubsQuery from '@/lib/db/hooks/use-user-to-clubs-query';
 import { DatabaseClub } from '@/lib/db/schema/tournaments';

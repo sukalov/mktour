@@ -1,7 +1,7 @@
 type NavbarItem = {
   title: string;
   path: string;
-  icon?: JSX.Element;
+  userOnly?: boolean;
   submenu?: boolean;
   subMenuItems?: SideNavItem[];
 };

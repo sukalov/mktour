@@ -2,6 +2,7 @@
 
 import ClubDescription from '@/app/club/create/description';
 import { TeamSelector } from '@/app/club/create/team-selector';
+import { turboPascal } from '@/app/fonts';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -13,8 +14,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
 import { createClub } from '@/lib/actions/club-managing';
 import { DatabaseUser } from '@/lib/db/schema/auth';
 import { DatabaseClub } from '@/lib/db/schema/tournaments';
@@ -52,8 +51,13 @@ export default function NewClubForm({ clubs, user, teams }: NewClubFormProps) {
 
   return (
     <Form {...form}>
+            <h2
+        className={`m-2 text-center text-4xl font-bold ${turboPascal.className}`}
+      >
+        new club
+      </h2>
       <Card className="mx-auto max-w-[min(600px,98%)] border-none shadow-none sm:border-solid sm:shadow-sm">
-        <CardContent className="p-8">
+        <CardContent className="p-4 pt-2 sm:p-8">
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex flex-col gap-8"
@@ -74,20 +78,6 @@ export default function NewClubForm({ clubs, user, teams }: NewClubFormProps) {
             />
             <ClubDescription form={form} />
             <TeamSelector teams={teams} form={form} />
-            <FormField
-              control={form.control}
-              name="set_default"
-              render={({ field }) => (
-                <div className="flex items-center space-x-2">
-                  <Label htmlFor="set_default">set as your main club</Label>
-                  <Switch
-                    id="set_default"
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                </div>
-              )}
-            />
             {submitButton}
           </form>
         </CardContent>

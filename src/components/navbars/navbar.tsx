@@ -2,24 +2,23 @@
 
 import AuthButton from '@/components/auth/auth-button';
 import { LocaleContext } from '@/components/locale-context';
-import ModeTogglerMobile from '@/components/mode-toggler-mobile';
+import ModeToggler from '@/components/navbars/mode-toggler';
+import ModeTogglerMobile from '@/components/navbars/mode-toggler-mobile';
+import { navbarItems } from '@/components/navbars/navbar-items';
 import { Button } from '@/components/ui/button';
 import MktourNavbar from '@/components/ui/mktour-logo-navbar';
-import { navbarItems } from '@/lib/config/navbar-items';
 import { motion, useCycle } from 'framer-motion';
 import { User } from 'lucia';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { FC, ReactNode, useContext, useEffect, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
-import ModeToggler from './mode-toggler';
 
 export default function Navbar({ user, node_env }: NavbarProps) {
   if (node_env === 'production')
     console.log(
       "chess tournaments have become simple for everyone. \nexcept for devs. \nfor devs it's still hard.",
     );
-
   const pathname = usePathname().split('/')[1];
   const isTournament = pathname === 'tournament';
 
@@ -61,6 +60,7 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
     setLocale(locale === 'en' ? 'ru' : 'en');
   };
   const handleSignOut = async () => {
+    toggleOpen()
     const response = await fetch('/api/sign-out', {
       method: 'POST',
       redirect: 'manual',
@@ -89,30 +89,32 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
       >
         {navbarItems.map((item, idx) => (
           <div key={idx}>
-            <MenuItem>
-              <Link
-                href={item.path}
-                onClick={() => toggleOpen()}
-                className={`flex w-full text-2xl ${
-                  item.path === pathname ? 'font-bold' : ''
-                }`}
-              >
-                <FormattedMessage
-                  id={`menu.${item.title.replaceAll(' ', '-')}`}
-                />
-              </Link>
-            </MenuItem>
+            {!item.submenu ? (
+              <MenuItem key={idx}>
+                <Link
+                  href={item.path}
+                  onClick={() => toggleOpen()}
+                  className={`flex w-full text-2xl ${
+                    item.path === pathname ? 'font-bold' : ''
+                  }`}
+                >
+                  {item.title}
+                </Link>
+              </MenuItem>
+            ) : (
+              <MenuItemWithSubMenu toggleOpen={toggleOpen} item={item} />
+            )}
             <MenuItem className="my-3 h-px w-full bg-gray-300" />
           </div>
         ))}
         <MenuItem>
           {!user ? (
-            <Link className="text-xl" href="/login/lichess">
+            <Link className="text-2xl" href="/login/lichess" onClick={() => toggleOpen()}>
               sign in with lichess
             </Link>
           ) : (
             <button
-              className="flex text-xl"
+              className="flex text-2xl"
               name="log out"
               onClick={handleSignOut}
             >
@@ -184,6 +186,48 @@ const MenuItem = ({
     <motion.li variants={MenuItemVariants} className={className}>
       {children}
     </motion.li>
+  );
+};
+
+const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({
+  item,
+  toggleOpen,
+}) => {
+  const pathname = usePathname();
+
+  return (
+    <>
+      <MenuItem>
+        <Link
+          className="flex w-full text-2xl"
+          onClick={() => toggleOpen()}
+          href={item.path}
+        >
+          <div className="flex w-full flex-row items-center justify-between">
+            <span
+              className={`${pathname.includes(item.path) ? 'font-bold' : ''}`}
+            >
+              {item.title}
+            </span>
+          </div>
+        </Link>
+      </MenuItem>
+      <div className="ml-2 mt-2 flex flex-col space-y-2">
+        {item.subMenuItems.map((subItem: NavbarItem, subIdx: number) => {
+          return (
+            <MenuItem key={subIdx}>
+              <Link
+                href={subItem.path}
+                onClick={() => toggleOpen()}
+                className={` ${subItem.path === pathname ? 'font-bold' : ''}`}
+              >
+                {subItem.title}
+              </Link>
+            </MenuItem>
+          );
+        })}
+      </div>
+    </>
   );
 };
 

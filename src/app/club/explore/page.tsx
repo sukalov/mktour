@@ -1,3 +1,3 @@
 export default function ClubSettings() {
-  return <p>club settings page</p>;
+  return <p>explore all clubs</p>;
 }
