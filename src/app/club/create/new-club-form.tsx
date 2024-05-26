@@ -57,7 +57,7 @@ export default function NewClubForm({ clubs, user, teams }: NewClubFormProps) {
         new club
       </h2>
       <Card className="mx-auto max-w-[min(600px,98%)] border-none shadow-none sm:border-solid sm:shadow-sm">
-        <CardContent className="p-8">
+        <CardContent className="p-4 pt-2 sm:p-8">
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex flex-col gap-8"
