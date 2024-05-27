@@ -20,6 +20,7 @@ import {
 const CarouselContainer: FC<CarouselProps> = ({
   currentTab,
   setCurrentTab,
+  setScrolling,
 }) => {
   const [api, setApi] = useState<CarouselApi>();
   const indexOfTab = tabs.findIndex((tab) => tab.title === currentTab);
@@ -39,7 +40,11 @@ const CarouselContainer: FC<CarouselProps> = ({
     <Carousel setApi={setApi} opts={{ loop: true }}>
       <CarouselContent>
         {tabs.map((tab) => (
-          <CarouselIteratee key={tab.title} currentTab={currentTab}>
+          <CarouselIteratee
+            key={tab.title}
+            currentTab={currentTab}
+            setScrolling={setScrolling}
+          >
             {tab.component}
           </CarouselIteratee>
         ))}
@@ -51,12 +56,32 @@ const CarouselContainer: FC<CarouselProps> = ({
 const CarouselIteratee: FC<{
   children: FC;
   currentTab: CarouselProps['currentTab'];
-}> = ({ children: Component, currentTab }) => {
+  setScrolling: Dispatch<SetStateAction<boolean>>;
+}> = ({ children: Component, currentTab, setScrolling }) => {
   const viewportRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     handleScrollToTop(viewportRef);
   }, [currentTab]);
+
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+
+    const handleScroll = () => {
+      setScrolling(true);
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        setScrolling(false);
+      }, 300);
+    };
+
+    viewportRef.current?.addEventListener('scroll', handleScroll);
+
+    return () => {
+      viewportRef.current?.removeEventListener('scroll', handleScroll);
+      clearTimeout(timeoutId);
+    };
+  }, []);
 
   return (
     <CarouselItem>
@@ -75,6 +100,7 @@ const handleScrollToTop = (viewportRef: RefObject<HTMLDivElement>) => {
 type CarouselProps = {
   currentTab: SetStateAction<DashboardContextType['currentTab']>;
   setCurrentTab: Dispatch<SetStateAction<DashboardContextType['currentTab']>>;
+  setScrolling: Dispatch<SetStateAction<boolean>>;
 };
 
 export default CarouselContainer;

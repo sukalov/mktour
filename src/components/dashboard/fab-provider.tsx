@@ -5,9 +5,17 @@ import { Status } from '@/lib/db/hooks/use-status-in-tournament';
 import { Shuffle } from 'lucide-react';
 import { FC } from 'react';
 
-const FabProvider: FC<FabProviderProps> = ({ status, currentTab }) => {
+const FabProvider: FC<FabProviderProps> = ({
+  status,
+  currentTab,
+  scrolling,
+}) => {
   if (status !== 'organizer') return null;
-  return fabTabMap[currentTab];
+  return (
+    <div className={`${scrolling && 'opacity-50'}`}>
+      {fabTabMap[currentTab]}
+    </div>
+  );
 };
 
 const fabTabMap = {
@@ -19,6 +27,7 @@ const fabTabMap = {
 type FabProviderProps = {
   status: Status;
   currentTab: TabType['title'];
+  scrolling: boolean;
 };
 
 export default FabProvider;

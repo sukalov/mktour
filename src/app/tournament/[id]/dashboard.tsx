@@ -31,6 +31,8 @@ const Dashboard: FC<TournamentPageContentProps> = ({
     getWsConfig(session),
   );
 
+  const [scrolling, setScrolling] = useState(false);
+
   useEffect(() => {
     tournament.init(state);
     getPossiblePlayers(id, state, {
@@ -53,8 +55,13 @@ const Dashboard: FC<TournamentPageContentProps> = ({
       <CarouselContainer
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
+        setScrolling={setScrolling}
       />
-      <FabProvider status={status} currentTab={currentTab} />
+      <FabProvider
+        status={status}
+        currentTab={currentTab}
+        scrolling={scrolling}
+      />
     </DashboardContext.Provider>
   );
 };
