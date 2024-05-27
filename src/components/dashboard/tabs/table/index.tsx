@@ -51,9 +51,13 @@ const TournamentTable: FC = () => {
             <TableCell className="font-small max-w-[150px] truncate pl-0">
               {player.nickname}
             </TableCell>
-            <TableCell className="px-1 font-medium text-center">{player.wins}</TableCell>
-            <TableCell className="px-1 font-medium text-center">{player.draws}</TableCell>
-            <TableCell className="px-1 pr-2 font-medium text-center">
+            <TableCell className="px-1 text-center font-medium">
+              {player.wins}
+            </TableCell>
+            <TableCell className="px-1 text-center font-medium">
+              {player.draws}
+            </TableCell>
+            <TableCell className="px-1 pr-2 text-center font-medium">
               {player.losses}
             </TableCell>
           </TableRow>

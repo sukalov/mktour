@@ -21,7 +21,7 @@ const AddPlayerDrawer = () => {
   const handleClose = () => {
     setOpen(false);
     setAddingNewPlayer(false);
-    setValue('')
+    setValue('');
   };
 
   const handleAddPlayer = (props: HandlerProps) => {

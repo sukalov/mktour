@@ -1,4 +1,3 @@
 export default function AboutPage() {
-    return <p>questions</p>;
-  }
-  
+  return <p>questions</p>;
+}

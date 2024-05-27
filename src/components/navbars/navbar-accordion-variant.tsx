@@ -89,21 +89,22 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
       >
         {navbarItems.map((item, idx) => (
           <div key={idx}>
-            {!item.submenu ?
-            <MenuItem key={idx}>
-              <Link
-                href={item.path}
-                onClick={() => toggleOpen()}
-                className={`flex w-full text-2xl ${
-                  item.path === pathname ? 'font-bold' : ''
-                }`}
-              >
-                {item.title}
-              </Link>
-            </MenuItem> :
-            <MenuItemWithSubMenu toggleOpen={toggleOpen} item={item} />
-              }
-              <MenuItem className="my-3 h-px w-full bg-gray-300" />
+            {!item.submenu ? (
+              <MenuItem key={idx}>
+                <Link
+                  href={item.path}
+                  onClick={() => toggleOpen()}
+                  className={`flex w-full text-2xl ${
+                    item.path === pathname ? 'font-bold' : ''
+                  }`}
+                >
+                  {item.title}
+                </Link>
+              </MenuItem>
+            ) : (
+              <MenuItemWithSubMenu toggleOpen={toggleOpen} item={item} />
+            )}
+            <MenuItem className="my-3 h-px w-full bg-gray-300" />
           </div>
         ))}
         <MenuItem>
@@ -202,7 +203,7 @@ const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({
           className="flex w-full text-2xl"
           onClick={() => setSubMenuOpen(!subMenuOpen)}
         >
-          <div className="flex flex-row justify-between w-full items-center">
+          <div className="flex w-full flex-row items-center justify-between">
             <span
               className={`${pathname.includes(item.path) ? 'font-bold' : ''}`}
             >
@@ -214,7 +215,7 @@ const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({
           </div>
         </button>
       </MenuItem>
-      <div className="mt-2 ml-2 flex flex-col space-y-2">
+      <div className="ml-2 mt-2 flex flex-col space-y-2">
         {subMenuOpen && (
           <>
             {item.subMenuItems.map((subItem: NavbarItem, subIdx: number) => {

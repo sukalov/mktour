@@ -196,14 +196,12 @@ const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({
     <>
       <MenuItem>
         <Link
-          className={`flex text-2xl ${
-            item.path=== pathname ? selected : ''
-          }`}
+          className={`flex text-2xl ${item.path === pathname ? selected : ''}`}
           onClick={() => toggleOpen()}
           href={item.path}
         >
           {/* <div className="flex w-full flex-row items-center justify-between"> */}
-            {item.title}
+          {item.title}
           {/* </div> */}
         </Link>
       </MenuItem>

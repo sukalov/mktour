@@ -1,4 +1,4 @@
-import { SubNavbarItem } from "@/components/navbars/subnavbar";
+import { SubNavbarItem } from '@/components/navbars/subnavbar';
 
 export const aboutNavbarItems: SubNavbarItem[] = [
   {

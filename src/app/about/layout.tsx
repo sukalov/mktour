@@ -9,11 +9,7 @@ export default async function AboutPageLayout({
   const { user } = await validateRequest();
   return (
     <div>
-      <SubNavbar
-        user={user}
-        items={aboutNavbarItems}
-        root="/about/"
-      />
+      <SubNavbar user={user} items={aboutNavbarItems} root="/about/" />
       <div className="pt-12">{children}</div>
     </div>
   );

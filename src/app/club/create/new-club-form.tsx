@@ -51,7 +51,7 @@ export default function NewClubForm({ clubs, user, teams }: NewClubFormProps) {
 
   return (
     <Form {...form}>
-            <h2
+      <h2
         className={`m-2 text-center text-4xl font-bold ${turboPascal.className}`}
       >
         new club

@@ -13,7 +13,11 @@ export default async function TournamentsPageLayout({
   }));
   return (
     <div>
-      <SubNavbar user={user} items={tournamentsNavbarFixed} root="/tournaments/" />
+      <SubNavbar
+        user={user}
+        items={tournamentsNavbarFixed}
+        root="/tournaments/"
+      />
       <div className="pt-12">{children}</div>
     </div>
   );

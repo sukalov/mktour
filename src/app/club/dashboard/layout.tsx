@@ -15,7 +15,7 @@ export default async function ClubsPageLayout({
         root="/club/dashboard/"
       />
       <div className="mx-4 pt-12">{children}</div> */}
-      <div className='m-4'>{children}</div>
+      <div className="m-4">{children}</div>
       <BottomNavigation
         user={user}
         items={clubDashboardNavbarItems}
