@@ -9,11 +9,12 @@ import AddPlayer from '@/components/dashboard/tabs/table/add-player/add-player';
 import FabClose from '@/components/dashboard/tabs/table/add-player/fab-close';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Plus, UserPlus } from 'lucide-react';
-import { useContext, useState } from 'react';
+import { Dispatch, SetStateAction, useContext, useState } from 'react';
 import { Drawer } from 'vaul';
 
 const AddPlayerDrawer = () => {
   const [open, setOpen] = useState(false);
+  const [value, setValue] = useState('');
   const [addingNewPlayer, setAddingNewPlayer] = useState(false);
   const { sendJsonMessage } = useContext(DashboardContext);
 
@@ -57,9 +58,17 @@ const AddPlayerDrawer = () => {
             </Button>
             <div className="absolute h-1 w-full shadow-red-600 drop-shadow-2xl"></div>
             {addingNewPlayer ? (
-              <AddNewPlayer handleAddPlayer={handleAddPlayer} />
+              <AddNewPlayer
+                handleAddPlayer={handleAddPlayer}
+                value={value}
+                setValue={setValue}
+              />
             ) : (
-              <AddPlayer handleAddPlayer={handleAddPlayer} />
+              <AddPlayer
+                handleAddPlayer={handleAddPlayer}
+                value={value}
+                setValue={setValue}
+              />
             )}
           </div>
           <FabClose onClick={() => setOpen(false)} />
@@ -71,6 +80,8 @@ const AddPlayerDrawer = () => {
 
 export type DrawerProps = {
   handleAddPlayer: (arg0: HandlerProps) => void;
+  value: string;
+  setValue: Dispatch<SetStateAction<string>>;
 };
 
 export type HandlerProps =

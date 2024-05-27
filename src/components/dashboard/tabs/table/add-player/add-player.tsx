@@ -6,10 +6,9 @@ import {
   DatabasePlayerSlice,
   useTournamentStore,
 } from '@/lib/hooks/use-tournament-store';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 
-const AddPlayer: FC<any> = ({ handleAddPlayer }) => {
-  const [value, setValue] = useState('');
+const AddPlayer: FC<any> = ({ handleAddPlayer, value, setValue }) => {
   const { possiblePlayers, players } = useTournamentStore();
   const filteredPlayers = possiblePlayers.filter(
     (player: DatabasePlayerSlice) => {

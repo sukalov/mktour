@@ -16,19 +16,29 @@ import {
 } from '@/lib/zod/new-player-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2, Save } from 'lucide-react';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
-const AddNewPlayer: FC<DrawerProps> = ({ handleAddPlayer }) => {
+const AddNewPlayer: FC<DrawerProps> = ({
+  handleAddPlayer,
+  value,
+  setValue,
+}) => {
   const form = useForm<NewPlayerFormType>({
     resolver: zodResolver(newPlayerFormSchema),
     defaultValues: {
-      name: '',
+      name: value,
       rating: 1500,
       club_id: useTournamentStore.getState().organizer.id,
     },
     reValidateMode: 'onSubmit',
   });
+
+  const name = form.getValues('name');
+
+  useEffect(() => {
+    setValue(name);
+  }, [name]);
 
   function onSubmit({ name, rating }: NewPlayerFormType) {
     handleAddPlayer({ type: 'new', name, rating });
