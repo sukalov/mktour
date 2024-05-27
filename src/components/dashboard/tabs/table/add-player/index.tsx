@@ -21,6 +21,7 @@ const AddPlayerDrawer = () => {
   const handleClose = () => {
     setOpen(false);
     setAddingNewPlayer(false);
+    setValue('')
   };
 
   const handleAddPlayer = (props: HandlerProps) => {
@@ -28,6 +29,7 @@ const AddPlayerDrawer = () => {
       onClickAddExistingPlayer(props.id, sendJsonMessage);
     else onClickAddNewPlayer(props.name, props.rating, sendJsonMessage);
     setOpen(false);
+    setValue('');
   };
 
   return (
