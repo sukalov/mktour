@@ -7,7 +7,15 @@ import {
   CarouselItem,
 } from '@/components/ui/carousel';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
+import {
+  Dispatch,
+  FC,
+  RefObject,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 const CarouselContainer: FC<CarouselProps> = ({
   currentTab,
@@ -31,21 +39,37 @@ const CarouselContainer: FC<CarouselProps> = ({
     <Carousel setApi={setApi} opts={{ loop: true }}>
       <CarouselContent>
         {tabs.map((tab) => (
-          <CarouselIteratee key={tab.title}>{tab.component}</CarouselIteratee>
+          <CarouselIteratee key={tab.title} currentTab={currentTab}>
+            {tab.component}
+          </CarouselIteratee>
         ))}
       </CarouselContent>
     </Carousel>
   );
 };
 
-const CarouselIteratee: FC<{ children: FC }> = ({ children: Component }) => {
+const CarouselIteratee: FC<{
+  children: FC;
+  currentTab: CarouselProps['currentTab'];
+}> = ({ children: Component, currentTab }) => {
+  const viewportRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    handleScrollToTop(viewportRef);
+  }, [currentTab]);
+
   return (
     <CarouselItem>
-      <ScrollArea className="mt-10 h-[85svh]">
+      <ScrollArea viewportRef={viewportRef} className="mt-10 h-[85svh]">
         <Component />
       </ScrollArea>
     </CarouselItem>
   );
+};
+
+const handleScrollToTop = (viewportRef: RefObject<HTMLDivElement>) => {
+  if (viewportRef.current !== null)
+    viewportRef.current.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
 type CarouselProps = {

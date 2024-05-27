@@ -41,11 +41,6 @@ const Dashboard: FC<TournamentPageContentProps> = ({
     });
   }, []);
 
-  useEffect(() => {
-    // FIXME Might be redundant after ScrollArea is in use
-    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-  }, [currentTab]);
-
   return (
     <DashboardContext.Provider
       value={{
