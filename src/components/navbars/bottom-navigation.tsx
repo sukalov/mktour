@@ -11,14 +11,14 @@ export default function BottomNavigation({
   items,
   root,
 }: SubNavbarProps) {
+  const preparedItems = items.filter(
+    (item) => user || (!user && !item.userOnly),
+  );
   return (
     <nav className="fixed bottom-4 left-0 right-0 mx-4 flex justify-between">
-      {items.map(
-        (item) =>
-          (user || (!user && !item.userOnly)) && (
-            <NavItem key={item.path} item={item} user={user} root={root} />
-          ),
-      )}
+      {preparedItems.map((item) => (
+        <NavItem key={item.path} item={item} user={user} root={root} />
+      ))}
     </nav>
   );
 }
@@ -38,7 +38,7 @@ const NavItem: React.FC<{
   return (
     <Link href={`${root}${item.path}`}>
       <div
-        className={`flex flex-col items-center justify-center gap-2 ${style} transition-all duration-500`}
+        className={`flex flex-col items-center justify-center gap-2 ${style} transition-all duration-300`}
       >
         <Logo />
         <Label style={{ fontSize: '12px' }}>{item.title}</Label>

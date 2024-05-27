@@ -7,18 +7,17 @@ import { Link } from 'next-view-transitions';
 import { useSelectedLayoutSegment } from 'next/navigation';
 
 export default function SubNavbar({ user, items, root }: SubNavbarProps) {
+  const preparedItems = items.filter(
+    (item) => user || (!user && !item.userOnly),
+  );
   return (
     <nav className="fixed z-30 flex max-h-10 w-full min-w-max flex-row items-center justify-between bg-background p-4 pl-0">
       <ScrollArea
         className="flex w-full flex-grow justify-start"
         aria-orientation="horizontal"
       >
-        {items.map((item) => (
-          <>
-            {(user || (!user && !item.userOnly)) && (
-              <NavItem key={item.path} item={item} user={user} root={root} />
-            )}
-          </>
+        {preparedItems.map((item) => (
+          <NavItem key={item.path} item={item} user={user} root={root} />
         ))}
       </ScrollArea>
     </nav>
