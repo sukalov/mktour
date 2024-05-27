@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+
 export default function MyTournamentsPage () {
-    return <p>my tournaments page</p>
+    redirect('/tournaments/all')
 }

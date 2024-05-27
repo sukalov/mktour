@@ -14,6 +14,10 @@ import { usePathname, useRouter } from 'next/navigation';
 import { FC, ReactNode, useContext, useEffect, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 
+const selected =
+  'py-1 px-3 -ml-1.5 bg-primary text-primary-foreground w-fit rounded-sm';
+// const selected = 'underline underline-offset-4 font-bold'
+
 export default function Navbar({ user, node_env }: NavbarProps) {
   if (node_env === 'production')
     console.log(
@@ -22,14 +26,6 @@ export default function Navbar({ user, node_env }: NavbarProps) {
   const pathname = usePathname().split('/')[1];
   const isTournament = pathname === 'tournament';
 
-  // const [tournament] =
-  //   useLocalStorageState<
-  //     Pick<
-  //       DashboardContextType,
-  //       'currentRound' | 'games' | 'players' | 'tournament'
-  //     >
-  //   >('tournament');
-
   return (
     <nav className="fixed z-50 flex max-h-14 w-full min-w-max flex-row items-center justify-between border-b bg-background p-4 md:pl-4">
       <div className="flex flex-grow justify-start">
@@ -37,9 +33,6 @@ export default function Navbar({ user, node_env }: NavbarProps) {
           <MktourNavbar isTournament={isTournament} />
         </Link>
       </div>
-      {/* <div className="fixed left-0 right-0 top-5 z-50 m-auto w-[300px] max-w-[50%] truncate text-center text-xs opacity-30">
-        {isTournament && tournamentTitle}
-      </div> */}
       <Motion pathname={pathname} user={user} />
       <AuthButton user={user} className="hidden md:block" />
       <ModeToggler className="hidden md:block" />
@@ -60,7 +53,7 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
     setLocale(locale === 'en' ? 'ru' : 'en');
   };
   const handleSignOut = async () => {
-    toggleOpen()
+    toggleOpen();
     const response = await fetch('/api/sign-out', {
       method: 'POST',
       redirect: 'manual',
@@ -94,8 +87,8 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
                 <Link
                   href={item.path}
                   onClick={() => toggleOpen()}
-                  className={`flex w-full text-2xl ${
-                    item.path === pathname ? 'font-bold' : ''
+                  className={`text-2xl ${
+                    item.path.replaceAll('/', '') === pathname ? selected : ''
                   }`}
                 >
                   {item.title}
@@ -109,7 +102,11 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
         ))}
         <MenuItem>
           {!user ? (
-            <Link className="text-2xl" href="/login/lichess" onClick={() => toggleOpen()}>
+            <Link
+              className="text-2xl"
+              href="/login/lichess"
+              onClick={() => toggleOpen()}
+            >
               sign in with lichess
             </Link>
           ) : (
@@ -199,17 +196,15 @@ const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({
     <>
       <MenuItem>
         <Link
-          className="flex w-full text-2xl"
+          className={`flex text-2xl ${
+            item.path=== pathname ? selected : ''
+          }`}
           onClick={() => toggleOpen()}
           href={item.path}
         >
-          <div className="flex w-full flex-row items-center justify-between">
-            <span
-              className={`${pathname.includes(item.path) ? 'font-bold' : ''}`}
-            >
-              {item.title}
-            </span>
-          </div>
+          {/* <div className="flex w-full flex-row items-center justify-between"> */}
+            {item.title}
+          {/* </div> */}
         </Link>
       </MenuItem>
       <div className="ml-4 mt-2 flex flex-col space-y-2">
@@ -219,7 +214,7 @@ const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({
               <Link
                 href={subItem.path}
                 onClick={() => toggleOpen()}
-                className={` ${subItem.path === pathname ? 'font-bold' : ''}`}
+                className={` ${pathname.includes(subItem.path) ? selected : ''}`}
               >
                 {subItem.title}
               </Link>
