@@ -69,11 +69,12 @@ const TournamentTable: FC = () => {
 
 const TableStatsHeads = () => {
   const isMobile = useMediaQuery({ maxWidth: 500 });
-  const [titles, setTitles] = useState(['wins', 'draws', 'losses']);
+  const defaultValues = ['wins', 'draws', 'losses']
+  const [titles, setTitles] = useState(defaultValues);
 
   useEffect(() => {
-    isMobile ?? setTitles(titles.map((title) => title.slice(0, 1)));
-  }, [isMobile, setTitles, titles]);
+    isMobile ? setTitles(titles.map((title) => title.slice(0, 1))) : setTitles(defaultValues);
+  }, [isMobile, setTitles, titles, defaultValues]);
 
   return (
     <>
