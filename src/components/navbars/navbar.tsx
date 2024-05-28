@@ -7,16 +7,15 @@ import ModeTogglerMobile from '@/components/navbars/mode-toggler-mobile';
 import { navbarItems } from '@/components/navbars/navbar-items';
 import { Button } from '@/components/ui/button';
 import MktourNavbar from '@/components/ui/mktour-logo-navbar';
-import { motion, useCycle } from 'framer-motion';
+import { MotionProps, motion, useCycle } from 'framer-motion';
 import { User } from 'lucia';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { FC, ReactNode, useContext, useEffect, useRef } from 'react';
+import { FC, ReactNode, useContext, useEffect, useMemo, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 const selected =
   'py-1 px-3 -ml-1.5 bg-primary text-primary-foreground w-fit rounded-sm';
-// const selected = 'underline underline-offset-4 font-bold'
 
 export default function Navbar({ user, node_env }: NavbarProps) {
   if (node_env === 'production')
@@ -62,6 +61,35 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
       return router.refresh();
     }
   };
+
+  const variants = useMemo(() => ({
+    open: {
+      transition: { staggerChildren: 0.02, delayChildren: 0.15 },
+    },
+    closed: {
+      transition: { staggerChildren: 0.01, staggerDirection: -1 },
+    },
+  }), []);
+
+  const sidebar = useMemo(() => ({
+    open: (height = 1000) => ({
+      clipPath: `circle(${height * 2 + 200}px at 100% 0)`,
+      transition: {
+        type: 'spring',
+        stiffness: 20,
+        restDelta: 2,
+      },
+    }),
+    closed: {
+      clipPath: 'circle(0px at 100% 0)',
+      transition: {
+        type: 'spring',
+        stiffness: 400,
+        damping: 40,
+      },
+    },
+  }), []);
+
   return (
     <motion.nav
       initial={false}
@@ -145,9 +173,8 @@ const MenuToggle = ({ toggle }: { toggle: any }) => (
         }}
       />
       <Path
-        d="M 2 9.423 L 20 9.423"
         variants={{
-          closed: { opacity: 1 },
+          closed: { d: "M 2 9.423 L 20 9.423", opacity: 1 },
           open: { opacity: 0 },
         }}
         transition={{ duration: 0.1 }}
@@ -163,7 +190,7 @@ const MenuToggle = ({ toggle }: { toggle: any }) => (
   </button>
 );
 
-const Path = (props: any) => (
+const Path = (props: MotionProps) => (
   <motion.path
     className="fill-primary stroke-primary"
     strokeWidth="2"
@@ -255,33 +282,6 @@ const MenuItemVariants = {
   },
 };
 
-const variants = {
-  open: {
-    transition: { staggerChildren: 0.02, delayChildren: 0.15 },
-  },
-  closed: {
-    transition: { staggerChildren: 0.01, staggerDirection: -1 },
-  },
-};
-
-const sidebar = {
-  open: (height = 1000) => ({
-    clipPath: `circle(${height * 2 + 200}px at 100% 0)`,
-    transition: {
-      type: 'spring',
-      stiffness: 20,
-      restDelta: 2,
-    },
-  }),
-  closed: {
-    clipPath: 'circle(0px at 100% 0)',
-    transition: {
-      type: 'spring',
-      stiffness: 400,
-      damping: 40,
-    },
-  },
-};
 
 type NavbarProps = {
   user: User | null;

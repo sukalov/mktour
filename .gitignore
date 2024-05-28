@@ -40,3 +40,5 @@ next-env.d.ts
 
 # local urls
 src/lib/config/urls.ts
+
+.million

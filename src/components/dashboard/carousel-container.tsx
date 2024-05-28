@@ -15,6 +15,7 @@ import {
   useEffect,
   useRef,
   useState,
+  useCallback,
 } from 'react';
 
 const CarouselContainer: FC<CarouselProps> = ({
@@ -25,16 +26,17 @@ const CarouselContainer: FC<CarouselProps> = ({
   const [api, setApi] = useState<CarouselApi>();
   const indexOfTab = tabs.findIndex((tab) => tab.title === currentTab);
 
+  const handleSelect = useCallback(() => {
+    if (!api) return;
+    const num = api.selectedScrollSnap();
+    setCurrentTab(tabs[num].title);
+  }, [api, setCurrentTab]);
+
   useEffect(() => {
-    if (!api) {
-      return;
-    }
-    api.on('select', () => {
-      let num = api.selectedScrollSnap();
-      setCurrentTab(tabs[num].title);
-    });
+    if (!api) return;
+    api.on('select', handleSelect);
     if (currentTab) api.scrollTo(indexOfTab);
-  }, [api, currentTab, indexOfTab, setCurrentTab, tabs]);
+  }, [api, currentTab, indexOfTab, handleSelect]);
 
   return (
     <Carousel setApi={setApi} opts={{ loop: true }}>
@@ -81,7 +83,7 @@ const CarouselIteratee: FC<{
       viewportRef.current?.removeEventListener('scroll', handleScroll);
       clearTimeout(timeoutId);
     };
-  }, []);
+  }, [setScrolling]);
 
   return (
     <CarouselItem>
