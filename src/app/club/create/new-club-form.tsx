@@ -23,7 +23,7 @@ import { Loader2 } from 'lucide-react';
 import * as React from 'react';
 import { UseFormReturn, useForm } from 'react-hook-form';
 
-export default function NewClubForm({ clubs, user, teams }: NewClubFormProps) {
+export default function NewClubForm({ teams }: NewClubFormProps) {
   const form = useForm<NewClubFormType>({
     resolver: zodResolver(newClubFormSchema),
     defaultValues: {

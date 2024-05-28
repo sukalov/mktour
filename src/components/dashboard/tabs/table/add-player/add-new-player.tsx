@@ -38,7 +38,7 @@ const AddNewPlayer: FC<DrawerProps> = ({
 
   useEffect(() => {
     setValue(name);
-  }, [name]);
+  }, [name, setValue]);
 
   function onSubmit({ name, rating }: NewPlayerFormType) {
     handleAddPlayer({ type: 'new', name, rating });

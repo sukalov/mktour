@@ -12,10 +12,10 @@ import {
   FC,
   RefObject,
   SetStateAction,
+  useCallback,
   useEffect,
   useRef,
   useState,
-  useCallback,
 } from 'react';
 
 const CarouselContainer: FC<CarouselProps> = ({
@@ -68,6 +68,7 @@ const CarouselIteratee: FC<{
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
+    const viewportRefCopy = viewportRef.current;
 
     const handleScroll = () => {
       setScrolling(true);
@@ -77,10 +78,10 @@ const CarouselIteratee: FC<{
       }, 300);
     };
 
-    viewportRef.current?.addEventListener('scroll', handleScroll);
+    viewportRefCopy?.addEventListener('scroll', handleScroll);
 
     return () => {
-      viewportRef.current?.removeEventListener('scroll', handleScroll);
+      viewportRefCopy?.removeEventListener('scroll', handleScroll);
       clearTimeout(timeoutId);
     };
   }, [setScrolling]);

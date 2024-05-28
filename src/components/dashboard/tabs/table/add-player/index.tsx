@@ -81,7 +81,7 @@ const AddPlayerDrawer = () => {
 };
 
 export type DrawerProps = {
-  handleAddPlayer: (arg0: HandlerProps) => void;
+  handleAddPlayer: (_arg0: HandlerProps) => void;
   value: string;
   setValue: Dispatch<SetStateAction<string>>;
 };

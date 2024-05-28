@@ -62,33 +62,39 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
     }
   };
 
-  const variants = useMemo(() => ({
-    open: {
-      transition: { staggerChildren: 0.02, delayChildren: 0.15 },
-    },
-    closed: {
-      transition: { staggerChildren: 0.01, staggerDirection: -1 },
-    },
-  }), []);
-
-  const sidebar = useMemo(() => ({
-    open: (height = 1000) => ({
-      clipPath: `circle(${height * 2 + 200}px at 100% 0)`,
-      transition: {
-        type: 'spring',
-        stiffness: 20,
-        restDelta: 2,
+  const variants = useMemo(
+    () => ({
+      open: {
+        transition: { staggerChildren: 0.02, delayChildren: 0.15 },
+      },
+      closed: {
+        transition: { staggerChildren: 0.01, staggerDirection: -1 },
       },
     }),
-    closed: {
-      clipPath: 'circle(0px at 100% 0)',
-      transition: {
-        type: 'spring',
-        stiffness: 400,
-        damping: 40,
+    [],
+  );
+
+  const sidebar = useMemo(
+    () => ({
+      open: (height = 1000) => ({
+        clipPath: `circle(${height * 2 + 200}px at 100% 0)`,
+        transition: {
+          type: 'spring',
+          stiffness: 20,
+          restDelta: 2,
+        },
+      }),
+      closed: {
+        clipPath: 'circle(0px at 100% 0)',
+        transition: {
+          type: 'spring',
+          stiffness: 400,
+          damping: 40,
+        },
       },
-    },
-  }), []);
+    }),
+    [],
+  );
 
   return (
     <motion.nav
@@ -174,7 +180,7 @@ const MenuToggle = ({ toggle }: { toggle: any }) => (
       />
       <Path
         variants={{
-          closed: { d: "M 2 9.423 L 20 9.423", opacity: 1 },
+          closed: { d: 'M 2 9.423 L 20 9.423', opacity: 1 },
           open: { opacity: 0 },
         }}
         transition={{ duration: 0.1 }}
@@ -281,7 +287,6 @@ const MenuItemVariants = {
     },
   },
 };
-
 
 type NavbarProps = {
   user: User | null;

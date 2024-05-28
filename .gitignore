@@ -42,3 +42,4 @@ next-env.d.ts
 src/lib/config/urls.ts
 
 .million
+.archive

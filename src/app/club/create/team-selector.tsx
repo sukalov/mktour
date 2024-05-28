@@ -45,7 +45,7 @@ export function TeamSelector({ teams, form }: TeamSelectorProps) {
                   id="removeSelection"
                   className="h-[30px] w-full justify-start pl-8"
                   variant="ghost"
-                  onClick={(e) => {
+                  onClick={() => {
                     form.resetField('lichess_team');
                     setState(!state);
                   }}

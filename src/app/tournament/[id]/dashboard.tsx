@@ -9,11 +9,12 @@ import FabProvider from '@/components/dashboard/fab-provider';
 import getPossiblePlayers from '@/components/dashboard/helpers/get-possible-players';
 import getWsConfig from '@/components/dashboard/helpers/get-ws-config';
 import TabsContainer from '@/components/dashboard/tabs-container';
+import useInit from '@/components/hooks/use-init';
 import { SOCKET_URL } from '@/lib/config/urls';
 import { Status } from '@/lib/db/hooks/use-status-in-tournament';
 import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
 import { GameModel, TournamentModel } from '@/types/tournaments';
-import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 import useWebSocket from 'react-use-websocket';
 
 const Dashboard: FC<TournamentPageContentProps> = ({
@@ -33,7 +34,7 @@ const Dashboard: FC<TournamentPageContentProps> = ({
 
   const [scrolling, setScrolling] = useState(false);
 
-  useEffect(() => {
+  useInit(() => {
     tournament.init(state);
     getPossiblePlayers(id, state, {
       isLoading,
@@ -41,7 +42,7 @@ const Dashboard: FC<TournamentPageContentProps> = ({
       possiblePlayers,
       ...tournament,
     });
-  }, []);
+  });
 
   return (
     <DashboardContext.Provider
