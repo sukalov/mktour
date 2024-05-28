@@ -6,10 +6,8 @@ import { sql } from 'drizzle-orm';
 
 export async function validateData({
   name,
-  club_id,
 }: {
   name: string;
-  club_id: string;
 }) {
   const isValid = await db
     .select()

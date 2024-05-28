@@ -52,7 +52,7 @@ export function TeamSelector({ teams, form }: TeamSelectorProps) {
                   style={{ pointerEvents: 'auto' }}
                 >
                   <X className="pr-2" />
-                  <span className="text-bold">don't link any team</span>
+                  <span className="text-bold">don&apos;t link any team</span>
                 </Button>
               )}
             </SelectContent>

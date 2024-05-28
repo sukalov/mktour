@@ -12,5 +12,7 @@ const nextConfig = {
     }
   }
 };
-module.exports = process.env.ANALYZE === 'true' ? withBundleAnalyzer(nextConfig) : 
-MillionLint.next({ rsc: true })(withAxiom(nextConfig));
+module.exports = process.env.ANALYZE === 'true' ? withBundleAnalyzer(nextConfig) :
+  process.env.OPT === 'true' 
+  ? MillionLint.next({ rsc: true })(withAxiom(nextConfig)) 
+  : withAxiom(nextConfig)
