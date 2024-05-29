@@ -4,14 +4,16 @@ import { FC } from 'react';
 
 const GameItemCompact: FC<GameProps> = ({ result, player1, player2 }) => {
   return (
-    <Card
-      className={`flex w-full justify-between border p-2 px-4 text-xs md:max-w-[250px]`}
-    >
-      <div className={`truncate ${result === '0-1' && 'opacity-30'}`}>
+    <Card className="grid w-full grid-cols-[1fr_auto_1fr] items-center border p-2 px-4 text-xs md:max-w-[250px]">
+      <div
+        className={`truncate ${result === '0-1' && 'opacity-30'} justify-self-start`}
+      >
         {player1}
       </div>
       <Result result={result} />
-      <div className={`truncate ${result === '1-0' && 'opacity-30'}`}>
+      <div
+        className={`truncate ${result === '1-0' && 'opacity-30'} justify-self-end`}
+      >
         {player2}
       </div>
     </Card>
@@ -26,7 +28,7 @@ const Result = ({ result }: { result: ResultModel | null }) => {
   if (!result) return null;
 
   return (
-    <div className="flex flex-grow justify-center gap-2">
+    <div className="flex flex-grow gap-2 justify-self-center">
       <div className={`${result === '0-1' && 'opacity-30'}`}>{resultP1}</div>
       <div>:</div>
       <div className={`${result === '1-0' && 'opacity-30'}`}>{resultP2}</div>
