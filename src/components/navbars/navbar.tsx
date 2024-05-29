@@ -5,7 +5,6 @@ import { LocaleContext } from '@/components/locale-context';
 import ModeToggler from '@/components/navbars/mode-toggler';
 import ModeTogglerMobile from '@/components/navbars/mode-toggler-mobile';
 import { NAVBAR_ITEMS } from '@/components/navbars/navbar-items';
-import { Button } from '@/components/ui/button';
 import MktourNavbar from '@/components/ui/mktour-logo-navbar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { MotionProps, motion, useCycle } from 'framer-motion';
@@ -16,7 +15,7 @@ import { FC, ReactNode, useContext, useEffect, useMemo, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 const selected =
-  'py-1 px-3 -ml-1.5 bg-primary text-primary-foreground w-fit rounded-sm';
+  'py-1 px-3 -ml-0 bg-primary text-primary-foreground w-fit rounded-sm';
 
 export default function Navbar({ user, node_env }: NavbarProps) {
   if (node_env === 'production')
@@ -113,7 +112,7 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
       />
       <motion.ul variants={variants}>
         <ScrollArea
-          className="offset-4 grid h-[100svh] w-full gap-2 px-10 py-8"
+          className="offset-4 grid h-[92svh] w-full gap-2 px-8 pb-4 pt-8"
           type="auto"
           noScrollbar
         >
@@ -125,7 +124,9 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
                     href={item.path}
                     onClick={() => toggleOpen()}
                     className={`text-2xl ${
-                      item.path.replaceAll('/', '') === pathname ? selected : ''
+                      pathname.includes(item.path.replaceAll('/', ''))
+                        ? selected
+                        : ''
                     }`}
                   >
                     {item.title}
@@ -140,7 +141,7 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
           <MenuItem>
             {!user ? (
               <Link
-                className="text-2xl"
+                className="ml-2 text-2xl"
                 href="/login/lichess"
                 onClick={() => toggleOpen()}
               >
@@ -148,7 +149,7 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
               </Link>
             ) : (
               <button
-                className="flex text-2xl"
+                className="ml-2 flex text-2xl"
                 name="log out"
                 onClick={handleSignOut}
               >
@@ -157,13 +158,13 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
             )}
             <div className="my-3 h-px w-full bg-transparent"></div>
           </MenuItem>
-          <MenuItem className="flex justify-end gap-6">
-            <Button variant={'ghost'} size={'icon'} onClick={handleClickLocale}>
-              {locale.toUpperCase()}
-            </Button>
-            <ModeTogglerMobile />
-          </MenuItem>
         </ScrollArea>
+        <MenuItem className="absolute bottom-4 grid w-full grid-flow-col-dense px-[30%] text-center child:flex child:flex-auto child:items-center child:justify-center">
+          <button className="z-30 w-full" onClick={handleClickLocale}>
+            {locale.toUpperCase()}
+          </button>
+          <ModeTogglerMobile />
+        </MenuItem>
       </motion.ul>
       <MenuToggle toggle={toggleOpen} />
     </motion.nav>
@@ -233,7 +234,7 @@ const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({
     <>
       <MenuItem>
         <Link
-          className={`flex text-2xl ${item.path === pathname ? selected : ''}`}
+          className={`flex text-2xl ${pathname.startsWith(item.path) ? selected : 'ml-3'}`}
           onClick={() => toggleOpen()}
           href={item.path}
         >
@@ -242,14 +243,14 @@ const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({
           </div>
         </Link>
       </MenuItem>
-      <div className="ml-4 mt-2 flex flex-col space-y-2">
+      <div className="ml-6 mt-2 flex flex-col space-y-2">
         {item.subMenuItems.map((subItem: NavbarItem, subIdx: number) => {
           return (
             <MenuItem key={subIdx}>
               <Link
                 href={subItem.path}
                 onClick={() => toggleOpen()}
-                className={` ${pathname.includes(subItem.path) ? selected : ''}`}
+                className={` ${pathname.includes(subItem.path) ? selected : 'ml-3'}`}
               >
                 {subItem.title}
               </Link>

@@ -3,5 +3,5 @@ import { redirect } from 'next/navigation';
 
 export default async function UserRoot() {
   const user = await getUser();
-  redirect(`/user/${user.username}`);
+  redirect(`/user/profile/${user.username}`);
 }

@@ -24,22 +24,22 @@ export const NAVBAR_ITEMS: NavbarItem[] = [
   },
   {
     title: 'about us',
-    path: '/about',
+    path: '/info/about',
     submenu: true,
     subMenuItems: [
       {
         title: 'FAQ',
-        path: '/about/faq',
+        path: '/info/faq',
       },
       {
         title: 'contact',
-        path: '/about/contact',
+        path: '/info/contact',
       },
     ],
   },
   {
     title: ' my profile',
-    path: '/user',
+    path: '/user/profile',
     userOnly: true,
     submenu: true,
     subMenuItems: [

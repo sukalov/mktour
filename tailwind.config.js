@@ -85,6 +85,10 @@ module.exports = {
   },
   plugins: [
     require('tailwindcss-animate'),
+    function ({ addVariant }) {
+      addVariant('child', '& > *');
+      addVariant('child-hover', '& > *:hover');
+    },
     plugin(function ({ addUtilities }) {
       addUtilities({
         '.no-scrollbar::-webkit-scrollbar': {

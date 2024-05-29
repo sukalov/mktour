@@ -50,7 +50,7 @@ const NavItem: React.FC<{
   const selection = useSelectedLayoutSegment() ?? '';
   const isActive = item.path === selection;
   const style = isActive
-    ? 'underline underline-offset-4 font-bold text-lg'
+    ? 'underline underline-offset-4'
     : 'hover:text-foreground/60';
   const Logo = (props: LogoProps) =>
     item.logo && (
@@ -72,11 +72,7 @@ const NavItem: React.FC<{
         {showTitles ? (
           <Label className="text-sm">{item.title}</Label>
         ) : isActive ? (
-          <Logo
-            size={21}
-            strokeWidth={3}
-            className="underline underline-offset-4"
-          />
+          <Logo size={21} strokeWidth={3.5} className="" />
         ) : (
           <Logo size={20} strokeWidth={2} />
         )}
