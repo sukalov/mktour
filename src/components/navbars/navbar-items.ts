@@ -1,15 +1,11 @@
-import { tournamentsNavbarItems } from '@/components/navbars/tournaments-navbar-items';
+import { TOURNAMENTS_NAVBAR_ITEMS } from '@/components/navbars/tournaments-navbar-items';
 
-export const navbarItems: NavbarItem[] = [
+export const NAVBAR_ITEMS: NavbarItem[] = [
   {
     title: 'club',
-    path: '/club',
+    path: '/club/dashboard',
     submenu: true,
     subMenuItems: [
-      {
-        title: 'dashboard',
-        path: '/club/dashboard',
-      },
       {
         title: 'all clubs',
         path: '/club/all',
@@ -22,9 +18,9 @@ export const navbarItems: NavbarItem[] = [
   },
   {
     title: 'tournaments',
-    path: '/tournaments',
+    path: '/tournaments/my',
     submenu: true,
-    subMenuItems: tournamentsNavbarItems,
+    subMenuItems: TOURNAMENTS_NAVBAR_ITEMS,
   },
   {
     title: 'about us',

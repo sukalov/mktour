@@ -10,12 +10,11 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Dispatch,
   FC,
-  RefObject,
   SetStateAction,
   useCallback,
   useEffect,
   useRef,
-  useState,
+  useState
 } from 'react';
 
 const CarouselContainer: FC<CarouselProps> = ({
@@ -62,9 +61,9 @@ const CarouselIteratee: FC<{
 }> = ({ children: Component, currentTab, setScrolling }) => {
   const viewportRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    handleScrollToTop(viewportRef);
-  }, [currentTab]);
+  // useEffect(() => {
+  //   handleScrollToTop(viewportRef);
+  // }, [currentTab]);
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
@@ -95,10 +94,10 @@ const CarouselIteratee: FC<{
   );
 };
 
-const handleScrollToTop = (viewportRef: RefObject<HTMLDivElement>) => {
-  if (viewportRef.current !== null)
-    viewportRef.current.scrollTo({ top: 0, behavior: 'smooth' });
-};
+// const handleScrollToTop = (viewportRef: RefObject<HTMLDivElement>) => {
+//   if (viewportRef.current !== null)
+//     viewportRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+// };
 
 type CarouselProps = {
   currentTab: SetStateAction<DashboardContextType['currentTab']>;

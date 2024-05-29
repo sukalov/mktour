@@ -3,7 +3,7 @@
 import { SubNavbarItem } from '@/components/navbars/subnavbar';
 import { Flag, Home, Mail, Settings, Users } from 'lucide-react';
 
-export const clubDashboardNavbarItems: SubNavbarItem[] = [
+export const CLUB_DASHBOARD_NAVBAR_ITEMS: SubNavbarItem[] = [
   {
     title: 'main',
     path: '',

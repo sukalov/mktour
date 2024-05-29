@@ -1,13 +1,9 @@
 import { SubNavbarItem } from '@/components/navbars/subnavbar';
 
-export const tournamentsNavbarItems: SubNavbarItem[] = [
+export const TOURNAMENTS_NAVBAR_ITEMS: SubNavbarItem[] = [
   {
     title: 'all tournaments',
     path: '/tournaments/all',
-  },
-  {
-    title: 'my tournaments',
-    path: '/tournaments/my',
     userOnly: true,
   },
   {
