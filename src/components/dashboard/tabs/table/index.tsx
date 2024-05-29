@@ -15,6 +15,8 @@ import { FC, useContext, useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { useLongPress } from 'use-long-press';
 
+const DEFAULT_DASHBOARD_TABS = ['wins', 'draws', 'losses'];
+
 const TournamentTable: FC = () => {
   const { players } = useTournamentStore();
   const { status, sendJsonMessage } = useContext(DashboardContext);
@@ -69,12 +71,15 @@ const TournamentTable: FC = () => {
 
 const TableStatsHeads = () => {
   const isMobile = useMediaQuery({ maxWidth: 500 });
-  const defaultValues = ['wins', 'draws', 'losses']
-  const [titles, setTitles] = useState(defaultValues);
+  const [titles, setTitles] = useState(DEFAULT_DASHBOARD_TABS);
 
   useEffect(() => {
-    isMobile ? setTitles(titles.map((title) => title.slice(0, 1))) : setTitles(defaultValues);
-  }, [isMobile, setTitles, titles, defaultValues]);
+    if (isMobile) {
+      setTitles((prevTitles) => prevTitles.map((title) => title.slice(0, 1)));
+    } else {
+      setTitles(DEFAULT_DASHBOARD_TABS);
+    }
+  }, [isMobile]);
 
   return (
     <>
