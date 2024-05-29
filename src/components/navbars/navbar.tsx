@@ -7,6 +7,7 @@ import ModeTogglerMobile from '@/components/navbars/mode-toggler-mobile';
 import { NAVBAR_ITEMS } from '@/components/navbars/navbar-items';
 import { Button } from '@/components/ui/button';
 import MktourNavbar from '@/components/ui/mktour-logo-navbar';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { MotionProps, motion, useCycle } from 'framer-motion';
 import { User } from 'lucia';
 import Link from 'next/link';
@@ -110,56 +111,59 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
         className="absolute inset-0 right-0 w-full bg-secondary"
         variants={sidebar}
       />
-      <motion.ul
-        variants={variants}
-        className="absolute grid w-full gap-3 px-10 py-16"
-      >
-        {NAVBAR_ITEMS.map((item, idx) => (
-          <div key={idx}>
-            {!item.submenu ? (
-              <MenuItem key={idx}>
-                <Link
-                  href={item.path}
-                  onClick={() => toggleOpen()}
-                  className={`text-2xl ${
-                    item.path.replaceAll('/', '') === pathname ? selected : ''
-                  }`}
-                >
-                  {item.title}
-                </Link>
-              </MenuItem>
+      <motion.ul variants={variants}>
+        <ScrollArea
+          className="offset-4 grid h-[100svh] w-full gap-2 px-10 py-8"
+          type="auto"
+          noScrollbar
+        >
+          {NAVBAR_ITEMS.map((item, idx) => (
+            <div key={idx}>
+              {!item.submenu ? (
+                <MenuItem key={idx}>
+                  <Link
+                    href={item.path}
+                    onClick={() => toggleOpen()}
+                    className={`text-2xl ${
+                      item.path.replaceAll('/', '') === pathname ? selected : ''
+                    }`}
+                  >
+                    {item.title}
+                  </Link>
+                </MenuItem>
+              ) : (
+                <MenuItemWithSubMenu toggleOpen={toggleOpen} item={item} />
+              )}
+              <MenuItem className="my-3 h-px w-full bg-gray-300" />
+            </div>
+          ))}
+          <MenuItem>
+            {!user ? (
+              <Link
+                className="text-2xl"
+                href="/login/lichess"
+                onClick={() => toggleOpen()}
+              >
+                sign in with lichess
+              </Link>
             ) : (
-              <MenuItemWithSubMenu toggleOpen={toggleOpen} item={item} />
+              <button
+                className="flex text-2xl"
+                name="log out"
+                onClick={handleSignOut}
+              >
+                <FormattedMessage id="menu.logout" />
+              </button>
             )}
-            <MenuItem className="my-3 h-px w-full bg-gray-300" />
-          </div>
-        ))}
-        <MenuItem>
-          {!user ? (
-            <Link
-              className="text-2xl"
-              href="/login/lichess"
-              onClick={() => toggleOpen()}
-            >
-              sign in with lichess
-            </Link>
-          ) : (
-            <button
-              className="flex text-2xl"
-              name="log out"
-              onClick={handleSignOut}
-            >
-              <FormattedMessage id="menu.logout" />
-            </button>
-          )}
-          <div className="my-3 h-px w-full bg-transparent"></div>
-        </MenuItem>
-        <MenuItem className="flex justify-end gap-6">
-          <Button variant={'ghost'} size={'icon'} onClick={handleClickLocale}>
-            {locale.toUpperCase()}
-          </Button>
-          <ModeTogglerMobile />
-        </MenuItem>
+            <div className="my-3 h-px w-full bg-transparent"></div>
+          </MenuItem>
+          <MenuItem className="flex justify-end gap-6">
+            <Button variant={'ghost'} size={'icon'} onClick={handleClickLocale}>
+              {locale.toUpperCase()}
+            </Button>
+            <ModeTogglerMobile />
+          </MenuItem>
+        </ScrollArea>
       </motion.ul>
       <MenuToggle toggle={toggleOpen} />
     </motion.nav>
@@ -233,9 +237,9 @@ const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({
           onClick={() => toggleOpen()}
           href={item.path}
         >
-          {/* <div className="flex w-full flex-row items-center justify-between"> */}
-          {item.title}
-          {/* </div> */}
+          <div className="flex w-full flex-row items-center justify-between">
+            {item.title}
+          </div>
         </Link>
       </MenuItem>
       <div className="ml-4 mt-2 flex flex-col space-y-2">

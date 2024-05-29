@@ -14,7 +14,7 @@ import {
   useCallback,
   useEffect,
   useRef,
-  useState
+  useState,
 } from 'react';
 
 const CarouselContainer: FC<CarouselProps> = ({

@@ -19,14 +19,14 @@ export default function BottomNavigation({
     (item) => user || (!user && !item.userOnly),
   );
   const cols = `grid-cols-${items.length}`;
-  const isMobile = useMediaQuery({ maxWidth: 	640 });
+  const isMobile = useMediaQuery({ maxWidth: 640 });
   useEffect(() => {
     if (isMobile) setShowTitles(false);
     else setShowTitles(true);
   }, [isMobile]);
   return (
     <nav
-      className={`cols fixed z-30 h-12 w-full min-w-max bg-muted text-sm grid grid-flow-col ${cols} px-2 sm:flex sm:pl-4 flex-row sm:gap-8`}
+      className={`cols fixed z-30 grid h-10 w-full min-w-max grid-flow-col bg-muted text-sm ${cols} flex-row px-2 sm:flex sm:gap-8 sm:pl-4`}
     >
       {preparedItems.map((item) => (
         <NavItem
@@ -54,7 +54,11 @@ const NavItem: React.FC<{
     : 'hover:text-foreground/60';
   const Logo = (props: LogoProps) =>
     item.logo && (
-      <item.logo size={props.size} strokeWidth={props.strokeWidth} className={props.className} />
+      <item.logo
+        size={props.size}
+        strokeWidth={props.strokeWidth}
+        className={props.className}
+      />
     );
 
   return (
@@ -68,7 +72,11 @@ const NavItem: React.FC<{
         {showTitles ? (
           <Label className="text-sm">{item.title}</Label>
         ) : isActive ? (
-          <Logo size={21} strokeWidth={3} className='underline underline-offset-4'/>
+          <Logo
+            size={21}
+            strokeWidth={3}
+            className="underline underline-offset-4"
+          />
         ) : (
           <Logo size={20} strokeWidth={2} />
         )}

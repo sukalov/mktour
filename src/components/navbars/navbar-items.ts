@@ -31,11 +31,26 @@ export const NAVBAR_ITEMS: NavbarItem[] = [
         title: 'FAQ',
         path: '/about/faq',
       },
+      {
+        title: 'contact',
+        path: '/about/contact',
+      },
     ],
   },
   {
-    title: 'profile',
+    title: ' my profile',
     path: '/user',
     userOnly: true,
+    submenu: true,
+    subMenuItems: [
+      {
+        title: 'find people',
+        path: '/user/search',
+      },
+      {
+        title: 'edit profile',
+        path: '/user/edit',
+      },
+    ],
   },
 ];
