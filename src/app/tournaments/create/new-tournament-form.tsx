@@ -1,5 +1,6 @@
 'use client';
 
+import { turboPascal } from '@/app/fonts';
 import FormDatePicker from '@/app/tournaments/create/form-date-picker';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -72,8 +73,13 @@ export default function NewTournamentForm({
 
   return (
     <Form {...form}>
+      <h2
+        className={`m-2 text-center text-4xl font-bold ${turboPascal.className}`}
+      >
+        make tournament
+      </h2>
       <Card className="mx-auto max-w-[min(600px,98%)] border-none shadow-none sm:border-solid sm:shadow-sm">
-        <CardContent className="p-8">
+        <CardContent className="p-4 sm:p-8">
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex flex-col gap-8"
