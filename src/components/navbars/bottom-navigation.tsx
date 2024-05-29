@@ -26,7 +26,7 @@ export default function BottomNavigation({
   }, [isMobile]);
   return (
     <nav
-      className={`cols fixed z-30 grid h-10 w-full min-w-max grid-flow-col bg-muted text-sm ${cols} flex-row px-2 sm:flex sm:gap-8 sm:pl-4`}
+      className={`cols fixed z-30 grid h-10 w-full min-w-max grid-flow-col items-center bg-muted text-sm ${cols} gap-2 flex-row px-2 sm:flex sm:gap-8 sm:pl-4`}
     >
       {preparedItems.map((item) => (
         <NavItem
@@ -50,8 +50,8 @@ const NavItem: React.FC<{
   const selection = useSelectedLayoutSegment() ?? '';
   const isActive = item.path === selection;
   const style = isActive
-    ? 'underline underline-offset-4'
-    : 'hover:text-foreground/60';
+    ? 'bg-background py-1.5 px-2 rounded-sm'
+    : 'hover:text-foreground/60 px-2';
   const Logo = (props: LogoProps) =>
     item.logo && (
       <item.logo
@@ -65,16 +65,16 @@ const NavItem: React.FC<{
     <Link href={`${root}${item.path}`}>
       <div
         className={cn(
-          `flex h-full flex-col items-center justify-center gap-1 transition-all duration-300`,
+          `flex flex-col items-center justify-center gap-1`,
           style,
         )}
       >
         {showTitles ? (
           <Label className="text-sm">{item.title}</Label>
         ) : isActive ? (
-          <Logo size={21} strokeWidth={3.5} className="" />
+            <Logo size={18} strokeWidth={3} />
         ) : (
-          <Logo size={20} strokeWidth={2} />
+            <Logo size={18} strokeWidth={2} />
         )}
       </div>
     </Link>
