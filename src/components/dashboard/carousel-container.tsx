@@ -43,7 +43,7 @@ const CarouselContainer: FC<CarouselProps> = ({
         {tabs.map((tab) => (
           <CarouselIteratee
             key={tab.title}
-            currentTab={currentTab}
+            // currentTab={currentTab}
             setScrolling={setScrolling}
           >
             {tab.component}
@@ -56,9 +56,9 @@ const CarouselContainer: FC<CarouselProps> = ({
 
 const CarouselIteratee: FC<{
   children: FC;
-  currentTab: CarouselProps['currentTab'];
+  // currentTab: CarouselProps['currentTab'];
   setScrolling: Dispatch<SetStateAction<boolean>>;
-}> = ({ children: Component, currentTab, setScrolling }) => {
+}> = ({ children: Component, setScrolling }) => {
   const viewportRef = useRef<HTMLDivElement>(null);
 
   // useEffect(() => {
