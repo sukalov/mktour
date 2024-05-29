@@ -6,13 +6,13 @@ const GameItemCompact: FC<GameProps> = ({ result, player1, player2 }) => {
   return (
     <Card className="grid w-full grid-cols-[1fr_auto_1fr] items-center border px-4 py-2 text-xs md:max-w-[250px]">
       <div
-        className={`w-full truncate ${result === '0-1' && 'opacity-30'} justify-self-start`}
+        className={`max-w-full truncate ${result === '0-1' && 'opacity-30'} justify-self-start`}
       >
         {player1}
       </div>
       <Result result={result} />
       <div
-        className={`w-full truncate ${result === '1-0' && 'opacity-30'} justify-self-end`}
+        className={`max-w-full truncate ${result === '1-0' && 'opacity-30'} justify-self-end`}
       >
         {player2}
       </div>
