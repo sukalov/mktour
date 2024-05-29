@@ -1,5 +1,5 @@
-import BottomNavigation from '@/components/navbars/bottom-navigation';
 import { CLUB_DASHBOARD_NAVBAR_ITEMS } from '@/components/navbars/club-dashboard-navbar-items';
+import SubNavbar from '@/components/navbars/subnavbar';
 import { validateRequest } from '@/lib/auth/lucia';
 import { ReactNode } from 'react';
 
@@ -9,18 +9,7 @@ export default async function ClubsPageLayout({
   const { user } = await validateRequest();
   return (
     <div>
-      {/* <SubNavbar
-        user={user}
-        items={clubDashboardNavbarItems}
-        root="/club/dashboard/"
-  /> */}
-      {/* <div className="m-4">{children}</div> */}
-      {/* <BottomNavigation
-        user={user}
-        items={clubDashboardNavbarItems}
-        root="/club/dashboard/"
-      /> */}
-      <BottomNavigation
+      <SubNavbar
         user={user}
         items={CLUB_DASHBOARD_NAVBAR_ITEMS}
         root="/club/dashboard/"
