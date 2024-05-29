@@ -19,17 +19,14 @@ export default function BottomNavigation({
     (item) => user || (!user && !item.userOnly),
   );
   const cols = `grid-cols-${items.length}`;
-  const isMobile = useMediaQuery({ maxWidth: 500 });
+  const isMobile = useMediaQuery({ maxWidth: 	640 });
   useEffect(() => {
     if (isMobile) setShowTitles(false);
     else setShowTitles(true);
   }, [isMobile]);
-  const arrangement = isMobile
-    ? `grid grid-flow-row ${cols} px-2`
-    : 'flex flex-row gap-8 pl-2 w-full';
   return (
     <nav
-      className={`cols fixed z-30 h-12 w-full min-w-max bg-muted text-sm ${arrangement}`}
+      className={`cols fixed z-30 h-12 w-full min-w-max bg-muted text-sm grid grid-flow-col ${cols} px-2 sm:flex sm:pl-4 flex-row sm:gap-8`}
     >
       {preparedItems.map((item) => (
         <NavItem
