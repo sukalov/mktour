@@ -5,19 +5,20 @@
   "packageManager": "bun@1.1.8",
   "scripts": {
     "dev": "next dev",
+    "dev:local": "OFFLINE=true next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "opt": "OPT=true turbo dev",
-    "analyze": "ANALYZE=true turbo build",
+    "opt": "OPT=true next dev",
+    "analyze": "ANALYZE=true next build",
     "format": "bunx prettier . --write",
-    "db:generate": "drizzle-kit generate:sqlite",
+    "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx src/lib/db/migrate.ts",
     "db:drop": "drizzle-kit drop",
-    "db:pull": "drizzle-kit introspect:sqlite",
+    "db:pull": "drizzle-kit introspect",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "db:check": "drizzle-kit check:sqlite"
+    "db:check": "drizzle-kit check"
   },
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
