@@ -1,5 +1,13 @@
 {
   "version": "1",
   "dialect": "sqlite",
-  "entries": []
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1717363767656,
+      "tag": "0000_equal_karen_page",
+      "breakpoints": true
+    }
+  ]
 }
