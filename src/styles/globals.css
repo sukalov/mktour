@@ -23,20 +23,6 @@ body {
   overflow: auto;
 }
 
-/* disables auto-zoom on select/input: */
-
-@media screen and (-webkit-min-device-pixel-ratio: 0) {
-  select:focus,
-  textarea:focus,
-  input:focus {
-    font-size: 16px;
-  }
-  html {
-    touch-action: pan-x pan-y;
-    height: 100%;
-  }
-}
-
 @font-face {
   /* latin */
   font-family: 'Main';

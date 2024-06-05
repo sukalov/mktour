@@ -1,27 +1,18 @@
-import ThemeProvider from '@/components/theme-provider';
-import { Toaster } from '@/components/ui/sonner';
-import { Analytics } from '@vercel/analytics/react';
-import { SpeedInsights } from '@vercel/speed-insights/next';
-import { AxiomWebVitals } from 'next-axiom';
-import { PropsWithChildren } from 'react';
-
 import IntlProvider from '@/components/intl-provider';
 import NavbarWrapper from '@/components/navbars/navbar-wrapper';
+import ThemeProvider from '@/components/theme-provider';
+import { Toaster } from '@/components/ui/sonner';
 import '@/styles/globals.css';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import type { Metadata, Viewport } from 'next';
+import { AxiomWebVitals } from 'next-axiom';
 import { ViewTransitions } from 'next-view-transitions';
-
-export const metadata = {
-  title: 'mktour',
-  description: 'an app for managing complex tournaments of all kind',
-};
+import { PropsWithChildren } from 'react';
 
 function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-      />
       <AxiomWebVitals />
       <body className="touch-pan-x touch-pan-y">
         <ThemeProvider
@@ -44,5 +35,17 @@ function RootLayout({ children }: PropsWithChildren) {
     </html>
   );
 }
+
+export const metadata: Metadata = {
+  title: 'mktour',
+  description: 'an app for managing complex tournaments of all kind',
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
 
 export default RootLayout;
