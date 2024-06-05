@@ -12,6 +12,7 @@ const getWsConfig = (session: string): Options => {
       setTimeout(() => toast.dismiss('wsError'));
       toast.success('connected to server!', {
         closeButton: true,
+        id: 'wsSuccess'
       });
     },
     shouldReconnect: () => true,
@@ -25,6 +26,7 @@ const getWsConfig = (session: string): Options => {
       handleSocketMessage(message);
     },
     onError: () => {
+      setTimeout(() => toast.dismiss('wsSuccess'));
       toast.error(
         <div className="">
           <Loader2 className="inline animate-spin" /> &nbsp; connection error!
@@ -38,7 +40,13 @@ const getWsConfig = (session: string): Options => {
       );
     },
     onReconnectStop: () => {
-      toast.error('please reload. in case your connection is stable, please report this bug');
+      setTimeout(() => toast.dismiss('wsError'))
+      toast.error(
+        'please reload. in case your connection is stable, consider reporting a the bug',
+        {
+          dismissible: false
+        }
+      );
     },
   };
 };

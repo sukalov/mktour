@@ -26,7 +26,7 @@ export default function Navbar({ user, node_env }: NavbarProps) {
   const isTournament = pathname === 'tournament';
 
   return (
-    <nav className="fixed z-50 flex max-h-14 w-full min-w-max flex-row items-center justify-between border-b bg-background p-4 md:pl-4">
+    <nav className="fixed z-[1000000000] flex max-h-14 w-full min-w-max flex-row items-center justify-between border-b bg-background p-4 md:pl-4">
       <div className="flex flex-grow justify-start">
         <Link href="/">
           <MktourNavbar isTournament={isTournament} />
@@ -101,7 +101,7 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
       initial={false}
       animate={isOpen ? 'open' : 'closed'}
       custom={height}
-      className={`fixed inset-0 z-[9999] block w-full md:hidden ${
+      className={`fixed inset-0 block w-full md:hidden ${
         isOpen ? '' : 'pointer-events-none'
       }`}
       ref={containerRef}
