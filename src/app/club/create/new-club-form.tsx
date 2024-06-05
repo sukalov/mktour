@@ -22,6 +22,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import * as React from 'react';
 import { UseFormReturn, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 export default function NewClubForm({ teams }: NewClubFormProps) {
   const form = useForm<NewClubFormType>({
@@ -33,14 +34,23 @@ export default function NewClubForm({ teams }: NewClubFormProps) {
     },
   });
 
-  const onSubmit = (data: NewClubFormType) => {
-    createClub({ ...data, created_at: new Date() });
+  const onSubmit = async (data: NewClubFormType) => {
     setSubmitButton(
       <Button disabled className="w-full">
         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
         making...
       </Button>,
     );
+    try {
+      await createClub({ ...data, created_at: new Date() });
+    } catch (e) {
+      setSubmitButton(
+        <Button type="submit" className="w-full">
+          make new club
+        </Button>,
+      );
+      toast.error("sorry! server error happened, club wasn't saved");
+    }
   };
 
   const [submitButton, setSubmitButton] = React.useState(

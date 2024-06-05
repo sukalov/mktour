@@ -37,6 +37,7 @@ import { Loader2, PlusIcon } from 'lucide-react';
 import Link from 'next/link';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 export default function NewTournamentForm({
   clubs,
@@ -55,14 +56,23 @@ export default function NewTournamentForm({
     },
   });
 
-  const onSubmit = (data: NewTournamentFormType) => {
-    createTournament(data);
+  const onSubmit = async (data: NewTournamentFormType) => {
     setSubmitButton(
       <Button disabled className="w-full">
         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
         making...
       </Button>,
     );
+    try {
+      await createTournament(data);
+    } catch (e) {
+      setSubmitButton(
+        <Button type="submit" className="w-full">
+          make tournament
+        </Button>,
+      );
+      toast.error("sorry! server error happened, couldn't make tournament");
+    }
   };
 
   const [submitButton, setSubmitButton] = React.useState(
