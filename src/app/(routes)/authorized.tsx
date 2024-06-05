@@ -6,7 +6,7 @@ import { cookies } from 'next/headers';
 import '@/styles/cursor.css';
 
 export default async function Authorized() {
-  const isNew = await checkUser();
+  const isNew = checkUser();
 
   return (
     <div className="flex min-h-[calc(100svh-3.5rem)] w-full flex-auto items-center justify-center p-4">
