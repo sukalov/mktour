@@ -1,11 +1,12 @@
 import MakeTournamentButton from '@/components/button-make-tournament';
 import TeamJoinToaster from '@/components/team-join-toaster';
-import { redis } from '@/lib/db/redis';
-import '@/styles/cursor.css';
-import { User } from 'lucia';
+import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
+import { cookies } from 'next/headers';
 
-export default async function Authorized({ user }: PageProps) {
-  const isNew = await checkUser(user);
+import '@/styles/cursor.css';
+
+export default async function Authorized() {
+  const isNew = await checkUser();
 
   return (
     <div className="flex min-h-[calc(100svh-3.5rem)] w-full flex-auto items-center justify-center p-4">
@@ -15,12 +16,8 @@ export default async function Authorized({ user }: PageProps) {
   );
 }
 
-const checkUser = async (user: User) => {
-  let test: null | 10 = await redis.get(user.id);
-  if (test) redis.del(user.id);
+const checkUser = () => {
+  let test: RequestCookie | undefined = cookies().get('show_new_player_toast')
+  if (test) cookies().delete('show_new_player_toast')
   return test;
-};
-
-type PageProps = {
-  user: User;
 };

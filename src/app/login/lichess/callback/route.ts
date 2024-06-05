@@ -119,7 +119,7 @@ export async function GET(request: Request): Promise<Response> {
         language: 'en',
       });
 
-      await redis.set(userId, 10);
+      cookies().set('show_new_player_toast', 'true')
 
       const session = await lucia.createSession(userId, {});
       const sessionCookie = lucia.createSessionCookie(session.id);
