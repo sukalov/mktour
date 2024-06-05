@@ -1,4 +1,4 @@
-import NewClubForm from '@/app/club/create/new-club-form';
+import NewClubForm, { TeamSlice } from '@/app/club/create/new-club-form';
 import { getUser } from '@/lib/auth/utils';
 import useUserToClubsQuery from '@/lib/db/hooks/use-user-to-clubs-query';
 import { DatabaseClub } from '@/lib/db/schema/tournaments';
@@ -10,9 +10,11 @@ export default async function CreateClubPage() {
   if (!user) redirect('/sign-in');
   const userClubs = await useUserToClubsQuery({ user });
   const preparedUser = userClubs.map((el) => el.club) as DatabaseClub[];
-  const res = await fetch(`https://lichess.org/api/team/of/${user.username}`);
-  const teamsFull = (await res.json()) as Array<Team>;
-  const teams = teamsFull
+  let teams: Array<TeamSlice> = []
+  try {
+    const res = await fetch(`https://lichess.org/api/team/of/${user.username}`);
+    const teamsFull = (await res.json()) as Array<Team>;
+    teams = teamsFull
     .filter((team) =>
       team.leaders.find((leader) => leader.id === user.username),
     )
@@ -20,6 +22,9 @@ export default async function CreateClubPage() {
       label: el.name.toLowerCase(),
       value: el.id,
     }));
+  } catch (e) {
+    console.log('ERROR: unable to connect to lichess')
+  }
 
   return (
     <div>
