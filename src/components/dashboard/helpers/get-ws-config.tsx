@@ -33,7 +33,6 @@ const getWsConfig = (session: string): Options => {
           server is offline
         </div>,
         {
-          dismissible: false,
           id: 'wsError',
           duration: 200000
         },
@@ -42,7 +41,7 @@ const getWsConfig = (session: string): Options => {
     onReconnectStop: () => {
       setTimeout(() => toast.dismiss('wsError'));
       toast.error(
-        'please reload. in case your connection is stable, consider reporting a the bug',
+        'please reload. in case your connection is stable, consider reporting the bug',
         {
           id: 'wsFinalError',
         },
