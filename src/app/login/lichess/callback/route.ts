@@ -1,6 +1,5 @@
 import { lichess, lucia } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
-import { redis } from '@/lib/db/redis';
 import { DatabaseUser, user_preferences, users } from '@/lib/db/schema/auth';
 import { clubs, clubs_to_users } from '@/lib/db/schema/tournaments';
 import { newid } from '@/lib/utils';

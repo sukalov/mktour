@@ -2,6 +2,7 @@ type Message =
   | { type: 'add-existing-player'; id: string }
   | { type: 'add-new-player'; body: DatabasePlayer }
   | { type: 'remove-player'; id: string } // onError add-exidsting-player
+  | { type: 'start-tournament' }
   | ErrorMessage;
 
 type ErrorMessage = {

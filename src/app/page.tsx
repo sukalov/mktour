@@ -7,5 +7,5 @@ export default async function HomePage() {
   const { user } = await validateRequest();
 
   if (!user) return <Unauthorized />;
-  return <Authorized user={user} />;
+  return <Authorized />;
 }

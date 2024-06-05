@@ -1,5 +1,5 @@
 import Dashboard from '@/app/tournament/[id]/dashboard';
-import { getUser } from '@/lib/auth/utils';
+import { validateRequest } from '@/lib/auth/lucia';
 import { useStatusInTournament } from '@/lib/db/hooks/use-status-in-tournament';
 import { getTournamentState } from '@/lib/get-tournament-state';
 import { cookies } from 'next/headers';
@@ -15,7 +15,7 @@ export default async function TournamentPage({ params }: TournamentPageProps) {
   } catch {
     notFound();
   }
-  const user = await getUser();
+  const { user } = await validateRequest();
   let status = await useStatusInTournament(user, params.id);
 
   if (!user || !status) redirect(`/tournament/${params.id}/view`);

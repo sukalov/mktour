@@ -43,7 +43,6 @@ const CarouselContainer: FC<CarouselProps> = ({
         {tabs.map((tab) => (
           <CarouselIteratee
             key={tab.title}
-            // currentTab={currentTab}
             setScrolling={setScrolling}
           >
             {tab.component}
@@ -56,14 +55,9 @@ const CarouselContainer: FC<CarouselProps> = ({
 
 const CarouselIteratee: FC<{
   children: FC;
-  // currentTab: CarouselProps['currentTab'];
   setScrolling: Dispatch<SetStateAction<boolean>>;
 }> = ({ children: Component, setScrolling }) => {
   const viewportRef = useRef<HTMLDivElement>(null);
-
-  // useEffect(() => {
-  //   handleScrollToTop(viewportRef);
-  // }, [currentTab]);
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
@@ -93,11 +87,6 @@ const CarouselIteratee: FC<{
     </CarouselItem>
   );
 };
-
-// const handleScrollToTop = (viewportRef: RefObject<HTMLDivElement>) => {
-//   if (viewportRef.current !== null)
-//     viewportRef.current.scrollTo({ top: 0, behavior: 'smooth' });
-// };
 
 type CarouselProps = {
   currentTab: SetStateAction<DashboardContextType['currentTab']>;
