@@ -16,10 +16,6 @@ import { FC, ReactNode, useContext, useEffect, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 export default function Navbar({ user, node_env }: NavbarProps) {
-  if (node_env === 'production')
-    console.log(
-      "chess tournaments have become simple for everyone. \nexcept for devs. \nfor devs it's still hard.",
-    );
   const pathname = usePathname().split('/')[1];
   const isTournament = pathname === 'tournament';
 

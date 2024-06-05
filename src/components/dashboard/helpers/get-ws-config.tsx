@@ -12,7 +12,7 @@ const getWsConfig = (session: string): Options => {
       setTimeout(() => toast.dismiss('wsError'));
       toast.success('connected to server!', {
         closeButton: true,
-        id: 'wsSuccess'
+        id: 'wsSuccess',
       });
     },
     shouldReconnect: () => true,
@@ -35,17 +35,17 @@ const getWsConfig = (session: string): Options => {
         {
           dismissible: false,
           id: 'wsError',
-          duration: Infinity,
+          duration: 200000
         },
       );
     },
     onReconnectStop: () => {
-      setTimeout(() => toast.dismiss('wsError'))
+      setTimeout(() => toast.dismiss('wsError'));
       toast.error(
         'please reload. in case your connection is stable, consider reporting a the bug',
         {
-          dismissible: false
-        }
+          id: 'wsFinalError',
+        },
       );
     },
   };

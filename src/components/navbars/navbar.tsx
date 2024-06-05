@@ -18,10 +18,6 @@ const selected =
   'py-1 px-3 -ml-0 bg-primary text-primary-foreground w-fit rounded-sm';
 
 export default function Navbar({ user, node_env }: NavbarProps) {
-  if (node_env === 'production')
-    console.log(
-      "chess tournaments have become simple for everyone. \nexcept for devs. \nfor devs it's still hard.",
-    );
   const pathname = usePathname().split('/')[1];
   const isTournament = pathname === 'tournament';
 
