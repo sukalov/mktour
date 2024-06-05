@@ -40,8 +40,8 @@ export default function HomePage() {
                   variant="outline"
                   // onClick={() => signIn('lichess', { redirect: false })}
                 >
-                  <div className=" grid-flow-col"></div>
-                  <span className=" grid-col-3">
+                  <div className="grid-flow-col"></div>
+                  <span className="grid-col-3">
                     <LichessLogo size="40" />
                   </span>
                   <span className="grid-col--9 text-[1.4rem] font-light leading-none">
@@ -54,7 +54,7 @@ export default function HomePage() {
                   className="m-auto flex min-h-28 w-full max-w-[28rem] flex-col gap-2 font-bold"
                   variant="default"
                 >
-                  <h1 className=" text-2xl font-light min-[320px]:text-3xl">
+                  <h1 className="text-2xl font-light min-[320px]:text-3xl">
                     make tournament
                   </h1>
                   <p className="text-balance font-extralight"></p>
@@ -68,7 +68,7 @@ export default function HomePage() {
               className="m-auto flex min-h-24 w-full max-w-[28rem] flex-col gap-2 font-bold"
               variant="default"
             >
-              <h1 className=" text-2xl font-light min-[320px]:text-3xl">
+              <h1 className="text-2xl font-light min-[320px]:text-3xl">
                 make tournament
               </h1>
               <p className="text-balance font-extralight"></p>

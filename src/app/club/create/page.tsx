@@ -10,20 +10,20 @@ export default async function CreateClubPage() {
   if (!user) redirect('/sign-in');
   const userClubs = await useUserToClubsQuery({ user });
   const preparedUser = userClubs.map((el) => el.club) as DatabaseClub[];
-  let teams: Array<TeamSlice> = []
+  let teams: Array<TeamSlice> = [];
   try {
     const res = await fetch(`https://lichess.org/api/team/of/${user.username}`);
     const teamsFull = (await res.json()) as Array<Team>;
     teams = teamsFull
-    .filter((team) =>
-      team.leaders.find((leader) => leader.id === user.username),
-    )
-    .map((el) => ({
-      label: el.name.toLowerCase(),
-      value: el.id,
-    }));
+      .filter((team) =>
+        team.leaders.find((leader) => leader.id === user.username),
+      )
+      .map((el) => ({
+        label: el.name.toLowerCase(),
+        value: el.id,
+      }));
   } catch (e) {
-    console.log('ERROR: unable to connect to lichess')
+    console.log('ERROR: unable to connect to lichess');
   }
 
   return (

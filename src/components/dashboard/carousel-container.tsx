@@ -41,10 +41,7 @@ const CarouselContainer: FC<CarouselProps> = ({
     <Carousel setApi={setApi} opts={{ loop: true }}>
       <CarouselContent>
         {tabs.map((tab) => (
-          <CarouselIteratee
-            key={tab.title}
-            setScrolling={setScrolling}
-          >
+          <CarouselIteratee key={tab.title} setScrolling={setScrolling}>
             {tab.component}
           </CarouselIteratee>
         ))}

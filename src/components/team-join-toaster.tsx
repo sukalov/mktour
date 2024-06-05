@@ -1,61 +1,32 @@
 'use client';
 
 import { turboPascal } from '@/app/fonts';
-import { X } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { toast } from 'sonner';
 
 export default function TeamJoinToaster() {
-  const abortTeamJoin = async () => {
-    try {
-      const res = await fetch('/api/leave-team', {
+  const handleCancel = () => {
+    toast.success('too bad... we hope you join us one day!');
+    setTimeout(() => toast.dismiss('teamJoin'));
+  };
+
+  const handleJoin = async () => {
+    setTimeout(() => toast.dismiss('teamJoin'));
+    toast.promise(
+      fetch('/api/join-team', {
         method: 'POST',
-      });
-      if (res.ok) {
-        toast.dismiss('teamJoin');
-        toast.success('sorry to see you going... we hope you join us one day!');
-      }
-      if (!res.ok) {
-        toast.dismiss('teamJoin');
-        toast.error(
-          <p>
-            some error happened, we are sorry for that! please, consider leaving
-            the team manually visiting{' '}
-            <Link
-              href="https://lichess.org/team/mktour"
-              className="font-semibold underline"
-            >
-              lichess.org/team/mktour
-            </Link>
-          </p>,
-        );
-      }
-    } catch (err) {
-      toast.dismiss('teamJoin');
-      toast.error(
-        <p>
-          some error happened. we are sorry for that. please, consider leaving
-          the team manually visiting{' '}
-          <Link
-            href="https://lichess.org/team/mktour"
-            className="font-semibold underline"
-          >
-            lichess.org/team/mktour
-          </Link>
-        </p>,
-      );
-    }
+      }),
+      {
+        loading: 'adding you right now!',
+        error: 'some error happened, too bad...',
+        success: "yeee, now you're in the team!",
+      },
+    );
   };
 
   toast(
     <div>
-      <button
-        onClick={() => toast.dismiss('teamJoin')}
-        className="absolute right-2 top-2"
-      >
-        <span className="sr-only">dismiss</span>
-        <X size={20} />
-      </button>
       <h1
         className={`${turboPascal.className} text-center text-2xl font-bold leading-8`}
       >
@@ -63,32 +34,28 @@ export default function TeamJoinToaster() {
       </h1>
       <p>
         in case you experience any difficulties while using our app, please
-        describe the problem at{' '}
+        describe the problem at&nbsp;
         <Link
           href="https://lichess.org/team/mktour"
           className="font-semibold underline"
         >
           our lichess team
-        </Link>{' '}
-        forum. you are now being automatically added to the team, where you can
-        reach us any time!
+        </Link>
+        &nbsp; forum. do you want to join the team, where you can reach us any
+        time?
       </p>
       <br />
-      <p>
-        if you don&apos;t want to join any teams, that&apos;s fine,{' '}
-        <button onClick={abortTeamJoin} className="font-bold underline">
-          click here
-        </button>
-      </p>
+      <div className="flex justify-center gap-2">
+        <Button onClick={handleJoin}>join team</Button>
+        <Button variant="secondary" onClick={handleCancel}>
+          don&apos;t join
+        </Button>
+      </div>
     </div>,
     {
       id: 'teamJoin',
       dismissible: true,
-      style: {
-        width: `min(90vw, 600px)`,
-        right: 0,
-      },
-      duration: 15000,
+      duration: 150000,
     },
   );
   return <></>;

@@ -2,8 +2,7 @@ import { cookies } from 'next/headers';
 
 export async function POST() {
   const token = cookies().get('token')?.value;
-  console.log(token);
-  const response = await fetch('https://lichess.org/team/mktour/quit', {
+  const response = await fetch('https://lichess.org/team/mktour/join', {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,

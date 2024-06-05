@@ -37,7 +37,7 @@ function RootLayout({ children }: PropsWithChildren) {
             </ViewTransitions>
             <Analytics />
             <SpeedInsights />
-            <Toaster />
+            <Toaster richColors />
           </IntlProvider>
         </ThemeProvider>
       </body>

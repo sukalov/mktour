@@ -19,8 +19,8 @@ export default function SignInWithLichessButton({
         )}
         variant="outline"
       >
-        <div className=" grid-flow-col"></div>
-        <span className=" grid-col-3">
+        <div className="grid-flow-col"></div>
+        <span className="grid-col-3">
           <LichessLogo size="40" />
         </span>
         <span className="grid-col--9 text-[1.4rem] font-light leading-none md:px-4 md:text-xl">

@@ -73,17 +73,6 @@ export async function GET(request: Request): Promise<Response> {
     }
 
     try {
-      await fetch('https://lichess.org/team/mktour/join', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${tokens.accessToken}`,
-        },
-      });
-    } catch (e) {
-      console.log(`user ${lichessUser.id} not added to the team`);
-    }
-
-    try {
       const userId = newid();
       const clubId = newid();
       const ctuId = `${clubId}=${userId}`;
@@ -118,7 +107,7 @@ export async function GET(request: Request): Promise<Response> {
         language: 'en',
       });
 
-      cookies().set('show_new_player_toast', 'true')
+      cookies().set('show_new_player_toast', 'true');
 
       const session = await lucia.createSession(userId, {});
       const sessionCookie = lucia.createSessionCookie(session.id);

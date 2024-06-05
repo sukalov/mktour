@@ -101,7 +101,7 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
       initial={false}
       animate={isOpen ? 'open' : 'closed'}
       custom={height}
-      className={`fixed inset-0 z-50 block w-full md:hidden ${
+      className={`fixed inset-0 z-[9999] block w-full md:hidden ${
         isOpen ? '' : 'pointer-events-none'
       }`}
       ref={containerRef}

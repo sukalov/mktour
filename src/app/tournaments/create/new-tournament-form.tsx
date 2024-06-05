@@ -218,7 +218,7 @@ export default function NewTournamentForm({
                     />
                   </div>
                   <p className="hidden text-sm text-muted-foreground peer-hover:block">
-                    <span className=" text-xs">*</span>comming soon
+                    <span className="text-xs">*</span>comming soon
                   </p>
                 </div>
               )}

@@ -16,14 +16,18 @@ import { useState } from 'react';
 
 export function TeamSelector({ teams, form }: TeamSelectorProps) {
   const [state, setState] = useState<boolean>(false);
-  if ((teams.length === 0)) {
+  if (teams.length === 0) {
     return (
       <FormField
         control={form.control}
         name="lichess_team"
         render={({ field }) => (
           <FormItem>
-            <Select onValueChange={field.onChange} defaultValue={field.value} disabled>
+            <Select
+              onValueChange={field.onChange}
+              defaultValue={field.value}
+              disabled
+            >
               <FormControl>
                 <SelectTrigger>
                   <SelectValue placeholder="couldn't find your lichess teams" />
