@@ -1,12 +1,12 @@
-import { Button } from '@/components/ui/button';
+import { Button, ButtonProps } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { FC, PropsWithChildren } from 'react';
 
 // FIXME any
-const RoundControls: FC<any> = ({ props }) => {
-  const { roundInView, games, setRoundInView, currentRound, currentTab } =
-    props;
-  const top = currentTab === 'games' ? 'top-0' : 'top-[-8rem]';
+const RoundControls: FC<any> = ({
+  props: { currentRound, roundInView, games, setRoundInView, currentTab },
+}) => {
+  const top = currentTab === 'games' ? 'top-0' : 'top-[-4rem]';
 
   const handleClick = (direction: string) => {
     const lastIndex = games.length - 1;
@@ -19,26 +19,24 @@ const RoundControls: FC<any> = ({ props }) => {
     setRoundInView(newRoundInView);
   };
 
-  const ControlButtonsProvider: FC<PropsWithChildren> = ({ children }) => {
-    // if (games.length === 1) return children;
+  const ControlsProvider: FC<PropsWithChildren> = ({ children }) => {
+    if (games.length === 1) return children;
     return (
       <>
         <Button
-          disabled={roundInView === 0}
+          style={{ visibility: roundInView === 0 ? 'hidden' : 'visible' }}
           onClick={() => handleClick('<')}
-          variant="ghost"
-          size="sm"
-          className="m-2"
+          {...buttonProps}
         >
           <ChevronLeft />
         </Button>
         {children}
         <Button
-          disabled={roundInView === currentRound - 1}
+          style={{
+            visibility: roundInView === currentRound - 1 ? 'hidden' : 'visible',
+          }}
           onClick={() => handleClick('>')}
-          variant="ghost"
-          size="sm"
-          className="m-2"
+          {...buttonProps}
         >
           <ChevronRight />
         </Button>
@@ -50,7 +48,7 @@ const RoundControls: FC<any> = ({ props }) => {
     <div
       className={`absolute ${top} z-10 flex w-full items-center justify-between backdrop-blur-md transition-all duration-500`}
     >
-      <ControlButtonsProvider>
+      <ControlsProvider>
         <div className="flex h-[52px] w-full flex-col items-center justify-center">
           <Button
             variant="ghost"
@@ -68,9 +66,15 @@ const RoundControls: FC<any> = ({ props }) => {
             </span>
           </Button>
         </div>
-      </ControlButtonsProvider>
+      </ControlsProvider>
     </div>
   );
+};
+
+const buttonProps: ButtonProps = {
+  variant: 'ghost',
+  size: 'sm',
+  className: 'm-2',
 };
 
 export default RoundControls;

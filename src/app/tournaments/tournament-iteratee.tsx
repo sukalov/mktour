@@ -21,9 +21,9 @@ const TournamentsContainer: FC<{
       <>
         {Object.entries(groupedTournaments).map(
           ([clubId, { clubName, tournaments }]) => (
-            <div className="flex w-full flex-col gap-2" key={clubName}>
+            <div className="flex w-full flex-col gap-2" key={clubId}>
               <Link href={`/club/${clubId}`}>
-                <h2>{clubName}</h2>
+                <h2 className="opacity-20">{clubName}</h2>
               </Link>
               {tournaments.map((tournamentData) => (
                 <TournamentIteratee
@@ -65,7 +65,7 @@ const TournamentIteratee = ({
           <CardDescription className="flex gap-2">
             {description}
           </CardDescription>
-          {!grouped && <span className="text-xs text-muted">{club.name}</span>}
+          {!grouped && <span className="text-xs opacity-20">{club.name}</span>}
         </CardHeader>
       </Card>
     </Link>
