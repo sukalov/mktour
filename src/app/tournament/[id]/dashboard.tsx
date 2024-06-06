@@ -6,9 +6,9 @@ import {
   DashboardContextType,
 } from '@/components/dashboard/dashboard-context';
 import FabProvider from '@/components/dashboard/fab-provider';
-import getPossiblePlayers from '@/components/dashboard/helpers/get-possible-players';
-import getWsConfig from '@/components/dashboard/helpers/get-ws-config';
 import TabsContainer from '@/components/dashboard/tabs-container';
+import getPossiblePlayers from '@/components/helpers/get-possible-players';
+import getWsConfig from '@/components/helpers/get-ws-config';
 import useInit from '@/components/hooks/use-init';
 import { SOCKET_URL } from '@/lib/config/urls';
 import { Status } from '@/lib/db/hooks/use-status-in-tournament';

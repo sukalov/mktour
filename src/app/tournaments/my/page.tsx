@@ -1,8 +1,14 @@
-export default function MyTournaments() {
-  //   const { user } = validateRequest();
+import TournamentsContainer from '@/app/tournaments/tournament-iteratee';
+import { getUser } from '@/lib/auth/utils';
+import useTournamentsToUserClubsQuery from '@/lib/db/hooks/use-tournaments-to-user-clubs-query';
+
+export default async function MyTournaments() {
+  const user = await getUser();
+  const tournaments = await useTournamentsToUserClubsQuery({ user });
+
   return (
-    <p>
-      tournaments of user (organized by all clubs of this user) in one place
-    </p>
+    <main className="m-4 flex flex-col items-center gap-4">
+      <TournamentsContainer props={tournaments} grouped />
+    </main>
   );
 }

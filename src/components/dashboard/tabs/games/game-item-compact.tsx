@@ -4,7 +4,7 @@ import { FC } from 'react';
 
 const GameItemCompact: FC<GameProps> = ({ result, player1, player2 }) => {
   return (
-    <Card className="grid w-full grid-cols-[1fr_auto_1fr] items-center border px-4 py-2 text-xs md:max-w-[250px]">
+    <Card className="grid w-full grid-cols-[1fr_auto_1fr] items-center border px-4 py-2 text-sm md:max-w-[250px]">
       <div
         className={`max-w-full truncate ${result === '0-1' && 'opacity-30'} justify-self-start`}
       >

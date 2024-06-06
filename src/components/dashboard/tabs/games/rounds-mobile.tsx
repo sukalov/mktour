@@ -12,7 +12,7 @@ const RoundsMobile: FC = () => {
   const [roundInView, setRoundInView] = useState(0);
   const { currentTab } = useContext(DashboardContext);
   const { ongoingRound } = useTournamentStore();
-  const [compact, setCompact] = useState(false);
+  const [compact, setCompact] = useState(true);
 
   return (
     <div>
@@ -28,12 +28,12 @@ const RoundsMobile: FC = () => {
 
       <div className="mb-4 mt-14 flex w-full flex-col gap-4 px-4">
         <div className="ml-[2.5rem] flex w-full scale-75 items-center justify-end space-x-2">
+          <Label htmlFor="compact">compact view</Label>
           <Switch
             id="compact"
             checked={compact}
             onCheckedChange={(e) => setCompact(e)}
           />
-          <Label htmlFor="compact">compact view</Label>
         </div>
         {Array(10)
           .fill('')

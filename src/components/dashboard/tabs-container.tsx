@@ -1,8 +1,8 @@
 import { TabProps } from '@/app/tournament/[id]/dashboard';
 import { DashboardContextType } from '@/components/dashboard/dashboard-context';
-import handleSwipe from '@/components/dashboard/helpers/handle-swipe';
 import tabs from '@/components/dashboard/tabs';
-import SwipeDetector from '@/components/swipe-detector';
+import handleSwipe from '@/components/helpers/handle-swipe';
+import SwipeDetector from '@/components/helpers/swipe-detector';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { FC, useEffect, useRef } from 'react';
 

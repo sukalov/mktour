@@ -6,7 +6,7 @@ import { FC, PropsWithChildren } from 'react';
 const RoundControls: FC<any> = ({ props }) => {
   const { roundInView, games, setRoundInView, currentRound, currentTab } =
     props;
-  const top = currentTab === 'games' ? 'top-10' : 'top-0';
+  const top = currentTab === 'games' ? 'top-0' : 'top-[-8rem]';
 
   const handleClick = (direction: string) => {
     const lastIndex = games.length - 1;
@@ -19,17 +19,12 @@ const RoundControls: FC<any> = ({ props }) => {
     setRoundInView(newRoundInView);
   };
 
-  const ControlButtons: FC<PropsWithChildren> = ({ children }) => {
-    if (
-      games.length === 1 ||
-      roundInView === 0 ||
-      roundInView === games.length - 1
-    )
-      return children;
+  const ControlButtonsProvider: FC<PropsWithChildren> = ({ children }) => {
+    // if (games.length === 1) return children;
     return (
       <>
         <Button
-          disabled={roundInView === 0 || games.length === 1}
+          disabled={roundInView === 0}
           onClick={() => handleClick('<')}
           variant="ghost"
           size="sm"
@@ -39,7 +34,7 @@ const RoundControls: FC<any> = ({ props }) => {
         </Button>
         {children}
         <Button
-          disabled={roundInView === games.length - 1}
+          disabled={roundInView === currentRound - 1}
           onClick={() => handleClick('>')}
           variant="ghost"
           size="sm"
@@ -53,9 +48,9 @@ const RoundControls: FC<any> = ({ props }) => {
 
   return (
     <div
-      className={`fixed ${top} z-10 flex w-full items-center justify-between backdrop-blur-md transition-all duration-500`}
+      className={`absolute ${top} z-10 flex w-full items-center justify-between backdrop-blur-md transition-all duration-500`}
     >
-      <ControlButtons>
+      <ControlButtonsProvider>
         <div className="flex h-[52px] w-full flex-col items-center justify-center">
           <Button
             variant="ghost"
@@ -73,7 +68,7 @@ const RoundControls: FC<any> = ({ props }) => {
             </span>
           </Button>
         </div>
-      </ControlButtons>
+      </ControlButtonsProvider>
     </div>
   );
 };
