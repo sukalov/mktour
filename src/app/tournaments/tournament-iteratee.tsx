@@ -16,29 +16,30 @@ const TournamentsContainer: FC<{
   grouped?: boolean;
 }> = ({ props, grouped }) => {
   if (grouped) {
-    const groupedTournaments = getGroupedTournaments(props);
-    return (
-      <>
-        {Object.entries(groupedTournaments).map(
-          ([clubId, { clubName, tournaments }]) => (
-            <div className="flex w-full flex-col gap-2" key={clubId}>
-              <Link href={`/club/${clubId}`}>
-                <h2 className="opacity-20">{clubName}</h2>
-              </Link>
-              {tournaments.map((tournamentData) => (
-                <TournamentIteratee
-                  key={tournamentData.tournament.id}
-                  grouped
-                  {...tournamentData}
-                />
-              ))}
-            </div>
-          ),
-        )}
-      </>
-    );
+    return <TournamentGroups props={props} />;
   }
   return <>{props.map(TournamentIteratee)}</>;
+};
+
+const TournamentGroups: FC<{ props: TournamentWithClub[] }> = ({ props }) => {
+  const groupedTournaments = getGroupedTournaments(props);
+
+  return Object.entries(groupedTournaments).map(
+    ([clubId, { clubName, tournaments }]) => (
+      <div className="flex w-full flex-col gap-2" key={clubId}>
+        <Link href={`/club/${clubId}`}>
+          <h2 className="opacity-25">{clubName}</h2>
+        </Link>
+        {tournaments.map((tournamentData) => (
+          <TournamentIteratee
+            key={tournamentData.tournament.id}
+            grouped
+            {...tournamentData}
+          />
+        ))}
+      </div>
+    ),
+  );
 };
 
 const TournamentIteratee = ({
@@ -65,7 +66,7 @@ const TournamentIteratee = ({
           <CardDescription className="flex gap-2">
             {description}
           </CardDescription>
-          {!grouped && <span className="text-xs opacity-20">{club.name}</span>}
+          {!grouped && <span className="text-xs opacity-25">{club.name}</span>}
         </CardHeader>
       </Card>
     </Link>
