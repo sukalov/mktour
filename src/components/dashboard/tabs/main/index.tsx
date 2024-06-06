@@ -30,7 +30,7 @@ const Main = () => {
   );
 };
 
-const InfoItem: FC<{
+export const InfoItem: FC<{
   icon: ReactNode;
   value: string | number | null | undefined;
 }> = ({ icon, value }) => (

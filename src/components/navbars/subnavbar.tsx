@@ -22,7 +22,7 @@ export default function SubNavbar({ user, items, root }: SubNavbarProps) {
   }, [isMobile]);
   return (
     <nav
-      className={`cols fixed z-30 grid h-10 w-full min-w-max grid-flow-col items-center bg-muted text-sm ${cols} flex-row gap-2 px-2 sm:flex sm:gap-8 sm:pl-4`}
+      className={`cols fixed z-30 grid h-10 w-full min-w-max grid-flow-col items-center bg-muted text-sm ${cols} flex-row gap-2 px-2 xs:flex xs:gap-8 xs:pl-4`}
     >
       {preparedItems.map((item) => (
         <NavItem

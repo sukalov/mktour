@@ -1,7 +1,7 @@
 'use client';
 
 import { SubNavbarItem } from '@/components/navbars/subnavbar';
-import { Flag, Home, Mail, Settings, Users } from 'lucide-react';
+import { Flag, Home, Mail, Users } from 'lucide-react';
 
 export const CLUB_DASHBOARD_NAVBAR_ITEMS: SubNavbarItem[] = [
   {
@@ -19,11 +19,11 @@ export const CLUB_DASHBOARD_NAVBAR_ITEMS: SubNavbarItem[] = [
     path: 'tournaments',
     logo: Flag,
   },
-  {
-    title: 'settings',
-    path: 'settings',
-    logo: Settings,
-  },
+  // {
+  //   title: 'settings',
+  //   path: 'settings',
+  //   logo: Settings,
+  // },
   {
     title: 'inbox',
     path: 'inbox',
