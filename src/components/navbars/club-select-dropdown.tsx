@@ -42,7 +42,7 @@ const ClubDropdownSelect: FC<ClubSelectProps> = ({ clubs, user, selected }) => {
           )}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="shadow-black-500 mt-2 w-[100vw] rounded-none bg-muted p-2 shadow-2xl">
+      <DropdownMenuContent className="shadow-black-500 mt-2 h-[100vh] w-[100vw] rounded-none bg-muted p-2 shadow-2xl">
         <DropdownMenuGroup>
           {sortedClubs.map(({ name, id }) => (
             <DropdownMenuCheckboxItem
