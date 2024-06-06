@@ -11,7 +11,6 @@ const getWsConfig = (session: string): Options => {
     onOpen: () => {
       setTimeout(() => toast.dismiss('wsError'));
       toast.success('connected to server!', {
-        closeButton: true,
         id: 'wsSuccess',
       });
     },
