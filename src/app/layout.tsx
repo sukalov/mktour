@@ -14,7 +14,7 @@ function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en" suppressHydrationWarning>
       <AxiomWebVitals />
-      <body className="touch-pan-x touch-pan-y">
+      <body className="small-scrollbar">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

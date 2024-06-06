@@ -2,15 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* disables all pinch-zoom on mobile-devices: */
-
-:root {
-  touch-action: pan-x pan-y;
-  height: 100%;
-}
-
 /* disables overflow scrolling to reload page: */
-
 html {
   overflow: hidden;
   height: 100%;
@@ -21,6 +13,7 @@ body {
   user-select: none;
   height: 100%;
   overflow: auto;
+  touch-action: pan-x pan-y;
 }
 
 @font-face {
