@@ -1,4 +1,5 @@
 import IntlProvider from '@/components/intl-provider';
+import MediaQueryProvider from '@/components/media-query-provider';
 import NavbarWrapper from '@/components/navbars/navbar-wrapper';
 import ThemeProvider from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
@@ -21,15 +22,17 @@ function RootLayout({ children }: PropsWithChildren) {
           enableSystem
           disableTransitionOnChange
         >
-          <IntlProvider>
-            <NavbarWrapper />
-            <ViewTransitions>
-              <div className="pt-14">{children}</div>
-            </ViewTransitions>
-            <Analytics />
-            <SpeedInsights />
-            <Toaster richColors />
-          </IntlProvider>
+          <MediaQueryProvider>
+            <IntlProvider>
+              <NavbarWrapper />
+              <ViewTransitions>
+                <div className="pt-14">{children}</div>
+              </ViewTransitions>
+              <Analytics />
+              <SpeedInsights />
+              <Toaster richColors />
+            </IntlProvider>
+          </MediaQueryProvider>
         </ThemeProvider>
       </body>
     </html>

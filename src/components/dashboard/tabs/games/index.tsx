@@ -1,19 +1,12 @@
 import RoundsDesktop from '@/components/dashboard/tabs/games/rounds-desktop';
 import RoundsMobile from '@/components/dashboard/tabs/games/rounds-mobile';
-import { FC, useEffect, useState } from 'react';
-import { useMediaQuery } from 'react-responsive';
+import { MediaQueryContext } from '@/components/media-query-context';
+import { FC, useContext } from 'react';
 
 const Games: FC = () => {
-  // const { games, currentRound, currentTab } = useContext(DashboardContext);
-  const [isClient, setIsClient] = useState(false);
-  const isMobile = useMediaQuery({ maxWidth: 768 });
+  const isMobile = useContext(MediaQueryContext)
   const component = isMobile ? <RoundsMobile /> : <RoundsDesktop />;
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  if (!isClient) return null;
+  
   return component;
 };
 
