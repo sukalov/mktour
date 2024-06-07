@@ -126,5 +126,4 @@ export default function EditProfileForm({ user }: EditProfileformProps) {
 
 interface EditProfileformProps {
   user: User;
-  id: string;
 }
