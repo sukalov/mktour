@@ -4,19 +4,19 @@ import { turboPascal } from '@/app/fonts';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { editUser } from '@/lib/actions/profile-managing';
 import { shallowEqual } from '@/lib/utils';
 import {
-    EditProfileFormType,
-    editProfileFormSchema,
+  EditProfileFormType,
+  editProfileFormSchema,
 } from '@/lib/zod/edit-profile-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { User } from 'lucia';
@@ -28,6 +28,7 @@ import { toast } from 'sonner';
 export default function EditProfileForm({ user }: EditProfileformProps) {
   const [defaultValues, setDefaultValues] = useState<EditProfileFormType>({
     name: user.name ?? undefined,
+    id: user.id,
   });
 
   const form = useForm<EditProfileFormType>({
@@ -69,7 +70,7 @@ export default function EditProfileForm({ user }: EditProfileformProps) {
     );
     try {
       await editUser(data);
-      setDefaultValues(data)
+      setDefaultValues(data);
       setSubmitButton(
         <Button disabled className="w-full">
           <Save />
@@ -114,6 +115,7 @@ export default function EditProfileForm({ user }: EditProfileformProps) {
                 </FormItem>
               )}
             />
+            <FormField control={form.control} name="id" render={() => <></>} />
             {submitButton}
           </form>
         </CardContent>
@@ -124,4 +126,5 @@ export default function EditProfileForm({ user }: EditProfileformProps) {
 
 interface EditProfileformProps {
   user: User;
+  id: string;
 }
