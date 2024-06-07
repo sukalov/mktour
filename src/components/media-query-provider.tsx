@@ -15,7 +15,7 @@ const MediaQueryProvider: FC<PropsWithChildren> = ({ children }) => {
   if (!isClient) return children;
 
   return (
-    <MediaQueryContext.Provider value={isMobile}>
+    <MediaQueryContext.Provider value={{ isMobile, loading: false }}>
       {children}
     </MediaQueryContext.Provider>
   );

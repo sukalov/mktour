@@ -59,9 +59,9 @@ const ClubDropdownSelect: FC<ClubSelectProps> = ({ clubs, user, selected }) => {
           <Icon />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="shadow-black-500 mt-2 h-[100vh] w-[100vw] flex-col rounded-none bg-muted p-2 shadow-2xl">
+      <DropdownMenuContent className="shadow-black-500 mt-1 h-[100vh] w-[100vw] flex-col rounded-none bg-muted p-2 shadow-2xl">
         {/* FIXME find better way to scroll overflow content: */}
-        <DropdownMenuGroup className="h-full overflow-scroll pb-[70%]">
+        <DropdownMenuGroup className="h-full scrollbar-hide overflow-scroll pb-[70%]">
           {sortedClubs.map(({ name, id }) => (
             <DropdownMenuCheckboxItem
               className="text-md"

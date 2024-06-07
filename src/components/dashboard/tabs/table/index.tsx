@@ -2,6 +2,7 @@
 
 import { DashboardContext } from '@/components/dashboard/dashboard-context';
 import { onClickRemovePlayer } from '@/components/helpers/on-click-handlers';
+import { MediaQueryContext } from '@/components/media-query-context';
 import {
   Table,
   TableBody,
@@ -11,8 +12,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
-import { FC, useContext, useEffect, useState } from 'react';
-import { useMediaQuery } from 'react-responsive';
+import { FC, useContext, useState } from 'react';
 import { useLongPress } from 'use-long-press';
 
 const DEFAULT_DASHBOARD_TABS = ['wins', 'draws', 'losses'];
@@ -70,16 +70,10 @@ const TournamentTable: FC = () => {
 };
 
 const TableStatsHeads = () => {
-  const isMobile = useMediaQuery({ maxWidth: 500 });
-  const [titles, setTitles] = useState(DEFAULT_DASHBOARD_TABS);
-
-  useEffect(() => {
-    if (isMobile) {
-      setTitles((prevTitles) => prevTitles.map((title) => title.slice(0, 1)));
-    } else {
-      setTitles(DEFAULT_DASHBOARD_TABS);
-    }
-  }, [isMobile]);
+  const { isMobile } = useContext(MediaQueryContext);
+  const titles = isMobile
+    ? DEFAULT_DASHBOARD_TABS.map((title) => title.slice(0, 1))
+    : DEFAULT_DASHBOARD_TABS;
 
   return (
     <>

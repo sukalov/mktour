@@ -51,7 +51,6 @@ const ClubInfo = ({
           </Button>
         </span>
       </div>
-      <div className="flex w-full items-center justify-end"></div>
       <Card className="items-left flex w-full flex-col gap-8 p-4">
         {description && <InfoItem icon={<Info />} value={description} />}
         <InfoItem icon={<CalendarDays />} value={createdAt} />

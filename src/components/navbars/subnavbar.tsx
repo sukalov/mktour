@@ -1,28 +1,24 @@
 'use client';
 
+import { MediaQueryContext } from '@/components/media-query-context';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { User } from 'lucia';
 import { LucideIcon } from 'lucide-react';
 import { Link } from 'next-view-transitions';
 import { useSelectedLayoutSegment } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { useMediaQuery } from 'react-responsive';
+import { useContext } from 'react';
 
 export default function SubNavbar({ user, items, root }: SubNavbarProps) {
-  const [showTitles, setShowTitles] = useState(true);
   const preparedItems = items.filter(
     (item) => user || (!user && !item.userOnly),
   );
   const cols = `grid-cols-${items.length}`;
-  const isMobile = useMediaQuery({ maxWidth: 640 });
-  useEffect(() => {
-    if (isMobile) setShowTitles(false);
-    else setShowTitles(true);
-  }, [isMobile]);
+  const { isMobile } = useContext(MediaQueryContext);
+
   return (
     <nav
-      className={`cols fixed z-30 grid h-10 w-full min-w-max grid-flow-col items-center bg-muted text-sm ${cols} flex-row gap-2 px-2 xs:flex xs:gap-8 xs:pl-4`}
+      className={`cols fixed z-30 grid h-10 w-full min-w-max grid-flow-col items-center bg-muted text-sm ${cols} xs:flex xs:gap-8 xs:pl-4 flex-row gap-2 px-2`}
     >
       {preparedItems.map((item) => (
         <NavItem
@@ -30,7 +26,7 @@ export default function SubNavbar({ user, items, root }: SubNavbarProps) {
           item={item}
           user={user}
           root={root}
-          showTitles={showTitles}
+          isMobile={isMobile}
         />
       ))}
     </nav>
@@ -41,8 +37,8 @@ const NavItem: React.FC<{
   item: SubNavbarItem;
   user?: User | null;
   root: string;
-  showTitles: boolean;
-}> = ({ item, root, showTitles }) => {
+  isMobile: boolean;
+}> = ({ item, root, isMobile }) => {
   const selection = useSelectedLayoutSegment() ?? '';
   const isActive = item.path === selection;
   const style = isActive
@@ -57,16 +53,20 @@ const NavItem: React.FC<{
       />
     );
 
+  const Title = () => {
+    const logoProps = isActive
+      ? { size: 18, strokeWidth: 2.5 }
+      : { size: 18, strokeWidth: 2 };
+
+    if (!isMobile) {
+      return <Label className="text-sm">{item.title}</Label>;
+    } else return <Logo {...logoProps} />;
+  };
+
   return (
     <Link href={`${root}${item.path}`}>
       <div className={cn(`flex items-center justify-center gap-1`, style)}>
-        {showTitles ? (
-          <Label className="text-sm">{item.title}</Label>
-        ) : isActive ? (
-          <Logo size={18} strokeWidth={2.5} />
-        ) : (
-          <Logo size={18} strokeWidth={2} />
-        )}
+        <Title />
       </div>
     </Link>
   );

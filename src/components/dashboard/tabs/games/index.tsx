@@ -4,9 +4,9 @@ import { MediaQueryContext } from '@/components/media-query-context';
 import { FC, useContext } from 'react';
 
 const Games: FC = () => {
-  const isMobile = useContext(MediaQueryContext)
+  const { isMobile } = useContext(MediaQueryContext);
   const component = isMobile ? <RoundsMobile /> : <RoundsDesktop />;
-  
+
   return component;
 };
 
