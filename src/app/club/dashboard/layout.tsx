@@ -12,12 +12,12 @@ export default async function ClubsPageLayout({
 
   return (
     <div>
-        <SubNavbar
-          user={user}
-          items={CLUB_DASHBOARD_NAVBAR_ITEMS}
-          root="/club/dashboard/"
-        />
-        <div className="mx-4 pt-12">{children}</div>
+      <SubNavbar
+        user={user}
+        items={CLUB_DASHBOARD_NAVBAR_ITEMS}
+        root="/club/dashboard/"
+      />
+      <div className="mx-4 pt-12">{children}</div>
     </div>
   );
 }

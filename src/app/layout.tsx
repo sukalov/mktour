@@ -26,8 +26,8 @@ function RootLayout({ children }: PropsWithChildren) {
         >
           <MediaQueryProvider>
             <IntlProvider>
-            <ReactQueryProvider>
-              <ReactQueryDevtools />
+              <ReactQueryProvider>
+                <ReactQueryDevtools />
                 <NavbarWrapper />
                 <ViewTransitions>
                   <div className="pt-14">{children}</div>
@@ -35,7 +35,7 @@ function RootLayout({ children }: PropsWithChildren) {
                 <Analytics />
                 <SpeedInsights />
                 <Toaster richColors />
-            </ReactQueryProvider>
+              </ReactQueryProvider>
             </IntlProvider>
           </MediaQueryProvider>
         </ThemeProvider>

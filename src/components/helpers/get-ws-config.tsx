@@ -33,7 +33,7 @@ const getWsConfig = (session: string): Options => {
         </div>,
         {
           id: 'wsError',
-          duration: 200000
+          duration: 200000,
         },
       );
     },

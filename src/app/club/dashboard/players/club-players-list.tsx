@@ -4,8 +4,9 @@ import { FC } from 'react';
 
 const ClubPlayersList: FC<{ players: DatabasePlayer[] }> = ({ players }) => {
   if (!players || players.length < 1)
-    return ( // FIXME Intl
-      <div className="flex w-full justify-center text-sm mt-8 text-muted-foreground">
+    return (
+      // FIXME Intl
+      <div className="mt-8 flex w-full justify-center text-sm text-muted-foreground">
         There are no players in your club yet
       </div>
     );
