@@ -44,6 +44,7 @@ const ClubInfo = ({
           <Button
             size={'icon'}
             variant={'ghost'}
+            style={{ backgroundColor: 'transparent' }}
             onClick={() => navigate.push('dashboard/settings')}
           >
             <Settings />
