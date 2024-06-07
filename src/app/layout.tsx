@@ -2,7 +2,9 @@ import IntlProvider from '@/components/intl-provider';
 import NavbarWrapper from '@/components/navbars/navbar-wrapper';
 import ThemeProvider from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
+import ReactQueryProvider from '@/lib/providers/react-query-provider';
 import '@/styles/globals.css';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata, Viewport } from 'next';
@@ -22,13 +24,16 @@ function RootLayout({ children }: PropsWithChildren) {
           disableTransitionOnChange
         >
           <IntlProvider>
-            <NavbarWrapper />
-            <ViewTransitions>
-              <div className="pt-14">{children}</div>
-            </ViewTransitions>
-            <Analytics />
-            <SpeedInsights />
-            <Toaster richColors />
+            <ReactQueryProvider>
+              <ReactQueryDevtools />
+              <NavbarWrapper />
+              <ViewTransitions>
+                <div className="pt-14">{children}</div>
+              </ViewTransitions>
+              <Analytics />
+              <SpeedInsights />
+              <Toaster richColors />
+            </ReactQueryProvider>
           </IntlProvider>
         </ThemeProvider>
       </body>
