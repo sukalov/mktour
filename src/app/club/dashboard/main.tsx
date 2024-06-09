@@ -17,7 +17,6 @@ const Main: FC<{ clubs: DatabaseClub[]; selected: string; user: User }> = ({
 }) => {
   const selectedClub = clubs.find((club) => club.id === selected) || clubs[0];
   const selectNew = (
-    // <ClubDropdownSelect clubs={clubs} selected={selectedClub} user={user} />
     <ClubSelectDrawer clubs={clubs} selected={selectedClub} user={user} />
   );
   return <ClubInfo club={selectedClub} selectNew={selectNew} />;
