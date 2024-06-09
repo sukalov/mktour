@@ -17,8 +17,8 @@ export interface GameModel {
   white_id: string; // games.white_id;
   black_nickname: string; // players where id === games.black_id  nickname;
   white_nickname: string; // players where id === games.white_id  nickname;
-  // black_prev_game_id: string | null; // links to other games necessary for elimination-brackets
-  // white_prev_game_id: string | null; // links to other games necessary for elimination-brackets
+  black_prev_game_id: string | null; // links to other games necessary for elimination-brackets
+  white_prev_game_id: string | null; // links to other games necessary for elimination-brackets
   round_number: number; // games.round_number
   round_name: RoundName | null; // games.round_name
   result: Result | null; //games.result
