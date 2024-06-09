@@ -1,7 +1,7 @@
 'use client';
 
+import ClubSelectDrawer from '@/app/club/dashboard/club-select-drawer';
 import { InfoItem } from '@/components/dashboard/tabs/main';
-import ClubDropdownSelect from '@/components/navbars/club-select-dropdown';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { DatabaseClub } from '@/lib/db/schema/tournaments';
@@ -17,7 +17,8 @@ const Main: FC<{ clubs: DatabaseClub[]; selected: string; user: User }> = ({
 }) => {
   const selectedClub = clubs.find((club) => club.id === selected) || clubs[0];
   const selectNew = (
-    <ClubDropdownSelect clubs={clubs} selected={selectedClub} user={user} />
+    // <ClubDropdownSelect clubs={clubs} selected={selectedClub} user={user} />
+    <ClubSelectDrawer clubs={clubs} selected={selectedClub} user={user} />
   );
   return <ClubInfo club={selectedClub} selectNew={selectNew} />;
 };
