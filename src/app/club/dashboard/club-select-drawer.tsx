@@ -12,13 +12,14 @@ const ClubSelectDrawer: FC<ClubSelectProps> = ({ clubs, user, selected }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const escapeRef = useRef(null);
 
   useEffect(() => {
     setLoading(false);
   }, [clubs]);
 
   const handleChange = (clubId: string) => {
+    setOpen(false);
     if (clubId !== selected.id) {
       setLoading(true);
       handleClubSelect(clubId, user.id);
@@ -28,7 +29,7 @@ const ClubSelectDrawer: FC<ClubSelectProps> = ({ clubs, user, selected }) => {
 
   useOutsideClick(() => {
     open && setOpen(false);
-  }, [buttonRef]);
+  }, [escapeRef]);
 
   const sortedClubs = [...clubs].sort((a, b) =>
     a.id === selected.id ? -1 : b.id === selected.id ? 1 : 0,
@@ -40,10 +41,10 @@ const ClubSelectDrawer: FC<ClubSelectProps> = ({ clubs, user, selected }) => {
   };
 
   return (
-    <Drawer open={open} modal={false}>
+    <Drawer open={open} onOpenChange={(value) => setOpen(value)}>
       <DrawerTrigger asChild>
         <Button
-          ref={buttonRef}
+          ref={escapeRef}
           onClick={() => setOpen(!open)}
           style={{ backgroundColor: 'transparent' }}
           size="icon"
@@ -53,7 +54,7 @@ const ClubSelectDrawer: FC<ClubSelectProps> = ({ clubs, user, selected }) => {
           <Icon />
         </Button>
       </DrawerTrigger>
-      <DrawerContent>
+      <DrawerContent ref={escapeRef}>
         <div className="flex flex-col gap-4 p-4">
           {sortedClubs.map(({ name, id }) => (
             <div
