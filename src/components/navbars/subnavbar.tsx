@@ -1,7 +1,6 @@
 'use client';
 
 import { MediaQueryContext } from '@/components/media-query-context';
-import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { User } from 'lucia';
 import { LucideIcon } from 'lucide-react';
@@ -59,15 +58,13 @@ const NavItem: React.FC<{
       : { size: 18, strokeWidth: 2 };
 
     if (!isMobile) {
-      return <Label className="text-sm">{item.title}</Label>;
+      return <span className="text-sm">{item.title}</span>;
     } else return <Logo {...logoProps} />;
   };
 
   return (
-    <Link href={`${root}${item.path}`}>
-      <div className={cn(`flex items-center justify-center gap-1`, style)}>
+    <Link href={`${root}${item.path}`} className={cn(`flex items-center justify-center gap-1`, style)}>
         <Title />
-      </div>
     </Link>
   );
 };
