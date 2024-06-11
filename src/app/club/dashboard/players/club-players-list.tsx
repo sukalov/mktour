@@ -3,15 +3,16 @@ import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { FC } from 'react';
 
 const ClubPlayersList: FC<{ players: DatabasePlayer[] }> = ({ players }) => {
+
   if (!players || players.length < 1)
     return (
       // FIXME Intl
       <div className="mt-8 flex w-full justify-center text-sm text-muted-foreground">
-        There are no players in your club yet
+        <p>There are no players in your club yet</p>
       </div>
     );
   return (
-    <>
+    <div className='flex gap-2 flex-col'>
       {players.map(({ nickname, rating, last_seen, id }) => {
         const lastSeen = getFormmatedLastSeen(last_seen);
         const realname = 'Real Name';
@@ -32,7 +33,7 @@ const ClubPlayersList: FC<{ players: DatabasePlayer[] }> = ({ players }) => {
           </Card>
         );
       })}
-    </>
+    </div>
   );
 };
 
