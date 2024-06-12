@@ -1,5 +1,4 @@
 const MillionLint = require('@million/lint');
-const million = require('million/compiler');
 /** @type {import('next').NextConfig} */
 const withBundleAnalyzer = require('@next/bundle-analyzer');
 const { withAxiom } = require('next-axiom');
