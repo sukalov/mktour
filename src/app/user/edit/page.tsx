@@ -1,6 +1,10 @@
 import EditProfileForm from '@/app/user/edit/edit-profile-form';
 import { getUser } from '@/lib/auth/utils';
-import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
+import {
+  HydrationBoundary,
+  QueryClient,
+  dehydrate,
+} from '@tanstack/react-query';
 
 export default async function EditUserPage() {
   const queryClient = new QueryClient();

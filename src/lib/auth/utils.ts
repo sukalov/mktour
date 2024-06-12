@@ -1,4 +1,4 @@
-'use server'
+'use server';
 
 import { validateRequest } from '@/lib/auth/lucia';
 import { User } from 'lucia';

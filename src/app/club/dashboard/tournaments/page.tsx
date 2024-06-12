@@ -10,10 +10,11 @@ export default function ClubDashboardTournaments() {
     //   const res = await fetch('https://lichess.org/api/user/sukalov');
     //   return await res.json()
     // },
-    queryFn: () => getClubTournaments()
+    queryFn: () => getClubTournaments(),
   });
 
   if (data.isLoading) return <p>loading...</p>;
-  if (data.isError) return <p className='w-full'>{data?.failureReason?.message}</p>;
+  if (data.isError)
+    return <p className="w-full">{data?.failureReason?.message}</p>;
   return <pre>{JSON.stringify(data.data, null, 2)}</pre>;
 }

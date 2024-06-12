@@ -63,8 +63,11 @@ const NavItem: React.FC<{
   };
 
   return (
-    <Link href={`${root}${item.path}`} className={cn(`flex items-center justify-center gap-1`, style)}>
-        <Title />
+    <Link
+      href={`${root}${item.path}`}
+      className={cn(`flex items-center justify-center gap-1`, style)}
+    >
+      <Title />
     </Link>
   );
 };

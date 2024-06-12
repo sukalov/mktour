@@ -3,7 +3,6 @@ import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { FC } from 'react';
 
 const ClubPlayersList: FC<{ players: DatabasePlayer[] }> = ({ players }) => {
-
   if (!players || players.length < 1)
     return (
       // FIXME Intl
@@ -12,7 +11,7 @@ const ClubPlayersList: FC<{ players: DatabasePlayer[] }> = ({ players }) => {
       </div>
     );
   return (
-    <div className='flex gap-2 flex-col'>
+    <div className="flex flex-col gap-2">
       {players.map(({ nickname, rating, last_seen, id }) => {
         const lastSeen = getFormmatedLastSeen(last_seen);
         const realname = 'Real Name';
