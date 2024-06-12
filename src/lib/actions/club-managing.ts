@@ -1,6 +1,6 @@
 'use server';
 
-import { getUser } from '@/lib/auth/utils';
+import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
 import { users } from '@/lib/db/schema/auth';
 import {
@@ -14,17 +14,17 @@ import { eq } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 
 export const createClub = async (values: NewClubFormType) => {
-  const requestor = await getUser();
-  if (!requestor) throw new Error('unauthorized request');
+  const { user } = await validateRequest();
+  if (!user) throw new Error('unauthorized request');
   const id = newid();
   const newClub = {
     ...values,
     id,
   };
   const newRelation: DatabaseClubsToUsers = {
-    id: `${requestor.id}=${id}`,
+    id: `${user.id}=${id}`,
     club_id: id,
-    user_id: requestor.id,
+    user_id: user.id,
     status: 'admin',
   };
   try {
@@ -33,7 +33,7 @@ export const createClub = async (values: NewClubFormType) => {
     await db
       .update(users)
       .set({ selected_club: id })
-      .where(eq(users.id, requestor.id));
+      .where(eq(users.id, user.id));
   } catch (e) {
     throw new Error('club has NOT been saved');
   }

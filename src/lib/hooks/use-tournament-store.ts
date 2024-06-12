@@ -1,4 +1,4 @@
-import { getTournamentState } from '@/lib/get-tournament-state';
+import { getTournamentState } from '@/lib/actions/get-tournament-state';
 import { TournamentModel } from '@/types/tournaments';
 
 import { create } from 'zustand';

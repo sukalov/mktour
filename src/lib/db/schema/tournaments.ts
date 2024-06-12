@@ -1,6 +1,6 @@
 import { users } from '@/lib/db/schema/auth';
 import { Format, Result, RoundName, TournamentType } from '@/types/tournaments';
-import { InferSelectModel } from 'drizzle-orm';
+import { InferSelectModel, relations } from 'drizzle-orm';
 import { int, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
 export const players = sqliteTable('player', {
@@ -95,6 +95,38 @@ export const games = sqliteTable('game', {
     .references(() => tournaments.id)
     .notNull(),
 });
+
+export const clubs_relations = relations(clubs, ({ many }) => ({
+  tournaments: many(tournaments),
+  players: many(players),
+}));
+
+export const players_relations = relations(players, ({ one, many }) => ({
+  club: one(clubs, { fields: [players.club_id], references: [clubs.id] }),
+  tournaments: many(players_to_tournaments),
+}));
+
+export const tournaments_relations = relations(
+  tournaments,
+  ({ one, many }) => ({
+    club: one(clubs, { fields: [tournaments.club_id], references: [clubs.id] }),
+    players: many(players_to_tournaments),
+  }),
+);
+
+export const players_to_tournaments_relations = relations(
+  players_to_tournaments,
+  ({ one }) => ({
+    player: one(players, {
+      fields: [players_to_tournaments.player_id],
+      references: [players.id],
+    }),
+    tournament: one(tournaments, {
+      fields: [players_to_tournaments.tournament_id],
+      references: [tournaments.id],
+    }),
+  }),
+);
 
 export type DatabasePlayer = InferSelectModel<typeof players>;
 export type DatabaseTournament = InferSelectModel<typeof tournaments>;

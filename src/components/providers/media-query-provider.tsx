@@ -1,6 +1,6 @@
 'use client';
 
-import { MediaQueryContext } from '@/components/media-query-context';
+import { MediaQueryContext } from '@/components/providers/media-query-context';
 import { FC, PropsWithChildren, useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 

@@ -2,9 +2,16 @@
 
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
-import { DatabaseTournament, tournaments } from '@/lib/db/schema/tournaments';
+import {
+  DatabaseTournament,
+  games,
+  players,
+  players_to_tournaments,
+  tournaments
+} from '@/lib/db/schema/tournaments';
 import { newid } from '@/lib/utils';
 import { NewTournamentFormType } from '@/lib/zod/new-tournament-form';
+import { eq, sql } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 
 export const createTournament = async (values: NewTournamentFormType) => {
@@ -30,3 +37,45 @@ export const createTournament = async (values: NewTournamentFormType) => {
   }
   redirect(`/tournament/${newTournamentID}`);
 };
+
+export async function getTournamentGames(id: string) {
+  return await db.select().from(games).where(eq(games.tournament_id, id));
+}
+
+export async function getTournamentPlayers(id: string) {
+  const playersDb = await db
+    .select()
+    .from(players_to_tournaments)
+    .where(eq(players_to_tournaments.tournament_id, id))
+    .leftJoin(players, eq(players.id, players_to_tournaments.player_id));
+
+  return playersDb.map((each) => ({
+    id: each!.player!.id,
+    nickname: each!.player!.nickname,
+    rating: each!.player!.rating,
+    wins: each.players_to_tournaments.wins,
+    draws: each.players_to_tournaments.draws,
+    losses: each.players_to_tournaments.losses,
+    color_index: each.players_to_tournaments.color_index,
+  }));
+}
+
+export async function getTournamentInfo(id: string) {
+  return await db.select().from(tournaments).where(eq(games.tournament_id, id));
+}
+
+export async function getTournamentPossiblePlayers(id: string) {
+  const result = await db.all(sql`
+    SELECT p.*
+    FROM ${players} p
+    LEFT JOIN ${players_to_tournaments} pt
+      ON p.id = pt.player_id AND pt.tournament_id = ${id}
+    WHERE p.club_id = (
+      SELECT t.club_id
+      FROM ${tournaments} t
+      WHERE t.id = ${id}
+    )
+    AND pt.player_id IS NULL;
+  `);
+  return result;
+}

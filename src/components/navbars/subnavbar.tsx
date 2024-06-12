@@ -1,6 +1,6 @@
 'use client';
 
-import { MediaQueryContext } from '@/components/media-query-context';
+import { MediaQueryContext } from '@/components/providers/media-query-context';
 import { cn } from '@/lib/utils';
 import { User } from 'lucia';
 import { LucideIcon } from 'lucide-react';

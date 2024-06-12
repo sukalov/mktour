@@ -2,7 +2,7 @@
 
 import { DashboardContext } from '@/components/dashboard/dashboard-context';
 import { onClickRemovePlayer } from '@/components/helpers/on-click-handlers';
-import { MediaQueryContext } from '@/components/media-query-context';
+import { MediaQueryContext } from '@/components/providers/media-query-context';
 import {
   Table,
   TableBody,
