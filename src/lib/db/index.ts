@@ -4,6 +4,8 @@ import * as schema2 from '@/lib/db/schema/tournaments';
 import { createClient } from '@libsql/client';
 import { drizzle } from 'drizzle-orm/libsql';
 
+console.log(process.env.DATABASE_URL, process.env.DATABASE_AUTH_TOKEN)
+
 const config = {
   url: DATABASE_URL,
   authToken: DATABASE_AUTH_TOKEN,
