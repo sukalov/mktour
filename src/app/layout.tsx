@@ -1,9 +1,10 @@
-import IntlProvider from '@/components/intl-provider';
-import MediaQueryProvider from '@/components/media-query-provider';
+
 import NavbarWrapper from '@/components/navbars/navbar-wrapper';
-import ThemeProvider from '@/components/theme-provider';
+import IntlProvider from '@/components/providers/intl-provider';
+import MediaQueryProvider from '@/components/providers/media-query-provider';
+import ReactQueryProvider from '@/components/providers/react-query-provider';
+import ThemeProvider from '@/components/providers/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
-import ReactQueryProvider from '@/lib/providers/react-query-provider';
 import '@/styles/globals.css';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
