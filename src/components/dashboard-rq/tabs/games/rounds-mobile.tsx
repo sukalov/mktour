@@ -1,18 +1,26 @@
+import Loading from '@/app/loading';
 import { gamesMock } from '@/app/tournament/[id]/dashboard';
 import { DashboardContext } from '@/components/dashboard/dashboard-context';
 import RoundControls from '@/components/dashboard/tabs/games/round-controls';
 import RoundItem from '@/components/dashboard/tabs/games/round-item';
+import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
+import { usePathname } from 'next/navigation';
 import { FC, useContext, useState } from 'react';
 
 const RoundsMobile: FC = () => {
   const round = gamesMock[0];
   const [roundInView, setRoundInView] = useState(0);
   const { currentTab } = useContext(DashboardContext);
-  const { ongoing_round } = useTournamentStore();
+  const id = usePathname().split('/').at(-1) as string;
+  const tournament = useTournamentInfo(id);
   const [compact, setCompact] = useState(true);
+
+  if (tournament.isLoading) return <Loading />;
+  if (tournament.isError) {
+    return null;
+  }
 
   return (
     <div>
@@ -21,7 +29,7 @@ const RoundsMobile: FC = () => {
           roundInView,
           games: gamesMock,
           setRoundInView,
-          currentRound: ongoing_round,
+          currentRound: tournament.data?.tournament.ongoing_round,
           currentTab,
         }}
       />

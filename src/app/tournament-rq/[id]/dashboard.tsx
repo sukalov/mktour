@@ -1,57 +1,49 @@
 'use client';
 
-import {
-  DashboardContextType
-} from '@/components/dashboard-rq/dashboard-context';
-import { getTournamentPossiblePlayers } from '@/lib/actions/tournament-managing';
+import CarouselContainer from '@/components/dashboard-rq/carousel-container';
+import { DashboardContext, DashboardContextType } from '@/components/dashboard-rq/dashboard-context';
+import FabProvider from '@/components/dashboard-rq/fab-provider';
+import TabsContainer from '@/components/dashboard-rq/tabs-container';
+import getWsConfig from '@/components/helpers/get-ws-config';
+import { SOCKET_URL } from '@/lib/config/urls';
 import { Status } from '@/lib/db/hooks/use-status-in-tournament';
 import { GameModel } from '@/types/tournaments';
-import { useQuery } from '@tanstack/react-query';
-import { Dispatch, FC, SetStateAction } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
+import useWebSocket from 'react-use-websocket';
 
 const Dashboard: FC<TournamentPageContentProps> = ({
-  // session,
+  session,
   id,
-  // status,
+  status,
 }) => {
-  // const [currentTab, setCurrentTab] =
-    // useState<DashboardContextType['currentTab']>('main');
-  // const { sendJsonMessage } = useWebSocket(
-  //   `${SOCKET_URL}/${id}`,
-  //   getWsConfig(session),
-  // );
-
-  const possiblePlayers = useQuery({
-    queryKey: ['players', 'possible', id],
-    queryFn: async () => await getTournamentPossiblePlayers(id),
-    staleTime: 1000 * 60 * 15
-  })
-
-  console.log(possiblePlayers.data)
-
-  // const [scrolling, setScrolling] = useState(false);
+  const [scrolling, setScrolling] = useState(false);
+  const [currentTab, setCurrentTab] =
+    useState<DashboardContextType['currentTab']>('main');
+  const { sendJsonMessage } = useWebSocket(
+    `${SOCKET_URL}/${id}`,
+    getWsConfig(session),
+  );
 
   return (
-    // <DashboardContext.Provider
-    //   value={{
-    //     currentTab,
-    //     sendJsonMessage,
-    //     status,
-    //   }}
-    // >
-    //   <TabsContainer currentTab={currentTab} setCurrentTab={setCurrentTab} />
-    //   <CarouselContainer
-    //     currentTab={currentTab}
-    //     setCurrentTab={setCurrentTab}
-    //     setScrolling={setScrolling}
-    //   />
-    //   <FabProvider
-    //     status={status}
-    //     currentTab={currentTab}
-    //     scrolling={scrolling}
-    //   />
-    // </DashboardContext.Provider>
-    <></>
+    <DashboardContext.Provider
+      value={{
+        currentTab,
+        sendJsonMessage,
+        status,
+      }}
+    >
+      <TabsContainer currentTab={currentTab} setCurrentTab={setCurrentTab} />
+      <CarouselContainer
+        currentTab={currentTab}
+        setCurrentTab={setCurrentTab}
+        setScrolling={setScrolling}
+      />
+      <FabProvider
+        status={status}
+        currentTab={currentTab}
+        scrolling={scrolling}
+      />
+    </DashboardContext.Provider>
   );
 };
 

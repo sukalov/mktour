@@ -1,4 +1,4 @@
-import { TabProps } from '@/app/tournament/[id]/dashboard';
+import { TabProps } from '@/app/tournament-rq/[id]/dashboard';
 import { DashboardContextType } from '@/components/dashboard-rq/dashboard-context';
 import tabs from '@/components/dashboard-rq/tabs';
 import handleSwipe from '@/components/helpers/handle-swipe';

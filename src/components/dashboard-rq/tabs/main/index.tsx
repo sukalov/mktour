@@ -5,13 +5,20 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { CalendarDays, Dices, NotebookPen, UserRound } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { FC, ReactNode } from 'react';
+import { toast } from 'sonner';
 
 const Main = () => {
   const id = usePathname().split('/').at(-1) as string;
-  const {data, isLoading, isError}  = useTournamentInfo(id)
+  const { data, isLoading, isError } = useTournamentInfo(id);
 
   if (isLoading) return <LoadingElement />;
-  if (isError) return <>error</>
+  if (isError) {
+    toast.error("couldn't get tournament info from server", {
+      id: 'query-info',
+      duration: 3000,
+    });
+    return <LoadingElement />;
+  }
 
   return (
     <div className="flex flex-col gap-4 p-4">

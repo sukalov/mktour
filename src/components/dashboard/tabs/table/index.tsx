@@ -20,7 +20,7 @@ import { useLongPress } from 'use-long-press';
 const DEFAULT_DASHBOARD_TABS = ['wins', 'draws', 'losses'];
 
 const TournamentTable: FC = () => {
-  const id = usePathname().split('/').at(-1) as string;;
+  const id = usePathname().split('/').at(-1) as string;
   const players = useTournamentPlayers(id);
   const { status, sendJsonMessage } = useContext(DashboardContext);
   const [selectedPlayerId, setPlayerId] = useState('');

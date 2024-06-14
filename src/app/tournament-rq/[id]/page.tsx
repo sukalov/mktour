@@ -4,7 +4,6 @@ import { validateRequest } from '@/lib/auth/lucia';
 import { useStatusInTournament } from '@/lib/db/hooks/use-status-in-tournament';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
 
 export const revalidate = 0;
 
@@ -14,8 +13,6 @@ export default async function TournamentPage({ params }: TournamentPageProps) {
   await queryPrefetch(params.id);
 
   let status = await useStatusInTournament(user, params.id);
-
-  if (!user || !status) redirect(`/tournament/${params.id}/view`);
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

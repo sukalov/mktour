@@ -26,7 +26,7 @@ const TournamentTable: FC = () => {
   const [selectedPlayerId, setPlayerId] = useState('');
   const bind = useLongPress(
     () => {
-      if (status === 'organizer' && window.confirm('Delete player?')) {
+      if (status === 'organizer' && window.confirm('delete player?')) {
         onClickRemovePlayer(selectedPlayerId, sendJsonMessage);
       }
     },

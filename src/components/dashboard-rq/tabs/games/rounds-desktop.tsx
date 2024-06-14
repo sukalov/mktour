@@ -1,5 +1,5 @@
-import { gamesMock } from '@/app/tournament/[id]/dashboard';
-import RoundItem from '@/components/dashboard/tabs/games/round-item';
+import { gamesMock } from '@/app/tournament-rq/[id]/dashboard';
+import RoundItem from '@/components/dashboard-rq/tabs/games/round-item';
 import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
 import { FC, useRef } from 'react';
 
