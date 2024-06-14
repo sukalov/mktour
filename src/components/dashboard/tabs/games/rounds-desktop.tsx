@@ -6,7 +6,7 @@ import { FC, useRef } from 'react';
 const RoundsDesktop: FC = () => {
   const tournament = useTournamentStore();
   const games = gamesMock;
-  const currentRound = tournament?.ongoingRound;
+  const currentRound = tournament?.ongoing_round;
   const ref = useRef<any>(null);
 
   // useEffect(() => {

@@ -11,7 +11,7 @@ const RoundsMobile: FC = () => {
   const round = gamesMock[0];
   const [roundInView, setRoundInView] = useState(0);
   const { currentTab } = useContext(DashboardContext);
-  const { ongoingRound } = useTournamentStore();
+  const { ongoing_round } = useTournamentStore();
   const [compact, setCompact] = useState(true);
 
   return (
@@ -21,7 +21,7 @@ const RoundsMobile: FC = () => {
           roundInView,
           games: gamesMock,
           setRoundInView,
-          currentRound: ongoingRound,
+          currentRound: ongoing_round,
           currentTab,
         }}
       />

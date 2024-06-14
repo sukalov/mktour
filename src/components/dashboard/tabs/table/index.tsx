@@ -2,6 +2,7 @@
 
 import { DashboardContext } from '@/components/dashboard/dashboard-context';
 import { onClickRemovePlayer } from '@/components/helpers/on-click-handlers';
+import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
 import { MediaQueryContext } from '@/components/providers/media-query-context';
 import {
   Table,
@@ -11,14 +12,16 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
+
+import { usePathname } from 'next/navigation';
 import { FC, useContext, useState } from 'react';
 import { useLongPress } from 'use-long-press';
 
 const DEFAULT_DASHBOARD_TABS = ['wins', 'draws', 'losses'];
 
 const TournamentTable: FC = () => {
-  const { players } = useTournamentStore();
+  const id = usePathname().split('/').at(-1) as string;;
+  const players = useTournamentPlayers(id);
   const { status, sendJsonMessage } = useContext(DashboardContext);
   const [selectedPlayerId, setPlayerId] = useState('');
   const bind = useLongPress(
@@ -36,13 +39,13 @@ const TournamentTable: FC = () => {
         <TableRow>
           <TableHead className="pl-4 pr-0">#</TableHead>
           <TableHead className="pl-0">
-            name ({players.length} players)
+            name ({players.data?.length} players)
           </TableHead>
           <TableStatsHeads />
         </TableRow>
       </TableHeader>
       <TableBody>
-        {players?.map((player, i) => (
+        {players.data?.map((player, i) => (
           <TableRow
             key={player.id}
             {...bind()}

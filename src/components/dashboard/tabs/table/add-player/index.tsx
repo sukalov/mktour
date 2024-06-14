@@ -3,16 +3,15 @@ import Fab from '@/components/dashboard/fab';
 import AddNewPlayer from '@/components/dashboard/tabs/table/add-player/add-new-player';
 import AddPlayer from '@/components/dashboard/tabs/table/add-player/add-player';
 import FabClose from '@/components/dashboard/tabs/table/add-player/fab-close';
-import {
-  onClickAddExistingPlayer,
-  onClickAddNewPlayer,
-} from '@/components/helpers/on-click-handlers';
+import { onClickAddExistingPlayer, onClickAddNewPlayer } from '@/components/helpers/on-click-handlers';
 import { Button } from '@/components/ui/button';
+import { useQueryClient } from '@tanstack/react-query';
 import { ArrowLeft, Plus, UserPlus } from 'lucide-react';
 import { Dispatch, SetStateAction, useContext, useState } from 'react';
 import { Drawer } from 'vaul';
 
 const AddPlayerDrawer = () => {
+  const queryClient = useQueryClient()
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
   const [addingNewPlayer, setAddingNewPlayer] = useState(false);
@@ -25,6 +24,7 @@ const AddPlayerDrawer = () => {
   };
 
   const handleAddPlayer = (props: HandlerProps) => {
+    queryClient.invalidateQueries({ queryKey: ['players'] });
     if (props.type === 'existing')
       onClickAddExistingPlayer(props.id, sendJsonMessage);
     else onClickAddNewPlayer(props.name, props.rating, sendJsonMessage);

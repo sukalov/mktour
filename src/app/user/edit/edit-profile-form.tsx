@@ -31,7 +31,7 @@ export default function EditProfileForm() {
   const userQuery = useQuery({
     queryKey: ['user'],
     queryFn: () => getUser(),
-    staleTime: Infinity,
+    staleTime: 30 * 1000 * 60,
   });
 
   const defaultValues = {

@@ -1,7 +1,4 @@
-import { getTournamentState } from '@/lib/actions/get-tournament-state';
-import { TournamentModel } from '@/types/tournaments';
-
-import { create } from 'zustand';
+```typescript
 
 export interface TournamentStore extends TournamentModel {
   isLoading: boolean;
@@ -26,10 +23,10 @@ export const useTournamentStore = create<TournamentStore>((set) => ({
     name: '',
   },
   status: undefined,
-  rounds_number: null,
+  roundsNumber: null,
   players: [],
   games: [],
-  ongoing_round: 1,
+  ongoingRound: 1,
   possiblePlayers: [],
   isLoading: true,
   initAsync: async (id) => {
@@ -106,3 +103,4 @@ export interface DatabasePlayerSlice {
   realname?: string | null;
   [key: string]: any;
 }
+```

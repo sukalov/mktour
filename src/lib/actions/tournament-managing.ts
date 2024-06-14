@@ -3,11 +3,13 @@
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
 import {
+  DatabasePlayer,
   DatabaseTournament,
+  clubs,
   games,
   players,
   players_to_tournaments,
-  tournaments
+  tournaments,
 } from '@/lib/db/schema/tournaments';
 import { newid } from '@/lib/utils';
 import { NewTournamentFormType } from '@/lib/zod/new-tournament-form';
@@ -61,11 +63,17 @@ export async function getTournamentPlayers(id: string) {
 }
 
 export async function getTournamentInfo(id: string) {
-  return await db.select().from(tournaments).where(eq(games.tournament_id, id));
+  return (
+    await db
+      .select()
+      .from(tournaments)
+      .where(eq(tournaments.id, id))
+      .leftJoin(clubs, eq(tournaments.club_id, clubs.id))
+  ).at(0);
 }
 
-export async function getTournamentPossiblePlayers(id: string) {
-  const result = await db.all(sql`
+export async function getTournamentPossiblePlayers(id: string): Promise<Array<DatabasePlayer>> {
+  const result = (await db.all(sql`
     SELECT p.*
     FROM ${players} p
     LEFT JOIN ${players_to_tournaments} pt
@@ -76,6 +84,6 @@ export async function getTournamentPossiblePlayers(id: string) {
       WHERE t.id = ${id}
     )
     AND pt.player_id IS NULL;
-  `);
+  `)) as Array<DatabasePlayer>;
   return result;
 }

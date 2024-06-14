@@ -3,10 +3,11 @@ import { clubs_to_users } from '@/lib/db/schema/tournaments';
 import { and, eq } from 'drizzle-orm';
 import { User } from 'lucia';
 
-export default async function useStatusQuery({
+export default async function getStatus({
   user,
   club,
 }: UserClubsQueryProps) {
+  if (!user) return undefined
   return (
     (
       await db

@@ -45,10 +45,10 @@ export const getTournamentState = async (
       name: tournamentDb.club!.name,
     },
     status,
-    roundsNumber: tournamentDb.tournament.rounds_number,
+    rounds_number: tournamentDb.tournament.rounds_number,
     games: [],
     players: [],
-    ongoingRound: 1,
+    ongoing_round: 1,
     possiblePlayers: [],
   };
 

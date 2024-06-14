@@ -1,12 +1,12 @@
 import NewClubForm, { TeamSlice } from '@/app/club/create/new-club-form';
-import { getUser } from '@/lib/auth/utils';
+import { validateRequest } from '@/lib/auth/lucia';
 import useUserToClubsQuery from '@/lib/db/hooks/use-user-to-clubs-query';
 import { DatabaseClub } from '@/lib/db/schema/tournaments';
 import { Team } from '@/types/lichess-api';
 import { redirect } from 'next/navigation';
 
 export default async function CreateClubPage() {
-  const user = await getUser();
+  const { user } = await validateRequest();
   if (!user) redirect('/sign-in');
   const userClubs = await useUserToClubsQuery({ user });
   const preparedUser = userClubs.map((el) => el.club) as DatabaseClub[];

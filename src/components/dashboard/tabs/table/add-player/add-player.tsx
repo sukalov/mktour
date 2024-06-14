@@ -1,17 +1,22 @@
-// import { Input } from '@/components/dashboard/tabs/table/add-player';
+// import { useTournamentPossiblePlayers } from '@/components/dashboard/tabs/table/add-player';
+import { useTournamentPossiblePlayers } from '@/components/hooks/query-hooks/use-possible-players';
+import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
-import {
-  DatabasePlayerSlice,
-  useTournamentStore,
-} from '@/lib/hooks/use-tournament-store';
+import { DatabasePlayer } from '@/lib/db/schema/tournaments';
+import { usePathname } from 'next/navigation';
 import { FC } from 'react';
 
 const AddPlayer: FC<any> = ({ handleAddPlayer, value, setValue }) => {
-  const { possiblePlayers, players } = useTournamentStore();
-  const filteredPlayers = possiblePlayers.filter(
-    (player: DatabasePlayerSlice) => {
+  const id = usePathname().split('/').at(-1) as string;
+  const possiblePlayers = useTournamentPossiblePlayers(id);
+  const players = useTournamentPlayers(id);
+  if (players.isLoading || possiblePlayers.isLoading) return 'loading...';
+  if (players.isError || possiblePlayers.isLoading) return 'error...';
+
+  const filteredPlayers = possiblePlayers.data?.filter(
+    (player: DatabasePlayer) => {
       const regex = new RegExp(value, 'i');
       if (value === '') return player;
       return regex.test(player.nickname);
@@ -24,7 +29,7 @@ const AddPlayer: FC<any> = ({ handleAddPlayer, value, setValue }) => {
         placeholder="search"
         onChange={(e) => setValue(e.target.value)}
       />
-      {possiblePlayers.length === 0 && players.length === 0 && (
+      {possiblePlayers.data?.length === 0 && players.data?.length === 0 && (
         <p className="pl-[10%] pt-4 text-sm text-muted-foreground">
           nobody in your club yet! <br />
           go add some new people
@@ -33,7 +38,7 @@ const AddPlayer: FC<any> = ({ handleAddPlayer, value, setValue }) => {
       <ScrollArea className="rounded-2 h-[79svh]">
         <Table>
           <TableBody>
-            {filteredPlayers.map((player) => (
+            {filteredPlayers?.map((player) => (
               <TableRow
                 key={player.id}
                 onClick={() =>

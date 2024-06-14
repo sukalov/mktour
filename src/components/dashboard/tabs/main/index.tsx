@@ -1,26 +1,28 @@
+import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
 import { CalendarDays, Dices, NotebookPen, UserRound } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 import { FC, ReactNode } from 'react';
 
 const Main = () => {
-  const { title, type, format, date, isLoading, organizer } =
-    useTournamentStore();
+  const id = usePathname().split('/').at(-1) as string;
+  const {data, isLoading, isError}  = useTournamentInfo(id)
 
   if (isLoading) return <LoadingElement />;
+  if (isError) return <>error</>
 
   return (
     <div className="flex flex-col gap-4 p-4">
       <div className="truncate whitespace-break-spaces text-4xl font-bold">
-        {title}
+        {data?.tournament.title}
       </div>
       <Card className="items-left flex w-full flex-col gap-8 p-4 pl-[15%]">
-        <InfoItem icon={<NotebookPen />} value={organizer.name} />
-        <InfoItem icon={<UserRound />} value={type} />
-        <InfoItem icon={<Dices />} value={format} />
-        <InfoItem icon={<CalendarDays />} value={date} />
+        <InfoItem icon={<NotebookPen />} value={data?.club?.name} />
+        <InfoItem icon={<UserRound />} value={data?.tournament.type} />
+        <InfoItem icon={<Dices />} value={data?.tournament.format} />
+        <InfoItem icon={<CalendarDays />} value={data?.tournament.date} />
       </Card>
       {/* here is place to chose number of rounds in swiss */}
       <Button onClick={() => console.log('tournament started')}>

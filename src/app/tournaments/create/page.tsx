@@ -1,11 +1,12 @@
 import NewTournamentForm from '@/app/tournaments/create/new-tournament-form';
-import { getUser } from '@/lib/auth/utils';
+import { validateRequest } from '@/lib/auth/lucia';
 import useUserToClubsQuery from '@/lib/db/hooks/use-user-to-clubs-query';
 import { DatabaseClub } from '@/lib/db/schema/tournaments';
 import { redirect } from 'next/navigation';
 
 export default async function NewTournament() {
-  const user = await getUser(); // TODO: Create Context for user object!
+  const { user } = await validateRequest()
+  if (!user) redirect('/sign-in')
   const userClubs = await useUserToClubsQuery({ user });
   const preparedUser = userClubs.map((el) => el.club) as DatabaseClub[];
 

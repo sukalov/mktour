@@ -35,8 +35,8 @@ export interface TournamentModel {
     name: string; // club.name
   };
   status: TournamentStatus | undefined; // created according to started_at and closed_at
-  roundsNumber: number | null; // tournamnets.rounds_number
-  ongoingRound: number;
+  rounds_number: number | null; // tournamnets.rounds_number
+  ongoing_round: number;
   games: Array<GameModel>; // games where tournament.id === id
   players: Array<PlayerModel>; // players_to_tournaments where tournament.id === id
   possiblePlayers: Array<DatabasePlayerSlice>; // players of organizer club except already added
