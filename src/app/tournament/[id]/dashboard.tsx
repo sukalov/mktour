@@ -1,12 +1,12 @@
 'use client';
 
-import CarouselContainer from '@/components/dashboard/carousel-container';
+import CarouselContainer from '@/components/dashboard-rq/carousel-container';
 import {
   DashboardContext,
   DashboardContextType,
-} from '@/components/dashboard/dashboard-context';
-import FabProvider from '@/components/dashboard/fab-provider';
-import TabsContainer from '@/components/dashboard/tabs-container';
+} from '@/components/dashboard-rq/dashboard-context';
+import FabProvider from '@/components/dashboard-rq/fab-provider';
+import TabsContainer from '@/components/dashboard-rq/tabs-container';
 import getPossiblePlayers from '@/components/helpers/get-possible-players';
 import getWsConfig from '@/components/helpers/get-ws-config';
 import useInit from '@/components/hooks/use-init';

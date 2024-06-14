@@ -2,7 +2,7 @@
 
 import {
   DashboardContextType
-} from '@/components/dashboard/dashboard-context';
+} from '@/components/dashboard-rq/dashboard-context';
 import { getTournamentPossiblePlayers } from '@/lib/actions/tournament-managing';
 import { Status } from '@/lib/db/hooks/use-status-in-tournament';
 import { GameModel } from '@/types/tournaments';
