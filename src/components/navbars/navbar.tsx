@@ -22,7 +22,7 @@ export default function Navbar({ user, node_env }: NavbarProps) {
   const isTournament = pathname === 'tournament';
 
   return (
-    <nav className="fixed z-[1000000000] flex max-h-14 w-full min-w-max flex-row items-center justify-between border-b bg-background p-4 md:pl-4">
+    <nav className="fixed z-[100] flex max-h-14 w-full min-w-max flex-row items-center justify-between border-b bg-background p-4 md:pl-4">
       <div className="flex flex-grow justify-start">
         <Link href="/">
           <MktourNavbar isTournament={isTournament} />
