@@ -9,15 +9,15 @@ export const useTournamentRemovePlayer = (
   sendJsonMessage: (_message: Message) => void,
 ) => {
   return useMutation({
-    mutationKey: [tournamentId, 'players', 'players-remove'],
+    mutationKey: [tournamentId, 'players', 'remove'],
     mutationFn: removePlayer,
     onMutate: async ({ playerId }) => {
       await queryClient.cancelQueries({ queryKey: [tournamentId, 'players'] });
       const previousState: Array<DatabasePlayer> | undefined =
-        queryClient.getQueryData([tournamentId, 'players', 'players-added']);
+        queryClient.getQueryData([tournamentId, 'players', 'added']);
 
       queryClient.setQueryData(
-        [tournamentId, 'players', 'players-added'],
+        [tournamentId, 'players', 'added'],
         (cache: Array<DatabasePlayer>) =>
           cache.filter((player) => player.id !== playerId),
       );
@@ -26,7 +26,7 @@ export const useTournamentRemovePlayer = (
     onError: (_err, _, context) => {
       if (context?.previousState) {
         queryClient.setQueryData(
-          [tournamentId, 'players', 'players-added'],
+          [tournamentId, 'players', 'added'],
           context.previousState,
         );
       }

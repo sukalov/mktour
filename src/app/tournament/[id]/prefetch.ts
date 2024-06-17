@@ -17,12 +17,12 @@ const queryPrefetch = async (id: string) => {
     }),
 
     queryClient.prefetchQuery({
-      queryKey: [id, 'players', 'players-added'],
+      queryKey: [id, 'players', 'added'],
       queryFn: () => getTournamentPlayers(id),
     }),
 
     queryClient.prefetchQuery({
-      queryKey: [id, 'players', 'players-possible'],
+      queryKey: [id, 'players', 'possible'],
       queryFn: async () => await getTournamentPossiblePlayers(id),
     }),
 

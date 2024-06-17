@@ -13,31 +13,45 @@ export const handleSocketMessage = (
 ) => {
   switch (message.type) {
     case 'add-new-player':
-      useTournamentStore.getState().addNewPlayer(message.body);
+      queryClient.cancelQueries({
+        queryKey: [tournamentId, 'players', 'added'],
+      });
+      queryClient.setQueryData(
+        [tournamentId, 'players', 'added'],
+        (cache: Array<DatabasePlayer>) => cache.concat(message.body),
+      );
+      queryClient.invalidateQueries({
+        queryKey: [tournamentId, 'players', 'added'],
+      });
       break;
     case 'add-existing-player':
       useTournamentStore.getState().addPlayer(message.id);
       break;
     case 'remove-player':
-      const removedPlayer = (
-        queryClient.getQueryData([
-          'players',
-          tournamentId,
-          'players-added',
-        ]) as Array<DatabasePlayer>
-      ).find((player: DatabasePlayer) => player.id === message.id);
+      queryClient.cancelQueries({
+        queryKey: [tournamentId, 'players', 'added'],
+      });
+      const addedPlayers = queryClient.getQueryData([
+        tournamentId,
+        'players',
+        'added',
+      ]) as Array<DatabasePlayer>;
+      if (!addedPlayers) break;
+      const removedPlayer = addedPlayers.find(
+        (player: DatabasePlayer) => player.id === message.id,
+      );
 
       queryClient.setQueryData(
-        [tournamentId, 'players', 'players-added'],
+        [tournamentId, 'players', 'added'],
         (cache: Array<DatabasePlayer>) =>
           cache.filter((player) => player.id !== message.id),
       );
       if (removedPlayer)
         queryClient.setQueryData(
-          [tournamentId, 'players', 'players-possible'],
+          [tournamentId, 'players', 'possible'],
           (cache: Array<DatabasePlayer>) => cache.concat(removedPlayer),
         );
-      queryClient.invalidateQueries({queryKey: [tournamentId, 'players']})
+      queryClient.invalidateQueries({ queryKey: [tournamentId, 'players'] });
       break;
     case 'error':
       toast.error(`server couldn't do this action "${message.data.type}"`);

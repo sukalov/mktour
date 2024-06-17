@@ -13,7 +13,6 @@ import {
   tournaments,
 } from '@/lib/db/schema/tournaments';
 import { newid, timeout } from '@/lib/utils';
-import { NewPlayerFormType } from '@/lib/zod/new-player-form';
 import { NewTournamentFormType } from '@/lib/zod/new-tournament-form';
 import { and, eq, sql } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
@@ -116,18 +115,9 @@ export async function addNewPlayer({
   player,
 }: {
   tournamentId: string;
-  player: NewPlayerFormType;
+  player: DatabasePlayer;
 }) {
-  const newPlayer: DatabasePlayer = {
-    id: player.id,
-    club_id: player.club_id,
-    nickname: player.name,
-    realname: player.name,
-    rating: player.rating ?? null,
-    user_id: null,
-    last_seen: 0,
-  };
-  await db.insert(players).values(newPlayer);
+  await db.insert(players).values(player);
   const playerToTournament: DatabasePlayerToTournament = {
     player_id: player.id,
     tournament_id: tournamentId,

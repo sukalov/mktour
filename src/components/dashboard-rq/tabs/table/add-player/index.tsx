@@ -3,7 +3,10 @@ import Fab from '@/components/dashboard-rq/fab';
 import AddNewPlayer from '@/components/dashboard-rq/tabs/table/add-player/add-new-player';
 import AddPlayer from '@/components/dashboard-rq/tabs/table/add-player/add-player';
 import FabClose from '@/components/dashboard-rq/tabs/table/add-player/fab-close';
-import { onClickAddExistingPlayer, onClickAddNewPlayer } from '@/components/helpers/on-click-handlers';
+import {
+  onClickAddExistingPlayer,
+  onClickAddNewPlayer,
+} from '@/components/helpers/on-click-handlers';
 import { Button } from '@/components/ui/button';
 import { useQueryClient } from '@tanstack/react-query';
 import { ArrowLeft, Plus, UserPlus } from 'lucide-react';
@@ -11,7 +14,7 @@ import { Dispatch, SetStateAction, useContext, useState } from 'react';
 import { Drawer } from 'vaul';
 
 const AddPlayerDrawer = () => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
   const [addingNewPlayer, setAddingNewPlayer] = useState(false);
@@ -24,7 +27,6 @@ const AddPlayerDrawer = () => {
   };
 
   const handleAddPlayer = (props: HandlerProps) => {
-    queryClient.invalidateQueries({ queryKey: ['players'] });
     if (props.type === 'existing')
       onClickAddExistingPlayer(props.id, sendJsonMessage);
     else onClickAddNewPlayer(props.name, props.rating, sendJsonMessage);
@@ -61,7 +63,7 @@ const AddPlayerDrawer = () => {
             <div className="absolute h-1 w-full shadow-red-600 drop-shadow-2xl"></div>
             {addingNewPlayer ? (
               <AddNewPlayer
-                handleAddPlayer={handleAddPlayer}
+                setOpen={setOpen}
                 value={value}
                 setValue={setValue}
               />
@@ -81,7 +83,7 @@ const AddPlayerDrawer = () => {
 };
 
 export type DrawerProps = {
-  handleAddPlayer: (_arg0: HandlerProps) => void;
+  setOpen: (_arg0: HandlerProps) => void;
   value: string;
   setValue: Dispatch<SetStateAction<string>>;
 };
