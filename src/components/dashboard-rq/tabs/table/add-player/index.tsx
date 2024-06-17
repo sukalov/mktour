@@ -8,13 +8,11 @@ import {
   onClickAddNewPlayer,
 } from '@/components/helpers/on-click-handlers';
 import { Button } from '@/components/ui/button';
-import { useQueryClient } from '@tanstack/react-query';
 import { ArrowLeft, Plus, UserPlus } from 'lucide-react';
 import { Dispatch, SetStateAction, useContext, useState } from 'react';
 import { Drawer } from 'vaul';
 
 const AddPlayerDrawer = () => {
-  const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
   const [addingNewPlayer, setAddingNewPlayer] = useState(false);

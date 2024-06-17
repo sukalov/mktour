@@ -1,5 +1,7 @@
 import { addNewPlayer } from '@/lib/actions/tournament-managing';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
+import { PlayerModel } from '@/types/tournaments';
+import { Message } from '@/types/ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
@@ -18,11 +20,24 @@ export const useTournamentAddNewPlayer = (
       const previousState: Array<DatabasePlayer> | undefined =
         queryClient.getQueryData([tournamentId, 'players', 'added']);
 
+        const newPlayer: PlayerModel = {
+          id: player.id,
+          nickname: player.nickname,
+          rating: player.rating,
+          realname: player.realname,
+          wins: 0,
+          losses: 0,
+          draws: 0,
+          color_index: 0,
+          place: null,
+          exited: null,
+        };
+
       queryClient.setQueryData(
         [tournamentId, 'players', 'added'],
-        (cache: Array<DatabasePlayer>) => cache.concat(player),
+        (cache: Array<PlayerModel>) => cache.concat(newPlayer),
       );
-      return { previousState };
+      return { previousState, newPlayer };
     },
     onError: (_err, data, context) => {
       if (context?.previousState) {
@@ -43,8 +58,8 @@ export const useTournamentAddNewPlayer = (
         queryKey: [tournamentId, 'players', 'added'],
       });
     },
-    onSuccess: (_err, { player }) => {
-      sendJsonMessage({ type: 'add-new-player', body: player });
+    onSuccess: (_err, _data, context) => {
+      sendJsonMessage({ type: 'add-new-player', body: context.newPlayer });
     },
   });
 };
