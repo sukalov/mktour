@@ -1,5 +1,6 @@
 import { removePlayer } from '@/lib/actions/tournament-managing';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
+import { Message } from '@/types/ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
@@ -9,15 +10,15 @@ export const useTournamentRemovePlayer = (
   sendJsonMessage: (_message: Message) => void,
 ) => {
   return useMutation({
-    mutationKey: ['players', tournamentId, 'players-remove'],
+    mutationKey: [tournamentId, 'players', 'remove'],
     mutationFn: removePlayer,
     onMutate: async ({ playerId }) => {
-      await queryClient.cancelQueries({ queryKey: ['players', tournamentId] });
+      await queryClient.cancelQueries({ queryKey: [tournamentId, 'players'] });
       const previousState: Array<DatabasePlayer> | undefined =
-        queryClient.getQueryData(['players', tournamentId, 'players-added']);
+        queryClient.getQueryData([tournamentId, 'players', 'added']);
 
       queryClient.setQueryData(
-        ['players', tournamentId, 'players-added'],
+        [tournamentId, 'players', 'added'],
         (cache: Array<DatabasePlayer>) =>
           cache.filter((player) => player.id !== playerId),
       );
@@ -26,7 +27,7 @@ export const useTournamentRemovePlayer = (
     onError: (_err, _, context) => {
       if (context?.previousState) {
         queryClient.setQueryData(
-          ['players', tournamentId, 'players-added'],
+          [tournamentId, 'players', 'added'],
           context.previousState,
         );
       }
@@ -36,7 +37,7 @@ export const useTournamentRemovePlayer = (
       });
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['players', tournamentId] });
+      queryClient.invalidateQueries({ queryKey: [tournamentId, 'players'] });
     },
     onSuccess: (_err, data) => {
       console.log('player removed');

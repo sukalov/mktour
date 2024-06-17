@@ -4,11 +4,13 @@ export interface PlayerModel {
   id: string;
   nickname: string; // players.nickname
   realname?: string | null;
-  rating?: number | null;
+  rating: number | null;
   wins: number;
   draws: number;
   losses: number;
   color_index: number;
+  exited: boolean | null;
+  place: number | null;
 }
 
 export interface GameModel {

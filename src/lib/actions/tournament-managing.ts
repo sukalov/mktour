@@ -4,6 +4,7 @@ import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
 import {
   DatabasePlayer,
+  DatabasePlayerToTournament,
   DatabaseTournament,
   clubs,
   games,
@@ -13,6 +14,7 @@ import {
 } from '@/lib/db/schema/tournaments';
 import { newid, timeout } from '@/lib/utils';
 import { NewTournamentFormType } from '@/lib/zod/new-tournament-form';
+import { PlayerModel } from '@/types/tournaments';
 import { and, eq, sql } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 
@@ -44,7 +46,7 @@ export async function getTournamentGames(id: string) {
   return await db.select().from(games).where(eq(games.tournament_id, id));
 }
 
-export async function getTournamentPlayers(id: string) {
+export async function getTournamentPlayers(id: string): Promise<Array<PlayerModel>> {
   const playersDb = await db
     .select()
     .from(players_to_tournaments)
@@ -52,13 +54,16 @@ export async function getTournamentPlayers(id: string) {
     .leftJoin(players, eq(players.id, players_to_tournaments.player_id));
 
   return playersDb.map((each) => ({
-    id: each!.player!.id,
-    nickname: each!.player!.nickname,
-    rating: each!.player!.rating,
+    id: each.player!.id,
+    nickname: each.player!.nickname,
+    realname: each.player?.realname,
+    rating: each.player!.rating,
     wins: each.players_to_tournaments.wins,
     draws: each.players_to_tournaments.draws,
     losses: each.players_to_tournaments.losses,
     color_index: each.players_to_tournaments.color_index,
+    exited: each.players_to_tournaments.exited,
+    place: each.players_to_tournaments.place
   }));
 }
 
@@ -109,33 +114,47 @@ export async function removePlayer({
     );
 };
 
-// export async function addNewPlayer({
-//   tournamentId,
-//   player,
-// }: {
-//   tournamentId: string;
-//   player: NewPlayerFormType;
-// }) {
-//   const newPlayer: DatabasePlayer = {
-//     id: player.id,
-//     club_id: player.club_id,
-//     nickname: player.nickname,
-//     realname: null,
-//     rating: player.rating ?? null,
-//     user_id: null,
-//     last_seen: 0,
-//   };
-//   await db.insert(players).values(newPlayer);
-//   const playerToTournament: DatabasePlayerToTournament = {
-//     player_id: player.id,
-//     tournament_id: tournamentId,
-//     id: `${player.id}=${tournamentId}`,
-//     wins: 0,
-//     losses: 0,
-//     draws: 0,
-//     color_index: 0,
-//     place: null,
-//     exited: null,
-//   };
-//   await db.insert(players_to_tournaments).values(playerToTournament);
-// }
+export async function addNewPlayer({
+  tournamentId,
+  player,
+}: {
+  tournamentId: string;
+  player: DatabasePlayer;
+}) {
+  await db.insert(players).values(player);
+  const playerToTournament: DatabasePlayerToTournament = {
+    player_id: player.id,
+    tournament_id: tournamentId,
+    id: `${player.id}=${tournamentId}`,
+    wins: 0,
+    losses: 0,
+    draws: 0,
+    color_index: 0,
+    place: null,
+    exited: null,
+  };
+  await db.insert(players_to_tournaments).values(playerToTournament);
+};
+
+export async function addExistingPlayer({
+  tournamentId,
+  player,
+}: {
+  tournamentId: string;
+  player: DatabasePlayer;
+}) {
+  const playerToTournament: DatabasePlayerToTournament = {
+    player_id: player.id,
+    tournament_id: tournamentId,
+    id: `${player.id}=${tournamentId}`,
+    wins: 0,
+    losses: 0,
+    draws: 0,
+    color_index: 0,
+    place: null,
+    exited: null,
+  };
+  await db.insert(players_to_tournaments).values(playerToTournament);
+};
+
+

@@ -1,21 +1,30 @@
-// import { useTournamentPossiblePlayers } from '@/components/dashboard/tabs/table/add-player';
-import { useTournamentPossiblePlayers } from '@/components/hooks/query-hooks/use-possible-players';
-import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
+import { DashboardContext } from '@/components/dashboard-rq/dashboard-context';
+import { DrawerProps } from '@/components/dashboard-rq/tabs/table/add-player';
+import { useTournamentAddExistingPlayer } from '@/components/hooks/mutation-hooks/use-tournament-add-existing-player';
+import { useTournamentPossiblePlayers } from '@/components/hooks/query-hooks/use-tournament-possible-players';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
+import { useQueryClient } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
-import { FC } from 'react';
+import { useContext } from 'react';
 
-const AddPlayer: FC<any> = ({ handleAddPlayer, value, setValue }) => {
+const AddPlayer = ({ setOpen, value, setValue }: DrawerProps) => {
   const id = usePathname().split('/').at(-1) as string;
   const possiblePlayers = useTournamentPossiblePlayers(id);
-  const players = useTournamentPlayers(id);
-  if (players.isLoading || possiblePlayers.isLoading) return 'loading...';
-  if (players.isError || possiblePlayers.isLoading) return 'error...';
+  const queryClient = useQueryClient();
+  const { sendJsonMessage } = useContext(DashboardContext);
+  const { mutate } = useTournamentAddExistingPlayer(
+    id,
+    queryClient,
+    sendJsonMessage,
+  );
 
-  const filteredPlayers = possiblePlayers.data?.filter(
+  if (possiblePlayers.status === 'pending') return 'loading...';
+  if (possiblePlayers.status === 'error') return 'success';
+
+  const filteredPlayers = possiblePlayers.data.filter(
     (player: DatabasePlayer) => {
       const regex = new RegExp(value, 'i');
       if (value === '') return player;
@@ -41,9 +50,10 @@ const AddPlayer: FC<any> = ({ handleAddPlayer, value, setValue }) => {
             {filteredPlayers?.map((player) => (
               <TableRow
                 key={player.id}
-                onClick={() =>
-                  handleAddPlayer({ type: 'existing', id: player.id })
-                }
+                onClick={() => {
+                  setOpen(false);
+                  mutate({ tournamentId: id, player });
+                }}
                 className="p-0"
               >
                 <TableCell>{player.nickname}</TableCell>
