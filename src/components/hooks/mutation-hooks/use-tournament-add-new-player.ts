@@ -9,6 +9,7 @@ export const useTournamentAddNewPlayer = (
   tournamentId: string,
   queryClient: QueryClient,
   sendJsonMessage: (_message: Message) => void,
+  returnToNewPlayer: (_player: DatabasePlayer) => void,
 ) => {
   return useMutation({
     mutationKey: [tournamentId, 'players', 'add-new'],
@@ -20,18 +21,18 @@ export const useTournamentAddNewPlayer = (
       const previousState: Array<DatabasePlayer> | undefined =
         queryClient.getQueryData([tournamentId, 'players', 'added']);
 
-        const newPlayer: PlayerModel = {
-          id: player.id,
-          nickname: player.nickname,
-          rating: player.rating,
-          realname: player.realname,
-          wins: 0,
-          losses: 0,
-          draws: 0,
-          color_index: 0,
-          place: null,
-          exited: null,
-        };
+      const newPlayer: PlayerModel = {
+        id: player.id,
+        nickname: player.nickname,
+        rating: player.rating,
+        realname: player.realname,
+        wins: 0,
+        losses: 0,
+        draws: 0,
+        color_index: 0,
+        place: null,
+        exited: null,
+      };
 
       queryClient.setQueryData(
         [tournamentId, 'players', 'added'],
@@ -46,12 +47,15 @@ export const useTournamentAddNewPlayer = (
           context.previousState,
         );
       }
-      toast.error(
-        `sorry! couldn't add ${data.player.nickname} to the tournament`,
-        {
-          id: `add-player-error-${data.player.id}`,
-        },
-      );
+      setTimeout(() => {
+        returnToNewPlayer(data.player);
+        toast.error(
+          `sorry! couldn't add ${data.player.nickname} to the tournament`,
+          {
+            id: `add-player-error-${data.player.id}`,
+          },
+        );
+      }, 1000);
     },
     onSettled: () => {
       queryClient.invalidateQueries({

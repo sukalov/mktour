@@ -7,7 +7,6 @@ import {
 import { PlayerModel } from '@/types/tournaments';
 import type { Message } from '@/types/ws-events';
 import { QueryClient } from '@tanstack/react-query';
-// import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
 import { toast } from 'sonner';
 
 export const handleSocketMessage = (

@@ -99,8 +99,7 @@
     "usehooks-ts": "3.1.0",
     "vaul": "^0.9.1",
     "vercel": "34.2.6",
-    "zod": "3.23.8",
-    "zustand": "^4.5.2"
+    "zod": "3.23.8"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.43.1",

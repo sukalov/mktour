@@ -29,7 +29,8 @@ const AddNewPlayer = ({
   value,
   setValue,
   setOpen,
-}: DrawerProps) => {
+  returnToNewPlayer
+}: AddNewPlayerProps) => {
   const id = usePathname().split('/').at(-1) as string;
   const tournament = useTournamentInfo(id);
   const queryClient = useQueryClient();
@@ -38,6 +39,7 @@ const AddNewPlayer = ({
     id,
     queryClient,
     sendJsonMessage,
+    returnToNewPlayer
   );
   const form = useForm<NewPlayerFormType>({
     resolver: zodResolver(newPlayerFormSchema),
@@ -134,5 +136,9 @@ const AddNewPlayer = ({
     </Form>
   );
 };
+
+interface AddNewPlayerProps extends DrawerProps {
+  returnToNewPlayer: (_player: DatabasePlayer) => void
+}
 
 export default AddNewPlayer;

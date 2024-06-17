@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
-import { FC, SetStateAction } from 'react';
+import { FC } from 'react';
 
 const FabClose: FC<FabProps> = ({ onClick }) => {
   return (
@@ -19,7 +19,7 @@ const FabClose: FC<FabProps> = ({ onClick }) => {
 };
 
 type FabProps = {
-  onClick?: SetStateAction<any>;
+  onClick: () => void;
 };
 
 export default FabClose;

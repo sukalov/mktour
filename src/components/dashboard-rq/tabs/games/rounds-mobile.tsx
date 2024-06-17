@@ -1,4 +1,3 @@
-import Loading from '@/app/loading';
 import { gamesMock } from '@/app/tournament-rq/[id]/dashboard';
 import { DashboardContext } from '@/components/dashboard-rq/dashboard-context';
 import RoundControls from '@/components/dashboard-rq/tabs/games/round-controls';
@@ -16,11 +15,6 @@ const RoundsMobile: FC = () => {
   const id = usePathname().split('/').at(-1) as string;
   const tournament = useTournamentInfo(id);
   const [compact, setCompact] = useState(true);
-
-  if (tournament.isLoading) return <Loading />;
-  if (tournament.isError) {
-    return null;
-  }
 
   return (
     <div>

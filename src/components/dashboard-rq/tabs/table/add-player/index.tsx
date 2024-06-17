@@ -3,6 +3,7 @@ import AddNewPlayer from '@/components/dashboard-rq/tabs/table/add-player/add-ne
 import AddPlayer from '@/components/dashboard-rq/tabs/table/add-player/add-player';
 import FabClose from '@/components/dashboard-rq/tabs/table/add-player/fab-close';
 import { Button } from '@/components/ui/button';
+import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { ArrowLeft, Plus, UserPlus } from 'lucide-react';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Drawer } from 'vaul';
@@ -18,6 +19,12 @@ const AddPlayerDrawer = () => {
     setValue('');
   };
 
+  const returnToNewPlayer = (player: DatabasePlayer) => {
+    setOpen(true);
+    setAddingNewPlayer(true);
+    setValue(player.nickname);
+  };
+
   return (
     <Drawer.Root
       shouldScaleBackground
@@ -28,7 +35,8 @@ const AddPlayerDrawer = () => {
     >
       <Drawer.Trigger asChild>
         <div>
-          <Fab onClick={() => setOpen(true)} icon={UserPlus} />
+          <Fab onClick={() => {
+            setOpen(true)}} icon={UserPlus} />
         </div>
       </Drawer.Trigger>
       <Drawer.Portal>
@@ -50,16 +58,14 @@ const AddPlayerDrawer = () => {
                 setOpen={setOpen}
                 value={value}
                 setValue={setValue}
+                returnToNewPlayer={returnToNewPlayer}
               />
             ) : (
-              <AddPlayer
-                setOpen={setOpen}
-                value={value}
-                setValue={setValue}
-              />
+              <AddPlayer setOpen={setOpen} value={value} setValue={setValue} />
             )}
           </div>
-          <FabClose onClick={() => setOpen(false)} />
+          <FabClose onClick={() => {
+            setOpen(false)}} />
         </Drawer.Content>
       </Drawer.Portal>
     </Drawer.Root>
