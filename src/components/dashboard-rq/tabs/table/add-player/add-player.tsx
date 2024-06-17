@@ -29,9 +29,9 @@ const AddPlayer: FC<any> = ({ handleAddPlayer, value, setValue }) => {
         placeholder="search"
         onChange={(e) => setValue(e.target.value)}
       />
-      {possiblePlayers.data?.length === 0 && players.data?.length === 0 && (
+      {possiblePlayers.data?.length === 0 && (
         <p className="pl-[10%] pt-4 text-sm text-muted-foreground">
-          nobody in your club yet! <br />
+          nobody here yet! <br />
           go add some new people
         </p>
       )}

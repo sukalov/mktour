@@ -4,12 +4,11 @@ import CarouselContainer from '@/components/dashboard-rq/carousel-container';
 import { DashboardContext, DashboardContextType } from '@/components/dashboard-rq/dashboard-context';
 import FabProvider from '@/components/dashboard-rq/fab-provider';
 import TabsContainer from '@/components/dashboard-rq/tabs-container';
-import getWsConfig from '@/components/helpers/get-ws-config';
-import { SOCKET_URL } from '@/lib/config/urls';
+import { useDashboardWebsocket } from '@/components/hooks/use-dashboard-websocket';
 import { Status } from '@/lib/db/hooks/use-status-in-tournament';
 import { GameModel } from '@/types/tournaments';
+import { useQueryClient } from '@tanstack/react-query';
 import { Dispatch, FC, SetStateAction, useState } from 'react';
-import useWebSocket from 'react-use-websocket';
 
 const Dashboard: FC<TournamentPageContentProps> = ({
   session,
@@ -19,10 +18,8 @@ const Dashboard: FC<TournamentPageContentProps> = ({
   const [scrolling, setScrolling] = useState(false);
   const [currentTab, setCurrentTab] =
     useState<DashboardContextType['currentTab']>('main');
-  const { sendJsonMessage } = useWebSocket(
-    `${SOCKET_URL}/${id}`,
-    getWsConfig(session),
-  );
+    const queryClient = useQueryClient()
+  const { sendJsonMessage } = useDashboardWebsocket(session, id, queryClient)
 
   return (
     <DashboardContext.Provider

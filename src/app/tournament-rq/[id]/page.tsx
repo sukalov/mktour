@@ -1,5 +1,5 @@
 import Dashboard from '@/app/tournament-rq/[id]/dashboard';
-import { queryClient, queryPrefetch } from '@/app/tournament-rq/[id]/prefetch';
+import { tournamentQueryClient, tournamentQueryPrefetch } from '@/app/tournament-rq/[id]/prefetch';
 import { validateRequest } from '@/lib/auth/lucia';
 import { useStatusInTournament } from '@/lib/db/hooks/use-status-in-tournament';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
@@ -10,12 +10,12 @@ export const revalidate = 0;
 export default async function TournamentPage({ params }: TournamentPageProps) {
   const session = cookies().get('auth_session')?.value ?? '';
   const { user } = await validateRequest();
-  await queryPrefetch(params.id);
+  await tournamentQueryPrefetch(params.id);
 
   let status = await useStatusInTournament(user, params.id);
 
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
+    <HydrationBoundary state={dehydrate(tournamentQueryClient)}>
       <div className="w-full">
         <Dashboard session={session} id={params.id} status={status} />
       </div>
