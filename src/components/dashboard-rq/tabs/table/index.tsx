@@ -1,7 +1,7 @@
 'use client';
 
-import { DashboardContext } from '@/components/dashboard/dashboard-context';
-import { onClickRemovePlayer } from '@/components/helpers/on-click-handlers';
+import { DashboardContext } from '@/components/dashboard-rq/dashboard-context';
+import { useTournamentRemovePlayer } from '@/components/hooks/mutation-hooks/use-tournament-remove-player';
 import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
 import { MediaQueryContext } from '@/components/providers/media-query-context';
 import {
@@ -12,26 +12,30 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { useQueryClient } from '@tanstack/react-query';
+import { Loader2 } from 'lucide-react';
 
 import { usePathname } from 'next/navigation';
-import { FC, useContext, useState } from 'react';
-import { useLongPress } from 'use-long-press';
+import { FC, useContext } from 'react';
+import { toast } from 'sonner';
 
 const DEFAULT_DASHBOARD_TABS = ['wins', 'draws', 'losses'];
 
 const TournamentTable: FC = () => {
-  const id = usePathname().split('/').at(-1) as string;;
+  const id = usePathname().split('/').at(-1) as string;
+  const queryClient = useQueryClient();
   const players = useTournamentPlayers(id);
   const { status, sendJsonMessage } = useContext(DashboardContext);
-  const [selectedPlayerId, setPlayerId] = useState('');
-  const bind = useLongPress(
-    () => {
-      if (status === 'organizer' && window.confirm('delete player?')) {
-        onClickRemovePlayer(selectedPlayerId, sendJsonMessage);
-      }
-    },
-    { cancelOnMovement: true },
-  );
+  const removePlayers = useTournamentRemovePlayer(id, queryClient, sendJsonMessage);
+
+  if (players.isLoading) return <TableLoading />;
+  if (players.isError) {
+    toast.error("couldn't get added players from server", {
+      id: 'query-added-players',
+      duration: 3000,
+    });
+    return <TableLoading />;
+  }
 
   return (
     <Table>
@@ -39,7 +43,7 @@ const TournamentTable: FC = () => {
         <TableRow>
           <TableHead className="pl-4 pr-0">#</TableHead>
           <TableHead className="pl-0">
-            name ({players.data?.length} players)
+            name ({players.data?.length ?? 0} players)
           </TableHead>
           <TableStatsHeads />
         </TableRow>
@@ -48,9 +52,10 @@ const TournamentTable: FC = () => {
         {players.data?.map((player, i) => (
           <TableRow
             key={player.id}
-            {...bind()}
-            onTouchStart={() => setPlayerId(player.id)}
-            onMouseDown={() => setPlayerId(player.id)}
+            onClick={() => {
+              if (status === 'organizer')
+                removePlayers.mutate({ tournamentId: id, playerId: player.id });
+            }}
           >
             <TableCell className="font-small pl-4 pr-0">{i + 1}</TableCell>
             <TableCell className="font-small max-w-[150px] truncate pl-0">
@@ -88,5 +93,12 @@ const TableStatsHeads = () => {
     </>
   );
 };
+
+const TableLoading = () => (
+  <div className="mt-12 flex h-[calc(100svh-13rem)] w-full flex-auto items-center justify-center">
+    <span className="sr-only">Loading...</span>
+    <Loader2 className="h-16 w-16 animate-spin" />
+  </div>
+);
 
 export default TournamentTable;

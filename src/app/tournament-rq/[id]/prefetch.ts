@@ -6,31 +6,31 @@ import {
 } from '@/lib/actions/tournament-managing';
 import { QueryClient } from '@tanstack/react-query';
 
-const queryClient = new QueryClient();
+const tournamentQueryClient = new QueryClient();
 
-const queryPrefetch = async (id: string) => {
+const tournamentQueryPrefetch = async (id: string) => {
   await Promise.all([
-    queryClient.prefetchQuery({
+    tournamentQueryClient.prefetchQuery({
       queryKey: ['games', id],
       queryFn: () => getTournamentGames(id),
     }),
 
-    queryClient.prefetchQuery({
-      queryKey: ['players', 'added', id],
+    tournamentQueryClient.prefetchQuery({
+      queryKey: ['players', id, 'players-added'],
       queryFn: () => getTournamentPlayers(id),
     }),
 
-    queryClient.prefetchQuery({
-      queryKey: ['players', 'possible', id],
+    tournamentQueryClient.prefetchQuery({
+      queryKey: ['players', id, 'players-possible'],
       queryFn: async () => await getTournamentPossiblePlayers(id),
     }),
 
-    queryClient.prefetchQuery({
+    tournamentQueryClient.prefetchQuery({
       queryKey: ['tournament', id],
       queryFn: () => getTournamentInfo(id),
     }),
   ]);
 };
 
-export { queryClient, queryPrefetch };
+export { tournamentQueryClient, tournamentQueryPrefetch };
 

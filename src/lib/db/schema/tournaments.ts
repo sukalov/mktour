@@ -1,6 +1,6 @@
 import { users } from '@/lib/db/schema/auth';
 import { Format, Result, RoundName, TournamentType } from '@/types/tournaments';
-import { InferSelectModel, relations } from 'drizzle-orm';
+import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { int, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
 export const players = sqliteTable('player', {
@@ -134,6 +134,14 @@ export type DatabaseClub = InferSelectModel<typeof clubs>;
 export type DatabaseClubsToUsers = InferSelectModel<typeof clubs_to_users>;
 export type DatabaseGame = InferSelectModel<typeof games>;
 export type DatabasePlayerToTournament = InferSelectModel<
+  typeof players_to_tournaments
+>;
+export type InsertDatabasePlayer = InferInsertModel<typeof players>;
+export type InsertDatabaseTournament = InferInsertModel<typeof tournaments>;
+export type InsertDatabaseClub = InferInsertModel<typeof clubs>;
+export type InsertDatabaseClubsToUsers = InferInsertModel<typeof clubs_to_users>;
+export type InsertDatabaseGame = InferInsertModel<typeof games>;
+export type InsertDatabasePlayerToTournament = InferInsertModel<
   typeof players_to_tournaments
 >;
 export type StatusInClub = 'admin' | 'moderator';

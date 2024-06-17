@@ -11,9 +11,9 @@ import {
   players_to_tournaments,
   tournaments,
 } from '@/lib/db/schema/tournaments';
-import { newid } from '@/lib/utils';
+import { newid, timeout } from '@/lib/utils';
 import { NewTournamentFormType } from '@/lib/zod/new-tournament-form';
-import { eq, sql } from 'drizzle-orm';
+import { and, eq, sql } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 
 export const createTournament = async (values: NewTournamentFormType) => {
@@ -72,7 +72,9 @@ export async function getTournamentInfo(id: string) {
   ).at(0);
 }
 
-export async function getTournamentPossiblePlayers(id: string): Promise<Array<DatabasePlayer>> {
+export async function getTournamentPossiblePlayers(
+  id: string,
+): Promise<Array<DatabasePlayer>> {
   const result = (await db.all(sql`
     SELECT p.*
     FROM ${players} p
@@ -87,3 +89,53 @@ export async function getTournamentPossiblePlayers(id: string): Promise<Array<Da
   `)) as Array<DatabasePlayer>;
   return result;
 }
+
+export async function removePlayer({
+  tournamentId,
+  playerId,
+}: {
+  tournamentId: string;
+  playerId: string;
+}) {
+  await timeout(1000)
+
+  await db
+    .delete(players_to_tournaments)
+    .where(
+      and(
+        eq(players_to_tournaments.player_id, playerId),
+        eq(players_to_tournaments.tournament_id, tournamentId),
+      ),
+    );
+};
+
+// export async function addNewPlayer({
+//   tournamentId,
+//   player,
+// }: {
+//   tournamentId: string;
+//   player: NewPlayerFormType;
+// }) {
+//   const newPlayer: DatabasePlayer = {
+//     id: player.id,
+//     club_id: player.club_id,
+//     nickname: player.nickname,
+//     realname: null,
+//     rating: player.rating ?? null,
+//     user_id: null,
+//     last_seen: 0,
+//   };
+//   await db.insert(players).values(newPlayer);
+//   const playerToTournament: DatabasePlayerToTournament = {
+//     player_id: player.id,
+//     tournament_id: tournamentId,
+//     id: `${player.id}=${tournamentId}`,
+//     wins: 0,
+//     losses: 0,
+//     draws: 0,
+//     color_index: 0,
+//     place: null,
+//     exited: null,
+//   };
+//   await db.insert(players_to_tournaments).values(playerToTournament);
+// }

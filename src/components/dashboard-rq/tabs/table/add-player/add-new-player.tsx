@@ -1,4 +1,5 @@
 import { DrawerProps } from '@/components/dashboard-rq/tabs/table/add-player';
+import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -9,13 +10,13 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Slider } from '@/components/ui/slider';
-import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
 import {
   NewPlayerFormType,
   newPlayerFormSchema,
 } from '@/lib/zod/new-player-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2, Save } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 import { FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -24,12 +25,14 @@ const AddNewPlayer: FC<DrawerProps> = ({
   value,
   setValue,
 }) => {
+  const id = usePathname().split('/').at(-1) as string;
+  const tournament = useTournamentInfo(id);
   const form = useForm<NewPlayerFormType>({
     resolver: zodResolver(newPlayerFormSchema),
     defaultValues: {
       name: value,
       rating: 1500,
-      club_id: useTournamentStore.getState().organizer.id,
+      club_id: tournament.data?.club?.id
     },
     reValidateMode: 'onSubmit',
   });
