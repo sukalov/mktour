@@ -1,5 +1,6 @@
 import { removePlayer } from '@/lib/actions/tournament-managing';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
+import { Message } from '@/types/ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 

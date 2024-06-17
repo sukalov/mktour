@@ -1,5 +1,4 @@
-// import { useTournamentPossiblePlayers } from '@/components/dashboard/tabs/table/add-player';
-import { useTournamentPossiblePlayers } from '@/components/hooks/query-hooks/use-possible-players';
+import { useTournamentPossiblePlayers } from '@/components/hooks/query-hooks/use-tournament-possible-players';
 import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';

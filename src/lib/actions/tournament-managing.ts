@@ -134,4 +134,27 @@ export async function addNewPlayer({
     exited: null,
   };
   await db.insert(players_to_tournaments).values(playerToTournament);
-}
+};
+
+export async function addExistingPlayer({
+  tournamentId,
+  player,
+}: {
+  tournamentId: string;
+  player: DatabasePlayer;
+}) {
+  const playerToTournament: DatabasePlayerToTournament = {
+    player_id: player.id,
+    tournament_id: tournamentId,
+    id: `${player.id}=${tournamentId}`,
+    wins: 0,
+    losses: 0,
+    draws: 0,
+    color_index: 0,
+    place: null,
+    exited: null,
+  };
+  await db.insert(players_to_tournaments).values(playerToTournament);
+};
+
+

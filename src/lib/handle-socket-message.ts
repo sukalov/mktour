@@ -1,7 +1,11 @@
 'use client';
 
-import { DatabasePlayer } from '@/lib/db/schema/tournaments';
-import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
+import {
+  DatabasePlayer,
+  InsertDatabasePlayer,
+} from '@/lib/db/schema/tournaments';
+import { PlayerModel } from '@/types/tournaments';
+import type { Message } from '@/types/ws-events';
 import { QueryClient } from '@tanstack/react-query';
 // import { useTournamentStore } from '@/lib/hooks/use-tournament-store';
 import { toast } from 'sonner';
@@ -18,14 +22,33 @@ export const handleSocketMessage = (
       });
       queryClient.setQueryData(
         [tournamentId, 'players', 'added'],
-        (cache: Array<DatabasePlayer>) => cache.concat(message.body),
+        (cache: Array<PlayerModel> | undefined) => {
+          if (cache) cache.concat(message.body);
+        },
       );
       queryClient.invalidateQueries({
         queryKey: [tournamentId, 'players', 'added'],
       });
       break;
     case 'add-existing-player':
-      useTournamentStore.getState().addPlayer(message.id);
+      queryClient.cancelQueries({
+        queryKey: [tournamentId, 'players'],
+      });
+      queryClient.setQueryData(
+        [tournamentId, 'players', 'added'],
+        (cache: Array<PlayerModel> | undefined) => {
+          if (cache) cache.concat(message.body);
+        },
+      );
+      queryClient.setQueryData(
+        [tournamentId, 'players', 'possible'],
+        (cache: Array<PlayerModel> | undefined) => {
+          if (cache) cache.filter((pl) => pl.id !== message.body.id);
+        },
+      );
+      queryClient.invalidateQueries({
+        queryKey: [tournamentId, 'players'],
+      });
       break;
     case 'remove-player':
       queryClient.cancelQueries({
@@ -35,10 +58,10 @@ export const handleSocketMessage = (
         tournamentId,
         'players',
         'added',
-      ]) as Array<DatabasePlayer>;
+      ]) as Array<PlayerModel>;
       if (!addedPlayers) break;
       const removedPlayer = addedPlayers.find(
-        (player: DatabasePlayer) => player.id === message.id,
+        (player: PlayerModel) => player.id === message.id,
       );
 
       queryClient.setQueryData(
@@ -46,11 +69,22 @@ export const handleSocketMessage = (
         (cache: Array<DatabasePlayer>) =>
           cache.filter((player) => player.id !== message.id),
       );
-      if (removedPlayer)
+      if (removedPlayer) {
+        const removedPlayerDb: InsertDatabasePlayer = {
+          id: removedPlayer.id,
+          nickname: removedPlayer.nickname,
+          realname: removedPlayer.realname,
+          rating: removedPlayer.rating,
+          club_id: '',
+          user_id: null,
+        };
         queryClient.setQueryData(
           [tournamentId, 'players', 'possible'],
-          (cache: Array<DatabasePlayer>) => cache.concat(removedPlayer),
+          (cache: Array<InsertDatabasePlayer>) => {
+            if (cache) cache.concat(removedPlayerDb);
+          },
         );
+      }
       queryClient.invalidateQueries({ queryKey: [tournamentId, 'players'] });
       break;
     case 'error':

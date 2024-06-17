@@ -1,34 +1,20 @@
-import { DashboardContext } from '@/components/dashboard-rq/dashboard-context';
 import Fab from '@/components/dashboard-rq/fab';
 import AddNewPlayer from '@/components/dashboard-rq/tabs/table/add-player/add-new-player';
 import AddPlayer from '@/components/dashboard-rq/tabs/table/add-player/add-player';
 import FabClose from '@/components/dashboard-rq/tabs/table/add-player/fab-close';
-import {
-  onClickAddExistingPlayer,
-  onClickAddNewPlayer,
-} from '@/components/helpers/on-click-handlers';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Plus, UserPlus } from 'lucide-react';
-import { Dispatch, SetStateAction, useContext, useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { Drawer } from 'vaul';
 
 const AddPlayerDrawer = () => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
   const [addingNewPlayer, setAddingNewPlayer] = useState(false);
-  const { sendJsonMessage } = useContext(DashboardContext);
 
   const handleClose = () => {
     setOpen(false);
     setAddingNewPlayer(false);
-    setValue('');
-  };
-
-  const handleAddPlayer = (props: HandlerProps) => {
-    if (props.type === 'existing')
-      onClickAddExistingPlayer(props.id, sendJsonMessage);
-    else onClickAddNewPlayer(props.name, props.rating, sendJsonMessage);
-    setOpen(false);
     setValue('');
   };
 
@@ -67,7 +53,7 @@ const AddPlayerDrawer = () => {
               />
             ) : (
               <AddPlayer
-                handleAddPlayer={handleAddPlayer}
+                setOpen={setOpen}
                 value={value}
                 setValue={setValue}
               />
@@ -81,7 +67,7 @@ const AddPlayerDrawer = () => {
 };
 
 export type DrawerProps = {
-  setOpen: (_arg0: HandlerProps) => void;
+  setOpen: (_arg0: boolean) => void;
   value: string;
   setValue: Dispatch<SetStateAction<string>>;
 };

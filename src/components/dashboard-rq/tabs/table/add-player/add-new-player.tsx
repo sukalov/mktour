@@ -1,4 +1,5 @@
 import { DashboardContext } from '@/components/dashboard-rq/dashboard-context';
+import { DrawerProps } from '@/components/dashboard-rq/tabs/table/add-player';
 import { useTournamentAddNewPlayer } from '@/components/hooks/mutation-hooks/use-tournament-add-new-player';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { Button } from '@/components/ui/button';
@@ -28,11 +29,7 @@ const AddNewPlayer = ({
   value,
   setValue,
   setOpen,
-}: {
-  value: string;
-  setValue: (_x: string) => void;
-  setOpen: (_x: boolean) => void;
-}) => {
+}: DrawerProps) => {
   const id = usePathname().split('/').at(-1) as string;
   const tournament = useTournamentInfo(id);
   const queryClient = useQueryClient();
