@@ -1,6 +1,6 @@
 'use client';
 
-import { InfoItem } from '@/components/dashboard/tabs/main';
+import { InfoItem } from '@/components/dashboard-rq/tabs/main';
 import { useUserSelectedClub } from '@/components/hooks/mutation-hooks/use-user-selected-club';
 import { useClubInfo } from '@/components/hooks/query-hooks/use-club-info';
 import { useUserClubs } from '@/components/hooks/query-hooks/use-user';
