@@ -4,6 +4,7 @@ import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
 import {
   DatabasePlayer,
+  DatabasePlayerToTournament,
   DatabaseTournament,
   clubs,
   games,
@@ -12,6 +13,7 @@ import {
   tournaments,
 } from '@/lib/db/schema/tournaments';
 import { newid, timeout } from '@/lib/utils';
+import { NewPlayerFormType } from '@/lib/zod/new-player-form';
 import { NewTournamentFormType } from '@/lib/zod/new-tournament-form';
 import { and, eq, sql } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
@@ -109,33 +111,33 @@ export async function removePlayer({
     );
 };
 
-// export async function addNewPlayer({
-//   tournamentId,
-//   player,
-// }: {
-//   tournamentId: string;
-//   player: NewPlayerFormType;
-// }) {
-//   const newPlayer: DatabasePlayer = {
-//     id: player.id,
-//     club_id: player.club_id,
-//     nickname: player.nickname,
-//     realname: null,
-//     rating: player.rating ?? null,
-//     user_id: null,
-//     last_seen: 0,
-//   };
-//   await db.insert(players).values(newPlayer);
-//   const playerToTournament: DatabasePlayerToTournament = {
-//     player_id: player.id,
-//     tournament_id: tournamentId,
-//     id: `${player.id}=${tournamentId}`,
-//     wins: 0,
-//     losses: 0,
-//     draws: 0,
-//     color_index: 0,
-//     place: null,
-//     exited: null,
-//   };
-//   await db.insert(players_to_tournaments).values(playerToTournament);
-// }
+export async function addNewPlayer({
+  tournamentId,
+  player,
+}: {
+  tournamentId: string;
+  player: NewPlayerFormType;
+}) {
+  const newPlayer: DatabasePlayer = {
+    id: player.id,
+    club_id: player.club_id,
+    nickname: player.name,
+    realname: player.name,
+    rating: player.rating ?? null,
+    user_id: null,
+    last_seen: 0,
+  };
+  await db.insert(players).values(newPlayer);
+  const playerToTournament: DatabasePlayerToTournament = {
+    player_id: player.id,
+    tournament_id: tournamentId,
+    id: `${player.id}=${tournamentId}`,
+    wins: 0,
+    losses: 0,
+    draws: 0,
+    color_index: 0,
+    place: null,
+    exited: null,
+  };
+  await db.insert(players_to_tournaments).values(playerToTournament);
+}

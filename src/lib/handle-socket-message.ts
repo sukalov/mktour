@@ -28,16 +28,16 @@ export const handleSocketMessage = (
       ).find((player: DatabasePlayer) => player.id === message.id);
 
       queryClient.setQueryData(
-        ['players', tournamentId, 'players-added'],
+        [tournamentId, 'players', 'players-added'],
         (cache: Array<DatabasePlayer>) =>
           cache.filter((player) => player.id !== message.id),
       );
       if (removedPlayer)
         queryClient.setQueryData(
-          ['players', tournamentId, 'players-possible'],
+          [tournamentId, 'players', 'players-possible'],
           (cache: Array<DatabasePlayer>) => cache.concat(removedPlayer),
         );
-      queryClient.invalidateQueries({queryKey: ['players', tournamentId]})
+      queryClient.invalidateQueries({queryKey: [tournamentId, 'players']})
       break;
     case 'error':
       toast.error(`server couldn't do this action "${message.data.type}"`);

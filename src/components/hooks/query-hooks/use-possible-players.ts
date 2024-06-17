@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 
 export const useTournamentPossiblePlayers = (id: string) =>
   useQuery({
-    queryKey: ['players', id, 'players-possible'],
+    queryKey: [id, 'players', 'players-possible'],
     queryFn: () => getTournamentPossiblePlayers(id),
     staleTime: Infinity,
   });

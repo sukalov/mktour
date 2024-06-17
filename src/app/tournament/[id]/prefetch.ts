@@ -12,22 +12,22 @@ const queryClient = new QueryClient({
 const queryPrefetch = async (id: string) => {
   await Promise.all([
     queryClient.prefetchQuery({
-      queryKey: ['games', id],
+      queryKey: [id, 'games'],
       queryFn: () => getTournamentGames(id),
     }),
 
     queryClient.prefetchQuery({
-      queryKey: ['players', id, 'players-added'],
+      queryKey: [id, 'players', 'players-added'],
       queryFn: () => getTournamentPlayers(id),
     }),
 
     queryClient.prefetchQuery({
-      queryKey: ['players', id, 'players-possible'],
+      queryKey: [id, 'players', 'players-possible'],
       queryFn: async () => await getTournamentPossiblePlayers(id),
     }),
 
     queryClient.prefetchQuery({
-      queryKey: ['tournament', id],
+      queryKey: [id, 'tournament'],
       queryFn: () => getTournamentInfo(id),
     }),
   ]);
