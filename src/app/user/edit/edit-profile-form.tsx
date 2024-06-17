@@ -66,7 +66,7 @@ export default function EditProfileForm() {
         <CardContent className="p-4 sm:p-8">
           <form
             onSubmit={form.handleSubmit((data) =>
-              editUserMutation.mutate(data),
+              editUserMutation.mutate({ id: data.id, values: data }),
             )}
             className="flex flex-col gap-8"
             name="new-tournament-form"

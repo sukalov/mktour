@@ -4,6 +4,7 @@ import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
 import { users } from '@/lib/db/schema/auth';
 import {
+  DatabaseClub,
   DatabaseClubsToUsers,
   clubs,
   clubs_to_users,
@@ -39,3 +40,11 @@ export const createClub = async (values: NewClubFormType) => {
   }
   redirect('/club/dashboard');
 };
+
+export const getClubInfo = async (id: DatabaseClub['id']) => {
+  return (await db
+    .select()
+    .from(clubs)
+    .where(eq(clubs.id, id)))
+    ?.at(0)
+}
