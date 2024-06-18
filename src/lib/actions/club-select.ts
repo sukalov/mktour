@@ -4,7 +4,7 @@ import { db } from '@/lib/db';
 import { users } from '@/lib/db/schema/auth';
 import { eq } from 'drizzle-orm';
 
-const handleClubSelect = async ({ clubId, userId }: { clubId: string, userId: string }) => {
+const selectClub = async ({ clubId, userId }: { clubId: string, userId: string }) => {
   try {
     await db
       .update(users)
@@ -15,4 +15,4 @@ const handleClubSelect = async ({ clubId, userId }: { clubId: string, userId: st
   }
 };
 
-export default handleClubSelect;
+export default selectClub;

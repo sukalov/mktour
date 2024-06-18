@@ -4,7 +4,7 @@ import { MediaQueryContext } from '@/components/providers/media-query-context';
 import { cn } from '@/lib/utils';
 import { User } from 'lucia';
 import { LucideIcon } from 'lucide-react';
-import { Link } from 'next-view-transitions';
+import Link from 'next/link';
 import { useSelectedLayoutSegment } from 'next/navigation';
 import { useContext } from 'react';
 
