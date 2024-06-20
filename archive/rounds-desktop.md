@@ -1,6 +1,6 @@
 ```typescript
-import { gamesMock } from '@/app/tournament-rq/[id]/dashboard';
-import RoundItem from '@/components/dashboard-rq/tabs/games/round-item';
+import { gamesMock } from '@/app/tournament/[id]/dashboard';
+import RoundItem from '@/components/dashboard/tabs/games/round-item';
 import { FC, useRef } from 'react';
 
 const RoundsDesktop: FC = () => {
