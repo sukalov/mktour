@@ -1,7 +1,7 @@
-import { gamesMock } from '@/app/tournament-rq/[id]/dashboard';
-import { DashboardContext } from '@/components/dashboard-rq/dashboard-context';
-import RoundControls from '@/components/dashboard-rq/tabs/games/round-controls';
-import RoundItem from '@/components/dashboard-rq/tabs/games/round-item';
+import { gamesMock } from '@/app/tournament/[id]/dashboard';
+import { DashboardContext } from '@/components/dashboard/dashboard-context';
+import RoundControls from '@/components/dashboard/tabs/games/round-controls';
+import RoundItem from '@/components/dashboard/tabs/games/round-item';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';

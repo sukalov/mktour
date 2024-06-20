@@ -1,6 +1,6 @@
-import { TabType } from '@/app/tournament-rq/[id]/dashboard';
-import Fab from '@/components/dashboard-rq/fab';
-import AddPlayerDrawer from '@/components/dashboard-rq/tabs/table/add-player';
+import { TabType } from '@/app/tournament/[id]/dashboard';
+import Fab from '@/components/dashboard/fab';
+import AddPlayerDrawer from '@/components/dashboard/tabs/table/add-player';
 import { Status } from '@/lib/db/hooks/use-status-in-tournament';
 import { Shuffle } from 'lucide-react';
 import { FC } from 'react';

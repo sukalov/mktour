@@ -1,5 +1,5 @@
 import { clubQueryClient } from '@/app/club/dashboard/prefetch';
-import { InfoItem } from '@/components/dashboard-rq/tabs/main';
+import { InfoItem } from '@/components/dashboard/tabs/main';
 import { Card } from '@/components/ui/card';
 import { getClubInfo } from '@/lib/actions/club-managing';
 import { getUser } from '@/lib/auth/utils';

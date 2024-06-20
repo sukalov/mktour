@@ -1,6 +1,6 @@
 'use client';
 
-import { DashboardContext } from '@/components/dashboard-rq/dashboard-context';
+import { DashboardContext } from '@/components/dashboard/dashboard-context';
 import { useTournamentRemovePlayer } from '@/components/hooks/mutation-hooks/use-tournament-remove-player';
 import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
 import { MediaQueryContext } from '@/components/providers/media-query-context';

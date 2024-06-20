@@ -1,5 +1,5 @@
-import GameItem from '@/components/dashboard-rq/tabs/games/game-item';
-import GameItemCompact from '@/components/dashboard-rq/tabs/games/game-item-compact';
+import GameItem from '@/components/dashboard/tabs/games/game-item';
+import GameItemCompact from '@/components/dashboard/tabs/games/game-item-compact';
 import { GameModel, Result } from '@/types/tournaments';
 import { FC, SetStateAction, createElement, useState } from 'react';
 

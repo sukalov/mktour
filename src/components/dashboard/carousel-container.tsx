@@ -1,5 +1,5 @@
-import { DashboardContextType } from '@/components/dashboard-rq/dashboard-context';
-import tabs from '@/components/dashboard-rq/tabs';
+import { DashboardContextType } from '@/components/dashboard/dashboard-context';
+import tabs from '@/components/dashboard/tabs';
 import {
   Carousel,
   CarouselApi,
