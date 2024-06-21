@@ -11,7 +11,7 @@ export default async function ClubsPageLayout({
   children,
 }: ClubsPageLayoutProps) {
   const { user } = await validateRequest();
-  if (!user) redirect('/clubs/explore');
+  if (!user) redirect('/club/all/');
   await clubQueryPrefetch();
   return (
     <HydrationBoundary state={dehydrate(clubQueryClient)}>
