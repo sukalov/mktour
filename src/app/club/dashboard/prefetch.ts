@@ -1,4 +1,4 @@
-import { getClubInfo } from '@/lib/actions/club-managing';
+import { getClubInfo, getClubPlayers } from '@/lib/actions/club-managing';
 import getUserClubs from '@/lib/actions/user-clubs';
 import { getUser } from '@/lib/auth/utils';
 import { QueryClient } from '@tanstack/react-query';
@@ -19,8 +19,12 @@ const clubQueryPrefetch = async () => {
       queryFn: () => getUserClubs({ userId: user.id }),
     }),
     clubQueryClient.prefetchQuery({
-      queryKey: [user.selected_club, 'club-info'],
+      queryKey: [user.selected_club, 'club', 'info'],
       queryFn: () => getClubInfo(user.selected_club),
+    }),
+    clubQueryClient.prefetchQuery({
+      queryKey: [user.selected_club, 'club', 'players'],
+      queryFn: () => getClubPlayers(user.selected_club),
     }),
   ]);
 };
