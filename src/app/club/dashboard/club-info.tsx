@@ -1,28 +1,23 @@
 'use client';
 
 import { InfoItem } from '@/components/dashboard/tabs/main';
+import { useClubInfo } from '@/components/hooks/query-hooks/use-club-info';
+import { useUser } from '@/components/hooks/query-hooks/use-user';
 import { Card } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { getClubInfo } from '@/lib/actions/club-managing';
-import {
-  useMutationState,
-  useQuery
-} from '@tanstack/react-query';
 import { User } from 'lucia';
 import { CalendarDays, Info } from 'lucide-react';
 
-export default function ClubInfo({ user }: { user: User }) {
-  const club = useQuery({
-    queryKey: ['user', 'clubs', 'selected-club-info'],
-    queryFn: () => getClubInfo(user.selected_club),
-    staleTime: 10 * 60 * 1000
-  });
+export default function ClubInfo() {
+  const user = useUser();
+  if (!user.data) return <></>;
+  return <ClubInfoContent user={user.data} />;
+}
 
-  const [mutationState] = useMutationState({
-    filters: { mutationKey: ['select-club'] },
-    select: (mutation) => mutation.state,
-  });
-  if (!club.data || mutationState?.status === 'pending')
+function ClubInfoContent({ user }: { user: User }) {
+  const club = useClubInfo(user.selected_club);
+
+  if (!club.data)
     return <Skeleton className="h-24 w-full" />;
   const createdAt = club.data?.created_at?.toLocaleDateString(['en-GB'], {
     dateStyle: 'medium',

@@ -2,16 +2,12 @@
 
 import { MediaQueryContext } from '@/components/providers/media-query-context';
 import { cn } from '@/lib/utils';
-import { User } from 'lucia';
 import { LucideIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useSelectedLayoutSegment } from 'next/navigation';
 import { useContext } from 'react';
 
-export default function SubNavbar({ user, items, root }: SubNavbarProps) {
-  const preparedItems = items.filter(
-    (item) => user || (!user && !item.userOnly),
-  );
+export default function SubNavbar({ items, root }: SubNavbarProps) {
   const cols = `grid-cols-${items.length}`;
   const { isMobile } = useContext(MediaQueryContext);
 
@@ -19,11 +15,10 @@ export default function SubNavbar({ user, items, root }: SubNavbarProps) {
     <nav
       className={`cols fixed z-30 grid h-10 w-full min-w-max grid-flow-col items-center bg-muted text-sm ${cols} xs:flex xs:gap-8 xs:pl-4 flex-row gap-2 px-2`}
     >
-      {preparedItems.map((item) => (
+      {items.map((item) => (
         <NavItem
           key={item.path}
           item={item}
-          user={user}
           root={root}
           isMobile={isMobile}
         />
@@ -34,7 +29,6 @@ export default function SubNavbar({ user, items, root }: SubNavbarProps) {
 
 const NavItem: React.FC<{
   item: SubNavbarItem;
-  user?: User | null;
   root: string;
   isMobile: boolean;
 }> = ({ item, root, isMobile }) => {
@@ -73,7 +67,6 @@ const NavItem: React.FC<{
 };
 
 interface SubNavbarProps {
-  user: User | null;
   items: SubNavbarItem[];
   root: string;
 }

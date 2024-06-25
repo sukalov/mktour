@@ -1,5 +1,6 @@
 import { editUser } from '@/lib/actions/profile-managing';
 import { QueryClient, useMutation } from '@tanstack/react-query';
+import { User } from 'lucia';
 import { toast } from 'sonner';
 
 export const useUserSelectClub = (queryClient: QueryClient) => {
@@ -13,11 +14,23 @@ export const useUserSelectClub = (queryClient: QueryClient) => {
         duration: 3000,
       });
     },
-    onMutate: () => {
-      queryClient.cancelQueries({queryKey: ['user', 'clubs']})
+    onMutate: ({ values }) => {
+      queryClient.cancelQueries({ queryKey: ['user'] });
+
+      const previousState: User | undefined = queryClient.getQueryData([
+        'user',
+        'profile',
+      ]);
+
+      queryClient.setQueryData(['user', 'profile'], (cache: User) => ({
+        ...cache,
+        selected_club: values.selected_club,
+      }));
+      return { previousState };
     },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['user', 'clubs'] });
+
+    onSettled: async () => {
+      queryClient.invalidateQueries({ queryKey: ['user'] });
     },
     onSuccess: (_err) => {
       console.log('selected club changed');

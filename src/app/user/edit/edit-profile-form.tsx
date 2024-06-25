@@ -1,6 +1,7 @@
 'use client';
 
 import { turboPascal } from '@/app/fonts';
+import { useUser } from '@/components/hooks/query-hooks/use-user';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -14,25 +15,20 @@ import {
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
 import { editUser } from '@/lib/actions/profile-managing';
-import { getUser } from '@/lib/auth/utils';
 import { shallowEqual } from '@/lib/utils';
 import {
   EditProfileFormType,
   editProfileFormSchema,
 } from '@/lib/zod/edit-profile-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Loader2, Save } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 export default function EditProfileForm() {
   const queryClient = useQueryClient();
-  const userQuery = useQuery({
-    queryKey: ['user'],
-    queryFn: () => getUser(),
-    staleTime: 30 * 1000 * 60,
-  });
+  const userQuery = useUser()
 
   const defaultValues = {
     id: userQuery.data?.id ?? '',
@@ -48,7 +44,7 @@ export default function EditProfileForm() {
     mutationFn: editUser,
     onSuccess: () => {
       toast.success('profile updated!');
-      queryClient.invalidateQueries({ queryKey: ['user'] });
+      queryClient.invalidateQueries({ queryKey: ['user', 'profile'] });
     },
     onError: () => toast.error('sorry! server error happened'),
   });
