@@ -1,12 +1,10 @@
+'use client'
+
 import ClubPlayersList from '@/app/club/dashboard/players/club-players-list';
-import { validateRequest } from '@/lib/auth/lucia';
-import usePlayersToClubQuery from '@/lib/db/hooks/use-players-to-club-query';
-import { redirect } from 'next/navigation';
+import { useUser } from '@/components/hooks/query-hooks/use-user';
 
-export default async function ClubDashboardPlayers() {
-  const { user } = await validateRequest();
-  if (!user) redirect('/sign-in')
-  const players = await usePlayersToClubQuery(user);
-
-  return <ClubPlayersList players={players} />;
+export default function ClubDashboardPlayers() {
+  const user = useUser();
+  if (!user.data) return <></>;
+  return <ClubPlayersList user={user.data} />;
 }

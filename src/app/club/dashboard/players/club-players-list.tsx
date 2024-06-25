@@ -1,9 +1,13 @@
+import { useClubPlayers } from '@/components/hooks/query-hooks/use-club-players';
 import { Card } from '@/components/ui/card';
-import { DatabasePlayer } from '@/lib/db/schema/tournaments';
+import { User } from 'lucia';
 import { FC } from 'react';
 
-const ClubPlayersList: FC<{ players: DatabasePlayer[] }> = ({ players }) => {
-  if (!players || players.length < 1)
+const ClubPlayersList: FC<{ user: User }> = ({ user }) => {
+
+  const players = useClubPlayers(user.selected_club)
+  if (players.status === 'pending' || players.status === 'error') return <></>
+  if (players.data?.length < 1)
     return (
       // FIXME Intl
       <div className="mt-8 flex w-full justify-center text-sm text-muted-foreground">
@@ -12,7 +16,7 @@ const ClubPlayersList: FC<{ players: DatabasePlayer[] }> = ({ players }) => {
     );
   return (
     <div className="flex flex-col gap-2">
-      {players.map(({ nickname, rating, last_seen, id }) => {
+      {players.data.map(({ nickname, rating, last_seen, id }) => {
         const lastSeen = getFormmatedLastSeen(last_seen);
         const realname = 'Real Name';
         return (

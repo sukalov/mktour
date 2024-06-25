@@ -6,8 +6,10 @@ import { users } from '@/lib/db/schema/auth';
 import {
   DatabaseClub,
   DatabaseClubsToUsers,
+  DatabasePlayer,
   clubs,
   clubs_to_users,
+  players,
 } from '@/lib/db/schema/tournaments';
 import { newid } from '@/lib/utils';
 import { NewClubFormType } from '@/lib/zod/new-club-form';
@@ -43,4 +45,8 @@ export const createClub = async (values: NewClubFormType) => {
 
 export const getClubInfo = async (id: DatabaseClub['id']) => {
   return (await db.select().from(clubs).where(eq(clubs.id, id)))?.at(0);
+};
+
+export const getClubPlayers = async (id: DatabasePlayer['club_id']) => {
+  return await db.select().from(players).where(eq(players.club_id, id));
 };
