@@ -1,8 +1,8 @@
 export const BASE_URL =
   process.env.NODE_ENV === 'production'
     ? process.env.NEXT_PUBLIC_BASE_URL
-    // : 'http://192.168.0.101:3000';
-    : 'http://localhost:3000';
+    : 'http://192.168.0.162:3000';
+    // : 'http://localhost:3000';
 
 export const SOCKET_URL =
   process.env.NODE_ENV === 'production'
