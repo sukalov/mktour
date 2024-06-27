@@ -1,9 +1,10 @@
+'use server'
+
 import MakeTournamentButton from '@/components/button-make-tournament';
 import TeamJoinToaster from '@/components/team-join-toaster';
+import '@/styles/cursor.css';
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 import { cookies } from 'next/headers';
-
-import '@/styles/cursor.css';
 
 export default async function Authorized() {
   const isNew = checkUser();
