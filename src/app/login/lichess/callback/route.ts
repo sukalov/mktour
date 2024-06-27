@@ -1,3 +1,5 @@
+'use server'
+
 import { lichess, lucia } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
 import { DatabaseUser, user_preferences, users } from '@/lib/db/schema/auth';

@@ -1,3 +1,5 @@
+'use server'
+
 import { lichess } from '@/lib/auth/lucia';
 import { generateCodeVerifier, generateState } from 'arctic';
 import { cookies } from 'next/headers';
