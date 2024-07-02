@@ -1,4 +1,3 @@
-
 import NavbarWrapper from '@/components/navbars/navbar-wrapper';
 import IntlProvider from '@/components/providers/intl-provider';
 import MediaQueryProvider from '@/components/providers/media-query-provider';

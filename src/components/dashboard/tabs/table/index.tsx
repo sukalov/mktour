@@ -26,7 +26,11 @@ const TournamentTable: FC = () => {
   const queryClient = useQueryClient();
   const players = useTournamentPlayers(id);
   const { status, sendJsonMessage } = useContext(DashboardContext);
-  const removePlayers = useTournamentRemovePlayer(id, queryClient, sendJsonMessage);
+  const removePlayers = useTournamentRemovePlayer(
+    id,
+    queryClient,
+    sendJsonMessage,
+  );
 
   if (players.isLoading) return <TableLoading />;
   if (players.isError) {

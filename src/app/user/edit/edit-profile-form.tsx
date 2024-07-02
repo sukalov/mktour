@@ -27,8 +27,8 @@ import { useForm } from 'react-hook-form';
 
 export default function EditProfileForm() {
   const queryClient = useQueryClient();
-  const userQuery = useUser()
-  const editUserMutation = useEditUserMutation(queryClient)
+  const userQuery = useUser();
+  const editUserMutation = useEditUserMutation(queryClient);
 
   const defaultValues = {
     id: userQuery.data?.id ?? '',
@@ -39,7 +39,6 @@ export default function EditProfileForm() {
     resolver: zodResolver(editProfileFormSchema),
     values: defaultValues,
   });
-
 
   if (userQuery.isLoading) return <Skeleton className="m-4 w-full" />;
 

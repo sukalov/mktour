@@ -5,9 +5,9 @@ import { redirect } from 'next/navigation';
 
 export default async function MyTournaments() {
   const { user } = await validateRequest();
-  if (!user) redirect('sign-in')
+  if (!user) redirect('sign-in');
   const tournaments = await useTournamentsToUserClubsQuery({ user });
-  
+
   return (
     <main className="m-4 flex flex-col items-center gap-4">
       <TournamentsContainer props={tournaments} grouped />

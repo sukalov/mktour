@@ -5,14 +5,15 @@ import { StatusInClub } from '@/lib/db/schema/tournaments';
 import { notFound } from 'next/navigation';
 
 export default async function TournamentPage({ params }: PlayerPageProps) {
-  const { user } = await validateRequest()
+  const { user } = await validateRequest();
   const { player, club } = await usePlayerQuery(params.id);
   if (!player || !club) notFound();
   let status: StatusInClub | undefined | 'owner';
-  if (user) status = await getStatus({
-    user,
-    club,
-  }); // if defined, this player can be edited by page viewer
+  if (user)
+    status = await getStatus({
+      user,
+      club,
+    }); // if defined, this player can be edited by page viewer
   const isOwner = player.user_id === user?.id; // the viewer of the page is this player
   if (user)
     return (

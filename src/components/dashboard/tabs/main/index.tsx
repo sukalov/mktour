@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { Button } from '@/components/ui/button';

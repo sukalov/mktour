@@ -4,9 +4,8 @@ import { User } from 'lucia';
 import { FC } from 'react';
 
 const ClubPlayersList: FC<{ user: User }> = ({ user }) => {
-
-  const players = useClubPlayers(user.selected_club)
-  if (players.status === 'pending' || players.status === 'error') return <></>
+  const players = useClubPlayers(user.selected_club);
+  if (players.status === 'pending' || players.status === 'error') return <></>;
   if (players.data?.length < 1)
     return (
       // FIXME Intl

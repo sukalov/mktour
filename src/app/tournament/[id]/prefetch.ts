@@ -33,4 +33,3 @@ const tournamentQueryPrefetch = async (id: string) => {
 };
 
 export { tournamentQueryClient, tournamentQueryPrefetch };
-

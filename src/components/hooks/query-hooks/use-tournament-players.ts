@@ -5,5 +5,5 @@ export const useTournamentPlayers = (id: string) =>
   useQuery({
     queryKey: [id, 'players', 'added'],
     queryFn: () => getTournamentPlayers(id),
-    staleTime: Infinity
+    staleTime: Infinity,
   });

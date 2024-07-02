@@ -17,8 +17,7 @@ export default function ClubInfo() {
 function ClubInfoContent({ user }: { user: User }) {
   const club = useClubInfo(user.selected_club);
 
-  if (!club.data)
-    return <Skeleton className="h-24 w-full" />;
+  if (!club.data) return <Skeleton className="h-24 w-full" />;
   const createdAt = club.data?.created_at?.toLocaleDateString(['en-GB'], {
     dateStyle: 'medium',
   });

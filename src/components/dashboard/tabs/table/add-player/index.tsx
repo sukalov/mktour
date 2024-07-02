@@ -35,8 +35,12 @@ const AddPlayerDrawer = () => {
     >
       <Drawer.Trigger asChild>
         <div>
-          <Fab onClick={() => {
-            setOpen(true)}} icon={UserPlus} />
+          <Fab
+            onClick={() => {
+              setOpen(true);
+            }}
+            icon={UserPlus}
+          />
         </div>
       </Drawer.Trigger>
       <Drawer.Portal>
@@ -64,8 +68,11 @@ const AddPlayerDrawer = () => {
               <AddPlayer setOpen={setOpen} value={value} setValue={setValue} />
             )}
           </div>
-          <FabClose onClick={() => {
-            setOpen(false)}} />
+          <FabClose
+            onClick={() => {
+              setOpen(false);
+            }}
+          />
         </Drawer.Content>
       </Drawer.Portal>
     </Drawer.Root>

@@ -10,5 +10,5 @@ export const editUser = async ({ id, values }: UpdateDatabaseUser) => {
 
 type UpdateDatabaseUser = {
   id: string;
-  values: Partial<DatabaseUser>
+  values: Partial<DatabaseUser>;
 };

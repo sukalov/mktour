@@ -1,4 +1,4 @@
-'use server'
+'use server';
 
 import { db } from '@/lib/db';
 import { clubs, clubs_to_users } from '@/lib/db/schema/tournaments';

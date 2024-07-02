@@ -1,4 +1,4 @@
-'use server'
+'use server';
 
 import MakeTournamentButton from '@/components/button-make-tournament';
 import TeamJoinToaster from '@/components/team-join-toaster';

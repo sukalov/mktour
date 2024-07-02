@@ -5,8 +5,8 @@ import { DatabaseClub } from '@/lib/db/schema/tournaments';
 import { redirect } from 'next/navigation';
 
 export default async function NewTournament() {
-  const { user } = await validateRequest()
-  if (!user) redirect('/sign-in')
+  const { user } = await validateRequest();
+  if (!user) redirect('/sign-in');
   const userClubs = await useUserToClubsQuery({ user });
   const preparedUser = userClubs.map((el) => el.club) as DatabaseClub[];
 

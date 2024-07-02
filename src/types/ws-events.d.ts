@@ -1,4 +1,4 @@
-import { PlayerModel } from "@/types/tournaments";
+import { PlayerModel } from '@/types/tournaments';
 
 type Message =
   | { type: 'add-existing-player'; body: PlayerModel }

@@ -16,12 +16,7 @@ export default function SubNavbar({ items, root }: SubNavbarProps) {
       className={`cols fixed z-30 grid h-10 w-full min-w-max grid-flow-col items-center bg-muted text-sm ${cols} xs:flex xs:gap-8 xs:pl-4 flex-row gap-2 px-2`}
     >
       {items.map((item) => (
-        <NavItem
-          key={item.path}
-          item={item}
-          root={root}
-          isMobile={isMobile}
-        />
+        <NavItem key={item.path} item={item} root={root} isMobile={isMobile} />
       ))}
     </nav>
   );

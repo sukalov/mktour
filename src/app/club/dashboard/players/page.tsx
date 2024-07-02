@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import ClubPlayersList from '@/app/club/dashboard/players/club-players-list';
 import { useUser } from '@/components/hooks/query-hooks/use-user';

@@ -1,6 +1,6 @@
-import { editUser } from "@/lib/actions/profile-managing";
-import { QueryClient, useMutation } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { editUser } from '@/lib/actions/profile-managing';
+import { QueryClient, useMutation } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 export default function useEditUserMutation(queryClient: QueryClient) {
   return useMutation({

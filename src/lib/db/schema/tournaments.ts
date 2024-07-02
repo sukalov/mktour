@@ -139,7 +139,9 @@ export type DatabasePlayerToTournament = InferSelectModel<
 export type InsertDatabasePlayer = InferInsertModel<typeof players>;
 export type InsertDatabaseTournament = InferInsertModel<typeof tournaments>;
 export type InsertDatabaseClub = InferInsertModel<typeof clubs>;
-export type InsertDatabaseClubsToUsers = InferInsertModel<typeof clubs_to_users>;
+export type InsertDatabaseClubsToUsers = InferInsertModel<
+  typeof clubs_to_users
+>;
 export type InsertDatabaseGame = InferInsertModel<typeof games>;
 export type InsertDatabasePlayerToTournament = InferInsertModel<
   typeof players_to_tournaments

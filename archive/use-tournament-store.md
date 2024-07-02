@@ -1,5 +1,4 @@
 ```typescript
-
 export interface TournamentStore extends TournamentModel {
   isLoading: boolean;
   initAsync: (_id: string) => void;

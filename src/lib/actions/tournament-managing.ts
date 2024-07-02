@@ -46,7 +46,9 @@ export async function getTournamentGames(id: string) {
   return await db.select().from(games).where(eq(games.tournament_id, id));
 }
 
-export async function getTournamentPlayers(id: string): Promise<Array<PlayerModel>> {
+export async function getTournamentPlayers(
+  id: string,
+): Promise<Array<PlayerModel>> {
   const playersDb = await db
     .select()
     .from(players_to_tournaments)
@@ -63,7 +65,7 @@ export async function getTournamentPlayers(id: string): Promise<Array<PlayerMode
     losses: each.players_to_tournaments.losses,
     color_index: each.players_to_tournaments.color_index,
     exited: each.players_to_tournaments.exited,
-    place: each.players_to_tournaments.place
+    place: each.players_to_tournaments.place,
   }));
 }
 
@@ -102,7 +104,7 @@ export async function removePlayer({
   tournamentId: string;
   playerId: string;
 }) {
-  await timeout(1000)
+  await timeout(1000);
 
   await db
     .delete(players_to_tournaments)
@@ -112,7 +114,7 @@ export async function removePlayer({
         eq(players_to_tournaments.tournament_id, tournamentId),
       ),
     );
-};
+}
 
 export async function addNewPlayer({
   tournamentId,
@@ -134,7 +136,7 @@ export async function addNewPlayer({
     exited: null,
   };
   await db.insert(players_to_tournaments).values(playerToTournament);
-};
+}
 
 export async function addExistingPlayer({
   tournamentId,
@@ -155,6 +157,4 @@ export async function addExistingPlayer({
     exited: null,
   };
   await db.insert(players_to_tournaments).values(playerToTournament);
-};
-
-
+}

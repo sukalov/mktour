@@ -1,4 +1,4 @@
-'use server'
+'use server';
 
 import { lichess } from '@/lib/auth/lucia';
 import { generateCodeVerifier, generateState } from 'arctic';
