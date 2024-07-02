@@ -2,6 +2,7 @@
 
 import { useUserSelectClub } from '@/components/hooks/mutation-hooks/use-user-select-club';
 import { useUser } from '@/components/hooks/query-hooks/use-user';
+import { useUserClubs } from '@/components/hooks/query-hooks/use-user-clubs';
 import {
   Select,
   SelectContent,
@@ -10,22 +11,17 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
-import getUserClubs from '@/lib/actions/user-clubs';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { User } from 'lucia';
 
-const ClubSelect = () => {
-  const user = useUser();
+const ClubSelect = ({ userId }: {userId: string}) => {
+  const user = useUser(userId);
   if (!user.data) return <Skeleton className="h-12 w-full" />;
   return <ClubSelectContent user={user.data} />;
 };
 
 const ClubSelectContent = ({ user }: { user: User }) => {
-  const { data: clubs } = useQuery({
-    queryKey: ['user', 'clubs', 'all-user-clubs'],
-    queryFn: () => getUserClubs({ userId: user.id }),
-    staleTime: 30 * 60 * 1000,
-  });
+  const { data: clubs } = useUserClubs(user.id)
 
   const queryClient = useQueryClient();
   const clubSelection = useUserSelectClub(queryClient);

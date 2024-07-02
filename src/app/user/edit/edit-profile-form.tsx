@@ -25,9 +25,9 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Loader2, Save } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
-export default function EditProfileForm() {
+export default function EditProfileForm({ userId }: {userId: string}) {
   const queryClient = useQueryClient();
-  const userQuery = useUser();
+  const userQuery = useUser(userId);
   const editUserMutation = useEditUserMutation(queryClient);
 
   const defaultValues = {

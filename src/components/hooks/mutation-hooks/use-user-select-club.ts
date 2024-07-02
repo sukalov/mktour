@@ -14,23 +14,24 @@ export const useUserSelectClub = (queryClient: QueryClient) => {
         duration: 3000,
       });
     },
-    onMutate: ({ values }) => {
-      queryClient.cancelQueries({ queryKey: ['user'] });
+    onMutate: ({ id, values }) => {
+      queryClient.cancelQueries({ queryKey: [id, 'user'] });
 
       const previousState: User | undefined = queryClient.getQueryData([
+        id,
         'user',
         'profile',
       ]);
 
-      queryClient.setQueryData(['user', 'profile'], (cache: User) => ({
+      queryClient.setQueryData([id, 'user', 'profile'], (cache: User) => ({
         ...cache,
         selected_club: values.selected_club,
       }));
       return { previousState };
     },
 
-    onSettled: async () => {
-      queryClient.invalidateQueries({ queryKey: ['user'] });
+    onSettled: (_data, _err, { id }) => {
+      queryClient.invalidateQueries({ queryKey: [id, 'user'] });
     },
     onSuccess: (_err) => {
       console.log('selected club changed');

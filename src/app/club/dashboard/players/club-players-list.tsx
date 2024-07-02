@@ -1,11 +1,21 @@
+'use client';
+
 import { useClubPlayers } from '@/components/hooks/query-hooks/use-club-players';
+import { useUser } from '@/components/hooks/query-hooks/use-user';
 import { Card } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 import { User } from 'lucia';
 import { FC } from 'react';
 
-const ClubPlayersList: FC<{ user: User }> = ({ user }) => {
+const ClubPlayersList: FC<{ userId: string }> = ({ userId }) => {
+  const user = useUser(userId);
+  if (!user.data) return <></>;
+  return <ClubPlayersListContent user={user.data} />;
+};
+
+const ClubPlayersListContent: FC<{ user: User }> = ({ user }) => {
   const players = useClubPlayers(user.selected_club);
-  if (players.status === 'pending' || players.status === 'error') return <></>;
+  if (players.status === 'pending' || players.status === 'error') return <Skeleton className='w-full p-4 h-svh'/>;
   if (players.data?.length < 1)
     return (
       // FIXME Intl

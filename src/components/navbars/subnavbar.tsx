@@ -13,7 +13,7 @@ export default function SubNavbar({ items, root }: SubNavbarProps) {
 
   return (
     <nav
-      className={`cols fixed z-30 grid h-10 w-full min-w-max grid-flow-col items-center bg-muted text-sm ${cols} xs:flex xs:gap-8 xs:pl-4 flex-row gap-2 px-2`}
+      className={`cols fixed z-30 grid h-10 w-full min-w-max grid-flow-col items-center bg-muted text-sm ${cols} md:flex md:pl-4 md:flex-row gap-2 px-2`}
     >
       {items.map((item) => (
         <NavItem key={item.path} item={item} root={root} isMobile={isMobile} />
@@ -30,8 +30,8 @@ const NavItem: React.FC<{
   const selection = useSelectedLayoutSegment() ?? '';
   const isActive = item.path === selection;
   const style = isActive
-    ? 'bg-background py-1.5 px-2 rounded-sm shadow-sm'
-    : 'text-foreground/60 px-2 hover:text-foreground';
+    ? 'bg-background py-1.5 px-2 rounded-sm shadow-sm md:px-4'
+    : 'text-foreground/60 px-2 hover:text-foreground md:px-4';
   const Logo = (props: LogoProps) =>
     item.logo && (
       <item.logo
