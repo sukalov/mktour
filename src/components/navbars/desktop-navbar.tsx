@@ -1,11 +1,11 @@
 import { NAVBAR_ITEMS } from '@/components/navbars/navbar-items';
 import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
+    NavigationMenu,
+    NavigationMenuContent,
+    NavigationMenuItem,
+    NavigationMenuLink,
+    NavigationMenuList,
+    NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
 import { User } from 'lucia';
@@ -25,7 +25,7 @@ export default function DesktopNav({ user }: { user: User | null }) {
             <NavigationMenuItem key={tab.path}>
               <NavigationMenuTrigger
                 className={
-                  pathname.includes(tab.path.split('/')[1]) && 'font-bold'
+                  pathname.includes(tab.path.split('/')[1]) ? 'font-bold' : ''
                 }
               >
                 {tab.title}
