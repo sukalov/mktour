@@ -2,6 +2,7 @@
 
 import AuthButton from '@/components/auth/auth-button';
 import { LocaleContext } from '@/components/locale-context';
+import DesktopNav from '@/components/navbars/desktop-navbar';
 import ModeToggler from '@/components/navbars/mode-toggler';
 import ModeTogglerMobile from '@/components/navbars/mode-toggler-mobile';
 import { NAVBAR_ITEMS } from '@/components/navbars/navbar-items';
@@ -17,7 +18,7 @@ import { FormattedMessage } from 'react-intl';
 const selected =
   'py-1 px-3 -ml-0 bg-primary text-primary-foreground w-fit rounded-sm';
 
-export default function Navbar({ user, node_env }: NavbarProps) {
+export default function Navbar({ user }: NavbarProps) {
   const pathname = usePathname().split('/')[1];
   const isTournament = pathname === 'tournament';
 
@@ -29,6 +30,7 @@ export default function Navbar({ user, node_env }: NavbarProps) {
         </Link>
       </div>
       <Motion pathname={pathname} user={user} />
+      <DesktopNav user={user} />
       <AuthButton user={user} className="hidden md:block" />
       <ModeToggler className="hidden md:block" />
     </nav>
@@ -291,5 +293,5 @@ const MenuItemVariants = {
 
 type NavbarProps = {
   user: User | null;
-  node_env: 'development' | 'production' | 'test';
+  node_env?: 'development' | 'production' | 'test';
 };

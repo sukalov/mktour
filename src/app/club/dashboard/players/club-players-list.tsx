@@ -15,7 +15,8 @@ const ClubPlayersList: FC<{ userId: string }> = ({ userId }) => {
 
 const ClubPlayersListContent: FC<{ user: User }> = ({ user }) => {
   const players = useClubPlayers(user.selected_club);
-  if (players.status === 'pending' || players.status === 'error') return <Skeleton className='w-full p-4 h-svh'/>;
+  if (players.status === 'pending' || players.status === 'error')
+    return <Skeleton className="h-svh w-full p-4" />;
   if (players.data?.length < 1)
     return (
       // FIXME Intl

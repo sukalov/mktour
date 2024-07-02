@@ -12,7 +12,7 @@ const clubQueryPrefetch = async (userId: string, selectedClubId: string) => {
       queryFn: getUser,
     }),
     clubQueryClient.prefetchQuery({
-      queryKey: [, userId, 'user', 'clubs', 'all-user-clubs'],
+      queryKey: [userId, 'user', 'clubs', 'all-user-clubs'],
       queryFn: () => getUserClubs({ userId }),
     }),
     clubQueryClient.prefetchQuery({

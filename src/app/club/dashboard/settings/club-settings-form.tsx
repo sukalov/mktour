@@ -2,6 +2,7 @@
 
 import useEditClubMutation from '@/components/hooks/mutation-hooks/use-club-edit';
 import { useClubInfo } from '@/components/hooks/query-hooks/use-club-info';
+import { useUser } from '@/components/hooks/query-hooks/use-user';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -13,6 +14,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Skeleton } from '@/components/ui/skeleton';
 import { shallowEqual } from '@/lib/utils';
 import { EditClubFormType, editClubFormSchema } from '@/lib/zod/edit-club-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -21,7 +23,12 @@ import { User } from 'lucia';
 import { Loader2, Save } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
-export default function ClubSettingsForm({ user }: { user: User }) {
+export default function ClubSettingsForm({ userId }: { userId: string }) {
+  const user = useUser(userId);
+  if (!user.data) return <Skeleton className="h-svh w-full p-4" />;
+  return <ClubSettingsFormContent user={user.data} />;
+}
+const ClubSettingsFormContent = ({ user }: { user: User }) => {
   const queryClient = useQueryClient();
   const { data, isFetching } = useClubInfo(user.selected_club);
   const defaultValues = {
@@ -37,8 +44,8 @@ export default function ClubSettingsForm({ user }: { user: User }) {
   });
   return (
     <Form {...form}>
-      <Card className="mx-auto max-w-[min(600px,98%)] border-none shadow-none sm:border-solid sm:shadow-sm">
-        <CardContent className="p-4 sm:p-8">
+      <Card className="mx-auto max-w-[min(640px,100%)] border-none shadow-none sm:border-solid sm:shadow-sm">
+        <CardContent className="p-2 sm:p-8">
           <form
             onSubmit={form.handleSubmit((data) =>
               clubSettingsMutation.mutate({ id: data.id, values: data }),
@@ -81,4 +88,4 @@ export default function ClubSettingsForm({ user }: { user: User }) {
       </Card>
     </Form>
   );
-}
+};
