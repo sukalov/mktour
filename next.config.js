@@ -15,3 +15,9 @@ module.exports =
     : process.env.OPT === 'true'
       ? MillionLint.next({ rsc: true })(withAxiom(nextConfig))
       : withAxiom(nextConfig);
+
+const createNextIntlPlugin = require('next-intl/plugin');
+
+const withNextIntl = createNextIntlPlugin('./src/components/i18n.ts');
+
+module.exports = withNextIntl(nextConfig);

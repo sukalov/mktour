@@ -1,7 +1,7 @@
 'use client';
 
 import AuthButton from '@/components/auth/auth-button';
-import { LocaleContext } from '@/components/locale-context';
+import { setUserLocale } from '@/components/get-user-locale';
 import ModeToggler from '@/components/navbars/mode-toggler';
 import ModeTogglerMobile from '@/components/navbars/mode-toggler-mobile';
 import { NAVBAR_ITEMS } from '@/components/navbars/navbar-items';
@@ -10,10 +10,10 @@ import MktourNavbar from '@/components/ui/mktour-logo-navbar';
 import { motion, useCycle } from 'framer-motion';
 import { User } from 'lucia';
 import { ChevronDown } from 'lucide-react';
+import { useLocale } from 'next-intl';
 import { Link } from 'next-view-transitions';
 import { usePathname, useRouter } from 'next/navigation';
-import { FC, ReactNode, useContext, useEffect, useRef, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FC, ReactNode, useEffect, useRef, useState } from 'react';
 
 export default function Navbar({ user, node_env }: NavbarProps) {
   const pathname = usePathname().split('/')[1];
@@ -52,9 +52,9 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
   const router = useRouter();
   const { height } = useDimensions(containerRef);
   const [isOpen, toggleOpen] = useCycle(false, true);
-  const { locale, setLocale } = useContext(LocaleContext);
-  const handleClickLocale = () => {
-    setLocale(locale === 'en' ? 'ru' : 'en');
+  const locale = useLocale();
+  const handleClickLocale = async () => {
+    setUserLocale(locale === 'en' ? 'ru' : 'en');
   };
   const handleSignOut = async () => {
     const response = await fetch('/api/sign-out', {
@@ -114,7 +114,7 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
               name="log out"
               onClick={handleSignOut}
             >
-              <FormattedMessage id="menu.logout" />
+              log out
             </button>
           )}
           <div className="my-3 h-px w-full bg-transparent"></div>

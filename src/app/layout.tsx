@@ -1,5 +1,4 @@
 import NavbarWrapper from '@/components/navbars/navbar-wrapper';
-import IntlProvider from '@/components/providers/intl-provider';
 import MediaQueryProvider from '@/components/providers/media-query-provider';
 import ReactQueryProvider from '@/components/providers/react-query-provider';
 import ThemeProvider from '@/components/providers/theme-provider';
@@ -9,12 +8,17 @@ import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata, Viewport } from 'next';
 import { AxiomWebVitals } from 'next-axiom';
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale, getMessages } from 'next-intl/server';
 import { ViewTransitions } from 'next-view-transitions';
 import { PropsWithChildren } from 'react';
 
-function RootLayout({ children }: PropsWithChildren) {
+async function RootLayout({ children }: PropsWithChildren) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <AxiomWebVitals />
       <body className="small-scrollbar">
         <ThemeProvider
@@ -24,17 +28,17 @@ function RootLayout({ children }: PropsWithChildren) {
           disableTransitionOnChange
         >
           <MediaQueryProvider>
-            <IntlProvider>
-              <ReactQueryProvider>
-                <NavbarWrapper />
-                <ViewTransitions>
-                  <div className="pt-14">{children}</div>
-                </ViewTransitions>
-                <Analytics />
-                <SpeedInsights />
-                <Toaster richColors />
-              </ReactQueryProvider>
-            </IntlProvider>
+            <NextIntlClientProvider messages={messages}>
+                <ReactQueryProvider>
+                  <NavbarWrapper />
+                  <ViewTransitions>
+                    <div className="pt-14">{children}</div>
+                  </ViewTransitions>
+                  <Analytics />
+                  <SpeedInsights />
+                  <Toaster richColors />
+                </ReactQueryProvider>
+            </NextIntlClientProvider>
           </MediaQueryProvider>
         </ThemeProvider>
       </body>

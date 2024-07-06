@@ -1,0 +1,19 @@
+{
+  "Menu": {
+    "club": "club",
+    "tournaments": "tournaments",
+    "about us": "about us",
+    "profile": "profile",
+    "logout": "log out"
+  },
+  "Menu_Subitems": {
+    "all clubs": "all clubs",
+    "new club": "new club",
+    "all tournaments": "all tournaments",
+    "make tournament": "make tournament",
+    "FAQ": "FAQ",
+    "contact": "contact",
+    "find people": "find profile",
+    "edit profile": "edit profile"
+  }
+}

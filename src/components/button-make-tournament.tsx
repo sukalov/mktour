@@ -1,7 +1,9 @@
 import { Button } from '@/components/ui/button';
+import { useTranslations } from 'next-intl';
 import { Link } from 'next-view-transitions';
 
 export default function MakeTournamentButton() {
+  const t = useTranslations('Menu_Subitems')
   return (
     <Link href="/tournaments/create" className="m-auto w-full">
       <Button
@@ -9,7 +11,7 @@ export default function MakeTournamentButton() {
         variant="default"
       >
         <h1 className="text-2xl font-light min-[320px]:text-3xl">
-          make tournament
+          {t('make tournament')}
         </h1>
       </Button>
     </Link>

@@ -1,0 +1,19 @@
+{
+  "Menu": {
+    "club": "клуб",
+    "tournaments": "турниры",
+    "about us": "о нас",
+    "profile": "профиль",
+    "logout": "выйти"
+  },
+  "Menu_Subitems": {
+    "all clubs": "все клубы",
+    "new club": "новый клуб",
+    "all tournaments": "все турниры",
+    "make tournament": "создать турнир",
+    "FAQ": "FAQ",
+    "contact": "связаться с нами",
+    "find people": "поиск",
+    "edit profile": "изменить профиль"
+  }
+}

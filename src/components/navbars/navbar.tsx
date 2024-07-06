@@ -1,7 +1,7 @@
 'use client';
 
 import AuthButton from '@/components/auth/auth-button';
-import { LocaleContext } from '@/components/locale-context';
+import { setUserLocale } from '@/components/get-user-locale';
 import DesktopNav from '@/components/navbars/desktop-navbar';
 import ModeToggler from '@/components/navbars/mode-toggler';
 import ModeTogglerMobile from '@/components/navbars/mode-toggler-mobile';
@@ -10,10 +10,10 @@ import MktourNavbar from '@/components/ui/mktour-logo-navbar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { MotionProps, motion, useCycle } from 'framer-motion';
 import { User } from 'lucia';
+import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { FC, ReactNode, useContext, useEffect, useMemo, useRef } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FC, ReactNode, useEffect, useMemo, useRef } from 'react';
 
 const selected =
   'py-1 px-3 -ml-0 bg-primary text-primary-foreground w-fit rounded-sm';
@@ -45,9 +45,9 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
   const router = useRouter();
   const { height } = useDimensions(containerRef);
   const [isOpen, toggleOpen] = useCycle(false, true);
-  const { locale, setLocale } = useContext(LocaleContext);
-  const handleClickLocale = () => {
-    setLocale(locale === 'en' ? 'ru' : 'en');
+  const locale = useLocale()
+  const handleClickLocale = async () => {
+    setUserLocale(locale === 'en' ? 'ru' : 'en');
   };
   const handleSignOut = async () => {
     toggleOpen();
@@ -94,6 +94,8 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
     [],
   );
 
+  const t = useTranslations('Menu');
+
   return (
     <motion.nav
       initial={false}
@@ -127,7 +129,7 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
                         : ''
                     }`}
                   >
-                    {item.title}
+                    {t(item.title)}
                   </Link>
                 </MenuItem>
               ) : (
@@ -151,7 +153,7 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
                 name="log out"
                 onClick={handleSignOut}
               >
-                <FormattedMessage id="menu.logout" />
+                {t('logout')}
               </button>
             )}
             <div className="my-3 h-px w-full bg-transparent"></div>
@@ -227,6 +229,8 @@ const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({
   toggleOpen,
 }) => {
   const pathname = usePathname();
+  const t = useTranslations('Menu');
+  const tSub = useTranslations('Menu_Subitems');
 
   return (
     <>
@@ -237,7 +241,7 @@ const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({
           href={item.path}
         >
           <div className="flex w-full flex-row items-center justify-between">
-            {item.title}
+            {t(item.title)}
           </div>
         </Link>
       </MenuItem>
@@ -250,7 +254,7 @@ const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({
                 onClick={() => toggleOpen()}
                 className={` ${pathname.includes(subItem.path) ? selected : 'ml-3'}`}
               >
-                {subItem.title}
+                {tSub(subItem.title)}
               </Link>
             </MenuItem>
           );
