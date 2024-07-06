@@ -13,7 +13,7 @@ import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import React from 'react';
 
-export default function DesktopNavMenu({ user }: { user: User | null }) {
+export default function DesktopNavbar({ user }: { user: User | null }) {
   const pathname = usePathname();
   const t = useTranslations('Menu');
   return (
