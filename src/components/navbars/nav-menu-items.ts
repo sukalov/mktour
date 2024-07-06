@@ -1,6 +1,6 @@
 import { TOURNAMENTS_NAVBAR_ITEMS } from '@/components/navbars/tournaments-navbar-items';
 
-export const NAVBAR_ITEMS: NavbarItem[] = [
+export const NAVMENU_ITEMS: NavbarItem[] = [
   {
     title: 'club',
     topTab: 'dashboard',

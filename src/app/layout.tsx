@@ -1,4 +1,4 @@
-import NavbarWrapper from '@/components/navbars/navbar-wrapper';
+import NavMenuWrapper from '@/components/navbars/nav-menu-wrapper';
 import MediaQueryProvider from '@/components/providers/media-query-provider';
 import ReactQueryProvider from '@/components/providers/react-query-provider';
 import ThemeProvider from '@/components/providers/theme-provider';
@@ -30,7 +30,7 @@ async function RootLayout({ children }: PropsWithChildren) {
           <MediaQueryProvider>
             <NextIntlClientProvider messages={messages}>
               <ReactQueryProvider>
-                <NavbarWrapper />
+                <NavMenuWrapper />
                 <ViewTransitions>
                   <div className="pt-14">{children}</div>
                 </ViewTransitions>

@@ -1,23 +1,23 @@
-import { NAVBAR_ITEMS } from '@/components/navbars/navbar-items';
+import { NAVMENU_ITEMS } from '@/components/navbars/nav-menu-items';
 import {
-    NavigationMenu,
-    NavigationMenuContent,
-    NavigationMenuItem,
-    NavigationMenuLink,
-    NavigationMenuList,
-    NavigationMenuTrigger,
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
 import { User } from 'lucia';
 import { usePathname } from 'next/navigation';
 import React from 'react';
 
-export default function DesktopNav({ user }: { user: User | null }) {
+export default function DesktopNavMenu({ user }: { user: User | null }) {
   const pathname = usePathname();
   return (
     <NavigationMenu className="hidden pr-2 md:block">
       <NavigationMenuList>
-        {NAVBAR_ITEMS.map((tab) => {
+        {NAVMENU_ITEMS.map((tab) => {
           if (!tab.submenu) {
           }
           if (!user && tab.userOnly) return <></>;

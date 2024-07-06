@@ -4,7 +4,7 @@ import AuthButton from '@/components/auth/auth-button';
 import { setUserLocale } from '@/components/get-user-locale';
 import ModeToggler from '@/components/navbars/mode-toggler';
 import ModeTogglerMobile from '@/components/navbars/mode-toggler-mobile';
-import { NAVBAR_ITEMS } from '@/components/navbars/navbar-items';
+import { NAVBAR_ITEMS } from '@/components/navbars/nav-menu-items';
 import { Button } from '@/components/ui/button';
 import MktourNavbar from '@/components/ui/mktour-logo-navbar';
 import { motion, useCycle } from 'framer-motion';
