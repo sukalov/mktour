@@ -4,7 +4,7 @@ import AuthButton from '@/components/auth/auth-button';
 import { setUserLocale } from '@/components/get-user-locale';
 import ModeToggler from '@/components/navbars/mode-toggler';
 import ModeTogglerMobile from '@/components/navbars/mode-toggler-mobile';
-import { NAVBAR_ITEMS } from '@/components/navbars/nav-menu-items';
+import { NAVMENU_ITEMS } from '@/components/navbars/nav-menu-items';
 import { Button } from '@/components/ui/button';
 import MktourNavbar from '@/components/ui/mktour-logo-navbar';
 import { motion, useCycle } from 'framer-motion';
@@ -83,7 +83,7 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
         variants={variants}
         className="absolute grid w-full gap-3 px-10 py-16"
       >
-        {NAVBAR_ITEMS.map((item, idx) => (
+        {NAVMENU_ITEMS.map((item, idx) => (
           <div key={idx}>
             {!item.submenu ? (
               <MenuItem key={idx}>
