@@ -29,15 +29,15 @@ async function RootLayout({ children }: PropsWithChildren) {
         >
           <MediaQueryProvider>
             <NextIntlClientProvider messages={messages}>
-                <ReactQueryProvider>
-                  <NavbarWrapper />
-                  <ViewTransitions>
-                    <div className="pt-14">{children}</div>
-                  </ViewTransitions>
-                  <Analytics />
-                  <SpeedInsights />
-                  <Toaster richColors />
-                </ReactQueryProvider>
+              <ReactQueryProvider>
+                <NavbarWrapper />
+                <ViewTransitions>
+                  <div className="pt-14">{children}</div>
+                </ViewTransitions>
+                <Analytics />
+                <SpeedInsights />
+                <Toaster richColors />
+              </ReactQueryProvider>
             </NextIntlClientProvider>
           </MediaQueryProvider>
         </ThemeProvider>
