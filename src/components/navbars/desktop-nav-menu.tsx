@@ -9,11 +9,13 @@ import {
 } from '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
 import { User } from 'lucia';
+import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import React from 'react';
 
 export default function DesktopNavMenu({ user }: { user: User | null }) {
   const pathname = usePathname();
+  const t = useTranslations('Menu');
   return (
     <NavigationMenu className="hidden pr-2 md:block">
       <NavigationMenuList>
@@ -28,7 +30,7 @@ export default function DesktopNavMenu({ user }: { user: User | null }) {
                   pathname.includes(tab.path.split('/')[1]) ? 'font-bold' : ''
                 }
               >
-                {tab.title}
+                {t(tab.title)}
               </NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
@@ -39,10 +41,10 @@ export default function DesktopNavMenu({ user }: { user: User | null }) {
                         href={tab.path}
                       >
                         <div className="mb-2 mt-4 text-lg font-medium">
-                          {tab.title}
+                          {t(tab.title)}
                         </div>
                         <p className="text-sm leading-tight text-muted-foreground">
-                          {tab.description}
+                          {t(tab.title + ' description')}
                         </p>
                       </a>
                     </NavigationMenuLink>

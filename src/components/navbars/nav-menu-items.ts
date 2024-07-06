@@ -4,8 +4,6 @@ export const NAVMENU_ITEMS: NavbarItem[] = [
   {
     title: 'club',
     topTab: 'dashboard',
-    description:
-      'it is your chess club dashboard. here you can manage your players, events and other club settings',
     path: '/club/dashboard',
     submenu: true,
     subMenuItems: [
@@ -24,8 +22,6 @@ export const NAVMENU_ITEMS: NavbarItem[] = [
   {
     title: 'tournaments',
     topTab: 'my tournaments',
-    description:
-      'here are all the tournaments related to you. both, where you played and which were organixed by your club(s)',
     path: '/tournaments/my',
     submenu: true,
     subMenuItems: TOURNAMENTS_NAVBAR_ITEMS,
@@ -33,8 +29,6 @@ export const NAVMENU_ITEMS: NavbarItem[] = [
   {
     title: 'about us',
     path: '/info/about',
-    description:
-      'mktour is an open-source project. here you can learn more about the team and the app',
     topTab: 'about',
     submenu: true,
     subMenuItems: [
