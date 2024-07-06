@@ -34,9 +34,12 @@ const ClubPlayersListContent: FC<{ user: User }> = ({ user }) => {
             key={id}
             className="flex items-center justify-between truncate p-4"
           >
-            <div className="flex flex-col">
+            <div className="flex flex-col truncate">
               <span>
-                {nickname} {realname && `(${realname})`}
+                {nickname} 
+              </span>
+              <span className='text-xs'>
+              {realname && `(${realname})`}
               </span>
               <span className="text-xs text-muted-foreground">
                 last seen: {lastSeen}
