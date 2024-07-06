@@ -34,7 +34,7 @@ const ClubSelectContent = ({ user }: { user: User }) => {
   );
 
   return (
-    <div className="p-2">
+    <div>
       <Select
         onValueChange={(value) =>
           clubSelection.mutate({
@@ -43,11 +43,13 @@ const ClubSelectContent = ({ user }: { user: User }) => {
           })
         }
       >
-        <SelectTrigger className="w-full border-0">
+        <SelectTrigger className="border-0">
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         {sortedClubs && (
-          <SelectContent>{sortedClubs.map(SelectItemIteratee)}</SelectContent>
+          <SelectContent position="popper" alignOffset={100}>
+            {sortedClubs.map(SelectItemIteratee)}
+          </SelectContent>
         )}
       </Select>
     </div>

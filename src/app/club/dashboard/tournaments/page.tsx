@@ -1,5 +1,6 @@
 'use client';
 
+import SkeletonList from '@/components/skeleton-list';
 import {
   Card,
   CardDescription,
@@ -21,7 +22,7 @@ export default function ClubDashboardTournaments() {
     queryFn: () => getClubTournaments(),
   });
 
-  if (isLoading) return <p>loading...</p>;
+  if (isLoading) return <SkeletonList length={4} />;
   if (isError) return <p className="w-full">{failureReason?.message}</p>;
   return (
     <div className="mb-2 flex flex-col gap-2">{data?.map(TournamentItem)}</div>

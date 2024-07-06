@@ -2,8 +2,8 @@
 
 import { useClubPlayers } from '@/components/hooks/query-hooks/use-club-players';
 import { useUser } from '@/components/hooks/query-hooks/use-user';
+import SkeletonList from '@/components/skeleton-list';
 import { Card } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
 import { User } from 'lucia';
 import { FC } from 'react';
 
@@ -16,7 +16,7 @@ const ClubPlayersList: FC<{ userId: string }> = ({ userId }) => {
 const ClubPlayersListContent: FC<{ user: User }> = ({ user }) => {
   const players = useClubPlayers(user.selected_club);
   if (players.status === 'pending' || players.status === 'error')
-    return <Skeleton className="h-svh w-full p-4" />;
+    return <SkeletonList length={4} />;
   if (players.data?.length < 1)
     return (
       // FIXME Intl
@@ -35,12 +35,8 @@ const ClubPlayersListContent: FC<{ user: User }> = ({ user }) => {
             className="flex items-center justify-between truncate p-4"
           >
             <div className="flex flex-col truncate">
-              <span>
-                {nickname} 
-              </span>
-              <span className='text-xs'>
-              {realname && `(${realname})`}
-              </span>
+              <span>{nickname}</span>
+              <span className="text-xs">{realname && `(${realname})`}</span>
               <span className="text-xs text-muted-foreground">
                 last seen: {lastSeen}
               </span>

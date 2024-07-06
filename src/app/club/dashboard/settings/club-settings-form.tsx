@@ -60,7 +60,7 @@ const ClubSettingsFormContent = ({ user }: { user: User }) => {
                 <FormItem>
                   <FormLabel>name</FormLabel>
                   <FormControl>
-                    <Input {...field} autoComplete="off" />
+                    <Input {...field} disabled={isFetching} autoComplete="off" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

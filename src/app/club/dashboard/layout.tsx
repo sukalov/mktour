@@ -19,9 +19,11 @@ export default async function ClubsPageLayout({
   return (
     <HydrationBoundary state={dehydrate(clubQueryClient)}>
       <SubNavbar items={CLUB_DASHBOARD_NAVBAR_ITEMS} root="/club/dashboard/" />
-      <div className="mx-2 pt-12">
-        <ClubSelect userId={user.id} />
-        <div className="pt-2 p-2">{children}</div>
+      <div className="pt-12">
+        <div className="px-1">
+          <ClubSelect userId={user.id} />
+        </div>
+        <div className="p-2 pt-2">{children}</div>
       </div>
     </HydrationBoundary>
   );
