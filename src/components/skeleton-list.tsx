@@ -6,7 +6,7 @@ const SkeletonList: FC<{ length?: number }> = ({ length }) => {
 
   return (
     <div>
-      <div className="absolute z-10 h-[100svh] w-full bg-gradient-to-t from-black"></div>
+      <div className="absolute z-10 h-[100svh] w-full bg-gradient-to-t from-background"></div>
       <div className="flex flex-col gap-2">{list.map(SkeletonIteratee)}</div>
     </div>
   );
