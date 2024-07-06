@@ -45,7 +45,7 @@ const Motion: FC<{ pathname: string; user: User | null }> = ({
   const router = useRouter();
   const { height } = useDimensions(containerRef);
   const [isOpen, toggleOpen] = useCycle(false, true);
-  const locale = useLocale()
+  const locale = useLocale();
   const handleClickLocale = async () => {
     setUserLocale(locale === 'en' ? 'ru' : 'en');
   };

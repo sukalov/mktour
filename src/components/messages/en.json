@@ -4,7 +4,11 @@
     "tournaments": "tournaments",
     "about us": "about us",
     "profile": "profile",
-    "logout": "log out"
+    "logout": "log out",
+    "club description": "it is your chess club dashboard. here you can manage your players, events and other club settings",
+    "tournaments description": "here are all the tournaments related to you. both, where you played and which were organixed by your club(s)",
+    "about us description": "mktour is an open-source project. here you can learn more about the team and the app",
+    "profile description": "it's your own page with all your clubs, stats and more"
   },
   "Menu_Subitems": {
     "all clubs": "all clubs",
@@ -14,6 +18,14 @@
     "FAQ": "FAQ",
     "contact": "contact",
     "find people": "find profile",
-    "edit profile": "edit profile"
+    "edit profile": "edit profile",
+    "all clubs description": "",
+    "new club description": "new club",
+    "all tournaments description": "all tournaments",
+    "make tournament description": "make tournament",
+    "FAQ description": "FAQ",
+    "contact description": "contact",
+    "find people description": "find profile",
+    "edit profile description": "edit profile"
   }
 }
