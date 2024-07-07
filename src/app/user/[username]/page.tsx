@@ -1,5 +1,4 @@
-import GuestContent from '@/app/user/[username]/guest-content';
-import OwnerContent from '@/app/user/[username]/owner-content';
+import Content from '@/app/user/[username]/content';
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
 import { users } from '@/lib/db/schema/auth';
@@ -15,22 +14,17 @@ export default async function UserPage({ params }: TournamentPageProps) {
     .get();
 
   if (!user) redirect('/sign-in');
-  if (!data) return null; // FIXME handle no-data
-  if (user.username === params.username) return <OwnerContent props={data} />;
+  const isOwner = user.username === params.username;
 
-  return <GuestContent props={data} />;
+  if (!data)
+    return (
+      <div className="mt-8 w-full text-center text-muted-foreground">
+        No data {/* FIXME Intl */}
+      </div>
+    );
+
+  return <Content user={data} isOwner={isOwner} />;
 }
-
 export interface TournamentPageProps {
   params: { username: string };
 }
-
-export type ProfileProps = {
-  id: string;
-  name: string | null;
-  email: string;
-  username: string;
-  rating: number | null;
-  selected_club: string;
-  created_at: Date | null;
-};

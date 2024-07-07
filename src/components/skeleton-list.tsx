@@ -7,11 +7,13 @@ const SkeletonList: FC<{ length?: number }> = ({ length }) => {
   return (
     <div>
       <div className="absolute z-10 h-[100svh] w-full bg-gradient-to-t from-background"></div>
-      <div className="flex flex-col gap-2">{list.map(SkeletonIteratee)}</div>
+      <div className="flex flex-col gap-2">
+        {list.map((_, i) => (
+          <Skeleton key={i} className="h-[100px] w-full" />
+        ))}
+      </div>
     </div>
   );
 };
-
-const SkeletonIteratee = () => <Skeleton className="h-[100px] w-full" />;
 
 export default SkeletonList;
