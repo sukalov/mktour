@@ -1,4 +1,4 @@
-import { setUserLocale } from '@/components/get-user-locale';
+import LocaleSwitcher from '@/components/locale-switcher';
 import ModeTogglerMobile from '@/components/navbars/mode-toggler-mobile';
 import { NAVMENU_ITEMS } from '@/components/navbars/nav-menu-items';
 import MenuItem from '@/components/navbars/nav-menu/menu-item';
@@ -7,7 +7,7 @@ import MenuToggle from '@/components/navbars/nav-menu/menu-toggle';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { motion, useCycle } from 'framer-motion';
 import { User } from 'lucia';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FC, useEffect, useMemo, useRef } from 'react';
@@ -20,10 +20,6 @@ const Content: FC<{ pathname: string; user: User | null }> = ({
   const router = useRouter();
   const { height } = useDimensions(containerRef);
   const [isOpen, toggleOpen] = useCycle(false, true);
-  const locale = useLocale();
-  const handleClickLocale = async () => {
-    setUserLocale(locale === 'en' ? 'ru' : 'en');
-  };
   const handleSignOut = async () => {
     toggleOpen();
     const response = await fetch('/api/sign-out', {
@@ -135,9 +131,7 @@ const Content: FC<{ pathname: string; user: User | null }> = ({
           </MenuItem>
         </ScrollArea>
         <MenuItem className="absolute bottom-4 grid w-full grid-flow-col-dense px-[30%] text-center child:flex child:flex-auto child:items-center child:justify-center">
-          <button className="z-30 w-full" onClick={handleClickLocale}>
-            {locale.toUpperCase()}
-          </button>
+          <LocaleSwitcher />
           <ModeTogglerMobile />
         </MenuItem>
       </motion.ul>

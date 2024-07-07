@@ -2,6 +2,7 @@
 
 import AuthButton from '@/components/auth/auth-button';
 import { setUserLocale } from '@/components/get-user-locale';
+import LocaleSwitcher from '@/components/locale-switcher';
 import DesktopNavbar from '@/components/navbars/desktop-navbar';
 import ModeToggler from '@/components/navbars/mode-toggler';
 import Content from '@/components/navbars/nav-menu/content';
@@ -30,9 +31,9 @@ export default function NavMenu({ user }: NavMenuProps) {
       <DesktopNavbar user={user} />
       <AuthButton user={user} className="hidden md:block" />
       <ModeToggler className="hidden md:block" />
-      <button className="mx-2 hidden md:block" onClick={handleClickLocale}>
-        {locale.toUpperCase()}
-      </button>
+      <div className="mx-2 hidden md:block">
+        <LocaleSwitcher />
+      </div>
     </nav>
   );
 }
