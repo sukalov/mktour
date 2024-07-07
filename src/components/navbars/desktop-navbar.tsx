@@ -44,7 +44,7 @@ export default function DesktopNavbar({ user }: { user: User | null }) {
                           {t(tab.title)}
                         </div>
                         <p className="text-sm leading-tight text-muted-foreground">
-                          {t(tab.title + ' description')}
+                          {t(`${tab.title} description`)}
                         </p>
                       </a>
                     </NavigationMenuLink>
