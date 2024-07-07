@@ -11,13 +11,18 @@ const LocaleSwitcher = () => {
     setUserLocale(locale === 'en' ? 'ru' : 'en');
   };
 
+  // FIXME this fires multiple times for some reason
   useEffect(() => {
-    console.log('effect triggered');
     setPending(false);
   }, [locale]);
 
-  if (pending) return <Loader2 className="w-full animate-spin text-center max-w-[20px]" />;
-  return <button className='max-w-[20px]' onClick={handleClickLocale}>{locale.toUpperCase()}</button>;
+  if (pending)
+    return <Loader2 className="w-full max-w-[20px] animate-spin text-center" />;
+  return (
+    <button className="max-w-[20px]" onClick={handleClickLocale}>
+      {locale.toUpperCase()}
+    </button>
+  );
 };
 
 export default LocaleSwitcher;

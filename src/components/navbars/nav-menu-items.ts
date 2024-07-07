@@ -47,7 +47,7 @@ export const NAVMENU_ITEMS: NavbarItem[] = [
   },
   {
     title: 'profile',
-    path: '/user/profile',
+    path: '/user',
     topTab: 'myProfile',
     userOnly: true,
     submenu: true,
