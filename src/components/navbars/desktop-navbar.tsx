@@ -16,13 +16,16 @@ import React from 'react';
 export default function DesktopNavbar({ user }: { user: User | null }) {
   const pathname = usePathname();
   const t = useTranslations('Menu');
+  const tSub = useTranslations('Menu_Subitems');
+  const tSubDescription = useTranslations('Menu_Descriptions');
+
   return (
     <NavigationMenu className="hidden pr-2 md:block">
       <NavigationMenuList>
         {NAVMENU_ITEMS.map((tab) => {
-          if (!tab.submenu) {
-          }
-          if (!user && tab.userOnly) return <></>;
+          /* if (!tab.subMenuItems) {
+         }
+         if (!user && tab.userOnly) return <></>; */
           return (
             <NavigationMenuItem key={tab.path}>
               <NavigationMenuTrigger
@@ -37,10 +40,10 @@ export default function DesktopNavbar({ user }: { user: User | null }) {
                   <li className="row-span-3">
                     <NavigationMenuLink asChild>
                       <a
-                        className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                        className="flex h-full w-full select-none flex-col justify-end gap-2 rounded-md bg-gradient-to-b from-muted/50 to-muted p-4 px-6 no-underline outline-none focus:shadow-md"
                         href={tab.path}
                       >
-                        <div className="mb-2 mt-4 text-lg font-medium">
+                        <div className="text-lg font-medium">
                           {t(tab.title)}
                         </div>
                         <p className="text-sm leading-tight text-muted-foreground">
@@ -53,9 +56,9 @@ export default function DesktopNavbar({ user }: { user: User | null }) {
                     <ListItem
                       key={subTab.path}
                       href={subTab.path}
-                      title={subTab.title}
+                      title={tSub(subTab.title)}
                     >
-                      {subTab.description}
+                      {subTab.description && tSubDescription(subTab.title)}
                     </ListItem>
                   ))}
                 </ul>
@@ -84,7 +87,7 @@ const ListItem = React.forwardRef<
           {...props}
         >
           <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+          <p className="text-sm leading-snug text-muted-foreground">
             {children}
           </p>
         </a>

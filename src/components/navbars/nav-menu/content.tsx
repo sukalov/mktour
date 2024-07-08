@@ -89,7 +89,7 @@ const Content: FC<{ pathname: string; user: User | null }> = ({
         >
           {NAVMENU_ITEMS.map((item, idx) => (
             <div key={idx}>
-              {!item.submenu ? (
+              {!item.subMenuItems ? (
                 <MenuItem key={idx}>
                   <Link
                     href={item.path}

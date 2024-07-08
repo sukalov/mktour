@@ -3,7 +3,6 @@ type NavbarItem = {
   path: string;
   description?: string;
   userOnly?: boolean;
-  submenu?: boolean;
   topTab?: string;
   subMenuItems?: SideNavItem[];
 };

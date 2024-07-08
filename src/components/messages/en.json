@@ -28,6 +28,12 @@
     "find people description": "find profile",
     "edit profile description": "edit profile"
   },
+  "Menu_Descriptions": {
+    "all clubs": "explore clubs and their events, join new communities",
+    "new club": "create new chess club right here",
+    "FAQ": "learn how to use all mktour's cool features",
+    "contact": "reach us with questions, ideas, hiring offers and whatever else"
+  },
   "Empty": {
     "players": "there are no players in your club yet",
     "inbox": "claims to moderate tournaments, to link players to users and other club related notifications"
