@@ -40,7 +40,7 @@ export default function DesktopNavbar({ user }: { user: User | null }) {
                   <li className="row-span-3">
                     <NavigationMenuLink asChild>
                       <a
-                        className="flex h-full w-full select-none flex-col justify-end gap-2 rounded-md bg-gradient-to-b from-muted/50 to-muted p-4 px-6 no-underline outline-none focus:shadow-md"
+                        className="flex w-full select-none flex-col gap-2 rounded-md bg-gradient-to-b from-muted/50 to-muted p-4 px-6 no-underline outline-none focus:shadow-md"
                         href={tab.path}
                       >
                         <div className="text-lg font-medium">
