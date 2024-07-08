@@ -6,18 +6,15 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { User } from 'lucia';
 import { User2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '../ui/button';
 import LichessLogo from '../ui/lichess-logo';
 
-export interface AuthButtonProps {
-  user?: User | null;
-  className: string;
-}
-
-export default function AuthButton({ className, user }: AuthButtonProps) {
+export default function AuthButton({ user }: AuthButtonProps) {
   const router = useRouter();
+  const t = useTranslations('Menu');
 
   const handleSignOut = async () => {
     const response = await fetch('/api/sign-out', {
@@ -32,19 +29,19 @@ export default function AuthButton({ className, user }: AuthButtonProps) {
 
   if (!user) {
     return (
-      <div className={className}>
+      <>
         <Link href="/login/lichess">
           <Button className={`flex-row gap-2 p-2`} variant="ghost">
             <LichessLogo size="24" />
-            sign in
+            {t('login')}
           </Button>
         </Link>
-      </div>
+      </>
     );
   }
 
   return (
-    <div className={className}>
+    <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="select-none gap-2 p-3">
@@ -57,10 +54,14 @@ export default function AuthButton({ className, user }: AuthButtonProps) {
           onClick={handleSignOut}
         >
           <DropdownMenuItem className="flex w-full justify-center">
-            sign out
+            {t('logout')}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-    </div>
+    </>
   );
+}
+
+export interface AuthButtonProps {
+  user?: User | null;
 }

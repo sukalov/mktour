@@ -1,19 +1,14 @@
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
 import { MoonStarIcon, SunMoonIcon } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
-interface ModeTogglerProps {
-  className: string;
-}
-
-export default function ModeToggler({ className }: ModeTogglerProps) {
+export default function ModeToggler() {
   const { setTheme, theme } = useTheme();
 
   return (
     <Button
       variant="ghost"
-      className={cn(`px-2`, className)}
+      className="px-2"
       onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
     >
       <SunMoonIcon className="block rotate-0 scale-100 transition-all dark:hidden dark:-rotate-90 dark:scale-0" />

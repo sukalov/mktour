@@ -23,10 +23,10 @@ export default function NavMenu({ user }: NavMenuProps) {
       </div>
       <Content pathname={pathname} user={user} />
       <DesktopNavbar user={user} />
-      <AuthButton user={user} className="hidden md:block" />
-      <ModeToggler className="hidden md:block" />
-      <div className="mx-2 hidden md:block">
+      <div className="hidden items-center md:flex">
+        <AuthButton user={user} />
         <LocaleSwitcher />
+        <ModeToggler />
       </div>
     </nav>
   );
