@@ -1,5 +1,6 @@
 'use client';
 
+import Empty from '@/components/empty';
 import { useClubPlayers } from '@/components/hooks/query-hooks/use-club-players';
 import { useUser } from '@/components/hooks/query-hooks/use-user';
 import SkeletonList from '@/components/skeleton-list';
@@ -15,15 +16,11 @@ const ClubPlayersList: FC<{ userId: string }> = ({ userId }) => {
 
 const ClubPlayersListContent: FC<{ user: User }> = ({ user }) => {
   const players = useClubPlayers(user.selected_club);
+
   if (players.status === 'pending' || players.status === 'error')
     return <SkeletonList length={4} />;
-  if (players.data?.length < 1)
-    return (
-      // FIXME Intl
-      <div className="mt-8 flex w-full justify-center text-sm text-muted-foreground">
-        <p>There are no players in your club yet</p>
-      </div>
-    );
+  if (players.data?.length < 1) return <Empty />;
+
   return (
     <div className="flex flex-col gap-2">
       {players.data.map(({ nickname, rating, last_seen, id }) => {

@@ -1,8 +1,5 @@
+import Content from '@/app/club/dashboard/inbox/content';
+
 export default function ClubDashboardInbox() {
-  return (
-    <p>
-      claims to moderate tournaments, to link players to users and other club
-      realted notifications
-    </p>
-  );
+  return <Content />;
 }
