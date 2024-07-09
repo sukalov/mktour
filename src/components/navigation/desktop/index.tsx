@@ -1,8 +1,8 @@
 import AuthButton from '@/components/auth/auth-button';
 import LocaleSwitcher from '@/components/locale-switcher';
-import { NavMenuProps } from '@/components/navbars';
-import NavigationMenuContainer from '@/components/navbars/desktop/navigation-menu';
-import ModeToggler from '@/components/navbars/mode-toggler';
+import { NavMenuProps } from '@/components/navigation';
+import NavigationMenuContainer from '@/components/navigation/desktop/navigation-menu';
+import ModeToggler from '@/components/navigation/mode-toggler';
 import { FC } from 'react';
 
 const Desktop: FC<NavMenuProps> = ({ user }) => {

@@ -33,8 +33,5 @@ export const useUserSelectClub = (queryClient: QueryClient) => {
     onSettled: (_data, _err, { id }) => {
       queryClient.invalidateQueries({ queryKey: [id, 'user'] });
     },
-    onSuccess: (_err) => {
-      console.log('selected club changed');
-    },
   });
 };

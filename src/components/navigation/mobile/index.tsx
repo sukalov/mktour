@@ -1,6 +1,6 @@
 import AuthButton from '@/components/auth/auth-button';
-import { NavMenuProps } from '@/components/navbars';
-import Menu from '@/components/navbars/mobile/menu-content';
+import { NavMenuProps } from '@/components/navigation';
+import Menu from '@/components/navigation/mobile/menu';
 import { FC } from 'react';
 
 const Mobile: FC<NavMenuProps> = ({ user }) => {

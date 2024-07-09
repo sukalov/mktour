@@ -1,4 +1,4 @@
-import { SubNavbarItem } from '@/components/navbars/subnavbar';
+import { SubNavbarItem } from '@/components/navigation/subnavbar';
 
 export const TOURNAMENTS_NAVBAR_ITEMS: SubNavbarItem[] = [
   {

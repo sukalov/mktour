@@ -1,6 +1,6 @@
 'use client';
 
-import { SubNavbarItem } from '@/components/navbars/subnavbar';
+import { SubNavbarItem } from '@/components/navigation/subnavbar';
 import { Flag, Home, Mail, Settings, Users } from 'lucide-react';
 
 export const CLUB_DASHBOARD_NAVBAR_ITEMS: SubNavbarItem[] = [

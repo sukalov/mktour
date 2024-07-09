@@ -1,7 +1,7 @@
 'use client';
 
-import Desktop from '@/components/navbars/desktop';
-import Mobile from '@/components/navbars/mobile';
+import Desktop from '@/components/navigation/desktop';
+import Mobile from '@/components/navigation/mobile';
 import MktourNavbar from '@/components/ui/mktour-logo-navbar';
 import { User } from 'lucia';
 import { FC } from 'react';

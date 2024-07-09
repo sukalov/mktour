@@ -9,6 +9,7 @@ import { User2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { FC, PropsWithChildren } from 'react';
 import { Button } from '../ui/button';
 import LichessLogo from '../ui/lichess-logo';
 
@@ -26,8 +27,6 @@ export default function AuthButton({ user }: AuthButtonProps) {
       return router.refresh();
     }
   };
-
-  const truthful = true;
 
   if (!user) {
     return (
@@ -51,18 +50,48 @@ export default function AuthButton({ user }: AuthButtonProps) {
             <div className="hidden sm:block">{user.username}</div>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent
-          className="flex w-max justify-end"
-          onClick={handleSignOut}
-        >
-          <DropdownMenuItem className="flex w-full justify-center">
-            {t('logout')}
-          </DropdownMenuItem>
+        <DropdownMenuContent>
+          {menuItems.map((item) => (
+            <StyledItem
+              key={item.title}
+              className="w-full"
+              onClick={() => router.push(item.path)}
+            >
+              {t(`Subs.${item.title}`)}
+            </StyledItem>
+          ))}
+          <StyledItem onClick={handleSignOut}>{t('logout')}</StyledItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </>
   );
 }
+
+const StyledItem: FC<
+  PropsWithChildren & { className?: string; onClick?: () => void }
+> = ({ children, className, onClick }) => (
+  <DropdownMenuItem
+    className={`text-md flex w-full justify-start ${className}`}
+    onClick={onClick}
+  >
+    {children}
+  </DropdownMenuItem>
+);
+
+const menuItems = [
+  {
+    title: 'profile',
+    path: '/user',
+  },
+  {
+    title: 'find people',
+    path: '/user/search',
+  },
+  {
+    title: 'edit profile',
+    path: '/user/edit',
+  },
+];
 
 export interface AuthButtonProps {
   user?: User | null;

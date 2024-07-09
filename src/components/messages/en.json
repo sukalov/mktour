@@ -18,6 +18,7 @@
       "FAQ": "FAQ",
       "contact": "contact",
       "find people": "find profile",
+      "profile": "profile",
       "edit profile": "edit profile",
       "all clubs description": "",
       "new club description": "new club",
@@ -37,6 +38,15 @@
   },
   "Empty": {
     "players": "there are no players in your club yet",
-    "inbox": "claims to moderate tournaments, to link players to users and other club related notifications"
+    "inbox": "claims to moderate tournaments, to link players to users and other club related notifications",
+    "dashboard": "no data",
+    "user": "user not found"
+  },
+  "Profile": {
+    "edit": "edit",
+    "rating": "lichess blitz rating",
+    "email": "email",
+    "created on": "joined on",
+    "clubs": "clubs:"
   }
 }

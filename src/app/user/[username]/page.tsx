@@ -1,6 +1,7 @@
-import Content from '@/app/user/[username]/content';
+import Profile from '@/app/user/[username]/profile';
 import getUserData from '@/lib/actions/get-user-data';
 import { validateRequest } from '@/lib/auth/lucia';
+import { getTranslations } from 'next-intl/server';
 import { redirect } from 'next/navigation';
 
 export default async function UserPage({ params }: TournamentPageProps) {
@@ -9,15 +10,16 @@ export default async function UserPage({ params }: TournamentPageProps) {
 
   if (!user) redirect('/sign-in');
   const isOwner = user.username === params.username;
+  const t = await getTranslations()
 
   if (!data)
     return (
       <div className="mt-8 w-full text-center text-muted-foreground">
-        User not found {/* FIXME Intl */}
+        {t('Empty.user')}
       </div>
     );
 
-  return <Content user={data} isOwner={isOwner} />;
+  return <Profile user={data} isOwner={isOwner} />;
 }
 export interface TournamentPageProps {
   params: { username: string };

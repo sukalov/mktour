@@ -1,4 +1,4 @@
-import NavWrapper from '@/components/navbars/nav-wrapper';
+import NavWrapper from '@/components/navigation/nav-wrapper';
 import MediaQueryProvider from '@/components/providers/media-query-provider';
 import ReactQueryProvider from '@/components/providers/react-query-provider';
 import ThemeProvider from '@/components/providers/theme-provider';

@@ -1,4 +1,4 @@
-import { TOURNAMENTS_NAVBAR_ITEMS } from '@/components/navbars/tournaments-navbar-items';
+import { TOURNAMENTS_NAVBAR_ITEMS } from '@/components/navigation/tournaments-navbar-items';
 
 export const NAVMENU_ITEMS: NavbarItem[] = [
   {
@@ -41,20 +41,20 @@ export const NAVMENU_ITEMS: NavbarItem[] = [
       },
     ],
   },
-  {
-    title: 'profile',
-    path: '/user',
-    topTab: 'myProfile',
-    userOnly: true,
-    subMenuItems: [
-      {
-        title: 'find people',
-        path: '/user/search',
-      },
-      {
-        title: 'edit profile',
-        path: '/user/edit',
-      },
-    ],
-  },
+  // {
+  //   title: 'profile',
+  //   path: '/user',
+  //   topTab: 'myProfile',
+  //   userOnly: true,
+  //   subMenuItems: [
+  //     {
+  //       title: 'find people',
+  //       path: '/user/search',
+  //     },
+  //     {
+  //       title: 'edit profile',
+  //       path: '/user/edit',
+  //     },
+  //   ],
+  // },
 ];

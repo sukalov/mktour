@@ -1,9 +1,9 @@
 import LocaleSwitcher from '@/components/locale-switcher';
-import MenuItem from '@/components/navbars/mobile/menu-item';
-import MenuItemWithSubMenu from '@/components/navbars/mobile/menu-item-with-sub';
-import MenuToggle from '@/components/navbars/mobile/menu-toggle';
-import ModeToggler from '@/components/navbars/mode-toggler';
-import { NAVMENU_ITEMS } from '@/components/navbars/nav-menu-items';
+import MenuItem from '@/components/navigation/mobile/menu-item';
+import MenuItemWithSubMenu from '@/components/navigation/mobile/menu-item-with-sub';
+import MenuToggle from '@/components/navigation/mobile/menu-toggle';
+import ModeToggler from '@/components/navigation/mode-toggler';
+import { NAVMENU_ITEMS } from '@/components/navigation/nav-menu-items';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { motion, useCycle } from 'framer-motion';
 import { User } from 'lucia';

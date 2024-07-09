@@ -1,4 +1,4 @@
-import Navigation from '@/components/navbars';
+import Navigation from '@/components/navigation';
 import { validateRequest } from '@/lib/auth/lucia';
 
 export default async function NavWrapper() {

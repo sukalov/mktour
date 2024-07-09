@@ -1,5 +1,5 @@
-import { selected } from '@/components/navbars/mobile/menu-content';
-import MenuItem from '@/components/navbars/mobile/menu-item';
+import { selected } from '@/components/navigation/mobile/menu';
+import MenuItem from '@/components/navigation/mobile/menu-item';
 
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
