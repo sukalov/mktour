@@ -22,7 +22,6 @@ const Navigation: FC<NavMenuProps> = ({ user }) => {
 
 export type NavMenuProps = {
   user: User | null;
-  node_env?: 'development' | 'production' | 'test';
 };
 
 export default Navigation;

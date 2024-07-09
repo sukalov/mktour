@@ -48,7 +48,7 @@ export default function AuthButton({ user }: AuthButtonProps) {
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="select-none gap-2 p-3">
             <User2 />
-            <div className="hidden md:block">{user.username}</div>
+            <div className="hidden sm:block">{user.username}</div>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
