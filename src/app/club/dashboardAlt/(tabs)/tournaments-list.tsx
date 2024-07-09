@@ -1,9 +1,7 @@
 'use client';
 
-import Loading from '@/app/loading';
 import Empty from '@/components/empty';
 import { useClubTournaments } from '@/components/hooks/query-hooks/use-club-tournaments';
-import { useUser } from '@/components/hooks/query-hooks/use-user';
 import SkeletonList from '@/components/skeleton-list';
 import {
   Card,
@@ -16,12 +14,11 @@ import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { FC } from 'react';
 
-const ClubDashboardTournaments: FC<{ userId: string }> = ({ userId }) => {
-  const user = useUser(userId);
-  if (!user || !user.data) return <Loading />;
-  const { data, isLoading, isError, failureReason } = useClubTournaments(
-    user.data.selected_club,
-  );
+const ClubDashboardTournaments: FC<{ selectedClub: string }> = ({
+  selectedClub,
+}) => {
+  const { data, isLoading, isError, failureReason } =
+    useClubTournaments(selectedClub);
 
   const t = useTranslations('Empty');
   console.log(data);

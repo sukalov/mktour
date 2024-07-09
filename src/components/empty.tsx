@@ -1,14 +1,15 @@
 import { useTranslations } from "next-intl";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
+import { FC, PropsWithChildren } from "react";
 
-const Empty = () => {
+const Empty: FC<PropsWithChildren> = ({ children }) => {
   const pathname = usePathname().split('/').at(-1)
+  const params = useParams()
   const t = useTranslations('Empty')
-  console.log(usePathname().split('/'))
   
   return (
     <div className="mt-8 px-4 flex w-full justify-center text-sm text-muted-foreground">
-      <p>{t(`${pathname}`)}</p>
+      <p>{children ? children : t(`${pathname}`)}</p>
     </div>
   );
 };
