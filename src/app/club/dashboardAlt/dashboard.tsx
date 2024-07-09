@@ -31,10 +31,7 @@ export default function Dashboard({ userId }: { userId: string }) {
     router.push(newUrl, { scroll: false });
   }, [tab, router]);
 
-  if (!data || isLoading) return <Loading />;
-
-  const selectedClub = data.selected_club;
-
+  if (!data && isLoading) return <Loading />;
   if (!data) return <Empty>No data</Empty>; // FIXME Intl
 
   return (
@@ -45,7 +42,7 @@ export default function Dashboard({ userId }: { userId: string }) {
           <ClubSelect userId={userId} />
         </div>
         <div className="p-2 pt-2">
-          <ActiveTab selectedClub={selectedClub} />
+          <ActiveTab selectedClub={data.selected_club} />
         </div>
       </div>
     </div>
