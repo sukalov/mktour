@@ -1,5 +1,4 @@
-import { MotionProps, motion } from "framer-motion";
-
+import { MotionProps, motion } from 'framer-motion';
 
 const MenuToggle = ({ toggle }: { toggle: any }) => (
   <button
@@ -40,4 +39,4 @@ const Path = (props: MotionProps) => (
   />
 );
 
-export default MenuToggle
+export default MenuToggle;

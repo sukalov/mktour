@@ -7,7 +7,7 @@ import { CalendarDays, Info } from 'lucide-react';
 import { FC } from 'react';
 
 const ClubMain: FC<{ selectedClub: string }> = ({ selectedClub }) => {
-  const club = useClubInfo(selectedClub)
+  const club = useClubInfo(selectedClub);
   if (club.isPending) return <Skeleton className="h-24 w-full" />;
   if (!club.data) return <Empty />;
 

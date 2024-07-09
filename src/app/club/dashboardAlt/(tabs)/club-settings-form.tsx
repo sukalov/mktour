@@ -43,7 +43,7 @@ const ClubSettingsFormContent = ({ user }: { user: User }) => {
     resolver: zodResolver(editClubFormSchema),
     values: defaultValues,
   });
-  if (!data && isFetching) return null
+  if (!data && isFetching) return null;
   return (
     <Form {...form}>
       <Card className="mx-auto max-w-[min(640px,100%)] border-none shadow-none sm:border-solid sm:shadow-sm">
@@ -62,7 +62,11 @@ const ClubSettingsFormContent = ({ user }: { user: User }) => {
                 <FormItem>
                   <FormLabel>name</FormLabel>
                   <FormControl>
-                    <Input {...field} disabled={isFetching} autoComplete="off" />
+                    <Input
+                      {...field}
+                      disabled={isFetching}
+                      autoComplete="off"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

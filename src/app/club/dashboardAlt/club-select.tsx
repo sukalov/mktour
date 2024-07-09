@@ -19,7 +19,11 @@ const ClubSelect = ({ userId }: { userId: string }) => {
   return <ClubSelectContent user={user.data} />;
 };
 
-const ClubSelectContent = ({ user }: { user: { id: string, selected_club: string } }) => {
+const ClubSelectContent = ({
+  user,
+}: {
+  user: { id: string; selected_club: string };
+}) => {
   const { data: clubs } = useUserClubs(user.id);
 
   const queryClient = useQueryClient();

@@ -1,10 +1,10 @@
-import { validateRequest } from "@/lib/auth/lucia";
-import { redirect } from "next/navigation";
+import { validateRequest } from '@/lib/auth/lucia';
+import { redirect } from 'next/navigation';
 
 const UserPage = async () => {
-  const { user } = await validateRequest()
+  const { user } = await validateRequest();
   if (!user) redirect('/sign-in');
-  redirect(`/user/${user.username}`)
-}
+  redirect(`/user/${user.username}`);
+};
 
-export default UserPage
+export default UserPage;

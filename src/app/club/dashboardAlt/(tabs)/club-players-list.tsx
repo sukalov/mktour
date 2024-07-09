@@ -17,7 +17,7 @@ const ClubPlayersList: FC<{ userId: string }> = ({ userId }) => {
 
 const ClubPlayersListContent: FC<{ user: User }> = ({ user }) => {
   const players = useClubPlayers(user.selected_club);
-  const t = useTranslations('Empty')
+  const t = useTranslations('Empty');
 
   if (players.status === 'pending' || players.status === 'error')
     return <SkeletonList length={4} />;

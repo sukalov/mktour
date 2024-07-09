@@ -13,7 +13,7 @@ export default function SubNavbar({ items, root }: SubNavbarProps) {
 
   return (
     <nav
-      className={`cols border-red-700 fixed z-30 grid h-10 w-full min-w-max grid-flow-col items-center bg-muted text-sm ${cols} gap-2 px-2 md:flex md:flex-row md:pl-4`}
+      className={`cols fixed z-30 grid h-10 w-full min-w-max grid-flow-col items-center border-red-700 bg-muted text-sm ${cols} gap-2 px-2 md:flex md:flex-row md:pl-4`}
     >
       {items.map((item) => (
         <NavItem key={item.path} item={item} root={root} isMobile={isMobile} />

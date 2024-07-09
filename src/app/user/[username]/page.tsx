@@ -10,7 +10,7 @@ export default async function UserPage({ params }: TournamentPageProps) {
 
   if (!user) redirect('/sign-in');
   const isOwner = user.username === params.username;
-  const t = await getTranslations()
+  const t = await getTranslations();
 
   if (!data)
     return (
