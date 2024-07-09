@@ -21,8 +21,7 @@ const ClubDashboardTournaments: FC<{ selectedClub: string }> = ({
     useClubTournaments(selectedClub);
 
   const t = useTranslations('Empty');
-  console.log(data);
-
+  
   if (isLoading) return <SkeletonList length={4} />;
   if (!data || !data.length) return <Empty>{t('tournaments')}</Empty>;
   if (isError) return <p className="w-full">{failureReason?.message}</p>;
