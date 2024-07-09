@@ -128,7 +128,7 @@ const Menu: FC<{ user: User | null }> = ({ user }) => {
             <div className="my-3 h-px w-full bg-transparent"></div>
           </MenuItem>
         </ScrollArea>
-        <MenuItem className="absolute bottom-4 grid w-full grid-flow-col-dense px-[30%] text-center child:flex child:flex-auto child:items-center child:justify-center">
+        <MenuItem className="absolute bottom-4 flex w-full items-center justify-center gap-8">
           <LocaleSwitcher />
           <ModeToggler />
         </MenuItem>
