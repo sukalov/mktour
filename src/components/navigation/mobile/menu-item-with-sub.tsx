@@ -1,5 +1,6 @@
 import { selected } from '@/components/navigation/mobile/menu';
 import MenuItem from '@/components/navigation/mobile/menu-item';
+import { cn } from '@/lib/utils';
 
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
@@ -16,7 +17,7 @@ const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({
     <>
       <MenuItem>
         <Link
-          className={`flex text-2xl ${pathname.startsWith(item.path) ? selected : 'ml-3'}`}
+          className={`flex text-2xl ${cn(pathname.startsWith(item.path) ? selected : 'ml-3')}`}
           onClick={() => toggleOpen()}
           href={item.path}
         >

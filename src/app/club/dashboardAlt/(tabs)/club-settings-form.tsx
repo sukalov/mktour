@@ -2,6 +2,7 @@
 
 import useEditClubMutation from '@/components/hooks/mutation-hooks/use-club-edit';
 import { useClubInfo } from '@/components/hooks/query-hooks/use-club-info';
+import SkeletonList from '@/components/skeleton-list';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -35,7 +36,8 @@ const ClubSettingsForm: FC<{ selectedClub: string }> = ({ selectedClub }) => {
     resolver: zodResolver(editClubFormSchema),
     values: defaultValues,
   });
-  if (!data && isFetching) return null;
+  
+  if (!data && isFetching) return <SkeletonList length={1} />;
   return (
     <Form {...form}>
       <Card className="mx-auto max-w-[min(640px,100%)] border-none shadow-none sm:border-solid sm:shadow-sm">

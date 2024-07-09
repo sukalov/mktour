@@ -13,6 +13,7 @@ import { CLUB_DASHBOARD_NAVBAR_ITEMS } from '@/components/navigation/club-dashbo
 import { MediaQueryContext } from '@/components/providers/media-query-context';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LucideIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FC, useContext, useEffect, useState } from 'react';
 
@@ -23,6 +24,7 @@ export default function Dashboard({ userId }: { userId: string }) {
   const { data, isLoading } = useUser(userId);
   const [tab, setTab] = useState(initialTab);
   const ActiveTab: FC<{ selectedClub: string }> = tabMap[tab];
+  const t = useTranslations('Empty');
 
   useEffect(() => {
     const newParams = new URLSearchParams(window.location.search);
@@ -32,14 +34,14 @@ export default function Dashboard({ userId }: { userId: string }) {
   }, [tab, router]);
 
   if (!data && isLoading) return <Loading />;
-  if (!data) return <Empty>No data</Empty>; // FIXME Intl
+  if (!data) return <Empty>{t('dashboard')}</Empty>; // FIXME Intl
 
   return (
     <div>
       <TabList activeTab={tab} setTab={setTab} />
       <div className="pt-12">
         <div className="px-1">
-          <ClubSelect userId={userId} />
+          <ClubSelect user={data} />
         </div>
         <div className="p-2 pt-2">
           <ActiveTab selectedClub={data.selected_club} />

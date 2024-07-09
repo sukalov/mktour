@@ -7,10 +7,10 @@ import { Card } from '@/components/ui/card';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
-const ClubPlayersList: FC<{ selectedClub: string }> = ({ selectedClub })=> {
+const ClubPlayersList: FC<{ selectedClub: string }> = ({ selectedClub }) => {
   const players = useClubPlayers(selectedClub);
   const t = useTranslations('Empty');
-
+  
   if (players.status === 'pending' || players.status === 'error')
     return <SkeletonList length={4} />;
   if (players.data?.length < 1) return <Empty>{t('players')}</Empty>;
