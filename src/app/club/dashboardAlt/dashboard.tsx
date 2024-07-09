@@ -7,9 +7,12 @@ import ClubMain from '@/app/club/dashboardAlt/(tabs)/main';
 import ClubDashboardTournaments from '@/app/club/dashboardAlt/(tabs)/tournaments-list';
 import ClubSelect from '@/app/club/dashboardAlt/club-select';
 import { useUser } from '@/components/hooks/query-hooks/use-user';
+import { CLUB_DASHBOARD_NAVBAR_ITEMS } from '@/components/navigation/club-dashboard-navbar-items';
+import { MediaQueryContext } from '@/components/providers/media-query-context';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { LucideIcon } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { FC, useEffect, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 
 export default function Dashboard({ userId }: { userId: string }) {
   const router = useRouter();
@@ -29,7 +32,7 @@ export default function Dashboard({ userId }: { userId: string }) {
 
   return (
     <div>
-      <TabList tab={tab} setTab={setTab} />
+      <TabList activeTab={tab} setTab={setTab} />
       <div className="pt-12">
         <div className="px-1">
           <ClubSelect userId={userId} />
@@ -42,25 +45,38 @@ export default function Dashboard({ userId }: { userId: string }) {
   );
 }
 
-const TabList: FC<any> = ({ setTab, tab }) => {
+const TabList: FC<{ setTab: (arg: string) => void; activeTab: string }> = ({
+  setTab,
+  activeTab,
+}) => {
+  const { isMobile } = useContext(MediaQueryContext);
+
   return (
     <Tabs
       defaultValue="main"
       onValueChange={(value) => setTab(value)}
-      value={tab}
+      value={activeTab}
       className="fixed z-40 w-full rounded-none transition-all duration-500"
     >
       <TabsList className="w-full justify-around overflow-scroll rounded-none no-scrollbar md:justify-evenly">
         {Object.keys(tabMap).map((tab) => (
-          <div key={tab}>
-            <TabsTrigger className="w-full" value={tab}>
-              {tab}
-            </TabsTrigger>
-          </div>
+          <TabsTrigger key={tab} className="w-full" value={tab}>
+            {isMobile ? <Logo tab={tab} activeTab={activeTab} /> : <>{tab}</>}
+          </TabsTrigger>
         ))}
       </TabsList>
     </Tabs>
   );
+};
+
+const Logo: FC<{ tab: string; activeTab: string }> = ({ tab, activeTab }) => {
+  const item = CLUB_DASHBOARD_NAVBAR_ITEMS.find((item) => item.title === tab);
+  const isActive = tab === activeTab;
+  if (!item || !item.logo) return tab;
+
+  const Icon: LucideIcon = item.logo;
+
+  return <Icon size={18} strokeWidth={isActive ? 2.5 : 2} />;
 };
 
 const tabMap: Record<string, FC<{ userId: string; selectedClub: string }>> = {
