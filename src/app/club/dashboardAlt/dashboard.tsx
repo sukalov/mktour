@@ -7,6 +7,7 @@ import ClubMain from '@/app/club/dashboardAlt/(tabs)/main';
 import ClubDashboardTournaments from '@/app/club/dashboardAlt/(tabs)/tournaments-list';
 import ClubSelect from '@/app/club/dashboardAlt/club-select';
 import Loading from '@/app/loading';
+import Empty from '@/components/empty';
 import { useUser } from '@/components/hooks/query-hooks/use-user';
 import { CLUB_DASHBOARD_NAVBAR_ITEMS } from '@/components/navigation/club-dashboard-navbar-items';
 import { MediaQueryContext } from '@/components/providers/media-query-context';
@@ -19,8 +20,7 @@ export default function Dashboard({ userId }: { userId: string }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialTab = searchParams.get('tab') || 'main';
-  const user = useUser(userId);
-  const selectedClub = user.data?.selected_club || '';
+  const { data, isLoading } = useUser(userId);
   const [tab, setTab] = useState(initialTab);
   const ActiveTab: FC<{ selectedClub: string }> = tabMap[tab];
 
@@ -31,7 +31,11 @@ export default function Dashboard({ userId }: { userId: string }) {
     router.push(newUrl, { scroll: false });
   }, [tab, router]);
 
-  if (!user || !user.data) return <Loading />
+  if (!data || isLoading) return <Loading />;
+
+  const selectedClub = data.selected_club;
+
+  if (!data) return <Empty>No data</Empty>; // FIXME Intl
 
   return (
     <div>
