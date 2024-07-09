@@ -9,31 +9,31 @@
     "club description": "it is your chess club dashboard. here you can manage your players, events and other club settings",
     "tournaments description": "here are all the tournaments related to you. both, where you played and which were organixed by your clubs",
     "about us description": "mktour is an open-source project. here you can learn more about the team and the app",
-    "profile description": "it's your own page with all your clubs, stats and more"
-  },
-  "Menu_Subitems": {
-    "all clubs": "all clubs",
-    "new club": "new club",
-    "all tournaments": "all tournaments",
-    "make tournament": "make tournament",
-    "FAQ": "FAQ",
-    "contact": "contact",
-    "find people": "find profile",
-    "edit profile": "edit profile",
-    "all clubs description": "",
-    "new club description": "new club",
-    "all tournaments description": "all tournaments",
-    "make tournament description": "make tournament",
-    "FAQ description": "FAQ",
-    "contact description": "contact",
-    "find people description": "find profile",
-    "edit profile description": "edit profile"
-  },
-  "Menu_Descriptions": {
-    "all clubs": "explore clubs and their events, join new communities",
-    "new club": "create new chess club right here",
-    "FAQ": "learn how to use all mktour's cool features",
-    "contact": "reach us with questions, ideas, hiring offers and whatever else"
+    "profile description": "it's your own page with all your clubs, stats and more",
+    "Subs": {
+      "all clubs": "all clubs",
+      "new club": "new club",
+      "all tournaments": "all tournaments",
+      "make tournament": "make tournament",
+      "FAQ": "FAQ",
+      "contact": "contact",
+      "find people": "find profile",
+      "edit profile": "edit profile",
+      "all clubs description": "",
+      "new club description": "new club",
+      "all tournaments description": "all tournaments",
+      "make tournament description": "make tournament",
+      "FAQ description": "FAQ",
+      "contact description": "contact",
+      "find people description": "find profile",
+      "edit profile description": "edit profile",
+      "Descriptions": {
+        "all clubs": "explore clubs and their events, join new communities",
+        "new club": "create new chess club right here",
+        "FAQ": "learn how to use all mktour's cool features",
+        "contact": "reach us with questions, ideas, hiring offers and whatever else"
+      }
+    }
   },
   "Empty": {
     "players": "there are no players in your club yet",

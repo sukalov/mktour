@@ -8,24 +8,18 @@ import {
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
-import { User } from 'lucia';
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import React from 'react';
 
-export default function DesktopNavbar({ user }: { user: User | null }) {
+export default function NavigationMenuContainer() {
   const pathname = usePathname();
   const t = useTranslations('Menu');
-  const tSub = useTranslations('Menu_Subitems');
-  const tSubDescription = useTranslations('Menu_Descriptions');
 
   return (
-    <NavigationMenu className="hidden pr-2 md:block">
+    <NavigationMenu>
       <NavigationMenuList>
         {NAVMENU_ITEMS.map((tab) => {
-          /* if (!tab.subMenuItems) {
-         }
-         if (!user && tab.userOnly) return <></>; */
           return (
             <NavigationMenuItem key={tab.path}>
               <NavigationMenuTrigger
@@ -52,15 +46,17 @@ export default function DesktopNavbar({ user }: { user: User | null }) {
                       </a>
                     </NavigationMenuLink>
                   </li>
-                  {tab.subMenuItems!.map((subTab: NavbarItem) => (
-                    <ListItem
-                      key={subTab.path}
-                      href={subTab.path}
-                      title={tSub(subTab.title)}
-                    >
-                      {subTab.description && tSubDescription(subTab.title)}
-                    </ListItem>
-                  ))}
+                  {tab.subMenuItems &&
+                    tab.subMenuItems.map((subTab: NavbarItem) => (
+                      <ListItem
+                        key={subTab.path}
+                        href={subTab.path}
+                        title={t(`Subs.${subTab.title}`)}
+                      >
+                        {subTab.description &&
+                          t(`Subs.Descriptions.${subTab.title}`)}
+                      </ListItem>
+                    ))}
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>

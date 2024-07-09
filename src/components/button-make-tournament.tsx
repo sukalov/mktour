@@ -3,7 +3,7 @@ import { useTranslations } from 'next-intl';
 import { Link } from 'next-view-transitions';
 
 export default function MakeTournamentButton() {
-  const t = useTranslations('Menu_Subitems')
+  const t = useTranslations('Menu.Subs')
   return (
     <Link href="/tournaments/create" className="m-auto w-full">
       <Button

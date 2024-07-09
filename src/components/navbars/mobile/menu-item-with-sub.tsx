@@ -1,5 +1,5 @@
-import { selected } from '@/components/navbars/nav-menu/content';
-import MenuItem from '@/components/navbars/nav-menu/menu-item';
+import { selected } from '@/components/navbars/mobile/menu-content';
+import MenuItem from '@/components/navbars/mobile/menu-item';
 
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
@@ -11,7 +11,6 @@ const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({
 }) => {
   const pathname = usePathname();
   const t = useTranslations('Menu');
-  const tSub = useTranslations('Menu_Subitems');
 
   return (
     <>
@@ -35,7 +34,7 @@ const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({
                 onClick={() => toggleOpen()}
                 className={` ${pathname.includes(subItem.path) ? selected : 'ml-3'}`}
               >
-                {tSub(subItem.title)}
+                {t(`Subs.${subItem.title}`)}
               </Link>
             </MenuItem>
           );
