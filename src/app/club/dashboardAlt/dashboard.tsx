@@ -6,6 +6,7 @@ import ClubInbox from '@/app/club/dashboardAlt/(tabs)/inbox';
 import ClubMain from '@/app/club/dashboardAlt/(tabs)/main';
 import ClubDashboardTournaments from '@/app/club/dashboardAlt/(tabs)/tournaments-list';
 import ClubSelect from '@/app/club/dashboardAlt/club-select';
+import Loading from '@/app/loading';
 import { useUser } from '@/components/hooks/query-hooks/use-user';
 import { CLUB_DASHBOARD_NAVBAR_ITEMS } from '@/components/navigation/club-dashboard-navbar-items';
 import { MediaQueryContext } from '@/components/providers/media-query-context';
@@ -21,7 +22,7 @@ export default function Dashboard({ userId }: { userId: string }) {
   const user = useUser(userId);
   const selectedClub = user.data?.selected_club || '';
   const [tab, setTab] = useState(initialTab);
-  const ActiveTab: FC<{ userId: string; selectedClub: string }> = tabMap[tab];
+  const ActiveTab: FC<{ selectedClub: string }> = tabMap[tab];
 
   useEffect(() => {
     const newParams = new URLSearchParams(window.location.search);
@@ -29,6 +30,8 @@ export default function Dashboard({ userId }: { userId: string }) {
     const newUrl = `${window.location.pathname}?${newParams.toString()}`;
     router.push(newUrl, { scroll: false });
   }, [tab, router]);
+
+  if (!user || !user.data) return <Loading />
 
   return (
     <div>
@@ -38,7 +41,7 @@ export default function Dashboard({ userId }: { userId: string }) {
           <ClubSelect userId={userId} />
         </div>
         <div className="p-2 pt-2">
-          <ActiveTab userId={userId} selectedClub={selectedClub} />
+          <ActiveTab selectedClub={selectedClub} />
         </div>
       </div>
     </div>
@@ -79,7 +82,7 @@ const Logo: FC<{ tab: string; activeTab: string }> = ({ tab, activeTab }) => {
   return <Icon size={18} strokeWidth={isActive ? 2.5 : 2} />;
 };
 
-const tabMap: Record<string, FC<{ userId: string; selectedClub: string }>> = {
+const tabMap: Record<string, FC<{ selectedClub: string }>> = {
   main: ClubMain,
   players: ClubPlayersList,
   tournaments: ClubDashboardTournaments,

@@ -2,21 +2,13 @@
 
 import Empty from '@/components/empty';
 import { useClubPlayers } from '@/components/hooks/query-hooks/use-club-players';
-import { useUser } from '@/components/hooks/query-hooks/use-user';
 import SkeletonList from '@/components/skeleton-list';
 import { Card } from '@/components/ui/card';
-import { User } from 'lucia';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
-const ClubPlayersList: FC<{ userId: string }> = ({ userId }) => {
-  const user = useUser(userId);
-  if (!user.data) return <></>;
-  return <ClubPlayersListContent user={user.data} />;
-};
-
-const ClubPlayersListContent: FC<{ user: User }> = ({ user }) => {
-  const players = useClubPlayers(user.selected_club);
+const ClubPlayersList: FC<{ selectedClub: string }> = ({ selectedClub })=> {
+  const players = useClubPlayers(selectedClub);
   const t = useTranslations('Empty');
 
   if (players.status === 'pending' || players.status === 'error')

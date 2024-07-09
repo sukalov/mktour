@@ -2,7 +2,6 @@
 
 import useEditClubMutation from '@/components/hooks/mutation-hooks/use-club-edit';
 import { useClubInfo } from '@/components/hooks/query-hooks/use-club-info';
-import { useUser } from '@/components/hooks/query-hooks/use-user';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -14,29 +13,22 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Skeleton } from '@/components/ui/skeleton';
 import { shallowEqual } from '@/lib/utils';
 import { EditClubFormType, editClubFormSchema } from '@/lib/zod/edit-club-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
-import { User } from 'lucia';
 import { Loader2, Save } from 'lucide-react';
+import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 
-export default function ClubSettingsForm({ userId }: { userId: string }) {
-  const user = useUser(userId);
-  if (!user || !user.data) return <Skeleton className="h-svh w-full p-4" />;
-  return <ClubSettingsFormContent user={user.data} />;
-}
-
-const ClubSettingsFormContent = ({ user }: { user: User }) => {
+const ClubSettingsForm: FC<{ selectedClub: string }> = ({ selectedClub }) => {
   const queryClient = useQueryClient();
-  const { data, isFetching } = useClubInfo(user.selected_club);
+  const { data, isFetching } = useClubInfo(selectedClub);
   const defaultValues = {
     name: data?.name,
     description: data?.description,
     lichess_team: data?.lichess_team,
-    id: user.selected_club,
+    id: selectedClub,
   };
   const clubSettingsMutation = useEditClubMutation(queryClient);
   const form = useForm<EditClubFormType>({
@@ -95,3 +87,5 @@ const ClubSettingsFormContent = ({ user }: { user: User }) => {
     </Form>
   );
 };
+
+export default ClubSettingsForm;
