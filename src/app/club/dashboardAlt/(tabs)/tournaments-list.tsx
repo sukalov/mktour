@@ -14,11 +14,9 @@ import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { FC } from 'react';
 
-const ClubDashboardTournaments: FC<{ selectedClub: string }> = ({
-  selectedClub,
-}) => {
+const ClubDashboardTournaments: FC<{ selectedClub: string, isInView: boolean }> = ({ selectedClub, isInView }) => {
   const { data, isLoading, isError, failureReason } =
-    useClubTournaments(selectedClub);
+    useClubTournaments(selectedClub, isInView);
 
   const t = useTranslations('Empty');
 

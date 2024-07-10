@@ -22,7 +22,7 @@ import { Loader2, Save } from 'lucide-react';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 
-const ClubSettingsForm: FC<{ selectedClub: string }> = ({ selectedClub }) => {
+const ClubSettingsForm: FC<{ selectedClub: string, isInView: boolean }> = ({ selectedClub, isInView }) => {
   const queryClient = useQueryClient();
   const { data, isFetching } = useClubInfo(selectedClub);
   const defaultValues = {

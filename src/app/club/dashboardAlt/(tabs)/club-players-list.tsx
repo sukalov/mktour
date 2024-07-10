@@ -7,7 +7,7 @@ import { Card } from '@/components/ui/card';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
-const ClubPlayersList: FC<{ selectedClub: string }> = ({ selectedClub }) => {
+const ClubPlayersList: FC<{ selectedClub: string, isInView: boolean }> = ({ selectedClub, isInView }) => {
   const players = useClubPlayers(selectedClub);
   const t = useTranslations('Empty');
   

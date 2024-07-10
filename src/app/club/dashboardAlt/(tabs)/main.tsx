@@ -1,4 +1,4 @@
-import { InfoItem } from '@/components/dashboard/tabs/main';
+import { InfoItem } from '@/app/tournament/[id]/tabs/main';
 import Empty from '@/components/empty';
 import { useClubInfo } from '@/components/hooks/query-hooks/use-club-info';
 import { Card } from '@/components/ui/card';
@@ -6,7 +6,10 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { CalendarDays, Info } from 'lucide-react';
 import { FC } from 'react';
 
-const ClubMain: FC<{ selectedClub: string }> = ({ selectedClub }) => {
+const ClubMain: FC<{ selectedClub: string; isInView: boolean }> = ({
+  selectedClub,
+  isInView,
+}) => {
   const club = useClubInfo(selectedClub);
   if (club.isPending) return <Skeleton className="h-24 w-full" />;
   if (!club.data) return <Empty />;
