@@ -1,4 +1,3 @@
-
 import { ClubTabProps } from '@/app/club/dashboardAlt/dashboard';
 import { InfoItem } from '@/components/dashboard/tabs/main';
 import Empty from '@/components/empty';
@@ -8,10 +7,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { CalendarDays, Info } from 'lucide-react';
 import { FC } from 'react';
 
-const ClubMain: FC<ClubTabProps> = ({
-  selectedClub,
-  isInView,
-}) => {
+const ClubMain: FC<ClubTabProps> = ({ selectedClub, isInView }) => {
   const club = useClubInfo(selectedClub);
   if (club.isPending) return <Skeleton className="h-24 w-full" />;
   if (!club.data) return <Empty />;

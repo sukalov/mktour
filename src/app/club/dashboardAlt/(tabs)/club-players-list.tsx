@@ -11,7 +11,7 @@ import { FC } from 'react';
 const ClubPlayersList: FC<ClubTabProps> = ({ selectedClub, isInView }) => {
   const players = useClubPlayers(selectedClub);
   const t = useTranslations('Empty');
-  
+
   if (players.status === 'pending' || players.status === 'error')
     return <SkeletonList length={4} />;
   if (players.data?.length < 1) return <Empty>{t('players')}</Empty>;

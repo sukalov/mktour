@@ -58,15 +58,15 @@ const CarouselContainer: FC<CarouselProps> = ({
 };
 
 const CarouselIteratee: FC<{
-  children: FC<{ selectedClub: string, isInView: boolean }>;
+  children: FC<{ selectedClub: string; isInView: boolean }>;
   setScrolling: Dispatch<SetStateAction<boolean>>;
   selectedClub: string;
-  me: number
-  tab: number
+  me: number;
+  tab: number;
 }> = ({ children: Component, setScrolling, selectedClub, tab, me }) => {
   const viewportRef = useRef<HTMLDivElement>(null);
 
-  const isInView = me === tab
+  const isInView = me === tab;
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
@@ -91,14 +91,14 @@ const CarouselIteratee: FC<{
   return (
     <CarouselItem>
       <ScrollArea viewportRef={viewportRef} className="mt-10 h-[85svh]">
-        <Component selectedClub={selectedClub} isInView={isInView}/>
+        <Component selectedClub={selectedClub} isInView={isInView} />
       </ScrollArea>
     </CarouselItem>
   );
 };
 
 type CarouselProps = {
-  tabs: Record<string, FC<{ selectedClub: string, isInView: boolean }>>;
+  tabs: Record<string, FC<{ selectedClub: string; isInView: boolean }>>;
   currentTab: string;
   setCurrentTab: (arg: string) => void;
   setScrolling: () => void;

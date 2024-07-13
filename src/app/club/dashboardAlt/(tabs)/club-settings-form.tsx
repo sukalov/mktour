@@ -37,7 +37,7 @@ const ClubSettingsForm: FC<ClubTabProps> = ({ selectedClub, isInView }) => {
     resolver: zodResolver(editClubFormSchema),
     values: defaultValues,
   });
-  
+
   if (!data && isFetching) return <SkeletonList length={1} />;
   return (
     <Form {...form}>

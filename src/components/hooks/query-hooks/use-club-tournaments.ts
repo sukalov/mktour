@@ -6,6 +6,6 @@ export const useClubTournaments = (id: string, isInView?: boolean) => {
     queryKey: [id, 'club', 'tournaments'],
     queryFn: () => getClubTournaments(id),
     staleTime: 1000 * 60 * 60,
-    enabled: isInView || true
+    enabled: isInView || true,
   });
 };
