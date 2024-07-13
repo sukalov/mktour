@@ -1,4 +1,6 @@
-import { InfoItem } from '@/app/tournament/[id]/tabs/main';
+
+import { ClubTabProps } from '@/app/club/dashboardAlt/dashboard';
+import { InfoItem } from '@/components/dashboard/tabs/main';
 import Empty from '@/components/empty';
 import { useClubInfo } from '@/components/hooks/query-hooks/use-club-info';
 import { Card } from '@/components/ui/card';
@@ -6,7 +8,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { CalendarDays, Info } from 'lucide-react';
 import { FC } from 'react';
 
-const ClubMain: FC<{ selectedClub: string; isInView: boolean }> = ({
+const ClubMain: FC<ClubTabProps> = ({
   selectedClub,
   isInView,
 }) => {

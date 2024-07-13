@@ -1,5 +1,6 @@
 'use client';
 
+import { ClubTabProps } from '@/app/club/dashboardAlt/dashboard';
 import Empty from '@/components/empty';
 import { useClubTournaments } from '@/components/hooks/query-hooks/use-club-tournaments';
 import SkeletonList from '@/components/skeleton-list';
@@ -14,9 +15,14 @@ import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { FC } from 'react';
 
-const ClubDashboardTournaments: FC<{ selectedClub: string, isInView: boolean }> = ({ selectedClub, isInView }) => {
-  const { data, isLoading, isError, failureReason } =
-    useClubTournaments(selectedClub, isInView);
+const ClubDashboardTournaments: FC<ClubTabProps> = ({
+  selectedClub,
+  isInView,
+}) => {
+  const { data, isLoading, isError, failureReason } = useClubTournaments(
+    selectedClub,
+    isInView,
+  );
 
   const t = useTranslations('Empty');
 

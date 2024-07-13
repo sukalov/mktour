@@ -5,7 +5,6 @@ import ClubSettingsForm from '@/app/club/dashboardAlt/(tabs)/club-settings-form'
 import ClubInbox from '@/app/club/dashboardAlt/(tabs)/inbox';
 import ClubMain from '@/app/club/dashboardAlt/(tabs)/main';
 import ClubDashboardTournaments from '@/app/club/dashboardAlt/(tabs)/tournaments-list';
-import CarouselContainer from '@/app/club/dashboardAlt/carousel-container';
 import ClubSelect from '@/app/club/dashboardAlt/club-select';
 import Loading from '@/app/loading';
 import Empty from '@/components/empty';
@@ -24,9 +23,9 @@ export default function Dashboard({ userId }: { userId: string }) {
   const initialTab = searchParams.get('tab') || 'main';
   const { data, isLoading } = useUser(userId);
   const [tab, setTab] = useState(initialTab);
-  const ActiveTab: FC<{ selectedClub: string, isInView: true }> = tabMap[tab];
+  const ActiveTab: FC<ClubTabProps> = tabMap[tab];
   const t = useTranslations('Empty');
-  console.log(data)
+  console.log(data);
 
   useEffect(() => {
     const newParams = new URLSearchParams(window.location.search);
@@ -46,14 +45,14 @@ export default function Dashboard({ userId }: { userId: string }) {
           <ClubSelect user={data} />
         </div>
         <div className="p-2 pt-2">
-          {/* <ActiveTab selectedClub={data.selected_club} /> */}
-          <CarouselContainer
+          <ActiveTab selectedClub={data.selected_club} />
+          {/* <CarouselContainer
             tabs={tabMap}
             currentTab={tab}
             setCurrentTab={setTab}
             setScrolling={() => null}
             selectedClub={data.selected_club}
-          />
+          /> */}
         </div>
       </div>
     </div>
@@ -94,10 +93,15 @@ const Logo: FC<{ tab: string; activeTab: string }> = ({ tab, activeTab }) => {
   return <Icon size={18} strokeWidth={isActive ? 2.5 : 2} />;
 };
 
-const tabMap: Record<string, FC<{ selectedClub: string, isInView: boolean }>> = {
+const tabMap: Record<string, FC<ClubTabProps>> = {
   main: ClubMain,
   players: ClubPlayersList,
   tournaments: ClubDashboardTournaments,
   inbox: ClubInbox,
   settings: ClubSettingsForm,
+};
+
+export type ClubTabProps = {
+  selectedClub: string;
+  isInView?: boolean;
 };
