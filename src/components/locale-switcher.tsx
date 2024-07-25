@@ -21,13 +21,12 @@ const LocaleSwitcher = () => {
     <Button
       variant="ghost"
       size="icon"
-      className="text-lg"
       onClick={handleClickLocale}
     >
       {pending ? (
-        <Loader2 className="animate-spin text-center" />
+        <Loader2 className="animate-spin text-center font-thin" />
       ) : (
-        locale.toUpperCase()
+        <span>{locale}</span>
       )}
     </Button>
   );
