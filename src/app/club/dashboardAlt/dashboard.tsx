@@ -14,25 +14,15 @@ import { MediaQueryContext } from '@/components/providers/media-query-context';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LucideIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { FC, useContext, useEffect, useState } from 'react';
+import { FC, ReactNode, useContext, useState } from 'react';
 
 export default function Dashboard({ userId }: { userId: string }) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const initialTab = searchParams.get('tab') || 'main';
   const { data, isLoading } = useUser(userId);
-  const [tab, setTab] = useState(initialTab);
+  const [tab, setTab] = useState<ClubDashboardTab>('main');
   const ActiveTab: FC<ClubTabProps> = tabMap[tab];
   const t = useTranslations('Empty');
-  console.log(data);
 
-  useEffect(() => {
-    const newParams = new URLSearchParams(window.location.search);
-    newParams.set('tab', tab);
-    const newUrl = `${window.location.pathname}?${newParams.toString()}`;
-    router.push(newUrl, { scroll: false });
-  }, [tab, router]);
+  console.log(data);
 
   if (!data && isLoading) return <Loading />;
   if (!data) return <Empty>{t('dashboard')}</Empty>; // FIXME Intl
@@ -59,16 +49,16 @@ export default function Dashboard({ userId }: { userId: string }) {
   );
 }
 
-const TabList: FC<{ setTab: (arg: string) => void; activeTab: string }> = ({
-  setTab,
-  activeTab,
-}) => {
+const TabList: FC<{
+  setTab: (_arg: ClubDashboardTab) => void;
+  activeTab: ClubDashboardTab;
+}> = ({ setTab, activeTab }) => {
   const { isMobile } = useContext(MediaQueryContext);
 
   return (
     <Tabs
       defaultValue="main"
-      onValueChange={(value) => setTab(value)}
+      onValueChange={(value) => setTab(value as ClubDashboardTab)}
       value={activeTab}
       className="fixed z-40 w-full rounded-none transition-all duration-500"
     >
@@ -83,7 +73,10 @@ const TabList: FC<{ setTab: (arg: string) => void; activeTab: string }> = ({
   );
 };
 
-const Logo: FC<{ tab: string; activeTab: string }> = ({ tab, activeTab }) => {
+const Logo: FC<{ tab: ReactNode; activeTab: ClubDashboardTab }> = ({
+  tab,
+  activeTab,
+}) => {
   const item = CLUB_DASHBOARD_NAVBAR_ITEMS.find((item) => item.title === tab);
   const isActive = tab === activeTab;
   if (!item || !item.logo) return tab;
@@ -93,13 +86,20 @@ const Logo: FC<{ tab: string; activeTab: string }> = ({ tab, activeTab }) => {
   return <Icon size={18} strokeWidth={isActive ? 2.5 : 2} />;
 };
 
-const tabMap: Record<string, FC<ClubTabProps>> = {
+const tabMap: Record<ClubDashboardTab, FC<ClubTabProps>> = {
   main: ClubMain,
   players: ClubPlayersList,
   tournaments: ClubDashboardTournaments,
   inbox: ClubInbox,
   settings: ClubSettingsForm,
 };
+
+type ClubDashboardTab =
+  | 'main'
+  | 'players'
+  | 'tournaments'
+  | 'inbox'
+  | 'settings';
 
 export type ClubTabProps = {
   selectedClub: string;
