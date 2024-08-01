@@ -1,5 +1,5 @@
-import TournamentsList from '@/app/club/dashboard/tournaments/tournaments-list';
 import { validateRequest } from '@/lib/auth/lucia';
+import TournamentsList from 'archive/dashboard/tournaments/tournaments-list';
 
 export default async function ClubDashboardTournaments() {
   const { user } = await validateRequest();

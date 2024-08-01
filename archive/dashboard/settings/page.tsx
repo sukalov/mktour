@@ -1,5 +1,5 @@
-import ClubSettingsForm from '@/app/club/dashboard/settings/club-settings-form';
 import { validateRequest } from '@/lib/auth/lucia';
+import ClubSettingsForm from 'archive/dashboard/settings/club-settings-form';
 import { redirect } from 'next/navigation';
 
 export default async function ClubSettings() {

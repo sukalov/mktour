@@ -4,7 +4,7 @@ export const NAVMENU_ITEMS: NavbarItem[] = [
   {
     title: 'club',
     topTab: 'dashboard',
-    path: '/club/dashboardAlt',
+    path: '/club/dashboard',
     subMenuItems: [
       {
         title: 'all clubs',

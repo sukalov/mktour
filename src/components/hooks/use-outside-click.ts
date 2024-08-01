@@ -23,6 +23,7 @@ const useOutsideClick = (handler: () => void, refs: RefObject<any>[]) => {
         capture: true,
       });
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handler, ...refs.map((ref) => ref.current)]);
 };
 

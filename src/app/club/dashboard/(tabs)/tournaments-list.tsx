@@ -1,26 +1,33 @@
 'use client';
 
-import Loading from '@/app/loading';
+import { ClubTabProps } from '@/app/club/dashboard/dashboard';
+import Empty from '@/components/empty';
 import { useClubTournaments } from '@/components/hooks/query-hooks/use-club-tournaments';
-import { useUser } from '@/components/hooks/query-hooks/use-user';
 import SkeletonList from '@/components/skeleton-list';
 import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
+    Card,
+    CardDescription,
+    CardHeader,
+    CardTitle,
 } from '@/components/ui/card';
 import { DatabaseTournament } from '@/lib/db/schema/tournaments';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { FC } from 'react';
 
-const TournamentsList: FC<{ userId: string }> = ({ userId }) => {
-  const user = useUser(userId);
-  if (!user || !user.data) return <Loading />;
+const ClubDashboardTournaments: FC<ClubTabProps> = ({
+  selectedClub,
+  isInView,
+}) => {
   const { data, isLoading, isError, failureReason } = useClubTournaments(
-    user.data.selected_club,
+    selectedClub,
+    isInView,
   );
-  if (isLoading) return <SkeletonList length={4} />;
+
+  const t = useTranslations('Empty');
+
+  if (!data && isLoading) return <SkeletonList length={4} />;
+  if (!data || !data.length) return <Empty>{t('tournaments')}</Empty>;
   if (isError) return <p className="w-full">{failureReason?.message}</p>;
   return (
     <div className="mb-2 flex flex-col gap-2">{data?.map(TournamentItem)}</div>
@@ -53,4 +60,4 @@ const TournamentItem = (props: DatabaseTournament) => {
   );
 };
 
-export default TournamentsList;
+export default ClubDashboardTournaments;

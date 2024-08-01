@@ -67,10 +67,10 @@ const Profile: FC<{ user: DatabaseUser; isOwner: boolean }> = ({
 };
 
 const ClubList: FC<ClubListProps> = ({ clubs, isPending, mutate }) => {
+  const t = useTranslations('Profile');
   if (!clubs && isPending) return <SkeletonList />;
   if (!clubs) return null;
 
-  const t = useTranslations('Profile');
 
   return (
     <>
@@ -101,7 +101,7 @@ type ClubListProps = {
       }[]
     | undefined;
   isPending: boolean;
-  mutate: (arg: string) => void;
+  mutate: (_arg: string) => void;
 };
 
 export default Profile;

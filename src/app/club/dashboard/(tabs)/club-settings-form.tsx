@@ -1,18 +1,18 @@
 'use client';
 
-import { ClubTabProps } from '@/app/club/dashboardAlt/dashboard';
+import { ClubTabProps } from '@/app/club/dashboard/dashboard';
 import useEditClubMutation from '@/components/hooks/mutation-hooks/use-club-edit';
 import { useClubInfo } from '@/components/hooks/query-hooks/use-club-info';
 import SkeletonList from '@/components/skeleton-list';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { shallowEqual } from '@/lib/utils';
@@ -23,7 +23,7 @@ import { Loader2, Save } from 'lucide-react';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 
-const ClubSettingsForm: FC<ClubTabProps> = ({ selectedClub, isInView }) => {
+const ClubSettingsForm: FC<ClubTabProps> = ({ selectedClub }) => {
   const queryClient = useQueryClient();
   const { data, isFetching } = useClubInfo(selectedClub);
   const defaultValues = {

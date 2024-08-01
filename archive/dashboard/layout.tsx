@@ -1,12 +1,12 @@
-import ClubSelect from '@/app/club/dashboard/club-select';
-import {
-  clubQueryClient,
-  clubQueryPrefetch,
-} from '@/app/club/dashboard/prefetch';
 import { CLUB_DASHBOARD_NAVBAR_ITEMS } from '@/components/navigation/club-dashboard-navbar-items';
 import SubNavbar from '@/components/navigation/subnavbar';
 import { validateRequest } from '@/lib/auth/lucia';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import ClubSelect from 'archive/dashboard/club-select';
+import {
+    clubQueryClient,
+    clubQueryPrefetch,
+} from 'archive/dashboard/prefetch';
 import { redirect } from 'next/navigation';
 import { ReactNode } from 'react';
 

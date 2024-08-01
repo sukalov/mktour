@@ -1,5 +1,5 @@
-import ClubPlayersList from '@/app/club/dashboard/players/club-players-list';
 import { validateRequest } from '@/lib/auth/lucia';
+import ClubPlayersList from 'archive/dashboard/players/club-players-list';
 import { redirect } from 'next/navigation';
 
 export default async function ClubDashboardPlayers() {

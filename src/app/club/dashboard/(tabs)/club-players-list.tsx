@@ -1,6 +1,6 @@
 'use client';
 
-import { ClubTabProps } from '@/app/club/dashboardAlt/dashboard';
+import { ClubTabProps } from '@/app/club/dashboard/dashboard';
 import Empty from '@/components/empty';
 import { useClubPlayers } from '@/components/hooks/query-hooks/use-club-players';
 import SkeletonList from '@/components/skeleton-list';
@@ -8,7 +8,7 @@ import { Card } from '@/components/ui/card';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
-const ClubPlayersList: FC<ClubTabProps> = ({ selectedClub, isInView }) => {
+const ClubPlayersList: FC<ClubTabProps> = ({ selectedClub }) => {
   const players = useClubPlayers(selectedClub);
   const t = useTranslations('Empty');
 
