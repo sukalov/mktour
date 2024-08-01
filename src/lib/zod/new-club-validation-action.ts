@@ -9,12 +9,10 @@ export async function validateLichessTeam({
 }: {
   lichess_team?: string;
 }) {
-  if (!lichess_team) return true;
-  const isValid = await db
+  if (!lichess_team) return undefined;
+  return await db
     .select()
     .from(clubs)
     .where(eq(clubs.lichess_team, lichess_team))
     .get();
-
-  return isValid === undefined;
 }
