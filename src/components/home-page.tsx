@@ -55,7 +55,7 @@ export default function HomePage() {
                   variant="default"
                 >
                   <h1 className="text-2xl font-light min-[320px]:text-3xl">
-                    make tournament
+                    make tournament awdawdawdaw
                   </h1>
                   <p className="text-balance font-extralight"></p>
                 </Button>

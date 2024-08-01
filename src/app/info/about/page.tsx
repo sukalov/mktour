@@ -1,3 +1,11 @@
+'use client';
+
+import Center from '@/components/center';
+import { useTranslations } from 'next-intl';
+
 export default function AboutPage() {
-  return <p>mktour means make tournament</p>;
+  const t = useTranslations('Menu');
+  return (
+    <Center>{t('about us description')}</Center>
+  );
 }

@@ -1,16 +1,9 @@
-import { db } from '@/lib/db';
-import { clubs, tournaments } from '@/lib/db/schema/tournaments';
-import { eq } from 'drizzle-orm';
+'use client';
 
-export default async function AboutPage() {
-  const result = (
-    await db
-      .select()
-      .from(tournaments)
-      .where(eq(tournaments.id, '99qyYbFR'))
-      .leftJoin(clubs, eq(tournaments.club_id, clubs.id))
-  ).at(0);
+import Center from '@/components/center';
+import { useTranslations } from 'next-intl';
 
-  console.log(result);
-  return <pre>{JSON.stringify(result, null, 2)}</pre>;
+export default function AboutPage() {
+  const t = useTranslations('Menu.Subs.Descriptions');
+  return <Center>{t('FAQ')}</Center>;
 }
