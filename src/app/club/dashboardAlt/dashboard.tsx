@@ -25,7 +25,6 @@ export default function Dashboard({ userId }: { userId: string }) {
   const [tab, setTab] = useState(initialTab);
   const ActiveTab: FC<ClubTabProps> = tabMap[tab];
   const t = useTranslations('Empty');
-  console.log(data);
 
   useEffect(() => {
     const newParams = new URLSearchParams(window.location.search);
