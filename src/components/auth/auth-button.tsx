@@ -50,7 +50,7 @@ export default function AuthButton({ user }: AuthButtonProps) {
             <div className="hidden sm:block">{user.username}</div>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent className="-translate-x-2 translate-y-1">
           {menuItems.map((item) => (
             <StyledItem
               key={item.title}
