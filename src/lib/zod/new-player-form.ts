@@ -1,4 +1,4 @@
-import { validateData } from '@/lib/zod/new-player-validation-action';
+import { validateNewPlayer } from '@/lib/zod/new-player-validation-action';
 import * as z from 'zod';
 
 export const newPlayerFormSchema = z
@@ -17,7 +17,7 @@ export const newPlayerFormSchema = z
   })
   .refine(
     async (data) => {
-      return await validateData(data);
+      return await validateNewPlayer(data);
     },
     { message: 'this player already exists!', path: ['name'] },
   );
