@@ -7,7 +7,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { CalendarDays, Info } from 'lucide-react';
 import { FC } from 'react';
 
-const ClubMain: FC<ClubTabProps> = ({ selectedClub, isInView }) => {
+const ClubMain: FC<ClubTabProps> = ({ selectedClub }) => {
   const club = useClubInfo(selectedClub);
   if (club.isPending) return <Skeleton className="h-24 w-full" />;
   if (!club.data) return <Empty />;

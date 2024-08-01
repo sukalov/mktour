@@ -2,7 +2,7 @@
 
 import { NewClubForm, TeamSlice } from '@/app/club/create/new-club-form';
 import { Button } from '@/components/ui/button';
-import { FormControl, FormField, FormItem } from '@/components/ui/form';
+import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import {
   Select,
   SelectContent,
@@ -81,6 +81,7 @@ export function TeamSelector({ teams, form }: TeamSelectorProps) {
               )}
             </SelectContent>
           </Select>
+          <FormMessage />
         </FormItem>
       )}
     />
