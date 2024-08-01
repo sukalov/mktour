@@ -1,12 +1,10 @@
 'use client';
 
-import CarouselContainer from '@/components/dashboard/carousel-container';
-import {
-  DashboardContext,
-  DashboardContextType,
-} from '@/components/dashboard/dashboard-context';
-import FabProvider from '@/components/dashboard/fab-provider';
-import TabsContainer from '@/components/dashboard/tabs-container';
+
+import CarouselContainer from '@/app/tournament/dashboard/carousel-container';
+import { DashboardContext, DashboardContextType } from '@/app/tournament/dashboard/dashboard-context';
+import FabProvider from '@/app/tournament/dashboard/fab-provider';
+import TabsContainer from '@/app/tournament/dashboard/tabs-container';
 import { useDashboardWebsocket } from '@/components/hooks/use-dashboard-websocket';
 import { Status } from '@/lib/db/hooks/use-status-in-tournament';
 import { GameModel } from '@/types/tournaments';

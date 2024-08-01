@@ -1,4 +1,5 @@
-import RoundsMobile from '@/components/dashboard/tabs/games/rounds-mobile';
+
+import RoundsMobile from '@/app/tournament/dashboard/tabs/games/rounds-mobile';
 import { FC } from 'react';
 
 const Games: FC = () => {

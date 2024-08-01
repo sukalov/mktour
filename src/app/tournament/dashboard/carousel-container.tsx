@@ -1,5 +1,5 @@
-import { DashboardContextType } from '@/components/dashboard/dashboard-context';
-import tabs from '@/components/dashboard/tabs';
+import { DashboardContextType } from '@/app/tournament/dashboard/dashboard-context';
+import tabs from '@/app/tournament/dashboard/tabs';
 import {
   Carousel,
   CarouselApi,

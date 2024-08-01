@@ -1,5 +1,6 @@
-import { DashboardContext } from '@/components/dashboard/dashboard-context';
-import { DrawerProps } from '@/components/dashboard/tabs/table/add-player';
+
+import { DashboardContext } from '@/app/tournament/dashboard/dashboard-context';
+import { DrawerProps } from '@/app/tournament/dashboard/tabs/table/add-player';
 import { useTournamentAddExistingPlayer } from '@/components/hooks/mutation-hooks/use-tournament-add-existing-player';
 import { useTournamentPossiblePlayers } from '@/components/hooks/query-hooks/use-tournament-possible-players';
 import { Input } from '@/components/ui/input';
