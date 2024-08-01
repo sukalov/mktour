@@ -1,7 +1,6 @@
 'use client';
 
 import { NewClubForm, TeamSlice } from '@/app/club/create/new-club-form';
-import selectRef from '@/app/club/create/select-content-ref';
 import { Button } from '@/components/ui/button';
 import { FormControl, FormField, FormItem } from '@/components/ui/form';
 import {
@@ -11,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { selectRef } from '@/lib/utils';
 import { X } from 'lucide-react';
 import { useState } from 'react';
 
