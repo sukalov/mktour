@@ -23,7 +23,7 @@ export default function Dashboard({ userId }: { userId: string }) {
   const t = useTranslations('Empty');
 
   if (!data && isLoading) return <Loading />;
-  if (!data) return <Empty>{t('dashboard')}</Empty>; // FIXME Intl
+  if (!data) return <Empty>{t('dashboard')}</Empty>;
 
   return (
     <div>
