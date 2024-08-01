@@ -1,5 +1,5 @@
 import { ClubTabProps } from '@/app/club/dashboard/dashboard';
-import { InfoItem } from '@/app/tournament/dashboard/tabs/main';
+import { InfoItem } from '@/app/tournament/[id]/dashboard/tabs/main';
 import Empty from '@/components/empty';
 import { useClubInfo } from '@/components/hooks/query-hooks/use-club-info';
 import { Card } from '@/components/ui/card';

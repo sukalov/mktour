@@ -1,5 +1,5 @@
-import { DashboardContextType } from '@/app/tournament/dashboard/dashboard-context';
-import tabs from '@/app/tournament/dashboard/tabs';
+import { DashboardContextType } from '@/app/tournament/[id]/dashboard/dashboard-context';
+import tabs from '@/app/tournament/[id]/dashboard/tabs';
 import { Dispatch, SetStateAction } from 'react';
 
 const handleSwipe = (

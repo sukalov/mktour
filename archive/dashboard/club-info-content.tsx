@@ -1,6 +1,6 @@
 'use client';
 
-import { InfoItem } from '@/app/tournament/dashboard/tabs/main';
+import { InfoItem } from '@/app/tournament/[id]/dashboard/tabs/main';
 import Empty from '@/components/empty';
 import { useClubInfo } from '@/components/hooks/query-hooks/use-club-info';
 import { useUser } from '@/components/hooks/query-hooks/use-user';
