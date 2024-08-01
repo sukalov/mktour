@@ -1,19 +1,6 @@
-import {
-  Carousel,
-  CarouselApi,
-  CarouselContent,
-  CarouselItem,
-} from '@/components/ui/carousel';
+import { Carousel, CarouselApi, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import {
-  Dispatch,
-  FC,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { Dispatch, FC, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
 
 const CarouselContainer: FC<CarouselProps> = ({
   tabs,
@@ -30,7 +17,7 @@ const CarouselContainer: FC<CarouselProps> = ({
     if (!api) return;
     const num = api.selectedScrollSnap();
     setCurrentTab(tabsTitles[num]);
-  }, [api, setCurrentTab]);
+  }, [api, setCurrentTab, tabsTitles]);
 
   useEffect(() => {
     if (!api) return;
@@ -100,7 +87,7 @@ const CarouselIteratee: FC<{
 type CarouselProps = {
   tabs: Record<string, FC<{ selectedClub: string; isInView: boolean }>>;
   currentTab: string;
-  setCurrentTab: (arg: string) => void;
+  setCurrentTab: (_arg: string) => void;
   setScrolling: () => void;
   selectedClub: string;
 };

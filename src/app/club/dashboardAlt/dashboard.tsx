@@ -59,7 +59,7 @@ export default function Dashboard({ userId }: { userId: string }) {
   );
 }
 
-const TabList: FC<{ setTab: (arg: string) => void; activeTab: string }> = ({
+const TabList: FC<{ setTab: (_arg: string) => void; activeTab: string }> = ({
   setTab,
   activeTab,
 }) => {
