@@ -4,7 +4,8 @@ import * as z from 'zod';
 export const newTournamentFormSchema = z.object({
   title: z
     .string({ required_error: 'naming is hard, but necessary' })
-    .min(2, { message: 'naming is hard, but necessary' }),
+    .min(1, { message: 'hard naming' })
+    .min(3, { message: 'short tournament name' }),
   date: z.date().min(new Date(new Date().setDate(new Date().getDate() - 1)), {
     message: 'is it a time travel?',
   }),

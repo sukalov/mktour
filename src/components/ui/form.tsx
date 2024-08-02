@@ -147,7 +147,7 @@ const FormMessage = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, children, ...props }, ref) => {
-  const t = useTranslations('Errors')
+  const t = useTranslations(`Errors`)
   const { error, formMessageId } = useFormField();
   let body = error ? t(error?.message) : children;
   if (error?.message?.startsWith('LINK_TEAM_ERROR')) {  // TODO find a better way to handle this

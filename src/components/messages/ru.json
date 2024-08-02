@@ -48,6 +48,7 @@
   },
   "Errors": {
     "hard naming": "увы, название придётся придумать",
-    "short club name": "слишком коротко"
-  } 
+  "short club name": "слишком коротко",
+  "short tournament name": "слишком коротко"
+    } 
 }
