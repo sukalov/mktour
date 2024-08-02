@@ -53,7 +53,7 @@ const PlayerItem: FC<{ player: PlayerProps }> = ({ player }) => {
   );
 };
 
-type PlayerProps = {
+export type PlayerProps = {
   id: string;
   nickname: string;
   realname: string | null;
