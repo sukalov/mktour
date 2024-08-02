@@ -41,5 +41,9 @@
     "email": "email",
     "created on": "аккаунт создан",
     "clubs": "клубы:"
+  },
+  "Player": {
+    "last seen": "были на сайте: ",
+    "never": "никогда"
   }
 }

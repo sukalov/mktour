@@ -49,5 +49,9 @@
     "email": "email",
     "created on": "joined on",
     "clubs": "clubs:"
+  },
+  "Player": {
+    "last seen": "last seen: ",
+    "never": "never"
   }
 }
