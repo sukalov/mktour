@@ -18,7 +18,7 @@ export const newClubFormSchema = z
       return !team
     },
     (_data) => {
-      return { message: `club linked to ${team?.name} already exists!`, path: ['lichess_team'] }
+      return { message: `LINK_TEAM_ERROR@%!!(&${team?.id}@%!!(&${team?.name}`, path: ['lichess_team'] }
     },
   );
 

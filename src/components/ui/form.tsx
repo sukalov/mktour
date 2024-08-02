@@ -11,6 +11,7 @@ import {
 } from 'react-hook-form';
 
 import { Label } from '@/components/ui/label';
+import { BASE_URL } from '@/lib/config/urls';
 import { cn } from '@/lib/utils';
 
 const Form = FormProvider;
@@ -146,7 +147,21 @@ const FormMessage = React.forwardRef<
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, children, ...props }, ref) => {
   const { error, formMessageId } = useFormField();
-  const body = error ? error?.message : children;
+  let body = error ? error?.message : children;
+  if (error?.message?.startsWith('LINK_TEAM_ERROR')) {
+    const teamData = error.message.split('@%!!(&');
+    body = (() => (
+      <span>
+        sorry, this team is already here:&nbsp;
+        <a
+          href={`${BASE_URL}/club/${teamData[1]}`}
+          className="font-semibold underline underline-offset-2"
+        >
+          {teamData[2]}
+        </a>
+      </span>
+    ))();
+  }
 
   if (!body) {
     return null;
@@ -173,5 +188,6 @@ export {
   FormItem,
   FormLabel,
   FormMessage,
-  useFormField,
+  useFormField
 };
+
