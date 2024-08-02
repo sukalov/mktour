@@ -18,19 +18,20 @@ const ClubPlayersList: FC<ClubTabProps> = ({ selectedClub }) => {
   if (players.data?.length < 1) return <Empty>{t('players')}</Empty>;
 
   return (
-    <div className="flex flex-col gap-2">{players.data.map(PlayerItem)}</div>
+    <div className="flex flex-col gap-2">
+      {players.data.map(PlayerItemIteratee)}
+    </div>
   );
 };
 
-const PlayerItem = ({
-  nickname,
-  rating,
-  last_seen,
-  id,
-  realname,
-}: PlayerProps) => {
+const PlayerItemIteratee = (player: PlayerProps) => {
+  return <PlayerItem player={player} key={player.id} />;
+};
+
+const PlayerItem: FC<{ player: PlayerProps }> = ({ player }) => {
   const t = useTranslations();
   const formatter = useFormatter();
+  const { last_seen, id, nickname, realname, rating } = player;
   const lastSeen =
     last_seen && last_seen > 0
       ? formatter.relativeTime(last_seen)
