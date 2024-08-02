@@ -6,6 +6,7 @@ import { useClubPlayers } from '@/components/hooks/query-hooks/use-club-players'
 import SkeletonList from '@/components/skeleton-list';
 import { Card } from '@/components/ui/card';
 import { useFormatter, useTranslations } from 'next-intl';
+import Link from 'next/link';
 import { FC } from 'react';
 
 const ClubPlayersList: FC<ClubTabProps> = ({ selectedClub }) => {
@@ -21,22 +22,31 @@ const ClubPlayersList: FC<ClubTabProps> = ({ selectedClub }) => {
   );
 };
 
-const PlayerItem = ({ nickname, rating, last_seen, id, realname }: PlayerProps) => {
-  const t = useTranslations()
+const PlayerItem = ({
+  nickname,
+  rating,
+  last_seen,
+  id,
+  realname,
+}: PlayerProps) => {
+  const t = useTranslations();
   const formatter = useFormatter();
-  const lastSeen = last_seen && last_seen > 0 
-    ? formatter.relativeTime(last_seen) 
-    : t('Player.never');
-  
+  const lastSeen =
+    last_seen && last_seen > 0
+      ? formatter.relativeTime(last_seen)
+      : t('Player.never');
+
   return (
     <Card key={id} className="flex items-center justify-between truncate p-4">
-      <div className="flex flex-col truncate">
-        <span>{nickname}</span>
-        <span className="text-xs">{realname && `(${realname})`}</span>
-        <span className="text-xs text-muted-foreground">
-          {t('Player.last seen') + lastSeen}
-        </span>
-      </div>
+      <Link href={`/player/${id}`}>
+        <div className="flex flex-col truncate">
+          <span>{nickname}</span>
+          <span className="text-xs">{realname && `(${realname})`}</span>
+          <span className="text-xs text-muted-foreground">
+            {t('Player.last seen') + lastSeen}
+          </span>
+        </div>
+      </Link>
       <div className="text-2xl">{rating}</div>
     </Card>
   );
