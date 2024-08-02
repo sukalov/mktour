@@ -33,7 +33,7 @@ export default function Dashboard({ userId }: { userId: string }) {
           <ClubSelect user={data} />
         </div>
         <div className="p-2 pt-2">
-          <ActiveTab selectedClub={data.selected_club} />
+          <ActiveTab selectedClub={data.selected_club} userId={userId}/>
           {/* <CarouselContainer
             tabs={tabMap}
             currentTab={tab}
@@ -101,5 +101,6 @@ type ClubDashboardTab =
 
 export type ClubTabProps = {
   selectedClub: string;
+  userId: string;
   isInView?: boolean;
 };

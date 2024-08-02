@@ -57,5 +57,6 @@ export const editClub = async ({ id, values }: UpdateDatabaseClub) => {
 
 type UpdateDatabaseClub = {
   id: string;
+  userId: string;
   values: Partial<DatabaseClub>;
 };

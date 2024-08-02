@@ -23,7 +23,7 @@ import { Loader2, Save } from 'lucide-react';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 
-const ClubSettingsForm: FC<ClubTabProps> = ({ selectedClub }) => {
+const ClubSettingsForm: FC<ClubTabProps> = ({ selectedClub, userId }) => {
   const queryClient = useQueryClient();
   const { data, isFetching } = useClubInfo(selectedClub);
   const defaultValues = {
@@ -45,7 +45,7 @@ const ClubSettingsForm: FC<ClubTabProps> = ({ selectedClub }) => {
         <CardContent className="p-2 sm:p-8">
           <form
             onSubmit={form.handleSubmit((data) =>
-              clubSettingsMutation.mutate({ id: data.id, values: data }),
+              clubSettingsMutation.mutate({ id: data.id, userId, values: data }),
             )}
             className="flex flex-col gap-8"
             name="new-tournament-form"
