@@ -13,6 +13,7 @@ import {
 import { Label } from '@/components/ui/label';
 import { BASE_URL } from '@/lib/config/urls';
 import { cn } from '@/lib/utils';
+import { useTranslations } from 'next-intl';
 
 const Form = FormProvider;
 
@@ -146,9 +147,10 @@ const FormMessage = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, children, ...props }, ref) => {
+  const t = useTranslations('Errors')
   const { error, formMessageId } = useFormField();
-  let body = error ? error?.message : children;
-  if (error?.message?.startsWith('LINK_TEAM_ERROR')) {
+  let body = error ? t(error?.message) : children;
+  if (error?.message?.startsWith('LINK_TEAM_ERROR')) {  // TODO find a better way to handle this
     const teamData = error.message.split('@%!!(&');
     body = (() => (
       <span>

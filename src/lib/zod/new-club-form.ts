@@ -6,8 +6,9 @@ let team: DatabaseClub | undefined
 export const newClubFormSchema = z
   .object({
     name: z
-      .string({ required_error: 'naming is hard, but necessary' })
-      .min(3, { message: 'too short for a chess club name' }),
+    .string({ required_error: 'hard naming' })
+    .min(1, { message: 'hard naming' })
+    .min(3, { message: 'short club name' }),
     description: z.string().optional(),
     created_at: z.date().optional(),
     lichess_team: z.string().optional(),

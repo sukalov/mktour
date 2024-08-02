@@ -53,5 +53,9 @@
   "Player": {
     "last seen": "last seen: ",
     "never": "never"
-  }
+  },
+  "Errors": {
+    "hard naming": "naming is hard, but necessary",
+    "short club name": "too short for a chess club name"
+  } 
 }
