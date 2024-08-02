@@ -1,9 +1,9 @@
 
-import Dashboard from '@/app/tournament/[id]/dashboard';
+import Dashboard from '@/app/tournaments/[id]/dashboard';
 import {
-  tournamentQueryClient,
-  tournamentQueryPrefetch,
-} from '@/app/tournament/[id]/prefetch';
+    tournamentQueryClient,
+    tournamentQueryPrefetch,
+} from '@/app/tournaments/[id]/prefetch';
 import { validateRequest } from '@/lib/auth/lucia';
 import { useStatusInTournament } from '@/lib/db/hooks/use-status-in-tournament';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';

@@ -3,14 +3,14 @@
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
 import {
-  DatabasePlayer,
-  DatabasePlayerToTournament,
-  DatabaseTournament,
-  clubs,
-  games,
-  players,
-  players_to_tournaments,
-  tournaments,
+    DatabasePlayer,
+    DatabasePlayerToTournament,
+    DatabaseTournament,
+    clubs,
+    games,
+    players,
+    players_to_tournaments,
+    tournaments,
 } from '@/lib/db/schema/tournaments';
 import { newid, timeout } from '@/lib/utils';
 import { NewTournamentFormType } from '@/lib/zod/new-tournament-form';
@@ -39,7 +39,7 @@ export const createTournament = async (values: NewTournamentFormType) => {
   } catch (e) {
     throw new Error('tournament has NOT been saved');
   }
-  redirect(`/tournament/${newTournamentID}`);
+  redirect(`/tournaments/${newTournamentID}`);
 };
 
 export async function getTournamentGames(id: string) {

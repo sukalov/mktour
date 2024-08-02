@@ -45,7 +45,7 @@ const TournamentItem = (props: DatabaseTournament) => {
   return (
     <Link
       key={props.id}
-      href={`/tournament/${props.id}`}
+      href={`/tournaments/${props.id}`}
       className="flex w-full flex-col"
     >
       <Card>

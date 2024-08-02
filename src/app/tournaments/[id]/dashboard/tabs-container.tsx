@@ -1,7 +1,7 @@
 
-import { TabProps } from '@/app/tournament/[id]/dashboard';
-import { DashboardContextType } from '@/app/tournament/[id]/dashboard/dashboard-context';
-import tabs from '@/app/tournament/[id]/dashboard/tabs';
+import { TabProps } from '@/app/tournaments/[id]/dashboard';
+import { DashboardContextType } from '@/app/tournaments/[id]/dashboard/dashboard-context';
+import tabs from '@/app/tournaments/[id]/dashboard/tabs';
 import handleSwipe from '@/components/helpers/handle-swipe';
 import SwipeDetector from '@/components/helpers/swipe-detector';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';

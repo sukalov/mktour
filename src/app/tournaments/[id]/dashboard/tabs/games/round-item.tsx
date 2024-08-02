@@ -1,6 +1,6 @@
 
-import GameItem from '@/app/tournament/[id]/dashboard/tabs/games/game-item';
-import GameItemCompact from '@/app/tournament/[id]/dashboard/tabs/games/game-item-compact';
+import GameItem from '@/app/tournaments/[id]/dashboard/tabs/games/game-item';
+import GameItemCompact from '@/app/tournaments/[id]/dashboard/tabs/games/game-item-compact';
 import { GameModel, Result } from '@/types/tournaments';
 import { FC, SetStateAction, createElement, useState } from 'react';
 

@@ -1,8 +1,8 @@
 
-import Fab from '@/app/tournament/[id]/dashboard/fab';
-import AddNewPlayer from '@/app/tournament/[id]/dashboard/tabs/table/add-player/add-new-player';
-import AddPlayer from '@/app/tournament/[id]/dashboard/tabs/table/add-player/add-player';
-import FabClose from '@/app/tournament/[id]/dashboard/tabs/table/add-player/fab-close';
+import Fab from '@/app/tournaments/[id]/dashboard/fab';
+import AddNewPlayer from '@/app/tournaments/[id]/dashboard/tabs/table/add-player/add-new-player';
+import AddPlayer from '@/app/tournaments/[id]/dashboard/tabs/table/add-player/add-player';
+import FabClose from '@/app/tournaments/[id]/dashboard/tabs/table/add-player/fab-close';
 import { Button } from '@/components/ui/button';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { ArrowLeft, Plus, UserPlus } from 'lucide-react';

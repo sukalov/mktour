@@ -1,6 +1,6 @@
 
-import { DashboardContext } from '@/app/tournament/[id]/dashboard/dashboard-context';
-import { DrawerProps } from '@/app/tournament/[id]/dashboard/tabs/table/add-player';
+import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
+import { DrawerProps } from '@/app/tournaments/[id]/dashboard/tabs/table/add-player';
 import { useTournamentAddNewPlayer } from '@/components/hooks/mutation-hooks/use-tournament-add-new-player';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { Button } from '@/components/ui/button';

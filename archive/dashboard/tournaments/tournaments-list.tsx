@@ -5,10 +5,10 @@ import { useClubTournaments } from '@/components/hooks/query-hooks/use-club-tour
 import { useUser } from '@/components/hooks/query-hooks/use-user';
 import SkeletonList from '@/components/skeleton-list';
 import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
+    Card,
+    CardDescription,
+    CardHeader,
+    CardTitle,
 } from '@/components/ui/card';
 import { DatabaseTournament } from '@/lib/db/schema/tournaments';
 import Link from 'next/link';
@@ -38,7 +38,7 @@ const TournamentItem = (props: DatabaseTournament) => {
   return (
     <Link
       key={props.id}
-      href={`/tournament/${props.id}`}
+      href={`/tournaments/${props.id}`}
       className="flex w-full flex-col"
     >
       <Card>

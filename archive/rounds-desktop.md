@@ -1,5 +1,5 @@
 ```typescript
-import { gamesMock } from '@/app/tournament/[id]/dashboard';
+import { gamesMock } from '@/app/tournaments/[id]/dashboard';
 import RoundItem from '@/components/dashboard/tabs/games/round-item';
 import { FC, useRef } from 'react';
 
