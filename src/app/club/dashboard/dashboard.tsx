@@ -1,7 +1,7 @@
 'use client';
 
 import ClubPlayersList from '@/app/club/dashboard/(tabs)/club-players-list';
-import ClubSettingsForm from '@/app/club/dashboard/(tabs)/club-settings-form';
+import ClubSettings from '@/app/club/dashboard/(tabs)/club-settings';
 import ClubInbox from '@/app/club/dashboard/(tabs)/inbox';
 import ClubMain from '@/app/club/dashboard/(tabs)/main';
 import ClubDashboardTournaments from '@/app/club/dashboard/(tabs)/tournaments-list';
@@ -60,7 +60,7 @@ const TabList: FC<{
       value={activeTab}
       className="fixed z-40 w-full rounded-none transition-all duration-500"
     >
-      <TabsList className="w-full justify-around overflow-scroll rounded-none no-scrollbar md:justify-evenly">
+      <TabsList className="w-full justify-around overflow-scroll rounded-none no-scrollbar md:justify-start">
         {Object.keys(tabMap).map((tab) => (
           <TabsTrigger key={tab} className="w-full" value={tab}>
             {isMobile ? <Logo tab={tab} activeTab={activeTab} /> : <>{tab}</>}
@@ -89,7 +89,7 @@ const tabMap: Record<ClubDashboardTab, FC<ClubTabProps>> = {
   players: ClubPlayersList,
   tournaments: ClubDashboardTournaments,
   inbox: ClubInbox,
-  settings: ClubSettingsForm,
+  settings: ClubSettings,
 };
 
 type ClubDashboardTab =

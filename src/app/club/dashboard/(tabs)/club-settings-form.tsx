@@ -7,12 +7,12 @@ import SkeletonList from '@/components/skeleton-list';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { shallowEqual } from '@/lib/utils';
@@ -41,7 +41,7 @@ const ClubSettingsForm: FC<ClubTabProps> = ({ selectedClub, userId }) => {
   if (!data && isFetching) return <SkeletonList length={1} />;
   return (
     <Form {...form}>
-      <Card className="mx-auto max-w-[min(640px,100%)] border-none shadow-none sm:border-solid sm:shadow-sm">
+      <Card className="border-none shadow-none sm:border-solid sm:shadow-sm">
         <CardContent className="p-2 sm:p-8">
           <form
             onSubmit={form.handleSubmit((data) =>

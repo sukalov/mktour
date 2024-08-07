@@ -60,3 +60,7 @@ type UpdateDatabaseClub = {
   userId: string;
   values: Partial<DatabaseClub>;
 };
+
+export const deleteClub = async ({ id }: UpdateDatabaseClub) => {
+  console.log('CLUB DELETED', id)
+};
