@@ -48,7 +48,7 @@ const ClubSettingsFormContent = ({ user }: { user: User }) => {
         <CardContent className="p-2 sm:p-8">
           <form
             onSubmit={form.handleSubmit((data) =>
-              clubSettingsMutation.mutate({ id: data.id, values: data }),
+              clubSettingsMutation.mutate({ id: data.id, values: data, userId: user.id }),
             )}
             className="flex flex-col gap-8"
             name="new-tournament-form"
