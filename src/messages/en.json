@@ -57,6 +57,7 @@
   "Errors": {
     "hard naming": "naming is hard, but necessary",
     "short club name": "too short for a chess club name",
-    "short tournament name": "too short for a tournament name"
+    "short tournament name": "too short for a tournament name",
+    "time travel": "is it a time travel?"
   } 
 }
