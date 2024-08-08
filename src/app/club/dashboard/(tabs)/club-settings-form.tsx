@@ -42,13 +42,13 @@ const ClubSettingsForm: FC<ClubTabProps> = ({ selectedClub, userId }) => {
   return (
     <Form {...form}>
       <Card className="border-none shadow-none sm:border-solid sm:shadow-sm">
-        <CardContent className="p-2 sm:p-8">
+        <CardContent className="sm:py-8">
           <form
             onSubmit={form.handleSubmit((data) =>
               clubSettingsMutation.mutate({ id: data.id, userId, values: data }),
             )}
             className="flex flex-col gap-8"
-            name="new-tournament-form"
+            name="edit-club-form"
           >
             <FormField
               control={form.control}

@@ -6,7 +6,7 @@ export default function useDeleteClubMutation(queryClient: QueryClient) {
   return useMutation({
     mutationFn: deleteClub,
     onSuccess: (_error, { id, userId }) => {
-      toast.success('club updated');
+      toast.success('club deleted');
       queryClient.invalidateQueries({ queryKey: [id, 'club'] });
       queryClient.invalidateQueries({ queryKey: [userId, 'user', 'clubs'] });
     },
