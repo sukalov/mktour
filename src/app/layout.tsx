@@ -27,8 +27,8 @@ async function RootLayout({ children }: PropsWithChildren) {
           enableSystem
           disableTransitionOnChange
         >
-          <MediaQueryProvider>
-            <NextIntlClientProvider messages={messages}>
+          <NextIntlClientProvider messages={messages}>
+            <MediaQueryProvider>
               <ReactQueryProvider>
                 <NavWrapper />
                 <ViewTransitions>
@@ -38,8 +38,8 @@ async function RootLayout({ children }: PropsWithChildren) {
                 <SpeedInsights />
                 <Toaster richColors />
               </ReactQueryProvider>
-            </NextIntlClientProvider>
-          </MediaQueryProvider>
+            </MediaQueryProvider>
+          </NextIntlClientProvider>
         </ThemeProvider>
       </body>
     </html>
