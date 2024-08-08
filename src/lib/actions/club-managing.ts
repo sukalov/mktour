@@ -9,11 +9,14 @@ import {
   DatabasePlayer,
   clubs,
   clubs_to_users,
+  games,
   players,
+  players_to_tournaments,
+  tournaments,
 } from '@/lib/db/schema/tournaments';
 import { newid } from '@/lib/utils';
 import { NewClubFormType } from '@/lib/zod/new-club-form';
-import { eq } from 'drizzle-orm';
+import { and, eq, ne } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 
 export const createClub = async (values: NewClubFormType) => {
@@ -61,6 +64,48 @@ type UpdateDatabaseClub = {
   values: Partial<DatabaseClub>;
 };
 
-export const deleteClub = async ({ id }: UpdateDatabaseClub) => {
-  console.log('CLUB DELETED', id)
+export const deleteClub = async ({ id, userId }: UpdateDatabaseClub) => {
+  const otherClubs = await db
+    .select()
+    .from(clubs_to_users)
+    .where(
+      and(eq(clubs_to_users.user_id, userId), ne(clubs_to_users.club_id, id)),
+    )
+    .limit(1);
+
+  if (otherClubs.length === 0) throw new Error('ZERO_CLUBS');
+  await db
+    .update(users)
+    .set({ selected_club: otherClubs[0].club_id })
+    .where(eq(users.id, userId));
+
+  await db.transaction(async (tx) => {
+    await tx
+      .delete(games)
+      .where(
+        eq(
+          games.tournament_id,
+          tx
+            .select({ id: tournaments.id })
+            .from(tournaments)
+            .where(eq(tournaments.club_id, id)),
+        ),
+      );
+    await tx
+      .delete(players_to_tournaments)
+      .where(
+        eq(
+          players_to_tournaments.tournament_id,
+          tx
+            .select({ id: tournaments.id })
+            .from(tournaments)
+            .where(eq(tournaments.club_id, id)),
+        ),
+      );
+    await tx.delete(players).where(eq(players.club_id, id));
+    await tx.delete(clubs_to_users).where(eq(clubs_to_users.club_id, id));
+    await tx.delete(tournaments).where(eq(tournaments.club_id, id));
+    await tx.delete(clubs).where(eq(clubs.id, id));
+  });
+  console.log('CLUB DELETED', id);
 };
