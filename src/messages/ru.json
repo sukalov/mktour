@@ -49,7 +49,10 @@
   "Errors": {
     "hard naming": "увы, название придётся придумать",
     "short club name": "слишком коротко",
+    "long club name": "слишком длинно",
     "short tournament name": "слишком коротко",
-    "time travel": "путешествуем во времени?"
+    "time travel": "путешествуем во времени?",
+    "min rating": "отрицательный рейтинг??",
+    "max rating": "похоже здесь читер"
   }
 }

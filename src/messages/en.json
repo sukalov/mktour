@@ -57,7 +57,10 @@
   "Errors": {
     "hard naming": "naming is hard, but necessary",
     "short club name": "too short for a chess club name",
+    "long club name": "too long for a chess club name",
     "short tournament name": "too short for a tournament name",
-    "time travel": "is it a time travel?"
+    "time travel": "is it a time travel?",
+    "min rating": "negative rating??",
+    "max rating": "no cheaters allowed"
   } 
 }

@@ -8,7 +8,8 @@ export const newClubFormSchema = z
     name: z
     .string({ required_error: 'hard naming' })
     .min(1, { message: 'hard naming' })
-    .min(3, { message: 'short club name' }),
+    .min(3, { message: 'short club name' })
+    .max(100, { message: 'long club name' }),
     description: z.string().optional(),
     created_at: z.date().optional(),
     lichess_team: z.string().optional(),

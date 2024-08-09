@@ -7,10 +7,10 @@ export const newPlayerFormSchema = z
     rating: z
       .number()
       .min(0, {
-        message: 'negative rating??',
+        message: 'min rating',
       })
       .max(3000, {
-        message: 'no cheaters allowed',
+        message: 'max rating',
       })
       .default(1500),
     club_id: z.string(),
