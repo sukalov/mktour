@@ -33,7 +33,10 @@ const AddPlayer = ({ setOpen, value, setValue }: DrawerProps) => {
       </div>
     );
   if (possiblePlayers.status === 'error') {
-    toast.error(t('possible players error'))
+    toast.error(t('possible players error'), {
+      id: 'query-possible-players',
+      duration: 3000,
+    })
     return (
       <div className="flex flex-col gap-3">
         <Skeleton className="h-10 w-full pt-8" />

@@ -154,7 +154,7 @@ const FormMessage = React.forwardRef<
     const teamData = error.message.split('@%!!(&');
     body = (() => (
       <span>
-        sorry, this team is already here:&nbsp;
+        {t("lichess team connected")}&nbsp;
         <a
           href={`${BASE_URL}/club/${teamData[1]}`}
           className="font-semibold underline underline-offset-2"

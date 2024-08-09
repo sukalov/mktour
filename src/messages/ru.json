@@ -54,6 +54,19 @@
     "time travel": "путешествуем во времени?",
     "min rating": "отрицательный рейтинг??",
     "max rating": "похоже здесь читер",
-    "possible players error": "ошибка! не получилось загрузить ваших игроков"
+    "possible players error": "ошибка! не получилось загрузить ваших игроков",
+    "lichess team connected": "этот клуб у нас уже есть:"
+  },
+  "NewClubForm": {
+    "new club": "новый клуб",
+    "make new club": "создать клуб",
+    "making": "создаём...",
+    "name": "название",
+    "description": "описание",
+    "description placeholder": "расскажите что-нибудь о клубе...",
+    "no lichess teams": "кажется у вас нет своих клубов на личесе",
+    "connect lichess team": "можно привязать клуб из личеса!",
+    "unselect lichess team": "не привязывать личес-клуб",
+    "club not saved": "на сервере какая-то ошибка и клуб не создался, простите!"
   }
 }

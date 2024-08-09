@@ -7,18 +7,20 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
+import { useTranslations } from 'use-intl';
 
 export default function ClubDescription({ form }: ClubDescriptionProps) {
+  const t = useTranslations('NewClubForm')
   return (
     <FormField
       control={form.control}
       name="description"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>description</FormLabel>
+          <FormLabel>{t("description")}</FormLabel>
           <FormControl>
             <Textarea
-              placeholder="tell something about your club..."
+              placeholder={t("description placeholder")}
               {...field}
             />
           </FormControl>

@@ -62,6 +62,19 @@
     "time travel": "is it a time travel?",
     "min rating": "negative rating??",
     "max rating": "no cheaters allowed",
-    "possible players error": "error happened while loading club players"
-  } 
+    "possible players error": "error happened while loading club players",
+    "lichess team connected": "sorry, this team is already here:"
+  },
+  "NewClubForm": {
+    "new club": "new club",
+    "make new club": "make new club",
+    "making": "making...",
+    "name": "name",
+    "description": "description",
+    "description placeholder": "tell something about your club...",
+    "no lichess teams": "couldn't find your lichess teams",
+    "connect lichess team": "connect lichess team!",
+    "unselect lichess team": "don't select any team",
+    "club not saved": "sorry! server error happened, club wasn't saved"
+  }
 }

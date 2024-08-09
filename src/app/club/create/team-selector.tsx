@@ -13,9 +13,11 @@ import {
 import { selectRef } from '@/lib/utils';
 import { X } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslations } from 'use-intl';
 
 export function TeamSelector({ teams, form }: TeamSelectorProps) {
   const [state, setState] = useState<boolean>(false);
+  const t = useTranslations("NewClubForm")
   if (teams.length === 0) {
     return (
       <FormField
@@ -30,7 +32,7 @@ export function TeamSelector({ teams, form }: TeamSelectorProps) {
             >
               <FormControl>
                 <SelectTrigger>
-                  <SelectValue placeholder="couldn't find your lichess teams" />
+                  <SelectValue placeholder={t("no lichess teams")} />
                 </SelectTrigger>
               </FormControl>
             </Select>
@@ -50,7 +52,7 @@ export function TeamSelector({ teams, form }: TeamSelectorProps) {
           <Select onValueChange={field.onChange} defaultValue={field.value}>
             <FormControl>
               <SelectTrigger>
-                <SelectValue placeholder="connect lichess team!" />
+                <SelectValue placeholder={t("connect lichess team")} />
               </SelectTrigger>
             </FormControl>
             <SelectContent ref={selectRef}>
@@ -76,7 +78,7 @@ export function TeamSelector({ teams, form }: TeamSelectorProps) {
                   style={{ pointerEvents: 'auto' }}
                 >
                   <X className="pr-2" />
-                  <span className="text-bold">don&apos;t link any team</span>
+                  <span className="text-bold">{t("unselect lichess team")}</span>
                 </Button>
               )}
             </SelectContent>
