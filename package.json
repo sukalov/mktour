@@ -78,7 +78,7 @@
     "next-themes": "^0.3.0",
     "next-view-transitions": "^0.3.0",
     "oslo": "^1.2.1",
-    "postcss": "8.4.40",
+    "postcss": "8.4.39",
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "0.6.5",
     "react": "^18.3.1",
