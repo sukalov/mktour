@@ -15,7 +15,6 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LucideIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { FC, ReactNode, useContext, useState } from 'react';
-
 export default function Dashboard({ userId }: { userId: string }) {
   const { data, isLoading } = useUser(userId);
   const [tab, setTab] = useState<ClubDashboardTab>('main');
@@ -33,14 +32,7 @@ export default function Dashboard({ userId }: { userId: string }) {
           <ClubSelect user={data} />
         </div>
         <div className="p-2 pt-2">
-          <ActiveTab selectedClub={data.selected_club} userId={userId}/>
-          {/* <CarouselContainer
-            tabs={tabMap}
-            currentTab={tab}
-            setCurrentTab={setTab}
-            setScrolling={() => null}
-            selectedClub={data.selected_club}
-          /> */}
+          <ActiveTab selectedClub={data.selected_club} userId={userId} />
         </div>
       </div>
     </div>
@@ -51,7 +43,12 @@ const TabList: FC<{
   setTab: (_arg: ClubDashboardTab) => void;
   activeTab: ClubDashboardTab;
 }> = ({ setTab, activeTab }) => {
-  const { isMobile } = useContext(MediaQueryContext);
+  const { isMobile, isTablet } = useContext(MediaQueryContext);
+  const preparedTabs = isTablet
+    ? Object.keys(tabMap)
+    : Object.keys(tabMap).filter((tab) =>
+        ['main', 'players', 'tournaments'].includes(tab),
+      );
 
   return (
     <Tabs
@@ -61,7 +58,7 @@ const TabList: FC<{
       className="fixed z-40 w-full rounded-none transition-all duration-500"
     >
       <TabsList className="w-full justify-around overflow-scroll rounded-none no-scrollbar md:justify-start">
-        {Object.keys(tabMap).map((tab) => (
+        {preparedTabs.map((tab) => (
           <TabsTrigger key={tab} className="w-full" value={tab}>
             {isMobile ? <Logo tab={tab} activeTab={activeTab} /> : <>{tab}</>}
           </TabsTrigger>
