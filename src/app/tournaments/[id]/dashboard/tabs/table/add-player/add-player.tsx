@@ -1,15 +1,17 @@
-
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import { DrawerProps } from '@/app/tournaments/[id]/dashboard/tabs/table/add-player';
 import { useTournamentAddExistingPlayer } from '@/components/hooks/mutation-hooks/use-tournament-add-existing-player';
 import { useTournamentPossiblePlayers } from '@/components/hooks/query-hooks/use-tournament-possible-players';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { useQueryClient } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { useContext } from 'react';
+import { toast } from 'sonner';
 
 const AddPlayer = ({ setOpen, value, setValue }: DrawerProps) => {
   const id = usePathname().split('/').at(-1) as string;
@@ -21,9 +23,23 @@ const AddPlayer = ({ setOpen, value, setValue }: DrawerProps) => {
     queryClient,
     sendJsonMessage,
   );
+  const t = useTranslations('Errors');
 
-  if (possiblePlayers.status === 'pending') return 'loading...';
-  if (possiblePlayers.status === 'error') return 'success';
+  if (possiblePlayers.status === 'pending')
+    return (
+      <div className="flex flex-col gap-3">
+        <Skeleton className="h-10 w-full pt-8" />
+        <Skeleton className="h-svh w-full pt-8" />
+      </div>
+    );
+  if (possiblePlayers.status === 'error') {
+    toast.error(t('possible players error'))
+    return (
+      <div className="flex flex-col gap-3">
+        <Skeleton className="h-10 w-full pt-8" />
+        <Skeleton className="h-svh w-full pt-8" />
+      </div>
+    );};
 
   const filteredPlayers = possiblePlayers.data.filter(
     (player: DatabasePlayer) => {

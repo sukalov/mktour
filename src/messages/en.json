@@ -61,6 +61,7 @@
     "short tournament name": "too short for a tournament name",
     "time travel": "is it a time travel?",
     "min rating": "negative rating??",
-    "max rating": "no cheaters allowed"
+    "max rating": "no cheaters allowed",
+    "possible players error": "error happened while loading club players"
   } 
 }
