@@ -79,8 +79,7 @@
     "unselect lichess team": "don't select any team",
     "club not saved": "sorry! server error happened, club wasn't saved",
     "ForwardToEmpty": {
-      "first message": "we've found, you have a club with no finished tournaments:",
-      "second message": ". you can just edit that one!",
+      "message": "it seems that you have a club with no finished tournaments: <bold>{club}.</bold>you can just edit it!",
       "button text": "go to"
     }
   }
