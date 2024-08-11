@@ -55,7 +55,9 @@
     "min rating": "отрицательный рейтинг??",
     "max rating": "похоже здесь читер",
     "possible players error": "ошибка! не получилось загрузить ваших игроков",
-    "lichess team connected": "этот клуб у нас уже есть:"
+    "lichess team connected": "этот клуб у нас уже есть:",
+    "all tournaments": "здесь можно найти любой турнир",
+    "make tournament" : "собственно, вперёд!"
   },
   "NewClubForm": {
     "new club": "новый клуб",

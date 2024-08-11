@@ -1,4 +1,3 @@
-import { TOURNAMENTS_NAVBAR_ITEMS } from '@/components/navigation/tournaments-navbar-items';
 
 export const NAVMENU_ITEMS: NavbarItem[] = [
   {
@@ -22,7 +21,19 @@ export const NAVMENU_ITEMS: NavbarItem[] = [
     title: 'tournaments',
     topTab: 'my tournaments',
     path: '/tournaments/my',
-    subMenuItems: TOURNAMENTS_NAVBAR_ITEMS,
+    subMenuItems: [
+      {
+        title: 'all tournaments',
+        path: '/tournaments/all',
+        userOnly: true,
+        description: true,
+      },
+      {
+        title: 'make tournament',
+        path: '/tournaments/create',
+        description: true,
+      },
+    ],
   },
   {
     title: 'about us',
