@@ -1,15 +1,14 @@
+import { emptyClubCheck } from '@/app/club/create/empty-club-check';
+import ForwardToEmpryClub from '@/app/club/create/forward-to-empty-club';
 import NewClubForm, { TeamSlice } from '@/app/club/create/new-club-form';
 import { validateRequest } from '@/lib/auth/lucia';
-import useUserToClubsQuery from '@/lib/db/hooks/use-user-to-clubs-query';
-import { DatabaseClub } from '@/lib/db/schema/tournaments';
 import { Team } from '@/types/lichess-api';
 import { redirect } from 'next/navigation';
 
 export default async function CreateClubPage() {
   const { user } = await validateRequest();
   if (!user) redirect('/sign-in');
-  const userClubs = await useUserToClubsQuery({ user });
-  const preparedUser = userClubs.map((el) => el.club) as DatabaseClub[];
+  const club = await emptyClubCheck({ user });
   let teams: Array<TeamSlice> = [];
   try {
     const res = await fetch(`https://lichess.org/api/team/of/${user.username}`);
@@ -28,7 +27,11 @@ export default async function CreateClubPage() {
 
   return (
     <div>
-      <NewClubForm user={user} clubs={preparedUser} teams={teams} />
+      {club ? (
+        <ForwardToEmpryClub club={club} userId={user.id} />
+      ) : (
+        <NewClubForm user={user} teams={teams} />
+      )}
     </div>
   );
 }

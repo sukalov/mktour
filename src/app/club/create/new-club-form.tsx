@@ -16,7 +16,6 @@ import {
 import { Input } from '@/components/ui/input';
 import { createClub } from '@/lib/actions/club-managing';
 import { DatabaseUser } from '@/lib/db/schema/auth';
-import { DatabaseClub } from '@/lib/db/schema/tournaments';
 import { NewClubFormType, newClubFormSchema } from '@/lib/zod/new-club-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
@@ -98,7 +97,6 @@ export default function NewClubForm({ teams }: NewClubFormProps) {
 }
 
 interface NewClubFormProps {
-  clubs: Array<DatabaseClub>;
   user: DatabaseUser;
   teams: TeamSlice[];
 }
