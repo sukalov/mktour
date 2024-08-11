@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 
 export default async function MyTournaments() {
   const { user } = await validateRequest();
-  if (!user) redirect('sign-in');
+  if (!user) redirect('/sign-in');
   const tournaments = await useTournamentsToUserClubsQuery({ user });
 
   return (
