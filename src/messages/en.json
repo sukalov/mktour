@@ -77,6 +77,11 @@
     "no lichess teams": "couldn't find your lichess teams",
     "connect lichess team": "connect lichess team!",
     "unselect lichess team": "don't select any team",
-    "club not saved": "sorry! server error happened, club wasn't saved"
+    "club not saved": "sorry! server error happened, club wasn't saved",
+    "ForwardToEmpty": {
+      "first message": "we've found, you have a club with no finished tournaments:",
+      "second message": ". you can just edit that one!",
+      "button text": "go to"
+    }
   }
 }
