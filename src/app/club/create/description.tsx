@@ -7,7 +7,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
-import { useTranslations } from 'use-intl';
+import { useTranslations } from 'next-intl';
 
 export default function ClubDescription({ form }: ClubDescriptionProps) {
   const t = useTranslations('NewClubForm');
