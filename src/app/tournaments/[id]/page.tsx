@@ -1,8 +1,7 @@
-
 import Dashboard from '@/app/tournaments/[id]/dashboard';
 import {
-    tournamentQueryClient,
-    tournamentQueryPrefetch,
+  tournamentQueryClient,
+  tournamentQueryPrefetch,
 } from '@/app/tournaments/[id]/prefetch';
 import { validateRequest } from '@/lib/auth/lucia';
 import { useStatusInTournament } from '@/lib/db/hooks/use-status-in-tournament';

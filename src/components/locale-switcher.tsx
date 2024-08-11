@@ -18,11 +18,7 @@ const LocaleSwitcher = () => {
   }, [locale]);
 
   return (
-    <Button
-      variant="ghost"
-      size="icon"
-      onClick={handleClickLocale}
-    >
+    <Button variant="ghost" size="icon" onClick={handleClickLocale}>
       {pending ? (
         <Loader2 className="animate-spin text-center font-thin" />
       ) : (

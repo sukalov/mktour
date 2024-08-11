@@ -28,7 +28,7 @@ export default function ForwardToEmpryClub({
             }
           >
             go to {club.name}&apos;s dashboard&nbsp;
-            <ArrowRight className="group-hover:translate-x-1 transition-all duration-200" />
+            <ArrowRight className="transition-all duration-200 group-hover:translate-x-1" />
           </Button>
         </CardContent>
       </Card>

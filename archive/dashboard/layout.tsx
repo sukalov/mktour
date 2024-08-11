@@ -3,10 +3,7 @@ import SubNavbar from '@/components/navigation/subnavbar';
 import { validateRequest } from '@/lib/auth/lucia';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import ClubSelect from 'archive/dashboard/club-select';
-import {
-    clubQueryClient,
-    clubQueryPrefetch,
-} from 'archive/dashboard/prefetch';
+import { clubQueryClient, clubQueryPrefetch } from 'archive/dashboard/prefetch';
 import { redirect } from 'next/navigation';
 import { ReactNode } from 'react';
 

@@ -71,7 +71,6 @@ const ClubList: FC<ClubListProps> = ({ clubs, isPending, mutate }) => {
   if (!clubs && isPending) return <SkeletonList />;
   if (!clubs) return null;
 
-
   return (
     <>
       <div className="px-2">

@@ -23,7 +23,7 @@ const ClubInfo = ({ clubId }: { clubId: string }) => {
     dateStyle: 'medium',
   });
 
-  console.log(clubId)
+  console.log(clubId);
 
   return (
     <Card className="items-left flex w-full flex-col gap-8 p-4">

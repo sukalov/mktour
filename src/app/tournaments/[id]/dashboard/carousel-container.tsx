@@ -1,20 +1,20 @@
 import { DashboardContextType } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import tabs from '@/app/tournaments/[id]/dashboard/tabs';
 import {
-    Carousel,
-    CarouselApi,
-    CarouselContent,
-    CarouselItem,
+  Carousel,
+  CarouselApi,
+  CarouselContent,
+  CarouselItem,
 } from '@/components/ui/carousel';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
-    Dispatch,
-    FC,
-    SetStateAction,
-    useCallback,
-    useEffect,
-    useRef,
-    useState,
+  Dispatch,
+  FC,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
 } from 'react';
 
 const CarouselContainer: FC<CarouselProps> = ({

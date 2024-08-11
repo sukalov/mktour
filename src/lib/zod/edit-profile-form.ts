@@ -1,9 +1,7 @@
 import * as z from 'zod';
 
 export const editProfileFormSchema = z.object({
-  name: z
-    .string()
-    .optional(),
+  name: z.string().optional(),
   id: z.string(),
 });
 

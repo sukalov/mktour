@@ -2,7 +2,12 @@
 
 import { NewClubForm, TeamSlice } from '@/app/club/create/new-club-form';
 import { Button } from '@/components/ui/button';
-import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form';
 import {
   Select,
   SelectContent,
@@ -17,7 +22,7 @@ import { useTranslations } from 'use-intl';
 
 export function TeamSelector({ teams, form }: TeamSelectorProps) {
   const [state, setState] = useState<boolean>(false);
-  const t = useTranslations("NewClubForm")
+  const t = useTranslations('NewClubForm');
   if (teams.length === 0) {
     return (
       <FormField
@@ -32,7 +37,7 @@ export function TeamSelector({ teams, form }: TeamSelectorProps) {
             >
               <FormControl>
                 <SelectTrigger>
-                  <SelectValue placeholder={t("no lichess teams")} />
+                  <SelectValue placeholder={t('no lichess teams')} />
                 </SelectTrigger>
               </FormControl>
             </Select>
@@ -52,7 +57,7 @@ export function TeamSelector({ teams, form }: TeamSelectorProps) {
           <Select onValueChange={field.onChange} defaultValue={field.value}>
             <FormControl>
               <SelectTrigger>
-                <SelectValue placeholder={t("connect lichess team")} />
+                <SelectValue placeholder={t('connect lichess team')} />
               </SelectTrigger>
             </FormControl>
             <SelectContent ref={selectRef}>
@@ -78,7 +83,9 @@ export function TeamSelector({ teams, form }: TeamSelectorProps) {
                   style={{ pointerEvents: 'auto' }}
                 >
                   <X className="pr-2" />
-                  <span className="text-bold">{t("unselect lichess team")}</span>
+                  <span className="text-bold">
+                    {t('unselect lichess team')}
+                  </span>
                 </Button>
               )}
             </SelectContent>

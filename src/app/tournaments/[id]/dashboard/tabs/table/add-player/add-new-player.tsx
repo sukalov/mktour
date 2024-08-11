@@ -1,23 +1,22 @@
-
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import { DrawerProps } from '@/app/tournaments/[id]/dashboard/tabs/table/add-player';
 import { useTournamentAddNewPlayer } from '@/components/hooks/mutation-hooks/use-tournament-add-new-player';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { Button } from '@/components/ui/button';
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Slider } from '@/components/ui/slider';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { newid } from '@/lib/utils';
 import {
-    NewPlayerFormType,
-    newPlayerFormSchema,
+  NewPlayerFormType,
+  newPlayerFormSchema,
 } from '@/lib/zod/new-player-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';

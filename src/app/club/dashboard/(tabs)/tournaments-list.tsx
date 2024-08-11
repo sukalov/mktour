@@ -5,10 +5,10 @@ import Empty from '@/components/empty';
 import { useClubTournaments } from '@/components/hooks/query-hooks/use-club-tournaments';
 import SkeletonList from '@/components/skeleton-list';
 import {
-    Card,
-    CardDescription,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
 } from '@/components/ui/card';
 import { DatabaseTournament } from '@/lib/db/schema/tournaments';
 import { useTranslations } from 'next-intl';

@@ -1,4 +1,3 @@
-
 import { TabProps } from '@/app/tournaments/[id]/dashboard';
 import { DashboardContextType } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import tabs from '@/app/tournaments/[id]/dashboard/tabs';

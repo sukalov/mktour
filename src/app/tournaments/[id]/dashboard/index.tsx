@@ -1,8 +1,10 @@
 'use client';
 
-
 import CarouselContainer from '@/app/tournaments/[id]/dashboard/carousel-container';
-import { DashboardContext, DashboardContextType } from '@/app/tournaments/[id]/dashboard/dashboard-context';
+import {
+  DashboardContext,
+  DashboardContextType,
+} from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import FabProvider from '@/app/tournaments/[id]/dashboard/fab-provider';
 import TabsContainer from '@/app/tournaments/[id]/dashboard/tabs-container';
 import { useDashboardWebsocket } from '@/components/hooks/use-dashboard-websocket';

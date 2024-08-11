@@ -36,13 +36,14 @@ const AddPlayer = ({ setOpen, value, setValue }: DrawerProps) => {
     toast.error(t('possible players error'), {
       id: 'query-possible-players',
       duration: 3000,
-    })
+    });
     return (
       <div className="flex flex-col gap-3">
         <Skeleton className="h-10 w-full pt-8" />
         <Skeleton className="h-svh w-full pt-8" />
       </div>
-    );};
+    );
+  }
 
   const filteredPlayers = possiblePlayers.data.filter(
     (player: DatabasePlayer) => {

@@ -45,7 +45,11 @@ const ClubSettingsForm: FC<ClubTabProps> = ({ selectedClub, userId }) => {
         <CardContent className="sm:py-8">
           <form
             onSubmit={form.handleSubmit((data) =>
-              clubSettingsMutation.mutate({ id: data.id, userId, values: data }),
+              clubSettingsMutation.mutate({
+                id: data.id,
+                userId,
+                values: data,
+              }),
             )}
             className="flex flex-col gap-8"
             name="edit-club-form"

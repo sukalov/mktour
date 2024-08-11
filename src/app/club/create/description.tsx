@@ -10,19 +10,16 @@ import { Textarea } from '@/components/ui/textarea';
 import { useTranslations } from 'use-intl';
 
 export default function ClubDescription({ form }: ClubDescriptionProps) {
-  const t = useTranslations('NewClubForm')
+  const t = useTranslations('NewClubForm');
   return (
     <FormField
       control={form.control}
       name="description"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{t("description")}</FormLabel>
+          <FormLabel>{t('description')}</FormLabel>
           <FormControl>
-            <Textarea
-              placeholder={t("description placeholder")}
-              {...field}
-            />
+            <Textarea placeholder={t('description placeholder')} {...field} />
           </FormControl>
           <FormMessage />
         </FormItem>

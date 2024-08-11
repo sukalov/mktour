@@ -1,4 +1,3 @@
-
 import Fab from '@/app/tournaments/[id]/dashboard/fab';
 import AddNewPlayer from '@/app/tournaments/[id]/dashboard/tabs/table/add-player/add-new-player';
 import AddPlayer from '@/app/tournaments/[id]/dashboard/tabs/table/add-player/add-player';

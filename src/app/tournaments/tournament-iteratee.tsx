@@ -2,10 +2,10 @@
 
 import getGroupedTournaments from '@/components/helpers/get-grouped-tournaments';
 import {
-    Card,
-    CardDescription,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
 } from '@/components/ui/card';
 import { TournamentWithClub } from '@/lib/db/hooks/use-tournaments-to-user-clubs-query';
 import Link from 'next/link';

@@ -1,6 +1,8 @@
 'use client';
 
-import DeleteConfirmationForm, { DeleteConfirmationFormProps } from '@/app/club/dashboard/(tabs)/club-delete-form';
+import DeleteConfirmationForm, {
+  DeleteConfirmationFormProps,
+} from '@/app/club/dashboard/(tabs)/club-delete-form';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import {
@@ -63,7 +65,7 @@ export default function ClubDelete({
 
   return (
     <Card className="border-none shadow-none sm:border-solid sm:shadow-sm">
-      <CardHeader >danger zone</CardHeader>
+      <CardHeader>danger zone</CardHeader>
       <CardContent className="flex flex-col gap-4">
         <Drawer open={open} onOpenChange={setOpen}>
           <DrawerTrigger asChild>
@@ -88,4 +90,4 @@ export default function ClubDelete({
       </CardContent>
     </Card>
   );
-};
+}

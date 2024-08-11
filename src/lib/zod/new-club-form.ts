@@ -2,14 +2,14 @@ import { DatabaseClub } from '@/lib/db/schema/tournaments';
 import { validateLichessTeam } from '@/lib/zod/new-club-validation-action';
 import * as z from 'zod';
 
-let team: DatabaseClub | undefined
+let team: DatabaseClub | undefined;
 export const newClubFormSchema = z
   .object({
     name: z
-    .string({ required_error: 'hard naming' })
-    .min(1, { message: 'hard naming' })
-    .min(3, { message: 'short club name' })
-    .max(100, { message: 'long club name' }),
+      .string({ required_error: 'hard naming' })
+      .min(1, { message: 'hard naming' })
+      .min(3, { message: 'short club name' })
+      .max(100, { message: 'long club name' }),
     description: z.string().optional(),
     created_at: z.date().optional(),
     lichess_team: z.string().optional(),
@@ -17,10 +17,13 @@ export const newClubFormSchema = z
   .refine(
     async (data) => {
       team = await validateLichessTeam(data);
-      return !team
+      return !team;
     },
     (_data) => {
-      return { message: `LINK_TEAM_ERROR@%!!(&${team?.id}@%!!(&${team?.name}`, path: ['lichess_team'] }
+      return {
+        message: `LINK_TEAM_ERROR@%!!(&${team?.id}@%!!(&${team?.name}`,
+        path: ['lichess_team'],
+      };
     },
   );
 

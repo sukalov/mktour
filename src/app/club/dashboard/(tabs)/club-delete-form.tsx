@@ -4,17 +4,17 @@ import useDeleteClubMutation from '@/components/hooks/mutation-hooks/use-club-de
 import { useClubInfo } from '@/components/hooks/query-hooks/use-club-info';
 import { Button } from '@/components/ui/button';
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import {
-    deleteClubFormSchema,
-    DeleteClubFormType,
+  deleteClubFormSchema,
+  DeleteClubFormType,
 } from '@/lib/zod/delete-club-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';

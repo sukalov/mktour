@@ -48,7 +48,12 @@ const ClubSelectContent = ({ user }: { user: User }) => {
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         {sortedClubs && (
-          <SelectContent position="popper" alignOffset={100} ref={selectRef} className='-translate-x-1.5'>
+          <SelectContent
+            position="popper"
+            alignOffset={100}
+            ref={selectRef}
+            className="-translate-x-1.5"
+          >
             {sortedClubs.map(SelectItemIteratee)}
           </SelectContent>
         )}
