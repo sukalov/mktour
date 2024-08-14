@@ -28,7 +28,8 @@ export default function ForwardToEmpryClub({
           className="group py-8"
           onClick={async () => await forwardAction({ clubId: club.id, userId })}
         >
-          <div>{`${t('button text')} ${club.name}`}</div>
+          <p>{`${t('button text')} ${club.name}`}</p>
+          &nbsp;
           <ArrowRight className="transition-all duration-200 group-hover:translate-x-1" />
         </Button>
       </Card>
