@@ -20,7 +20,7 @@ export default function ForwardToEmpryClub({
       <Card className="mx-auto flex max-w-[min(600px,98%)] flex-col gap-4 border-none shadow-none sm:border-solid sm:p-8 sm:shadow-sm">
         <div>
           {t.rich('message', {
-            bold: (club) => <div className="font-bold">{club}</div>,
+            bold: (club) => <span className="font-bold">{club}</span>,
             club: club.name,
           })}
         </div>
