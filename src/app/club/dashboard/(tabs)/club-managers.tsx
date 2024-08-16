@@ -11,7 +11,7 @@ const ClubManagersList: FC<{ id: string }> = ({ id }) => {
   const { data } = useClubManagers(id);
   const t = useTranslations('Club');
   return (
-    <div className="flex flex-col gap-2 px-4">
+    <div className="flex flex-col gap-2 px-6 sm:px-0">
       {t('managers list')}
       <Card className="p-4">{data?.map(ManagersIteratee)}</Card>
     </div>
