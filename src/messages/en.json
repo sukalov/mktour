@@ -84,7 +84,8 @@
     }
   },
   "Club": {
-    "managers list": "managers list:"
+    "managers list": "managers list:",
+    "add": "add new manager"
   },
   "Status": {
     "admin": "admin",
