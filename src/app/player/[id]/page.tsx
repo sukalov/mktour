@@ -1,3 +1,4 @@
+import DeletePlayer from '@/app/player/[id]/delete-player-button';
 import { validateRequest } from '@/lib/auth/lucia';
 import usePlayerQuery from '@/lib/db/hooks/use-player-query';
 import getStatus from '@/lib/db/hooks/use-status-query';
@@ -16,6 +17,8 @@ export default async function TournamentPage({ params }: PlayerPageProps) {
       club,
     }); // if defined, this player can be edited by page viewer
   const isOwner = player.user_id === user?.id; // the viewer of the page is this player
+  const isClubOwner = status === ('admin' || 'owner'); // FIXME make Enum
+
   if (user)
     return (
       <div className="flex w-full flex-col gap-2 p-4 pt-2">
@@ -37,6 +40,7 @@ export default async function TournamentPage({ params }: PlayerPageProps) {
             {isOwner ? 'this player is you!' : 'it is NOT you'}
           </p>
         </div>
+        {isClubOwner && <DeletePlayer playerId={player.id} />}
       </div>
     );
 }

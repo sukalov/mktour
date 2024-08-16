@@ -109,3 +109,10 @@ export const deleteClub = async ({ id, userId }: UpdateDatabaseClub) => {
   });
   console.log('CLUB DELETED', id);
 };
+
+// FIXME 
+export const deletePlayer = async (playerId: string) => {
+  await db.transaction(async (tx) => {
+    await tx.delete(players).where(eq(players.id, playerId));
+  });
+};
