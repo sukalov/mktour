@@ -23,11 +23,11 @@ const ManagersIteratee = (manager: ClubManagers) => (
 );
 
 const ManagerItem: FC<{ manager: ClubManagers }> = ({ manager }) => {
-  const t = useTranslations('Club')
+  const t = useTranslations('Status');
 
   return (
     <Link href={`/user/${manager.user?.username}`} key={manager.user?.id}>
-      {manager.user?.username} ({manager.clubs_to_users?.status})
+      {manager.user?.username} ({t(manager.clubs_to_users?.status)})
     </Link>
   );
 };
