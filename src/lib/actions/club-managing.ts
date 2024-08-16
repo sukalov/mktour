@@ -54,7 +54,9 @@ export const getClubPlayers = async (id: DatabasePlayer['club_id']) => {
   return await db.select().from(players).where(eq(players.club_id, id));
 };
 
-export const editClub = async ({ id, values }: UpdateDatabaseClub) => {
+export const editClub = async ({ id, userId, values }: UpdateDatabaseClub) => {
+  const { user } = await validateRequest();
+  if (user?.id !== userId) throw new Error('USER_NOT_MATCHING')
   await db.update(clubs).set(values).where(eq(clubs.id, id));
 };
 
@@ -65,6 +67,8 @@ type UpdateDatabaseClub = {
 };
 
 export const deleteClub = async ({ id, userId }: UpdateDatabaseClub) => {
+  const { user } = await validateRequest();
+  if (user?.id !== userId) throw new Error('USER_NOT_MATCHING')
   const otherClubs = await db
     .select()
     .from(clubs_to_users)
