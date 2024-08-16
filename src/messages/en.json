@@ -82,5 +82,12 @@
       "message": "it seems that you have a club with no finished tournaments: <bold>{club}</bold>. you can just edit it!",
       "button text": "go to"
     }
+  },
+  "Club": {
+    "managers list": "managers list:"
+  },
+  "Status": {
+    "admin": "admin",
+    "moderator": "moderator"
   }
 }
