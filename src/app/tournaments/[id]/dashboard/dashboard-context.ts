@@ -6,7 +6,7 @@ export const DashboardContext = createContext<DashboardContextType>({
   currentTab: 'main',
   sendJsonMessage: () => null,
   status: 'viewer',
-  userId: undefined
+  userId: undefined,
 });
 
 export type DashboardContextType = {

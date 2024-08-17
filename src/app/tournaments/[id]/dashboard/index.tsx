@@ -13,13 +13,17 @@ import { GameModel } from '@/types/tournaments';
 import { useQueryClient } from '@tanstack/react-query';
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 
-const Dashboard: FC<TournamentPageContentProps> = ({userId, session, id, status }) => {
+const Dashboard: FC<TournamentPageContentProps> = ({
+  userId,
+  session,
+  id,
+  status,
+}) => {
   const [scrolling, setScrolling] = useState(false);
   const [currentTab, setCurrentTab] =
     useState<DashboardContextType['currentTab']>('main');
   const queryClient = useQueryClient();
   const { sendJsonMessage } = useDashboardWebsocket(session, id, queryClient);
-
 
   return (
     <DashboardContext.Provider

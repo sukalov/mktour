@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
 export default function useEditUserMutation(queryClient: QueryClient) {
-  const t = useTranslations('Toasts')
+  const t = useTranslations('Toasts');
   return useMutation({
     mutationFn: editUser,
     onSuccess: (_err, data) => {

@@ -2,7 +2,7 @@ import { deletePlayer } from '@/lib/actions/club-managing';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-// FIXME 
+// FIXME
 export default function useDeletePlayerMutation(queryClient: QueryClient) {
   return useMutation({
     mutationFn: deletePlayer,

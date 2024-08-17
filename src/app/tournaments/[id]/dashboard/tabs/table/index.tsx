@@ -31,7 +31,7 @@ const TournamentTable: FC = ({}) => {
     queryClient,
     sendJsonMessage,
   );
-  const { userId } = useContext(DashboardContext)
+  const { userId } = useContext(DashboardContext);
 
   if (players.isLoading) return <TableLoading />;
   if (players.isError) {
@@ -40,7 +40,7 @@ const TournamentTable: FC = ({}) => {
       duration: 3000,
     });
     return <TableLoading />;
-  };
+  }
 
   return (
     <Table>
@@ -59,7 +59,11 @@ const TournamentTable: FC = ({}) => {
             key={player.id}
             onClick={() => {
               if (userId && status === 'organizer')
-                removePlayers.mutate({ tournamentId: id, playerId: player.id, userId });
+                removePlayers.mutate({
+                  tournamentId: id,
+                  playerId: player.id,
+                  userId,
+                });
             }}
           >
             <TableCell className="font-small pl-4 pr-0">{i + 1}</TableCell>

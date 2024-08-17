@@ -10,7 +10,7 @@ export const useDashboardWebsocket = (
   id: string,
   queryClient: QueryClient,
 ) => {
-  const t = useTranslations('Toasts')
+  const t = useTranslations('Toasts');
   return useWebSocket(`${SOCKET_URL}/${id}`, {
     queryParams: {
       auth_session: session,
@@ -37,12 +37,9 @@ export const useDashboardWebsocket = (
     reconnectInterval: 3000,
     onReconnectStop: () => {
       setTimeout(() => toast.dismiss('wsError'));
-      toast.error(
-        t('ws error'),
-        {
-          id: 'wsError',
-        },
-      );
+      toast.error(t('ws error'), {
+        id: 'wsError',
+      });
     },
   });
 };

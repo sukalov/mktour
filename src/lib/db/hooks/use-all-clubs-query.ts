@@ -3,8 +3,8 @@ import { clubs, DatabaseClub } from '@/lib/db/schema/tournaments';
 import { asc } from 'drizzle-orm';
 
 export default async function useAllClubsQuery() {
-// page: number = 1,
-// pageSize: number = 10
+  // page: number = 1,
+  // pageSize: number = 10
   const allClubs = await db
     .select()
     .from(clubs)
