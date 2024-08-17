@@ -20,7 +20,7 @@ export default async function TournamentPage({ params }: TournamentPageProps) {
   return (
     <HydrationBoundary state={dehydrate(tournamentQueryClient)}>
       <div className="w-full">
-        <Dashboard session={session} id={params.id} status={status} />
+        <Dashboard session={session} id={params.id} status={status} userId={user?.id}/>
       </div>
     </HydrationBoundary>
   );

@@ -21,7 +21,7 @@ import { toast } from 'sonner';
 
 const DEFAULT_DASHBOARD_TABS = ['wins', 'draws', 'losses'];
 
-const TournamentTable: FC = () => {
+const TournamentTable: FC = ({}) => {
   const id = usePathname().split('/').at(-1) as string;
   const queryClient = useQueryClient();
   const players = useTournamentPlayers(id);
@@ -31,6 +31,7 @@ const TournamentTable: FC = () => {
     queryClient,
     sendJsonMessage,
   );
+  const { userId } = useContext(DashboardContext)
 
   if (players.isLoading) return <TableLoading />;
   if (players.isError) {
@@ -39,7 +40,7 @@ const TournamentTable: FC = () => {
       duration: 3000,
     });
     return <TableLoading />;
-  }
+  };
 
   return (
     <Table>
@@ -57,8 +58,8 @@ const TournamentTable: FC = () => {
           <TableRow
             key={player.id}
             onClick={() => {
-              if (status === 'organizer')
-                removePlayers.mutate({ tournamentId: id, playerId: player.id });
+              if (userId && status === 'organizer')
+                removePlayers.mutate({ tournamentId: id, playerId: player.id, userId });
             }}
           >
             <TableCell className="font-small pl-4 pr-0">{i + 1}</TableCell>

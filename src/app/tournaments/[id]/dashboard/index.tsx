@@ -13,12 +13,13 @@ import { GameModel } from '@/types/tournaments';
 import { useQueryClient } from '@tanstack/react-query';
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 
-const Dashboard: FC<TournamentPageContentProps> = ({ session, id, status }) => {
+const Dashboard: FC<TournamentPageContentProps> = ({userId, session, id, status }) => {
   const [scrolling, setScrolling] = useState(false);
   const [currentTab, setCurrentTab] =
     useState<DashboardContextType['currentTab']>('main');
   const queryClient = useQueryClient();
   const { sendJsonMessage } = useDashboardWebsocket(session, id, queryClient);
+
 
   return (
     <DashboardContext.Provider
@@ -26,6 +27,7 @@ const Dashboard: FC<TournamentPageContentProps> = ({ session, id, status }) => {
         currentTab,
         sendJsonMessage,
         status,
+        userId,
       }}
     >
       <TabsContainer currentTab={currentTab} setCurrentTab={setCurrentTab} />
@@ -58,6 +60,7 @@ export interface TournamentPageContentProps {
   session: string;
   id: string;
   status: Status;
+  userId: string | undefined;
 }
 
 export const gamesMock: GameModel[][] = [

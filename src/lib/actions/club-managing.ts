@@ -21,7 +21,7 @@ import { redirect } from 'next/navigation';
 
 export const createClub = async (values: NewClubFormType) => {
   const { user } = await validateRequest();
-  if (!user) throw new Error('unauthorized request');
+  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   const id = newid();
   const newClub = {
     ...values,
@@ -56,7 +56,8 @@ export const getClubPlayers = async (id: DatabasePlayer['club_id']) => {
 
 export const editClub = async ({ id, userId, values }: UpdateDatabaseClub) => {
   const { user } = await validateRequest();
-  if (user?.id !== userId) throw new Error('USER_NOT_MATCHING')
+  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
+  if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
   await db.update(clubs).set(values).where(eq(clubs.id, id));
 };
 
@@ -68,7 +69,8 @@ type UpdateDatabaseClub = {
 
 export const deleteClub = async ({ id, userId }: UpdateDatabaseClub) => {
   const { user } = await validateRequest();
-  if (user?.id !== userId) throw new Error('USER_NOT_MATCHING')
+  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
+  if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
   const otherClubs = await db
     .select()
     .from(clubs_to_users)
@@ -114,8 +116,17 @@ export const deleteClub = async ({ id, userId }: UpdateDatabaseClub) => {
   console.log('CLUB DELETED', id);
 };
 
-// FIXME 
-export const deletePlayer = async (playerId: string) => {
+// FIXME
+export const deletePlayer = async ({
+  userId,
+  playerId,
+}: {
+  playerId: string;
+  userId: string;
+}) => {
+  const { user } = await validateRequest();
+  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
+  if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
   await db.transaction(async (tx) => {
     await tx.delete(players).where(eq(players.id, playerId));
   });
@@ -128,10 +139,10 @@ export default async function getAllClubManagers(
     .select()
     .from(clubs_to_users)
     .where(eq(clubs_to_users.club_id, club_id))
-    .leftJoin(users, eq(clubs_to_users.user_id, users.id))
+    .leftJoin(users, eq(clubs_to_users.user_id, users.id));
 }
 
 export type ClubManagers = {
-  clubs_to_users: DatabaseClubsToUsers | null
-  user: DatabaseUser | null
-}
+  clubs_to_users: DatabaseClubsToUsers | null;
+  user: DatabaseUser | null;
+};

@@ -6,9 +6,9 @@ import { redirect } from 'next/navigation';
 
 export default async function UserPage({ params }: TournamentPageProps) {
   const { user } = await validateRequest();
+  if (!user) redirect('/sign-in');
   const data = await getUserData(params.username);
 
-  if (!user) redirect('/sign-in');
   const isOwner = user.username === params.username;
   const t = await getTranslations();
 

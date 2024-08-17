@@ -12,7 +12,7 @@ import {
   players_to_tournaments,
   tournaments,
 } from '@/lib/db/schema/tournaments';
-import { newid, timeout } from '@/lib/utils';
+import { newid } from '@/lib/utils';
 import { NewTournamentFormType } from '@/lib/zod/new-tournament-form';
 import { PlayerModel } from '@/types/tournaments';
 import { and, eq, sql } from 'drizzle-orm';
@@ -20,7 +20,7 @@ import { redirect } from 'next/navigation';
 
 export const createTournament = async (values: NewTournamentFormType) => {
   const { user } = await validateRequest();
-  if (!user) throw new Error('unauthorized request');
+  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   const newTournamentID = newid();
   const newTournament: DatabaseTournament = {
     ...values,
@@ -100,11 +100,15 @@ export async function getTournamentPossiblePlayers(
 export async function removePlayer({
   tournamentId,
   playerId,
+  userId
 }: {
   tournamentId: string;
   playerId: string;
+  userId: string;
 }) {
-  await timeout(1000);
+  const { user } = await validateRequest();
+  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
+  if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
 
   await db
     .delete(players_to_tournaments)
