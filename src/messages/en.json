@@ -90,5 +90,11 @@
   "Status": {
     "admin": "admin",
     "moderator": "moderator"
+  },
+  "Toasts": {
+    "server error": "sorry! server error happened",
+    "profile updated": "profile updated!",
+    "ws success": "realtime updates enabled!",
+    "ws error": "live-server error. sorry! you will see no realtime updates"
   }
 }

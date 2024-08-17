@@ -3,19 +3,21 @@ import { handleSocketMessage } from '@/lib/handle-socket-message';
 import { QueryClient } from '@tanstack/react-query';
 import useWebSocket from 'react-use-websocket';
 import { toast } from 'sonner';
+import { useTranslations } from 'use-intl';
 
 export const useDashboardWebsocket = (
   session: string,
   id: string,
   queryClient: QueryClient,
 ) => {
+  const t = useTranslations('Toasts')
   return useWebSocket(`${SOCKET_URL}/${id}`, {
     queryParams: {
       auth_session: session,
     },
     onOpen: () => {
       setTimeout(() => toast.dismiss('wsError'));
-      toast.success('connected to server!', {
+      toast.success(t('ws success'), {
         id: 'wsSuccess',
       });
     },
@@ -32,12 +34,13 @@ export const useDashboardWebsocket = (
     onError: () => {
       setTimeout(() => toast.dismiss('wsSuccess'));
     },
+    reconnectInterval: 3000,
     onReconnectStop: () => {
       setTimeout(() => toast.dismiss('wsError'));
       toast.error(
-        'please reload. in case your connection is stable, consider reporting the bug',
+        t('ws error'),
         {
-          id: 'wsFinalError',
+          id: 'wsError',
         },
       );
     },
