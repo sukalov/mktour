@@ -100,7 +100,7 @@ export async function getTournamentPossiblePlayers(
 export async function removePlayer({
   tournamentId,
   playerId,
-  userId
+  userId,
 }: {
   tournamentId: string;
   playerId: string;
@@ -123,10 +123,16 @@ export async function removePlayer({
 export async function addNewPlayer({
   tournamentId,
   player,
+  userId,
 }: {
   tournamentId: string;
   player: DatabasePlayer;
+  userId: string;
 }) {
+  const { user } = await validateRequest();
+  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
+  if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
+
   await db.insert(players).values(player);
   const playerToTournament: DatabasePlayerToTournament = {
     player_id: player.id,
@@ -145,10 +151,16 @@ export async function addNewPlayer({
 export async function addExistingPlayer({
   tournamentId,
   player,
+  userId,
 }: {
   tournamentId: string;
   player: DatabasePlayer;
+  userId: string;
 }) {
+  const { user } = await validateRequest();
+  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
+  if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
+
   const playerToTournament: DatabasePlayerToTournament = {
     player_id: player.id,
     tournament_id: tournamentId,

@@ -5,7 +5,6 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 export async function logout(): Promise<{ error: string | null }> {
-  'use server';
   const { session } = await validateRequest();
   if (!session) {
     return {

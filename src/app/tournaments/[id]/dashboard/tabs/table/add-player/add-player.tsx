@@ -17,7 +17,7 @@ const AddPlayer = ({ setOpen, value, setValue }: DrawerProps) => {
   const id = usePathname().split('/').at(-1) as string;
   const possiblePlayers = useTournamentPossiblePlayers(id);
   const queryClient = useQueryClient();
-  const { sendJsonMessage } = useContext(DashboardContext);
+  const { sendJsonMessage, userId } = useContext(DashboardContext);
   const { mutate } = useTournamentAddExistingPlayer(
     id,
     queryClient,
@@ -72,8 +72,12 @@ const AddPlayer = ({ setOpen, value, setValue }: DrawerProps) => {
               <TableRow
                 key={player.id}
                 onClick={() => {
+                  if (!userId) {
+                    console.log('not found user id in context');
+                    return;
+                  }
                   setOpen(false);
-                  mutate({ tournamentId: id, player });
+                  mutate({ tournamentId: id, player, userId });
                 }}
                 className="p-0"
               >

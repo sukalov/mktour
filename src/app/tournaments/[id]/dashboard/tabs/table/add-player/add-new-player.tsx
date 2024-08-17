@@ -34,7 +34,7 @@ const AddNewPlayer = ({
   const id = usePathname().split('/').at(-1) as string;
   const tournament = useTournamentInfo(id);
   const queryClient = useQueryClient();
-  const { sendJsonMessage } = useContext(DashboardContext);
+  const { sendJsonMessage, userId } = useContext(DashboardContext);
   const { mutate } = useTournamentAddNewPlayer(
     id,
     queryClient,
@@ -58,6 +58,10 @@ const AddNewPlayer = ({
   }, [name, setValue]);
 
   function onSubmit(data: NewPlayerFormType) {
+    if (!userId) {
+      console.log('not found user id in context');
+      return;
+    }
     setOpen(false);
     const newPlayer: DatabasePlayer = {
       id: newid(),
@@ -68,7 +72,7 @@ const AddNewPlayer = ({
       user_id: null,
       last_seen: 0,
     };
-    mutate({ tournamentId: id, player: newPlayer });
+    mutate({ tournamentId: id, player: newPlayer, userId });
   }
   return (
     <Form {...form}>
