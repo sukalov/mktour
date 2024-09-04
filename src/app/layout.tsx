@@ -7,7 +7,6 @@ import '@/styles/globals.css';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata, Viewport } from 'next';
-import { AxiomWebVitals } from 'next-axiom';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 import { ViewTransitions } from 'next-view-transitions';
@@ -19,7 +18,6 @@ async function RootLayout({ children }: PropsWithChildren) {
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <AxiomWebVitals />
       <body className="small-scrollbar">
         <ThemeProvider
           attribute="class"
