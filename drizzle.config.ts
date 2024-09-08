@@ -1,4 +1,5 @@
 import { DATABASE_AUTH_TOKEN, DATABASE_URL } from '@/lib/config/urls';
+import type { Config } from "drizzle-kit";
 import { defineConfig } from 'drizzle-kit';
 
 export default defineConfig({
@@ -10,4 +11,4 @@ export default defineConfig({
     url: DATABASE_URL,
     authToken: DATABASE_AUTH_TOKEN,
   },
-});
+} satisfies Config);
