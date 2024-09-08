@@ -16,6 +16,7 @@ import { deleteUserFormSchema, DeleteUserFormType } from '@/lib/zod/delete-user-
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { Loader2, Trash2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useForm, useWatch } from 'react-hook-form';
 
 export default function DeleteUserForm({
@@ -35,13 +36,15 @@ export default function DeleteUserForm({
     name: 'username',
   });
 
+  const t = useTranslations('EditUser')
+
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(() =>
           userDeleteMutation.mutate({ userId }),
         )}
-        className={cn('grid items-start gap-6 p-4 py-0', className)}
+        className={cn('grid items-start gap-6 px-4 md:px-0 py-0', className)}
         name="delete-club-form"
       >
         <FormField
@@ -49,7 +52,7 @@ export default function DeleteUserForm({
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>username</FormLabel>
+              <FormLabel>{t('username')}</FormLabel>
               <FormControl>
                 <Input
                   {...field}
@@ -76,7 +79,7 @@ export default function DeleteUserForm({
           ) : (
             <Trash2 size={18} />
           )}
-          &nbsp;delete club
+          &nbsp;{t('delete profile')}
         </Button>
       </form>
     </Form>

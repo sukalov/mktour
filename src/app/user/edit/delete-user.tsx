@@ -26,34 +26,27 @@ import { useTranslations } from 'next-intl';
 import * as React from 'react';
 import { useMediaQuery } from 'react-responsive';
 
-export default function DeleteUser({
-  userId,
-}: DeleteProfileProps) {
+export default function DeleteUser({ userId }: DeleteProfileProps) {
   const [open, setOpen] = React.useState(false);
   const isDesktop = useMediaQuery({ minWidth: 768 });
-  const t = useTranslations('EditUser')
+  const t = useTranslations('EditUser');
   if (isDesktop) {
     return (
       <Card className="w-full border-none shadow-none md:border-solid md:shadow-sm">
-        <CardHeader>danger zone</CardHeader>
+        <CardHeader>{t('danger zone')}</CardHeader>
         <CardContent className="flex flex-col gap-4">
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-              <Button variant="destructive">delete profile</Button>
+              <Button variant="destructive">{t('delete profile')}</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
-                <DialogTitle>
-                  you&apos;re about to delete everything!
-                </DialogTitle>
-                <DialogDescription>
-                  all players and tournaments will be deleted. if you&apos;re
-                  completely sure, type the name of the club you are deleting
-                </DialogDescription>
+                <DialogTitle>{t('confirmation header')}</DialogTitle>
+                <DialogDescription>{t.rich('confirmation body')}</DialogDescription>
               </DialogHeader>
               <DeleteUserForm userId={userId} />
               <DialogClose asChild>
-                <Button variant="outline">cancel</Button>
+                <Button variant="outline">{t('cancel')}</Button>
               </DialogClose>
             </DialogContent>
           </Dialog>
@@ -64,24 +57,21 @@ export default function DeleteUser({
 
   return (
     <Card className="w-full border-none shadow-none sm:border-solid sm:shadow-sm">
-      <CardHeader>danger zone</CardHeader>
+      <CardHeader>{t('danger zone')}</CardHeader>
       <CardContent className="flex flex-col gap-4">
         <Drawer open={open} onOpenChange={setOpen}>
           <DrawerTrigger asChild>
-            <Button variant="destructive">delete profile</Button>
+            <Button variant="destructive">{t('delete profile')}</Button>
           </DrawerTrigger>
           <DrawerContent>
             <DrawerHeader className="text-left">
-              <DrawerTitle>you&apos;re about to delete everything!</DrawerTitle>
-              <DrawerDescription>
-                all players and tournaments will be deleted. if you&apos;re
-                completely sure, type the name of the club you are deleting
-              </DrawerDescription>
+              <DrawerTitle>{t('confirmation header')}</DrawerTitle>
+              <DrawerDescription>{t('confirmation body')}</DrawerDescription>
             </DrawerHeader>
             <DeleteUserForm userId={userId} />
             <DrawerFooter className="pt-2">
               <DrawerClose asChild>
-                <Button variant="outline">cancel</Button>
+                <Button variant="outline">{t('cancel')}</Button>
               </DrawerClose>
             </DrawerFooter>
           </DrawerContent>
@@ -89,8 +79,7 @@ export default function DeleteUser({
       </CardContent>
     </Card>
   );
-};
-
+}
 
 interface DeleteProfileProps {
   userId: string;

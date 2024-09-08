@@ -83,7 +83,7 @@ export default function EditProfileForm({ userId }: { userId: string }) {
               ) : (
                 <Save />
               )}
-              &nbsp;save
+              &nbsp;{t('save')}
             </Button>
           </form>
         </CardContent>
