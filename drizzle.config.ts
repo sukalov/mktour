@@ -1,3 +1,4 @@
+import { DATABASE_AUTH_TOKEN, DATABASE_URL } from '@/lib/config/urls';
 import { defineConfig } from 'drizzle-kit';
 
 export default defineConfig({
@@ -6,7 +7,7 @@ export default defineConfig({
   dialect: 'sqlite',
   driver: 'turso',
   dbCredentials: {
-    url: process.env.DATABASE_URL!,
-    authToken: process.env.DATABASE_AUTH_TOKEN,
+    url: DATABASE_URL,
+    authToken: DATABASE_AUTH_TOKEN,
   },
 });

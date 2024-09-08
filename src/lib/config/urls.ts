@@ -15,4 +15,4 @@ export const DATABASE_URL =
     : process.env.DATABASE_URL;
 
 export const DATABASE_AUTH_TOKEN =
-  process.env.OFFLINE === 'true' ? '' : process.env.DATABASE_AUTH_TOKEN;
+  process.env.OFFLINE === 'true' ? ' ' : process.env.DATABASE_AUTH_TOKEN;
