@@ -10,6 +10,9 @@ html {
 
 body {
   font-family: 'Main';
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   user-select: none;
   height: 100%;
   overflow: auto;
