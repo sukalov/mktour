@@ -95,6 +95,10 @@
     "server error": "sorry! server error happened",
     "profile updated": "profile updated!",
     "ws success": "realtime updates enabled!",
-    "ws error": "live-server error. sorry! you will see no realtime updates"
+    "ws error": "live-server error. sorry! you will see no realtime updates",
+    "user deleted": "your profile has been deleted completely"
+  },
+  "EditUser": {
+    "header": "settings"
   }
 }

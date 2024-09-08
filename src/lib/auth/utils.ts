@@ -9,7 +9,7 @@ export type AuthSession = {
       id: string;
       name?: string;
       email?: string;
-      username?: string;
+      username: string;
     };
   } | null;
 };
