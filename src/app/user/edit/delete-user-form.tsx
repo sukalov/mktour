@@ -7,8 +7,7 @@ import {
   Form,
   FormControl,
   FormField,
-  FormItem,
-  FormLabel,
+  FormItem
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
@@ -52,7 +51,6 @@ export default function DeleteUserForm({
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{t('username')}</FormLabel>
               <FormControl>
                 <Input
                   {...field}

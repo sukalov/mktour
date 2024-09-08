@@ -66,7 +66,7 @@ export default function DeleteUser({ userId }: DeleteProfileProps) {
           <DrawerContent>
             <DrawerHeader className="text-left">
               <DrawerTitle>{t('confirmation header')}</DrawerTitle>
-              <DrawerDescription>{t('confirmation body')}</DrawerDescription>
+              <DrawerDescription>{t.rich('confirmation body')}</DrawerDescription>
             </DrawerHeader>
             <DeleteUserForm userId={userId} />
             <DrawerFooter className="pt-2">
