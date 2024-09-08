@@ -1,4 +1,5 @@
 import NavWrapper from '@/components/navigation/nav-wrapper';
+import IntlProvider from '@/components/providers/intl-provider';
 import MediaQueryProvider from '@/components/providers/media-query-provider';
 import ReactQueryProvider from '@/components/providers/react-query-provider';
 import ThemeProvider from '@/components/providers/theme-provider';
@@ -7,7 +8,6 @@ import '@/styles/globals.css';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata, Viewport } from 'next';
-import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 import { ViewTransitions } from 'next-view-transitions';
 import { PropsWithChildren } from 'react';
@@ -15,7 +15,6 @@ import { PropsWithChildren } from 'react';
 async function RootLayout({ children }: PropsWithChildren) {
   const locale = await getLocale();
   const messages = await getMessages();
-
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className="small-scrollbar">
@@ -25,7 +24,7 @@ async function RootLayout({ children }: PropsWithChildren) {
           enableSystem
           disableTransitionOnChange
         >
-          <NextIntlClientProvider messages={messages}>
+          <IntlProvider messages={messages} locale={locale}>
             <MediaQueryProvider>
               <ReactQueryProvider>
                 <NavWrapper />
@@ -37,7 +36,7 @@ async function RootLayout({ children }: PropsWithChildren) {
                 <Toaster richColors />
               </ReactQueryProvider>
             </MediaQueryProvider>
-          </NextIntlClientProvider>
+          </IntlProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -20,7 +20,6 @@ export default function ForwardToEmpryClub({
       <Card className="mx-auto flex max-w-[min(600px,98%)] flex-col gap-4 border-none shadow-none sm:border-solid sm:p-8 sm:shadow-sm">
         <div>
           {t.rich('message', {
-            bold: (club) => <span className="font-bold">{club}</span>,
             club: club.name,
           })}
         </div>
@@ -30,7 +29,7 @@ export default function ForwardToEmpryClub({
         >
           <p>{`${t('button text')} ${club.name}`}</p>
           &nbsp;
-          <ArrowRight className="transition-all duration-200 group-hover:translate-x-1" />
+          <ArrowRight className="transition-all duration-200 group-hover:translate-x-0.5" />
         </Button>
       </Card>
     </div>
