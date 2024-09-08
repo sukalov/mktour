@@ -109,7 +109,7 @@ export async function GET(request: Request): Promise<Response> {
         language: 'en',
       });
 
-      cookies().set('show_new_player_toast', 'true');
+      cookies().set('show_new_user_toast', 'true');
 
       const session = await lucia.createSession(userId, {});
       const sessionCookie = lucia.createSessionCookie(session.id);
