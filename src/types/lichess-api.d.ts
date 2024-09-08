@@ -33,10 +33,9 @@ export interface LichessUser {
   createdAt: number;
   profile: {
     location: string;
-    firstName: string;
+    realName?: string;
     flag: string;
     bio: string;
-    lastName: string;
     links: string;
   };
   seenAt: number;
