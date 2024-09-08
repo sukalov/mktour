@@ -1,5 +1,5 @@
 import { DATABASE_AUTH_TOKEN, DATABASE_URL } from '@/lib/config/non-next-urls';
-import type { Config } from "drizzle-kit";
+import type { Config } from 'drizzle-kit';
 import { defineConfig } from 'drizzle-kit';
 
 export default defineConfig({

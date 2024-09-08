@@ -4,7 +4,7 @@ export async function GET() {
   const response = new NextResponse(null, { status: 200 });
 
   response.cookies.set('show_new_user_toast', '', {
-    httpOnly: true, 
+    httpOnly: true,
     path: '/',
     expires: new Date(0),
   });
