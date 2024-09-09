@@ -3,11 +3,13 @@
 import useDeleteUserMutation from '@/components/hooks/mutation-hooks/use-user-delete';
 import { useUser } from '@/components/hooks/query-hooks/use-user';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Form,
   FormControl,
   FormField,
-  FormItem
+  FormItem,
+  FormLabel
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
@@ -27,15 +29,20 @@ export default function DeleteUserForm({
   const userDeleteMutation = useDeleteUserMutation(queryClient);
   const form = useForm<DeleteUserFormType>({
     resolver: zodResolver(deleteUserFormSchema),
-    values: { username: '', userId },
+    values: { username: '', userId, checkboxes: [] },
   });
 
   const watchedName = useWatch({
     control: form.control,
     name: 'username',
   });
+  const watchedLength = useWatch({
+    control: form.control,
+    name: 'checkboxes',
+  });
 
   const t = useTranslations('EditUser')
+  const checkboxes = ['checkbox1', 'checkbox2', 'checkbox3', ]
 
   return (
     <Form {...form}>
@@ -61,6 +68,47 @@ export default function DeleteUserForm({
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="checkboxes"
+          render={() => (
+            <FormItem>
+              {checkboxes.map((checkbox) => (
+                <FormField
+                  key={checkbox}
+                  control={form.control}
+                  name="checkboxes"
+                  render={({ field }) => {
+                    return (
+                      <FormItem
+                        key={checkbox}
+                        className="flex flex-row items-start space-x-3 space-y-0"
+                      >
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value?.includes(checkbox)}
+                            onCheckedChange={(checked) => {
+                              return checked
+                                ? field.onChange([...field.value, checkbox])
+                                : field.onChange(
+                                    field.value?.filter(
+                                      (value) => value !== checkbox
+                                    )
+                                  )
+                            }}
+                          />
+                        </FormControl>
+                        <FormLabel className="font-normal">
+                          {t(checkbox)}
+                        </FormLabel>
+                      </FormItem>
+                    )
+                  }}
+                />
+              ))}
+            </FormItem>
+          )}
+        />
         <FormField control={form.control} name="userId" render={() => <></>} />
 
         <Button
@@ -68,7 +116,7 @@ export default function DeleteUserForm({
             data?.username !== watchedName ||
             !data ||
             userDeleteMutation.isPending ||
-            isFetching
+            isFetching || watchedLength.length !== 3
           }
           variant="destructive"
         >
