@@ -105,9 +105,12 @@
     "danger zone": "danger zone",
     "delete profile": "delete profile",
     "confirmation header": "you're about to delete everything!",
-    "confirmation body": "this confirmation will immediately delete your profile <bold>completely</bold> with all your stats, every club you own and every tournament you had. there is no way back! if you're completely sure type your nickname below",
+    "confirmation body": "this confirmation will immediately delete your profile <bold>completely</bold>. there is no way back! if you're completely sure type your nickname below",
     "username": "username",
-    "cancel": "cancel"
+    "cancel": "cancel",
+    "checkbox1": "delete every tournament i made",
+    "checkbox2": "delete every club i own (with all players)",
+    "checkbox3": "delete my whole stats"
 
   }
 }
