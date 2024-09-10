@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { motion, MotionConfig } from 'framer-motion';
 import { ArrowLeft, Search } from 'lucide-react';
 import { useRef, useState } from 'react';
+import { useMediaQuery } from 'react-responsive';
 
 const transition = {
   type: 'spring',
@@ -15,9 +16,18 @@ export default function GlobalSearch() {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  
+  
+  const miniScreen = useMediaQuery({maxWidth: 495})
+  const microScreen = useMediaQuery({maxWidth: 395})
+  const mostMicroScreen = useMediaQuery({maxWidth: 340})
+
+
   useClickOutside(containerRef, () => {
     setIsOpen(false);
   });
+
+  const searchBarWidth = !miniScreen ? 250 : !microScreen ? 200 : !mostMicroScreen ? 150 : 100
 
   return (
     <MotionConfig transition={transition}>
@@ -26,7 +36,7 @@ export default function GlobalSearch() {
           <motion.div
             animate={{
               // @todo: here I want to remove the width
-              width: isOpen ? 200 : '2.5rem',
+              width: isOpen ? searchBarWidth : '2.5rem',
             }}
             initial={false}
           >
