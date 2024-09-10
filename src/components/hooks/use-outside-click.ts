@@ -1,11 +1,9 @@
 import { RefObject, useEffect } from 'react';
 
-const useOutsideClick = (handler: () => void, refs: RefObject<any>[]) => {
+const useOutsideClick = (handler: () => void, ref: RefObject<any>) => {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
-      if (
-        refs.every((ref) => ref.current && !ref.current.contains(event.target))
-      ) {
+      if (ref.current && !ref.current.contains(event.target)) {
         handler();
       }
     };
@@ -23,8 +21,7 @@ const useOutsideClick = (handler: () => void, refs: RefObject<any>[]) => {
         capture: true,
       });
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [handler, ...refs.map((ref) => ref.current)]);
+  }, [handler, ref]);
 };
 
 export default useOutsideClick;
