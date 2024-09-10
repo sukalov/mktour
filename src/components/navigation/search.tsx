@@ -28,7 +28,7 @@ export default function GlobalSearch() {
               // @todo: here I want to remove the width
               width: isOpen ? 200 : '2.5rem',
             }}
-            initial={true}
+            initial={false}
           >
             <div>
               {!isOpen ? (
