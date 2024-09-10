@@ -18,6 +18,8 @@ const IntlProvider = ({
       defaultTranslationValues={{
         bold: (args) => <span className="font-bold">{args}</span>,
       }}
+      now={new Date()}
+      timeZone={Intl.DateTimeFormat().resolvedOptions().timeZone}
     >
       {children}
     </NextIntlClientProvider>
