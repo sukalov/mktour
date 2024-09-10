@@ -1,5 +1,5 @@
 'use client';
-import useClickOutside from '@/components/hooks/use-click-outside';
+import useOutsideClick from '@/components/hooks/use-outside-click';
 import { Button } from '@/components/ui/button';
 import { motion, MotionConfig } from 'framer-motion';
 import { ArrowLeft, Search } from 'lucide-react';
@@ -15,9 +15,7 @@ export default function GlobalSearch() {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useClickOutside(containerRef, () => {
-    setIsOpen(false);
-  });
+  useOutsideClick(() => setIsOpen(false), containerRef);
 
   return (
     <MotionConfig transition={transition}>
