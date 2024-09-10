@@ -9,11 +9,14 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel
+  FormLabel,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-import { deleteUserFormSchema, DeleteUserFormType } from '@/lib/zod/delete-user-form';
+import {
+  deleteUserFormSchema,
+  DeleteUserFormType,
+} from '@/lib/zod/delete-user-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { Loader2, Trash2 } from 'lucide-react';
@@ -41,8 +44,8 @@ export default function DeleteUserForm({
     name: 'checkboxes',
   });
 
-  const t = useTranslations('EditUser')
-  const checkboxes = ['checkbox1', 'checkbox2', 'checkbox3', ]
+  const t = useTranslations('EditUser');
+  const checkboxes = ['checkbox1', 'checkbox2', 'checkbox3'];
 
   return (
     <Form {...form}>
@@ -50,7 +53,7 @@ export default function DeleteUserForm({
         onSubmit={form.handleSubmit(() =>
           userDeleteMutation.mutate({ userId }),
         )}
-        className={cn('grid items-start gap-6 px-4 md:px-0 py-0', className)}
+        className={cn('grid items-start gap-6 px-4 py-0 md:px-0', className)}
         name="delete-club-form"
       >
         <FormField
@@ -92,9 +95,9 @@ export default function DeleteUserForm({
                                 ? field.onChange([...field.value, checkbox])
                                 : field.onChange(
                                     field.value?.filter(
-                                      (value) => value !== checkbox
-                                    )
-                                  )
+                                      (value) => value !== checkbox,
+                                    ),
+                                  );
                             }}
                           />
                         </FormControl>
@@ -102,7 +105,7 @@ export default function DeleteUserForm({
                           {t(checkbox)}
                         </FormLabel>
                       </FormItem>
-                    )
+                    );
                   }}
                 />
               ))}
@@ -116,7 +119,8 @@ export default function DeleteUserForm({
             data?.username !== watchedName ||
             !data ||
             userDeleteMutation.isPending ||
-            isFetching || watchedLength.length !== 3
+            isFetching ||
+            watchedLength.length !== 3
           }
           variant="destructive"
         >
@@ -130,9 +134,9 @@ export default function DeleteUserForm({
       </form>
     </Form>
   );
-};
+}
 
 interface DeleteProfileFormProps {
-    className?: string;
-    userId: string;
+  className?: string;
+  userId: string;
 }

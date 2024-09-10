@@ -16,7 +16,7 @@ export const deleteUser = async ({ userId }: { userId: string }) => {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
-  console.log('USER DELETED AAAAAGHAGHAGHGHHHHHHHH')
+  console.log('USER DELETED AAAAAGHAGHAGHGHHHHHHHH');
 };
 
 type UpdateDatabaseUser = {

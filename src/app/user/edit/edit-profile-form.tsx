@@ -43,7 +43,6 @@ export default function EditProfileForm({ userId }: { userId: string }) {
 
   if (userQuery.isLoading) return <Skeleton className="m-4 w-full" />;
 
-
   return (
     <Form {...form}>
       <Card className="w-full border-none shadow-none sm:border-solid sm:shadow-sm">

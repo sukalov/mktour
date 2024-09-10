@@ -20,7 +20,7 @@ export default async function EditUserPage() {
     queryFn: getUser,
   });
 
-  const t = await getTranslations('EditUser')
+  const t = await getTranslations('EditUser');
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <h2
