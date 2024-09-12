@@ -110,6 +110,7 @@
     "cancel": "cancel",
     "checkbox1": "delete every tournament i made",
     "checkbox2": "delete every club i own (with all players)",
-    "checkbox3": "delete my whole stats"
+    "checkbox3": "delete my whole stats",
+    "do it yourself": "you have to do it yourself"
   }
 }
