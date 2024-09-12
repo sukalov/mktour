@@ -5,6 +5,7 @@ import { motion, MotionConfig } from 'framer-motion';
 import { Search } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
+import useKeyboardShortcut from 'use-keyboard-shortcut';
 
 const transition = {
   type: 'spring',
@@ -21,6 +22,12 @@ export default function GlobalSearch() {
   const mostMicroScreen = useMediaQuery({ maxWidth: 340 });
 
   useOutsideClick(() => setIsOpen(false), containerRef);
+
+  useKeyboardShortcut(['Meta', 'K'], () => setIsOpen((prev) => !prev), {
+    overrideSystem: false,
+    ignoreInputFields: false,
+    repeatOnHold: true,
+  });
 
   const searchBarWidth = !miniScreen
     ? 250
@@ -40,10 +47,10 @@ export default function GlobalSearch() {
             }}
             initial={false}
           >
-            <div className='flex flex-row'>
+            <div className="flex flex-row">
               <Button
-                className={`relative flex aspect-square select-none items-center justify-center p-2.5 transition-colors disabled:pointer-events-none disabled:opacity-50 ${isOpen && `hover:bg-transparent text-muted-foreground`}`}
-                onClick={() => setIsOpen(prev => !prev)}
+                className={`relative flex aspect-square select-none items-center justify-center p-2.5 transition-colors disabled:pointer-events-none disabled:opacity-50 ${isOpen && `text-muted-foreground hover:bg-transparent`}`}
+                onClick={() => setIsOpen((prev) => !prev)}
                 // disabled={isOpen}
                 aria-label="search"
                 variant="ghost"

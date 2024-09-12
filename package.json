@@ -104,6 +104,7 @@
     "tailwind-merge": "2.5.2",
     "tailwindcss-animate": "1.0.7",
     "typescript": "5.5.4",
+    "use-keyboard-shortcut": "^1.1.6",
     "use-local-storage-state": "^19.4.0",
     "use-long-press": "3.2.0",
     "usehooks-ts": "3.1.0",
