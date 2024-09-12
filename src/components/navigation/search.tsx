@@ -2,7 +2,7 @@
 import useOutsideClick from '@/components/hooks/use-outside-click';
 import { Button } from '@/components/ui/button';
 import { motion, MotionConfig } from 'framer-motion';
-import { ArrowLeft, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 
@@ -74,14 +74,6 @@ export default function GlobalSearch() {
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.5 }}
                   >
-                    <Button
-                      className="relative flex aspect-square select-none items-center justify-center p-3 transition-colors active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50"
-                      onClick={() => setIsOpen(false)}
-                      aria-label="back"
-                      variant="ghost"
-                    >
-                      <ArrowLeft size={20} />
-                    </Button>
                   </motion.div>
                 </div>
               )}
