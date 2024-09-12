@@ -384,7 +384,7 @@ function updateChessEntitiesMatches(
  * By using that information, it returns the new games list, which are then published to the respective
  * ws.
  */
-async function generateRoundRobinRound(
+export async function generateRoundRobinRound(
   tournamentId: string,
   roundNumber: number,
 ) {
