@@ -36,38 +36,27 @@ export default function GlobalSearch() {
         <div>
           <motion.div
             animate={{
-              // @todo: here I want to remove the width
               width: isOpen ? searchBarWidth : '2.5rem',
             }}
             initial={false}
           >
-            <div>
-              {!isOpen ? (
-                <Button
-                  className="relative flex aspect-square select-none items-center justify-center p-3 transition-colors active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50"
-                  onClick={() => setIsOpen(true)}
-                  aria-label="search"
-                  variant="ghost"
-                >
-                  <Search size={20} />
-                </Button>
-              ) : (
-                <div className="flex">
-                  <Button
-                    className="relative flex aspect-square select-none items-center justify-center p-3 transition-colors active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50"
-                    disabled
-                    aria-label="back"
-                    variant="ghost"
-                  >
-                    <Search size={20} />
-                  </Button>
-                  <div className="w-full">
-                    <input
-                      className="mt-2 w-full pl-1 pr-2 focus:outline-none"
-                      autoFocus
-                    />
-                    <div className="right-1 top-0 flex h-full items-center justify-center"></div>
-                  </div>
+            <div className='flex flex-row'>
+              <Button
+                className={`relative flex aspect-square select-none items-center justify-center p-2.5 transition-colors disabled:pointer-events-none disabled:opacity-50 ${isOpen && `hover:bg-transparent text-muted-foreground`}`}
+                onClick={() => setIsOpen(prev => !prev)}
+                // disabled={isOpen}
+                aria-label="search"
+                variant="ghost"
+              >
+                <Search size={20} />
+              </Button>
+              {isOpen && (
+                <div className="w-full">
+                  <input
+                    className="mt-2 w-full bg-transparent pl-1 pr-2 focus:outline-none"
+                    autoFocus
+                  />
+                  <div className="right-1 top-0 flex h-full items-center justify-center"></div>
                 </div>
               )}
             </div>
