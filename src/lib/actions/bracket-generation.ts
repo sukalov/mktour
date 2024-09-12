@@ -13,12 +13,6 @@ import { and, eq } from 'drizzle-orm';
 import { alias } from 'drizzle-orm/sqlite-core';
 
 /**
- * Helper constants for testing purposes
- */
-const TEST_TOURNAMENT = 'P9pqTDZv';
-const TEST_ROUND_NUMBER = 0;
-
-/**
  * This interface represents big chunk of detailed information for the database game, basically it is
  * a grouped info about all the players participating.
  */
@@ -459,6 +453,3 @@ export async function generateRoundRobinRound(
 
   return gamesToInsert;
 }
-
-
-generateRoundRobinRound(TEST_TOURNAMENT, TEST_ROUND_NUMBER);
