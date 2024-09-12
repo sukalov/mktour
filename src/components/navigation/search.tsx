@@ -68,13 +68,6 @@ export default function GlobalSearch() {
                     />
                     <div className="right-1 top-0 flex h-full items-center justify-center"></div>
                   </div>
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                  </motion.div>
                 </div>
               )}
             </div>
