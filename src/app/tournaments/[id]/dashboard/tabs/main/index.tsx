@@ -18,9 +18,6 @@ const Main = () => {
   const queryClient = new QueryClient();
   const { mutate, data: generatedRounds } = useGenerateRoundRobinRound(queryClient);
   const { userId } = useContext(DashboardContext)
-  
-  console.log(data?.tournament.ongoing_round)
-  console.log(generatedRounds)
 
   if (isLoading) return <LoadingElement />;
   if (isError) {

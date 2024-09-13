@@ -15,7 +15,7 @@ import {
 import { newid } from '@/lib/utils';
 import { NewTournamentFormType } from '@/lib/zod/new-tournament-form';
 import { PlayerModel } from '@/types/tournaments';
-import { and, eq, sql } from 'drizzle-orm';
+import { aliasedTable, and, eq, sql } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 
 export const createTournament = async (values: NewTournamentFormType) => {
@@ -41,10 +41,6 @@ export const createTournament = async (values: NewTournamentFormType) => {
   }
   redirect(`/tournaments/${newTournamentID}`);
 };
-
-export async function getTournamentGames(id: string) {
-  return await db.select().from(games).where(eq(games.tournament_id, id));
-}
 
 export async function getTournamentPlayers(
   id: string,
@@ -174,3 +170,38 @@ export async function addExistingPlayer({
   };
   await db.insert(players_to_tournaments).values(playerToTournament);
 }
+
+export interface GameModel {
+  id: string;
+  black_id: string;
+  white_id: string;
+  black_nickname: string;
+  white_nickname: string;
+  black_prev_game_id: string | null;
+  white_prev_game_id: string | null;
+  round_number: number;
+  round_name: string | null;
+  result: string | null;
+}
+
+export async function getTournamentGames() {
+  const whitePlayer = aliasedTable(players, 'white_player');
+  const blackPlayer = aliasedTable(players, 'black_player');
+  const res =  await db.select({
+    id: games.id,
+    black_id: games.black_id,
+    white_id: games.white_id,
+    black_nickname: blackPlayer.nickname,
+    white_nickname: whitePlayer.nickname,
+    black_prev_game_id: games.black_prev_game_id,
+    white_prev_game_id: games.white_prev_game_id,
+    round_number: games.round_number,
+    round_name: games.round_name,
+    result: games.result,
+  })
+  .from(games)
+  .leftJoin(whitePlayer, eq(games.black_id, whitePlayer.id))
+  .leftJoin(blackPlayer, eq(games.white_id, blackPlayer.id));
+  
+  return res
+};
