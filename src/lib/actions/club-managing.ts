@@ -67,53 +67,21 @@ type UpdateDatabaseClub = {
   values: Partial<DatabaseClub>;
 };
 
-export const deleteClub = async ({ id, userId }: UpdateDatabaseClub) => {
+type UserDeleteProps = {
+  id: string;
+  userId: string;
+  userDeletion: boolean;
+};
+
+export const deleteClub = async ({
+  id,
+  userId,
+  userDeletion = false,
+}: UserDeleteProps) => {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
-  const otherClubs = await db
-    .select()
-    .from(clubs_to_users)
-    .where(
-      and(eq(clubs_to_users.user_id, userId), ne(clubs_to_users.club_id, id)),
-    )
-    .limit(1);
-
-  if (otherClubs.length === 0) throw new Error('ZERO_CLUBS');
-  await db
-    .update(users)
-    .set({ selected_club: otherClubs[0].club_id })
-    .where(eq(users.id, userId));
-
-  await db.transaction(async (tx) => {
-    await tx
-      .delete(games)
-      .where(
-        eq(
-          games.tournament_id,
-          tx
-            .select({ id: tournaments.id })
-            .from(tournaments)
-            .where(eq(tournaments.club_id, id)),
-        ),
-      );
-    await tx
-      .delete(players_to_tournaments)
-      .where(
-        eq(
-          players_to_tournaments.tournament_id,
-          tx
-            .select({ id: tournaments.id })
-            .from(tournaments)
-            .where(eq(tournaments.club_id, id)),
-        ),
-      );
-    await tx.delete(players).where(eq(players.club_id, id));
-    await tx.delete(clubs_to_users).where(eq(clubs_to_users.club_id, id));
-    await tx.delete(tournaments).where(eq(tournaments.club_id, id));
-    await tx.delete(clubs).where(eq(clubs.id, id));
-  });
-  console.log('CLUB DELETED', id);
+  await deleteClubFunction({ id, userId, userDeletion });
 };
 
 // FIXME
@@ -145,4 +113,56 @@ export default async function getAllClubManagers(
 export type ClubManagers = {
   clubs_to_users: DatabaseClubsToUsers | null;
   user: DatabaseUser | null;
+};
+
+export const deleteClubFunction = async ({
+  id,
+  userId,
+  userDeletion = false,
+}: UserDeleteProps) => {
+  const otherClubs = await db
+    .select()
+    .from(clubs_to_users)
+    .where(
+      and(eq(clubs_to_users.user_id, userId), ne(clubs_to_users.club_id, id)),
+    )
+    .limit(1);
+
+  if (otherClubs.length === 0 && !userDeletion) throw new Error('ZERO_CLUBS');
+  if (!userDeletion) {
+    await db
+      .update(users)
+      .set({ selected_club: otherClubs[0].club_id })
+      .where(eq(users.id, userId));
+  }
+
+  await db.transaction(async (tx) => {
+    await tx
+      .delete(games)
+      .where(
+        eq(
+          games.tournament_id,
+          tx
+            .select({ id: tournaments.id })
+            .from(tournaments)
+            .where(eq(tournaments.club_id, id)),
+        ),
+      );
+    await tx
+      .delete(players_to_tournaments)
+      .where(
+        eq(
+          players_to_tournaments.tournament_id,
+          tx
+            .select({ id: tournaments.id })
+            .from(tournaments)
+            .where(eq(tournaments.club_id, id)),
+        ),
+      );
+    await tx.delete(players).where(eq(players.club_id, id));
+    await tx.delete(tournaments).where(eq(tournaments.club_id, id));
+    await tx.delete(clubs_to_users).where(eq(clubs_to_users.club_id, id));
+    await tx.delete(clubs).where(eq(clubs.id, id));
+  });
+  console.log('CLUB DELETED', id);
 };

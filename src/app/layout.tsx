@@ -1,4 +1,5 @@
 import NavWrapper from '@/components/navigation/nav-wrapper';
+import ErrorFallback from '@/components/providers/error-boundary';
 import IntlProvider from '@/components/providers/intl-provider';
 import MediaQueryProvider from '@/components/providers/media-query-provider';
 import ReactQueryProvider from '@/components/providers/react-query-provider';
@@ -11,6 +12,7 @@ import type { Metadata, Viewport } from 'next';
 import { getLocale, getMessages } from 'next-intl/server';
 import { ViewTransitions } from 'next-view-transitions';
 import { PropsWithChildren } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 
 async function RootLayout({ children }: PropsWithChildren) {
   const locale = await getLocale();
@@ -18,6 +20,7 @@ async function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className="small-scrollbar">
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -38,6 +41,7 @@ async function RootLayout({ children }: PropsWithChildren) {
             </MediaQueryProvider>
           </IntlProvider>
         </ThemeProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );
