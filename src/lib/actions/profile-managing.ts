@@ -102,7 +102,8 @@ export const deleteUser = async ({ userId }: { userId: string }) => {
       .where(eq(user_preferences.user_id, userId));
     await tx.delete(sessions).where(eq(sessions.userId, userId));
     await tx.delete(users).where(eq(users.id, userId));
-    if (userClubs.includes(clubId)) await tx.delete(clubs).where(eq(clubs.id, clubId));
+    if (userClubs.includes(clubId))
+      await tx.delete(clubs).where(eq(clubs.id, clubId));
   });
 };
 
