@@ -21,26 +21,26 @@ async function RootLayout({ children }: PropsWithChildren) {
     <html lang={locale} suppressHydrationWarning>
       <body className="small-scrollbar">
         <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <IntlProvider messages={messages} locale={locale}>
-            <MediaQueryProvider>
-              <ReactQueryProvider>
-                <NavWrapper />
-                <ViewTransitions>
-                  <div className="pt-14">{children}</div>
-                </ViewTransitions>
-                <Analytics />
-                <SpeedInsights />
-                <Toaster richColors />
-              </ReactQueryProvider>
-            </MediaQueryProvider>
-          </IntlProvider>
-        </ThemeProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <IntlProvider messages={messages} locale={locale}>
+              <MediaQueryProvider>
+                <ReactQueryProvider>
+                  <NavWrapper />
+                  <ViewTransitions>
+                    <div className="pt-14">{children}</div>
+                  </ViewTransitions>
+                  <Analytics />
+                  <SpeedInsights />
+                  <Toaster richColors />
+                </ReactQueryProvider>
+              </MediaQueryProvider>
+            </IntlProvider>
+          </ThemeProvider>
         </ErrorBoundary>
       </body>
     </html>

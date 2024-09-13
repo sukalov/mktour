@@ -204,14 +204,13 @@ async function convertGameToEntitiesMatch(
   return entitiesMatch;
 }
 
-
 /**
  * This function by the finalized numbered match generates an entry for the drizzle database game
  * @param finalizedMatch finalized match, ready to be fed to the
  * @param tournamentId stringlike id of the tournament, needs to be in the game obj
  * @param roundNumber same motivation as for the tournament id, a number, showing what round a game will be played
  * @returns a game to be inserted to drizzle
-*/
+ */
 async function getGameToInsert(
   finalizedMatch: NumberedEntitiesPair,
   tournamentId: string,
@@ -219,11 +218,11 @@ async function getGameToInsert(
 ): Promise<InsertDatabaseGame> {
   // generating new id for the game
   const gameId = newid();
-  
+
   // conversion to the game format
   const whiteId = finalizedMatch.whiteEntity.entityId;
   const blackId = finalizedMatch.blackEntity.entityId;
-  
+
   const gameToInsert: InsertDatabaseGame = {
     id: gameId,
     white_id: whiteId,
@@ -245,7 +244,7 @@ async function getGameToInsert(
  * @param colouredPair a coloured pair
  * @param pairNumber a number to number a pair with
  * @param offset an offset, which is being added to provided pair number
-*/
+ */
 async function getNumberedPair(
   colouredPair: ColouredEntitiesPair,
   pairNumber: number,
@@ -253,13 +252,13 @@ async function getNumberedPair(
 ): Promise<NumberedEntitiesPair> {
   // getting the number offset of a current pair
   const pairNumberOffseted = pairNumber + offset;
-  
+
   // constructing the additional properties of numbered pair
   const partialNumberedPair: OnlyChild<
-  NumberedEntitiesPair,
-  ColouredEntitiesPair
+    NumberedEntitiesPair,
+    ColouredEntitiesPair
   > = { pairNumber: pairNumberOffseted };
-  
+
   // merging coloured ones, and the new ones together
   const numberedPair: NumberedEntitiesPair = Object.assign(
     partialNumberedPair,
@@ -278,7 +277,7 @@ async function getColouredPair(
   uncolouredPair: EntitiesPair,
 ): Promise<ColouredEntitiesPair> {
   let [whiteEntity, blackEntity] = uncolouredPair;
-  
+
   // reversing the white and black, if the white colour index is bigger
   // (that means that current white has played more whites, than black player)
   // or if the colour is the same, then if the white rating is bigger, then we also reverse
@@ -290,38 +289,38 @@ async function getColouredPair(
     [whiteEntity, blackEntity] = [blackEntity, whiteEntity];
   }
   const colouredPair: ColouredEntitiesPair = { whiteEntity, blackEntity };
-  
+
   return colouredPair;
 }
 
 /**
  * This function takes an entities pool constructs a list of possible pairs of those
  * @param poolById always EVEN set of players
-*/
+ */
 async function generateRoundRobinPairs(
   poolById: PoolById,
   matchedEntities: ChessTournamentEntity[],
 ) {
   const generatedPairs: EntitiesPair[] = [];
-  
+
   // until the pool is not zero, we continue slicing it
   while (matchedEntities.length !== 0) {
     // it is guaranteed that it will be even, and thus we use a type guards here
     const firstEntity = matchedEntities.pop() as ChessTournamentEntity;
-    
+
     // getting a set of possible matches, and then converting it to a list, to get a random entity
     const firstEntityPool = poolById.get(
       firstEntity.entityId,
     ) as PossibleMatches;
-    
+
     // this shit is written because of how the set is working in js
     const possibleSecondEntities = Array.from(firstEntityPool.values());
     const secondEntity = possibleSecondEntities.pop() as ChessTournamentEntity;
-    
+
     // removing matched entity from the matched list
     const secondEntityIndex = matchedEntities.indexOf(secondEntity);
     matchedEntities.splice(secondEntityIndex, 1);
-    
+
     // removing matched entity from all other pools
     poolById.forEach((entityPool, _) => {
       entityPool.delete(firstEntity);
@@ -332,7 +331,7 @@ async function generateRoundRobinPairs(
     const generatedPair: EntitiesPair = [firstEntity, secondEntity];
     generatedPairs.push(generatedPair);
   }
-  
+
   return generatedPairs;
 }
 
@@ -343,7 +342,7 @@ async function generateRoundRobinPairs(
  * @param poolById  map-like which is recording which player pair played already
  * @param previousMatches a list of previous matches
  * @returns the newly updated possible pool
-*/
+ */
 function updateChessEntitiesMatches(
   poolById: PoolById,
   previousMatches: NumberedEntitiesPair[],
@@ -352,7 +351,7 @@ function updateChessEntitiesMatches(
   // players
   previousMatches.forEach((previousMatch) => {
     const { whiteEntity, blackEntity } = previousMatch;
-    
+
     // this is done so, because of the weird set object conversion
     const whitePool = poolById.get(whiteEntity.entityId);
     const blackPool = poolById.get(blackEntity.entityId);
@@ -370,7 +369,6 @@ function updateChessEntitiesMatches(
 
   return poolById;
 }
-
 
 /**
  * This function purposefully generates the bracket round for the round robin tournament. It gets the
@@ -418,7 +416,6 @@ export async function generateRoundRobinRound(
 
   const poolByIdUpdated = updateChessEntitiesMatches(poolById, previousMatches);
 
-
   // checking the pool for liveability
   poolById.forEach((entityPool, _) => {
     if (entityPool.size == 0)
@@ -426,7 +423,6 @@ export async function generateRoundRobinRound(
         'Trying to generate a round without possible matches',
       );
   });
-
 
   const entitiesMatchingsGenerated = await generateRoundRobinPairs(
     poolByIdUpdated,

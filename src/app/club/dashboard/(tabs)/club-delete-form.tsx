@@ -43,7 +43,11 @@ export default function DeleteConfirmationForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit((data) =>
-          clubDeleteMutation.mutate({ id: data.id, userId, values: data }),
+          clubDeleteMutation.mutate({
+            id: data.id,
+            userId,
+            userDeletion: false,
+          }),
         )}
         className={cn('grid items-start gap-6 px-4 py-0 md:px-0', className)}
         name="delete-club-form"

@@ -67,7 +67,7 @@ type UpdateDatabaseClub = {
   values: Partial<DatabaseClub>;
 };
 
-type UserDeleteProps = {
+type ClubDeleteProps = {
   id: string;
   userId: string;
   userDeletion: boolean;
@@ -77,7 +77,7 @@ export const deleteClub = async ({
   id,
   userId,
   userDeletion = false,
-}: UserDeleteProps) => {
+}: ClubDeleteProps) => {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
@@ -119,7 +119,7 @@ export const deleteClubFunction = async ({
   id,
   userId,
   userDeletion = false,
-}: UserDeleteProps) => {
+}: ClubDeleteProps) => {
   const otherClubs = await db
     .select()
     .from(clubs_to_users)
