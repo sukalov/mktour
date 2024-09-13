@@ -12,9 +12,9 @@ const RoundControls: FC<any> = ({
     const lastIndex = games.length - 1;
     let newRoundInView;
     if (direction === '<') {
-      newRoundInView = roundInView === 0 ? lastIndex : roundInView - 1;
+      newRoundInView = roundInView === 1 ? lastIndex : roundInView - 1;
     } else if (direction === '>') {
-      newRoundInView = roundInView === lastIndex ? 0 : roundInView + 1;
+      newRoundInView = roundInView === lastIndex ? 1 : roundInView + 1;
     }
     setRoundInView(newRoundInView);
   };
@@ -24,7 +24,7 @@ const RoundControls: FC<any> = ({
     return (
       <>
         <Button
-          style={{ visibility: roundInView === 0 ? 'hidden' : 'visible' }}
+          style={{ visibility: roundInView === 1 ? 'hidden' : 'visible' }}
           onClick={() => handleClick('<')}
           {...buttonProps}
         >
@@ -62,7 +62,7 @@ const RoundControls: FC<any> = ({
                   : ''
               }
             >
-              Round {roundInView + 1}
+              Round {roundInView}
             </span>
           </Button>
         </div>
