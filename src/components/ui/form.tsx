@@ -11,7 +11,9 @@ import {
 } from 'react-hook-form';
 
 import { Label } from '@/components/ui/label';
+import { BASE_URL } from '@/lib/config/urls';
 import { cn } from '@/lib/utils';
+import { useTranslations } from 'next-intl';
 
 const Form = FormProvider;
 
@@ -145,8 +147,24 @@ const FormMessage = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, children, ...props }, ref) => {
+  const t = useTranslations(`Errors`);
   const { error, formMessageId } = useFormField();
-  const body = error ? String(error?.message) : children;
+  let body = error ? t(error?.message) : children;
+  if (error?.message?.startsWith('LINK_TEAM_ERROR')) {
+    // TODO find a better way to handle this
+    const teamData = error.message.split('@%!!(&');
+    body = (() => (
+      <span>
+        {t('lichess team connected')}&nbsp;
+        <a
+          href={`${BASE_URL}/club/${teamData[1]}`}
+          className="font-semibold underline underline-offset-2"
+        >
+          {teamData[2]}
+        </a>
+      </span>
+    ))();
+  }
 
   if (!body) {
     return null;
@@ -166,12 +184,12 @@ const FormMessage = React.forwardRef<
 FormMessage.displayName = 'FormMessage';
 
 export {
-  useFormField,
   Form,
-  FormItem,
-  FormLabel,
   FormControl,
   FormDescription,
-  FormMessage,
   FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  useFormField,
 };

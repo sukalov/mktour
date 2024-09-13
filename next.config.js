@@ -1,5 +1,6 @@
+const MillionLint = require('@million/lint');
 /** @type {import('next').NextConfig} */
-const { withAxiom } = require('next-axiom');
+const withBundleAnalyzer = require('@next/bundle-analyzer');
 const nextConfig = {
   logging: {
     fetches: {
@@ -7,5 +8,15 @@ const nextConfig = {
     },
   },
 };
+module.exports =
+  process.env.ANALYZE === 'true'
+    ? withBundleAnalyzer(nextConfig)
+    : process.env.OPT === 'true'
+      ? MillionLint.next({ rsc: true })(nextConfig)
+      : nextConfig;
 
-module.exports = withAxiom(nextConfig);
+const createNextIntlPlugin = require('next-intl/plugin');
+
+const withNextIntl = createNextIntlPlugin('./src/components/i18n.ts');
+
+module.exports = withNextIntl(nextConfig);

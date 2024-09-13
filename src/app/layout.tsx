@@ -1,43 +1,58 @@
-import NavbarWrapper from '@/components/navbar-wrapper';
-import ThemeProvider from '@/components/theme-provider';
+import NavWrapper from '@/components/navigation/nav-wrapper';
+import IntlProvider from '@/components/providers/intl-provider';
+import MediaQueryProvider from '@/components/providers/media-query-provider';
+import ReactQueryProvider from '@/components/providers/react-query-provider';
+import ThemeProvider from '@/components/providers/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
+import '@/styles/globals.css';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { AxiomWebVitals } from 'next-axiom';
+import type { Metadata, Viewport } from 'next';
+import { getLocale, getMessages } from 'next-intl/server';
+import { ViewTransitions } from 'next-view-transitions';
 import { PropsWithChildren } from 'react';
 
-import '@/styles/globals.css';
-
-export const metadata = {
-  title: 'mktour',
-  description: 'an app for managing complex tournaments of all kind',
-};
-
-function RootLayout({ children }: PropsWithChildren) {
+async function RootLayout({ children }: PropsWithChildren) {
+  const locale = await getLocale();
+  const messages = await getMessages();
   return (
-    <html lang="en" suppressHydrationWarning>
-      <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-      />
-      <AxiomWebVitals />
-      <body>
+    <html lang={locale} suppressHydrationWarning>
+      <body className="small-scrollbar">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <NavbarWrapper />
-          <div className="px-8 pt-14"></div>
-          {children}
-          <Analytics />
-          <SpeedInsights />
-          <Toaster />
+          <IntlProvider messages={messages} locale={locale}>
+            <MediaQueryProvider>
+              <ReactQueryProvider>
+                <NavWrapper />
+                <ViewTransitions>
+                  <div className="pt-14">{children}</div>
+                </ViewTransitions>
+                <Analytics />
+                <SpeedInsights />
+                <Toaster richColors />
+              </ReactQueryProvider>
+            </MediaQueryProvider>
+          </IntlProvider>
         </ThemeProvider>
       </body>
     </html>
   );
 }
+
+export const metadata: Metadata = {
+  title: 'mktour',
+  description: 'an app for managing complex tournaments of all kind',
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
 
 export default RootLayout;

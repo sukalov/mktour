@@ -1,0 +1,116 @@
+{
+  "Menu": {
+    "club": "my club",
+    "tournaments": "my tournaments",
+    "about us": "about us",
+    "profile": "my profile",
+    "logout": "log out",
+    "login": "log in",
+    "club description": "it is your chess club dashboard. here you can manage your players, events and other club settings",
+    "tournaments description": "here are all the tournaments related to you. both, where you played and which were organized by your clubs",
+    "about us description": "mktour is an open-source project. here you can learn more about the team and the app",
+    "profile description": "it's your own page with all your clubs, stats and more",
+    "Subs": {
+      "all clubs": "all clubs",
+      "new club": "new club",
+      "all tournaments": "all tournaments",
+      "make tournament": "make tournament",
+      "FAQ": "FAQ",
+      "contact": "contact",
+      "find people": "find somebody",
+      "profile": "my profile",
+      "edit profile": "edit profile",
+      "all clubs description": "",
+      "new club description": "new club",
+      "all tournaments description": "all tournaments",
+      "make tournament description": "make tournament",
+      "FAQ description": "FAQ",
+      "contact description": "contact",
+      "find people description": "find profile",
+      "edit profile description": "edit profile",
+      "Descriptions": {
+        "all clubs": "explore clubs and their events, join new communities",
+        "new club": "create new chess club right here",
+        "FAQ": "learn how to use all mktour's cool features",
+        "contact": "reach us with questions, ideas, hiring offers and whatever else",
+        "all tournaments": "explore events made with mktour",
+        "make tournament": "well, let's go!"
+      }
+    }
+  },
+  "Empty": {
+    "players": "there are no players in your club yet",
+    "inbox": "claims to moderate tournaments, to link players to users and other club related notifications",
+    "tournaments": "there are no tournaments in your club yet",
+    "dashboard": "no data",
+    "user": "user not found"
+  },
+  "Profile": {
+    "edit": "edit",
+    "rating": "lichess blitz rating",
+    "email": "email",
+    "created on": "joined on",
+    "clubs": "clubs:"
+  },
+  "Player": {
+    "last seen": "last seen: ",
+    "never": "never"
+  },
+  "Errors": {
+    "hard naming": "naming is hard, but necessary",
+    "short club name": "too short for a chess club name",
+    "long club name": "too long for a chess club name",
+    "short tournament name": "too short for a tournament name",
+    "time travel": "is it a time travel?",
+    "min rating": "negative rating??",
+    "max rating": "no cheaters allowed",
+    "possible players error": "error happened while loading club players",
+    "lichess team connected": "sorry, this team is already here:"
+  },
+  "NewClubForm": {
+    "new club": "new club",
+    "make new club": "make new club",
+    "making": "making...",
+    "name": "name",
+    "description": "description",
+    "description placeholder": "tell something about your club...",
+    "no lichess teams": "couldn't find your lichess teams",
+    "connect lichess team": "connect lichess team!",
+    "unselect lichess team": "don't select any team",
+    "club not saved": "sorry! server error happened, club wasn't saved",
+    "ForwardToEmpty": {
+      "message": "it seems that you have a club with no finished tournaments: <bold>{club}</bold>. you can just edit it!",
+      "button text": "go to"
+    }
+  },
+  "Club": {
+    "managers list": "managers list:",
+    "add": "add new manager"
+  },
+  "Status": {
+    "admin": "admin",
+    "moderator": "moderator"
+  },
+  "Toasts": {
+    "server error": "sorry! server error happened",
+    "profile updated": "profile updated!",
+    "ws success": "realtime updates enabled!",
+    "ws error": "live-server error. sorry! you will see no realtime updates",
+    "user deleted": "your profile has been deleted completely"
+  },
+  "EditUser": {
+    "header": "settings",
+    "name": "name",
+    "save": "save",
+    "danger zone": "danger zone",
+    "delete profile": "delete profile",
+    "confirmation header": "you're about to delete everything!",
+    "confirmation body": "this confirmation will immediately delete your profile <bold>completely</bold>. there is no way back! if you're completely sure type your nickname below",
+    "username": "username",
+    "cancel": "cancel",
+    "checkbox1": "delete every tournament i made",
+    "checkbox2": "delete every club i own (with all players)",
+    "checkbox3": "delete my whole stats",
+    "do it yourself": "you have to do it yourself"
+  }
+}

@@ -20,7 +20,7 @@ export const lucia = new Lucia(adapter, {
       name: attributes.name,
       email: attributes.email,
       rating: attributes.rating,
-      default_club: attributes.default_club,
+      selected_club: attributes.selected_club,
       created_at: attributes.created_at,
     };
   },
@@ -45,7 +45,14 @@ export const validateRequest = cache(
       };
     }
 
-    const result = await lucia.validateSession(sessionId);
+    let result;
+    do {
+      try {
+        result = await lucia.validateSession(sessionId);
+      } catch (e) {
+        console.log(e);
+      }
+    } while (!result);
     // next.js throws when you attempt to set cookie when rendering page
     try {
       if (result.session && result.session.fresh) {

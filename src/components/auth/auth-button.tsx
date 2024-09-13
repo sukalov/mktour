@@ -6,18 +6,16 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { User } from 'lucia';
 import { User2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { FC, PropsWithChildren } from 'react';
 import { Button } from '../ui/button';
 import LichessLogo from '../ui/lichess-logo';
 
-export interface AuthButtonProps {
-  user?: User | null;
-  className: string;
-}
-
-export default function AuthButton({ className, user }: AuthButtonProps) {
+export default function AuthButton({ user }: AuthButtonProps) {
   const router = useRouter();
+  const t = useTranslations('Menu');
 
   const handleSignOut = async () => {
     const response = await fetch('/api/sign-out', {
@@ -32,35 +30,69 @@ export default function AuthButton({ className, user }: AuthButtonProps) {
 
   if (!user) {
     return (
-      <div className={className}>
+      <>
         <Link href="/login/lichess">
           <Button className={`flex-row gap-2 p-2`} variant="ghost">
             <LichessLogo size="24" />
-            sign in
+            {t('login')}
           </Button>
         </Link>
-      </div>
+      </>
     );
   }
 
   return (
-    <div className={className}>
+    <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="select-none gap-2 p-3">
-            <User2 />
-            {user.username}
+            <User2 size={20} />
+            <div className="hidden sm:block">{user.username}</div>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent
-          className="flex w-max justify-end"
-          onClick={handleSignOut}
-        >
-          <DropdownMenuItem className="flex w-full justify-center">
-            sign out
-          </DropdownMenuItem>
+        <DropdownMenuContent className="-translate-x-2 translate-y-1">
+          {menuItems.map((item) => (
+            <StyledItem
+              key={item.title}
+              className="w-full"
+              onClick={() => router.push(item.path)}
+            >
+              {t(`Subs.${item.title}`)}
+            </StyledItem>
+          ))}
+          <StyledItem onClick={handleSignOut}>{t('logout')}</StyledItem>
         </DropdownMenuContent>
       </DropdownMenu>
-    </div>
+    </>
   );
+}
+
+const StyledItem: FC<
+  PropsWithChildren & { className?: string; onClick?: () => void }
+> = ({ children, className, onClick }) => (
+  <DropdownMenuItem
+    className={`text-md flex w-full justify-start ${className}`}
+    onClick={onClick}
+  >
+    {children}
+  </DropdownMenuItem>
+);
+
+const menuItems = [
+  {
+    title: 'profile',
+    path: '/user',
+  },
+  {
+    title: 'find people',
+    path: '/user/search',
+  },
+  {
+    title: 'edit profile',
+    path: '/user/edit',
+  },
+];
+
+export interface AuthButtonProps {
+  user?: User | null;
 }

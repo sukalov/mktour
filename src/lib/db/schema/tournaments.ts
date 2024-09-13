@@ -1,6 +1,6 @@
 import { users } from '@/lib/db/schema/auth';
 import { Format, Result, RoundName, TournamentType } from '@/types/tournaments';
-import { InferSelectModel } from 'drizzle-orm';
+import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { int, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
 export const players = sqliteTable('player', {
@@ -96,12 +96,54 @@ export const games = sqliteTable('game', {
     .notNull(),
 });
 
+export const clubs_relations = relations(clubs, ({ many }) => ({
+  tournaments: many(tournaments),
+  players: many(players),
+}));
+
+export const players_relations = relations(players, ({ one, many }) => ({
+  club: one(clubs, { fields: [players.club_id], references: [clubs.id] }),
+  tournaments: many(players_to_tournaments),
+}));
+
+export const tournaments_relations = relations(
+  tournaments,
+  ({ one, many }) => ({
+    club: one(clubs, { fields: [tournaments.club_id], references: [clubs.id] }),
+    players: many(players_to_tournaments),
+  }),
+);
+
+export const players_to_tournaments_relations = relations(
+  players_to_tournaments,
+  ({ one }) => ({
+    player: one(players, {
+      fields: [players_to_tournaments.player_id],
+      references: [players.id],
+    }),
+    tournament: one(tournaments, {
+      fields: [players_to_tournaments.tournament_id],
+      references: [tournaments.id],
+    }),
+  }),
+);
+
 export type DatabasePlayer = InferSelectModel<typeof players>;
 export type DatabaseTournament = InferSelectModel<typeof tournaments>;
 export type DatabaseClub = InferSelectModel<typeof clubs>;
 export type DatabaseClubsToUsers = InferSelectModel<typeof clubs_to_users>;
 export type DatabaseGame = InferSelectModel<typeof games>;
 export type DatabasePlayerToTournament = InferSelectModel<
+  typeof players_to_tournaments
+>;
+export type InsertDatabasePlayer = InferInsertModel<typeof players>;
+export type InsertDatabaseTournament = InferInsertModel<typeof tournaments>;
+export type InsertDatabaseClub = InferInsertModel<typeof clubs>;
+export type InsertDatabaseClubsToUsers = InferInsertModel<
+  typeof clubs_to_users
+>;
+export type InsertDatabaseGame = InferInsertModel<typeof games>;
+export type InsertDatabasePlayerToTournament = InferInsertModel<
   typeof players_to_tournaments
 >;
 export type StatusInClub = 'admin' | 'moderator';

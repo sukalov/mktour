@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const plugin = require('tailwindcss/plugin');
+
 module.exports = {
   darkMode: ['class'],
   content: [
@@ -81,5 +83,40 @@ module.exports = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [
+    require('tailwindcss-animate'),
+    function ({ addVariant }) {
+      addVariant('child', '& > *');
+      addVariant('child-hover', '& > *:hover');
+    },
+    plugin(function ({ addUtilities }) {
+      addUtilities({
+        '.no-scrollbar::-webkit-scrollbar': {
+          display: 'none',
+        },
+        '.no-scrollbar': {
+          '-ms-overflow-style': 'none',
+          'scrollbar-width': 'none',
+        },
+        '.small-scrollbar': {
+          '-ms-overflow-style': 'none',
+          'scrollbar-width': '4px',
+        },
+        '.small-scrollbar::-webkit-scrollbar': {
+          'background-color': 'transparent',
+          width: '4px',
+        },
+        '.small-scrollbar::-webkit-scrollbar-thumb': {
+          background: 'hsl(var(--muted))',
+          'border-radius': '3px',
+          'z-index': '20',
+        },
+        '.small-scrollbar::-webkit-scrollbar-track': {
+          'background-clip': 'content-box',
+          'margin-bottom': '10px',
+          'margin-top': '10px',
+        },
+      });
+    }),
+  ],
 };

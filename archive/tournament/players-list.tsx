@@ -4,7 +4,7 @@
 //   playersToTournaments,
 //   tournaments,
 // } from '@/lib/db/schema/tournaments';
-// import { DeleteForm } from 'archive/tournament/delete-player';
+// import { DeleteForm } from 'archive/tournaments/delete-player';
 // import { eq } from 'drizzle-orm';
 
 // interface PlayersListProps {

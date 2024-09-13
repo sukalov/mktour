@@ -1,7 +1,8 @@
+'use server';
+
 import { lichess, lucia } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
-import { redis } from '@/lib/db/redis';
-import { DatabaseUser, users } from '@/lib/db/schema/auth';
+import { DatabaseUser, user_preferences, users } from '@/lib/db/schema/auth';
 import { clubs, clubs_to_users } from '@/lib/db/schema/tournaments';
 import { newid } from '@/lib/utils';
 import { LichessUser } from '@/types/lichess-api';
@@ -74,23 +75,10 @@ export async function GET(request: Request): Promise<Response> {
     }
 
     try {
-      await fetch('https://lichess.org/team/mktour/join', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${tokens.accessToken}`,
-        },
-      });
-    } catch (e) {
-      console.log(`user ${lichessUser.id} not added to the team`);
-    }
-
-    try {
       const userId = newid();
       const clubId = newid();
       const ctuId = `${clubId}=${userId}`;
-      const name = `${lichessUser.profile?.firstName ?? ''}${
-        lichessUser.profile?.lastName ? ' ' + lichessUser.profile.lastName : ''
-      }`;
+      const name = `${lichessUser.profile?.realName}`;
 
       await db.insert(clubs).values({
         id: clubId,
@@ -104,7 +92,7 @@ export async function GET(request: Request): Promise<Response> {
         username: lichessUser.id,
         email: lichessUserEmail,
         name,
-        default_club: clubId,
+        selected_club: clubId,
         created_at: new Date(),
       });
 
@@ -114,7 +102,12 @@ export async function GET(request: Request): Promise<Response> {
         user_id: userId,
         status: 'admin',
       });
-      await redis.set(userId, 10);
+      await db.insert(user_preferences).values({
+        user_id: userId,
+        language: 'en',
+      });
+
+      cookies().set('show_new_user_toast', 'true');
 
       const session = await lucia.createSession(userId, {});
       const sessionCookie = lucia.createSessionCookie(session.id);

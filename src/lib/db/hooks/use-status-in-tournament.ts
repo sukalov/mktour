@@ -1,9 +1,9 @@
 import { db } from '@/lib/db';
 import {
-    clubs_to_users,
-    players,
-    players_to_tournaments,
-    tournaments,
+  clubs_to_users,
+  players,
+  players_to_tournaments,
+  tournaments,
 } from '@/lib/db/schema/tournaments';
 import { and, eq } from 'drizzle-orm';
 import type { User } from 'lucia';

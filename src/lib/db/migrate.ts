@@ -1,15 +1,16 @@
+import { DATABASE_AUTH_TOKEN, DATABASE_URL } from '@/lib/config/urls';
 import { createClient } from '@libsql/client';
 import { drizzle } from 'drizzle-orm/libsql';
 import { migrate } from 'drizzle-orm/libsql/migrator';
 
 const runMigrate = async () => {
-  if (!process.env.DATABASE_URL) {
+  if (!DATABASE_URL) {
     throw new Error('DATABASE_URL is not defined');
   }
 
   const client = createClient({
-    url: process.env.DATABASE_URL,
-    authToken: process.env.DATABASE_AUTH_TOKEN,
+    url: DATABASE_URL,
+    authToken: DATABASE_AUTH_TOKEN,
   });
   const db = drizzle(client);
 

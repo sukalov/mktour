@@ -1,6 +1,7 @@
+'use server';
+
 import { validateRequest } from '@/lib/auth/lucia';
 import { User } from 'lucia';
-import { redirect } from 'next/navigation';
 
 export type AuthSession = {
   session: {
@@ -8,13 +9,13 @@ export type AuthSession = {
       id: string;
       name?: string;
       email?: string;
-      username?: string;
+      username: string;
     };
   } | null;
 };
 
-export async function getUser(): Promise<User> {
+export async function getUser(): Promise<User | undefined> {
   const { user } = await validateRequest();
-  if (!user) redirect('/sign-in');
+  if (!user) return undefined;
   return user;
 }

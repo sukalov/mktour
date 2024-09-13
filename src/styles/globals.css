@@ -2,21 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-/* disables all pinch-zoom on mobile-devices: */
-
-:root {
-  touch-action: pan-x pan-y;
+/* disables overflow scrolling to reload page: */
+html {
+  overflow: hidden;
   height: 100%;
 }
 
-/* disables auto-zoom on select/input: */
-
-@media screen and (-webkit-min-device-pixel-ratio: 0) {
-  select:focus,
-  textarea:focus,
-  input:focus {
-    font-size: 16px;
-  }
+body {
+  font-family: 'Main';
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  user-select: none;
+  height: 100%;
+  overflow: auto;
+  touch-action: pan-x pan-y;
 }
 
 @font-face {
@@ -110,23 +110,7 @@
   }
 }
 
-body {
-  font-family: 'Main';
-  user-select: none;
-}
-
 button {
   user-select: none;
   -webkit-tap-highlight-color: transparent;
-}
-
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-  scroll-behavior: smooth;
-}
-
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  scroll-behavior: smooth;
 }

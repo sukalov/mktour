@@ -1,15 +1,25 @@
-import { MdGroup, MdGroups, MdPerson } from 'react-icons/md';
+import { Group, Groups, Person } from '@/components/icons';
 
 interface TypeIconProps {
-  // type: 'solo' | 'doubles' | 'team'
-  type: string;
-  size?: number;
+  type: 'solo' | 'doubles' | 'team';
 }
 
-export default function TypeIcon({ type, size = 0 }: TypeIconProps) {
-  if (type === 'solo') return <MdPerson className="inline" size={size + 14} />;
+export default function TypeIcon({ type }: TypeIconProps) {
+  if (type === 'solo')
+    return (
+      <Person className="inline -translate-y-[1px]" width={17} height={17} />
+    );
   if (type === 'doubles')
-    return <MdGroup className="inline" size={size + 16} />;
-  if (type === 'team') return <MdGroups className="inline" size={size + 19} />;
+    return (
+      <Group className="inline -translate-y-[1px]" width={17} height={17} />
+    );
+  if (type === 'team')
+    return (
+      <Groups
+        className="inline -translate-y-[2px] pr-0.5"
+        width={26}
+        height={26}
+      />
+    );
   else return <></>;
 }
