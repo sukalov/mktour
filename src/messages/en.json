@@ -96,7 +96,8 @@
     "profile updated": "profile updated!",
     "ws success": "realtime updates enabled!",
     "ws error": "live-server error. sorry! you will see no realtime updates",
-    "user deleted": "your profile has been deleted completely"
+    "user deleted": "your profile has been deleted completely",
+    "zero clubs error": "every user must have at least one club"
   },
   "EditUser": {
     "header": "settings",
