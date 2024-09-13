@@ -4,8 +4,8 @@ import { Button } from '@/components/ui/button';
 import { motion, MotionConfig } from 'framer-motion';
 import { Search } from 'lucide-react';
 import { useRef, useState } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
 import { useMediaQuery } from 'react-responsive';
-import useKeyboardShortcut from 'use-keyboard-shortcut';
 
 const transition = {
   type: 'spring',
@@ -22,11 +22,8 @@ export default function GlobalSearch() {
   const mostMicroScreen = useMediaQuery({ maxWidth: 340 });
 
   useOutsideClick(() => setIsOpen(false), containerRef);
-
-  useKeyboardShortcut(['Meta', 'K'], () => setIsOpen((prev) => !prev), {
-    overrideSystem: false,
-    ignoreInputFields: false,
-    repeatOnHold: true,
+  useHotkeys('meta+k', () => setIsOpen((prev) => !prev), {
+    enableOnFormTags: true,
   });
 
   const searchBarWidth = !miniScreen
@@ -51,7 +48,6 @@ export default function GlobalSearch() {
               <Button
                 className={`relative flex aspect-square select-none items-center justify-center p-2.5 transition-colors disabled:pointer-events-none disabled:opacity-50 ${isOpen && `text-muted-foreground hover:bg-transparent`}`}
                 onClick={() => setIsOpen((prev) => !prev)}
-                // disabled={isOpen}
                 aria-label="search"
                 variant="ghost"
               >
