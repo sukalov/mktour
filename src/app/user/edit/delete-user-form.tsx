@@ -23,7 +23,6 @@ import { Loader2, Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useForm, useWatch } from 'react-hook-form';
 import { toast } from 'sonner';
-import useKeyboardShortcut from 'use-keyboard-shortcut';
 
 export default function DeleteUserForm({
   className,
@@ -45,20 +44,6 @@ export default function DeleteUserForm({
     control: form.control,
     name: 'checkboxes',
   });
-
-  useKeyboardShortcut(
-    ['Meta', 'V'],
-    () =>
-      toast.error(t('do it yourself'), {
-        dismissible: true,
-        id: 'doItYourself',
-      }),
-    {
-      overrideSystem: true,
-      ignoreInputFields: false,
-      repeatOnHold: true,
-    },
-  );
 
   const t = useTranslations('EditUser');
   const checkboxes = ['checkbox1', 'checkbox2', 'checkbox3'];
@@ -82,6 +67,13 @@ export default function DeleteUserForm({
                   {...field}
                   disabled={userDeleteMutation.isPending}
                   autoComplete="off"
+                  onPaste={(e) => {
+                    e.preventDefault();
+                    toast.error(t('do it yourself'), {
+                      dismissible: true,
+                      id: 'doItYourself',
+                    });
+                  }}
                 />
               </FormControl>
             </FormItem>
