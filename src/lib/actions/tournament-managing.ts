@@ -46,11 +46,21 @@ export const createTournament = async (values: NewTournamentFormType) => {
 export async function getTournamentPlayers(
   id: string,
 ): Promise<Array<PlayerModel>> {
+  const { user } = await validateRequest();
+  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
+
   const playersDb = await db
     .select()
     .from(players_to_tournaments)
     .where(eq(players_to_tournaments.tournament_id, id))
     .leftJoin(players, eq(players.id, players_to_tournaments.player_id));
+
+  if (playersDb.length !== 0 && playersDb.length % 2 === 0)
+    generateRoundRobinRound({
+      tournamentId: id,
+      roundNumber: 1,
+      userId: user.id,
+    });
 
   return playersDb.map((each) => ({
     id: each.player!.id,

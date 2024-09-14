@@ -97,7 +97,8 @@
     "ws success": "realtime updates enabled!",
     "ws error": "live-server error. sorry! you will see no realtime updates",
     "user deleted": "your profile has been deleted completely",
-    "zero clubs error": "every user must have at least one club"
+    "zero clubs error": "every user must have at least one club",
+    "round generated": "round genrated"
   },
   "EditUser": {
     "header": "settings",

@@ -62,6 +62,7 @@ export const useTournamentAddExistingPlayer = (
       queryClient.invalidateQueries({
         queryKey: [tournamentId, 'players'],
       });
+      queryClient.invalidateQueries({ queryKey: [tournamentId, 'games'] });
     },
     onSuccess: (_err, _data, context) => {
       sendJsonMessage({ type: 'add-existing-player', body: context.newPlayer });

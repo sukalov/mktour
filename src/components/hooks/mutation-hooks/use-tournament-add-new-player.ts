@@ -61,6 +61,7 @@ export const useTournamentAddNewPlayer = (
       queryClient.invalidateQueries({
         queryKey: [tournamentId, 'players', 'added'],
       });
+      queryClient.invalidateQueries({ queryKey: [tournamentId, 'games'] });
     },
     onSuccess: (_err, _data, context) => {
       sendJsonMessage({ type: 'add-new-player', body: context.newPlayer });
