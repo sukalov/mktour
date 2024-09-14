@@ -19,8 +19,10 @@ export default async function TournamentPage({ params }: TournamentPageProps) {
   const { user } = await validateRequest();
   await tournamentQueryPrefetch(params.id);
 
-  const tournament = (await db.select().from(tournaments).where(eq(tournaments.id, params.id))).at(0)
-  if (!tournament) notFound()
+  const tournament = (
+    await db.select().from(tournaments).where(eq(tournaments.id, params.id))
+  ).at(0);
+  if (!tournament) notFound();
 
   let status = await useStatusInTournament(user, params.id);
 

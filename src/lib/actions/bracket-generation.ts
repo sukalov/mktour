@@ -28,7 +28,6 @@ export async function generateRoundRobinRoundFunction({
   tournamentId: string;
   roundNumber: number;
 }) {
-
   // getting the players to tournaments
   const allPlayersToTournaments = db.select().from(players_to_tournaments);
 

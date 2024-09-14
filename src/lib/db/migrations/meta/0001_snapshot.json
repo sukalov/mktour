@@ -35,12 +35,8 @@
           "name": "user_session_user_id_user_id_fk",
           "tableFrom": "user_session",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -72,12 +68,8 @@
           "name": "user_preferences_user_id_user_id_fk",
           "tableFrom": "user_preferences",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -141,16 +133,12 @@
       "indexes": {
         "user_email_unique": {
           "name": "user_email_unique",
-          "columns": [
-            "email"
-          ],
+          "columns": ["email"],
           "isUnique": true
         },
         "user_username_unique": {
           "name": "user_username_unique",
-          "columns": [
-            "username"
-          ],
+          "columns": ["username"],
           "isUnique": true
         }
       },
@@ -159,12 +147,8 @@
           "name": "user_selected_club_club_id_fk",
           "tableFrom": "user",
           "tableTo": "club",
-          "columnsFrom": [
-            "selected_club"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["selected_club"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -254,12 +238,8 @@
           "name": "clubs_to_users_club_id_club_id_fk",
           "tableFrom": "clubs_to_users",
           "tableTo": "club",
-          "columnsFrom": [
-            "club_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["club_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -267,12 +247,8 @@
           "name": "clubs_to_users_user_id_user_id_fk",
           "tableFrom": "clubs_to_users",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -353,12 +329,8 @@
           "name": "game_white_id_player_id_fk",
           "tableFrom": "game",
           "tableTo": "player",
-          "columnsFrom": [
-            "white_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["white_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -366,12 +338,8 @@
           "name": "game_black_id_player_id_fk",
           "tableFrom": "game",
           "tableTo": "player",
-          "columnsFrom": [
-            "black_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["black_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -379,12 +347,8 @@
           "name": "game_tournament_id_tournament_id_fk",
           "tableFrom": "game",
           "tableTo": "tournament",
-          "columnsFrom": [
-            "tournament_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tournament_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -451,12 +415,8 @@
           "name": "player_user_id_user_id_fk",
           "tableFrom": "player",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -464,12 +424,8 @@
           "name": "player_club_id_club_id_fk",
           "tableFrom": "player",
           "tableTo": "club",
-          "columnsFrom": [
-            "club_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["club_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -550,12 +506,8 @@
           "name": "players_to_tournaments_player_id_player_id_fk",
           "tableFrom": "players_to_tournaments",
           "tableTo": "player",
-          "columnsFrom": [
-            "player_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["player_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -563,12 +515,8 @@
           "name": "players_to_tournaments_tournament_id_tournament_id_fk",
           "tableFrom": "players_to_tournaments",
           "tableTo": "tournament",
-          "columnsFrom": [
-            "tournament_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tournament_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -670,12 +618,8 @@
           "name": "tournament_club_id_club_id_fk",
           "tableFrom": "tournament",
           "tableTo": "club",
-          "columnsFrom": [
-            "club_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["club_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }

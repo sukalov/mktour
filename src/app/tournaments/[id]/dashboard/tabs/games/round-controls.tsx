@@ -4,8 +4,11 @@ import { Dispatch, FC, PropsWithChildren, SetStateAction } from 'react';
 
 // FIXME any
 const RoundControls: FC<RoundControlProps> = ({
-   currentRound, roundInView, setRoundInView, currentTab },
-) => {
+  currentRound,
+  roundInView,
+  setRoundInView,
+  currentTab,
+}) => {
   const top = currentTab === 'games' ? 'top-0' : 'top-[-4rem]';
 
   const handleClick = (direction: string) => {

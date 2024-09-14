@@ -10,6 +10,6 @@ export const useTournamentRoundGames = ({
 }) =>
   useQuery({
     queryKey: [tournamentId, 'games', roundNumber],
-    queryFn: () => getTournamentRoundGames({tournamentId, roundNumber}),
+    queryFn: () => getTournamentRoundGames({ tournamentId, roundNumber }),
     staleTime: Infinity,
   });
