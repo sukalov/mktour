@@ -24,6 +24,7 @@ import { Loader2, Save } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useHotkeys } from 'react-hotkeys-hook';
 
 const AddNewPlayer = ({
   value,
@@ -41,6 +42,8 @@ const AddNewPlayer = ({
     sendJsonMessage,
     returnToNewPlayer,
   );
+  useHotkeys('escape', () => setOpen(false), { enableOnFormTags: true });
+  
   const form = useForm<NewPlayerFormType>({
     resolver: zodResolver(newPlayerFormSchema),
     defaultValues: {
@@ -87,6 +90,7 @@ const AddNewPlayer = ({
                   placeholder="name"
                   {...field}
                   autoComplete="off"
+                  autoFocus
                   onKeyUp={() => {
                     form.clearErrors();
                   }}

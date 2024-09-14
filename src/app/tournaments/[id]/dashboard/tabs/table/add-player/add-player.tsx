@@ -11,6 +11,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { useContext } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
 import { toast } from 'sonner';
 
 const AddPlayer = ({ setOpen, value, setValue }: DrawerProps) => {
@@ -24,6 +25,7 @@ const AddPlayer = ({ setOpen, value, setValue }: DrawerProps) => {
     sendJsonMessage,
   );
   const t = useTranslations('Errors');
+  useHotkeys('escape', () => setOpen(false), { enableOnFormTags: true });
 
   if (possiblePlayers.status === 'pending')
     return (
@@ -56,6 +58,7 @@ const AddPlayer = ({ setOpen, value, setValue }: DrawerProps) => {
     <div className="flex flex-col gap-3">
       <Input
         value={value}
+        autoFocus
         placeholder="search"
         onChange={(e) => setValue(e.target.value)}
       />

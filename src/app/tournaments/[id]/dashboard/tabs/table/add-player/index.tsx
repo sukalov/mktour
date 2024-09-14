@@ -6,12 +6,30 @@ import { Button } from '@/components/ui/button';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { ArrowLeft, Plus, UserPlus } from 'lucide-react';
 import { Dispatch, SetStateAction, useState } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
 import { Drawer } from 'vaul';
 
 const AddPlayerDrawer = () => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
   const [addingNewPlayer, setAddingNewPlayer] = useState(false);
+  useHotkeys(
+    'shift+equal',
+    (e) => {
+      e.preventDefault();
+      setOpen((prev) => !prev);
+    },
+    { enableOnFormTags: true },
+  );
+  useHotkeys(
+    'control+shift+equal',
+    (e) => {
+      e.preventDefault();
+      setOpen((prev) => !prev);
+      setAddingNewPlayer(true);
+    },
+    { enableOnFormTags: true },
+  );
 
   const handleClose = () => {
     setOpen(false);
