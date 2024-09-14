@@ -91,7 +91,7 @@ CREATE TABLE `tournament` (
 	`started_at` integer,
 	`closed_at` integer,
 	`rounds_number` integer,
-	`ongoing_round` integer,
+	`ongoing_round` integer NOT NULL,
 	`rated` integer,
 	FOREIGN KEY (`club_id`) REFERENCES `club`(`id`) ON UPDATE no action ON DELETE no action
 );

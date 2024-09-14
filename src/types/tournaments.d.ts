@@ -15,10 +15,11 @@ export interface PlayerModel {
 
 export interface GameModel {
   id: string; // games.id
+  tournament_id: string; // games.tournament_id
   black_id: string; // games.black_id;
   white_id: string; // games.white_id;
-  black_nickname: string; // players where id === games.black_id  nickname;
-  white_nickname: string; // players where id === games.white_id  nickname;
+  black_nickname: string | null; // players where id === games.black_id  nickname;
+  white_nickname: string | null; // players where id === games.white_id  nickname;
   black_prev_game_id: string | null; // links to other games necessary for elimination-brackets
   white_prev_game_id: string | null; // links to other games necessary for elimination-brackets
   round_number: number; // games.round_number
