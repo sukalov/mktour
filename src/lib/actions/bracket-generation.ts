@@ -1,6 +1,5 @@
 'use server';
 
-import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
 import {
   games,
@@ -14,6 +13,94 @@ import {
 import { newid } from '@/lib/utils';
 import { and, eq } from 'drizzle-orm';
 import { alias } from 'drizzle-orm/sqlite-core';
+
+/**
+ * This function purposefully generates the bracket round for the round robin tournament. It gets the
+ * tournamentId, checks the query for the current list of players, and  gets the games played by them.
+ * By using that information, it returns the new games list, which are then published to the respective
+ * ws.
+ */
+
+export async function generateRoundRobinRoundFunction({
+  tournamentId,
+  roundNumber,
+}: {
+  tournamentId: string;
+  roundNumber: number;
+}) {
+
+  // getting the players to tournaments
+  const allPlayersToTournaments = db.select().from(players_to_tournaments);
+
+  // taking only those who are in the current tournament
+  const tournamentPlayersToTournaments = allPlayersToTournaments.where(
+    eq(players_to_tournaments.tournament_id, tournamentId),
+  );
+
+  // joining the player infromation for every ptt record
+  const tournamentPlayersDetailed: PlayerAndPtt[] =
+    await tournamentPlayersToTournaments.innerJoin(
+      players,
+      eq(players.id, players_to_tournaments.player_id),
+    );
+
+  // getting the detailed played games list
+  const detailedTournamentGames = await getListOfDetailedGames(tournamentId);
+
+  // getting list of previous matches from it
+  const previousMatchesPromises = detailedTournamentGames.map(
+    convertGameToEntitiesMatch,
+  );
+
+  const previousMatches = await Promise.all(previousMatchesPromises);
+  // converting the database specific players model to the agnostic one, and resolve all the promises
+  const matchedEntitiesPromises = tournamentPlayersDetailed.map(
+    convertPlayerToEntity,
+  );
+  const matchedEntities = await Promise.all(matchedEntitiesPromises);
+
+  // getting the bootstrap for the map, initially for all the players the pools are the same
+  const initialEntitiesPools = await getInitialEntitiesIdPairs(matchedEntities);
+  const poolById: PoolById = new Map(initialEntitiesPools);
+
+  const poolByIdUpdated = updateChessEntitiesMatches(poolById, previousMatches);
+
+  // checking the pool for liveability
+  poolById.forEach((entityPool, _) => {
+    if (entityPool.size == 0)
+      throw new EvalError(
+        'Trying to generate a round without possible matches',
+      );
+  });
+
+  const entitiesMatchingsGenerated = await generateRoundRobinPairs(
+    poolByIdUpdated,
+    matchedEntities,
+  );
+
+  console.log(entitiesMatchingsGenerated);
+
+  const colouredMatchesPromises =
+    entitiesMatchingsGenerated.map(getColouredPair);
+  const colouredMatches = await Promise.all(colouredMatchesPromises);
+
+  const currentOffset = previousMatches.length;
+  const numberedMatchesPromises = colouredMatches.map(
+    (colouredMatch, coulouredMatchIndex) =>
+      getNumberedPair(colouredMatch, coulouredMatchIndex, currentOffset),
+  );
+
+  const numberedMatches = await Promise.all(numberedMatchesPromises);
+
+  const gameToInsertPromises = numberedMatches.map((numberedMatch) =>
+    getGameToInsert(numberedMatch, tournamentId, roundNumber),
+  );
+  const gamesToInsert = await Promise.all(gameToInsertPromises);
+
+  await db.insert(games).values(gamesToInsert);
+
+  return gamesToInsert;
+}
 
 /**
  * This interface represents big chunk of detailed information for the database game, basically it is
@@ -371,95 +458,4 @@ function updateChessEntitiesMatches(
   });
 
   return poolById;
-}
-
-/**
- * This function purposefully generates the bracket round for the round robin tournament. It gets the
- * tournamentId, checks the query for the current list of players, and  gets the games played by them.
- * By using that information, it returns the new games list, which are then published to the respective
- * ws.
- */
-export async function generateRoundRobinRound({
-  tournamentId,
-  roundNumber,
-  userId,
-}: {
-  tournamentId: string;
-  roundNumber: number;
-  userId: string;
-}) {
-  const { user } = await validateRequest();
-  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
-  if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
-  // getting the players to tournaments
-  const allPlayersToTournaments = db.select().from(players_to_tournaments);
-
-  // taking only those who are in the current tournament
-  const tournamentPlayersToTournaments = allPlayersToTournaments.where(
-    eq(players_to_tournaments.tournament_id, tournamentId),
-  );
-
-  // joining the player infromation for every ptt record
-  const tournamentPlayersDetailed: PlayerAndPtt[] =
-    await tournamentPlayersToTournaments.innerJoin(
-      players,
-      eq(players.id, players_to_tournaments.player_id),
-    );
-
-  // getting the detailed played games list
-  const detailedTournamentGames = await getListOfDetailedGames(tournamentId);
-
-  // getting list of previous matches from it
-  const previousMatchesPromises = detailedTournamentGames.map(
-    convertGameToEntitiesMatch,
-  );
-
-  const previousMatches = await Promise.all(previousMatchesPromises);
-  // converting the database specific players model to the agnostic one, and resolve all the promises
-  const matchedEntitiesPromises = tournamentPlayersDetailed.map(
-    convertPlayerToEntity,
-  );
-  const matchedEntities = await Promise.all(matchedEntitiesPromises);
-
-  // getting the bootstrap for the map, initially for all the players the pools are the same
-  const initialEntitiesPools = await getInitialEntitiesIdPairs(matchedEntities);
-  const poolById: PoolById = new Map(initialEntitiesPools);
-
-  const poolByIdUpdated = updateChessEntitiesMatches(poolById, previousMatches);
-
-  // checking the pool for liveability
-  poolById.forEach((entityPool, _) => {
-    if (entityPool.size == 0)
-      throw new EvalError(
-        'Trying to generate a round without possible matches',
-      );
-  });
-
-  const entitiesMatchingsGenerated = await generateRoundRobinPairs(
-    poolByIdUpdated,
-    matchedEntities,
-  );
-
-  console.log(entitiesMatchingsGenerated);
-
-  const colouredMatchesPromises =
-    entitiesMatchingsGenerated.map(getColouredPair);
-  const colouredMatches = await Promise.all(colouredMatchesPromises);
-
-  const currentOffset = previousMatches.length;
-  const numberedMatchesPromises = colouredMatches.map(
-    (colouredMatch, coulouredMatchIndex) =>
-      getNumberedPair(colouredMatch, coulouredMatchIndex, currentOffset),
-  );
-
-  const numberedMatches = await Promise.all(numberedMatchesPromises);
-
-  const gameToInsertPromises = numberedMatches.map((numberedMatch) =>
-    getGameToInsert(numberedMatch, tournamentId, roundNumber),
-  );
-  const gamesToInsert = await Promise.all(gameToInsertPromises);
-
-  await db.insert(games).values(gamesToInsert);
-
-  return gamesToInsert;
 }

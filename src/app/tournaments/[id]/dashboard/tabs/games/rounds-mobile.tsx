@@ -1,8 +1,6 @@
-import { gamesMock } from '@/app/tournaments/[id]/dashboard';
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import RoundControls from '@/app/tournaments/[id]/dashboard/tabs/games/round-controls';
 import RoundItem from '@/app/tournaments/[id]/dashboard/tabs/games/round-item';
-import Center from '@/components/center';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
@@ -10,27 +8,25 @@ import { usePathname } from 'next/navigation';
 import { FC, useContext, useState } from 'react';
 
 const RoundsMobile: FC = () => {
-  const rounds = []
-  const round = gamesMock[0];
-  const [roundInView, setRoundInView] = useState(0);
+  const [roundInView, setRoundInView] = useState(1);
   const { currentTab } = useContext(DashboardContext);
   const id = usePathname().split('/').at(-1) as string;
-  const tournament = useTournamentInfo(id);
-  const [compact, setCompact] = useState(true);
+  const {data, isError} = useTournamentInfo(id);
+  const [compact, setCompact] = useState(false);
 
-  if (!rounds.length)
-    return <Center>{'Add at least two players to see generated round'}</Center>
+  // if (!rounds.length)
+  //   return <Center>{'Add at least two players to see generated round'}</Center>
+
+  if (isError) return 'error'
+  if (!data) return 'loading'
 
   return (
     <div>
       <RoundControls
-        props={{
-          roundInView,
-          games: gamesMock,
-          setRoundInView,
-          currentRound: tournament.data?.tournament.ongoing_round,
-          currentTab,
-        }}
+        roundInView={roundInView}
+        setRoundInView={setRoundInView}
+        currentRound={data.tournament.ongoing_round}
+        currentTab={currentTab}
       />
 
       <div className="mb-4 mt-14 flex w-full flex-col gap-4 px-4">
@@ -42,11 +38,7 @@ const RoundsMobile: FC = () => {
             onCheckedChange={(e) => setCompact(e)}
           />
         </div>
-        {Array(10)
-          .fill('')
-          .map((_, i) => (
-            <RoundItem round={round} key={i} compact={compact} />
-          ))}
+        <RoundItem roundNumber={roundInView} compact={compact} />
       </div>
     </div>
   );

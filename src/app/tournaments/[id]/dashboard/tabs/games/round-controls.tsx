@@ -1,26 +1,24 @@
 import { Button, ButtonProps } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { FC, PropsWithChildren } from 'react';
+import { Dispatch, FC, PropsWithChildren, SetStateAction } from 'react';
 
 // FIXME any
-const RoundControls: FC<any> = ({
-  props: { currentRound, roundInView, games, setRoundInView, currentTab },
-}) => {
+const RoundControls: FC<RoundControlProps> = ({
+   currentRound, roundInView, setRoundInView, currentTab },
+) => {
   const top = currentTab === 'games' ? 'top-0' : 'top-[-4rem]';
 
   const handleClick = (direction: string) => {
-    const lastIndex = games.length - 1;
-    let newRoundInView;
+    let newRoundInView = roundInView;
     if (direction === '<') {
-      newRoundInView = roundInView === 1 ? lastIndex : roundInView - 1;
+      newRoundInView = roundInView - 1;
     } else if (direction === '>') {
-      newRoundInView = roundInView === lastIndex ? 1 : roundInView + 1;
+      newRoundInView = roundInView + 1;
     }
     setRoundInView(newRoundInView);
   };
 
   const ControlsProvider: FC<PropsWithChildren> = ({ children }) => {
-    if (games.length === 1) return children;
     return (
       <>
         <Button
@@ -33,7 +31,7 @@ const RoundControls: FC<any> = ({
         {children}
         <Button
           style={{
-            visibility: roundInView === currentRound - 1 ? 'hidden' : 'visible',
+            visibility: roundInView === currentRound ? 'hidden' : 'visible',
           }}
           onClick={() => handleClick('>')}
           {...buttonProps}
@@ -46,14 +44,14 @@ const RoundControls: FC<any> = ({
 
   return (
     <div
-      className={`absolute ${top} z-10 flex w-full items-center justify-between backdrop-blur-md transition-all duration-500`}
+      className={`absolute ${top} z-10 flex w-full items-center justify-between backdrop-blur-md`}
     >
       <ControlsProvider>
         <div className="flex h-[52px] w-full flex-col items-center justify-center">
           <Button
             variant="ghost"
             size={'sm'}
-            onClick={() => setRoundInView(currentRound - 1)}
+            onClick={() => setRoundInView(currentRound)}
           >
             <span
               className={
@@ -62,7 +60,7 @@ const RoundControls: FC<any> = ({
                   : ''
               }
             >
-              Round {roundInView}
+              round {roundInView}
             </span>
           </Button>
         </div>
@@ -76,5 +74,12 @@ const buttonProps: ButtonProps = {
   size: 'sm',
   className: 'm-2',
 };
+
+interface RoundControlProps {
+  currentRound: number;
+  roundInView: number;
+  setRoundInView: Dispatch<SetStateAction<number>>;
+  currentTab: 'main' | 'games' | 'table';
+}
 
 export default RoundControls;

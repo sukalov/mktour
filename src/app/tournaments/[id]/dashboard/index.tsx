@@ -9,7 +9,6 @@ import FabProvider from '@/app/tournaments/[id]/dashboard/fab-provider';
 import TabsContainer from '@/app/tournaments/[id]/dashboard/tabs-container';
 import { useDashboardWebsocket } from '@/components/hooks/use-dashboard-websocket';
 import { Status } from '@/lib/db/hooks/use-status-in-tournament';
-import { GameModel } from '@/types/tournaments';
 import { useQueryClient } from '@tanstack/react-query';
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 
@@ -66,34 +65,5 @@ export interface TournamentPageContentProps {
   status: Status;
   userId: string | undefined;
 }
-
-export const gamesMock: GameModel[][] = [
-  [
-    {
-      id: 'game1',
-      black_id: 'player1',
-      white_id: 'player2',
-      black_nickname: 'Player Oooooooooone',
-      white_nickname: 'Player Twoooooooooo',
-      black_prev_game_id: null,
-      white_prev_game_id: null,
-      round_number: 1,
-      round_name: '1/16',
-      result: '0-1',
-    },
-    {
-      id: 'game2',
-      black_id: 'player3',
-      white_id: 'player4',
-      black_nickname: 'Player Three',
-      white_nickname: 'Player Four',
-      black_prev_game_id: null,
-      white_prev_game_id: null,
-      round_number: 1,
-      round_name: '1/16',
-      result: '1-0',
-    },
-  ],
-];
 
 export default Dashboard;

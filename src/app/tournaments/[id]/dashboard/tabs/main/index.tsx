@@ -6,7 +6,7 @@ import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { QueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { CalendarDays, Dices, NotebookPen, UserRound } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { FC, ReactNode, useContext } from 'react';
@@ -15,8 +15,8 @@ import { toast } from 'sonner';
 const Main = () => {
   const id = usePathname().split('/').at(-1) as string;
   const { data, isLoading, isError } = useTournamentInfo(id);
-  const queryClient = new QueryClient();
-  const { mutate, data: generatedRounds } = useGenerateRoundRobinRound(queryClient);
+  const queryClient = useQueryClient()
+  const { mutate } = useGenerateRoundRobinRound(queryClient);
   const { userId } = useContext(DashboardContext)
 
   if (isLoading) return <LoadingElement />;

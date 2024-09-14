@@ -1,10 +1,16 @@
 import GameItem from '@/app/tournaments/[id]/dashboard/tabs/games/game-item';
 import GameItemCompact from '@/app/tournaments/[id]/dashboard/tabs/games/game-item-compact';
+import { useTournamentRoundGames } from '@/components/hooks/query-hooks/use-tournament-round-games';
 import { GameModel, Result } from '@/types/tournaments';
+import { usePathname } from 'next/navigation';
 import { FC, SetStateAction, createElement, useState } from 'react';
 
-const RoundItem: FC<RoundItemProps> = ({ round, compact = false }) => {
+const RoundItem: FC<RoundItemProps> = ({ roundNumber, compact = false }) => {
+  const tournamentId = usePathname().split('/').at(-1) as string;
+  const {data: round} = useTournamentRoundGames({tournamentId, roundNumber})
   const [setResult] = useState<Result | null>(null);
+
+  if (!round) return 'no round'
 
   return (
     <>
@@ -29,15 +35,15 @@ const GamesIteratee = ({
 }: GameModel & GamesIterateeProps) => {
   const component = createElement(compact ? GameItemCompact : GameItem, {
     result,
-    player1: white_nickname,
-    player2: black_nickname,
+    player1: white_nickname || '',
+    player2: black_nickname || '',
     setResult,
   });
   return <>{component}</>;
 };
 
 type RoundItemProps = {
-  round: GameModel[];
+  roundNumber: number;
   compact?: boolean;
 };
 
