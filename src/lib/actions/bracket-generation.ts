@@ -31,6 +31,7 @@ interface ChessTournamentEntity {
   entityId: string;
   entityColourIndex: number;
   entityRating: number;
+  gamesPlayed: number;
 }
 
 /**
@@ -122,6 +123,8 @@ async function convertPlayerToEntity(playerAndPtt: PlayerAndPtt) {
     entityId: playerAndPtt.player.id,
     entityColourIndex: playerAndPtt.players_to_tournaments.color_index,
     entityRating: playerAndPtt.player.rating ?? 0, // If the player rating is null, we just use zero as a complement
+    // Now we sum all the revious results to get the count of games
+    gamesPlayed: playerAndPtt.players_to_tournaments.draws + playerAndPtt.players_to_tournaments.wins + playerAndPtt.players_to_tournaments.losses
   };
   return tournamentEntity;
 }
@@ -371,6 +374,18 @@ function updateChessEntitiesMatches(
   return poolById;
 }
 
+/**
+ * This function gets uneven set of alyers guaranteed, and excludes alyer with the most games
+ * @param matchedEntities list like of entities with info about games
+ * @returns matched entities list but even
+ */
+function getEvenSetOfPlayers(matchedEntities: ChessTournamentEntity[]) {
+  const gamesCounts = matchedEntities.map( (matchedEntity) => matchedEntity.gamesPlayed );
+  const maxGameCount = Math.max(...gamesCounts);
+  const playerIndexToExclude = matchedEntities.findIndex( (matchedEntity) => matchedEntity.gamesPlayed === maxGameCount);
+  matchedEntities.splice(playerIndexToExclude,1);
+  return matchedEntities
+}
 
 /**
  * This function purposefully generates the bracket round for the round robin tournament. It gets the
@@ -385,6 +400,7 @@ export async function generateRoundRobinRound(
   // getting the players to tournaments
   const allPlayersToTournaments = db.select().from(players_to_tournaments);
 
+
   // taking only those who are in the current tournament
   const tournamentPlayersToTournaments = allPlayersToTournaments.where(
     eq(players_to_tournaments.tournament_id, tournamentId),
@@ -396,6 +412,9 @@ export async function generateRoundRobinRound(
       players,
       eq(players.id, players_to_tournaments.player_id),
     );
+
+  
+
 
   // getting the detailed played games list
   const detailedTournamentGames = await getListOfDetailedGames(tournamentId);
@@ -410,14 +429,18 @@ export async function generateRoundRobinRound(
   const matchedEntitiesPromises = tournamentPlayersDetailed.map(
     convertPlayerToEntity,
   );
-  const matchedEntities = await Promise.all(matchedEntitiesPromises);
+  let matchedEntities = await Promise.all(matchedEntitiesPromises);
+
+  // checking if the set of layers is even, if not, making it even with a smart alg
+  if (matchedEntities.length % 2 != 0) 
+    matchedEntities = getEvenSetOfPlayers(matchedEntities)
+
 
   // getting the bootstrap for the map, initially for all the players the pools are the same
   const initialEntitiesPools = await getInitialEntitiesIdPairs(matchedEntities);
   const poolById: PoolById = new Map(initialEntitiesPools);
 
   const poolByIdUpdated = updateChessEntitiesMatches(poolById, previousMatches);
-
 
   // checking the pool for liveability
   poolById.forEach((entityPool, _) => {
@@ -428,14 +451,19 @@ export async function generateRoundRobinRound(
   });
 
 
+  // generating set of base matches
   const entitiesMatchingsGenerated = await generateRoundRobinPairs(
     poolByIdUpdated,
     matchedEntities,
   );
+
+  // colouring the set of the matcthes
   const colouredMatchesPromises =
     entitiesMatchingsGenerated.map(getColouredPair);
   const colouredMatches = await Promise.all(colouredMatchesPromises);
 
+
+  // numbering each match
   const currentOffset = previousMatches.length;
   const numberedMatchesPromises = colouredMatches.map(
     (colouredMatch, coulouredMatchIndex) =>
@@ -444,12 +472,15 @@ export async function generateRoundRobinRound(
 
   const numberedMatches = await Promise.all(numberedMatchesPromises);
 
+  // converting all the games to the insert-db-entity
   const gameToInsertPromises = numberedMatches.map((numberedMatch) =>
     getGameToInsert(numberedMatch, tournamentId, roundNumber),
   );
   const gamesToInsert = await Promise.all(gameToInsertPromises);
 
+  // inserting the games
   await db.insert(games).values(gamesToInsert);
 
   return gamesToInsert;
 }
+
