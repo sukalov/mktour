@@ -14,14 +14,14 @@ const RoundsMobile: FC = () => {
   const { currentTab } = useContext(DashboardContext);
   const id = usePathname().split('/').at(-1) as string;
   const { data, isError } = useTournamentInfo(id);
-  const { data: players } = useTournamentPlayers(id);
+  const { data: players, isError: isPlayersError } = useTournamentPlayers(id);
   const [compact, setCompact] = useState(false);
 
   if (!players) return <></>;
   if (players.length < 2)
     return <Center>{'add at least two players to see generated round'}</Center>;
 
-  if (isError) return 'error';
+  if (isError || isPlayersError) return 'error';
   if (!data) return 'loading';
 
   return (

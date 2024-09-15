@@ -11,6 +11,6 @@ export default function useGenerateRoundRobinRound(queryClient: QueryClient) {
       toast.success(t('round generated'));
       queryClient.setQueryData([tournamentId, 'games', roundNumber], data);
     },
-    onError: () => toast.error('sorry! server error happened'),
+    onError: () => toast.error(t('server error')),
   });
 }

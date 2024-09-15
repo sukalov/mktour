@@ -7,12 +7,13 @@ import { FC, SetStateAction, createElement, useState } from 'react';
 
 const RoundItem: FC<RoundItemProps> = ({ roundNumber, compact = false }) => {
   const tournamentId = usePathname().split('/').at(-1) as string;
-  const { data: round } = useTournamentRoundGames({
+  const { data: round, isError } = useTournamentRoundGames({
     tournamentId,
     roundNumber,
   });
   const [setResult] = useState<Result | null>(null);
 
+  if (isError) return 'error';
   if (!round) return 'no round';
 
   return (
