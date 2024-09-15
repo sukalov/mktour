@@ -56,7 +56,12 @@ export async function generateRoundRobinRoundFunction({
   const matchedEntitiesPromises = tournamentPlayersDetailed.map(
     convertPlayerToEntity,
   );
-  const matchedEntities = await Promise.all(matchedEntitiesPromises);
+
+  let matchedEntities = await Promise.all(matchedEntitiesPromises);
+
+  // checking if the set of layers is even, if not, making it even with a smart alg
+  if (matchedEntities.length % 2 != 0)
+    matchedEntities = getEvenSetOfPlayers(matchedEntities);
 
   // getting the bootstrap for the map, initially for all the players the pools are the same
   const initialEntitiesPools = await getInitialEntitiesIdPairs(matchedEntities);
@@ -72,17 +77,18 @@ export async function generateRoundRobinRoundFunction({
       );
   });
 
+  // generating set of base matches
   const entitiesMatchingsGenerated = await generateRoundRobinPairs(
     poolByIdUpdated,
     matchedEntities,
   );
 
-  console.log(entitiesMatchingsGenerated);
-
+  // colouring the set of the matcthes
   const colouredMatchesPromises =
     entitiesMatchingsGenerated.map(getColouredPair);
   const colouredMatches = await Promise.all(colouredMatchesPromises);
-
+  
+  // numbering each match
   const currentOffset = previousMatches.length;
   const numberedMatchesPromises = colouredMatches.map(
     (colouredMatch, coulouredMatchIndex) =>
@@ -94,8 +100,11 @@ export async function generateRoundRobinRoundFunction({
   const gameToInsertPromises = numberedMatches.map((numberedMatch) =>
     getGameToInsert(numberedMatch, tournamentId, roundNumber),
   );
+
+  // converting all the games to the insert-db-entity
   const gamesToInsert = await Promise.all(gameToInsertPromises);
 
+  // inserting the games
   await db.insert(games).values(gamesToInsert);
 
   return gamesToInsert;
@@ -120,6 +129,7 @@ interface ChessTournamentEntity {
   entityId: string;
   entityColourIndex: number;
   entityRating: number;
+  gamesPlayed: number;
 }
 
 /**
@@ -211,6 +221,11 @@ async function convertPlayerToEntity(playerAndPtt: PlayerAndPtt) {
     entityId: playerAndPtt.player.id,
     entityColourIndex: playerAndPtt.players_to_tournaments.color_index,
     entityRating: playerAndPtt.player.rating ?? 0, // If the player rating is null, we just use zero as a complement
+    // Now we sum all the revious results to get the count of games
+    gamesPlayed:
+      playerAndPtt.players_to_tournaments.draws +
+      playerAndPtt.players_to_tournaments.wins +
+      playerAndPtt.players_to_tournaments.losses,
   };
   return tournamentEntity;
 }
@@ -457,4 +472,21 @@ function updateChessEntitiesMatches(
   });
 
   return poolById;
+}
+
+/**
+ * This function gets uneven set of alyers guaranteed, and excludes alyer with the most games
+ * @param matchedEntities list like of entities with info about games
+ * @returns matched entities list but even
+ */
+function getEvenSetOfPlayers(matchedEntities: ChessTournamentEntity[]) {
+  const gamesCounts = matchedEntities.map(
+    (matchedEntity) => matchedEntity.gamesPlayed,
+  );
+  const maxGameCount = Math.max(...gamesCounts);
+  const playerIndexToExclude = matchedEntities.findIndex(
+    (matchedEntity) => matchedEntity.gamesPlayed === maxGameCount,
+  );
+  matchedEntities.splice(playerIndexToExclude, 1);
+  return matchedEntities;
 }
