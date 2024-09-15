@@ -38,7 +38,6 @@ export const useTournamentRemovePlayer = (
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: [tournamentId, 'players'] });
-      queryClient.invalidateQueries({ queryKey: [tournamentId, 'games'] });
     },
     onSuccess: (_err, data) => {
       console.log('player removed');

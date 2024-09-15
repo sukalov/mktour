@@ -9,7 +9,10 @@ export default function useGenerateRoundRobinRound(queryClient: QueryClient) {
     mutationFn: generateRoundRobinRound,
     onSuccess: (data, { tournamentId, roundNumber }) => {
       toast.success(t('round generated'));
-      queryClient.setQueryData([tournamentId, 'games', roundNumber], data);
+      queryClient.setQueryData([tournamentId, 'games', { roundNumber }], data);
+      queryClient.invalidateQueries({
+        queryKey: [tournamentId, 'games', { roundNumber }],
+      });
     },
     onError: () => toast.error(t('server error')),
   });

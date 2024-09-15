@@ -49,28 +49,11 @@ export async function getTournamentPlayers(
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
 
-  const tournament = (
-    await db.select().from(tournaments).where(eq(tournaments.id, id))
-  ).at(0);
-  if (!tournament) throw new Error('TOURNAMENT_NOT_FOUND');
-
   const playersDb = await db
     .select()
     .from(players_to_tournaments)
     .where(eq(players_to_tournaments.tournament_id, id))
     .leftJoin(players, eq(players.id, players_to_tournaments.player_id));
-
-  if (playersDb.length !== 0 && tournament.format === 'round robin' && !tournament.started_at) {
-    try {
-      await generateRoundRobinRound({
-        tournamentId: id,
-        roundNumber: 1,
-        userId: user.id,
-      });
-    } catch (e) {
-      console.log('ROUND_GENERATION_ERROR', e);
-    }
-  }
 
   return playersDb.map((each) => ({
     id: each.player!.id,
