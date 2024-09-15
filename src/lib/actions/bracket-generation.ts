@@ -11,7 +11,7 @@ import {
   type InsertDatabaseGame,
 } from '@/lib/db/schema/tournaments';
 import { newid } from '@/lib/utils';
-import { and, eq } from 'drizzle-orm';
+import { and, eq, sql } from 'drizzle-orm';
 import { alias } from 'drizzle-orm/sqlite-core';
 
 /**
@@ -34,7 +34,7 @@ export async function generateRoundRobinRoundFunction({
   // taking only those who are in the current tournament
   const tournamentPlayersToTournaments = allPlayersToTournaments.where(
     eq(players_to_tournaments.tournament_id, tournamentId),
-  );
+  ).orderBy(sql`RANDOM()`);
 
   // joining the player infromation for every ptt record
   const tournamentPlayersDetailed: PlayerAndPtt[] =
