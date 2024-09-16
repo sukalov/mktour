@@ -23,7 +23,7 @@ const GameItemCompact: FC<GameProps> = ({
       <div
         className={`max-w-full truncate ${result === '0-1' && 'opacity-30'} justify-self-start`}
       >
-        {playerLeft}
+        <small>{playerLeft}</small>
       </div>
       <Result
         playerLeft={playerLeft}
@@ -34,7 +34,7 @@ const GameItemCompact: FC<GameProps> = ({
       <div
         className={`max-w-full truncate ${result === '1-0' && 'opacity-30'} justify-self-end`}
       >
-        {playerRight}
+        <small>{playerRight}</small>
       </div>
     </Card>
   );
@@ -42,7 +42,7 @@ const GameItemCompact: FC<GameProps> = ({
 
 const Result: FC<
   ResultProps & { playerLeft: string | null; playerRight: string | null }
-> = ({ result }) => {
+> = ({ result, playerLeft, playerRight }) => {
   const t = useTranslations('Results');
   const { setOverlayed } = useContext(DashboardContext);
 
@@ -50,23 +50,23 @@ const Result: FC<
     <Popover onOpenChange={setOverlayed}>
       <PopoverTrigger>
         <div className="mx-4 flex flex-grow gap-2 justify-self-center">
-          {t(result || '?')}
+          <small>{t(result || '?')}</small>
         </div>
       </PopoverTrigger>
       <PopoverContent
-        className="w-[90dvw] max-w-sm translate-y-[-.5rem] p-0"
+        className="w-[90dvw] max-w-sm translate-y-[2rem] scale-105 p-0"
         side="top"
         onInteractOutside={() => setOverlayed(false)}
       >
         <div className="grid w-full grid-cols-[1fr_auto_1fr]">
-          <Button className="flex flex-col" variant="ghost">
-            <h5>{t('1-0')}</h5>
+          <Button className="truncate" variant="ghost">
+            <small className="truncate">{playerLeft}</small>
           </Button>
-          <Button className="grow" variant="ghost">
-            {t('1-1')}
+          <Button variant="ghost" className="min-w-fit grow">
+            {t('draw')}
           </Button>
-          <Button className="flex flex-col" variant="ghost">
-            <h5>{t('0-1')}</h5>
+          <Button className="truncate" variant="ghost">
+            <small className="truncate">{playerRight}</small>
           </Button>
         </div>
       </PopoverContent>
