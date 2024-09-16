@@ -47,7 +47,7 @@ const AddPlayerDrawer = () => {
     <Drawer.Root
       shouldScaleBackground
       direction="right"
-      preventScrollRestoration={false}
+      // preventScrollRestoration={false}
       onClose={handleClose}
       open={open}
     >
