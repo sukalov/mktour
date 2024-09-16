@@ -8,6 +8,7 @@ import {
 import FabProvider from '@/app/tournaments/[id]/dashboard/fab-provider';
 import TabsContainer from '@/app/tournaments/[id]/dashboard/tabs-container';
 import { useDashboardWebsocket } from '@/components/hooks/use-dashboard-websocket';
+import Overlay from '@/components/overlay';
 import { Status } from '@/lib/db/hooks/use-status-in-tournament';
 import { useQueryClient } from '@tanstack/react-query';
 import { Dispatch, FC, SetStateAction, useState } from 'react';
@@ -23,6 +24,7 @@ const Dashboard: FC<TournamentPageContentProps> = ({
     useState<DashboardContextType['currentTab']>('main');
   const queryClient = useQueryClient();
   const { sendJsonMessage } = useDashboardWebsocket(session, id, queryClient);
+  const [overlayed, setOverlayed] = useState(false);
 
   return (
     <DashboardContext.Provider
@@ -31,6 +33,8 @@ const Dashboard: FC<TournamentPageContentProps> = ({
         sendJsonMessage,
         status,
         userId,
+        overlayed,
+        setOverlayed,
       }}
     >
       <TabsContainer currentTab={currentTab} setCurrentTab={setCurrentTab} />
@@ -44,6 +48,7 @@ const Dashboard: FC<TournamentPageContentProps> = ({
         currentTab={currentTab}
         scrolling={scrolling}
       />
+      <Overlay open={overlayed} />
     </DashboardContext.Provider>
   );
 };

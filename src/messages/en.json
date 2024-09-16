@@ -114,5 +114,11 @@
     "checkbox2": "delete every club i own (with all players)",
     "checkbox3": "delete my whole stats",
     "do it yourself": "you have to do it yourself"
+  },
+  "Results": {
+    "1-0": "1 - 0",
+    "0-1": "0 - 1",
+    "1-1": "½ - ½",
+    "?": "? - ?"
   }
 }

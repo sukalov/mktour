@@ -1,17 +1,16 @@
-import GameItem from '@/app/tournaments/[id]/dashboard/tabs/games/game-item';
 import GameItemCompact from '@/app/tournaments/[id]/dashboard/tabs/games/game-item-compact';
 import { useTournamentRoundGames } from '@/components/hooks/query-hooks/use-tournament-round-games';
 import { GameModel, Result } from '@/types/tournaments';
 import { usePathname } from 'next/navigation';
-import { FC, SetStateAction, createElement, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 
-const RoundItem: FC<RoundItemProps> = ({ roundNumber, compact = false }) => {
+const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
   const tournamentId = usePathname().split('/').at(-1) as string;
   const { data: round, isError } = useTournamentRoundGames({
     tournamentId,
     roundNumber,
   });
-  const [setResult] = useState<Result | null>(null);
+  const [result, setResult] = useState<Result | null>(null);
 
   if (isError) return 'error';
   if (!round) return 'no round';
@@ -22,8 +21,8 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber, compact = false }) => {
         <GamesIteratee
           key={index}
           {...game}
+          result={result}
           setResult={setResult}
-          compact={compact}
         />
       ))}
     </>
@@ -35,16 +34,14 @@ const GamesIteratee = ({
   white_nickname,
   black_nickname,
   setResult,
-  compact,
-}: GameModel & GamesIterateeProps) => {
-  const component = createElement(compact ? GameItemCompact : GameItem, {
-    result,
-    player1: white_nickname || '',
-    player2: black_nickname || '',
-    setResult,
-  });
-  return <>{component}</>;
-};
+}: GameModel & GamesIterateeProps) => (
+  <GameItemCompact
+    result={result}
+    playerLeft={white_nickname}
+    playerRight={black_nickname}
+    setResult={setResult}
+  />
+);
 
 type RoundItemProps = {
   roundNumber: number;
@@ -52,8 +49,7 @@ type RoundItemProps = {
 };
 
 type GamesIterateeProps = {
-  setResult: SetStateAction<Result | null>;
-  compact: boolean;
+  setResult: Dispatch<SetStateAction<Result | null>>;
 };
 
 export default RoundItem;

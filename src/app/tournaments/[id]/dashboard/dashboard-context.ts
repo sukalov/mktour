@@ -1,5 +1,5 @@
 import { Status } from '@/lib/db/hooks/use-status-in-tournament';
-import { createContext } from 'react';
+import { createContext, Dispatch, SetStateAction } from 'react';
 import { SendJsonMessage } from 'react-use-websocket/dist/lib/types';
 
 export const DashboardContext = createContext<DashboardContextType>({
@@ -7,6 +7,8 @@ export const DashboardContext = createContext<DashboardContextType>({
   sendJsonMessage: () => null,
   status: 'viewer',
   userId: undefined,
+  overlayed: false,
+  setOverlayed: () => null
 });
 
 export type DashboardContextType = {
@@ -14,4 +16,6 @@ export type DashboardContextType = {
   sendJsonMessage: SendJsonMessage;
   status: Status;
   userId: string | undefined;
+  overlayed: boolean
+  setOverlayed: Dispatch<SetStateAction<boolean>>
 };
