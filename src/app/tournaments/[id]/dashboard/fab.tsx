@@ -1,10 +1,10 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { LucideIcon } from 'lucide-react';
+import { Loader2, LucideIcon } from 'lucide-react';
 import { FC, SetStateAction } from 'react';
 
-const Fab: FC<FabProps> = ({ onClick, icon: Icon }) => {
+const Fab: FC<FabProps> = ({ onClick, icon: Icon, disabled }) => {
   return (
     <Button
       className="fixed bottom-8 right-6 rounded-full transition-all duration-500"
@@ -12,8 +12,9 @@ const Fab: FC<FabProps> = ({ onClick, icon: Icon }) => {
       size="icon"
       style={{ scale: 1.5 }}
       onClick={onClick}
-    >
-      <Icon className="h-4 w-4" />
+      disabled={disabled}
+>
+      <Icon className={`h-4 w-4 ${Icon === Loader2 && 'animate-spin'}`} />
     </Button>
   );
 };
@@ -21,6 +22,7 @@ const Fab: FC<FabProps> = ({ onClick, icon: Icon }) => {
 type FabProps = {
   onClick?: SetStateAction<any>;
   icon: LucideIcon;
+  disabled: boolean;
 };
 
 export default Fab;

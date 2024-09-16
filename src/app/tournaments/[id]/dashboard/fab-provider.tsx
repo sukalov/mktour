@@ -5,7 +5,7 @@ import AddPlayerDrawer from '@/app/tournaments/[id]/dashboard/tabs/table/add-pla
 import useGenerateRoundRobinRound from '@/components/hooks/mutation-hooks/use-tournament-generate-rr-round';
 import { Status } from '@/lib/db/hooks/use-status-in-tournament';
 import { useQueryClient } from '@tanstack/react-query';
-import { Shuffle } from 'lucide-react';
+import { Loader2, Shuffle } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { FC, useContext } from 'react';
 
@@ -23,14 +23,15 @@ const FabProvider: FC<FabProviderProps> = ({
 };
 
 const ShuffleFab = () => {
-  const queryClient = useQueryClient();
   const tournamentId = usePathname().split('/').at(-1) as string;
   const { userId } = useContext(DashboardContext);
+  const queryClient = useQueryClient();
   if (!userId) throw new Error('USERID_NOT_FOUND_IN_CONTEXT');
-  const { mutate } = useGenerateRoundRobinRound(queryClient);
+  const { isPending, mutate } = useGenerateRoundRobinRound(queryClient);
   return (
     <Fab
-      icon={Shuffle}
+      disabled={isPending}
+      icon={!isPending ? Shuffle : Loader2}
       onClick={() => mutate({ tournamentId, userId, roundNumber: 1 })}
     ></Fab>
   );
