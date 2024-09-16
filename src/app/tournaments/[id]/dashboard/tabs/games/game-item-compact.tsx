@@ -21,7 +21,7 @@ const GameItemCompact: FC<GameProps> = ({
       className={`grid w-full grid-cols-[1fr_auto_1fr] items-center border px-4 py-2 text-sm md:max-w-[250px]`}
     >
       <div
-        className={`max-w-full truncate ${result === '0-1' && 'opacity-30'} justify-self-start`}
+        className={`line-clamp-2 max-w-full text-ellipsis hyphens-auto break-words ${result === '0-1' && 'opacity-30'} justify-self-start`}
       >
         <small>{playerLeft}</small>
       </div>
@@ -32,7 +32,7 @@ const GameItemCompact: FC<GameProps> = ({
         setResult={setResult}
       />
       <div
-        className={`max-w-full truncate ${result === '1-0' && 'opacity-30'} justify-self-end`}
+        className={`line-clamp-2 max-w-full text-ellipsis hyphens-auto break-words ${result === '1-0' && 'opacity-30'} justify-self-end`}
       >
         <small>{playerRight}</small>
       </div>
@@ -54,19 +54,23 @@ const Result: FC<
         </div>
       </PopoverTrigger>
       <PopoverContent
-        className="w-[90dvw] max-w-sm translate-y-[2rem] scale-105 p-0"
+        className="w-[90dvw] max-w-sm translate-y-[3rem] scale-105 p-1"
         side="top"
         onInteractOutside={() => setOverlayed(false)}
       >
-        <div className="grid w-full grid-cols-[1fr_auto_1fr]">
-          <Button className="truncate" variant="ghost">
-            <small className="truncate">{playerLeft}</small>
+        <div className="flex w-full grid-cols-[1fr_auto_1fr] items-center justify-center">
+          <Button className="flex h-auto w-[40%]" variant="ghost">
+            <small className="line-clamp-2 w-full hyphens-auto break-words text-left">
+              {playerLeft}
+            </small>
           </Button>
-          <Button variant="ghost" className="min-w-fit grow">
-            {t('draw')}
-          </Button>
-          <Button className="truncate" variant="ghost">
-            <small className="truncate">{playerRight}</small>
+          <div className="flex grow justify-center">
+            <Button variant="ghost">{t('draw')}</Button>
+          </div>
+          <Button className="flex h-auto w-[40%]" variant="ghost">
+            <small className="line-clamp-2 w-full hyphens-auto break-words text-right">
+              {playerRight}
+            </small>
           </Button>
         </div>
       </PopoverContent>
