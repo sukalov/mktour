@@ -98,7 +98,8 @@
     "ws error": "live-server error. sorry! you will see no realtime updates",
     "user deleted": "your profile has been deleted completely",
     "zero clubs error": "every user must have at least one club",
-    "round generated": "round genrated"
+    "round generated": "round genrated",
+    "result added": "result added"
   },
   "EditUser": {
     "header": "settings",
@@ -118,8 +119,8 @@
   "Results": {
     "1-0": "1 - 0",
     "0-1": "0 - 1",
-    "1-1": "½ - ½",
-    "?": "? - ?",
-    "draw": "½"
+    "1/2-1/2": "½ - ½",
+    "1/2": "½",
+    "?": "? - ?"
   }
 }

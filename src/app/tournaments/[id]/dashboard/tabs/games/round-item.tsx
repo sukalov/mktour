@@ -1,55 +1,55 @@
+'use client';
 import GameItemCompact from '@/app/tournaments/[id]/dashboard/tabs/games/game-item-compact';
+import Center from '@/components/center';
 import { useTournamentRoundGames } from '@/components/hooks/query-hooks/use-tournament-round-games';
-import { GameModel, Result } from '@/types/tournaments';
+import SkeletonList from '@/components/skeleton-list';
+import { GameModel } from '@/types/tournaments';
 import { usePathname } from 'next/navigation';
-import { Dispatch, FC, SetStateAction, useState } from 'react';
+import { FC } from 'react';
 
 const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
   const tournamentId = usePathname().split('/').at(-1) as string;
-  const { data: round, isError } = useTournamentRoundGames({
+  const {
+    data: round,
+    isError,
+    isLoading,
+  } = useTournamentRoundGames({
     tournamentId,
     roundNumber,
   });
-  const [result, setResult] = useState<Result | null>(null);
 
-  if (isError) return 'error';
-  if (!round) return 'no round';
+  if (isLoading) return <SkeletonList />;
+  if (isError) return <Center>error</Center>;
+  if (!round) return <Center>no round</Center>;
 
   return (
     <>
       {round.map((game, index) => (
-        <GamesIteratee
-          key={index}
-          {...game}
-          result={result}
-          setResult={setResult}
-        />
+        <GamesIteratee key={index} {...game} />
       ))}
     </>
   );
 };
 
 const GamesIteratee = ({
+  id,
   result,
   white_nickname,
   black_nickname,
-  setResult,
-}: GameModel & GamesIterateeProps) => (
-  <GameItemCompact
-    result={result}
-    playerLeft={white_nickname}
-    playerRight={black_nickname}
-    setResult={setResult}
-  />
-);
+}: GameModel) => {
+  return (
+    <GameItemCompact
+      id={id}
+      result={result}
+      playerLeft={white_nickname}
+      playerRight={black_nickname}
+    />
+  );
+};
 
 type RoundItemProps = {
   roundNumber: number;
   compact?: boolean;
-};
-
-type GamesIterateeProps = {
-  setResult: Dispatch<SetStateAction<Result | null>>;
 };
 
 export default RoundItem;

@@ -1,3 +1,4 @@
+'use client';
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import RoundControls from '@/app/tournaments/[id]/dashboard/tabs/games/round-controls';
 import RoundItem from '@/app/tournaments/[id]/dashboard/tabs/games/round-item';
@@ -14,12 +15,11 @@ const RoundsMobile: FC = () => {
   const { data, isError } = useTournamentInfo(id);
   const { data: players, isError: isPlayersError } = useTournamentPlayers(id);
 
-  if (!players) return null;
-  if (players.length < 2)
-    return <Center>{'add at least two players to see generated round'}</Center>;
+  if (!players || players.length < 2)
+    return <Center>{'add at least two players to see generated round'}</Center>; // FIXME Intl
 
-  if (isError || isPlayersError) return 'error';
-  if (!data) return 'loading';
+  if (isError || isPlayersError) return 'error'; // FIXME Intl
+  if (!data) return 'loading'; // FIXME Intl
 
   return (
     <div>

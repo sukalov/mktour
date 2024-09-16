@@ -65,7 +65,7 @@ const AddNewPlayer = ({
       console.log('not found user id in context');
       return;
     }
-    setOpen(false);
+    // setOpen(false);
     const newPlayer: DatabasePlayer = {
       id: newid(),
       club_id: data.club_id,

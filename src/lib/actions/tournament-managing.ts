@@ -15,7 +15,7 @@ import {
 } from '@/lib/db/schema/tournaments';
 import { newid } from '@/lib/utils';
 import { NewTournamentFormType } from '@/lib/zod/new-tournament-form';
-import { GameModel, PlayerModel } from '@/types/tournaments';
+import { GameModel, PlayerModel, Result } from '@/types/tournaments';
 import { aliasedTable, and, eq, inArray, sql } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 
@@ -309,4 +309,14 @@ export async function generateRoundRobinRound({
     black_prev_game_id: game.black_prev_game_id || null,
     result: game.result || null,
   }));
+}
+
+export async function setTournamentGameResult({
+  gameId,
+  result,
+}: {
+  gameId: string;
+  result: Result;
+}) {
+  await db.update(games).set({ result }).where(eq(games.id, gameId));
 }
