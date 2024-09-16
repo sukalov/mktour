@@ -22,7 +22,7 @@ const Fab: FC<FabProps> = ({ onClick, icon: Icon, disabled }) => {
 type FabProps = {
   onClick?: SetStateAction<any>;
   icon: LucideIcon;
-  disabled: boolean;
+  disabled?: boolean;
 };
 
 export default Fab;
