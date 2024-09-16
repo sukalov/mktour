@@ -64,6 +64,8 @@ const AddPlayerDrawer = () => {
       <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 top-0 bg-black/80" />
         <Drawer.Content className="fixed bottom-0 left-4 right-0 top-0 z-50 flex flex-col outline-none">
+          <Drawer.Title />
+          <Drawer.Description/>
           <div className="flex flex-1 flex-col gap-3 rounded-l-[10px] border border-secondary bg-background px-6 pt-8">
             <Button
               size="sm"
