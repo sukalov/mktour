@@ -1,4 +1,7 @@
-import { DashboardContextType } from '@/app/tournaments/[id]/dashboard/dashboard-context';
+import {
+  DashboardContext,
+  DashboardContextType,
+} from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import tabs from '@/app/tournaments/[id]/dashboard/tabs';
 import {
   Carousel,
@@ -12,6 +15,7 @@ import {
   FC,
   SetStateAction,
   useCallback,
+  useContext,
   useEffect,
   useRef,
   useState,
@@ -24,6 +28,11 @@ const CarouselContainer: FC<CarouselProps> = ({
 }) => {
   const [api, setApi] = useState<CarouselApi>();
   const indexOfTab = tabs.findIndex((tab) => tab.title === currentTab);
+  const { overlayed } = useContext(DashboardContext); // TODO pass props from parent
+
+  useEffect(() => {
+    overlayed && api?.reInit();
+  }, [api, api?.reInit, overlayed]); // FIXME kinda wrong, should not rely on Overlay state
 
   const handleSelect = useCallback(() => {
     if (!api) return;

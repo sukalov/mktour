@@ -36,16 +36,16 @@ const GamesIteratee = ({
   result,
   white_nickname,
   black_nickname,
-}: GameModel) => {
-  return (
-    <GameItemCompact
-      id={id}
-      result={result}
-      playerLeft={white_nickname}
-      playerRight={black_nickname}
-    />
-  );
-};
+  white_id,
+  black_id,
+}: GameModel) => (
+  <GameItemCompact
+    id={id}
+    result={result}
+    playerLeft={{ white_id, white_nickname }}
+    playerRight={{ black_id, black_nickname }}
+  />
+);
 
 type RoundItemProps = {
   roundNumber: number;

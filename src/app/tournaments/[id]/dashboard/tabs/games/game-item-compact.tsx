@@ -1,19 +1,14 @@
-'use client';
-
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
+import Result from '@/app/tournaments/[id]/dashboard/tabs/games/result';
 import useTournamentSetGameResult from '@/components/hooks/mutation-hooks/use-tournament-set-game-result';
-import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
 import { Result as ResultModel } from '@/types/tournaments';
 import { useQueryClient } from '@tanstack/react-query';
+import { delay } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
-import { FC, useContext, useState } from 'react';
-import { useTranslations } from 'use-intl';
+import { FC, useContext, useEffect, useState } from 'react';
+import { useSwipeable } from 'react-swipeable';
+import { useLongPress } from 'use-long-press';
 
 const GameItemCompact: FC<GameProps> = ({
   id,
@@ -25,108 +20,125 @@ const GameItemCompact: FC<GameProps> = ({
   const leftWin = result === '1-0';
   const rightWin = result === '0-1';
 
+  if (window)
+    window.oncontextmenu = function () {
+      return false;
+    }; // dev-line
+
+  const [open, setOpen] = useState(false);
+  const [scaled, setScaled] = useState(false);
+  const { setOverlayed } = useContext(DashboardContext);
+  const [deltaX, setDeltaX] = useState<number | null>(null);
+  const [deltaY, setDeltaY] = useState<number | null>(null);
+
+  const onLongPress = () => {
+    setOverlayed(true);
+    setOpen(true);
+    setScaled(false);
+  };
+
+  const bind = useLongPress(() => onLongPress(), {
+    cancelOnMovement: 2,
+    cancelOutsideElement: true,
+    threshold: 125,
+    onStart: () => {
+      delay(() => setScaled(true), 25);
+    },
+    onCancel: () => {
+      setScaled(false);
+    },
+  });
+
+  useEffect(() => {
+    if (deltaY) {
+      if (deltaY > 50 || deltaY < -50) {
+        setOverlayed(false);
+        setOpen(false);
+        setDeltaX(null);
+      }
+    }
+  }, [deltaY, setOverlayed]);
+
+  const getResult = (deltaX: number | null): ResultModel => {
+    if (deltaX) {
+      if (deltaX > 25) return '0-1';
+      if (deltaX < -25) return '1-0';
+    }
+    return '1/2-1/2';
+  };
+
+  const swipeHandlers = useSwipeable({
+    onSwiping: ({ deltaX, deltaY }) => {
+      setDeltaX(deltaX);
+      setDeltaY(deltaY);
+    },
+    onTouchEndOrOnMouseUp: () => {
+      if (open) {
+        setOverlayed(false);
+        setOpen(false);
+        setDeltaX(null);
+        handleMutate(getResult(deltaX));
+      }
+    },
+    trackMouse: true,
+    preventScrollOnSwipe: true,
+  });
+  const { tournamentId } = useContext(DashboardContext);
+  const queryClient = useQueryClient();
+  const mutation = useTournamentSetGameResult(queryClient, {
+    tournamentId,
+  });
+
+  const handleMutate = (newResult: ResultModel) => {
+    if (newResult !== result) {
+      mutation.mutate({
+        gameId: id,
+        whiteId: playerLeft.white_id!,
+        blackId: playerRight.black_id!,
+        newResult,
+        prevResult: result,
+      });
+    }
+  };
+
   return (
     <Card
-      className={`grid w-full grid-cols-[1fr_auto_1fr] items-center border px-4 py-2 text-sm md:max-w-[250px]`}
+      className={`grid ${scaled && 'scale-110'} w-full grid-cols-[1fr_auto_1fr] items-center border px-4 py-2 text-sm transition-all md:max-w-[250px]`}
+      {...bind()}
+      {...swipeHandlers}
     >
       <div
         className={`line-clamp-2 max-w-full text-ellipsis hyphens-auto break-words ${draw || rightWin ? 'opacity-40' : ''} justify-self-start`}
       >
-        <small>{playerLeft}</small>
+        <small>{playerLeft.white_nickname}</small>
       </div>
-      <Result
-        id={id}
-        playerLeft={playerLeft}
-        playerRight={playerRight}
-        result={result}
-      />
+      {mutation.isPending ? (
+        <Loader2 className="animate-spin" />
+      ) : (
+        <Result
+          id={id}
+          playerLeft={playerLeft}
+          playerRight={playerRight}
+          result={result}
+          open={open}
+          setOpen={setOpen}
+          deltaX={deltaX}
+        />
+      )}
       <div
         className={`line-clamp-2 max-w-full text-ellipsis hyphens-auto break-words ${draw || leftWin ? 'opacity-40' : ''} justify-self-end`}
       >
-        <small>{playerRight}</small>
+        <small>{playerRight.black_nickname}</small>
       </div>
     </Card>
   );
 };
 
-const Result: FC<ResultProps> = ({ id, result, playerLeft, playerRight }) => {
-  const t = useTranslations('Results');
-  const { tournamentId, setOverlayed } = useContext(DashboardContext);
-  const queryClient = useQueryClient();
-  const [open, setOpen] = useState(false);
-  const { mutate, isPending } = useTournamentSetGameResult(queryClient, {
-    tournamentId,
-  });
-
-  const handleOpen = (state: boolean) => {
-    setOpen(state);
-    setOverlayed(state);
-  };
-
-  const handleMutate = (result: ResultModel) => {
-    mutate({ gameId: id, result }, { onSuccess: () => handleOpen(false) });
-  };
-
-  return (
-    <Popover open={open} onOpenChange={handleOpen}>
-      <PopoverTrigger>
-        <div className="mx-4 flex flex-grow gap-2 justify-self-center">
-          {t(result || '?')}
-        </div>
-      </PopoverTrigger>
-      <PopoverContent
-        className="w-[90dvw] max-w-sm translate-y-[2.5rem] scale-105 p-1"
-        side="top"
-        onInteractOutside={() => handleOpen(false)}
-      >
-        <div className="flex w-full grid-cols-[1fr_auto_1fr] items-center justify-center">
-          <div className="flex h-auto w-[40%] justify-start">
-            <Button variant="ghost" onClick={() => handleMutate('1-0')}>
-              <small
-                className={`line-clamp-2 w-full hyphens-auto break-words text-left ${result === '1-0' && 'underline underline-offset-4'}`}
-              >
-                {playerLeft}
-              </small>
-            </Button>
-          </div>
-          <div
-            className={`flex grow justify-center ${result === '1/2-1/2' && 'underline underline-offset-4'}`}
-          >
-            {isPending ? (
-              <Loader2 className="animate-spin" />
-            ) : (
-              <Button variant="ghost" onClick={() => handleMutate('1/2-1/2')}>
-                {t('1/2')}
-              </Button>
-              // boy oh boy i hate jsx
-            )}
-          </div>
-          <div className="flex h-auto w-[40%] justify-end">
-            <Button onClick={() => handleMutate('0-1')} variant="ghost">
-              <small
-                className={`line-clamp-2 w-full hyphens-auto break-words text-right ${result === '0-1' && 'underline underline-offset-4'}`}
-              >
-                {playerRight}
-              </small>
-            </Button>
-          </div>
-        </div>
-      </PopoverContent>
-    </Popover>
-  );
-};
-
-type GameProps = {
+export type GameProps = {
   id: string;
   result: ResultModel | null;
-  playerLeft: string | null;
-  playerRight: string | null;
-};
-
-type ResultProps = Pick<GameProps, 'result'> & {
-  playerLeft: string | null;
-  playerRight: string | null;
-  id: string;
+  playerLeft: Record<'white_id' | 'white_nickname', string | null>;
+  playerRight: Record<'black_id' | 'black_nickname', string | null>;
 };
 
 export default GameItemCompact;
