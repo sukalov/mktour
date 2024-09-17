@@ -41,7 +41,6 @@ export const useTournamentAddNewPlayer = (
       return { previousState, newPlayer };
     },
     onError: (_err, data, context) => {
-      console.log(_err)
       if (context?.previousState) {
         queryClient.setQueryData(
           [tournamentId, 'players', 'added'],
