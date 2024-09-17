@@ -13,6 +13,7 @@ const AddPlayerDrawer = () => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
   const [addingNewPlayer, setAddingNewPlayer] = useState(false);
+
   useHotkeys(
     'shift+equal',
     (e) => {
@@ -45,7 +46,6 @@ const AddPlayerDrawer = () => {
 
   return (
     <Drawer.Root
-      shouldScaleBackground
       direction="right"
       onClose={handleClose}
       open={open}
@@ -61,16 +61,15 @@ const AddPlayerDrawer = () => {
         </div>
       </Drawer.Trigger>
       <Drawer.Portal>
-        <Drawer.Overlay className="fixed inset-0 top-0 bg-black/80" />
+        <Drawer.Overlay className="fixed inset-0 top-0 z-50 bg-black/80" />
         <Drawer.Content
           onInteractOutside={() => setOpen(false)}
-          className="absolute bottom-0 left-[8rem] right-0 top-0 z-50 flex flex-col outline-none"
+          className="fixed bottom-0 left-[8rem] right-0 top-0 z-50 flex flex-col outline-none"
         >
           <Drawer.Title />
           <Drawer.Description />
           <div className="flex flex-1 flex-col gap-3 rounded-l-[10px] border border-secondary bg-background px-6 pt-8">
             <Button
-              size="sm"
               className="flex w-full gap-2"
               onClick={() => setAddingNewPlayer((prev) => !prev)}
               variant={addingNewPlayer ? 'outline' : 'default'}
@@ -85,15 +84,14 @@ const AddPlayerDrawer = () => {
                 value={value}
                 setValue={setValue}
                 returnToNewPlayer={returnToNewPlayer}
+                handleClose={handleClose}
               />
             ) : (
               <AddPlayer setOpen={setOpen} value={value} setValue={setValue} />
             )}
           </div>
           <FabClose
-            onClick={() => {
-              setOpen(false);
-            }}
+            onClick={handleClose}
           />
         </Drawer.Content>
       </Drawer.Portal>

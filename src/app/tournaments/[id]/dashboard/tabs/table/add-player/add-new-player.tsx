@@ -31,6 +31,7 @@ const AddNewPlayer = ({
   setValue,
   setOpen,
   returnToNewPlayer,
+  handleClose,
 }: AddNewPlayerProps) => {
   const id = usePathname().split('/').at(-1) as string;
   const tournament = useTournamentInfo(id);
@@ -43,7 +44,7 @@ const AddNewPlayer = ({
     returnToNewPlayer,
   );
   useHotkeys('escape', () => setOpen(false), { enableOnFormTags: true });
-  
+
   const form = useForm<NewPlayerFormType>({
     resolver: zodResolver(newPlayerFormSchema),
     defaultValues: {
@@ -75,6 +76,7 @@ const AddNewPlayer = ({
       last_seen: 0,
     };
     mutate({ tournamentId: id, player: newPlayer, userId });
+    handleClose();
   }
   return (
     <Form {...form}>
@@ -146,6 +148,7 @@ const AddNewPlayer = ({
 
 interface AddNewPlayerProps extends DrawerProps {
   returnToNewPlayer: (_player: DatabasePlayer) => void;
+  handleClose: () => void;
 }
 
 export default AddNewPlayer;

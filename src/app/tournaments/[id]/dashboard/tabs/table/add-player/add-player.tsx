@@ -58,7 +58,6 @@ const AddPlayer = ({ setOpen, value, setValue }: DrawerProps) => {
     <div className="flex flex-col gap-3">
       <Input
         value={value}
-        autoFocus
         placeholder="search"
         onChange={(e) => setValue(e.target.value)}
       />
@@ -79,6 +78,7 @@ const AddPlayer = ({ setOpen, value, setValue }: DrawerProps) => {
                     console.log('not found user id in context');
                     return;
                   }
+                  setValue('')
                   mutate({ tournamentId: id, player, userId });
                 }}
                 className="p-0"
