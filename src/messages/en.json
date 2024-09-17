@@ -65,7 +65,8 @@
     "min rating": "negative rating??",
     "max rating": "no cheaters allowed",
     "possible players error": "error happened while loading club players",
-    "lichess team connected": "sorry, this team is already here:"
+    "lichess team connected": "sorry, this team is already here:",
+    "this players already exists": "this player is already added"
   },
   "NewClubForm": {
     "new club": "new club",
