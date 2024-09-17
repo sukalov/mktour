@@ -324,8 +324,6 @@ export async function setTournamentGameResult({
   newResult: Result;
   prevResult: Result | null;
 }) {
-  console.log(whiteId, blackId, prevResult, newResult);
-
   await handleResult(whiteId, blackId, newResult, prevResult);
   await db.update(games).set({ result: newResult }).where(eq(games.id, gameId));
 }
@@ -337,15 +335,12 @@ async function handleResult(
   prevResult?: Result | null,
 ) {
   if (result === '1-0') {
-    console.log('handling white win');
     handleWhiteWin(whiteId, blackId, prevResult);
   }
   if (result === '0-1') {
-    console.log('handling black win');
     handleBlackWin(whiteId, blackId, prevResult);
   }
   if (result === '1/2-1/2') {
-    console.log('handling draw');
     handleDraw(whiteId, blackId, prevResult);
   }
 }
