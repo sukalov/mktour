@@ -7,14 +7,19 @@ import { toast } from 'sonner';
 
 export default function useTournamentSetGameResult(
   queryClient: QueryClient,
-  { tournamentId }: { tournamentId: string | undefined },
+  { tournamentId }: SetResultProps,
 ) {
   const t = useTranslations('Toasts');
   return useMutation({
     mutationFn: setTournamentGameResult,
     onSuccess: (_error) => {
       toast.success(t('result added'));
-      queryClient.invalidateQueries({ queryKey: [tournamentId, 'games'] });
+      queryClient.invalidateQueries({
+        queryKey: [tournamentId, 'games'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [tournamentId, 'players', 'added'],
+      });
     },
     onError: (error) => {
       toast.error(t('server error'));
@@ -22,3 +27,7 @@ export default function useTournamentSetGameResult(
     },
   });
 }
+
+type SetResultProps = {
+  tournamentId: string | undefined;
+};

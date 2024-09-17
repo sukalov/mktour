@@ -92,7 +92,7 @@
     "zero clubs error": "у вас должен быть хотя бы один клуб",
     "round generated": "пары тура составлены",
     "result added": "результат добавлен",
-    "this players already exists": "этот игрок уже добавлен"
+    "this player already exists!": "этот игрок уже добавлен"
   },
   "EditUser": {
     "header": "настройки",
