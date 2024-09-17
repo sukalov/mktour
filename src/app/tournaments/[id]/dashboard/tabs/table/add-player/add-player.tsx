@@ -79,7 +79,6 @@ const AddPlayer = ({ setOpen, value, setValue }: DrawerProps) => {
                     console.log('not found user id in context');
                     return;
                   }
-                  setOpen(false);
                   mutate({ tournamentId: id, player, userId });
                 }}
                 className="p-0"
