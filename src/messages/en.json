@@ -117,11 +117,22 @@
     "checkbox3": "delete my whole stats",
     "do it yourself": "you have to do it yourself"
   },
-  "Results": {
-    "1-0": "1 - 0",
-    "0-1": "0 - 1",
-    "1/2-1/2": "½ - ½",
-    "1/2": "½",
-    "?": "? - ?"
+  "Tournament": {
+    "Tabs": {
+      "main": "main",
+      "table": "table",
+      "games": "games"
+    },
+    "Results": {
+      "1-0": "1 - 0",
+      "0-1": "0 - 1",
+      "1/2-1/2": "½ - ½",
+      "1/2": "½",
+      "?": "? - ?",
+      "draw": "draw"
+    },
+    "Round": {
+      "round": "round {roundInView}"
+    }
   }
 }

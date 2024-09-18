@@ -1,5 +1,6 @@
 import { Button, ButtonProps } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { Dispatch, FC, PropsWithChildren, SetStateAction } from 'react';
 
 // FIXME any
@@ -9,6 +10,7 @@ const RoundControls: FC<RoundControlProps> = ({
   setRoundInView,
   currentTab,
 }) => {
+  const t = useTranslations('Tournament.Round')
   const top = currentTab === 'games' ? 'top-0' : 'top-[-4rem]';
 
   const handleClick = (direction: string) => {
@@ -63,7 +65,7 @@ const RoundControls: FC<RoundControlProps> = ({
                   : ''
               }
             >
-              round {roundInView}
+              {t('round', { roundInView })}
             </span>
           </Button>
         </div>
