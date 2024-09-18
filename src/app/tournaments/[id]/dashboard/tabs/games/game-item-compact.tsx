@@ -1,6 +1,7 @@
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import useTournamentSetGameResult from '@/components/hooks/mutation-hooks/use-tournament-set-game-result';
 import useOutsideClick from '@/components/hooks/use-outside-click';
+import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Result as ResultModel } from '@/types/tournaments';
 import { useQueryClient } from '@tanstack/react-query';
@@ -30,7 +31,6 @@ const GameItemCompact: FC<GameProps> = ({
   const { tournamentId } = useContext(DashboardContext);
   const queryClient = useQueryClient();
   const ref = useRef<any>(null); // FIXME any
-  const t = useTranslations('Results');
   const mutation = useTournamentSetGameResult(queryClient, {
     tournamentId,
   });
@@ -46,7 +46,7 @@ const GameItemCompact: FC<GameProps> = ({
   const bind = useLongPress(() => handleCardState(true), {
     cancelOnMovement: 1,
     cancelOutsideElement: true,
-    threshold: 100,
+    threshold: 125,
     onCancel: () => {
       handleCardState(false);
     },
@@ -57,7 +57,7 @@ const GameItemCompact: FC<GameProps> = ({
   });
 
   const handleMutate = (newResult: ResultModel) => {
-    if (overlayed && scaled && newResult !== result) {
+    if (overlayed && scaled && newResult !== result && !mutation.isPending) {
       mutation.mutate({
         gameId: id,
         whiteId: playerLeft.white_id!,
@@ -66,6 +66,13 @@ const GameItemCompact: FC<GameProps> = ({
         prevResult: result,
       });
     }
+  };
+
+  const resultProps: ResultProps = {
+    isPending: mutation.isPending,
+    result,
+    scaled,
+    handleMutate,
   };
 
   useEffect(() => {
@@ -87,39 +94,63 @@ const GameItemCompact: FC<GameProps> = ({
 
   return (
     <Card
-      className={`grid ${scaled && 'z-50 -translate-y-5 scale-105'} w-full grid-cols-[1fr_auto_1fr] items-center border p-2 text-sm transition-all duration-300 md:max-w-[250px]`}
+      className={`grid w-full grid-cols-[1fr_auto_1fr] items-center border p-2 text-sm transition-all duration-300 md:max-w-[250px] ${!scaled && 'touch-none'} ${scaled && 'z-50 -translate-y-5 scale-105'}`}
       ref={ref}
       {...bind()}
     >
-      <div
-        className={`line-clamp-2 max-w-full text-ellipsis hyphens-auto break-words rounded-sm p-1 ${draw || rightWin ? 'opacity-40' : ''} justify-self-start`}
+      <Button
+        variant="ghost"
+        className={`line-clamp-2 h-fit max-w-full text-ellipsis hyphens-auto break-words rounded-sm p-1 px-2 ${draw || rightWin ? 'text-muted-foreground' : scaled && result && 'underline underline-offset-4'} justify-self-start`}
         onClick={() => handleMutate('1-0')}
       >
         <small className="line-clamp-2 text-left">
           {playerLeft.white_nickname}
         </small>
-      </div>
-      <div
-        className={`mx-4 flex flex-grow gap-2 justify-self-center rounded-sm p-1`}
+      </Button>
+      <Button
+        variant="ghost"
+        className={`mx-4 flex h-fit flex-grow gap-2 justify-self-center rounded-sm p-1 px-2 ${scaled && draw && 'underline underline-offset-4'}`}
       >
-        {mutation.isPending ? (
-          <Loader2 className="size-8 animate-spin p-0" />
-        ) : (
-          <div onClick={() => handleMutate('1/2-1/2')}>
-            {t(mutation.data || result || '?')}
-          </div>
-        )}
-      </div>
-      <div
-        className={`line-clamp-2 max-w-full text-ellipsis hyphens-auto break-words rounded-sm p-1 ${draw || leftWin ? 'opacity-40' : ''} justify-self-end`}
+        <Result {...resultProps} />
+      </Button>
+      <Button
+        variant="ghost"
+        className={`line-clamp-2 h-fit max-w-full text-ellipsis hyphens-auto break-words rounded-sm p-1 px-2 ${draw || leftWin ? 'text-muted-foreground' : scaled && result && 'underline underline-offset-4'} justify-self-end`}
         onClick={() => handleMutate('0-1')}
       >
         <small className="line-clamp-2 text-right">
           {playerRight.black_nickname}
         </small>
-      </div>
+      </Button>
     </Card>
   );
+};
+
+const Result: FC<ResultProps> = ({
+  isPending,
+  result,
+  scaled,
+  handleMutate,
+}) => {
+  const t = useTranslations('Tournament.Results');
+  if (isPending) return <Loader2 className="size-5 animate-spin p-0" />;
+  if (scaled)
+    return (
+      <div
+        className={`${result && result !== '1/2-1/2' && 'text-muted-foreground'}`}
+        onClick={() => handleMutate('1/2-1/2')}
+      >
+        {t('draw')}{' '}
+      </div>
+    );
+  return <div>{result ? t(result) : '|'}</div>; // FIXME styling
+};
+
+type ResultProps = {
+  isPending: boolean;
+  result: ResultModel | null;
+  scaled: boolean;
+  handleMutate: (_result: ResultModel) => void;
 };
 
 export type GameProps = {

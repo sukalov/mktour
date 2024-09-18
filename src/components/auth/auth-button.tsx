@@ -78,7 +78,7 @@ const StyledItem: FC<
   </DropdownMenuItem>
 );
 
-const menuItems: Array<{title: 'profile' | 'edit profile', [key: string]: string}> = [
+const menuItems: MenuItems = [
   {
     title: 'profile',
     path: '/user',
@@ -88,6 +88,11 @@ const menuItems: Array<{title: 'profile' | 'edit profile', [key: string]: string
     path: '/user/edit',
   },
 ];
+
+type MenuItems = {
+  title: 'profile' | 'edit profile';
+  path: string;
+}[];
 
 export interface AuthButtonProps {
   user?: User | null;
