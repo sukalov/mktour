@@ -29,7 +29,9 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    ".archive/eslint.config.js"
+    ".archive/eslint.config.js",
+    "src/types/messages.d.ts"
+    
   ],
   "exclude": ["node_modules"]
 }
