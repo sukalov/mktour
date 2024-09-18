@@ -30,7 +30,12 @@ const AddPlayer = ({ setOpen, value, setValue }: DrawerProps) => {
   if (possiblePlayers.status === 'pending')
     return (
       <div className="flex flex-col gap-3">
-        <Skeleton className="h-10 w-full pt-8" />
+        <Input
+          id="possible-players-search"
+          value={value}
+          placeholder="search"
+          onChange={(e) => setValue(e.target.value)}
+        />
         <Skeleton className="h-svh w-full pt-8" />
       </div>
     );
@@ -41,7 +46,12 @@ const AddPlayer = ({ setOpen, value, setValue }: DrawerProps) => {
     });
     return (
       <div className="flex flex-col gap-3">
-        <Skeleton className="h-10 w-full pt-8" />
+        <Input
+          id="possible-players-search"
+          value={value}
+          placeholder="search"
+          onChange={(e) => setValue(e.target.value)}
+        />
         <Skeleton className="h-svh w-full pt-8" />
       </div>
     );
@@ -57,6 +67,7 @@ const AddPlayer = ({ setOpen, value, setValue }: DrawerProps) => {
   return (
     <div className="flex flex-col gap-3">
       <Input
+        id="possible-players-search"
         value={value}
         placeholder="search"
         onChange={(e) => setValue(e.target.value)}
@@ -78,7 +89,7 @@ const AddPlayer = ({ setOpen, value, setValue }: DrawerProps) => {
                     console.log('not found user id in context');
                     return;
                   }
-                  setValue('')
+                  setValue('');
                   mutate({ tournamentId: id, player, userId });
                 }}
                 className="p-0"
