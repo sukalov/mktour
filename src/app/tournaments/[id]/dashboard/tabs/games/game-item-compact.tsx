@@ -1,13 +1,19 @@
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
-import Result from '@/app/tournaments/[id]/dashboard/tabs/games/result';
 import useTournamentSetGameResult from '@/components/hooks/mutation-hooks/use-tournament-set-game-result';
+import useOutsideClick from '@/components/hooks/use-outside-click';
 import { Card } from '@/components/ui/card';
 import { Result as ResultModel } from '@/types/tournaments';
 import { useQueryClient } from '@tanstack/react-query';
-import { delay } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
-import { FC, useContext, useEffect, useState } from 'react';
-import { useSwipeable } from 'react-swipeable';
+import { useTranslations } from 'next-intl';
+import {
+  FC,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useLongPress } from 'use-long-press';
 
 const GameItemCompact: FC<GameProps> = ({
@@ -19,78 +25,39 @@ const GameItemCompact: FC<GameProps> = ({
   const draw = result === '1/2-1/2';
   const leftWin = result === '1-0';
   const rightWin = result === '0-1';
-
-  if (window)
-    window.oncontextmenu = function () {
-      return false;
-    }; // dev-line
-
-  const [open, setOpen] = useState(false);
   const [scaled, setScaled] = useState(false);
-  const { setOverlayed } = useContext(DashboardContext);
-  const [deltaX, setDeltaX] = useState<number | null>(null);
-  const [deltaY, setDeltaY] = useState<number | null>(null);
-
-  const onLongPress = () => {
-    setOverlayed(true);
-    setOpen(true);
-    setScaled(false);
-  };
-
-  const bind = useLongPress(() => onLongPress(), {
-    cancelOnMovement: 2,
-    cancelOutsideElement: true,
-    threshold: 125,
-    onStart: () => {
-      delay(() => setScaled(true), 25);
-    },
-    onCancel: () => {
-      setScaled(false);
-    },
-  });
-
-  useEffect(() => {
-    if (deltaY) {
-      if (deltaY > 50 || deltaY < -50) {
-        setOverlayed(false);
-        setOpen(false);
-        setDeltaX(null);
-      }
-    }
-  }, [deltaY, setOverlayed]);
-
-  const getResult = (deltaX: number | null): ResultModel => {
-    if (deltaX) {
-      if (deltaX > 25) return '0-1';
-      if (deltaX < -25) return '1-0';
-    }
-    return '1/2-1/2';
-  };
-
-  const swipeHandlers = useSwipeable({
-    onSwiping: ({ deltaX, deltaY }) => {
-      setDeltaX(deltaX);
-      setDeltaY(deltaY);
-    },
-    onTouchEndOrOnMouseUp: () => {
-      if (open) {
-        setOverlayed(false);
-        setOpen(false);
-        setDeltaX(null);
-        handleMutate(getResult(deltaX));
-      }
-    },
-    trackMouse: true,
-    preventScrollOnSwipe: true,
-  });
+  const { overlayed, setOverlayed } = useContext(DashboardContext);
   const { tournamentId } = useContext(DashboardContext);
   const queryClient = useQueryClient();
+  const ref = useRef<any>(null); // FIXME any
+  const t = useTranslations('Results');
   const mutation = useTournamentSetGameResult(queryClient, {
     tournamentId,
   });
 
+  const handleCardState = useCallback(
+    (state: boolean) => {
+      setOverlayed(state);
+      setScaled(state);
+    },
+    [setOverlayed],
+  );
+
+  const bind = useLongPress(() => handleCardState(true), {
+    cancelOnMovement: 1,
+    cancelOutsideElement: true,
+    threshold: 100,
+    onCancel: () => {
+      handleCardState(false);
+    },
+    filterEvents: () => {
+      if (scaled || overlayed) return false;
+      return true;
+    },
+  });
+
   const handleMutate = (newResult: ResultModel) => {
-    if (newResult !== result) {
+    if (overlayed && scaled && newResult !== result) {
       mutation.mutate({
         gameId: id,
         whiteId: playerLeft.white_id!,
@@ -101,34 +68,55 @@ const GameItemCompact: FC<GameProps> = ({
     }
   };
 
+  useEffect(() => {
+    if (mutation.isSuccess) {
+      handleCardState(false);
+    }
+  }, [handleCardState, mutation.isSuccess]);
+
+  useOutsideClick(() => {
+    if (scaled) {
+      handleCardState(false);
+    }
+  }, ref);
+
+  if (window)
+    window.oncontextmenu = function () {
+      return false;
+    }; // dev-line
+
   return (
     <Card
-      className={`grid ${scaled && 'scale-110'} w-full grid-cols-[1fr_auto_1fr] items-center border px-4 py-2 text-sm transition-all md:max-w-[250px]`}
+      className={`grid ${scaled && 'z-50 -translate-y-5 scale-105'} w-full grid-cols-[1fr_auto_1fr] items-center border p-2 text-sm transition-all duration-300 md:max-w-[250px]`}
+      ref={ref}
       {...bind()}
-      {...swipeHandlers}
     >
       <div
-        className={`line-clamp-2 max-w-full text-ellipsis hyphens-auto break-words ${draw || rightWin ? 'opacity-40' : ''} justify-self-start`}
+        className={`line-clamp-2 max-w-full text-ellipsis hyphens-auto break-words rounded-sm p-1 ${draw || rightWin ? 'opacity-40' : ''} justify-self-start`}
+        onClick={() => handleMutate('1-0')}
       >
-        <small>{playerLeft.white_nickname}</small>
+        <small className="line-clamp-2 text-left">
+          {playerLeft.white_nickname}
+        </small>
       </div>
-      {mutation.isPending ? (
-        <Loader2 className="animate-spin" />
-      ) : (
-        <Result
-          id={id}
-          playerLeft={playerLeft}
-          playerRight={playerRight}
-          result={result}
-          open={open}
-          setOpen={setOpen}
-          deltaX={deltaX}
-        />
-      )}
       <div
-        className={`line-clamp-2 max-w-full text-ellipsis hyphens-auto break-words ${draw || leftWin ? 'opacity-40' : ''} justify-self-end`}
+        className={`mx-4 flex flex-grow gap-2 justify-self-center rounded-sm p-1`}
       >
-        <small>{playerRight.black_nickname}</small>
+        {mutation.isPending ? (
+          <Loader2 className="size-8 animate-spin p-0" />
+        ) : (
+          <div onClick={() => handleMutate('1/2-1/2')}>
+            {t(mutation.data || result || '?')}
+          </div>
+        )}
+      </div>
+      <div
+        className={`line-clamp-2 max-w-full text-ellipsis hyphens-auto break-words rounded-sm p-1 ${draw || leftWin ? 'opacity-40' : ''} justify-self-end`}
+        onClick={() => handleMutate('0-1')}
+      >
+        <small className="line-clamp-2 text-right">
+          {playerRight.black_nickname}
+        </small>
       </div>
     </Card>
   );

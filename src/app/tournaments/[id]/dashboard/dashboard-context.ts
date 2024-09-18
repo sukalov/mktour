@@ -9,7 +9,7 @@ export const DashboardContext = createContext<DashboardContextType>({
   userId: undefined,
   overlayed: false,
   setOverlayed: () => null,
-  tournamentId: undefined
+  tournamentId: undefined,
 });
 
 export type DashboardContextType = {
@@ -17,7 +17,7 @@ export type DashboardContextType = {
   sendJsonMessage: SendJsonMessage;
   status: Status;
   userId: string | undefined;
-  overlayed: boolean
-  setOverlayed: Dispatch<SetStateAction<boolean>>
-  tournamentId: string | undefined
+  overlayed: boolean;
+  setOverlayed: Dispatch<SetStateAction<boolean>>;
+  tournamentId: string | undefined;
 };
