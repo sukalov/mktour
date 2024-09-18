@@ -55,7 +55,7 @@ export async function getTournamentPlayers(
     .where(eq(players_to_tournaments.tournament_id, id))
     .leftJoin(players, eq(players.id, players_to_tournaments.player_id));
 
-  return playersDb.map((each) => ({
+  const playerModels = playersDb.map((each) => ({
     id: each.player!.id,
     nickname: each.player!.nickname,
     realname: each.player?.realname,
@@ -67,6 +67,9 @@ export async function getTournamentPlayers(
     exited: each.players_to_tournaments.exited,
     place: each.players_to_tournaments.place,
   }));
+
+  return playerModels.sort((a, b) => (b.wins + (b.draws / 2)) - (a.wins + (a.draws / 2)));
+
 }
 
 export async function getTournamentInfo(id: string) {
