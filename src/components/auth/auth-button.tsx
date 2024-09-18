@@ -78,14 +78,10 @@ const StyledItem: FC<
   </DropdownMenuItem>
 );
 
-const menuItems = [
+const menuItems: Array<{title: 'profile' | 'edit profile', [key: string]: string}> = [
   {
     title: 'profile',
     path: '/user',
-  },
-  {
-    title: 'find people',
-    path: '/user/search',
   },
   {
     title: 'edit profile',

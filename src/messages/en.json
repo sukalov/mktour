@@ -17,7 +17,6 @@
       "make tournament": "make tournament",
       "FAQ": "FAQ",
       "contact": "contact",
-      "find people": "find somebody",
       "profile": "my profile",
       "edit profile": "edit profile",
       "all clubs description": "",
@@ -86,7 +85,7 @@
   },
   "Club": {
     "managers list": "managers list:",
-    "add": "add new manager"
+    "add manager": "add new manager"
   },
   "Status": {
     "admin": "admin",

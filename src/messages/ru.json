@@ -17,7 +17,6 @@
       "make tournament": "создать турнир",
       "FAQ": "FAQ",
       "contact": "связаться с нами",
-      "find people": "найти кого-нибудь",
       "profile": "мой профиль",
       "edit profile": "редактировать профиль",
       "Descriptions": {
@@ -41,7 +40,7 @@
     "edit": "редактировать",
     "rating": "рейтинг на личесс (блиц)",
     "email": "email",
-    "created on": "аккаунт создан",
+    "created": "аккаунт создан",
     "clubs": "клубы:"
   },
   "Player": {
@@ -77,7 +76,7 @@
   },
   "Club": {
     "managers list": "админы:",
-    "add": "добавить админа"
+    "add manager": "добавить админа"
   },
   "Status": {
     "admin": "администратор",

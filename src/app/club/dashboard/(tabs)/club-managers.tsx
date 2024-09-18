@@ -23,7 +23,7 @@ const ClubManagersList: FC<{ id: string }> = ({ id }) => {
         className="flex w-full gap-2"
       >
         <UserPlus />
-        {t('add')}
+        {t('add manager')}
       </Button>
     </div>
   );
@@ -38,7 +38,7 @@ const ManagerItem: FC<{ manager: ClubManagers }> = ({ manager }) => {
 
   return (
     <Link href={`/user/${manager.user?.username}`} key={manager.user?.id}>
-      {manager.user?.username} ({t(manager.clubs_to_users?.status)})
+      {manager.user?.username} ({t(manager.clubs_to_users!.status)})
     </Link>
   );
 };

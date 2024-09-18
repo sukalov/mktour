@@ -46,7 +46,7 @@ export default function DeleteUserForm({
   });
 
   const t = useTranslations('EditUser');
-  const checkboxes = ['checkbox1', 'checkbox2', 'checkbox3'];
+  const checkboxes: Array<'checkbox1' | 'checkbox2' | 'checkbox3'> = ['checkbox1', 'checkbox2', 'checkbox3'];
 
   return (
     <Form {...form}>
