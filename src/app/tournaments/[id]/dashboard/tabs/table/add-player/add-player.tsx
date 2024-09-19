@@ -94,7 +94,10 @@ const AddPlayer = ({ setOpen, value, setValue }: DrawerProps) => {
                 }}
                 className="p-0"
               >
-                <TableCell>{player.nickname}</TableCell>
+                <TableCell>
+                  <p className="line-clamp-2 break-all">{player.nickname}</p>{' '}
+                  {/* FIXME This wraps real names badly */}
+                </TableCell>
                 <TableCell>{player.rating}</TableCell>
               </TableRow>
             ))}

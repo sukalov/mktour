@@ -55,7 +55,7 @@ const AddPlayerDrawer = () => {
         <Drawer.Overlay className="fixed inset-0 top-0 z-50 bg-black/80" />
         <Drawer.Content
           onInteractOutside={() => setOpen(false)}
-          className="fixed bottom-0 left-[8rem] right-0 top-0 z-50 flex flex-col outline-none"
+          className="fixed bottom-0 left-[5rem] right-0 top-0 z-50 flex flex-col outline-none"
         >
           <Drawer.Title />
           <Drawer.Description />
