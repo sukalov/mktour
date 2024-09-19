@@ -3,15 +3,14 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Dispatch, FC, PropsWithChildren, SetStateAction } from 'react';
 
-// FIXME any
 const RoundControls: FC<RoundControlProps> = ({
   currentRound,
   roundInView,
   setRoundInView,
   currentTab,
 }) => {
-  const t = useTranslations('Tournament.Round')
-  const top = currentTab === 'games' ? 'top-0' : 'top-[-4rem]';
+  const t = useTranslations('Tournament.Round');
+  const top = currentTab === 'games' ? 'top-0' : '-top-16';
 
   const handleClick = (direction: string) => {
     let newRoundInView = roundInView;
@@ -49,7 +48,7 @@ const RoundControls: FC<RoundControlProps> = ({
 
   return (
     <div
-      className={`absolute ${top} z-10 flex w-full items-center justify-between backdrop-blur-md`}
+      className={`sticky ${top} z-10 flex w-[100vw] h-fit items-center justify-between backdrop-blur-md duration-500`}
     >
       <ControlsProvider>
         <div className="flex h-[52px] w-full flex-col items-center justify-center">

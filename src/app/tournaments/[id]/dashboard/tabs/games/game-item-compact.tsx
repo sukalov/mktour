@@ -81,11 +81,15 @@ const GameItemCompact: FC<GameProps> = ({
     }
   }, [handleCardState, mutation.isSuccess]);
 
-  useOutsideClick(() => {
-    if (scaled) {
-      handleCardState(false);
-    }
-  }, ref);
+  useOutsideClick(
+    () => {
+      if (scaled) {
+        handleCardState(false);
+      }
+    },
+    ref,
+    { capture: false, touch: 'touchstart' },
+  );
 
   if (window)
     window.oncontextmenu = function () {
@@ -94,7 +98,7 @@ const GameItemCompact: FC<GameProps> = ({
 
   return (
     <Card
-      className={`grid select-none w-full grid-cols-[1fr_auto_1fr] items-center border p-2 text-sm transition-all duration-300 md:max-w-[250px] ${scaled && 'z-[100] -translate-y-5 scale-105'}`}
+      className={`grid w-full select-none grid-cols-[1fr_auto_1fr] items-center border p-2 text-sm transition-all duration-300 md:max-w-[250px] ${scaled && 'z-50 -translate-y-5 scale-105'}`}
       ref={ref}
       {...bind()}
     >
@@ -108,7 +112,7 @@ const GameItemCompact: FC<GameProps> = ({
       />
       <Button
         variant="ghost"
-        className={`mx-4 flex h-fit flex-grow select-none gap-2 justify-self-center rounded-sm p-1 px-2 ${scaled && draw && 'underline underline-offset-4'}`}
+        className={`${!scaled && 'pointer-events-none'} mx-4 flex h-fit flex-grow select-none gap-2 justify-self-center rounded-sm p-1 px-2 ${scaled && draw && 'underline underline-offset-4'}`}
       >
         <Result {...resultProps} />
       </Button>
@@ -135,7 +139,7 @@ const PlayerButton: FC<PlayerButtonProps> = ({
   return (
     <Button
       variant="ghost"
-      className={`line-clamp-2 h-fit max-w-full select-none text-ellipsis hyphens-auto break-words rounded-sm p-1 px-2 ${muted ? 'text-muted-foreground' : scaled && result && 'underline underline-offset-4'} ${position.justify}`}
+      className={`${!scaled && 'pointer-events-none'} line-clamp-2 h-fit max-w-full select-none text-ellipsis hyphens-auto break-words rounded-sm p-1 px-2 ${muted ? 'text-muted-foreground' : scaled && result && 'underline underline-offset-4'} ${position.justify}`}
       onClick={handleMutate}
     >
       <small className={`line-clamp-2 ${position.text}`}>{nickname}</small>
@@ -157,10 +161,10 @@ const Result: FC<ResultProps> = ({
         className={`select-none ${result && result !== '1/2-1/2' && 'text-muted-foreground'}`}
         onClick={() => handleMutate('1/2-1/2')}
       >
-        <small className='select-none'>{t('draw')}</small>
+        <small className="select-none">{t('draw')}</small>
       </div>
     );
-  return <div className='select-none'>{result ? t(result) : '|'}</div>; // FIXME styling
+  return <div className="select-none">{result ? t(result) : '|'}</div>; // FIXME styling
 };
 
 type PlayerButtonProps = {

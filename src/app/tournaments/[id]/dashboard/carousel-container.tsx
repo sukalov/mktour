@@ -3,13 +3,13 @@ import {
   DashboardContextType,
 } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import tabs from '@/app/tournaments/[id]/dashboard/tabs';
+import Overlay from '@/components/overlay';
 import {
   Carousel,
   CarouselApi,
   CarouselContent,
   CarouselItem,
 } from '@/components/ui/carousel';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Dispatch,
   FC,
@@ -50,7 +50,11 @@ const CarouselContainer: FC<CarouselProps> = ({
     <Carousel setApi={setApi} opts={{ loop: true }}>
       <CarouselContent>
         {tabs.map((tab) => (
-          <CarouselIteratee key={tab.title} setScrolling={setScrolling}>
+          <CarouselIteratee
+            key={tab.title}
+            setScrolling={setScrolling}
+            currentTab={currentTab}
+          >
             {tab.component}
           </CarouselIteratee>
         ))}
@@ -62,10 +66,13 @@ const CarouselContainer: FC<CarouselProps> = ({
 const CarouselIteratee: FC<{
   children: FC;
   setScrolling: Dispatch<SetStateAction<boolean>>;
-}> = ({ children: Component, setScrolling }) => {
+  currentTab: string;
+}> = ({ children: Component, setScrolling, currentTab }) => {
   const viewportRef = useRef<HTMLDivElement>(null);
+  const { overlayed } = useContext(DashboardContext);
 
   useEffect(() => {
+    // FIXME ? i don't have the slightest idea what this thing is about
     let timeoutId: NodeJS.Timeout;
     const viewportRefCopy = viewportRef.current;
 
@@ -85,17 +92,27 @@ const CarouselIteratee: FC<{
     };
   }, [setScrolling]);
 
+  useEffect(() => {
+    if (currentTab) {
+      viewportRef.current?.scrollTo({ top: 0 });
+    }
+  }, [currentTab]);
+
   return (
     <CarouselItem>
-      <ScrollArea viewportRef={viewportRef} className="mt-10 h-[85svh]">
+      <div
+        ref={viewportRef}
+        className="mt-10 max-h-[85dvh] overflow-x-hidden overflow-y-scroll pb-10 small-scrollbar"
+      >
+        <Overlay open={overlayed} />
         <Component />
-      </ScrollArea>
+      </div>
     </CarouselItem>
   );
 };
 
 type CarouselProps = {
-  currentTab: SetStateAction<DashboardContextType['currentTab']>;
+  currentTab: DashboardContextType['currentTab'];
   setCurrentTab: Dispatch<SetStateAction<DashboardContextType['currentTab']>>;
   setScrolling: Dispatch<SetStateAction<boolean>>;
 };

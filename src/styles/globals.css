@@ -17,6 +17,7 @@ body {
   height: 100%;
   overflow: auto;
   touch-action: pan-x pan-y;
+  overscroll-behavior: none;
 }
 
 @font-face {

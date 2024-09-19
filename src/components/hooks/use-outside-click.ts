@@ -1,6 +1,10 @@
 import { RefObject, useEffect } from 'react';
 
-const useOutsideClick = (handler: () => void, ref: RefObject<any>) => {
+const useOutsideClick = (
+  handler: () => void,
+  ref: RefObject<any>,
+  options?: HookOptions,
+) => {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
       if (ref.current && !ref.current.contains(event.target)) {
@@ -9,19 +13,34 @@ const useOutsideClick = (handler: () => void, ref: RefObject<any>) => {
     };
 
     document.addEventListener('mousedown', handleClickOutside, {
-      capture: true,
+      capture: options?.capture || true,
     });
-    window.addEventListener('touchend', handleClickOutside, { capture: true });
+    window.addEventListener(
+      options?.touch || 'touchstart',
+      handleClickOutside,
+      { capture: options?.capture || true },
+    );
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside, {
-        capture: true,
+        capture: options?.capture || true,
       });
-      window.removeEventListener('touchend', handleClickOutside, {
-        capture: true,
-      });
+      window.removeEventListener(
+        options?.touch || 'touchstart',
+        handleClickOutside,
+        {
+          capture: options?.capture || true,
+        },
+      );
     };
-  }, [handler, ref]);
+  }, [handler, options?.capture, options?.touch, ref]);
 };
+
+type HookOptions =
+  | {
+      capture?: boolean;
+      touch?: 'touchstart' | 'touchend';
+    }
+  | undefined;
 
 export default useOutsideClick;

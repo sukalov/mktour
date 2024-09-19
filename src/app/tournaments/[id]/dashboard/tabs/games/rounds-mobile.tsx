@@ -29,7 +29,7 @@ const RoundsMobile: FC = () => {
         currentRound={data.tournament.ongoing_round}
         currentTab={currentTab}
       />
-      <div className="mb-4 mt-14 flex w-full flex-col gap-4 px-4">
+      <div className="mt-2 flex w-full flex-col gap-4 px-4">
         <RoundItem roundNumber={roundInView} />
       </div>
     </div>
