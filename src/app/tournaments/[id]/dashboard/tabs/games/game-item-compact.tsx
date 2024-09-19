@@ -104,6 +104,7 @@ const GameItemCompact: FC<GameProps> = ({
         scaled={scaled}
         nickname={playerLeft.white_nickname}
         muted={draw || rightWin}
+        position={{ justify: 'justify-self-start', text: 'text-left' }}
       />
       <Button
         variant="ghost"
@@ -117,6 +118,7 @@ const GameItemCompact: FC<GameProps> = ({
         scaled={scaled}
         nickname={playerRight.black_nickname}
         muted={draw || leftWin}
+        position={{ justify: 'justify-self-end', text: 'text-right' }}
       />
     </Card>
   );
@@ -128,14 +130,15 @@ const PlayerButton: FC<PlayerButtonProps> = ({
   nickname,
   scaled,
   muted,
+  position,
 }) => {
   return (
     <Button
       variant="ghost"
-      className={`line-clamp-2 h-fit max-w-full text-ellipsis hyphens-auto break-words rounded-sm p-1 px-2 ${muted ? 'text-muted-foreground' : scaled && result && 'underline underline-offset-4'} justify-self-end`}
-      onClick={() => handleMutate('0-1')}
+      className={`line-clamp-2 h-fit max-w-full text-ellipsis hyphens-auto break-words rounded-sm p-1 px-2 ${muted ? 'text-muted-foreground' : scaled && result && 'underline underline-offset-4'} ${position.justify}`}
+      onClick={handleMutate}
     >
-      <small className="line-clamp-2 text-right">{nickname}</small>
+      <small className={`line-clamp-2 ${position.text}`}>{nickname}</small>
     </Button>
   );
 };
@@ -154,18 +157,22 @@ const Result: FC<ResultProps> = ({
         className={`${result && result !== '1/2-1/2' && 'text-muted-foreground'}`}
         onClick={() => handleMutate('1/2-1/2')}
       >
-        {t('draw')}{' '}
+        <small>{t('draw')}</small>
       </div>
     );
   return <div>{result ? t(result) : '|'}</div>; // FIXME styling
 };
 
 type PlayerButtonProps = {
-  handleMutate: (_result: ResultModel | null) => void;
+  handleMutate: () => void;
   nickname: string | null;
   result: ResultModel | null;
   scaled: boolean;
   muted: boolean;
+  position: {
+    justify: 'justify-self-start' | 'justify-self-end';
+    text: 'text-left' | 'text-right';
+  };
 };
 
 type ResultProps = {
