@@ -154,7 +154,7 @@ const Result: FC<ResultProps> = ({
   if (scaled)
     return (
       <div
-        className={`${result && result !== '1/2-1/2' && 'text-muted-foreground'}`}
+        className={`select-none ${result && result !== '1/2-1/2' && 'text-muted-foreground'}`}
         onClick={() => handleMutate('1/2-1/2')}
       >
         <small>{t('draw')}</small>
