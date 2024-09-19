@@ -108,7 +108,7 @@ const GameItemCompact: FC<GameProps> = ({
       />
       <Button
         variant="ghost"
-        className={`mx-4 flex h-fit flex-grow gap-2 justify-self-center rounded-sm p-1 px-2 ${scaled && draw && 'underline underline-offset-4'}`}
+        className={`mx-4 flex h-fit flex-grow select-none gap-2 justify-self-center rounded-sm p-1 px-2 ${scaled && draw && 'underline underline-offset-4'}`}
       >
         <Result {...resultProps} />
       </Button>
@@ -135,7 +135,7 @@ const PlayerButton: FC<PlayerButtonProps> = ({
   return (
     <Button
       variant="ghost"
-      className={`line-clamp-2 h-fit max-w-full text-ellipsis hyphens-auto break-words rounded-sm p-1 px-2 ${muted ? 'text-muted-foreground' : scaled && result && 'underline underline-offset-4'} ${position.justify}`}
+      className={`line-clamp-2 h-fit max-w-full select-none text-ellipsis hyphens-auto break-words rounded-sm p-1 px-2 ${muted ? 'text-muted-foreground' : scaled && result && 'underline underline-offset-4'} ${position.justify}`}
       onClick={handleMutate}
     >
       <small className={`line-clamp-2 ${position.text}`}>{nickname}</small>
