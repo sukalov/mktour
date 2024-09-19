@@ -94,7 +94,7 @@ const GameItemCompact: FC<GameProps> = ({
 
   return (
     <Card
-      className={`grid w-full grid-cols-[1fr_auto_1fr] items-center border p-2 text-sm transition-all duration-300 md:max-w-[250px] ${scaled && 'z-50 -translate-y-5 scale-105'}`}
+      className={`grid select-none w-full grid-cols-[1fr_auto_1fr] items-center border p-2 text-sm transition-all duration-300 md:max-w-[250px] ${scaled && 'z-[100] -translate-y-5 scale-105'}`}
       ref={ref}
       {...bind()}
     >
@@ -157,10 +157,10 @@ const Result: FC<ResultProps> = ({
         className={`select-none ${result && result !== '1/2-1/2' && 'text-muted-foreground'}`}
         onClick={() => handleMutate('1/2-1/2')}
       >
-        <small>{t('draw')}</small>
+        <small className='select-none'>{t('draw')}</small>
       </div>
     );
-  return <div>{result ? t(result) : '|'}</div>; // FIXME styling
+  return <div className='select-none'>{result ? t(result) : '|'}</div>; // FIXME styling
 };
 
 type PlayerButtonProps = {
