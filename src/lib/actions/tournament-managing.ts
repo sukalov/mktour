@@ -46,8 +46,6 @@ export const createTournament = async (values: NewTournamentFormType) => {
 export async function getTournamentPlayers(
   id: string,
 ): Promise<Array<PlayerModel>> {
-  const { user } = await validateRequest();
-  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
 
   const playersDb = await db
     .select()
