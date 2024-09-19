@@ -3,7 +3,7 @@ import { usePathname } from 'next/navigation';
 import { FC, PropsWithChildren } from 'react';
 
 const Empty: FC<PropsWithChildren> = ({ children }) => {
-  const pathname = usePathname().split('/').at(-1);
+  const pathname = usePathname().split('/').at(-1) as Pathname;
   const t = useTranslations('Empty');
 
   return (
@@ -12,5 +12,7 @@ const Empty: FC<PropsWithChildren> = ({ children }) => {
     </div>
   );
 };
+
+type Pathname = "players" | "inbox" | "tournaments" | "dashboard" | "user";
 
 export default Empty;
