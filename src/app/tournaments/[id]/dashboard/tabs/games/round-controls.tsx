@@ -10,7 +10,7 @@ const RoundControls: FC<RoundControlProps> = ({
   currentTab,
 }) => {
   const t = useTranslations('Tournament.Round');
-  const top = currentTab === 'games' ? 'top-0' : '-top-16';
+  const top = currentTab === 'games' ? 'top-10' : 'top-0';
 
   const handleClick = (direction: string) => {
     let newRoundInView = roundInView;
@@ -48,7 +48,7 @@ const RoundControls: FC<RoundControlProps> = ({
 
   return (
     <div
-      className={`sticky ${top} z-10 flex w-[100vw] h-fit items-center justify-between backdrop-blur-md duration-500`}
+      className={`absolute ${top} z-10 flex h-fit w-[100vw] items-center justify-between backdrop-blur-md transition-all duration-500`}
     >
       <ControlsProvider>
         <div className="flex h-[52px] w-full flex-col items-center justify-center">
