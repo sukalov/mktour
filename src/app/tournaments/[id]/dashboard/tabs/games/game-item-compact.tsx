@@ -98,31 +98,45 @@ const GameItemCompact: FC<GameProps> = ({
       ref={ref}
       {...bind()}
     >
-      <Button
-        variant="ghost"
-        className={`line-clamp-2 h-fit max-w-full text-ellipsis hyphens-auto break-words rounded-sm p-1 px-2 ${draw || rightWin ? 'text-muted-foreground' : scaled && result && 'underline underline-offset-4'} justify-self-start`}
-        onClick={() => handleMutate('1-0')}
-      >
-        <small className="line-clamp-2 text-left">
-          {playerLeft.white_nickname}
-        </small>
-      </Button>
+      <PlayerButton
+        result={result}
+        handleMutate={() => handleMutate('1-0')}
+        scaled={scaled}
+        nickname={playerLeft.white_nickname}
+        muted={draw || rightWin}
+      />
       <Button
         variant="ghost"
         className={`mx-4 flex h-fit flex-grow gap-2 justify-self-center rounded-sm p-1 px-2 ${scaled && draw && 'underline underline-offset-4'}`}
       >
         <Result {...resultProps} />
       </Button>
-      <Button
-        variant="ghost"
-        className={`line-clamp-2 h-fit max-w-full text-ellipsis hyphens-auto break-words rounded-sm p-1 px-2 ${draw || leftWin ? 'text-muted-foreground' : scaled && result && 'underline underline-offset-4'} justify-self-end`}
-        onClick={() => handleMutate('0-1')}
-      >
-        <small className="line-clamp-2 text-right">
-          {playerRight.black_nickname}
-        </small>
-      </Button>
+      <PlayerButton
+        result={result}
+        handleMutate={() => handleMutate('0-1')}
+        scaled={scaled}
+        nickname={playerRight.black_nickname}
+        muted={draw || leftWin}
+      />
     </Card>
+  );
+};
+
+const PlayerButton: FC<PlayerButtonProps> = ({
+  handleMutate,
+  result,
+  nickname,
+  scaled,
+  muted,
+}) => {
+  return (
+    <Button
+      variant="ghost"
+      className={`line-clamp-2 h-fit max-w-full text-ellipsis hyphens-auto break-words rounded-sm p-1 px-2 ${muted ? 'text-muted-foreground' : scaled && result && 'underline underline-offset-4'} justify-self-end`}
+      onClick={() => handleMutate('0-1')}
+    >
+      <small className="line-clamp-2 text-right">{nickname}</small>
+    </Button>
   );
 };
 
@@ -144,6 +158,14 @@ const Result: FC<ResultProps> = ({
       </div>
     );
   return <div>{result ? t(result) : '|'}</div>; // FIXME styling
+};
+
+type PlayerButtonProps = {
+  handleMutate: (_result: ResultModel | null) => void;
+  nickname: string | null;
+  result: ResultModel | null;
+  scaled: boolean;
+  muted: boolean;
 };
 
 type ResultProps = {
