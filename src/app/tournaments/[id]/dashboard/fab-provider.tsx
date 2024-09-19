@@ -16,7 +16,9 @@ const FabProvider: FC<FabProviderProps> = ({
 }) => {
   if (status !== 'organizer') return null;
   return (
-    <div className={`${scrolling && 'opacity-50'}`}>
+    <div
+      className={`${scrolling && 'opacity-50 transition-all duration-300 ease-linear'}`}
+    >
       {fabTabMap[currentTab]}
     </div>
   );

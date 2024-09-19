@@ -7,7 +7,7 @@ import { FC, SetStateAction } from 'react';
 const Fab: FC<FabProps> = ({ onClick, icon: Icon, disabled }) => {
   return (
     <Button
-      className="fixed bottom-8 right-6 rounded-full transition-all duration-500"
+      className="fixed bottom-8 right-6 rounded-full"
       variant="secondary"
       size="icon"
       style={{ scale: 1.5 }}

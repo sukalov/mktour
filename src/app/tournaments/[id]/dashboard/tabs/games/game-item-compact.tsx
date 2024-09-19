@@ -46,7 +46,7 @@ const GameItemCompact: FC<GameProps> = ({
   const bind = useLongPress(() => handleCardState(true), {
     cancelOnMovement: 1,
     cancelOutsideElement: true,
-    threshold: 125,
+    threshold: 200,
     onCancel: () => {
       handleCardState(false);
     },

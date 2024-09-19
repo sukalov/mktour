@@ -45,19 +45,10 @@ const AddPlayerDrawer = () => {
   };
 
   return (
-    <Drawer.Root
-      direction="right"
-      onClose={handleClose}
-      open={open}
-    >
+    <Drawer.Root direction="right" onClose={handleClose} open={open}>
       <Drawer.Trigger asChild>
         <div>
-          <Fab
-            onClick={() => {
-              setOpen(true);
-            }}
-            icon={UserPlus}
-          />
+          <Fab onClick={() => setOpen(true)} icon={UserPlus} />
         </div>
       </Drawer.Trigger>
       <Drawer.Portal>
@@ -90,9 +81,7 @@ const AddPlayerDrawer = () => {
               <AddPlayer setOpen={setOpen} value={value} setValue={setValue} />
             )}
           </div>
-          <FabClose
-            onClick={handleClose}
-          />
+          <FabClose onClick={handleClose} />
         </Drawer.Content>
       </Drawer.Portal>
     </Drawer.Root>
