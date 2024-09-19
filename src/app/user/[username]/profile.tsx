@@ -47,7 +47,7 @@ const Profile: FC<{ user: DatabaseUser; isOwner: boolean }> = ({
               {t('email')}: {user.email}
             </span>
             <span>
-              {t('created on')} {preparedCreatedAt}
+              {t('created')} {preparedCreatedAt}
             </span>
           </>
         )}

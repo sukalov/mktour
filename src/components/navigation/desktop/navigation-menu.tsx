@@ -1,4 +1,4 @@
-import { NAVMENU_ITEMS } from '@/components/navigation/nav-menu-items';
+import { NAVMENU_ITEMS, SubNavItem } from '@/components/navigation/nav-menu-items';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -41,13 +41,13 @@ export default function NavigationMenuContainer() {
                           {t(tab.title)}
                         </div>
                         <p className="text-sm leading-tight text-muted-foreground">
-                          {t(`${tab.title} description`)}
+                          {t(`${tab.title}`)}
                         </p>
                       </a>
                     </NavigationMenuLink>
                   </li>
                   {tab.subMenuItems &&
-                    tab.subMenuItems.map((subTab: NavbarItem) => (
+                    tab.subMenuItems.map((subTab: SubNavItem) => (
                       <ListItem
                         key={subTab.path}
                         href={subTab.path}

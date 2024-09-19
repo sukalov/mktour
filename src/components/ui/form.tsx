@@ -149,7 +149,9 @@ const FormMessage = React.forwardRef<
 >(({ className, children, ...props }, ref) => {
   const t = useTranslations(`Errors`);
   const { error, formMessageId } = useFormField();
-  let body = error ? t(error?.message) : children;
+  let body = error
+    ? t(error.message as keyof IntlMessages['Errors'])
+    : children;
   if (error?.message?.startsWith('LINK_TEAM_ERROR')) {
     // TODO find a better way to handle this
     const teamData = error.message.split('@%!!(&');
@@ -191,5 +193,6 @@ export {
   FormItem,
   FormLabel,
   FormMessage,
-  useFormField,
+  useFormField
 };
+

@@ -6,7 +6,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { User } from 'lucia';
 import { User2 } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { MessageKeys, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FC, PropsWithChildren } from 'react';
@@ -90,7 +90,10 @@ const menuItems: MenuItems = [
 ];
 
 type MenuItems = {
-  title: 'profile' | 'edit profile';
+  title: MessageKeys<
+    IntlMessages['Menu']['Subs'],
+    keyof IntlMessages['Menu']['Subs']
+  >;
   path: string;
 }[];
 

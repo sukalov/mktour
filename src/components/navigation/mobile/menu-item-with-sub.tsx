@@ -1,5 +1,6 @@
 import { selected } from '@/components/navigation/mobile/menu';
 import MenuItem from '@/components/navigation/mobile/menu-item';
+import { NavbarItem } from '@/components/navigation/nav-menu-items';
 import { cn } from '@/lib/utils';
 
 import { useTranslations } from 'next-intl';
@@ -27,7 +28,7 @@ const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({
         </Link>
       </MenuItem>
       <div className="ml-6 mt-2 flex flex-col space-y-2">
-        {item.subMenuItems.map((subItem: NavbarItem, subIdx: number) => {
+        {item.subMenuItems?.map((subItem, subIdx: number) => {
           return (
             <MenuItem key={subIdx}>
               <Link
@@ -43,6 +44,11 @@ const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({
       </div>
     </>
   );
+};
+
+type MenuItemWithSubMenuProps = {
+  item: NavbarItem;
+  toggleOpen: () => void;
 };
 
 export default MenuItemWithSubMenu;

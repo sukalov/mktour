@@ -1,3 +1,5 @@
+import { MessageKeys } from 'next-intl';
+
 export const NAVMENU_ITEMS: NavbarItem[] = [
   {
     title: 'club',
@@ -51,20 +53,23 @@ export const NAVMENU_ITEMS: NavbarItem[] = [
       },
     ],
   },
-  // {
-  //   title: 'profile',
-  //   path: '/user',
-  //   topTab: 'myProfile',
-  //   userOnly: true,
-  //   subMenuItems: [
-  //     {
-  //       title: 'find people',
-  //       path: '/user/search',
-  //     },
-  //     {
-  //       title: 'edit profile',
-  //       path: '/user/edit',
-  //     },
-  //   ],
-  // },
 ];
+
+export type NavbarItem = {
+  title: MessageKeys<IntlMessages['Menu'], keyof IntlMessages['Menu']>;
+  path: string;
+  description?: string;
+  userOnly?: boolean;
+  topTab?: string;
+  subMenuItems?: SubNavItem[];
+};
+
+export type SubNavItem = {
+  title: MessageKeys<
+    IntlMessages['Menu']['Subs'],
+    keyof IntlMessages['Menu']['Subs']['Descriptions']
+  >;
+  userOnly?: boolean;
+  path: string;
+  description: boolean;
+};
