@@ -19,14 +19,6 @@
       "contact": "contact",
       "profile": "my profile",
       "edit profile": "edit profile",
-      "all clubs description": "",
-      "new club description": "new club",
-      "all tournaments description": "all tournaments",
-      "make tournament description": "make tournament",
-      "FAQ description": "FAQ",
-      "contact description": "contact",
-      "find people description": "find profile",
-      "edit profile description": "edit profile",
       "Descriptions": {
         "all clubs": "explore clubs and their events, join new communities",
         "new club": "create new chess club right here",
@@ -65,7 +57,7 @@
     "max rating": "no cheaters allowed",
     "possible players error": "error happened while loading club players",
     "lichess team connected": "sorry, this team is already here:",
-    "this player already exists!": "this player is already added"
+    "player exists error": "this player already exists!"
   },
   "NewClubForm": {
     "new club": "new club",

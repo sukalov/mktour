@@ -19,7 +19,7 @@ export const newPlayerFormSchema = z
     async (data) => {
       return await validateNewPlayer(data);
     },
-    { message: 'this player already exists!', path: ['name'] },
+    { message: 'player exists error', path: ['name'] },
   );
 
 export type NewPlayerFormType = z.infer<typeof newPlayerFormSchema>;

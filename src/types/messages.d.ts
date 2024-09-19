@@ -1,9 +1,10 @@
 import en from '../messages/en.json';
-import ru from '../messages/ru.json';
 
 type Messages = typeof en;
 
-const ruMessages: Messages = ru;
+export function createMessages<T extends Messages>(messages: T): T {
+  return messages;
+}
 
 declare global {
   interface IntlMessages extends Messages {}
