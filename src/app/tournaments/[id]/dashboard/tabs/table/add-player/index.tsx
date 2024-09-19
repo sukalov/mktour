@@ -59,7 +59,7 @@ const AddPlayerDrawer = () => {
         >
           <Drawer.Title />
           <Drawer.Description />
-          <div className="flex flex-1 flex-col gap-3 rounded-l-[10px] border border-secondary bg-background px-6 pt-8">
+          <div className="flex flex-1 flex-col gap-3 rounded-l-[10px] border border-secondary bg-background p-4">
             <Button
               className="flex w-full gap-2"
               onClick={() => setAddingNewPlayer((prev) => !prev)}
