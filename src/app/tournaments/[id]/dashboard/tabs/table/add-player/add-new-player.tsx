@@ -29,7 +29,6 @@ import { useHotkeys } from 'react-hotkeys-hook';
 const AddNewPlayer = ({
   value,
   setValue,
-  setOpen,
   returnToNewPlayer,
   handleClose,
 }: AddNewPlayerProps) => {
@@ -43,7 +42,7 @@ const AddNewPlayer = ({
     sendJsonMessage,
     returnToNewPlayer,
   );
-  useHotkeys('escape', () => setOpen(false), { enableOnFormTags: true });
+  useHotkeys('escape', handleClose, { enableOnFormTags: true });
 
   const form = useForm<NewPlayerFormType>({
     resolver: zodResolver(newPlayerFormSchema),

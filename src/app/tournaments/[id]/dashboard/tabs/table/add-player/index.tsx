@@ -71,14 +71,14 @@ const AddPlayerDrawer = () => {
             <div className="absolute h-1 w-full shadow-red-600 drop-shadow-2xl"></div>
             {addingNewPlayer ? (
               <AddNewPlayer
-                setOpen={setOpen}
+
                 value={value}
                 setValue={setValue}
                 returnToNewPlayer={returnToNewPlayer}
                 handleClose={handleClose}
               />
             ) : (
-              <AddPlayer setOpen={setOpen} value={value} setValue={setValue} />
+              <AddPlayer value={value} setValue={setValue} handleClose={handleClose}/>
             )}
           </div>
           <FabClose onClick={handleClose} />
@@ -89,8 +89,8 @@ const AddPlayerDrawer = () => {
 };
 
 export type DrawerProps = {
-  setOpen: (_arg0: boolean) => void;
   value: string;
+  handleClose: () => void;
   setValue: Dispatch<SetStateAction<string>>;
 };
 

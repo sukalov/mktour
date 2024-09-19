@@ -14,7 +14,7 @@ import { useContext } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { toast } from 'sonner';
 
-const AddPlayer = ({ setOpen, value, setValue }: DrawerProps) => {
+const AddPlayer = ({ value, setValue, handleClose }: DrawerProps) => {
   const id = usePathname().split('/').at(-1) as string;
   const possiblePlayers = useTournamentPossiblePlayers(id);
   const queryClient = useQueryClient();
@@ -25,7 +25,7 @@ const AddPlayer = ({ setOpen, value, setValue }: DrawerProps) => {
     sendJsonMessage,
   );
   const t = useTranslations('Errors');
-  useHotkeys('escape', () => setOpen(false), { enableOnFormTags: true });
+  useHotkeys('escape', () => handleClose, { enableOnFormTags: true });
 
   if (possiblePlayers.status === 'pending')
     return (
