@@ -27,7 +27,7 @@ export interface GameModel {
   result: Result | null; //games.result
 }
 
-export interface TournamentModel {
+export interface TournamentModel { // FIXME this seems out-dated or misleading
   id: string; //tournaments.id
   date: string; // tournaments.date
   title: string; // tournaments.title

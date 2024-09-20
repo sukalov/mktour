@@ -6,6 +6,7 @@ type Message =
   | { type: 'remove-player'; id: string } // onError add-exidsting-player
   | { type: 'start-tournament' }
   | { type: 'set-result', gameId: string }
+  | { type: 'set-status', tournamentId: string | undefined }
   | ErrorMessage;
 
 type ErrorMessage = {

@@ -317,37 +317,40 @@ export async function setTournamentStatus({
   started_at,
   closed_at,
 }: {
-  tournamentId: string;
+  tournamentId: string | undefined;
   started_at?: Date | null;
   closed_at?: Date | null;
 }) {
-  if (closed_at)
-    await db
-      .update(tournaments)
-      .set({ closed_at })
-      .where(
-        and(eq(tournaments.id, tournamentId), isNull(tournaments.closed_at)),
-      )
-      .then((value) => {
-        if (!value.rowsAffected) throw new Error('TOURNAMENT ALREADY ENDED');
-      });
+  if (tournamentId) {
+    if (closed_at)
+      await db
+        .update(tournaments)
+        .set({ closed_at })
+        .where(
+          and(eq(tournaments.id, tournamentId), isNull(tournaments.closed_at)),
+        )
+        .then((value) => {
+          if (!value.rowsAffected) throw new Error('TOURNAMENT ALREADY ENDED');
+        });
 
-  if (started_at)
-    await db
-      .update(tournaments)
-      .set({ started_at })
-      .where(
-        and(eq(tournaments.id, tournamentId), isNull(tournaments.started_at)),
-      )
-      .then((value) => {
-        if (!value.rowsAffected) throw new Error('TOURNAMENT ALREADY STARTED');
-      });
-  if (!started_at)
-    // FIXME dev-tool
-    await db
-      .update(tournaments)
-      .set({ started_at })
-      .where(and(eq(tournaments.id, tournamentId)));
+    if (started_at)
+      await db
+        .update(tournaments)
+        .set({ started_at })
+        .where(
+          and(eq(tournaments.id, tournamentId), isNull(tournaments.started_at)),
+        )
+        .then((value) => {
+          if (!value.rowsAffected)
+            throw new Error('TOURNAMENT ALREADY STARTED');
+        });
+    if (!started_at)
+      // FIXME dev-tool
+      await db
+        .update(tournaments)
+        .set({ started_at })
+        .where(and(eq(tournaments.id, tournamentId)));
+  }
 }
 
 export async function setTournamentGameResult({

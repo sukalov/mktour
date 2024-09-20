@@ -1,5 +1,7 @@
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import useTournamentSetGameResult from '@/components/hooks/mutation-hooks/use-tournament-set-game-result';
+import useTournamentSetStatus from '@/components/hooks/mutation-hooks/use-tournament-set-status';
+import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import useOutsideClick from '@/components/hooks/use-outside-click';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -27,15 +29,21 @@ const GameItemCompact: FC<GameProps> = ({
   const leftWin = result === '1-0';
   const rightWin = result === '0-1';
   const [scaled, setScaled] = useState(false);
-  const { overlayed, setOverlayed, sendJsonMessage } =
+  const { overlayed, setOverlayed, sendJsonMessage, tournamentId } =
     useContext(DashboardContext);
-  const { tournamentId } = useContext(DashboardContext);
+  const { data } = useTournamentInfo(tournamentId!);
   const queryClient = useQueryClient();
+  const status = useTournamentSetStatus(queryClient, {
+    tournamentId: tournamentId!,
+    sendJsonMessage,
+  });
   const mutation = useTournamentSetGameResult(queryClient, {
     tournamentId,
     sendJsonMessage,
   });
   const ref = useRef<any>(null); // FIXME any
+
+  data?.tournament.started_at;
 
   const handleCardState = useCallback(
     (state: boolean) => {
@@ -60,6 +68,12 @@ const GameItemCompact: FC<GameProps> = ({
 
   const handleMutate = (newResult: ResultModel) => {
     if (overlayed && scaled && !mutation.isPending) {
+      if (!data?.tournament.started_at) { // FIXME should move this logic to server
+        status.mutate({
+          started_at: new Date(),
+          tournamentId: tournamentId!,
+        });
+      }
       mutation.mutate({
         gameId: id,
         whiteId: playerLeft.white_id!,

@@ -92,7 +92,9 @@
     "user deleted": "your profile has been deleted completely",
     "zero clubs error": "every user must have at least one club",
     "round generated": "round genrated",
-    "result added": "result added"
+    "result added": "result added",
+    "started": "tournament started!",
+    "ended": "tournament ended!"
   },
   "EditUser": {
     "header": "settings",
@@ -114,6 +116,9 @@
       "main": "main",
       "table": "table",
       "games": "games"
+    },
+    "Main": {
+      "start tournament": "start tournament"
     },
     "Results": {
       "1-0": "1 - 0",
