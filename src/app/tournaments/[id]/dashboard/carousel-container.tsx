@@ -102,7 +102,7 @@ const CarouselIteratee: FC<{
     <CarouselItem>
       <div
         ref={viewportRef}
-        className="mt-10 min-h-[85dvh] overflow-x-hidden overflow-y-scroll pb-10 small-scrollbar"
+        className="mt-10 max-h-[85dvh] overflow-x-hidden overflow-y-scroll pb-10 small-scrollbar"
       >
         <Overlay open={overlayed} />
         <Component />
