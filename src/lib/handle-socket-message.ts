@@ -86,6 +86,14 @@ export const handleSocketMessage = (
       }
       queryClient.invalidateQueries({ queryKey: [tournamentId, 'players'] });
       break;
+    case 'set-result':
+      queryClient.invalidateQueries({
+        queryKey: [tournamentId, 'games'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [tournamentId, 'players', 'added'],
+      });
+      break;
     case 'error':
       toast.error(`server couldn't do this action "${message.data.type}"`);
     default:

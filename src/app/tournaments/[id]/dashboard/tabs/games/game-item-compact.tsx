@@ -27,13 +27,15 @@ const GameItemCompact: FC<GameProps> = ({
   const leftWin = result === '1-0';
   const rightWin = result === '0-1';
   const [scaled, setScaled] = useState(false);
-  const { overlayed, setOverlayed } = useContext(DashboardContext);
+  const { overlayed, setOverlayed, sendJsonMessage } =
+    useContext(DashboardContext);
   const { tournamentId } = useContext(DashboardContext);
   const queryClient = useQueryClient();
-  const ref = useRef<any>(null); // FIXME any
   const mutation = useTournamentSetGameResult(queryClient, {
     tournamentId,
+    sendJsonMessage,
   });
+  const ref = useRef<any>(null); // FIXME any
 
   const handleCardState = useCallback(
     (state: boolean) => {

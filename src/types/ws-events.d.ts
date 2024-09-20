@@ -5,6 +5,7 @@ type Message =
   | { type: 'add-new-player'; body: PlayerModel }
   | { type: 'remove-player'; id: string } // onError add-exidsting-player
   | { type: 'start-tournament' }
+  | { type: 'set-result', gameId: string }
   | ErrorMessage;
 
 type ErrorMessage = {
