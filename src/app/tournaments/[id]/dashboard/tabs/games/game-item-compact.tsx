@@ -59,7 +59,7 @@ const GameItemCompact: FC<GameProps> = ({
   });
 
   const handleMutate = (newResult: ResultModel) => {
-    if (overlayed && scaled && newResult !== result && !mutation.isPending) {
+    if (overlayed && scaled && !mutation.isPending) {
       mutation.mutate({
         gameId: id,
         whiteId: playerLeft.white_id!,
