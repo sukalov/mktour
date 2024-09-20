@@ -24,55 +24,76 @@ import { toast } from 'sonner';
 const Main = () => {
   const tournamentId = usePathname().split('/').at(-1) as string;
   const { data, isLoading, isError } = useTournamentInfo(tournamentId);
-  const { data: players } = useTournamentPlayers(tournamentId);
+  const {
+    data: players,
+    isLoading: isPlayersLoading,
+    isError: isPlayersError,
+  } = useTournamentPlayers(tournamentId);
   const { sendJsonMessage } = useContext(DashboardContext);
   const queryClient = useQueryClient();
-  const status = useTournamentSetStatus(queryClient, {
+
+  const tournamentStatusMutation = useTournamentSetStatus(queryClient, {
     tournamentId,
     sendJsonMessage,
   });
+  const { status } = useContext(DashboardContext);
   const t = useTranslations('Tournament.Main');
   const locale = useLocale();
-  const formattedStartedAt = data?.tournament.started_at?.toLocaleTimeString(
-    locale,
-    {
-      hour: '2-digit',
-      minute: '2-digit',
-    },
-  );
 
   const handleClick = () => {
-    status.mutate({ started_at: new Date(), tournamentId });
+    tournamentStatusMutation.mutate({ started_at: new Date(), tournamentId });
   };
 
-  if (isLoading) return <LoadingElement />;
-  if (isError) {
+  if (isLoading || isPlayersLoading) return <LoadingElement />;
+  if (isError || isPlayersError) {
     toast.error("couldn't get tournament info from server", {
       id: 'query-info',
       duration: 3000,
     });
     return <LoadingElement />;
   }
+  if (!data) return 'tournament info is `undefined` somehow';
+
+  const formattedStartedAt = data.tournament.started_at?.toLocaleTimeString(
+    locale,
+    {
+      hour: '2-digit',
+      minute: '2-digit',
+    },
+  );
+  const formattedDate = new Date(data.tournament.date).toLocaleDateString(
+    locale,
+    {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      weekday: 'long',
+    },
+  );
+  const decapitalizedWeekday = formattedDate.charAt(0).toLowerCase() + formattedDate.slice(1);
 
   return (
     <div className="flex flex-col gap-4 p-4">
       <div className="truncate whitespace-break-spaces text-4xl font-bold">
-        {data?.tournament.title}
+        {data.tournament.title}
       </div>
       <Card className="items-left flex w-full flex-col gap-8 p-4 px-8">
-        <InfoItem icon={NotebookPen} value={data?.club?.name} />
-        <InfoItem icon={UserRound} value={data?.tournament.type} />
-        <InfoItem icon={Dices} value={data?.tournament.format} />
-        <InfoItem icon={CalendarDays} value={data?.tournament.date} />
+        <InfoItem icon={NotebookPen} value={data.club?.name} />
+        <InfoItem icon={UserRound} value={data.tournament.type} />
+        <InfoItem icon={Dices} value={data.tournament.format} />
+        <InfoItem icon={CalendarDays} value={decapitalizedWeekday} />
         {formattedStartedAt && (
           <InfoItem
-            icon={getClockIcon(data?.tournament.started_at!)}
+            icon={getClockIcon(data.tournament.started_at!)}
             value={formattedStartedAt}
           />
         )}
       </Card>
       {/* here is place to chose number of rounds in swiss */}
-      {!data?.tournament.started_at ? (
+
+      {status !== 'organizer' ? (
+        <></>
+      ) : !data.tournament.started_at ? (
         <Button
           disabled={!players || players?.length < 2}
           onClick={handleClick}
@@ -82,7 +103,9 @@ const Main = () => {
         </Button>
       ) : (
         <Button // FIXME dev-tool
-          onClick={() => status.mutate({ started_at: null, tournamentId })}
+          onClick={() =>
+            tournamentStatusMutation.mutate({ started_at: null, tournamentId })
+          }
         >
           <p>
             <strong>DEV:</strong> reset started at

@@ -5,7 +5,7 @@ import {
 } from '@/app/tournaments/[id]/prefetch';
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
-import { useStatusInTournament } from '@/lib/db/hooks/use-status-in-tournament';
+import { getStatusInTournament } from '@/lib/db/hooks/get-status-in-tournament';
 import { tournaments } from '@/lib/db/schema/tournaments';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import { eq } from 'drizzle-orm';
@@ -25,7 +25,7 @@ export default async function TournamentPage({ params }: TournamentPageProps) {
   
   if (!tournament) notFound();
 
-  let status = await useStatusInTournament(user, params.id);
+  let status = await getStatusInTournament(user, params.id);
 
   return (
     <HydrationBoundary state={dehydrate(tournamentQueryClient)}>

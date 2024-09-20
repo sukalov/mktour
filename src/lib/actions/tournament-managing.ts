@@ -15,7 +15,7 @@ import {
 } from '@/lib/db/schema/tournaments';
 import { newid } from '@/lib/utils';
 import { NewTournamentFormType } from '@/lib/zod/new-tournament-form';
-import { GameModel, PlayerModel, Result } from '@/types/tournaments';
+import { GameModel, PlayerModel, Result, TournamentInfo } from '@/types/tournaments';
 import { aliasedTable, and, eq, inArray, isNull, sql } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 
@@ -70,14 +70,17 @@ export async function getTournamentPlayers(
   );
 }
 
-export async function getTournamentInfo(id: string) {
-  return (
+export async function getTournamentInfo(id: string): Promise<TournamentInfo> {
+  const tournamentInfo = (
     await db
       .select()
       .from(tournaments)
       .where(eq(tournaments.id, id))
       .leftJoin(clubs, eq(tournaments.club_id, clubs.id))
   ).at(0);
+  if (!tournamentInfo) throw new Error('TOURNAMENT NOT FOUND');
+  if (!tournamentInfo.club) throw new Error('ORGANIZER CLUB NOT FOUND');
+  return tournamentInfo;
 }
 
 export async function getTournamentPossiblePlayers(
@@ -576,5 +579,5 @@ async function handleResultReset(
         draws: sql`COALESCE(${players_to_tournaments.draws}, 0) - 1`,
       })
       .where(eq(players_to_tournaments.player_id, blackId));
+    }
   }
-}

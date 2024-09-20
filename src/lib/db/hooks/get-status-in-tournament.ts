@@ -10,7 +10,7 @@ import type { User } from 'lucia';
 
 export type Status = 'organizer' | 'player' | 'viewer';
 
-export const useStatusInTournament = async (
+export const getStatusInTournament = async (
   user: User | null,
   tournamentId: string,
 ): Promise<Status> => {
