@@ -123,8 +123,9 @@ const getClockIcon = (time: Date | null | undefined): FC => {
   let hour = time.getHours();
   const minutes = time.getMinutes();
   if (minutes >= 30) {
-    hour = (hour + 1) % 12;
+    hour = hour + 1;
   }
+  hour = hour % 12;
   const clockIcon = `Clock${hour === 0 ? '12' : hour}` as keyof typeof icons;
 
   return icons[clockIcon];
