@@ -13,7 +13,7 @@ export default function useTournamentSetGameResult(
   const t = useTranslations('Toasts');
   return useMutation({
     mutationFn: setTournamentGameResult,
-    onSuccess: (_error, { gameId }) => {
+    onSuccess: (_error, { gameId, result }) => {
       toast.success(t('result added'));
       queryClient.invalidateQueries({
         queryKey: [tournamentId, 'games'],
@@ -22,7 +22,7 @@ export default function useTournamentSetGameResult(
         queryKey: [tournamentId, 'players', 'added'],
       });
       console.log('result added');
-      sendJsonMessage({ type: 'set-result', gameId });
+      sendJsonMessage({ type: 'set-game-result', gameId, result });
     },
     onError: (error) => {
       toast.error(t('server error'));

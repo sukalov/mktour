@@ -19,7 +19,7 @@ const RoundsMobile: FC = () => {
     return <Center>{'add at least two players to see generated round'}</Center>; // FIXME Intl
 
   if (isError || isPlayersError) return 'error'; // FIXME Intl
-  if (!data) return 'loading'; // FIXME Intl
+  if (!data) return 'no data'; // FIXME Intl
 
   return (
     <div>

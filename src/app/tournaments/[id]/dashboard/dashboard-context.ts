@@ -1,6 +1,6 @@
-import { Status } from '@/lib/db/hooks/use-status-in-tournament';
+import { Status } from '@/lib/db/hooks/get-status-in-tournament';
+import { Message } from '@/types/ws-events';
 import { createContext, Dispatch, SetStateAction } from 'react';
-import { SendJsonMessage } from 'react-use-websocket/dist/lib/types';
 
 export const DashboardContext = createContext<DashboardContextType>({
   currentTab: 'main',
@@ -14,7 +14,7 @@ export const DashboardContext = createContext<DashboardContextType>({
 
 export type DashboardContextType = {
   currentTab: 'main' | 'table' | 'games';
-  sendJsonMessage: SendJsonMessage;
+  sendJsonMessage: (_jsonMessage: Message, _keep?: boolean) => void;
   status: Status;
   userId: string | undefined;
   overlayed: boolean;

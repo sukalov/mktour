@@ -86,7 +86,7 @@ export const handleSocketMessage = (
       }
       queryClient.invalidateQueries({ queryKey: [tournamentId, 'players'] });
       break;
-    case 'set-result':
+    case 'set-game-result':
       queryClient.invalidateQueries({
         queryKey: [tournamentId, 'games'],
       });
@@ -94,7 +94,7 @@ export const handleSocketMessage = (
         queryKey: [tournamentId, 'players', 'added'],
       });
       break;
-    case 'set-status':
+    case 'set-tournament-status':
       queryClient.invalidateQueries({
         queryKey: [tournamentId, 'tournament'],
       });

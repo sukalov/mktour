@@ -5,7 +5,7 @@ import AddPlayerDrawer from '@/app/tournaments/[id]/dashboard/tabs/table/add-pla
 import useGenerateRoundRobinRound from '@/components/hooks/mutation-hooks/use-tournament-generate-rr-round';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
-import { Status } from '@/lib/db/hooks/use-status-in-tournament';
+import { Status } from '@/lib/db/hooks/get-status-in-tournament';
 import { useQueryClient } from '@tanstack/react-query';
 import { Loader2, Shuffle } from 'lucide-react';
 import { usePathname } from 'next/navigation';

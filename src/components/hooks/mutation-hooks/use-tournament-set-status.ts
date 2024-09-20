@@ -14,12 +14,17 @@ export default function useTournamentSetStatus(
   return useMutation({
     mutationFn: setTournamentStatus,
     onSuccess: (_error, { started_at, closed_at }) => {
-      if (closed_at) toast.success(t('ended'));
-      if (started_at) toast.success(t('started'));
+      if (closed_at) {
+        toast.success(t('ended'));
+        sendJsonMessage({ type: 'set-tournament-status', closed_at });
+      }
+      if (started_at) {
+        toast.success(t('started'));
+        sendJsonMessage({ type: 'set-tournament-status', started_at });
+      }
       queryClient.invalidateQueries({
         queryKey: [tournamentId, 'tournament'],
       });
-      sendJsonMessage({ type: 'set-status', tournamentId });
     },
     onError: (error) => {
       toast.error(t('server error'));

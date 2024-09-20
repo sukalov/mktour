@@ -50,7 +50,7 @@ interface TournamentInfo {
   club: DatabaseClub | null;
 }
 
-type Result = '0-1' | '1-0' | '1/2-1/2';
+type Result = '0-1' | '1-0' | '1/2-1/2' | null;
 
 type Format = 'swiss' | 'round robin' | 'double elimination';
 

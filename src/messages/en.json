@@ -93,8 +93,8 @@
     "zero clubs error": "every user must have at least one club",
     "round generated": "round genrated",
     "result added": "result added",
-    "started": "tournament started!",
-    "ended": "tournament ended!"
+    "started": "tournament has started!",
+    "ended": "tournament is finished!"
   },
   "EditUser": {
     "header": "settings",
