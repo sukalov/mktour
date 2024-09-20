@@ -354,18 +354,18 @@ export async function setTournamentGameResult({
   gameId,
   whiteId,
   blackId,
-  newResult: result,
+  result,
   prevResult,
 }: {
   gameId: string;
   whiteId: string;
   blackId: string;
-  newResult: Result;
+  result: Result;
   prevResult: Result | null;
 }) {
   if (prevResult && result === prevResult) {
     await handleResultReset(whiteId, blackId, prevResult);
-    await db.update(games).set({ result: null }).where(eq(games.id, gameId));
+    await db.update(games).set({ result: null }).where(eq(games.id, gameId)); // maybe use 'delete' instead of 'set'?
     return;
   }
   if (result === '1-0') {

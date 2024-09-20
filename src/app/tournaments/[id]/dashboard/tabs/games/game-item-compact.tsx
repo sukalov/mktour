@@ -64,7 +64,7 @@ const GameItemCompact: FC<GameProps> = ({
         gameId: id,
         whiteId: playerLeft.white_id!,
         blackId: playerRight.black_id!,
-        newResult,
+        result: newResult,
         prevResult: result,
       });
     }
