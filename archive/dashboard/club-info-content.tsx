@@ -28,9 +28,9 @@ const ClubInfo = ({ clubId }: { clubId: string }) => {
   return (
     <Card className="items-left flex w-full flex-col gap-8 p-4">
       {club.data.description && (
-        <InfoItem icon={<Info />} value={club.data.description} />
+        <InfoItem icon={Info} value={club.data.description} />
       )}
-      <InfoItem icon={<CalendarDays />} value={createdAt} />
+      <InfoItem icon={CalendarDays} value={createdAt} />
     </Card>
   );
 };

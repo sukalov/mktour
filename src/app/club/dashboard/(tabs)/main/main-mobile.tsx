@@ -12,9 +12,9 @@ const Mobile: FC<ClubTabProps & { club: any }> = ({ club }) => {
   return (
     <Card className="items-left mx-auto flex max-w-[min(640px,100%)] flex-col gap-8 p-4">
       {club.data.description && (
-        <InfoItem icon={<Info />} value={club.data.description} />
+        <InfoItem icon={Info} value={club.data.description} />
       )}
-      <InfoItem icon={<CalendarDays />} value={createdAt} />
+      <InfoItem icon={CalendarDays} value={createdAt} />
     </Card>
   );
 };
