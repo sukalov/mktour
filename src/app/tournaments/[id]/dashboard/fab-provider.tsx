@@ -42,7 +42,7 @@ const ShuffleFab = () => {
       disabled={isPending}
       icon={!isPending ? Shuffle : Loader2}
       onClick={() => mutate({ tournamentId, userId, roundNumber: 1 })}
-    ></Fab>
+    />
   );
 };
 
