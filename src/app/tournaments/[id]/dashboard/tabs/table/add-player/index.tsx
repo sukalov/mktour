@@ -1,11 +1,10 @@
 import Fab from '@/app/tournaments/[id]/dashboard/fab';
 import AddNewPlayer from '@/app/tournaments/[id]/dashboard/tabs/table/add-player/add-new-player';
 import AddPlayer from '@/app/tournaments/[id]/dashboard/tabs/table/add-player/add-player';
-import FabClose from '@/app/tournaments/[id]/dashboard/tabs/table/add-player/fab-close';
 import { Button } from '@/components/ui/button';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
-import { ArrowLeft, Plus, UserPlus } from 'lucide-react';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { ArrowLeft, Plus, UserPlus, X } from 'lucide-react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { Drawer } from 'vaul';
 
@@ -44,13 +43,23 @@ const AddPlayerDrawer = () => {
     setValue(player.nickname);
   };
 
+  useEffect(() => {
+    // this hook lets you interact with outside fab and avoid Vaul's 'pointer-events: none' style on body
+    if (open) {
+      // Pushing the change to the end of the call stack
+      const timer = setTimeout(() => {
+        document.body.style.pointerEvents = '';
+      }, 0);
+
+      return () => clearTimeout(timer);
+    } else {
+      document.body.style.pointerEvents = 'auto';
+    }
+  }, [open]);
+
   return (
     <Drawer.Root direction="right" onClose={handleClose} open={open}>
-      <Drawer.Trigger asChild>
-        <div>
-          <Fab onClick={() => setOpen(true)} icon={UserPlus} />
-        </div>
-      </Drawer.Trigger>
+      <Fab onClick={() => setOpen(!open)} icon={open ? X : UserPlus} />
       <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 top-0 z-50 bg-black/80" />
         <Drawer.Content
@@ -59,29 +68,35 @@ const AddPlayerDrawer = () => {
         >
           <Drawer.Title />
           <Drawer.Description />
-          <div className="flex flex-1 flex-col gap-3 rounded-l-[10px] border border-secondary bg-background p-4">
-            <Button
-              className="flex w-full gap-2"
-              onClick={() => setAddingNewPlayer((prev) => !prev)}
-              variant={addingNewPlayer ? 'outline' : 'default'}
-            >
-              {!addingNewPlayer ? <Plus /> : <ArrowLeft />}
-              {!addingNewPlayer ? 'add new player' : 'back'}
-            </Button>
-            <div className="absolute h-1 w-full shadow-red-600 drop-shadow-2xl"></div>
-            {addingNewPlayer ? (
-              <AddNewPlayer
-
-                value={value}
-                setValue={setValue}
-                returnToNewPlayer={returnToNewPlayer}
-                handleClose={handleClose}
-              />
-            ) : (
-              <AddPlayer value={value} setValue={setValue} handleClose={handleClose}/>
-            )}
+          <div className="flex h-[100dvh] flex-1 flex-col gap-3 rounded-l-[15px] border border-secondary bg-background p-4">
+            <div className="flex flex-col gap-3">
+              <Button
+                className="flex w-full gap-2"
+                onClick={() => setAddingNewPlayer((prev) => !prev)}
+                variant={addingNewPlayer ? 'outline' : 'default'}
+              >
+                {!addingNewPlayer ? <Plus /> : <ArrowLeft />}
+                {!addingNewPlayer ? 'add new player' : 'back'}{' '}
+                {/* FIXME Intl */}
+              </Button>
+            </div>
+            <div className="w-full">
+              {addingNewPlayer ? (
+                <AddNewPlayer
+                  value={value}
+                  setValue={setValue}
+                  returnToNewPlayer={returnToNewPlayer}
+                  handleClose={handleClose}
+                />
+              ) : (
+                <AddPlayer
+                  value={value}
+                  setValue={setValue}
+                  handleClose={handleClose}
+                />
+              )}
+            </div>
           </div>
-          <FabClose onClick={handleClose} />
         </Drawer.Content>
       </Drawer.Portal>
     </Drawer.Root>

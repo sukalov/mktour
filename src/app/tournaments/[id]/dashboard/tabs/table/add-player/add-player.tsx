@@ -65,11 +65,12 @@ const AddPlayer = ({ value, setValue, handleClose }: DrawerProps) => {
     },
   );
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col">
       <Input
+        className="drop-shadow-md"
         id="possible-players-search"
         value={value}
-        placeholder="search"
+        placeholder="search" // FIXME Intl
         onChange={(e) => setValue(e.target.value)}
       />
       {possiblePlayers.data?.length === 0 && (
@@ -78,7 +79,7 @@ const AddPlayer = ({ value, setValue, handleClose }: DrawerProps) => {
           go add some new people
         </p>
       )}
-      <ScrollArea className="rounded-2 h-[79svh]">
+      <ScrollArea className="rounded-2 h-[calc(100dvh-6rem)] w-full rounded-b-md">
         <Table>
           <TableBody>
             {filteredPlayers?.map((player) => (
@@ -103,6 +104,7 @@ const AddPlayer = ({ value, setValue, handleClose }: DrawerProps) => {
             ))}
           </TableBody>
         </Table>
+        <div className="h-24 w-full grow" />
       </ScrollArea>
     </div>
   );

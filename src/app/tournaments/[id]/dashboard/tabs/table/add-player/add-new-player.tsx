@@ -87,6 +87,7 @@ const AddNewPlayer = ({
             <FormItem>
               <FormControl>
                 <Input
+                  className="drop-shadow-md"
                   placeholder="name"
                   {...field}
                   autoComplete="off"

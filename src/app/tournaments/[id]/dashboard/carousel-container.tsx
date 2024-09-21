@@ -20,6 +20,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import { RemoveScroll } from 'react-remove-scroll';
 
 const CarouselContainer: FC<CarouselProps> = ({
   currentTab,
@@ -100,13 +101,14 @@ const CarouselIteratee: FC<{
 
   return (
     <CarouselItem>
-      <div
+      <RemoveScroll
+        noIsolation
         ref={viewportRef}
-        className="mt-10 h-[85dvh] overflow-x-hidden overflow-y-scroll pb-10 small-scrollbar"
+        className="mt-10 h-[calc(100dvh-5rem)] overflow-scroll pb-24 small-scrollbar"
       >
         <Overlay open={overlayed} />
         <Component />
-      </div>
+      </RemoveScroll>
     </CarouselItem>
   );
 };

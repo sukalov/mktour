@@ -1,6 +1,5 @@
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import useTournamentSetGameResult from '@/components/hooks/mutation-hooks/use-tournament-set-game-result';
-import useTournamentSetStatus from '@/components/hooks/mutation-hooks/use-tournament-set-status';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import useOutsideClick from '@/components/hooks/use-outside-click';
 import { Button } from '@/components/ui/button';
@@ -33,10 +32,6 @@ const GameItemCompact: FC<GameProps> = ({
     useContext(DashboardContext);
   const { data } = useTournamentInfo(tournamentId!);
   const queryClient = useQueryClient();
-  const status = useTournamentSetStatus(queryClient, {
-    tournamentId: tournamentId!,
-    sendJsonMessage,
-  });
   const mutation = useTournamentSetGameResult(queryClient, {
     tournamentId,
     sendJsonMessage,
@@ -68,12 +63,6 @@ const GameItemCompact: FC<GameProps> = ({
 
   const handleMutate = (newResult: ResultModel) => {
     if (overlayed && scaled && !mutation.isPending) {
-      if (!data?.tournament.started_at) { // FIXME should move this logic to server
-        status.mutate({
-          started_at: new Date(),
-          tournamentId: tournamentId!,
-        });
-      }
       mutation.mutate({
         gameId: id,
         whiteId: playerLeft.white_id!,
