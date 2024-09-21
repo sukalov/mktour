@@ -8,7 +8,7 @@ import { FC } from 'react';
 
 const Navigation: FC<NavMenuProps> = ({ user }) => {
   return (
-    <nav className="fixed z-50 flex h-14 w-full items-center justify-between border-b bg-background p-4">
+    <nav className="fixed z-[100] flex h-14 w-full items-center justify-between border-b bg-background p-4">
       <MktourNavbar />
       <div className="md:hidden">
         <Mobile user={user} />
