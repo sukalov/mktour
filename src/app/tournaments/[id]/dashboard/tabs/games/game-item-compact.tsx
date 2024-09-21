@@ -96,10 +96,10 @@ const GameItemCompact: FC<GameProps> = ({
     { capture: false, touch: 'touchstart' },
   );
 
-  if (window)
-    window.oncontextmenu = function () {
-      return false;
-    }; // dev-line
+  // if (window)
+  //   window.oncontextmenu = function () {
+  //     return false;
+  //   }; // dev-line
 
   return (
     <Card
