@@ -11,9 +11,11 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useQueryClient } from '@tanstack/react-query';
 import {
   CalendarDays,
+  CirclePlay,
   Clock,
   Dices,
   icons,
+  Loader2,
   NotebookPen,
   UserRound,
 } from 'lucide-react';
@@ -33,7 +35,7 @@ const Main = () => {
   const { sendJsonMessage } = useContext(DashboardContext);
   const queryClient = useQueryClient();
 
-  const tournamentStatusMutation = useTournamentStart(queryClient, {
+  const startTournamentMutation = useTournamentStart(queryClient, {
     tournamentId,
     sendJsonMessage,
   });
@@ -42,7 +44,7 @@ const Main = () => {
   const locale = useLocale();
 
   const handleClick = () => {
-    tournamentStatusMutation.mutate({ started_at: new Date(), tournamentId });
+    startTournamentMutation.mutate({ started_at: new Date(), tournamentId });
   };
 
   if (isLoading || isPlayersLoading) return <LoadingElement />;
@@ -95,10 +97,12 @@ const Main = () => {
 
       {status !== 'organizer' ? null : !data.tournament.started_at ? (
         <Button
-          disabled={!players || players?.length < 2}
+          disabled={!players || players?.length < 2 || startTournamentMutation.isPending}
           onClick={handleClick}
           size="lg"
-        >
+          >
+            {startTournamentMutation.isPending ? <Loader2 className="animate-spin" /> : <CirclePlay />}
+            &nbsp;
           {t('start tournament')}
         </Button>
       ) : <ResetTournamentButton />
