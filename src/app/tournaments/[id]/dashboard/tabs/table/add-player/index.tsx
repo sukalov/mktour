@@ -57,16 +57,10 @@ const AddPlayerDrawer = () => {
     }
   }, [open]);
 
-  const container = document.getElementById('dashboard-portal');
-
   return (
     <Drawer.Root direction="right" onClose={handleClose} open={open}>
-      <Fab
-        onClick={() => setOpen(!open)}
-        icon={open ? X : UserPlus}
-        container={container}
-      />
-      <Drawer.Portal container={container}>
+      <Fab onClick={() => setOpen(!open)} icon={open ? X : UserPlus} />
+      <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 top-0 z-50 bg-black/80" />
         <Drawer.Content
           onInteractOutside={() => setOpen(false)}
