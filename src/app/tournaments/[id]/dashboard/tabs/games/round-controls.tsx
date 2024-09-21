@@ -48,10 +48,10 @@ const RoundControls: FC<RoundControlProps> = ({
 
   return (
     <div
-      className={`absolute ${top} z-10 flex h-fit w-[100vw] items-center justify-between backdrop-blur-md transition-all duration-500`}
+      className={`absolute ${top} z-10 flex h-12 w-[100vw] items-center justify-between backdrop-blur-md transition-all duration-500`}
     >
       <ControlsProvider>
-        <div className="flex h-[52px] w-full flex-col items-center justify-center">
+        <div className="flex h-full w-full flex-col items-center justify-center">
           <Button
             variant="ghost"
             size={'sm'}
@@ -76,7 +76,7 @@ const RoundControls: FC<RoundControlProps> = ({
 const buttonProps: ButtonProps = {
   variant: 'ghost',
   size: 'sm',
-  className: 'm-2',
+  className: 'my-2 mx-4',
 };
 
 interface RoundControlProps {
