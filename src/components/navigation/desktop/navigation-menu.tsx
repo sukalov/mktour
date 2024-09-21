@@ -41,7 +41,7 @@ export default function NavigationMenuContainer() {
                           {t(tab.title)}
                         </div>
                         <p className="text-sm leading-tight text-muted-foreground">
-                          {t(`${tab.title}`)}
+                          {t(`Descriptions.${tab.title}`)}
                         </p>
                       </a>
                     </NavigationMenuLink>

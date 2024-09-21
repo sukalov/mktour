@@ -34,7 +34,7 @@ export default function AuthButton({ user }: AuthButtonProps) {
         <Link href="/login/lichess">
           <Button className={`flex-row gap-2 p-2`} variant="ghost">
             <LichessLogo size="24" />
-            {t('login')}
+            {t('Profile.login')}
           </Button>
         </Link>
       </>
@@ -60,7 +60,7 @@ export default function AuthButton({ user }: AuthButtonProps) {
               {t(`Subs.${item.title}`)}
             </StyledItem>
           ))}
-          <StyledItem onClick={handleSignOut}>{t('logout')}</StyledItem>
+          <StyledItem onClick={handleSignOut}>{t('Profile.logout')}</StyledItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </>

@@ -15,15 +15,16 @@ export default function useTournamentReset(
   return useMutation({
     mutationFn: resetTournament,
     onSuccess: () => {
-      toast.success(t('started'));
       sendJsonMessage({ type: 'reset-tournament' });
       queryClient.invalidateQueries({
         queryKey: [tournamentId, 'tournament'],
       });
     },
-    onError: (error) => {
-        toast.error(`{${t('server error')} - ${error.message}`);
-      console.log(error);
+    onError: () => {
+        toast.error(t('server error'));
+        queryClient.invalidateQueries({
+          queryKey: [tournamentId, 'tournament'],
+        });
     },
   });
 }

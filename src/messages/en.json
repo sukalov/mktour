@@ -4,13 +4,18 @@
     "club": "my club",
     "tournaments": "my tournaments",
     "about us": "about us",
-    "profile": "my profile",
-    "logout": "log out",
-    "login": "log in",
-    "club description": "it is your chess club dashboard. here you can manage your players, events and other club settings",
-    "tournaments description": "here are all the tournaments related to you. both, where you played and which were organized by your clubs",
-    "about us description": "mktour is an open-source project. here you can learn more about the team and the app",
-    "profile description": "it's your own page with all your clubs, stats and more",
+    "Profile": {
+      "profile": "my profile",
+      "logout": "log out",
+      "login": "log in",
+      "sign in": "sign in with lichess"
+    },
+    "Descriptions": {
+      "club": "it is your chess club dashboard. here you can manage your players, events and other club settings",
+      "tournaments": "here are all the tournaments related to you. both, where you played and which were organized by your clubs",
+      "about us": "mktour is an open-source project. here you can learn more about the team and the app",
+      "profile": "it's your own page with all your clubs, stats and more"
+    },
     "Subs": {
       "all clubs": "all clubs",
       "new club": "new club",
@@ -119,7 +124,6 @@
     },
     "Main": {
       "start tournament": "start tournament",
-      "danger zone": "danger zone",
       "reset progress": "reset progress",
       "confirmation header": "are you sure?",
       "confirmation body": "all results and scores are going to be deleted. the tournament will get to 'not started' state",

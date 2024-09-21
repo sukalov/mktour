@@ -115,7 +115,7 @@ const Menu: FC<{ user: User | null }> = ({ user }) => {
                 href="/login/lichess"
                 onClick={() => toggleOpen()}
               >
-                sign in with lichess
+                {t('Profile.sign in')}
               </Link>
             ) : (
               <button
@@ -123,7 +123,7 @@ const Menu: FC<{ user: User | null }> = ({ user }) => {
                 name="log out"
                 onClick={handleSignOut}
               >
-                {t('logout')}
+                {t('Profile.logout')}
               </button>
             )}
             <div className="my-3 h-px w-full bg-transparent"></div>

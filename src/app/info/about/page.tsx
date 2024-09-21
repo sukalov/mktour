@@ -5,5 +5,5 @@ import { useTranslations } from 'next-intl';
 
 export default function AboutPage() {
   const t = useTranslations('Menu');
-  return <Center>{t('about us description')}</Center>;
+  return <Center>{t('Descriptions.about us')}</Center>;
 }

@@ -23,7 +23,7 @@ import {
     DrawerTrigger,
 } from '@/components/ui/drawer';
 import { useQueryClient } from '@tanstack/react-query';
-import { Eraser, Loader2 } from 'lucide-react';
+import { CircleX, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import * as React from 'react';
@@ -45,7 +45,10 @@ export default function ResetTournamentButton() {
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button variant="destructive">{t('reset progress')}</Button>
+          <Button variant="destructive">
+            <CircleX />
+            &nbsp;{t('reset progress')}
+          </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
@@ -57,7 +60,7 @@ export default function ResetTournamentButton() {
             onClick={() => mutate({ tournamentId })}
             disabled={isPending}
           >
-            {isPending ? <Loader2 className="animate-spin" /> : <Eraser />}
+            {isPending ? <Loader2 className="animate-spin" /> : <CircleX />}
             &nbsp;
             {t('confirm reset')}
           </Button>
@@ -72,7 +75,10 @@ export default function ResetTournamentButton() {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button variant="destructive">{t('reset progress')}</Button>
+        <Button variant="destructive">
+          <CircleX />
+          &nbsp;{t('reset progress')}
+        </Button>
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader className="text-left">
@@ -85,9 +91,9 @@ export default function ResetTournamentButton() {
             className="w-full"
             onClick={() => mutate({ tournamentId })}
             disabled={isPending}
-            >
-              {isPending ? <Loader2 className="animate-spin" /> : <Eraser />}
-              &nbsp;
+          >
+            {isPending ? <Loader2 className="animate-spin" /> : <CircleX />}
+            &nbsp;
             {t('confirm reset')}
           </Button>
         </div>

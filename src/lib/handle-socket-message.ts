@@ -94,7 +94,8 @@ export const handleSocketMessage = (
         queryKey: [tournamentId, 'players', 'added'],
       });
       break;
-    case 'set-tournament-status':
+    case 'start-tournament':
+    case 'reset-tournament':
       queryClient.invalidateQueries({
         queryKey: [tournamentId, 'tournament'],
       });
