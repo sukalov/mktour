@@ -118,7 +118,12 @@
       "games": "игры"
     },
     "Main": {
-      "start tournament": "начать турнир"
+      "start tournament": "начать турнир",
+      "confirmation body": "все результаты игр будут удалены. турнир перейдет в состояние «не начался»",
+      "confirmation header": "вы уверены?",
+      "reset progress": "обнулить турнир",
+      "confirm reset": "да, сбросить турнир",
+      "cancel": "отмена"
     },
     "Results": {
       "1-0": "1 - 0",

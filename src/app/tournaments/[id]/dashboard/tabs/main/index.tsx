@@ -1,7 +1,8 @@
 'use client';
 
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
-import useTournamentSetStatus from '@/components/hooks/mutation-hooks/use-tournament-set-status';
+import ResetTournamentButton from '@/app/tournaments/[id]/dashboard/tabs/main/reset-tournament-button';
+import useTournamentStart from '@/components/hooks/mutation-hooks/use-tournament-start';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
 import { Button } from '@/components/ui/button';
@@ -32,7 +33,7 @@ const Main = () => {
   const { sendJsonMessage } = useContext(DashboardContext);
   const queryClient = useQueryClient();
 
-  const tournamentStatusMutation = useTournamentSetStatus(queryClient, {
+  const tournamentStatusMutation = useTournamentStart(queryClient, {
     tournamentId,
     sendJsonMessage,
   });
@@ -70,7 +71,8 @@ const Main = () => {
       weekday: 'long',
     },
   );
-  const decapitalizedWeekday = formattedDate.charAt(0).toLowerCase() + formattedDate.slice(1);
+  const decapitalizedWeekday =
+    formattedDate.charAt(0).toLowerCase() + formattedDate.slice(1);
 
   return (
     <div className="flex flex-col gap-4 p-4">
@@ -91,9 +93,7 @@ const Main = () => {
       </Card>
       {/* here is place to chose number of rounds in swiss */}
 
-      {status !== 'organizer' ? (
-        <></>
-      ) : !data.tournament.started_at ? (
+      {status !== 'organizer' ? null : !data.tournament.started_at ? (
         <Button
           disabled={!players || players?.length < 2}
           onClick={handleClick}
@@ -101,17 +101,8 @@ const Main = () => {
         >
           {t('start tournament')}
         </Button>
-      ) : (
-        <Button // FIXME dev-tool
-          onClick={() =>
-            tournamentStatusMutation.mutate({ started_at: null, tournamentId })
-          }
-        >
-          <p>
-            <strong>DEV:</strong> reset started at
-          </p>
-        </Button>
-      )}
+      ) : <ResetTournamentButton />
+      }
     </div>
   );
 };

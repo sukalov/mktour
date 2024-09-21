@@ -15,7 +15,12 @@ import {
 } from '@/lib/db/schema/tournaments';
 import { newid } from '@/lib/utils';
 import { NewTournamentFormType } from '@/lib/zod/new-tournament-form';
-import { GameModel, PlayerModel, Result, TournamentInfo } from '@/types/tournaments';
+import {
+  GameModel,
+  PlayerModel,
+  Result,
+  TournamentInfo,
+} from '@/types/tournaments';
 import { aliasedTable, and, eq, inArray, isNull, sql } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 
@@ -315,46 +320,26 @@ export async function generateRoundRobinRound({
   }));
 }
 
-export async function setTournamentStatus({
+export async function startTournament({
   tournamentId,
   started_at,
-  closed_at,
 }: {
-  tournamentId: string | undefined;
-  started_at?: Date | null;
-  closed_at?: Date | null;
+  tournamentId: string;
+  started_at: Date;
 }) {
-  if (tournamentId) {
-    if (closed_at)
-      await db
-        .update(tournaments)
-        .set({ closed_at })
-        .where(
-          and(eq(tournaments.id, tournamentId), isNull(tournaments.closed_at)),
-        )
-        .then((value) => {
-          if (!value.rowsAffected) throw new Error('TOURNAMENT ALREADY ENDED');
-        });
-
-    if (started_at)
-      await db
-        .update(tournaments)
-        .set({ started_at })
-        .where(
-          and(eq(tournaments.id, tournamentId), isNull(tournaments.started_at)),
-        )
-        .then((value) => {
-          if (!value.rowsAffected)
-            throw new Error('TOURNAMENT ALREADY STARTED');
-        });
-    if (!started_at)
-      // FIXME dev-tool
-      await db
-        .update(tournaments)
-        .set({ started_at })
-        .where(and(eq(tournaments.id, tournamentId)));
-  }
-}
+  const { user } = await validateRequest();
+  if (!user) throw new Error('UNAUTHORIZED REQUEST') // FIXME ADD STATUS IN TOURNAMENT CHECK
+  if (started_at)
+    await db
+      .update(tournaments)
+      .set({ started_at })
+      .where(
+        and(eq(tournaments.id, tournamentId), isNull(tournaments.started_at)),
+      )
+      .then((value) => {
+        if (!value.rowsAffected) throw new Error('TOURNAMENT ALREADY STARTED');
+      });
+    }
 
 export async function setTournamentGameResult({
   gameId,
@@ -579,5 +564,5 @@ async function handleResultReset(
         draws: sql`COALESCE(${players_to_tournaments.draws}, 0) - 1`,
       })
       .where(eq(players_to_tournaments.player_id, blackId));
-    }
   }
+}

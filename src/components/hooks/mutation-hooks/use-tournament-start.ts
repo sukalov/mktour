@@ -1,26 +1,22 @@
 'use client';
 
-import { setTournamentStatus } from '@/lib/actions/tournament-managing';
+import { startTournament } from '@/lib/actions/tournament-managing';
 import { Message } from '@/types/ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
-export default function useTournamentSetStatus(
+export default function useTournamentStart(
   queryClient: QueryClient,
   { tournamentId, sendJsonMessage }: SetStatusProps,
 ) {
   const t = useTranslations('Toasts');
   return useMutation({
-    mutationFn: setTournamentStatus,
-    onSuccess: (_error, { started_at, closed_at }) => {
-      if (closed_at) {
-        toast.success(t('ended'));
-        sendJsonMessage({ type: 'set-tournament-status', closed_at });
-      }
+    mutationFn: startTournament,
+    onSuccess: (_error, { started_at }) => {
       if (started_at) {
         toast.success(t('started'));
-        sendJsonMessage({ type: 'set-tournament-status', started_at });
+        sendJsonMessage({ type: 'start-tournament', started_at });
       }
       queryClient.invalidateQueries({
         queryKey: [tournamentId, 'tournament'],
