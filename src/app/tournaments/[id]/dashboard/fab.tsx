@@ -9,7 +9,7 @@ const Fab: FC<FabProps> = ({ onClick, icon: Icon, disabled, container }) => {
   return (
     <PortalWrapper container={container}>
       <Button
-        className="fixed bottom-8 right-6 z-[100] rounded-full"
+        className="fixed bottom-8 right-6 z-[60] rounded-full"
         variant="secondary"
         size="icon"
         style={{ scale: 1.5 }}
