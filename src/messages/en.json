@@ -141,5 +141,21 @@
     "Round": {
       "round": "round {roundInView}"
     }
+  },
+  "MakeTournament": {
+    "making": "making...",
+    "server error": "sorry! server error happened, couldn't make tournament",
+    "round robin": "round robin",
+    "swiss": "swiss",
+    "single elimination": "single elimination",
+    "double elimination": "double elimination",
+    "Types": {
+      "solo": "solo",
+      "doubles": "doubles",
+      "team": "team"
+    },
+    "make tournament": "make tournament",
+    "new tournament": "new tournament",
+    "new club": "new club"
   }
 }

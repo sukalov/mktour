@@ -34,6 +34,7 @@ import {
 } from '@/lib/zod/new-tournament-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2, PlusIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
@@ -55,12 +56,13 @@ export default function NewTournamentForm({
       rated: false,
     },
   });
+  const t = useTranslations('MakeTournament')
 
   const onSubmit = async (data: NewTournamentFormType) => {
     setSubmitButton(
       <Button disabled className="w-full">
         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-        making...
+        {t('making')}
       </Button>,
     );
     try {
@@ -68,16 +70,16 @@ export default function NewTournamentForm({
     } catch (e) {
       setSubmitButton(
         <Button type="submit" className="w-full">
-          make tournament
+          {t('make tournament')}
         </Button>,
       );
-      toast.error("sorry! server error happened, couldn't make tournament");
+      toast.error(t('server error'));
     }
   };
 
   const [submitButton, setSubmitButton] = React.useState(
     <Button type="submit" className="w-full">
-      make tournament
+      {t('make tournament')}
     </Button>,
   );
 
@@ -86,7 +88,7 @@ export default function NewTournamentForm({
       <h2
         className={`m-2 text-center text-4xl font-bold ${turboPascal.className}`}
       >
-        make tournament
+        {t('new tournament')}
       </h2>
       <Card className="mx-auto max-w-[min(600px,98%)] border-none shadow-none sm:border-solid sm:shadow-sm">
         <CardContent className="p-4 sm:p-8">
@@ -131,7 +133,7 @@ export default function NewTournamentForm({
                               variant="ghost"
                               className="flex h-[30px] w-full flex-row justify-end gap-2 pl-7 font-extrabold text-muted-foreground"
                             >
-                              <PlusIcon fontStyle="bold" /> new club
+                              <PlusIcon fontStyle="bold" /> {t('new club')}
                             </Button>
                           </Link>
                         </SelectGroup>
@@ -158,7 +160,7 @@ export default function NewTournamentForm({
             <FormField
               control={form.control}
               name="format"
-              defaultValue="swiss"
+              defaultValue="round robin"
               render={({ field }) => (
                 <FormItem>
                   <Select
@@ -177,10 +179,13 @@ export default function NewTournamentForm({
                       }}
                     >
                       <SelectGroup>
-                        <SelectItem value="swiss">swiss</SelectItem>
-                        <SelectItem value="round robin">round robin</SelectItem>
-                        <SelectItem value="single elimination">
-                          single elimination
+                        <SelectItem value="round robin">{t('round robin')}</SelectItem>
+                        <SelectItem value="swiss" disabled>{t('swiss')}</SelectItem>
+                        <SelectItem value="single elimination" disabled>
+                          {t('single elimination')}
+                        </SelectItem>
+                        <SelectItem value="double elimination" disabled>
+                        {t('double elimination')}
                         </SelectItem>
                       </SelectGroup>
                     </SelectContent>
@@ -200,8 +205,8 @@ export default function NewTournamentForm({
                     className="grid grid-cols-3 gap-2 sm:gap-4"
                   >
                     <TypeCard name="solo" />
-                    <TypeCard name="doubles" />
-                    <TypeCard name="team" />
+                    <TypeCard name="doubles" disabled/>
+                    <TypeCard name="team" disabled/>
                   </RadioGroup>
                 </FormItem>
               )}

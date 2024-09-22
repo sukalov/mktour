@@ -9,7 +9,9 @@ import {
 import { cn } from '@/lib/utils';
 import { NewTournamentFormType } from '@/lib/zod/new-tournament-form';
 import { format } from 'date-fns';
+import { enUS, Locale, ru } from 'date-fns/locale';
 import { CalendarIcon } from 'lucide-react';
+import { useLocale } from 'next-intl';
 
 import { ControllerRenderProps } from 'react-hook-form';
 
@@ -18,6 +20,12 @@ interface FormDatePickerProps {
 }
 
 export default function FormDatePicker({ field }: FormDatePickerProps) {
+  const locale = useLocale();
+  const localeMap: { [key: string]: Locale } = {
+    'en': enUS,
+    'ru': ru,
+  };
+
   return (
     <>
       <FormItem>
@@ -33,7 +41,7 @@ export default function FormDatePicker({ field }: FormDatePickerProps) {
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
                 {field.value ? (
-                  format(field.value, 'PPP')
+                  format(field.value, 'PPP', {locale: localeMap[locale]})
                 ) : (
                   <span>pick a date</span>
                 )}
@@ -46,6 +54,7 @@ export default function FormDatePicker({ field }: FormDatePickerProps) {
                 selected={field.value}
                 onSelect={field.onChange}
                 initialFocus
+                locale={localeMap[locale]}
               />
             </PopoverContent>
           </Popover>
