@@ -24,6 +24,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer';
+import { useTranslations } from 'next-intl';
 import * as React from 'react';
 import { useMediaQuery } from 'react-responsive';
 
@@ -33,28 +34,28 @@ export default function ClubDelete({
 }: DeleteConfirmationFormProps) {
   const [open, setOpen] = React.useState(false);
   const isDesktop = useMediaQuery({ minWidth: 768 });
+  const t = useTranslations('ClubSettings')
   if (isDesktop) {
     return (
       <Card className="border-none shadow-none sm:border-solid sm:shadow-sm">
-        <CardHeader>danger zone</CardHeader>
+        <CardHeader>{t('danger zone')}</CardHeader>
         <CardContent className="flex flex-col gap-4">
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-              <Button variant="destructive">delete club</Button>
+              <Button variant="destructive">{t('delete club')}</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
                 <DialogTitle>
-                  you&apos;re about to delete everything!
+                  {t('confirmation title')}
                 </DialogTitle>
                 <DialogDescription>
-                  all players and tournaments will be deleted. if you&apos;re
-                  completely sure, type the name of the club you are deleting
+                  {t('confirmation body')}
                 </DialogDescription>
               </DialogHeader>
               <DeleteConfirmationForm id={id} userId={userId} />
               <DialogClose asChild>
-                <Button variant="outline">cancel</Button>
+                <Button variant="outline">{t('cancel')}</Button>
               </DialogClose>
             </DialogContent>
           </Dialog>
@@ -65,24 +66,23 @@ export default function ClubDelete({
 
   return (
     <Card className="border-none shadow-none sm:border-solid sm:shadow-sm">
-      <CardHeader>danger zone</CardHeader>
+      <CardHeader>{t('danger zone')}</CardHeader>
       <CardContent className="flex flex-col gap-4">
         <Drawer open={open} onOpenChange={setOpen}>
           <DrawerTrigger asChild>
-            <Button variant="destructive">delete club</Button>
+            <Button variant="destructive">{t('delete club')}</Button>
           </DrawerTrigger>
           <DrawerContent>
             <DrawerHeader className="text-left">
-              <DrawerTitle>you&apos;re about to delete everything!</DrawerTitle>
+              <DrawerTitle>{t('confirmation title')}</DrawerTitle>
               <DrawerDescription>
-                all players and tournaments will be deleted. if you&apos;re
-                completely sure, type the name of the club you are deleting
+                {t('confirmation body')}
               </DrawerDescription>
             </DrawerHeader>
             <DeleteConfirmationForm id={id} userId={userId} />
             <DrawerFooter className="pt-2">
               <DrawerClose asChild>
-                <Button variant="outline">cancel</Button>
+                <Button variant="outline">{t('cancel')}</Button>
               </DrawerClose>
             </DrawerFooter>
           </DrawerContent>

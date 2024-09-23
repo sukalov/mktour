@@ -20,6 +20,7 @@ import { EditClubFormType, editClubFormSchema } from '@/lib/zod/edit-club-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { Loader2, Save } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -37,6 +38,8 @@ const ClubSettingsForm: FC<ClubTabProps> = ({ selectedClub, userId }) => {
     resolver: zodResolver(editClubFormSchema),
     values: defaultValues,
   });
+
+  const t = useTranslations('ClubSettings')
 
   if (!data && isFetching) return <SkeletonList length={1} />;
   return (
@@ -59,7 +62,7 @@ const ClubSettingsForm: FC<ClubTabProps> = ({ selectedClub, userId }) => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>name</FormLabel>
+                  <FormLabel>{t('name')}</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
@@ -86,7 +89,7 @@ const ClubSettingsForm: FC<ClubTabProps> = ({ selectedClub, userId }) => {
               ) : (
                 <Save />
               )}
-              &nbsp;save
+              &nbsp;{t('save')}
             </Button>
           </form>
         </CardContent>

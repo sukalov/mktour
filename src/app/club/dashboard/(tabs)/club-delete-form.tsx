@@ -7,8 +7,7 @@ import {
   Form,
   FormControl,
   FormField,
-  FormItem,
-  FormLabel,
+  FormItem
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
@@ -19,6 +18,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { Loader2, Trash2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useForm, useWatch } from 'react-hook-form';
 
 export default function DeleteConfirmationForm({
@@ -33,6 +33,7 @@ export default function DeleteConfirmationForm({
     resolver: zodResolver(deleteClubFormSchema),
     values: { name: '', id },
   });
+  const t = useTranslations('ClubSettings')
 
   const watchedName = useWatch({
     control: form.control,
@@ -57,7 +58,6 @@ export default function DeleteConfirmationForm({
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>name</FormLabel>
               <FormControl>
                 <Input
                   {...field}
@@ -84,7 +84,7 @@ export default function DeleteConfirmationForm({
           ) : (
             <Trash2 size={18} />
           )}
-          &nbsp;delete club
+          &nbsp;{t('delete club')}
         </Button>
       </form>
     </Form>

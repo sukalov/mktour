@@ -156,6 +156,24 @@
     },
     "make tournament": "make tournament",
     "new tournament": "new tournament",
-    "new club": "new club"
+    "new club": "new club",
+    "no data": "no data"
+  },
+  "ClubSettings": {
+    "name": "name",
+    "save": "save",
+    "confirmation title": "you're about to delete everything!",
+    "danger zone": "danger zone",
+    "delete club": "delete club",
+    "confirmation body": "all players and tournaments will be deleted. if you're completely sure, type the name of the club you are deleting",
+    "cancel": "cancel"
+  },
+  "ClubDashboard": {
+    "no data": "no data",
+    "main": "main",
+    "players": "players",
+    "tournaments": "tournaments",
+    "inbox": "inbox",
+    "settings": "settings"
   }
 }
