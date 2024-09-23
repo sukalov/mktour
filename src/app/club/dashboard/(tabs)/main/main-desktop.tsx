@@ -16,7 +16,7 @@ const Desktop: FC<ClubTabProps & { club: any }> = ({
   const t = useTranslations('ClubDashboard')
   const createdAt = club.data?.created_at?.toLocaleDateString([locale], {
     dateStyle: 'medium',
-  }); // FIXME use intl Formatter
+  });
 
   return (
     <div>

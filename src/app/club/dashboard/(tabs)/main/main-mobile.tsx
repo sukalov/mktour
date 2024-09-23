@@ -2,10 +2,12 @@ import { ClubTabProps } from '@/app/club/dashboard/dashboard';
 import { InfoItem } from '@/app/tournaments/[id]/dashboard/tabs/main';
 import { Card } from '@/components/ui/card';
 import { CalendarDays, Info } from 'lucide-react';
+import { useLocale } from 'next-intl';
 import { FC } from 'react';
 
 const Mobile: FC<ClubTabProps & { club: any }> = ({ club }) => {
-  const createdAt = club.data?.created_at?.toLocaleDateString(['en-GB'], {
+  const locale = useLocale()
+  const createdAt = club.data?.created_at?.toLocaleDateString([locale], {
     dateStyle: 'medium',
   });
 
