@@ -17,7 +17,7 @@ export default async function TournamentPage({ params }: PlayerPageProps) {
       club,
     }); // if defined, this player can be edited by page viewer
   const isOwner = player.user_id === user?.id; // the viewer of the page is this player
-  const isClubOwner = status === ('admin' || 'owner'); // FIXME make Enum
+  const isClubOwner = status === 'admin'  // FIXME make Enum
 
   if (user)
     return (
