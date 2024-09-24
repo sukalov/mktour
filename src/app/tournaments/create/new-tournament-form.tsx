@@ -149,7 +149,7 @@ export default function NewTournamentForm({
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>name</FormLabel>
+                  <FormLabel>{t('name')}</FormLabel>
                   <FormControl>
                     <Input {...field} autoComplete="off" />
                   </FormControl>
@@ -223,7 +223,7 @@ export default function NewTournamentForm({
                 <div className="flex items-center space-x-2">
                   <div className="peer flex items-center space-x-2">
                     <Label htmlFor="rated" className="text-muted-foreground">
-                      rated
+                      {t('rated')}
                     </Label>
                     <Switch
                       id="rated"
@@ -233,7 +233,7 @@ export default function NewTournamentForm({
                     />
                   </div>
                   <p className="hidden text-sm text-muted-foreground peer-hover:block">
-                    <span className="text-xs">*</span>comming soon
+                    <span className="text-xs">*</span>{t('comming soon')}
                   </p>
                 </div>
               )}

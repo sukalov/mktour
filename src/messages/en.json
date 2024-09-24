@@ -157,7 +157,10 @@
     "make tournament": "make tournament",
     "new tournament": "new tournament",
     "new club": "new club",
-    "no data": "no data"
+    "no data": "no data",
+    "name": "name",
+    "rated": "rated",
+    "comming soon": "coming soon"
   },
   "ClubSettings": {
     "name": "name",

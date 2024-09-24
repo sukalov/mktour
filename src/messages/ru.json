@@ -157,7 +157,10 @@
     "make tournament": "сделать турнир",
     "new tournament": "новый турнир",
     "new club": "новый клуб",
-    "no data": "данные не получены"
+    "no data": "данные не получены",
+    "name": "название",
+    "rated": "рейтинговый",
+    "comming soon": "скоро будет"
   },
   "ClubSettings": {
     "name": "название",
