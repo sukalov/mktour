@@ -22,7 +22,7 @@ export default async function TournamentPage({ params }: TournamentPageProps) {
   const tournament = (
     await db.select().from(tournaments).where(eq(tournaments.id, params.id))
   ).at(0);
-  
+
   if (!tournament) notFound();
 
   let status = await getStatusInTournament(user, params.id);

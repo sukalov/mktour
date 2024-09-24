@@ -22,8 +22,8 @@ interface FormDatePickerProps {
 export default function FormDatePicker({ field }: FormDatePickerProps) {
   const locale = useLocale();
   const localeMap: { [key: string]: Locale } = {
-    'en': enUS,
-    'ru': ru,
+    en: enUS,
+    ru: ru,
   };
 
   return (
@@ -41,7 +41,7 @@ export default function FormDatePicker({ field }: FormDatePickerProps) {
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
                 {field.value ? (
-                  format(field.value, 'PPP', {locale: localeMap[locale]})
+                  format(field.value, 'PPP', { locale: localeMap[locale] })
                 ) : (
                   <span>pick a date</span>
                 )}

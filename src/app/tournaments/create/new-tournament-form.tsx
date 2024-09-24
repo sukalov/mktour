@@ -56,7 +56,7 @@ export default function NewTournamentForm({
       rated: false,
     },
   });
-  const t = useTranslations('MakeTournament')
+  const t = useTranslations('MakeTournament');
 
   const onSubmit = async (data: NewTournamentFormType) => {
     setSubmitButton(
@@ -179,13 +179,17 @@ export default function NewTournamentForm({
                       }}
                     >
                       <SelectGroup>
-                        <SelectItem value="round robin">{t('round robin')}</SelectItem>
-                        <SelectItem value="swiss" disabled>{t('swiss')}</SelectItem>
+                        <SelectItem value="round robin">
+                          {t('round robin')}
+                        </SelectItem>
+                        <SelectItem value="swiss" disabled>
+                          {t('swiss')}
+                        </SelectItem>
                         <SelectItem value="single elimination" disabled>
                           {t('single elimination')}
                         </SelectItem>
                         <SelectItem value="double elimination" disabled>
-                        {t('double elimination')}
+                          {t('double elimination')}
                         </SelectItem>
                       </SelectGroup>
                     </SelectContent>
@@ -205,8 +209,8 @@ export default function NewTournamentForm({
                     className="grid grid-cols-3 gap-2 sm:gap-4"
                   >
                     <TypeCard name="solo" />
-                    <TypeCard name="doubles" disabled/>
-                    <TypeCard name="team" disabled/>
+                    <TypeCard name="doubles" disabled />
+                    <TypeCard name="team" disabled />
                   </RadioGroup>
                 </FormItem>
               )}
@@ -233,7 +237,8 @@ export default function NewTournamentForm({
                     />
                   </div>
                   <p className="hidden text-sm text-muted-foreground peer-hover:block">
-                    <span className="text-xs">*</span>{t('comming soon')}
+                    <span className="text-xs">*</span>
+                    {t('comming soon')}
                   </p>
                 </div>
               )}

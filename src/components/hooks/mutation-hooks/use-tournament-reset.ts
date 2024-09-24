@@ -21,10 +21,10 @@ export default function useTournamentReset(
       });
     },
     onError: () => {
-        toast.error(t('server error'));
-        queryClient.invalidateQueries({
-          queryKey: [tournamentId, 'tournament'],
-        });
+      toast.error(t('server error'));
+      queryClient.invalidateQueries({
+        queryKey: [tournamentId, 'tournament'],
+      });
     },
   });
 }

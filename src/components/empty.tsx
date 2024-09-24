@@ -13,6 +13,6 @@ const Empty: FC<PropsWithChildren> = ({ children }) => {
   );
 };
 
-type Pathname = "players" | "inbox" | "tournaments" | "dashboard" | "user";
+type Pathname = 'players' | 'inbox' | 'tournaments' | 'dashboard' | 'user';
 
 export default Empty;

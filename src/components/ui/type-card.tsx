@@ -9,7 +9,7 @@ type TypeCardProps = {
 };
 
 export default function TypeCard({ name, disabled }: TypeCardProps) {
-  const t = useTranslations('MakeTournament.Types')
+  const t = useTranslations('MakeTournament.Types');
   return (
     <div>
       <RadioGroupItem

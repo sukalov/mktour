@@ -6,7 +6,7 @@ import { useLocale } from 'next-intl';
 import { FC } from 'react';
 
 const Mobile: FC<ClubTabProps & { club: any }> = ({ club }) => {
-  const locale = useLocale()
+  const locale = useLocale();
   const createdAt = club.data?.created_at?.toLocaleDateString([locale], {
     dateStyle: 'medium',
   });

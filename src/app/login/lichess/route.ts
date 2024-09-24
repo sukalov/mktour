@@ -11,9 +11,11 @@ export async function GET(): Promise<Response> {
     scopes: ['email:read', 'team:write'],
   });
 
-  cookies().getAll().forEach((cookie) => {
-    cookies().delete(cookie.name);
-  });
+  cookies()
+    .getAll()
+    .forEach((cookie) => {
+      cookies().delete(cookie.name);
+    });
 
   cookies().set('lichess_oauth_state', state, {
     path: '/',

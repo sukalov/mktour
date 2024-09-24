@@ -1,4 +1,7 @@
-import { NAVMENU_ITEMS, SubNavItem } from '@/components/navigation/nav-menu-items';
+import {
+  NAVMENU_ITEMS,
+  SubNavItem,
+} from '@/components/navigation/nav-menu-items';
 import {
   NavigationMenu,
   NavigationMenuContent,

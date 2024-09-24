@@ -12,8 +12,8 @@ const Desktop: FC<ClubTabProps & { club: any }> = ({
   userId,
   club,
 }) => {
-  const locale = useLocale()
-  const t = useTranslations('ClubDashboard')
+  const locale = useLocale();
+  const t = useTranslations('ClubDashboard');
   const createdAt = club.data?.created_at?.toLocaleDateString([locale], {
     dateStyle: 'medium',
   });

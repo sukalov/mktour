@@ -21,7 +21,15 @@ import {
   Result,
   TournamentInfo,
 } from '@/types/tournaments';
-import { aliasedTable, and, eq, inArray, isNotNull, isNull, sql } from 'drizzle-orm';
+import {
+  aliasedTable,
+  and,
+  eq,
+  inArray,
+  isNotNull,
+  isNull,
+  sql,
+} from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 
 export const createTournament = async (values: NewTournamentFormType) => {
@@ -328,7 +336,7 @@ export async function startTournament({
   started_at: Date;
 }) {
   const { user } = await validateRequest();
-  if (!user) throw new Error('UNAUTHORIZED_REQUEST') // FIXME ADD STATUS IN TOURNAMENT CHECK
+  if (!user) throw new Error('UNAUTHORIZED_REQUEST'); // FIXME ADD STATUS IN TOURNAMENT CHECK
   if (started_at)
     await db
       .update(tournaments)
@@ -339,25 +347,25 @@ export async function startTournament({
       .then((value) => {
         if (!value.rowsAffected) throw new Error('TOURNAMENT_ALREADY_GOING');
       });
-    }
+}
 
-    export async function resetTournament({
-      tournamentId,
-    }: {
-      tournamentId: string;
-    }) {
-      const { user } = await validateRequest();
-      if (!user) throw new Error('UNAUTHORIZED_REQUEST') // FIXME ADD STATUS-IN-TOURNAMENT CHECK
-        await db
-          .update(tournaments)
-          .set({ started_at: null })
-          .where(
-            and(eq(tournaments.id, tournamentId), isNotNull(tournaments.started_at)),
-          )
-          .then((value) => {
-            if (!value.rowsAffected) throw new Error('TOURNAMENT_ALREADY_RESET');
-          });
-        }
+export async function resetTournament({
+  tournamentId,
+}: {
+  tournamentId: string;
+}) {
+  const { user } = await validateRequest();
+  if (!user) throw new Error('UNAUTHORIZED_REQUEST'); // FIXME ADD STATUS-IN-TOURNAMENT CHECK
+  await db
+    .update(tournaments)
+    .set({ started_at: null })
+    .where(
+      and(eq(tournaments.id, tournamentId), isNotNull(tournaments.started_at)),
+    )
+    .then((value) => {
+      if (!value.rowsAffected) throw new Error('TOURNAMENT_ALREADY_RESET');
+    });
+}
 
 export async function setTournamentGameResult({
   gameId,

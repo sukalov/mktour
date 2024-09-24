@@ -10,10 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useQueryClient } from '@tanstack/react-query';
-import {
-  CirclePlay,
-  Loader2
-} from 'lucide-react';
+import { CirclePlay, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { FC, useContext } from 'react';
@@ -21,9 +18,7 @@ import { FC, useContext } from 'react';
 const Main = () => {
   const tournamentId = usePathname().split('/').at(-1) as string;
   const { data } = useTournamentInfo(tournamentId);
-  const {
-    data: players,
-  } = useTournamentPlayers(tournamentId);
+  const { data: players } = useTournamentPlayers(tournamentId);
   const { sendJsonMessage } = useContext(DashboardContext);
   const queryClient = useQueryClient();
 
@@ -40,21 +35,28 @@ const Main = () => {
 
   return (
     <div className="flex flex-col gap-4 p-4">
-    <TournamentInfoList />
+      <TournamentInfoList />
       {/* here is place to chose number of rounds in swiss */}
 
       {status !== 'organizer' ? null : !data?.tournament.started_at ? (
         <Button
-          disabled={!players || players?.length < 2 || startTournamentMutation.isPending}
+          disabled={
+            !players || players?.length < 2 || startTournamentMutation.isPending
+          }
           onClick={handleClick}
           size="lg"
-          >
-            {startTournamentMutation.isPending ? <Loader2 className="animate-spin" /> : <CirclePlay />}
-            &nbsp;
+        >
+          {startTournamentMutation.isPending ? (
+            <Loader2 className="animate-spin" />
+          ) : (
+            <CirclePlay />
+          )}
+          &nbsp;
           {t('start tournament')}
         </Button>
-      ) : <ResetTournamentButton />
-      }
+      ) : (
+        <ResetTournamentButton />
+      )}
     </div>
   );
 };
@@ -72,7 +74,6 @@ export const LoadingElement = () => {
     </div>
   );
 };
-
 
 export const InfoItem: FC<{
   icon: FC;

@@ -11,7 +11,7 @@ const TournamentsContainer: FC<{
   if (grouped) {
     return <TournamentGroups props={props} />;
   }
-  const data = props.map(prop => prop.tournament)
+  const data = props.map((prop) => prop.tournament);
   return <>{data.map(TournamentItemIteratee)}</>;
 };
 

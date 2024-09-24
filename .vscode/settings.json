@@ -9,8 +9,6 @@
     "source.organizeImports": "explicit",
     "source.fixAll": "explicit"
   },
-  "i18n-ally.localesPaths": [
-    "src/messages"
-  ],
+  "i18n-ally.localesPaths": ["src/messages"],
   "i18n-ally.keystyle": "nested"
 }

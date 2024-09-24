@@ -34,7 +34,7 @@ export default function ClubDelete({
 }: DeleteConfirmationFormProps) {
   const [open, setOpen] = React.useState(false);
   const isDesktop = useMediaQuery({ minWidth: 768 });
-  const t = useTranslations('ClubSettings')
+  const t = useTranslations('ClubSettings');
   if (isDesktop) {
     return (
       <Card className="border-none shadow-none sm:border-solid sm:shadow-sm">
@@ -46,12 +46,8 @@ export default function ClubDelete({
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
-                <DialogTitle>
-                  {t('confirmation title')}
-                </DialogTitle>
-                <DialogDescription>
-                  {t('confirmation body')}
-                </DialogDescription>
+                <DialogTitle>{t('confirmation title')}</DialogTitle>
+                <DialogDescription>{t('confirmation body')}</DialogDescription>
               </DialogHeader>
               <DeleteConfirmationForm id={id} userId={userId} />
               <DialogClose asChild>
@@ -75,9 +71,7 @@ export default function ClubDelete({
           <DrawerContent>
             <DrawerHeader className="text-left">
               <DrawerTitle>{t('confirmation title')}</DrawerTitle>
-              <DrawerDescription>
-                {t('confirmation body')}
-              </DrawerDescription>
+              <DrawerDescription>{t('confirmation body')}</DrawerDescription>
             </DrawerHeader>
             <DeleteConfirmationForm id={id} userId={userId} />
             <DrawerFooter className="pt-2">

@@ -1,7 +1,17 @@
-import { InfoItem, LoadingElement } from '@/app/tournaments/[id]/dashboard/tabs/main';
+import {
+  InfoItem,
+  LoadingElement,
+} from '@/app/tournaments/[id]/dashboard/tabs/main';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { Card } from '@/components/ui/card';
-import { CalendarDays, Clock, Dices, icons, NotebookPen, UserRound } from 'lucide-react';
+import {
+  CalendarDays,
+  Clock,
+  Dices,
+  icons,
+  NotebookPen,
+  UserRound,
+} from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { FC } from 'react';
@@ -49,10 +59,7 @@ const TournamentInfoList = () => {
       </div>
       <Card className="items-left flex w-full flex-col gap-8 p-4 px-8">
         <InfoItem icon={NotebookPen} value={data.club?.name} />
-        <InfoItem
-          icon={UserRound}
-          value={t(`Types.${data.tournament.type}`)}
-        />
+        <InfoItem icon={UserRound} value={t(`Types.${data.tournament.type}`)} />
         <InfoItem icon={Dices} value={t(data.tournament.format)} />
         <InfoItem icon={CalendarDays} value={decapitalizedWeekday} />
         {formattedStartedAt && (

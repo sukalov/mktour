@@ -3,12 +3,7 @@
 import useDeleteClubMutation from '@/components/hooks/mutation-hooks/use-club-delete';
 import { useClubInfo } from '@/components/hooks/query-hooks/use-club-info';
 import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem
-} from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import {
@@ -33,7 +28,7 @@ export default function DeleteConfirmationForm({
     resolver: zodResolver(deleteClubFormSchema),
     values: { name: '', id },
   });
-  const t = useTranslations('ClubSettings')
+  const t = useTranslations('ClubSettings');
 
   const watchedName = useWatch({
     control: form.control,

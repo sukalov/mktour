@@ -11,7 +11,7 @@ const TabsContainer: FC<TabProps> = ({ currentTab, setCurrentTab, top }) => {
   const value: DashboardContextType['currentTab'] = currentTab;
   const tabRef = useRef<HTMLDivElement>(null);
   const indexOfTab = tabs?.findIndex((tab) => tab?.title === value);
-  const t = useTranslations('Tournament.Tabs')
+  const t = useTranslations('Tournament.Tabs');
 
   useEffect(() => {
     tabRef.current?.children[indexOfTab]?.scrollIntoView({

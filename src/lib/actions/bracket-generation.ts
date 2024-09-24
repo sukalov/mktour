@@ -32,9 +32,9 @@ export async function generateRoundRobinRoundFunction({
   const allPlayersToTournaments = db.select().from(players_to_tournaments);
 
   // taking only those who are in the current tournament
-  const tournamentPlayersToTournaments = allPlayersToTournaments.where(
-    eq(players_to_tournaments.tournament_id, tournamentId),
-  ).orderBy(sql`RANDOM()`);
+  const tournamentPlayersToTournaments = allPlayersToTournaments
+    .where(eq(players_to_tournaments.tournament_id, tournamentId))
+    .orderBy(sql`RANDOM()`);
 
   // joining the player infromation for every ptt record
   const tournamentPlayersDetailed: PlayerAndPtt[] =
@@ -87,7 +87,7 @@ export async function generateRoundRobinRoundFunction({
   const colouredMatchesPromises =
     entitiesMatchingsGenerated.map(getColouredPair);
   const colouredMatches = await Promise.all(colouredMatchesPromises);
-  
+
   // numbering each match
   const currentOffset = previousMatches.length;
   const numberedMatchesPromises = colouredMatches.map(
