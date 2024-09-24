@@ -1,10 +1,8 @@
-'use client';
-
 import {
-    Card,
-    CardDescription,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
 } from '@/components/ui/card';
 import { Format, TournamentType } from '@/types/tournaments';
 import { useLocale, useTranslations } from 'next-intl';
@@ -40,7 +38,7 @@ const TournamentItem = ({
     </Link>
   );
 };
-const TournamentItemIteratee = (props: TournamentItemProps) => (
+export const TournamentItemIteratee = (props: TournamentItemProps) => (
   <TournamentItem
     id={props.id}
     title={props.title}

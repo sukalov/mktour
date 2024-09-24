@@ -140,6 +140,17 @@
     },
     "Round": {
       "round": "тур {roundInView}"
+    },
+    "Table": {
+      "added players error": "простите! не получилось загрузить игроков",
+      "loading": "идёт загрузка...",
+      "name column": "имя ({number} игроков)",
+      "wins": "выигрыши",
+      "draws": "ничьи",
+      "losses": "проигрыши",
+      "w": "в",
+      "d": "н",
+      "l": "п"
     }
   },
   "MakeTournament": {

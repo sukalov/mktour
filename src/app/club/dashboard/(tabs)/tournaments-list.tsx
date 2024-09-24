@@ -1,10 +1,10 @@
-'use client';
 
-import TournamentItemIteratee from '@/app/club/dashboard/(tabs)/tournament-item';
+
 import { ClubTabProps } from '@/app/club/dashboard/dashboard';
 import Empty from '@/components/empty';
 import { useClubTournaments } from '@/components/hooks/query-hooks/use-club-tournaments';
 import SkeletonList from '@/components/skeleton-list';
+import TournamentItemIteratee from '@/components/tournament-item';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 

@@ -1,4 +1,4 @@
-import TournamentsContainer from '@/app/tournaments/tournament-iteratee';
+import TournamentsContainer from '@/app/tournaments/tournament-container';
 import { validateRequest } from '@/lib/auth/lucia';
 import useTournamentsToUserClubsQuery from '@/lib/db/hooks/use-tournaments-to-user-clubs-query';
 import { redirect } from 'next/navigation';

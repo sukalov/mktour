@@ -14,12 +14,11 @@ import {
 } from '@/components/ui/table';
 import { useQueryClient } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { usePathname } from 'next/navigation';
 import { FC, useContext } from 'react';
 import { toast } from 'sonner';
-
-const DEFAULT_DASHBOARD_TABS = ['wins', 'draws', 'losses'];
 
 const TournamentTable: FC = ({}) => {
   const id = usePathname().split('/').at(-1) as string;
@@ -32,10 +31,11 @@ const TournamentTable: FC = ({}) => {
     sendJsonMessage,
   );
   const { userId } = useContext(DashboardContext);
+  const t = useTranslations('Tournament.Table');
 
   if (players.isLoading) return <TableLoading />;
   if (players.isError) {
-    toast.error("couldn't get added players from server", {
+    toast.error(t('added players error'), {
       id: 'query-added-players',
       duration: 3000,
     });
@@ -48,7 +48,7 @@ const TournamentTable: FC = ({}) => {
         <TableRow>
           <TableHead className="pl-4 pr-0">#</TableHead>
           <TableHead className="pl-0">
-            name ({players.data?.length ?? 0} players)
+            {t('name column', { number: players.data?.length ?? 0 })}
           </TableHead>
           <TableStatsHeads />
         </TableRow>
@@ -88,26 +88,35 @@ const TournamentTable: FC = ({}) => {
 
 const TableStatsHeads = () => {
   const { isMobile } = useContext(MediaQueryContext);
+  const DEFAULT_DASHBOARD_TABS: Stats[] = ['wins', 'draws', 'losses'];
+  const DEFAULT_DASHBOARD_TABS_SHORT: StatsShort[] = ['w', 'd', 'l'];
   const titles = isMobile
-    ? DEFAULT_DASHBOARD_TABS.map((title) => title.slice(0, 1))
+    ? DEFAULT_DASHBOARD_TABS_SHORT
     : DEFAULT_DASHBOARD_TABS;
+  const t = useTranslations('Tournament.Table');
 
   return (
     <>
       {titles.map((title) => (
         <TableHead key={title} className="px-1 text-center">
-          {title}
+          {t(title)}
         </TableHead>
       ))}
     </>
   );
 };
 
-const TableLoading = () => (
-  <div className="mt-12 flex h-[calc(100svh-13rem)] w-full flex-auto items-center justify-center">
-    <span className="sr-only">Loading...</span>
-    <Loader2 className="h-16 w-16 animate-spin" />
-  </div>
-);
+const TableLoading = () => {
+  const t = useTranslations('Tournament.Table');
+  return (
+    <div className="mt-12 flex h-[calc(100svh-13rem)] w-full flex-auto items-center justify-center">
+      <span className="sr-only">{t('loading')}</span>
+      <Loader2 className="h-16 w-16 animate-spin" />
+    </div>
+  );
+};
+
+type Stats = 'wins' | 'draws' | 'losses';
+type StatsShort = 'w' | 'd' | 'l';
 
 export default TournamentTable;

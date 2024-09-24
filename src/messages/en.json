@@ -140,6 +140,17 @@
     },
     "Round": {
       "round": "round {roundInView}"
+    },
+    "Table": {
+      "added players error": "sorry! couldn't get added players from the server",
+      "loading": "loading...",
+      "name column": "name ({number} players)",
+      "wins": "wins",
+      "draws": "draws",
+      "losses": "losses",
+      "w": "w",
+      "d": "d",
+      "l": "l"
     }
   },
   "MakeTournament": {
