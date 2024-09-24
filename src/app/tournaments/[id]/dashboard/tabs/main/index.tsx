@@ -41,6 +41,7 @@ const Main = () => {
   });
   const { status } = useContext(DashboardContext);
   const t = useTranslations('Tournament.Main');
+  const t2 = useTranslations('MakeTournament');
   const locale = useLocale();
 
   const handleClick = () => {
@@ -83,8 +84,8 @@ const Main = () => {
       </div>
       <Card className="items-left flex w-full flex-col gap-8 p-4 px-8">
         <InfoItem icon={NotebookPen} value={data.club?.name} />
-        <InfoItem icon={UserRound} value={data.tournament.type} />
-        <InfoItem icon={Dices} value={data.tournament.format} />
+        <InfoItem icon={UserRound} value={t2(`Types.${data.tournament.type}`)} />
+        <InfoItem icon={Dices} value={t2(data.tournament.format)} />
         <InfoItem icon={CalendarDays} value={decapitalizedWeekday} />
         {formattedStartedAt && (
           <InfoItem
