@@ -14,7 +14,7 @@ export async function GET(): Promise<Response> {
   cookies()
     .getAll()
     .forEach((cookie) => {
-      cookies().delete(cookie.name);
+      if (cookie.name !== 'NEXT_LOCALE') cookies().delete(cookie.name);
     });
 
   cookies().set('lichess_oauth_state', state, {
