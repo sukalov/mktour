@@ -22,17 +22,16 @@ body {
 @font-face {
   /* latin */
   font-family: 'Main';
-  src: url('../app/fonts/Azeret_Mono/AzeretMono-VariableFont_wght.ttf')
-    format('truetype');
+  src: url('../app/fonts/Azeret_Mono/AzeretMono-VariableFont_wght.ttf') format('truetype');
   unicode-range: U+0000-007F, U+0080-00FF;
 }
 
 @font-face {
   /* cyrillic */
   font-family: 'Main';
-  src: url('../app/fonts/Roboto_Mono/RobotoMono-VariableFont_wght.ttf')
-    format('truetype');
+  src: url('../app/fonts/fairfaxhd/FairfaxHD.ttf') format('truetype');
   unicode-range: U+0400-04FF, U+0500-052F, U+2DE0-2DFF, U+A640-A69F;
+  size-adjust: 130%;
 }
 
 @layer base {
@@ -105,6 +104,7 @@ body {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
