@@ -1,15 +1,17 @@
 import { Button } from '@/components/ui/button';
 import LichessLogo from '@/components/ui/lichess-logo';
 import { cn } from '@/lib/utils';
+import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 
 interface SignInWithLichessButtonProps {
   className?: string;
 }
 
-export default function SignInWithLichessButton({
+export default async function SignInWithLichessButton({
   className,
 }: SignInWithLichessButtonProps) {
+  const t = await getTranslations()
   return (
     <Link href={'/login/lichess'} className="w-full">
       <Button
@@ -24,7 +26,7 @@ export default function SignInWithLichessButton({
           <LichessLogo size="40" />
         </span>
         <span className="grid-col--9 text-[1.4rem] font-light leading-none md:px-4 md:text-xl">
-          sign in with lichess
+          {t("Home.sign in with lichess")}
         </span>
       </Button>
     </Link>
