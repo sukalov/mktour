@@ -41,6 +41,7 @@ const TournamentItem = ({
 export const TournamentItemIteratee = (props: TournamentItemProps) => (
   <TournamentItem
     id={props.id}
+    key={props.id}
     title={props.title}
     date={props.date}
     format={props.format}

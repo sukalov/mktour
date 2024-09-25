@@ -1,5 +1,8 @@
-import { DatabaseClub, DatabaseTournament } from '@/lib/db/schema/tournaments';
+import { DatabaseClub, DatabaseGame, DatabaseTournament } from '@/lib/db/schema/tournaments';
 
+/**
+ * combination of player general info and tournament performance, recorded in players_to_tournaments
+ */
 export interface PlayerModel {
   id: string;
   nickname: string; // players.nickname
@@ -13,18 +16,12 @@ export interface PlayerModel {
   place: number | null;
 }
 
-export interface GameModel {
-  id: string; // games.id
-  tournament_id: string; // games.tournament_id
-  black_id: string; // games.black_id;
-  white_id: string; // games.white_id;
+/**
+ *  
+ */
+export interface GameModel extends DatabaseGame {
   black_nickname: string | null; // players where id === games.black_id  nickname;
   white_nickname: string | null; // players where id === games.white_id  nickname;
-  black_prev_game_id: string | null; // links to other games necessary for elimination-brackets
-  white_prev_game_id: string | null; // links to other games necessary for elimination-brackets
-  round_number: number; // games.round_number
-  round_name: RoundName | null; // games.round_name
-  result: Result | null; //games.result
 }
 
 // export interface TournamentModel { // FIXME this seems out-dated or misleading
