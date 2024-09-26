@@ -8,13 +8,10 @@ export default function useSaveRound(queryClient: QueryClient) {
   return useMutation({
     mutationFn: saveRound,
     onSuccess: (_data, { tournamentId, roundNumber }) => {
-      return queryClient.invalidateQueries({
+      queryClient.invalidateQueries({
         queryKey: [tournamentId, 'games', { roundNumber }],
       });
     },
-    onSettled: () => {
-      console.log('после конца мутации:')
-      console.log(queryClient.getQueryCache().getAll()[4].state.data)},
     onError: () => toast.error(t('server error')),
   });
 }

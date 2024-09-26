@@ -54,8 +54,6 @@ const ShuffleFab = () => {
       [tournamentId, 'games', { roundNumber: 1 }],
       () => newGames.sort((a, b) => a.game_number - b.game_number),
     );
-    console.log('кэш после ручного обновления:')
-    console.log(queryClient.getQueryCache().getAll()[4].state.data)
   };
 
   return (
