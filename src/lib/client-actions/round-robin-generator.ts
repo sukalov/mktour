@@ -21,7 +21,6 @@ export function generateRoundRobinRoundFunction({
 }): GameModel[] {
   games = games.filter((game) => game.round_number !== roundNumber);
 
-  console.log({ players, games });
   // checking if the set of layers is even, if not, making it even with a smart alg
   let matchedEntities = players.map(convertPlayerToEntity);
   if (matchedEntities.length % 2 != 0)
@@ -188,7 +187,7 @@ function convertGameToEntitiesMatch(
   const entitiesMatch: NumberedEntitiesPair = {
     whiteEntity,
     blackEntity,
-    pairNumber: game.game_number + i + 1,
+    pairNumber: game.game_number + i,
   };
   return entitiesMatch;
 }
