@@ -30,8 +30,8 @@ export function generateRoundRobinRoundFunction({
   const initialEntitiesPools = getInitialEntitiesIdPairs(matchedEntities);
   const poolById: PoolById = new Map(initialEntitiesPools);
 
-  const previousMatches = games.map((game, i) =>
-    convertGameToEntitiesMatch(game, players, i),
+  const previousMatches = games.map(game =>
+    convertGameToEntitiesMatch(game, players),
   );
 
   const poolByIdUpdated = updateChessEntitiesMatches(poolById, previousMatches);
@@ -54,7 +54,8 @@ export function generateRoundRobinRoundFunction({
   const colouredMatches = entitiesMatchingsGenerated.map(getColouredPair);
 
   // numbering each match
-  const currentOffset = previousMatches.length;
+  // 1 is added to start game numeration from 1 instead of 0
+  const currentOffset = previousMatches.length + 1;
   const numberedMatches = colouredMatches.map(
     (colouredMatch, coulouredMatchIndex) =>
       getNumberedPair(colouredMatch, coulouredMatchIndex, currentOffset),
@@ -173,7 +174,6 @@ function convertPlayerToEntity(playerModel: PlayerModel) {
 function convertGameToEntitiesMatch(
   game: GameModel,
   players: Array<PlayerModel>,
-  i: number,
 ): NumberedEntitiesPair {
   const whitePlayer = players.find((person) => person.id === game.white_id);
   const blackPlayer = players.find((person) => person.id === game.black_id);
@@ -187,7 +187,7 @@ function convertGameToEntitiesMatch(
   const entitiesMatch: NumberedEntitiesPair = {
     whiteEntity,
     blackEntity,
-    pairNumber: game.game_number + i,
+    pairNumber: game.game_number,
   };
   return entitiesMatch;
 }
@@ -238,7 +238,7 @@ function getGameToInsert(
 function getNumberedPair(
   colouredPair: ColouredEntitiesPair,
   pairNumber: number,
-  offset: number = 1,
+  offset: number,
 ): NumberedEntitiesPair {
   // getting the number offset of a current pair
   const pairNumberOffseted = pairNumber + offset;
