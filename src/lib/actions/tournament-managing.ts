@@ -1,6 +1,5 @@
 'use server';
 
-import { generateRoundRobinRoundFunction } from '@/lib/actions/bracket-generation';
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
 import {
@@ -21,15 +20,7 @@ import {
   Result,
   TournamentInfo,
 } from '@/types/tournaments';
-import {
-  aliasedTable,
-  and,
-  eq,
-  inArray,
-  isNotNull,
-  isNull,
-  sql,
-} from 'drizzle-orm';
+import { aliasedTable, and, eq, isNotNull, isNull, sql } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 
 export const createTournament = async (values: NewTournamentFormType) => {
@@ -197,7 +188,7 @@ export async function getTournamentGames(
 ): Promise<GameModel[]> {
   const whitePlayer = aliasedTable(players, 'white_player');
   const blackPlayer = aliasedTable(players, 'black_player');
-  return await db
+  const gamesDb = await db
     .select({
       id: games.id,
       tournament_id: games.tournament_id,
@@ -206,6 +197,7 @@ export async function getTournamentGames(
       black_nickname: blackPlayer.nickname,
       white_nickname: whitePlayer.nickname,
       round_number: games.round_number,
+      game_number: games.game_number,
       round_name: games.round_name || null,
       white_prev_game_id: games.white_prev_game_id || null,
       black_prev_game_id: games.black_prev_game_id || null,
@@ -215,6 +207,8 @@ export async function getTournamentGames(
     .where(eq(games.tournament_id, tournamentId))
     .leftJoin(whitePlayer, eq(games.black_id, whitePlayer.id))
     .leftJoin(blackPlayer, eq(games.white_id, blackPlayer.id));
+
+  return gamesDb.sort((a, b) => a.game_number - b.game_number);
 }
 
 export async function getTournamentRoundGames({
@@ -226,7 +220,7 @@ export async function getTournamentRoundGames({
 }): Promise<GameModel[]> {
   const whitePlayer = aliasedTable(players, 'white_player');
   const blackPlayer = aliasedTable(players, 'black_player');
-  return await db
+  const gamesDb = await db
     .select({
       id: games.id,
       tournament_id: games.tournament_id,
@@ -235,6 +229,7 @@ export async function getTournamentRoundGames({
       black_nickname: blackPlayer.nickname,
       white_nickname: whitePlayer.nickname,
       round_number: games.round_number,
+      game_number: games.game_number,
       round_name: games.round_name || null,
       white_prev_game_id: games.white_prev_game_id || null,
       black_prev_game_id: games.black_prev_game_id || null,
@@ -249,42 +244,96 @@ export async function getTournamentRoundGames({
     )
     .leftJoin(whitePlayer, eq(games.white_id, whitePlayer.id))
     .leftJoin(blackPlayer, eq(games.black_id, blackPlayer.id));
+
+  return gamesDb.sort((a, b) => a.game_number - b.game_number);
 }
 
-export async function generateRoundRobinRound({
+// export async function generateRoundRobinRound({
+//   tournamentId,
+//   roundNumber,
+//   userId,
+// }: {
+//   tournamentId: string;
+//   roundNumber: number;
+//   userId: string;
+// }): Promise<GameModel[]> {
+//   const { user } = await validateRequest();
+//   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
+//   if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
+
+//   const tournament = (
+//     await db.select().from(tournaments).where(eq(tournaments.id, tournamentId))
+//   ).at(0);
+
+//   if (tournament?.started_at) {
+//     const roundGames = await db
+//       .select()
+//       .from(games)
+//       .where(
+//         and(
+//           eq(games.tournament_id, tournamentId),
+//           eq(games.round_number, roundNumber),
+//         ),
+//       );
+//     if (roundGames.length > 0) {
+//       for (let game in roundGames) {
+//         if (roundGames[game].result) throw new Error('RESULTS_PRESENT');
+//       }
+//     }
+//   }
+
+//   await db
+//     .delete(games)
+//     .where(
+//       and(
+//         eq(games.tournament_id, tournamentId),
+//         eq(games.round_number, roundNumber),
+//       ),
+//     );
+
+//   const roundGames = await generateRoundRobinRoundFunction({
+//     tournamentId,
+//     roundNumber,
+//   });
+
+//   let playerIds: string[] = [];
+//   roundGames.forEach((game) => {
+//     playerIds.push(game.white_id);
+//     playerIds.push(game.black_id);
+//   });
+//   const tournamentPlayers = await db
+//     .select()
+//     .from(players)
+//     .where(inArray(players.id, playerIds));
+
+//   return roundGames.map((game) => ({
+//     white_nickname: tournamentPlayers.find(
+//       (player) => player.id === game.white_id,
+//     )!.nickname,
+//     black_nickname: tournamentPlayers.find(
+//       (player) => player.id === game.black_id,
+//     )!.nickname,
+//     id: game.id,
+//     round_number: game.round_number,
+//     white_id: game.white_id,
+//     black_id: game.black_id,
+//     tournament_id: game.tournament_id,
+//     round_name: game.round_name || null,
+//     white_prev_game_id: game.white_prev_game_id || null,
+//     black_prev_game_id: game.black_prev_game_id || null,
+//     result: game.result || null,
+//   }));
+// }
+
+export async function saveRound({
   tournamentId,
   roundNumber,
-  userId,
+  newGames,
 }: {
   tournamentId: string;
   roundNumber: number;
-  userId: string;
-}): Promise<GameModel[]> {
-  const { user } = await validateRequest();
-  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
-  if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
-
-  const tournament = (
-    await db.select().from(tournaments).where(eq(tournaments.id, tournamentId))
-  ).at(0);
-
-  if (tournament?.started_at) {
-    const roundGames = await db
-      .select()
-      .from(games)
-      .where(
-        and(
-          eq(games.tournament_id, tournamentId),
-          eq(games.round_number, roundNumber),
-        ),
-      );
-    if (roundGames.length > 0) {
-      for (let game in roundGames) {
-        if (roundGames[game].result) throw new Error('RESULTS_PRESENT');
-      }
-    }
-  }
-
+  newGames: GameModel[];
+}) {
   await db
     .delete(games)
     .where(
@@ -294,38 +343,13 @@ export async function generateRoundRobinRound({
       ),
     );
 
-  const roundGames = await generateRoundRobinRoundFunction({
-    tournamentId,
-    roundNumber,
+  let insertPromises: Promise<any>[] = [];
+  newGames.forEach((game) => {
+    const { white_nickname, black_nickname, ...newGame } = game;
+    insertPromises.push(db.insert(games).values(newGame));
   });
 
-  let playerIds: string[] = [];
-  roundGames.forEach((game) => {
-    playerIds.push(game.white_id);
-    playerIds.push(game.black_id);
-  });
-  const tournamentPlayers = await db
-    .select()
-    .from(players)
-    .where(inArray(players.id, playerIds));
-
-  return roundGames.map((game) => ({
-    white_nickname: tournamentPlayers.find(
-      (player) => player.id === game.white_id,
-    )!.nickname,
-    black_nickname: tournamentPlayers.find(
-      (player) => player.id === game.black_id,
-    )!.nickname,
-    id: game.id,
-    round_number: game.round_number,
-    white_id: game.white_id,
-    black_id: game.black_id,
-    tournament_id: game.tournament_id,
-    round_name: game.round_name || null,
-    white_prev_game_id: game.white_prev_game_id || null,
-    black_prev_game_id: game.black_prev_game_id || null,
-    result: game.result || null,
-  }));
+  await Promise.all(insertPromises);
 }
 
 export async function startTournament({

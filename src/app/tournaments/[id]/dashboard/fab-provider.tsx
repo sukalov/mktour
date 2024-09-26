@@ -2,6 +2,7 @@ import { TabType } from '@/app/tournaments/[id]/dashboard';
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import Fab from '@/app/tournaments/[id]/dashboard/fab';
 import AddPlayerDrawer from '@/app/tournaments/[id]/dashboard/tabs/table/add-player';
+import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
 import { useTournamentRoundGames } from '@/components/hooks/query-hooks/use-tournament-round-games';
@@ -9,7 +10,7 @@ import { generateRoundRobinRoundFunction } from '@/lib/client-actions/round-robi
 import { Status } from '@/lib/db/hooks/get-status-in-tournament';
 import { shuffle } from '@/lib/utils';
 import { useQueryClient } from '@tanstack/react-query';
-import { Shuffle } from 'lucide-react';
+import { Loader2, Shuffle } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { FC, useContext } from 'react';
 
@@ -36,7 +37,7 @@ const ShuffleFab = () => {
   const { userId } = useContext(DashboardContext);
   if (!userId) throw new Error('USERID_NOT_FOUND_IN_CONTEXT');
   const queryClient = useQueryClient();
-  // const { isPending, mutate } = useGenerateRoundRobinRound(queryClient);
+  const { isPending, mutate } = useSaveRound(queryClient);
 
   if (data?.tournament.started_at || !players.data?.length || !games.data)
     return null;
@@ -48,19 +49,19 @@ const ShuffleFab = () => {
       roundNumber: 1,
       tournamentId,
     });
+    mutate({ tournamentId, newGames, roundNumber: 1 });
     queryClient.setQueryData(
       [tournamentId, 'games', { roundNumber: 1 }],
-      () => newGames,
+      () => newGames.sort((a, b) => a.game_number - b.game_number),
     );
+    console.log('кэш после ручного обновления:')
+    console.log(queryClient.getQueryCache().getAll()[4].state.data)
   };
 
   return (
     <Fab
-      // disabled={isPending}
-      // icon={!isPending ? Shuffle : Loader2}
-      // onClick={() => mutate({ tournamentId, userId, roundNumber: 1 })}
-      disabled={false}
-      icon={Shuffle}
+      disabled={isPending}
+      icon={!isPending ? Shuffle : Loader2}
       onClick={handleClick}
     />
   );

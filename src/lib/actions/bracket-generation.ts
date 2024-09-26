@@ -333,6 +333,7 @@ async function getGameToInsert(
     black_id: blackId,
     tournament_id: tournamentId,
     round_number: roundNumber,
+    game_number: finalizedMatch.pairNumber,
 
     // all those fields are set to null here, maybe will rethink that later
     round_name: null, // TODO: can be equal to round number in R&R

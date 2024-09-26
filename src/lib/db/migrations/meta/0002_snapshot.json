@@ -1,8 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "bb205537-5a91-47e4-93b1-00d6f429b8f7",
-  "prevId": "23ce6165-0785-49a0-ac23-698f5baee7e7",
+  "id": "3b656feb-826f-4e0e-94f2-e2cc5bd2a6b2",
+  "prevId": "bb205537-5a91-47e4-93b1-00d6f429b8f7",
   "tables": {
     "user_session": {
       "name": "user_session",
@@ -294,7 +294,7 @@
           "name": "game_number",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "round_number": {
