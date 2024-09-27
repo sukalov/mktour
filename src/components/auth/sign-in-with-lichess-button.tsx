@@ -6,14 +6,16 @@ import Link from 'next/link';
 
 interface SignInWithLichessButtonProps {
   className?: string;
+  from?: string;
 }
 
 export default async function SignInWithLichessButton({
   className,
+  from
 }: SignInWithLichessButtonProps) {
   const t = await getTranslations()
   return (
-    <Link href={'/login/lichess'} className="w-full">
+    <Link href={`/login/lichess${from ? '?from=' + from : ''}`} className="w-full">
       <Button
         className={cn(
           `m-auto flex h-28 min-h-28 w-full max-w-[28rem] flex-none flex-col gap-2 px-1 font-bold`,

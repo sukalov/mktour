@@ -14,6 +14,8 @@ export async function GET(request: Request): Promise<Response> {
   const url = new URL(request.url);
   const code = url.searchParams.get('code');
   const state = url.searchParams.get('state');
+  const authFrom = cookies().get('auth_from')?.value ?? null;
+  cookies().delete('auth_from');
   const storedState = cookies().get('lichess_oauth_state')?.value ?? null;
   const codeVerifier = cookies().get('lichess_oauth_code_validation')?.value;
 
@@ -69,7 +71,7 @@ export async function GET(request: Request): Promise<Response> {
       return new Response(null, {
         status: 302,
         headers: {
-          Location: '/',
+          Location: authFrom ? authFrom : '/',
         },
       });
     }
@@ -121,7 +123,7 @@ export async function GET(request: Request): Promise<Response> {
     return new Response(null, {
       status: 302,
       headers: {
-        Location: '/',
+        Location: authFrom ? authFrom : '/',
       },
     });
   } catch (e) {

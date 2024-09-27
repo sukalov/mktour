@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation';
 
 export default async function NewTournament() {
   const { user } = await validateRequest();
-  if (!user) redirect('/sign-in');
+  if (!user) redirect('/sign-in?from=/tournaments/create');
   const userClubs = await getUserToClubs({ user });
   const preparedUser = userClubs.map((el) => el.club) as DatabaseClub[];
 
