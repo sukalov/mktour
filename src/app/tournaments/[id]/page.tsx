@@ -17,13 +17,11 @@ export const revalidate = 0;
 export default async function TournamentPage({ params }: TournamentPageProps) {
   const session = cookies().get('auth_session')?.value ?? '';
   const { user } = await validateRequest();
-  await tournamentQueryPrefetch(params.id);
-
   const tournament = (
     await db.select().from(tournaments).where(eq(tournaments.id, params.id))
   ).at(0);
-
   if (!tournament) notFound();
+  await tournamentQueryPrefetch(params.id);
 
   let status = await getStatusInTournament(user, params.id);
 
