@@ -10,9 +10,9 @@ export default async function MakeTournamentButton() {
         className="m-auto flex h-28 min-h-28 w-full max-w-[28rem] flex-col gap-2 font-bold"
         variant="default"
       >
-        <h1 className="text-2xl font-light min-[320px]:text-3xl">
+        <span className="text-2xl font-light min-[320px]:text-3xl">
           {t('Home.make tournament')}
-        </h1>
+        </span>
       </Button>
     </Link>
   );
