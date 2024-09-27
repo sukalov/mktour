@@ -37,7 +37,8 @@ const ShuffleFab = () => {
   const { userId } = useContext(DashboardContext);
   if (!userId) throw new Error('USERID_NOT_FOUND_IN_CONTEXT');
   const queryClient = useQueryClient();
-  const { isPending, mutate } = useSaveRound(queryClient);
+  const { sendJsonMessage } = useContext(DashboardContext);
+  const { isPending, mutate } = useSaveRound(queryClient, sendJsonMessage);
 
   if (data?.tournament.started_at || !players.data?.length || !games.data)
     return null;
@@ -50,9 +51,8 @@ const ShuffleFab = () => {
       tournamentId,
     });
     mutate({ tournamentId, newGames, roundNumber: 1 });
-    queryClient.setQueryData(
-      [tournamentId, 'games', { roundNumber: 1 }],
-      () => newGames.sort((a, b) => a.game_number - b.game_number),
+    queryClient.setQueryData([tournamentId, 'games', { roundNumber: 1 }], () =>
+      newGames.sort((a, b) => a.game_number - b.game_number),
     );
   };
 

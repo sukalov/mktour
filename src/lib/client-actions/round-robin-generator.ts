@@ -64,7 +64,7 @@ export function generateRoundRobinRoundFunction({
   const gamesToInsert: GameModel[] = numberedMatches.map((numberedMatch) =>
     getGameToInsert(numberedMatch, tournamentId, roundNumber),
   );
-
+  
   return gamesToInsert;
 }
 

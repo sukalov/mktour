@@ -1,8 +1,14 @@
+import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
 import { addNewPlayer } from '@/lib/actions/tournament-managing';
+import { generateRoundRobinRoundFunction } from '@/lib/client-actions/round-robin-generator';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
-import { PlayerModel } from '@/types/tournaments';
+import { shuffleImmutable } from '@/lib/utils';
+import { GameModel, PlayerModel } from '@/types/tournaments';
 import { Message } from '@/types/ws-events';
-import { QueryClient, useMutation } from '@tanstack/react-query';
+import {
+  QueryClient,
+  useMutation
+} from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 export const useTournamentAddNewPlayer = (
@@ -11,6 +17,7 @@ export const useTournamentAddNewPlayer = (
   sendJsonMessage: (_message: Message) => void,
   returnToNewPlayer: (_player: DatabasePlayer) => void,
 ) => {
+  const saveRound = useSaveRound(queryClient, sendJsonMessage);
   return useMutation({
     mutationKey: [tournamentId, 'players', 'add-new'],
     mutationFn: addNewPlayer,
@@ -61,10 +68,29 @@ export const useTournamentAddNewPlayer = (
       queryClient.invalidateQueries({
         queryKey: [tournamentId, 'players', 'added'],
       });
-      queryClient.invalidateQueries({ queryKey: [tournamentId, 'games'] });
     },
     onSuccess: (_err, _data, context) => {
       sendJsonMessage({ type: 'add-new-player', body: context.newPlayer });
+        const newGames = generateRoundRobinRoundFunction({
+          players: shuffleImmutable(
+            queryClient.getQueryData([
+              tournamentId,
+              'players',
+              'added',
+            ]) as PlayerModel[],
+          ),
+          games: queryClient.getQueryData([
+            tournamentId,
+            'games',
+          ]) as GameModel[],
+          roundNumber: 1,
+          tournamentId,
+        });
+        saveRound.mutate({ tournamentId, newGames, roundNumber: 1 });
+        queryClient.setQueryData(
+          [tournamentId, 'games', { roundNumber: 1 }],
+          () => newGames.sort((a, b) => a.game_number - b.game_number),
+        );
     },
   });
 };

@@ -58,12 +58,13 @@ const TournamentTable: FC = ({}) => {
           <TableRow
             key={player.id}
             onClick={() => {
-              if (userId && status === 'organizer')
+              if (userId && status === 'organizer') {
                 removePlayers.mutate({
                   tournamentId: id,
                   playerId: player.id,
                   userId,
-                });
+                })
+              };
             }}
           >
             <TableCell className="font-small pl-4 pr-0">{i + 1}</TableCell>

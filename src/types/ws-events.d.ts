@@ -7,6 +7,7 @@ type Message =
   | { type: 'set-game-result'; gameId: string; result: Result }
   | { type: 'start-tournament'; started_at: Date }
   | { type: 'reset-tournament' }
+  | { type: 'new-round'; newGames: GameModel[] }
   | ErrorMessage;
 
 type ErrorMessage = {

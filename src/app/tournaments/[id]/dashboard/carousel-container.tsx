@@ -48,7 +48,7 @@ const CarouselContainer: FC<CarouselProps> = ({
   }, [api, currentTab, indexOfTab, handleSelect]);
 
   return (
-    <Carousel setApi={setApi} opts={{ loop: true }}>
+    <Carousel setApi={setApi} opts={{ loop: false }}>
       <CarouselContent>
         {tabs.map((tab) => (
           <CarouselIteratee
