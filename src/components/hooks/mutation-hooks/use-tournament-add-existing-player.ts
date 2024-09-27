@@ -1,4 +1,3 @@
-import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
 import { addExistingPlayer } from '@/lib/actions/tournament-managing';
 import { generateRoundRobinRoundFunction } from '@/lib/client-actions/round-robin-generator';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
@@ -13,7 +12,6 @@ export const useTournamentAddExistingPlayer = (
   queryClient: QueryClient,
   sendJsonMessage: (_message: Message) => void,
 ) => {
-  const saveRound = useSaveRound(queryClient, sendJsonMessage);
   return useMutation({
     mutationKey: [tournamentId, 'players', 'add-existing'],
     mutationFn: addExistingPlayer,
@@ -46,6 +44,22 @@ export const useTournamentAddExistingPlayer = (
         (cache: Array<PlayerModel>) =>
           cache.filter((pl) => pl.id !== player.id),
       );
+      const newGames = generateRoundRobinRoundFunction({
+        players: shuffleImmutable(
+          queryClient.getQueryData([
+            tournamentId,
+            'players',
+            'added',
+          ]) as PlayerModel[],
+        ),
+        games: queryClient.getQueryData([tournamentId, 'games']) as GameModel[],
+        roundNumber: 1,
+        tournamentId,
+      });
+      queryClient.setQueryData(
+        [tournamentId, 'games', { roundNumber: 1 }],
+        () => newGames.sort((a, b) => a.game_number - b.game_number),
+      );
       return { previousState, newPlayer };
     },
     onError: (_err, data, context) => {
@@ -69,23 +83,6 @@ export const useTournamentAddExistingPlayer = (
     },
     onSuccess: (_err, _data, context) => {
       sendJsonMessage({ type: 'add-existing-player', body: context.newPlayer });
-      const newGames = generateRoundRobinRoundFunction({
-        players: shuffleImmutable(
-          queryClient.getQueryData([
-            tournamentId,
-            'players',
-            'added',
-          ]) as PlayerModel[],
-        ),
-        games: queryClient.getQueryData([tournamentId, 'games']) as GameModel[],
-        roundNumber: 1,
-        tournamentId,
-      });
-      saveRound.mutate({ tournamentId, newGames, roundNumber: 1 });
-      queryClient.setQueryData(
-        [tournamentId, 'games', { roundNumber: 1 }],
-        () => newGames.sort((a, b) => a.game_number - b.game_number),
-      );
     },
   });
 };
