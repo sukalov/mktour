@@ -2,13 +2,15 @@
 
 import { turboPascal } from '@/app/fonts';
 import { Button } from '@/components/ui/button';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 
 export default function TeamJoinToaster() {
+  const t = useTranslations('TeamJoinToaster');
   const handleCancel = () => {
-    toast.success('too bad... we hope you join us one day!');
+    toast.success(t('user refused'));
     setTimeout(() => toast.dismiss('teamJoin'));
   };
 
@@ -19,9 +21,9 @@ export default function TeamJoinToaster() {
         method: 'POST',
       }),
       {
-        loading: 'adding you right now!',
-        error: 'some error happened, too bad...',
-        success: "yeee, now you're in the team!",
+        loading: t('adding'),
+        error: t('join error'),
+        success: t('joined successfuly'),
       },
     );
   };
@@ -31,25 +33,25 @@ export default function TeamJoinToaster() {
         <h1
           className={`${turboPascal.className} text-center text-2xl font-bold leading-8`}
         >
-          WELCOME TO MKTOUR
+          {t('toast header')}
         </h1>
         <p>
-          in case you experience any difficulties while using our app, please
-          describe the problem at&nbsp;
-          <Link
-            href="https://lichess.org/team/mktour"
-            className="font-semibold underline"
-          >
-            our lichess team
-          </Link>
-          &nbsp; forum. do you want to join the team, where you can reach us any
-          time?
+          {t.rich('toast message', {
+            lichess: (words) => (
+              <Link
+                href="https://lichess.org/team/mktour"
+                className="font-semibold underline"
+              >
+                {words}
+              </Link>
+            ),
+          })}
         </p>
         <br />
-        <div className="flex justify-center gap-2">
-          <Button onClick={handleJoin}>join team</Button>
+        <div className="flex justify-center gap-2 flex-col">
+          <Button onClick={handleJoin}>{t('join team')}</Button>
           <Button variant="secondary" onClick={handleCancel}>
-            don&apos;t join
+            {t("no join button")}
           </Button>
         </div>
       </div>,

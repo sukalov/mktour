@@ -195,5 +195,15 @@
     "sign in with lichess": "sign in with lichess",
     "big text 1": "organize any chess tournament",
     "big text 2": "organize any chess tournament the easy way"
+  },
+  "TeamJoinToaster": {
+    "user refused": "too bad... we hope you join us one day!",
+    "adding": "adding you right now!",
+    "joined successfuly": "yeee, now you're in the team!",
+    "join error": "some error happened, too bad...",
+    "toast header": "WELCOME TO MKTOUR",
+    "toast message": "in case you experience any difficulties while using our app, please describe the problem at <lichess>our lichess team </lichess> forum. do you want to join the team, where you can reach us any time?",
+    "join team": "join team",
+    "no join button": "don't join"
   }
 }
