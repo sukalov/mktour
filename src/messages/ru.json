@@ -145,12 +145,18 @@
       "added players error": "простите! не получилось загрузить игроков",
       "loading": "идёт загрузка...",
       "name column": "имя ({number} игроков)",
-      "wins": "выигрыши",
-      "draws": "ничьи",
-      "losses": "проигрыши",
-      "w": "в",
-      "d": "н",
-      "l": "п"
+      "WDL": {
+        "full": {
+          "wins": "выигрыши",
+          "draws": "ничьи",
+          "losses": "проигрыши"
+        },
+        "short": {
+          "wins": "в",
+          "draws": "н",
+          "losses": "п"
+        }
+      }
     }
   },
   "MakeTournament": {

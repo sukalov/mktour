@@ -145,12 +145,18 @@
       "added players error": "sorry! couldn't get added players from the server",
       "loading": "loading...",
       "name column": "name ({number} players)",
-      "wins": "wins",
-      "draws": "draws",
-      "losses": "losses",
-      "w": "w",
-      "d": "d",
-      "l": "l"
+      "Stats": {
+        "full": {
+          "wins": "wins",
+          "draws": "draws",
+          "losses": "losses"
+        },
+        "short": {
+          "wins": "w",
+          "draws": "d",
+          "losses": "l"
+        }
+      }
     }
   },
   "MakeTournament": {

@@ -63,8 +63,8 @@ const TournamentTable: FC = ({}) => {
                   tournamentId: id,
                   playerId: player.id,
                   userId,
-                })
-              };
+                });
+              }
             }}
           >
             <TableCell className="font-small pl-4 pr-0">{i + 1}</TableCell>
@@ -89,18 +89,16 @@ const TournamentTable: FC = ({}) => {
 
 const TableStatsHeads = () => {
   const { isMobile } = useContext(MediaQueryContext);
-  const DEFAULT_DASHBOARD_TABS: Stats[] = ['wins', 'draws', 'losses'];
-  const DEFAULT_DASHBOARD_TABS_SHORT: StatsShort[] = ['w', 'd', 'l'];
-  const titles = isMobile
-    ? DEFAULT_DASHBOARD_TABS_SHORT
-    : DEFAULT_DASHBOARD_TABS;
-  const t = useTranslations('Tournament.Table');
+  const stats: Stats[] = ['wins', 'draws', 'losses'];
+  const t = useTranslations(
+    `Tournament.Table.Stats.${isMobile ? 'short' : 'full'}`,
+  );
 
   return (
     <>
-      {titles.map((title) => (
-        <TableHead key={title} className="px-1 text-center">
-          {t(title)}
+      {stats.map((stat) => (
+        <TableHead key={stat} className="px-1 text-center">
+          {t(stat)}
         </TableHead>
       ))}
     </>
@@ -118,6 +116,5 @@ const TableLoading = () => {
 };
 
 type Stats = 'wins' | 'draws' | 'losses';
-type StatsShort = 'w' | 'd' | 'l';
 
 export default TournamentTable;
