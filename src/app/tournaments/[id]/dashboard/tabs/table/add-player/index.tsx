@@ -35,7 +35,7 @@ const AddPlayerDrawer = () => {
 
   const handleFabClick = () => {
     setOpen(!open);
-    if (!elevated) setElevated(true);
+    !elevated && setElevated(true);
   };
 
   const handleClose = () => {

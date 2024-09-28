@@ -145,7 +145,7 @@
       "added players error": "простите! не получилось загрузить игроков",
       "loading": "идёт загрузка...",
       "name column": "имя ({number} игроков)",
-      "WDL": {
+      "Stats": {
         "full": {
           "wins": "выигрыши",
           "draws": "ничьи",
