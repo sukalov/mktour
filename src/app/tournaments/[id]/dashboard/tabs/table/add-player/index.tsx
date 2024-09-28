@@ -62,7 +62,7 @@ const AddPlayerDrawer = () => {
       open={open}
     >
       <Fab
-        className={`${elevated ? 'z-[60]' : 'z-40'}`}
+        className={`${elevated && 'z-[60]'}`}
         onClick={handleFabClick}
         icon={open ? X : UserPlus}
       />
