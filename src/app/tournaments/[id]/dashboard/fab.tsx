@@ -1,15 +1,15 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
+import { Button, ButtonProps } from '@/components/ui/button';
 import { Loader2, LucideIcon } from 'lucide-react';
 import { FC, MouseEventHandler, PropsWithChildren } from 'react';
 import { createPortal } from 'react-dom';
 
-const Fab: FC<FabProps> = ({ onClick, icon: Icon, disabled, container }) => {
+const Fab: FC<FabProps> = ({ onClick, icon: Icon, disabled, container, className }) => {
   return (
     <PortalWrapper container={container}>
       <Button
-        className="fixed bottom-8 right-6 z-[60] rounded-full"
+        className={`fixed bottom-8 right-6 z-40 pointer-events-auto rounded-full ${className} `}
         variant="secondary"
         size="icon"
         style={{ scale: 1.5 }}
@@ -35,6 +35,7 @@ type FabProps = {
   icon: LucideIcon;
   disabled?: boolean;
   container?: HTMLElement | null;
+  className?: ButtonProps['className']
 };
 
 export default Fab;

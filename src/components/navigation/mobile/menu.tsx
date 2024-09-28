@@ -11,7 +11,6 @@ import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { FC, useEffect, useMemo, useRef } from 'react';
-import { createPortal } from 'react-dom';
 
 const Menu: FC<{ user: User | null }> = ({ user }) => {
   const containerRef = useRef(null);
@@ -66,7 +65,7 @@ const Menu: FC<{ user: User | null }> = ({ user }) => {
 
   const t = useTranslations('Menu');
 
-  return createPortal(
+  return (
     <motion.nav
       initial={false}
       animate={isOpen ? 'open' : 'closed'}
@@ -135,8 +134,7 @@ const Menu: FC<{ user: User | null }> = ({ user }) => {
         </MenuItem>
       </motion.ul>
       <MenuToggle toggle={toggleOpen} />
-    </motion.nav>,
-    document.body,
+    </motion.nav>
   );
 };
 

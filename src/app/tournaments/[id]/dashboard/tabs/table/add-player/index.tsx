@@ -3,6 +3,7 @@ import AddNewPlayer from '@/app/tournaments/[id]/dashboard/tabs/table/add-player
 import AddPlayer from '@/app/tournaments/[id]/dashboard/tabs/table/add-player/add-player';
 import { Button } from '@/components/ui/button';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
+import { delay } from 'framer-motion';
 import { ArrowLeft, Plus, UserPlus, X } from 'lucide-react';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
@@ -11,6 +12,7 @@ import { Drawer } from 'vaul';
 const AddPlayerDrawer = () => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
+  const [elevated, setElevated] = useState<boolean>(false);
   const [addingNewPlayer, setAddingNewPlayer] = useState(false);
 
   useHotkeys(
@@ -31,6 +33,11 @@ const AddPlayerDrawer = () => {
     { enableOnFormTags: true },
   );
 
+  const handleFabClick = () => {
+    setOpen(!open);
+    if (!elevated) setElevated(true);
+  };
+
   const handleClose = () => {
     setOpen(false);
     setAddingNewPlayer(false);
@@ -44,26 +51,25 @@ const AddPlayerDrawer = () => {
   };
 
   useEffect(() => {
-    // this hook lets you interact with outside fab and avoid Vaul's 'pointer-events: none' style on body
-    if (open) {
-      // Pushing the change to the end of the call stack
-      const timer = setTimeout(() => {
-        document.body.style.pointerEvents = '';
-      }, 0);
-
-      return () => clearTimeout(timer);
-    } else {
-      document.body.style.pointerEvents = 'auto';
-    }
+    !open && delay(() => setElevated(open), 500);
   }, [open]);
 
   return (
-    <Drawer.Root direction="right" onClose={handleClose} open={open}>
-      <Fab onClick={() => setOpen(!open)} icon={open ? X : UserPlus} />
+    <Drawer.Root
+      direction="right"
+      noBodyStyles
+      onClose={handleClose}
+      open={open}
+    >
+      <Fab
+        className={`${elevated ? 'z-[60]' : 'z-40'}`}
+        onClick={handleFabClick}
+        icon={open ? X : UserPlus}
+      />
       <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 top-0 z-50 bg-black/80" />
         <Drawer.Content
-          onInteractOutside={() => setOpen(false)}
+          onInteractOutside={handleClose}
           className="fixed bottom-0 left-[5rem] right-0 top-0 z-50 flex flex-col outline-none"
         >
           <Drawer.Title />
