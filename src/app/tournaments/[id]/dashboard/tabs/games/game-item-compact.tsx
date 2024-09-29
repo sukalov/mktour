@@ -4,6 +4,7 @@ import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament
 import useOutsideClick from '@/components/hooks/use-outside-click';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 import { Result as ResultModel } from '@/types/tournaments';
 import { useQueryClient } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
@@ -103,7 +104,7 @@ const GameItemCompact: FC<GameProps> = ({
 
   return (
     <Card
-      className={`grid w-full select-none grid-cols-[1fr_auto_1fr] items-center border p-2 text-sm transition-all duration-300 md:max-w-[250px] ${scaled && 'z-50 -translate-y-5 scale-105'}`}
+      className={`grid h-16 w-full select-none grid-cols-3 items-center gap-2 border p-2 text-sm transition-all duration-300 md:max-w-72 ${scaled && 'z-50 -translate-y-5 scale-105'}`}
       ref={ref}
       {...bind()}
     >
@@ -117,7 +118,7 @@ const GameItemCompact: FC<GameProps> = ({
       />
       <Button
         variant="ghost"
-        className={`${!scaled && 'pointer-events-none'} mx-4 flex h-fit flex-grow select-none gap-2 justify-self-center rounded-sm p-1 px-2 ${scaled && draw && 'underline underline-offset-4'}`}
+        className={`${!scaled && 'pointer-events-none'} mx-4 flex h-full w-full min-w-16 flex-grow select-none gap-2 justify-self-center rounded-sm p-1 px-2 ${scaled && draw && 'underline underline-offset-4'}`}
       >
         <Result {...resultProps} />
       </Button>
@@ -144,10 +145,16 @@ const PlayerButton: FC<PlayerButtonProps> = ({
   return (
     <Button
       variant="ghost"
-      className={`${!scaled && 'pointer-events-none'} line-clamp-2 h-fit max-w-full select-none text-ellipsis hyphens-auto break-words rounded-sm p-1 px-2 ${muted ? 'text-muted-foreground' : scaled && result && 'underline underline-offset-4'} ${position.justify}`}
+      className={cn(
+        `${!scaled ? `pointer-events-none ${position.justify}` : 'justify-center'} line-clamp-2 h-full w-full max-w-full select-none text-ellipsis hyphens-auto break-words rounded-sm p-1 px-2 ${muted ? 'text-muted-foreground' : scaled && result && 'underline underline-offset-4'}`,
+      )}
       onClick={handleMutate}
     >
-      <small className={`line-clamp-2 ${position.text}`}>{nickname}</small>
+      <small
+        className={`line-clamp-2 ${!scaled ? `pointer-events-none ${position.text}` : 'text-center'} `}
+      >
+        {nickname}
+      </small>
     </Button>
   );
 };
@@ -169,7 +176,27 @@ const Result: FC<ResultProps> = ({
         <small className="select-none">{t('draw')}</small>
       </div>
     );
-  return <div className="select-none">{result ? t(result) : '|'}</div>; // FIXME styling
+  if (!result) {
+    return (
+      <Card className="grid h-full w-full select-none grid-cols-2 justify-center border-muted align-middle">
+        <div className="h-full border-r border-r-muted align-text-bottom"></div>
+        <div></div>
+      </Card>
+    );
+  }
+  const parsedResult = result.split('-');
+  const left = parsedResult?.at(0) === '1/2' ? '½' : parsedResult?.at(0);
+  const right = parsedResult?.at(1) === '1/2' ? '½' : parsedResult?.at(1);
+  return (
+    <Card className="grid h-full w-full select-none grid-cols-2 border-muted">
+      <div className="flex w-full items-center justify-center">
+        {left ?? ''}
+      </div>
+      <div className="flex w-full items-center justify-center border-l border-l-muted">
+        {right ?? ''}
+      </div>
+    </Card>
+  ); // FIXME styling
 };
 
 type PlayerButtonProps = {
