@@ -64,6 +64,7 @@ const RoundsMobile: FC = () => {
         currentRound={data.tournament.ongoing_round}
         currentTab={currentTab}
       />
+      <div className="pt-14" />
       <RoundItem roundNumber={roundInView} />
     </div>
   );

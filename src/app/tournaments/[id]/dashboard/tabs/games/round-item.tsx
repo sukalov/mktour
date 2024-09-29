@@ -20,16 +20,19 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
 
   if (isLoading)
     return (
-      <div className="px-4 pt-12">
-        <SkeletonList length={8} height={12} />
+      <div className="px-4">
+        <SkeletonList length={8} height={16} />
       </div>
     );
   if (isError) return <Center>error</Center>;
   if (!round) return <Center>no round</Center>;
+  const sortedRound = [...round].sort((a, b) => {
+    return Number(a.result !== null) - Number(b.result !== null);
+  });
 
   return (
-    <div className="mt-14 flex w-full flex-col gap-2 px-4">
-      {round.map((game, index) => (
+    <div className="m flex w-full flex-col gap-2 px-4">
+      {sortedRound.map((game, index) => (
         <GamesIteratee key={index} {...game} />
       ))}
     </div>

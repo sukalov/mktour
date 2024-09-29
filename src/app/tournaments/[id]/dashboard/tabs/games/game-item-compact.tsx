@@ -104,16 +104,10 @@ const GameItemCompact: FC<GameProps> = ({
 
   return (
     <Card
-      className={`grid relative h-16 w-full select-none grid-cols-3 items-center gap-2 border p-2 text-sm transition-all duration-300 md:max-w-72 ${scaled && 'z-50 -translate-y-5 scale-105'}`}
+      className={`grid ${result && !scaled && 'opacity-50'} elative h-16 w-full select-none grid-cols-3 items-center gap-2 border p-2 text-sm transition-all hover:duration-300 md:max-w-72 ${scaled && 'z-50 -translate-y-5 scale-105'}`}
       ref={ref}
       {...bind()}
     >
-      {!result && (
-        <span className="absolute flex h-3 w-3 top-0 right-0 translate-x-1 -translate-y-1 z-20">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-secondary opacity-75"></span>
-          <span className="relative inline-flex h-3 w-3 rounded-full bg-secondary"></span>
-        </span>
-      )}
       <PlayerButton
         result={result}
         handleMutate={() => handleMutate('1-0')}
