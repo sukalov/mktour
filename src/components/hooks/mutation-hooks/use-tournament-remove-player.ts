@@ -1,13 +1,12 @@
+import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
 import { removePlayer } from '@/lib/actions/tournament-managing';
 import { generateRoundRobinRoundFunction } from '@/lib/client-actions/round-robin-generator';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { shuffleImmutable } from '@/lib/utils';
 import { GameModel, PlayerModel } from '@/types/tournaments';
 import { Message } from '@/types/ws-events';
-import {
-  QueryClient,
-  useMutation
-} from '@tanstack/react-query';
+import { QueryClient, useMutation } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
 export const useTournamentRemovePlayer = (
@@ -15,6 +14,8 @@ export const useTournamentRemovePlayer = (
   queryClient: QueryClient,
   sendJsonMessage: (_message: Message) => void,
 ) => {
+  const t = useTranslations('Errors');
+  const saveRound = useSaveRound(tournamentId, queryClient, sendJsonMessage);
   return useMutation({
     mutationKey: [tournamentId, 'players', 'remove'],
     mutationFn: removePlayer,
@@ -28,6 +29,35 @@ export const useTournamentRemovePlayer = (
         (cache: Array<DatabasePlayer>) =>
           cache.filter((player) => player.id !== playerId),
       );
+
+      return { previousState };
+    },
+    onError: (err, { playerId }, context) => {
+      if (context?.previousState) {
+        queryClient.setQueryData(
+          [tournamentId, 'players', 'added'],
+          context.previousState,
+        );
+      }
+      const player = context?.previousState?.find(
+        (player) => player.id === playerId,
+      );
+      console.log(err)
+      toast.error(
+        t('remove-player-error', {
+          player: player?.nickname
+        }),
+        {
+          id: 'remove-player-error',
+          duration: 3000,
+        },
+      );
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: [tournamentId, 'players'] });
+    },
+    onSuccess: (_err, data) => {
+      sendJsonMessage({ type: 'remove-player', id: data.playerId });
       const newGames = generateRoundRobinRoundFunction({
         players: shuffleImmutable(
           queryClient.getQueryData([
@@ -40,30 +70,11 @@ export const useTournamentRemovePlayer = (
         roundNumber: 1,
         tournamentId,
       });
+      saveRound.mutate({ tournamentId, roundNumber: 1, newGames });
       queryClient.setQueryData(
         [tournamentId, 'games', { roundNumber: 1 }],
         () => newGames.sort((a, b) => a.game_number - b.game_number),
       );
-      return { previousState };
-    },
-    onError: (_err, _, context) => {
-      if (context?.previousState) {
-        queryClient.setQueryData(
-          [tournamentId, 'players', 'added'],
-          context.previousState,
-        );
-      }
-      console.log(_err);
-      toast.error("sorry! could't remove player from the tournament", {
-        id: 'remove-player-error',
-        duration: 3000,
-      });
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: [tournamentId, 'players'] });
-    },
-    onSuccess: (_err, data) => {
-      sendJsonMessage({ type: 'remove-player', id: data.playerId });
     },
   });
 };

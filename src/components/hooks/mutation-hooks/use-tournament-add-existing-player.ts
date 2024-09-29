@@ -1,3 +1,4 @@
+import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
 import { addExistingPlayer } from '@/lib/actions/tournament-managing';
 import { generateRoundRobinRoundFunction } from '@/lib/client-actions/round-robin-generator';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
@@ -5,6 +6,7 @@ import { shuffleImmutable } from '@/lib/utils';
 import { GameModel, PlayerModel } from '@/types/tournaments';
 import { Message } from '@/types/ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
 export const useTournamentAddExistingPlayer = (
@@ -12,6 +14,8 @@ export const useTournamentAddExistingPlayer = (
   queryClient: QueryClient,
   sendJsonMessage: (_message: Message) => void,
 ) => {
+  const t = useTranslations('Errors')
+  const saveRound = useSaveRound(tournamentId, queryClient, sendJsonMessage);
   return useMutation({
     mutationKey: [tournamentId, 'players', 'add-existing'],
     mutationFn: addExistingPlayer,
@@ -44,6 +48,27 @@ export const useTournamentAddExistingPlayer = (
         (cache: Array<PlayerModel>) =>
           cache.filter((pl) => pl.id !== player.id),
       );
+      return { previousState, newPlayer };
+    },
+    onError: (err, data, context) => {
+      if (context?.previousState) {
+        queryClient.setQueryData(
+          [tournamentId, 'players', 'added'],
+          context.previousState,
+        );
+      }
+      console.log(err);
+      toast.error(t('add-player-error', { player: data.player.nickname }), {
+        id: `add-player-error-${data.player.id}`,
+      });
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: [tournamentId, 'players'],
+      });
+    },
+    onSuccess: (_err, _data, context) => {
+      sendJsonMessage({ type: 'add-existing-player', body: context.newPlayer });
       const newGames = generateRoundRobinRoundFunction({
         players: shuffleImmutable(
           queryClient.getQueryData([
@@ -56,33 +81,11 @@ export const useTournamentAddExistingPlayer = (
         roundNumber: 1,
         tournamentId,
       });
+      saveRound.mutate({ tournamentId, roundNumber: 1, newGames });
       queryClient.setQueryData(
         [tournamentId, 'games', { roundNumber: 1 }],
         () => newGames.sort((a, b) => a.game_number - b.game_number),
       );
-      return { previousState, newPlayer };
-    },
-    onError: (_err, data, context) => {
-      if (context?.previousState) {
-        queryClient.setQueryData(
-          [tournamentId, 'players', 'added'],
-          context.previousState,
-        );
-      }
-      toast.error(
-        `sorry! couldn't add ${data.player.nickname} to the tournament`,
-        {
-          id: `add-player-error-${data.player.id}`,
-        },
-      );
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({
-        queryKey: [tournamentId, 'players'],
-      });
-    },
-    onSuccess: (_err, _data, context) => {
-      sendJsonMessage({ type: 'add-existing-player', body: context.newPlayer });
     },
   });
 };
