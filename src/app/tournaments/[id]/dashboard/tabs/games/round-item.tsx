@@ -23,7 +23,7 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
   if (!round) return <Center>no round</Center>;
 
   return (
-    <div className="mt-14 flex w-full flex-col gap-4 px-4">
+    <div className="mt-14 flex w-full flex-col gap-2 px-4">
       {round.map((game, index) => (
         <GamesIteratee key={index} {...game} />
       ))}
