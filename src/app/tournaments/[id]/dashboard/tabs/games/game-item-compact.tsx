@@ -104,7 +104,7 @@ const GameItemCompact: FC<GameProps> = ({
 
   return (
     <Card
-      className={`grid ${result && !scaled && 'opacity-50'} elative h-16 w-full select-none grid-cols-3 items-center gap-2 border p-2 text-sm transition-all hover:duration-300 md:max-w-72 ${scaled && 'z-50 -translate-y-5 scale-105'}`}
+      className={`grid ${result && !scaled && 'opacity-50'} h-16 w-full select-none grid-cols-3 items-center gap-2 border p-2 text-sm transition-all hover:duration-300 md:max-w-72 ${scaled && 'z-50 -translate-y-5 scale-105'}`}
       ref={ref}
       {...bind()}
     >
@@ -113,7 +113,6 @@ const GameItemCompact: FC<GameProps> = ({
         handleMutate={() => handleMutate('1-0')}
         scaled={scaled}
         nickname={playerLeft.white_nickname}
-        muted={draw || rightWin}
         position={{ justify: 'justify-self-start', text: 'text-left' }}
       />
       <Button
@@ -127,7 +126,6 @@ const GameItemCompact: FC<GameProps> = ({
         handleMutate={() => handleMutate('0-1')}
         scaled={scaled}
         nickname={playerRight.black_nickname}
-        muted={draw || leftWin}
         position={{ justify: 'justify-self-end', text: 'text-right' }}
       />
     </Card>
@@ -189,10 +187,10 @@ const Result: FC<ResultProps> = ({
   const right = parsedResult?.at(1) === '1/2' ? '½' : parsedResult?.at(1);
   return (
     <Card className="grid h-full w-24 min-w-16 select-none grid-cols-2">
-      <div className="flex w-full items-center justify-center">
+      <div className="flex w-full items-center justify-center opacity-60">
         {left ?? ''}
       </div>
-      <div className="flex w-full items-center justify-center border-l border-l-muted">
+      <div className="flex w-full items-center justify-center border-l border-l-muted opacity-60">
         {right ?? ''}
       </div>
     </Card>
@@ -204,7 +202,7 @@ type PlayerButtonProps = {
   nickname: string | null;
   result: ResultModel | null;
   scaled: boolean;
-  muted: boolean;
+  muted?: boolean;
   position: {
     justify: 'justify-self-start' | 'justify-self-end';
     text: 'text-left' | 'text-right';
