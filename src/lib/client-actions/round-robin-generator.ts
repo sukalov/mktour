@@ -30,7 +30,7 @@ export function generateRoundRobinRoundFunction({
   const initialEntitiesPools = getInitialEntitiesIdPairs(matchedEntities);
   const poolById: PoolById = new Map(initialEntitiesPools);
 
-  const previousMatches = games.map(game =>
+  const previousMatches = games.map((game) =>
     convertGameToEntitiesMatch(game, players),
   );
 
@@ -64,7 +64,7 @@ export function generateRoundRobinRoundFunction({
   const gamesToInsert: GameModel[] = numberedMatches.map((numberedMatch) =>
     getGameToInsert(numberedMatch, tournamentId, roundNumber),
   );
-  
+
   return gamesToInsert;
 }
 

@@ -43,7 +43,7 @@ const AddNewPlayer = ({
     sendJsonMessage,
     returnToNewPlayer,
   );
-  const t = useTranslations('Tournament.AddPlayer')
+  const t = useTranslations('Tournament.AddPlayer');
   useHotkeys('escape', handleClose, { enableOnFormTags: true });
 
   const form = useForm<NewPlayerFormType>({
@@ -108,7 +108,9 @@ const AddNewPlayer = ({
           name="rating"
           render={({ field: { value, onChange } }) => (
             <FormItem>
-              <legend>{t('estimated raiting')}: {value}</legend>
+              <legend>
+                {t('estimated raiting')}: {value}
+              </legend>
               <FormControl>
                 <Slider
                   data-vaul-no-drag
@@ -134,12 +136,12 @@ const AddNewPlayer = ({
           {form.formState.isSubmitting || form.formState.isValidating ? (
             <>
               <Loader2 className="animate-spin" />
-              &nbsp;{t("save")}
+              &nbsp;{t('save')}
             </>
           ) : (
             <>
               <Save />
-              &nbsp;{t("save")}
+              &nbsp;{t('save')}
             </>
           )}
         </Button>

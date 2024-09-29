@@ -45,7 +45,7 @@ const RoundsMobile: FC = () => {
           currentRound={1}
           currentTab={currentTab}
         />
-        <div className="pt-14 px-4">
+        <div className="px-4 pt-14">
           <SkeletonList length={8} height={16} />
         </div>
       </div>

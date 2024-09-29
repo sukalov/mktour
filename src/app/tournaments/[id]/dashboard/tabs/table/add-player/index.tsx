@@ -15,7 +15,7 @@ const AddPlayerDrawer = () => {
   const [value, setValue] = useState('');
   const [elevated, setElevated] = useState<boolean>(false);
   const [addingNewPlayer, setAddingNewPlayer] = useState(false);
-  const t = useTranslations('Tournament.AddPlayer')
+  const t = useTranslations('Tournament.AddPlayer');
 
   useHotkeys(
     'shift+equal',

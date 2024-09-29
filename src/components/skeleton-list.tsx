@@ -1,9 +1,12 @@
 import { Skeleton } from '@/components/ui/skeleton';
 import { FC } from 'react';
 
-const SkeletonList: FC<{ length?: number, height?: number }> = ({ length, height }) => {
+const SkeletonList: FC<{ length?: number; height?: number }> = ({
+  length,
+  height,
+}) => {
   const list = new Array(length || 4).fill('');
-  const h = height ? `h-${height}` : 'h-24'
+  const h = height ? `h-${height}` : 'h-24';
 
   return (
     <div>

@@ -42,10 +42,10 @@ export const useTournamentRemovePlayer = (
       const player = context?.previousState?.find(
         (player) => player.id === playerId,
       );
-      console.log(err)
+      console.log(err);
       toast.error(
         t('remove-player-error', {
-          player: player?.nickname
+          player: player?.nickname,
         }),
         {
           id: 'remove-player-error',

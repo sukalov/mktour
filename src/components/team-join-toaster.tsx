@@ -48,10 +48,10 @@ export default function TeamJoinToaster() {
           })}
         </p>
         <br />
-        <div className="flex justify-center gap-2 flex-col">
+        <div className="flex flex-col justify-center gap-2">
           <Button onClick={handleJoin}>{t('join team')}</Button>
           <Button variant="secondary" onClick={handleCancel}>
-            {t("no join button")}
+            {t('no join button')}
           </Button>
         </div>
       </div>,

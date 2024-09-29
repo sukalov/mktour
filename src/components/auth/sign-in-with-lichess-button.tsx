@@ -11,11 +11,14 @@ interface SignInWithLichessButtonProps {
 
 export default async function SignInWithLichessButton({
   className,
-  from
+  from,
 }: SignInWithLichessButtonProps) {
-  const t = await getTranslations()
+  const t = await getTranslations();
   return (
-    <Link href={`/login/lichess${from ? '?from=' + from : ''}`} className="w-full">
+    <Link
+      href={`/login/lichess${from ? '?from=' + from : ''}`}
+      className="w-full"
+    >
       <Button
         className={cn(
           `m-auto flex h-28 min-h-28 w-full max-w-[28rem] flex-none flex-col gap-2 px-1 font-bold`,
@@ -28,7 +31,7 @@ export default async function SignInWithLichessButton({
           <LichessLogo size="40" />
         </span>
         <span className="grid-col--9 text-[1.4rem] font-light leading-none md:px-4 md:text-xl">
-          {t("Home.sign in with lichess")}
+          {t('Home.sign in with lichess')}
         </span>
       </Button>
     </Link>

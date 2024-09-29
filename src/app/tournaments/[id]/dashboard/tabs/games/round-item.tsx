@@ -18,7 +18,12 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
     roundNumber,
   });
 
-  if (isLoading) return <div className='pt-12 px-4'><SkeletonList length={8} height={12}/></div>;
+  if (isLoading)
+    return (
+      <div className="px-4 pt-12">
+        <SkeletonList length={8} height={12} />
+      </div>
+    );
   if (isError) return <Center>error</Center>;
   if (!round) return <Center>no round</Center>;
 

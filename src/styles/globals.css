@@ -22,10 +22,11 @@ body {
 /* latin */
 @font-face {
   font-family: 'Main';
-  src: url('../app/fonts/Azeret_Mono/AzeretMono-VariableFont_wght.ttf') format('truetype');
+  src: url('../app/fonts/Azeret_Mono/AzeretMono-VariableFont_wght.ttf')
+    format('truetype');
   unicode-range: U+0000-007F, U+0080-00FF;
 }
- 
+
 /* cyrillic */
 /* @font-face {
   font-family: 'Main';

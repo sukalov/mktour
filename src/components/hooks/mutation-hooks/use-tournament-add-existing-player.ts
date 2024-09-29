@@ -14,7 +14,7 @@ export const useTournamentAddExistingPlayer = (
   queryClient: QueryClient,
   sendJsonMessage: (_message: Message) => void,
 ) => {
-  const t = useTranslations('Errors')
+  const t = useTranslations('Errors');
   const saveRound = useSaveRound(tournamentId, queryClient, sendJsonMessage);
   return useMutation({
     mutationKey: [tournamentId, 'players', 'add-existing'],

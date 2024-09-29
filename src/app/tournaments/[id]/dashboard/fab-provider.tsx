@@ -38,7 +38,11 @@ const ShuffleFab = () => {
   if (!userId) throw new Error('USERID_NOT_FOUND_IN_CONTEXT');
   const queryClient = useQueryClient();
   const { sendJsonMessage } = useContext(DashboardContext);
-  const { isPending, mutate } = useSaveRound(tournamentId, queryClient, sendJsonMessage);
+  const { isPending, mutate } = useSaveRound(
+    tournamentId,
+    queryClient,
+    sendJsonMessage,
+  );
 
   if (data?.tournament.started_at || !players.data?.length || !games.data)
     return null;

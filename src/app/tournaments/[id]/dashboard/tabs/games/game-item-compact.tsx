@@ -178,7 +178,7 @@ const Result: FC<ResultProps> = ({
     );
   if (!result) {
     return (
-      <Card className="grid h-full grid-cols-2 w-24 min-w-16 select-none">
+      <Card className="grid h-full w-24 min-w-16 select-none grid-cols-2">
         <div className="flex w-full items-center justify-center"></div>
         <div className="flex w-full items-center justify-center border-l border-l-muted"></div>
       </Card>
