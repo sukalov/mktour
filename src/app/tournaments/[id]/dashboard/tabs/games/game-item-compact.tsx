@@ -178,9 +178,9 @@ const Result: FC<ResultProps> = ({
     );
   if (!result) {
     return (
-      <Card className="grid h-full w-full select-none grid-cols-2 justify-center border-muted align-middle">
-        <div className="h-full border-r border-r-muted align-text-bottom"></div>
-        <div></div>
+      <Card className="grid h-full grid-cols-2 w-24 min-w-16 select-none">
+        <div className="flex w-full items-center justify-center"></div>
+        <div className="flex w-full items-center justify-center border-l border-l-muted"></div>
       </Card>
     );
   }
@@ -188,7 +188,7 @@ const Result: FC<ResultProps> = ({
   const left = parsedResult?.at(0) === '1/2' ? '½' : parsedResult?.at(0);
   const right = parsedResult?.at(1) === '1/2' ? '½' : parsedResult?.at(1);
   return (
-    <Card className="grid h-full w-full select-none grid-cols-2 border-muted">
+    <Card className="grid h-full w-24 min-w-16 select-none grid-cols-2">
       <div className="flex w-full items-center justify-center">
         {left ?? ''}
       </div>
