@@ -21,6 +21,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { Loader2, Save } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -42,6 +43,7 @@ const AddNewPlayer = ({
     sendJsonMessage,
     returnToNewPlayer,
   );
+  const t = useTranslations('Tournament.AddPlayer')
   useHotkeys('escape', handleClose, { enableOnFormTags: true });
 
   const form = useForm<NewPlayerFormType>({
@@ -88,7 +90,7 @@ const AddNewPlayer = ({
               <FormControl>
                 <Input
                   className="drop-shadow-md"
-                  placeholder="name"
+                  placeholder={t('name')}
                   {...field}
                   autoComplete="off"
                   autoFocus
@@ -106,7 +108,7 @@ const AddNewPlayer = ({
           name="rating"
           render={({ field: { value, onChange } }) => (
             <FormItem>
-              <legend>estimated rating: {value}</legend>
+              <legend>{t('estimated raiting')}: {value}</legend>
               <FormControl>
                 <Slider
                   data-vaul-no-drag
@@ -132,12 +134,12 @@ const AddNewPlayer = ({
           {form.formState.isSubmitting || form.formState.isValidating ? (
             <>
               <Loader2 className="animate-spin" />
-              &nbsp;save
+              &nbsp;{t("save")}
             </>
           ) : (
             <>
               <Save />
-              &nbsp;save
+              &nbsp;{t("save")}
             </>
           )}
         </Button>

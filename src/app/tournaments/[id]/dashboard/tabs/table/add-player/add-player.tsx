@@ -24,7 +24,7 @@ const AddPlayer = ({ value, setValue, handleClose }: DrawerProps) => {
     queryClient,
     sendJsonMessage,
   );
-  const t = useTranslations('Errors');
+  const t = useTranslations('Tournament.AddPlayer');
   useHotkeys('escape', () => handleClose, { enableOnFormTags: true });
 
   if (possiblePlayers.status === 'pending')
@@ -33,7 +33,7 @@ const AddPlayer = ({ value, setValue, handleClose }: DrawerProps) => {
         <Input
           id="possible-players-search"
           value={value}
-          placeholder="search"
+          placeholder={t('search')}
           onChange={(e) => setValue(e.target.value)}
         />
         <Skeleton className="h-svh w-full pt-8" />
@@ -49,7 +49,7 @@ const AddPlayer = ({ value, setValue, handleClose }: DrawerProps) => {
         <Input
           id="possible-players-search"
           value={value}
-          placeholder="search"
+          placeholder={t('search')}
           onChange={(e) => setValue(e.target.value)}
         />
         <Skeleton className="h-svh w-full pt-8" />
@@ -70,7 +70,7 @@ const AddPlayer = ({ value, setValue, handleClose }: DrawerProps) => {
         className="drop-shadow-md"
         id="possible-players-search"
         value={value}
-        placeholder="search" // FIXME Intl
+        placeholder={t('search')}
         onChange={(e) => setValue(e.target.value)}
       />
       {possiblePlayers.data?.length === 0 && (

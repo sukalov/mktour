@@ -61,9 +61,9 @@
     "time travel": "is it a time travel?",
     "min rating": "negative rating??",
     "max rating": "no cheaters allowed",
-    "possible players error": "error happened while loading club players",
     "lichess team connected": "sorry, this team is already here:",
-    "player exists error": "this player already exists!"
+    "player exists error": "this player already exists!",
+    "name": "what's their name?"
   },
   "NewClubForm": {
     "new club": "new club",
@@ -157,6 +157,15 @@
           "losses": "l"
         }
       }
+    },
+    "AddPlayer": {
+      "back": "back",
+      "add new player": "add new player",
+      "name": "name",
+      "estimated raiting": "estimated rating",
+      "save": "save",
+      "search": "search",
+      "possible players error": "error happened while loading club players"
     }
   },
   "MakeTournament": {

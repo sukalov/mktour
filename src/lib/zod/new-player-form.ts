@@ -3,7 +3,7 @@ import * as z from 'zod';
 
 export const newPlayerFormSchema = z
   .object({
-    name: z.string().min(1, "what's his name?"),
+    name: z.string().min(1, 'name'),
     rating: z
       .number()
       .min(0, {

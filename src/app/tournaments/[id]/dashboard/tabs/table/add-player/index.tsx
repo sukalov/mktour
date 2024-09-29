@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { delay } from 'framer-motion';
 import { ArrowLeft, Plus, UserPlus, X } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { Drawer } from 'vaul';
@@ -14,6 +15,7 @@ const AddPlayerDrawer = () => {
   const [value, setValue] = useState('');
   const [elevated, setElevated] = useState<boolean>(false);
   const [addingNewPlayer, setAddingNewPlayer] = useState(false);
+  const t = useTranslations('Tournament.AddPlayer')
 
   useHotkeys(
     'shift+equal',
@@ -82,7 +84,7 @@ const AddPlayerDrawer = () => {
                 variant={addingNewPlayer ? 'outline' : 'default'}
               >
                 {!addingNewPlayer ? <Plus /> : <ArrowLeft />}
-                {!addingNewPlayer ? 'add new player' : 'back'}{' '}
+                {!addingNewPlayer ? t('add new player') : t('back')}{' '}
                 {/* FIXME Intl */}
               </Button>
             </div>

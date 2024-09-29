@@ -61,9 +61,9 @@
     "time travel": "путешествуем во времени?",
     "min rating": "отрицательный рейтинг??",
     "max rating": "похоже здесь читер",
-    "possible players error": "ошибка! не получилось загрузить ваших игроков",
     "lichess team connected": "этот клуб у нас уже есть:",
-    "player exists error": "этот игрок уже существует!"
+    "player exists error": "этот игрок уже существует!",
+    "name": "как зовут человека?"
   },
   "NewClubForm": {
     "new club": "новый клуб",
@@ -157,6 +157,15 @@
           "losses": "п"
         }
       }
+    },
+    "AddPlayer": {
+      "back": "назад",
+      "add new player": "создать нового игрока",
+      "name": "имя",
+      "estimated raiting": "предполагаемый рейтинг",
+      "save": "сохранить",
+      "search": "поиск",
+      "possible players error": "ошибка! не получилось загрузить ваших игроков"
     }
   },
   "MakeTournament": {
