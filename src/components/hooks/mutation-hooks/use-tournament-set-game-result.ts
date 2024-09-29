@@ -14,7 +14,6 @@ export default function useTournamentSetGameResult(
   return useMutation({
     mutationFn: setTournamentGameResult,
     onSuccess: (_error, { gameId, result }) => {
-      toast.success(t('result added'));
       queryClient.invalidateQueries({
         queryKey: [tournamentId, 'games'],
       });

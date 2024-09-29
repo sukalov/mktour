@@ -104,7 +104,7 @@ const GameItemCompact: FC<GameProps> = ({
 
   return (
     <Card
-      className={`grid h-16 w-full select-none grid-cols-3 items-center gap-2 border p-2 text-sm hover:transition-all hover:duration-300 md:max-w-72 ${scaled && 'z-50 -translate-y-5 scale-105'} ${!result && !scaled && 'hover:animate-none animate-pulse'}`}
+      className={`grid h-16 w-full select-none grid-cols-3 items-center gap-2 border p-2 text-sm transition-all duration-300 md:max-w-72 ${scaled && 'z-50 -translate-y-5 scale-105'}`}
       ref={ref}
       {...bind()}
     >
