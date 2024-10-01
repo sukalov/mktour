@@ -107,7 +107,7 @@ const GameItemCompact: FC<GameProps> = ({
       {...bind()}
     >
       <PlayerButton
-        result={result}
+        isWinner={result === '1-0'}
         handleMutate={() => handleMutate('1-0')}
         scaled={scaled}
         nickname={playerLeft.white_nickname}
@@ -120,7 +120,7 @@ const GameItemCompact: FC<GameProps> = ({
         <Result {...resultProps} />
       </Button>
       <PlayerButton
-        result={result}
+        isWinner={result === '0-1'}
         handleMutate={() => handleMutate('0-1')}
         scaled={scaled}
         nickname={playerRight.black_nickname}
@@ -132,7 +132,7 @@ const GameItemCompact: FC<GameProps> = ({
 
 const PlayerButton: FC<PlayerButtonProps> = ({
   handleMutate,
-  result,
+  isWinner,
   nickname,
   scaled,
   muted,
@@ -142,7 +142,7 @@ const PlayerButton: FC<PlayerButtonProps> = ({
     <Button
       variant="ghost"
       className={cn(
-        `${!scaled ? `pointer-events-none ${position.justify}` : 'justify-center'} line-clamp-2 h-full w-full max-w-full select-none text-ellipsis hyphens-auto break-words rounded-sm p-1 px-2 ${muted ? 'text-muted-foreground' : scaled && result && 'underline underline-offset-4'}`,
+        `${!scaled ? `pointer-events-none ${position.justify}` : 'justify-center'} line-clamp-2 h-full w-full max-w-full select-none text-ellipsis hyphens-auto break-words rounded-sm p-1 px-2 ${muted ? 'text-muted-foreground' : scaled && isWinner && 'underline underline-offset-4'}`,
       )}
       onClick={handleMutate}
     >
@@ -198,7 +198,7 @@ const Result: FC<ResultProps> = ({
 type PlayerButtonProps = {
   handleMutate: () => void;
   nickname: string | null;
-  result: ResultModel | null;
+  isWinner: boolean;
   scaled: boolean;
   muted?: boolean;
   position: {
