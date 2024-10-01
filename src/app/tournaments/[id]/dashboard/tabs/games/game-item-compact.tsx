@@ -26,8 +26,6 @@ const GameItemCompact: FC<GameProps> = ({
   playerRight,
 }) => {
   const draw = result === '1/2-1/2';
-  const leftWin = result === '1-0';
-  const rightWin = result === '0-1';
   const [scaled, setScaled] = useState(false);
   const { overlayed, setOverlayed, sendJsonMessage, tournamentId } =
     useContext(DashboardContext);
