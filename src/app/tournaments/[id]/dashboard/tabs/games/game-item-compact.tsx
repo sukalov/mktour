@@ -27,8 +27,13 @@ const GameItemCompact: FC<GameProps> = ({
 }) => {
   const draw = result === '1/2-1/2';
   const [scaled, setScaled] = useState(false);
-  const { overlayed, setOverlayed, sendJsonMessage, tournamentId } =
-    useContext(DashboardContext);
+  const {
+    overlayed,
+    setOverlayed,
+    setEscapedItemId,
+    sendJsonMessage,
+    tournamentId,
+  } = useContext(DashboardContext);
   const { data } = useTournamentInfo(tournamentId!);
   const queryClient = useQueryClient();
   const mutation = useTournamentSetGameResult(queryClient, {
@@ -42,9 +47,10 @@ const GameItemCompact: FC<GameProps> = ({
   const handleCardState = useCallback(
     (state: boolean) => {
       setOverlayed(state);
+      setEscapedItemId(id);
       setScaled(state);
     },
-    [setOverlayed],
+    [id, setEscapedItemId, setOverlayed],
   );
 
   const bind = useLongPress(() => handleCardState(true), {

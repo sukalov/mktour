@@ -24,6 +24,7 @@ const Dashboard: FC<TournamentPageContentProps> = ({
   const queryClient = useQueryClient();
   const { sendJsonMessage } = useDashboardWebsocket(session, id, queryClient);
   const [overlayed, setOverlayed] = useState(false);
+  const [escapedItemId, setEscapedItemId] = useState('');
 
   return (
     <DashboardContext.Provider
@@ -35,6 +36,8 @@ const Dashboard: FC<TournamentPageContentProps> = ({
         overlayed,
         setOverlayed,
         tournamentId: id,
+        setEscapedItemId,
+        escapedItemId
       }}
     >
       <TabsContainer currentTab={currentTab} setCurrentTab={setCurrentTab} />

@@ -1,4 +1,5 @@
 'use client';
+import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import GameItemCompact from '@/app/tournaments/[id]/dashboard/tabs/games/game-item-compact';
 import Center from '@/components/center';
 import { useTournamentRoundGames } from '@/components/hooks/query-hooks/use-tournament-round-games';
@@ -6,7 +7,7 @@ import SkeletonList from '@/components/skeleton-list';
 import { GameModel } from '@/types/tournaments';
 import { AnimatePresence, motion } from 'framer-motion';
 import { usePathname } from 'next/navigation';
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 
 const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
   const tournamentId = usePathname().split('/').at(-1) as string;
@@ -18,6 +19,8 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
     tournamentId,
     roundNumber,
   });
+
+  const { escapedItemId } = useContext(DashboardContext)
 
   if (isLoading)
     return (
@@ -34,18 +37,21 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
   return (
     <div className="flex w-full flex-col gap-2 px-4">
         <AnimatePresence>
-          {sortedRound.map((game, index) => (
-            <motion.div
+          {sortedRound.map((game, index) => {
+            let escaped = game.id === escapedItemId
+
+            return <motion.div
               key={game.id}
               layout
               initial={{ opacity: 0}}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
+              className={`${escaped && 'z-50'}`}
             >
               <GamesIteratee key={index} {...game} />
             </motion.div>
-          ))}
+          })}
         </AnimatePresence>
       </div>
   );

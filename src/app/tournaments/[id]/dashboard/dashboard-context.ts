@@ -8,6 +8,8 @@ export const DashboardContext = createContext<DashboardContextType>({
   status: 'viewer',
   userId: undefined,
   overlayed: false,
+  escapedItemId: null,
+  setEscapedItemId: () => null,
   setOverlayed: () => null,
   tournamentId: undefined,
 });
@@ -19,5 +21,7 @@ export type DashboardContextType = {
   userId: string | undefined;
   overlayed: boolean;
   setOverlayed: Dispatch<SetStateAction<boolean>>;
+  escapedItemId: string | null;
+  setEscapedItemId: Dispatch<SetStateAction<string>>;
   tournamentId: string | undefined;
 };
