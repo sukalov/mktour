@@ -1,6 +1,5 @@
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import useTournamentSetGameResult from '@/components/hooks/mutation-hooks/use-tournament-set-game-result';
-import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import useOutsideClick from '@/components/hooks/use-outside-click';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -34,7 +33,6 @@ const GameItemCompact: FC<GameProps> = ({
     sendJsonMessage,
     tournamentId,
   } = useContext(DashboardContext);
-  const { data } = useTournamentInfo(tournamentId!);
   const queryClient = useQueryClient();
   const mutation = useTournamentSetGameResult(queryClient, {
     tournamentId,
@@ -42,13 +40,11 @@ const GameItemCompact: FC<GameProps> = ({
   });
   const ref = useRef<any>(null); // FIXME any
 
-  data?.tournament.started_at;
-
   const handleCardState = useCallback(
     (state: boolean) => {
       setOverlayed(state);
-      setEscapedItemId(id);
       setScaled(state);
+      setEscapedItemId(!state ? '' : id);
     },
     [id, setEscapedItemId, setOverlayed],
   );
