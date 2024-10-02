@@ -13,23 +13,23 @@ const useOutsideClick = (
     };
 
     document.addEventListener('mousedown', handleClickOutside, {
-      capture: options?.capture || true,
+      capture: options?.capture,
     });
     window.addEventListener(
       options?.touch || 'touchstart',
       handleClickOutside,
-      { capture: options?.capture || true },
+      { capture: options?.capture },
     );
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside, {
-        capture: options?.capture || true,
+        capture: options?.capture,
       });
       window.removeEventListener(
         options?.touch || 'touchstart',
         handleClickOutside,
         {
-          capture: options?.capture || true,
+          capture: options?.capture,
         },
       );
     };
