@@ -20,7 +20,7 @@ import {
   Result,
   TournamentInfo,
 } from '@/types/tournaments';
-import { aliasedTable, and, eq, isNotNull, isNull, sql } from 'drizzle-orm';
+import { aliasedTable, and, eq, isNotNull, isNull, ne, sql } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 
 export const createTournament = async (values: NewTournamentFormType) => {
@@ -380,15 +380,37 @@ export async function resetTournament({
 }) {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST'); // FIXME ADD STATUS-IN-TOURNAMENT CHECK
-  await db
-    .update(tournaments)
-    .set({ started_at: null })
-    .where(
-      and(eq(tournaments.id, tournamentId), isNotNull(tournaments.started_at)),
-    )
-    .then((value) => {
-      if (!value.rowsAffected) throw new Error('TOURNAMENT_ALREADY_RESET');
-    });
+  const queries = [
+    db
+      .update(tournaments)
+      .set({ started_at: null })
+      .where(
+        and(
+          eq(tournaments.id, tournamentId),
+          isNotNull(tournaments.started_at),
+        ),
+      )
+      .then((value) => {
+        if (!value.rowsAffected) throw new Error('TOURNAMENT_ALREADY_RESET');
+      }),
+
+    db
+      .delete(games)
+      .where(
+        and(eq(games.tournament_id, tournamentId), ne(games.round_number, 1)),
+      ),
+    db
+      .update(players_to_tournaments)
+      .set({
+        wins: 0,
+        draws: 0,
+        losses: 0,
+        color_index: 0,
+      })
+      .where(eq(players_to_tournaments.tournament_id, tournamentId)),
+  ];
+  await Promise.all(queries);
+  await db.update(games).set({ result: null }).where(eq(games.tournament_id, tournamentId));
 }
 
 export async function setTournamentGameResult({

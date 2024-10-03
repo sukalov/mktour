@@ -19,11 +19,23 @@ export default function useTournamentReset(
       queryClient.invalidateQueries({
         queryKey: [tournamentId, 'tournament'],
       });
+      queryClient.invalidateQueries({
+        queryKey: [tournamentId, 'games'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [tournamentId, 'players'],
+      });
     },
     onError: () => {
       toast.error(t('server error'));
       queryClient.invalidateQueries({
         queryKey: [tournamentId, 'tournament'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [tournamentId, 'games'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [tournamentId, 'players'],
       });
     },
   });
