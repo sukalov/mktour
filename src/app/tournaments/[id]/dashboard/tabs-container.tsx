@@ -3,7 +3,7 @@ import { DashboardContextType } from '@/app/tournaments/[id]/dashboard/dashboard
 import tabs from '@/app/tournaments/[id]/dashboard/tabs';
 import handleSwipe from '@/components/helpers/handle-swipe';
 import SwipeDetector from '@/components/helpers/swipe-detector';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs-grid';
 import { useTranslations } from 'next-intl';
 import { FC, useEffect, useRef } from 'react';
 
@@ -35,11 +35,11 @@ const TabsContainer: FC<TabProps> = ({ currentTab, setCurrentTab, top }) => {
           setCurrentTab(value as DashboardContextType['currentTab'])
         }
         value={value}
-        className={`${top} fixed z-40 w-full rounded-none transition-all duration-500`}
+        className={`${top} h-10 fixed z-40 w-full rounded-none transition-all duration-500`}
       >
         <TabsList
           ref={tabRef}
-          className={`w-full justify-around overflow-scroll rounded-none no-scrollbar md:justify-evenly`}
+          className={`w-full justify-around overflow-scroll h-full rounded-none no-scrollbar md:justify-evenly`}
         >
           {tabs.map((tab) => (
             <div key={tab.title}>

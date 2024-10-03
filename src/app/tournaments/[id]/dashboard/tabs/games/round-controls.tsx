@@ -48,7 +48,7 @@ const RoundControls: FC<RoundControlProps> = ({
 
   return (
     <div
-      className={`absolute ${top} z-10 flex h-12 w-[100vw] items-center justify-between backdrop-blur-md transition-all duration-500`}
+      className={`absolute ${top} z-10 flex h-10 p-1 w-[100vw] items-center justify-between backdrop-blur-md transition-all duration-500`}
     >
       <ControlsProvider>
         <div className="flex h-full w-full flex-col items-center justify-center">
