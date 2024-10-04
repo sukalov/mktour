@@ -24,7 +24,9 @@ export default function useTournamentSetGameResult(
       sendJsonMessage({ type: 'set-game-result', gameId, result });
     },
     onError: (error) => {
-      toast.error(t('server error'));
+      if (error.message === 'TOURNAMENT_NOT_STARTED')
+        toast.error(t('tmt-not-started error'));
+      else toast.error(t('server error'));
       console.log(error);
     },
   });

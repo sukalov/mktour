@@ -101,7 +101,8 @@
     "round generated": "round genrated",
     "result added": "result added",
     "started": "tournament has started!",
-    "ended": "tournament is finished!"
+    "ended": "tournament is finished!",
+    "tmt-not-started error": "to set game results, you need to start the tournament first"
   },
   "EditUser": {
     "header": "settings",
