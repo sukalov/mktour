@@ -13,7 +13,11 @@ export default function useTournamentSetGameResult(
   const t = useTranslations('Toasts');
   return useMutation({
     mutationFn: setTournamentGameResult,
-    onSuccess: (_error, { gameId, result }) => {
+    onSuccess: (fnReturn, { gameId, result }) => {
+      if (fnReturn === 'TOURNAMENT_NOT_STARTED') {
+        toast.error(t('tmt-not-started error'));
+        return;
+      }
       queryClient.invalidateQueries({
         queryKey: [tournamentId, 'games'],
       });
@@ -24,12 +28,8 @@ export default function useTournamentSetGameResult(
       sendJsonMessage({ type: 'set-game-result', gameId, result });
     },
     onError: (error) => {
-      if (error.message === 'TOURNAMENT_NOT_STARTED') {
-        toast.error(t('tmt-not-started error'));
-      } else {
-        toast.error(t('server error'));
-        console.log(error);
-      }
+      toast.error(t('server error'));
+      console.log(error);
     },
   });
 }

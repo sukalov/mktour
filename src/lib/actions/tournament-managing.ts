@@ -451,8 +451,7 @@ export async function setTournamentGameResult({
   const tournament = (
     await db.select().from(tournaments).where(eq(tournaments.id, tournamentId))
   ).at(0);
-  if (tournament?.started_at === null)
-    throw new Error('TOURNAMENT_NOT_STARTED');
+  if (tournament?.started_at === null) return 'TOURNAMENT_NOT_STARTED';
   if (prevResult && result === prevResult) {
     await handleResultReset(whiteId, blackId, prevResult);
     await db.update(games).set({ result: null }).where(eq(games.id, gameId));
