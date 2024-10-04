@@ -419,16 +419,22 @@ export async function setTournamentGameResult({
   blackId,
   result,
   prevResult,
+  tournamentId
 }: {
+  tournamentId: string;
   gameId: string;
   whiteId: string;
   blackId: string;
   result: Result;
   prevResult: Result | null;
 }) {
+  const { user } = await validateRequest();
+  if (!user) throw new Error('UNAUTHORIZED_REQUEST'); // FIXME ADD STATUS-IN-TOURNAMENT CHECK
+  const tournament = (await db.select().from(tournaments).where(eq(tournaments.id, tournamentId))).at(0)
+  if (tournament?.started_at === null) throw new Error('TOURNAMENT_NOT_STARTED')
   if (prevResult && result === prevResult) {
     await handleResultReset(whiteId, blackId, prevResult);
-    await db.update(games).set({ result: null }).where(eq(games.id, gameId)); // maybe use 'delete' instead of 'set'?
+    await db.update(games).set({ result: null }).where(eq(games.id, gameId));
     return;
   }
   if (result === '1-0') {
