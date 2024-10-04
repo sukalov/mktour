@@ -2,6 +2,7 @@
 
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
+import { getStatusInTournament } from '@/lib/db/hooks/get-status-in-tournament';
 import {
   DatabasePlayer,
   DatabasePlayerToTournament,
@@ -140,6 +141,8 @@ export async function addNewPlayer({
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
+  const status = await getStatusInTournament(user, tournamentId);
+  if (status === 'viewer') throw new Error('NOT_ADMIN');
 
   await db.insert(players).values(player);
   const playerToTournament: DatabasePlayerToTournament = {
@@ -168,6 +171,8 @@ export async function addExistingPlayer({
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
+  const status = await getStatusInTournament(user, tournamentId);
+  if (status === 'viewer') throw new Error('NOT_ADMIN');
 
   const playerToTournament: DatabasePlayerToTournament = {
     player_id: player.id,
@@ -334,6 +339,11 @@ export async function saveRound({
   roundNumber: number;
   newGames: GameModel[];
 }) {
+  const { user } = await validateRequest();
+  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
+  if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
+  const status = await getStatusInTournament(user, tournamentId);
+  if (status === 'viewer') throw new Error('NOT_ADMIN');
   await db
     .delete(games)
     .where(
@@ -360,7 +370,9 @@ export async function startTournament({
   started_at: Date;
 }) {
   const { user } = await validateRequest();
-  if (!user) throw new Error('UNAUTHORIZED_REQUEST'); // FIXME ADD STATUS IN TOURNAMENT CHECK
+  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
+  const status = await getStatusInTournament(user, tournamentId);
+  if (status === 'viewer') throw new Error('NOT_ADMIN');
   if (started_at)
     await db
       .update(tournaments)
@@ -379,7 +391,9 @@ export async function resetTournament({
   tournamentId: string;
 }) {
   const { user } = await validateRequest();
-  if (!user) throw new Error('UNAUTHORIZED_REQUEST'); // FIXME ADD STATUS-IN-TOURNAMENT CHECK
+  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
+  const status = await getStatusInTournament(user, tournamentId);
+  if (status === 'viewer') throw new Error('NOT_ADMIN');
   const queries = [
     db
       .update(tournaments)
@@ -432,7 +446,9 @@ export async function setTournamentGameResult({
   prevResult: Result | null;
 }) {
   const { user } = await validateRequest();
-  if (!user) throw new Error('UNAUTHORIZED_REQUEST'); // FIXME ADD STATUS-IN-TOURNAMENT CHECK
+  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
+  const status = await getStatusInTournament(user, tournamentId);
+  if (status === 'viewer') throw new Error('NOT_ADMIN');
   const tournament = (
     await db.select().from(tournaments).where(eq(tournaments.id, tournamentId))
   ).at(0);
