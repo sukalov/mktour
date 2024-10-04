@@ -29,7 +29,7 @@ export const useDashboardWebsocket = (
     onMessage: (event: MessageEvent<any>) => {
       if (!event.data) return;
       const message = JSON.parse(event.data);
-      handleSocketMessage(message, queryClient, id);
+      handleSocketMessage(message, queryClient, id, t('ws message error'));
     },
     onError: () => {
       setTimeout(() => toast.dismiss('wsSuccess'));

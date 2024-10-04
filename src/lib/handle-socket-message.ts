@@ -13,6 +13,7 @@ export const handleSocketMessage = (
   message: Message,
   queryClient: QueryClient,
   tournamentId: string,
+  errorMessage: string,
 ) => {
   switch (message.type) {
     case 'add-new-player':
@@ -116,7 +117,7 @@ export const handleSocketMessage = (
       });
       break;
     case 'error':
-      toast.error(`server couldn't do this action "${message.data.type}"`);
+      toast.error(errorMessage);
     default:
       break;
   }
