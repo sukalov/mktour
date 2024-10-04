@@ -28,12 +28,8 @@ const GameItemCompact: FC<GameProps> = ({
   const draw = result === '1/2-1/2';
   const [scaled, setScaled] = useState(false);
   const tournamentId = usePathname().split('/').at(-1) as string;
-  const {
-    overlayed,
-    setOverlayed,
-    setEscapedItemId,
-    sendJsonMessage,
-  } = useContext(DashboardContext);
+  const { overlayed, setOverlayed, setEscapedItemId, sendJsonMessage } =
+    useContext(DashboardContext);
   const queryClient = useQueryClient();
   const mutation = useTournamentSetGameResult(queryClient, {
     tournamentId,
@@ -71,7 +67,7 @@ const GameItemCompact: FC<GameProps> = ({
         blackId: playerRight.black_id!,
         result: newResult,
         prevResult: result,
-        tournamentId
+        tournamentId,
       });
     }
   };

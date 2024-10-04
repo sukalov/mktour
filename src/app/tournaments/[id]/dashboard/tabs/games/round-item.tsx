@@ -20,7 +20,7 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
     roundNumber,
   });
 
-  const { escapedItemId } = useContext(DashboardContext)
+  const { escapedItemId } = useContext(DashboardContext);
 
   if (isLoading)
     return (
@@ -36,14 +36,15 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
 
   return (
     <div className="flex w-full flex-col gap-2 px-4">
-        <AnimatePresence>
-          {sortedRound.map((game, index) => {
-            let escaped = game.id === escapedItemId
+      <AnimatePresence>
+        {sortedRound.map((game, index) => {
+          let escaped = game.id === escapedItemId;
 
-            return <motion.div
+          return (
+            <motion.div
               key={game.id}
               layout
-              initial={{ opacity: 0}}
+              initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
@@ -51,9 +52,10 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
             >
               <GamesIteratee key={index} {...game} />
             </motion.div>
-          })}
-        </AnimatePresence>
-      </div>
+          );
+        })}
+      </AnimatePresence>
+    </div>
   );
 };
 

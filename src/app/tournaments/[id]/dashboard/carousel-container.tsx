@@ -72,7 +72,8 @@ const CarouselIteratee: FC<{
   const viewportRef = useRef<HTMLDivElement>(null);
   const { overlayed } = useContext(DashboardContext);
 
-  useEffect(() => { // NB: this hook controls FAB opacity when scrolling
+  useEffect(() => {
+    // NB: this hook controls FAB opacity when scrolling
     let timeoutId: NodeJS.Timeout;
     const viewportRefCopy = viewportRef.current;
 

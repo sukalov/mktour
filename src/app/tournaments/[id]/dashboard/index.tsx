@@ -36,7 +36,7 @@ const Dashboard: FC<TournamentPageContentProps> = ({
         overlayed,
         setOverlayed,
         setEscapedItemId,
-        escapedItemId
+        escapedItemId,
       }}
     >
       <TabsContainer currentTab={currentTab} setCurrentTab={setCurrentTab} />

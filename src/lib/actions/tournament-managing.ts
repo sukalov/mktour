@@ -410,7 +410,10 @@ export async function resetTournament({
       .where(eq(players_to_tournaments.tournament_id, tournamentId)),
   ];
   await Promise.all(queries);
-  await db.update(games).set({ result: null }).where(eq(games.tournament_id, tournamentId));
+  await db
+    .update(games)
+    .set({ result: null })
+    .where(eq(games.tournament_id, tournamentId));
 }
 
 export async function setTournamentGameResult({
@@ -419,7 +422,7 @@ export async function setTournamentGameResult({
   blackId,
   result,
   prevResult,
-  tournamentId
+  tournamentId,
 }: {
   tournamentId: string;
   gameId: string;
@@ -430,8 +433,11 @@ export async function setTournamentGameResult({
 }) {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST'); // FIXME ADD STATUS-IN-TOURNAMENT CHECK
-  const tournament = (await db.select().from(tournaments).where(eq(tournaments.id, tournamentId))).at(0)
-  if (tournament?.started_at === null) throw new Error('TOURNAMENT_NOT_STARTED')
+  const tournament = (
+    await db.select().from(tournaments).where(eq(tournaments.id, tournamentId))
+  ).at(0);
+  if (tournament?.started_at === null)
+    throw new Error('TOURNAMENT_NOT_STARTED');
   if (prevResult && result === prevResult) {
     await handleResultReset(whiteId, blackId, prevResult);
     await db.update(games).set({ result: null }).where(eq(games.id, gameId));

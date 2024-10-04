@@ -35,11 +35,11 @@ const TabsContainer: FC<TabProps> = ({ currentTab, setCurrentTab, top }) => {
           setCurrentTab(value as DashboardContextType['currentTab'])
         }
         value={value}
-        className={`${top} h-10 fixed z-40 w-full rounded-none transition-all duration-500`}
+        className={`${top} fixed z-40 h-10 w-full rounded-none transition-all duration-500`}
       >
         <TabsList
           ref={tabRef}
-          className={`w-full justify-around overflow-scroll h-full rounded-none no-scrollbar md:justify-evenly`}
+          className={`h-full w-full justify-around overflow-scroll rounded-none no-scrollbar md:justify-evenly`}
         >
           {tabs.map((tab) => (
             <div key={tab.title}>
