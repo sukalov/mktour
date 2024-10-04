@@ -11,7 +11,6 @@ export const DashboardContext = createContext<DashboardContextType>({
   escapedItemId: null,
   setEscapedItemId: () => null,
   setOverlayed: () => null,
-  tournamentId: undefined,
 });
 
 export type DashboardContextType = {
@@ -23,5 +22,4 @@ export type DashboardContextType = {
   setOverlayed: Dispatch<SetStateAction<boolean>>;
   escapedItemId: string | null;
   setEscapedItemId: Dispatch<SetStateAction<string>>;
-  tournamentId: string | undefined;
 };

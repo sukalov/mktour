@@ -35,7 +35,6 @@ const Dashboard: FC<TournamentPageContentProps> = ({
         userId,
         overlayed,
         setOverlayed,
-        tournamentId: id,
         setEscapedItemId,
         escapedItemId
       }}

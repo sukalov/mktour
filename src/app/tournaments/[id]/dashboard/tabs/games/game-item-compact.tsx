@@ -8,6 +8,7 @@ import { Result as ResultModel } from '@/types/tournaments';
 import { useQueryClient } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { usePathname } from 'next/navigation';
 import {
   FC,
   useCallback,
@@ -26,12 +27,12 @@ const GameItemCompact: FC<GameProps> = ({
 }) => {
   const draw = result === '1/2-1/2';
   const [scaled, setScaled] = useState(false);
+  const tournamentId = usePathname().split('/').at(-1) as string;
   const {
     overlayed,
     setOverlayed,
     setEscapedItemId,
     sendJsonMessage,
-    tournamentId,
   } = useContext(DashboardContext);
   const queryClient = useQueryClient();
   const mutation = useTournamentSetGameResult(queryClient, {
@@ -70,6 +71,7 @@ const GameItemCompact: FC<GameProps> = ({
         blackId: playerRight.black_id!,
         result: newResult,
         prevResult: result,
+        tournamentId
       });
     }
   };
