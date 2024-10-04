@@ -341,7 +341,6 @@ export async function saveRound({
 }) {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
-  if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
   const status = await getStatusInTournament(user, tournamentId);
   if (status === 'viewer') throw new Error('NOT_ADMIN');
   await db
