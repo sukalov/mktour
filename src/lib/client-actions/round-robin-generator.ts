@@ -177,6 +177,8 @@ function convertGameToEntitiesMatch(
 ): NumberedEntitiesPair {
   const whitePlayer = players.find((person) => person.id === game.white_id);
   const blackPlayer = players.find((person) => person.id === game.black_id);
+  console.log({ game, players, whitePlayer });
+  console.log({ game, players, blackPlayer });
   if (!whitePlayer || !blackPlayer)
     throw new Error('the set of games seems to not match the set of players');
 

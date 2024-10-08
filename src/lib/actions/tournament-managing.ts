@@ -343,14 +343,22 @@ export async function saveRound({
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   const status = await getStatusInTournament(user, tournamentId);
   if (status === 'viewer') throw new Error('NOT_ADMIN');
-  await db
-    .delete(games)
-    .where(
-      and(
-        eq(games.tournament_id, tournamentId),
-        eq(games.round_number, roundNumber),
+  const cleanupPromises = [
+    db
+      .delete(games)
+      .where(
+        and(
+          eq(games.tournament_id, tournamentId),
+          eq(games.round_number, roundNumber),
+        ),
       ),
-    );
+    db
+      .update(tournaments)
+      .set({ ongoing_round: roundNumber })
+      .where(eq(tournaments.id, tournamentId)),
+  ];
+
+  await Promise.all(cleanupPromises);
 
   let insertPromises: Promise<any>[] = [];
   newGames.forEach((game) => {
@@ -396,7 +404,7 @@ export async function resetTournament({
   const queries = [
     db
       .update(tournaments)
-      .set({ started_at: null })
+      .set({ started_at: null, ongoing_round: 1 })
       .where(
         and(
           eq(tournaments.id, tournamentId),

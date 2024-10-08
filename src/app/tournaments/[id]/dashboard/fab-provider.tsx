@@ -55,9 +55,6 @@ const ShuffleFab = () => {
       tournamentId,
     });
     mutate({ tournamentId, newGames, roundNumber: 1 });
-    queryClient.setQueryData([tournamentId, 'games', { roundNumber: 1 }], () =>
-      newGames.sort((a, b) => a.game_number - b.game_number),
-    );
   };
 
   return (

@@ -117,7 +117,7 @@ export const handleSocketMessage = (
       });
       break;
     case 'error':
-      toast.error(errorMessage);
+      toast.error(errorMessage, { id: 'wsErrorMessage' });
     default:
       break;
   }
