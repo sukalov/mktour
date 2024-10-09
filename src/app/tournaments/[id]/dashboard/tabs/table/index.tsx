@@ -2,6 +2,7 @@
 
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import { useTournamentRemovePlayer } from '@/components/hooks/mutation-hooks/use-tournament-remove-player';
+import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
 import { MediaQueryContext } from '@/components/providers/media-query-context';
 import {
@@ -24,6 +25,7 @@ const TournamentTable: FC = ({}) => {
   const id = usePathname().split('/').at(-1) as string;
   const queryClient = useQueryClient();
   const players = useTournamentPlayers(id);
+  const tournament = useTournamentInfo(id);
   const { status, sendJsonMessage } = useContext(DashboardContext);
   const removePlayers = useTournamentRemovePlayer(
     id,
@@ -58,7 +60,11 @@ const TournamentTable: FC = ({}) => {
           <TableRow
             key={player.id}
             onClick={() => {
-              if (userId && status === 'organizer') {
+              if (
+                userId &&
+                status === 'organizer' &&
+                tournament.data?.tournament.started_at === null
+              ) {
                 removePlayers.mutate({
                   tournamentId: id,
                   playerId: player.id,
