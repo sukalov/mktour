@@ -1,16 +1,14 @@
 import { Button, ButtonProps } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { Dispatch, FC, PropsWithChildren, SetStateAction } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 
 const RoundControls: FC<RoundControlProps> = ({
   currentRound,
   roundInView,
   setRoundInView,
-  currentTab,
 }) => {
   const t = useTranslations('Tournament.Round');
-  const top = currentTab === 'games' ? 'top-10' : 'top-0';
 
   const handleClick = (direction: string) => {
     let newRoundInView = roundInView;
@@ -22,53 +20,36 @@ const RoundControls: FC<RoundControlProps> = ({
     setRoundInView(newRoundInView);
   };
 
-  const ControlsProvider: FC<PropsWithChildren> = ({ children }) => {
-    return (
-      <>
-        <Button
-          style={{ visibility: roundInView === 1 ? 'hidden' : 'visible' }}
-          onClick={() => handleClick('<')}
-          {...buttonProps}
-        >
-          <ChevronLeft />
-        </Button>
-        {children}
-        <Button
-          style={{
-            visibility: roundInView === currentRound ? 'hidden' : 'visible',
-          }}
-          onClick={() => handleClick('>')}
-          {...buttonProps}
-        >
-          <ChevronRight />
-        </Button>
-      </>
-    );
-  };
-
   return (
     <div
-      className={`absolute ${top} z-10 flex h-10 w-[100vw] items-center justify-between p-1 backdrop-blur-md transition-all duration-500`}
+      className={`top-0 sticky z-10 grid h-10 p-1 w-full grid-cols-3 items-center justify-between px-4 backdrop-blur-md`}
     >
-      <ControlsProvider>
-        <div className="flex h-full w-full flex-col items-center justify-center">
-          <Button
-            variant="ghost"
-            size={'sm'}
-            onClick={() => setRoundInView(currentRound)}
-          >
-            <span
-              className={
-                roundInView === currentRound
-                  ? 'underline underline-offset-4'
-                  : ''
-              }
-            >
-              {t('round', { roundInView })}
-            </span>
-          </Button>
-        </div>
-      </ControlsProvider>
+      <Button
+        style={{ visibility: roundInView === 1 ? 'hidden' : 'visible' }}
+        onClick={() => handleClick('<')}
+        {...buttonProps}
+      >
+        <ChevronLeft />
+      </Button>
+      <Button
+        variant="ghost"
+        className="w-full"
+        onClick={() => setRoundInView(currentRound)}
+        size='sm'
+      >
+        <span className={roundInView === currentRound ? 'font-bold' : ''}>
+          {t('round', { roundInView })}
+        </span>
+      </Button>
+      <Button
+        style={{
+          visibility: roundInView === currentRound ? 'hidden' : 'visible',
+        }}
+        onClick={() => handleClick('>')}
+        {...buttonProps}
+      >
+        <ChevronRight />
+      </Button>
     </div>
   );
 };
@@ -76,7 +57,7 @@ const RoundControls: FC<RoundControlProps> = ({
 const buttonProps: ButtonProps = {
   variant: 'ghost',
   size: 'sm',
-  className: 'my-2 mx-4',
+  className: 'w-full',
 };
 
 interface RoundControlProps {

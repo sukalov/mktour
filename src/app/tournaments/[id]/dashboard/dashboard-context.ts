@@ -11,6 +11,8 @@ export const DashboardContext = createContext<DashboardContextType>({
   escapedItemId: null,
   setEscapedItemId: () => null,
   setOverlayed: () => null,
+  roundInView: 1,
+  setRoundInView: () => null,
 });
 
 export type DashboardContextType = {
@@ -22,4 +24,6 @@ export type DashboardContextType = {
   setOverlayed: Dispatch<SetStateAction<boolean>>;
   escapedItemId: string | null;
   setEscapedItemId: Dispatch<SetStateAction<string>>;
+  roundInView: number;
+  setRoundInView: Dispatch<SetStateAction<number>>;
 };

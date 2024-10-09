@@ -124,12 +124,14 @@ const GamesIteratee = ({
   black_nickname,
   white_id,
   black_id,
+  round_number,
 }: GameModel) => (
   <GameItemCompact
     id={id}
     result={result}
     playerLeft={{ white_id, white_nickname }}
     playerRight={{ black_id, black_nickname }}
+    roundNumber={round_number}
   />
 );
 

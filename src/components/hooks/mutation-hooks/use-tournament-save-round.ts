@@ -29,6 +29,9 @@ export default function useSaveRound(
           queryKey: [tournamentId, 'games', { roundNumber }],
         });
         queryClient.invalidateQueries({
+          queryKey: [tournamentId, 'games', 'all'],
+        });
+        queryClient.invalidateQueries({
           queryKey: [tournamentId, 'tournament'],
         });
       }

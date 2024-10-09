@@ -35,11 +35,12 @@ export default function ResetTournamentButton() {
   const isDesktop = useMediaQuery({ minWidth: 768 });
   const t = useTranslations('Tournament.Main');
   const queryClient = useQueryClient();
-  const { sendJsonMessage } = React.useContext(DashboardContext);
+  const { sendJsonMessage, setRoundInView } = React.useContext(DashboardContext);
   const { mutate, isPending } = useTournamentReset(
     tournamentId,
     queryClient,
     sendJsonMessage,
+    setRoundInView
   );
   if (isDesktop) {
     return (

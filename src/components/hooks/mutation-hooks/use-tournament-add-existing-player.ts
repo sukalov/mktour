@@ -77,7 +77,7 @@ export const useTournamentAddExistingPlayer = (
             'added',
           ]) as PlayerModel[],
         ),
-        games: queryClient.getQueryData([tournamentId, 'games']) as GameModel[],
+        games: queryClient.getQueryData([tournamentId, 'games', 'all']) as GameModel[],
         roundNumber: 1,
         tournamentId,
       });

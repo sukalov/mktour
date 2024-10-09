@@ -8,11 +8,11 @@ import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournam
 import SkeletonList from '@/components/skeleton-list';
 import { useMutationState } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
-import { FC, useContext, useState } from 'react';
+import { FC, useContext } from 'react';
 
 const RoundsMobile: FC = () => {
-  const [roundInView, setRoundInView] = useState(1);
-  const { currentTab } = useContext(DashboardContext);
+  const { currentTab, roundInView, setRoundInView } =
+    useContext(DashboardContext);
   const id = usePathname().split('/').at(-1) as string;
   const { data, isError, isLoading } = useTournamentInfo(id);
   const {
@@ -64,7 +64,6 @@ const RoundsMobile: FC = () => {
         currentRound={data.tournament.ongoing_round}
         currentTab={currentTab}
       />
-      <div className="pt-10" />
       <RoundItem roundNumber={roundInView} />
     </div>
   );

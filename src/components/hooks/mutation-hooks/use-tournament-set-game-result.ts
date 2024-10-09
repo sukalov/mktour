@@ -13,7 +13,7 @@ export default function useTournamentSetGameResult(
   const t = useTranslations('Toasts');
   return useMutation({
     mutationFn: setTournamentGameResult,
-    onSuccess: (fnReturn, { gameId, result }) => {
+    onSuccess: (fnReturn, { gameId, result, roundNumber }) => {
       if (fnReturn === 'TOURNAMENT_NOT_STARTED') {
         toast.error(t('tmt-not-started error'));
         return;
@@ -25,7 +25,7 @@ export default function useTournamentSetGameResult(
         queryKey: [tournamentId, 'players', 'added'],
       });
       console.log('result added');
-      sendJsonMessage({ type: 'set-game-result', gameId, result });
+      sendJsonMessage({ type: 'set-game-result', gameId, result, roundNumber });
     },
     onError: (error) => {
       toast.error(t('server error'));

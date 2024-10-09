@@ -451,6 +451,7 @@ export async function setTournamentGameResult({
   blackId: string;
   result: Result;
   prevResult: Result | null;
+  roundNumber: number
 }) {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');

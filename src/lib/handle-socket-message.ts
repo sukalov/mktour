@@ -4,7 +4,7 @@ import {
   DatabasePlayer,
   InsertDatabasePlayer,
 } from '@/lib/db/schema/tournaments';
-import { PlayerModel } from '@/types/tournaments';
+import { GameModel, PlayerModel } from '@/types/tournaments';
 import type { Message } from '@/types/ws-events';
 import { QueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
@@ -88,8 +88,19 @@ export const handleSocketMessage = (
       queryClient.invalidateQueries({ queryKey: [tournamentId, 'players'] });
       break;
     case 'set-game-result':
+      queryClient.setQueryData(
+        [tournamentId, 'games', { roundNumber: message.roundNumber }],
+        (cache: Array<GameModel>) => {
+          const index = cache.findIndex((obj) => obj.id == message.gameId);
+          cache[index].result = message.result;
+          return cache;
+        },
+      );
       queryClient.invalidateQueries({
-        queryKey: [tournamentId, 'games'],
+        queryKey: [tournamentId, 'games', { roundNumber: message.roundNumber }],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [tournamentId, 'games', 'all'],
       });
       queryClient.invalidateQueries({
         queryKey: [tournamentId, 'players', 'added'],
