@@ -451,7 +451,7 @@ export async function setTournamentGameResult({
   blackId: string;
   result: Result;
   prevResult: Result | null;
-  roundNumber: number
+  roundNumber: number;
 }) {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
@@ -461,19 +461,19 @@ export async function setTournamentGameResult({
     await db.select().from(tournaments).where(eq(tournaments.id, tournamentId))
   ).at(0);
   if (tournament?.started_at === null) return 'TOURNAMENT_NOT_STARTED';
-  if (prevResult && result === prevResult) {
-    await handleResultReset(whiteId, blackId, prevResult);
+  if (result === prevResult) {
+    await handleResultReset(whiteId, blackId, tournamentId, prevResult);
     await db.update(games).set({ result: null }).where(eq(games.id, gameId));
     return;
   }
   if (result === '1-0') {
-    handleWhiteWin(whiteId, blackId, prevResult);
+    await handleWhiteWin(whiteId, blackId, tournamentId, prevResult);
   }
   if (result === '0-1') {
-    handleBlackWin(whiteId, blackId, prevResult);
+    await handleBlackWin(whiteId, blackId, tournamentId, prevResult);
   }
   if (result === '1/2-1/2') {
-    handleDraw(whiteId, blackId, prevResult);
+    await handleDraw(whiteId, blackId, tournamentId, prevResult);
   }
   await db.update(games).set({ result }).where(eq(games.id, gameId));
 }
@@ -481,17 +481,31 @@ export async function setTournamentGameResult({
 async function handleWhiteWin(
   whiteId: string,
   blackId: string,
+  tournamentId: string,
   prevResult?: Result | null,
 ) {
   if (!prevResult) {
     await db
       .update(players_to_tournaments)
-      .set({ wins: sql`COALESCE(${players_to_tournaments.wins}, 0) + 1` })
-      .where(eq(players_to_tournaments.player_id, whiteId));
+      .set({
+        wins: sql`COALESCE(${players_to_tournaments.wins}, 0) + 1`,
+        color_index: sql`COALESCE(${players_to_tournaments.color_index}, 0) + 1`,
+      })
+      .where(
+        and(
+          eq(players_to_tournaments.tournament_id, tournamentId),
+          eq(players_to_tournaments.player_id, whiteId),
+        ),
+      );
     await db
       .update(players_to_tournaments)
       .set({ losses: sql`COALESCE(${players_to_tournaments.losses}, 0) + 1` })
-      .where(eq(players_to_tournaments.player_id, blackId));
+      .where(
+        and(
+          eq(players_to_tournaments.tournament_id, tournamentId),
+          eq(players_to_tournaments.player_id, blackId),
+        ),
+      );
   }
   if (prevResult === '0-1') {
     await db
@@ -500,14 +514,24 @@ async function handleWhiteWin(
         wins: sql`COALESCE(${players_to_tournaments.wins}, 0) + 1`,
         losses: sql`COALESCE(${players_to_tournaments.losses}, 0) - 1`,
       })
-      .where(eq(players_to_tournaments.player_id, whiteId));
+      .where(
+        and(
+          eq(players_to_tournaments.tournament_id, tournamentId),
+          eq(players_to_tournaments.player_id, whiteId),
+        ),
+      );
     await db
       .update(players_to_tournaments)
       .set({
         wins: sql`COALESCE(${players_to_tournaments.wins}, 0) - 1`,
         losses: sql`COALESCE(${players_to_tournaments.losses}, 0) + 1`,
       })
-      .where(eq(players_to_tournaments.player_id, blackId));
+      .where(
+        and(
+          eq(players_to_tournaments.tournament_id, tournamentId),
+          eq(players_to_tournaments.player_id, blackId),
+        ),
+      );
   }
   if (prevResult === '1/2-1/2') {
     await db
@@ -516,31 +540,55 @@ async function handleWhiteWin(
         wins: sql`COALESCE(${players_to_tournaments.wins}, 0) + 1`,
         draws: sql`COALESCE(${players_to_tournaments.draws}, 0) - 1`,
       })
-      .where(eq(players_to_tournaments.player_id, whiteId));
+      .where(
+        and(
+          eq(players_to_tournaments.tournament_id, tournamentId),
+          eq(players_to_tournaments.player_id, whiteId),
+        ),
+      );
     await db
       .update(players_to_tournaments)
       .set({
         draws: sql`COALESCE(${players_to_tournaments.draws}, 0) - 1`,
         losses: sql`COALESCE(${players_to_tournaments.losses}, 0) + 1`,
       })
-      .where(eq(players_to_tournaments.player_id, blackId));
+      .where(
+        and(
+          eq(players_to_tournaments.tournament_id, tournamentId),
+          eq(players_to_tournaments.player_id, blackId),
+        ),
+      );
   }
 }
 
 async function handleBlackWin(
   whiteId: string,
   blackId: string,
+  tournamentId: string,
   prevResult?: Result | null,
 ) {
   if (!prevResult) {
     await db
       .update(players_to_tournaments)
-      .set({ losses: sql`COALESCE(${players_to_tournaments.losses}, 0) + 1` })
-      .where(eq(players_to_tournaments.player_id, whiteId));
+      .set({
+        losses: sql`COALESCE(${players_to_tournaments.losses}, 0) + 1`,
+        color_index: sql`COALESCE(${players_to_tournaments.color_index}, 0) + 1`,
+      })
+      .where(
+        and(
+          eq(players_to_tournaments.tournament_id, tournamentId),
+          eq(players_to_tournaments.player_id, whiteId),
+        ),
+      );
     await db
       .update(players_to_tournaments)
       .set({ wins: sql`COALESCE(${players_to_tournaments.wins}, 0) + 1` })
-      .where(eq(players_to_tournaments.player_id, blackId));
+      .where(
+        and(
+          eq(players_to_tournaments.tournament_id, tournamentId),
+          eq(players_to_tournaments.player_id, blackId),
+        ),
+      );
   }
   if (prevResult === '1-0') {
     await db
@@ -549,14 +597,24 @@ async function handleBlackWin(
         wins: sql`COALESCE(${players_to_tournaments.wins}, 0) - 1`,
         losses: sql`COALESCE(${players_to_tournaments.losses}, 0) + 1`,
       })
-      .where(eq(players_to_tournaments.player_id, whiteId));
+      .where(
+        and(
+          eq(players_to_tournaments.tournament_id, tournamentId),
+          eq(players_to_tournaments.player_id, whiteId),
+        ),
+      );
     await db
       .update(players_to_tournaments)
       .set({
         wins: sql`COALESCE(${players_to_tournaments.wins}, 0) + 1`,
         losses: sql`COALESCE(${players_to_tournaments.losses}, 0) - 1`,
       })
-      .where(eq(players_to_tournaments.player_id, blackId));
+      .where(
+        and(
+          eq(players_to_tournaments.tournament_id, tournamentId),
+          eq(players_to_tournaments.player_id, blackId),
+        ),
+      );
   }
   if (prevResult === '1/2-1/2') {
     await db
@@ -565,31 +623,55 @@ async function handleBlackWin(
         draws: sql`COALESCE(${players_to_tournaments.draws}, 0) - 1`,
         losses: sql`COALESCE(${players_to_tournaments.losses}, 0) + 1`,
       })
-      .where(eq(players_to_tournaments.player_id, whiteId));
+      .where(
+        and(
+          eq(players_to_tournaments.tournament_id, tournamentId),
+          eq(players_to_tournaments.player_id, whiteId),
+        ),
+      );
     await db
       .update(players_to_tournaments)
       .set({
         wins: sql`COALESCE(${players_to_tournaments.wins}, 0) + 1`,
         draws: sql`COALESCE(${players_to_tournaments.draws}, 0) - 1`,
       })
-      .where(eq(players_to_tournaments.player_id, blackId));
+      .where(
+        and(
+          eq(players_to_tournaments.tournament_id, tournamentId),
+          eq(players_to_tournaments.player_id, blackId),
+        ),
+      );
   }
 }
 
 async function handleDraw(
   whiteId: string,
   blackId: string,
+  tournamentId: string,
   prevResult?: Result | null,
 ) {
   if (!prevResult) {
     await db
       .update(players_to_tournaments)
-      .set({ draws: sql`COALESCE(${players_to_tournaments.draws}, 0) + 1` })
-      .where(eq(players_to_tournaments.player_id, whiteId));
+      .set({
+        draws: sql`COALESCE(${players_to_tournaments.draws}, 0) + 1`,
+        color_index: sql`COALESCE(${players_to_tournaments.color_index}, 0) + 1`,
+      })
+      .where(
+        and(
+          eq(players_to_tournaments.tournament_id, tournamentId),
+          eq(players_to_tournaments.player_id, whiteId),
+        ),
+      );
     await db
       .update(players_to_tournaments)
       .set({ draws: sql`COALESCE(${players_to_tournaments.draws}, 0) + 1` })
-      .where(eq(players_to_tournaments.player_id, blackId));
+      .where(
+        and(
+          eq(players_to_tournaments.tournament_id, tournamentId),
+          eq(players_to_tournaments.player_id, blackId),
+        ),
+      );
   }
   if (prevResult === '1-0') {
     await db
@@ -598,14 +680,24 @@ async function handleDraw(
         draws: sql`COALESCE(${players_to_tournaments.draws}, 0) + 1`,
         wins: sql`COALESCE(${players_to_tournaments.wins}, 0) - 1`,
       })
-      .where(eq(players_to_tournaments.player_id, whiteId));
+      .where(
+        and(
+          eq(players_to_tournaments.tournament_id, tournamentId),
+          eq(players_to_tournaments.player_id, whiteId),
+        ),
+      );
     await db
       .update(players_to_tournaments)
       .set({
         draws: sql`COALESCE(${players_to_tournaments.draws}, 0) + 1`,
         losses: sql`COALESCE(${players_to_tournaments.losses}, 0) - 1`,
       })
-      .where(eq(players_to_tournaments.player_id, blackId));
+      .where(
+        and(
+          eq(players_to_tournaments.tournament_id, tournamentId),
+          eq(players_to_tournaments.player_id, blackId),
+        ),
+      );
   }
   if (prevResult === '0-1') {
     await db
@@ -614,20 +706,31 @@ async function handleDraw(
         draws: sql`COALESCE(${players_to_tournaments.draws}, 0) + 1`,
         losses: sql`COALESCE(${players_to_tournaments.losses}, 0) - 1`,
       })
-      .where(eq(players_to_tournaments.player_id, whiteId));
+      .where(
+        and(
+          eq(players_to_tournaments.tournament_id, tournamentId),
+          eq(players_to_tournaments.player_id, whiteId),
+        ),
+      );
     await db
       .update(players_to_tournaments)
       .set({
         draws: sql`COALESCE(${players_to_tournaments.draws}, 0) + 1`,
         wins: sql`COALESCE(${players_to_tournaments.wins}, 0) - 1`,
       })
-      .where(eq(players_to_tournaments.player_id, blackId));
+      .where(
+        and(
+          eq(players_to_tournaments.tournament_id, tournamentId),
+          eq(players_to_tournaments.player_id, blackId),
+        ),
+      );
   }
 }
 
 async function handleResultReset(
   whiteId: string,
   blackId: string,
+  tournamentId: string,
   prevResult: Result,
 ) {
   if (prevResult === '1-0') {
@@ -635,41 +738,75 @@ async function handleResultReset(
       .update(players_to_tournaments)
       .set({
         wins: sql`COALESCE(${players_to_tournaments.wins}, 0) - 1`,
+        color_index: sql`COALESCE(${players_to_tournaments.color_index}, 0) - 1`,
       })
-      .where(eq(players_to_tournaments.player_id, whiteId));
+      .where(
+        and(
+          eq(players_to_tournaments.tournament_id, tournamentId),
+          eq(players_to_tournaments.player_id, whiteId),
+        ),
+      );
     await db
       .update(players_to_tournaments)
       .set({
         losses: sql`COALESCE(${players_to_tournaments.losses}, 0) - 1`,
       })
-      .where(eq(players_to_tournaments.player_id, blackId));
+      .where(
+        and(
+          eq(players_to_tournaments.tournament_id, tournamentId),
+          eq(players_to_tournaments.player_id, blackId),
+        ),
+      );
   }
   if (prevResult === '0-1') {
     await db
       .update(players_to_tournaments)
       .set({
         losses: sql`COALESCE(${players_to_tournaments.losses}, 0) - 1`,
+        color_index: sql`COALESCE(${players_to_tournaments.color_index}, 0) - 1`,
       })
-      .where(eq(players_to_tournaments.player_id, whiteId));
+      .where(
+        and(
+          eq(players_to_tournaments.tournament_id, tournamentId),
+          eq(players_to_tournaments.player_id, whiteId),
+        ),
+      );
     await db
       .update(players_to_tournaments)
       .set({
         wins: sql`COALESCE(${players_to_tournaments.wins}, 0) - 1`,
       })
-      .where(eq(players_to_tournaments.player_id, blackId));
+      .where(
+        and(
+          eq(players_to_tournaments.tournament_id, tournamentId),
+          eq(players_to_tournaments.player_id, blackId),
+        ),
+      );
   }
   if (prevResult === '1/2-1/2') {
     await db
       .update(players_to_tournaments)
       .set({
         draws: sql`COALESCE(${players_to_tournaments.draws}, 0) - 1`,
+        color_index: sql`COALESCE(${players_to_tournaments.color_index}, 0) - 1`,
       })
-      .where(eq(players_to_tournaments.player_id, whiteId));
+      .where(
+        and(
+          eq(players_to_tournaments.tournament_id, tournamentId),
+          eq(players_to_tournaments.player_id, whiteId),
+        ),
+      );
     await db
       .update(players_to_tournaments)
       .set({
         draws: sql`COALESCE(${players_to_tournaments.draws}, 0) - 1`,
       })
-      .where(eq(players_to_tournaments.player_id, blackId));
+      .where(
+        and(
+          eq(players_to_tournaments.tournament_id, tournamentId),
+          eq(players_to_tournaments.player_id, blackId),
+        ),
+      );
   }
+  return 'RESULT_RESET';
 }
