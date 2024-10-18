@@ -10,7 +10,6 @@ import { Button } from '@/components/ui/button';
 import { generateRoundRobinRoundFunction } from '@/lib/client-actions/round-robin-generator';
 import { GameModel, PlayerModel } from '@/types/tournaments';
 import { useQueryClient } from '@tanstack/react-query';
-import { AnimatePresence, motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { FC, useContext } from 'react';
@@ -28,7 +27,7 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
   const info = useTournamentInfo(tournamentId);
   const t = useTranslations('Tournament.Round');
   const queryClient = useQueryClient();
-  const { escapedItemId, sendJsonMessage } = useContext(DashboardContext);
+  const { sendJsonMessage } = useContext(DashboardContext);
   const { mutate, isPending: mutating } = useSaveRound(
     tournamentId,
     queryClient,
@@ -74,44 +73,15 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
   return (
     <>
       <div className="flex w-full flex-col gap-2 px-4 pt-2">
-        <AnimatePresence>
-          {roundNumber === info.data.tournament.ongoing_round &&
-            ongoingGames === 0 && (
-              <motion.div
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.3 }}
-                className="pb-2"
-              >
-                <Button
-                  className="w-full"
-                  onClick={newRound}
-                  disabled={mutating}
-                >
-                  {t('new round button')}
-                </Button>
-              </motion.div>
-            )}
-          {sortedRound.map((game, index) => {
-            let escaped = game.id === escapedItemId;
-
-            return (
-              <motion.div
-                key={game.id}
-                layout
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className={`${escaped && 'z-50'}`}
-              >
-                <GamesIteratee key={index} {...game} />
-              </motion.div>
-            );
-          })}
-        </AnimatePresence>
+        {roundNumber === info.data.tournament.ongoing_round &&
+          ongoingGames === 0 && (
+            <Button className="w-full" onClick={newRound} disabled={mutating}>
+              {t('new round button')}
+            </Button>
+          )}
+        {sortedRound.map((game, index) => {
+          return <GamesIteratee key={index} {...game} />;
+        })}
       </div>
     </>
   );
