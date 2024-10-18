@@ -1,0 +1,6 @@
+{
+  "reject": [
+    "react-day-picker",
+    "postcss"
+  ]
+}
