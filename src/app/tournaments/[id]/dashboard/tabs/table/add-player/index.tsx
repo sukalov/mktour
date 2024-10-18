@@ -1,16 +1,19 @@
 import Fab from '@/app/tournaments/[id]/dashboard/fab';
 import AddNewPlayer from '@/app/tournaments/[id]/dashboard/tabs/table/add-player/add-new-player';
 import AddPlayer from '@/app/tournaments/[id]/dashboard/tabs/table/add-player/add-player';
+import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { Button } from '@/components/ui/button';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { delay } from 'framer-motion';
 import { ArrowLeft, Plus, UserPlus, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { usePathname } from 'next/navigation';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { Drawer } from 'vaul';
 
 const AddPlayerDrawer = () => {
+  const tournamentId = usePathname().split('/').at(-1) as string;
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
   const [elevated, setElevated] = useState<boolean>(false);
@@ -56,6 +59,8 @@ const AddPlayerDrawer = () => {
     !open && delay(() => setElevated(open), 500);
   }, [open]);
 
+  const { data: tournamentInfo } = useTournamentInfo(tournamentId);
+  if (!tournamentInfo || tournamentInfo.tournament.started_at) return null;
   return (
     <Drawer.Root
       direction="right"
