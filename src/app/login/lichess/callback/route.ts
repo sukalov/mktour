@@ -14,10 +14,11 @@ export async function GET(request: Request): Promise<Response> {
   const url = new URL(request.url);
   const code = url.searchParams.get('code');
   const state = url.searchParams.get('state');
-  const authFrom = (await cookies()).get('auth_from')?.value ?? null;
-  (await cookies()).delete('auth_from');
-  const storedState = (await cookies()).get('lichess_oauth_state')?.value ?? null;
-  const codeVerifier = (await cookies()).get('lichess_oauth_code_validation')?.value;
+  const cooks = await cookies();
+  const authFrom = cooks.get('auth_from')?.value ?? null;
+  cooks.delete('auth_from');
+  const storedState = cooks.get('lichess_oauth_state')?.value ?? null;
+  const codeVerifier = cooks.get('lichess_oauth_code_validation')?.value;
 
   if (
     !code ||
@@ -38,14 +39,14 @@ export async function GET(request: Request): Promise<Response> {
     const tokens = await lichess.validateAuthorizationCode(code, codeVerifier);
     const lichessUserResponse = await fetch('https://lichess.org/api/account', {
       headers: {
-        Authorization: `Bearer ${tokens.accessToken}`,
+        Authorization: `Bearer ${tokens.accessToken()}`,
       },
     });
     const lichessUserEmailResponse = await fetch(
       'https://lichess.org/api/account/email',
       {
         headers: {
-          Authorization: `Bearer ${tokens.accessToken}`,
+          Authorization: `Bearer ${tokens.accessToken()}`,
         },
       },
     );
@@ -53,7 +54,7 @@ export async function GET(request: Request): Promise<Response> {
     const lichessUserEmail = (await lichessUserEmailResponse.json())
       .email as string;
 
-    (await cookies()).set('token', tokens.accessToken, {
+    cooks.set('token', tokens.accessToken(), {
       sameSite: 'none',
       secure: true,
     });
@@ -65,7 +66,7 @@ export async function GET(request: Request): Promise<Response> {
     if (existingUser) {
       const session = await lucia.createSession(existingUser.id, {});
       const sessionCookie = lucia.createSessionCookie(session.id);
-      (await cookies()).set(sessionCookie.name, sessionCookie.value, {
+      cooks.set(sessionCookie.name, sessionCookie.value, {
         ...sessionCookie.attributes,
       });
       return new Response(null, {
@@ -109,11 +110,11 @@ export async function GET(request: Request): Promise<Response> {
         language: 'en',
       });
 
-      (await cookies()).set('show_new_user_toast', 'true');
+      cooks.set('show_new_user_toast', 'true');
 
       const session = await lucia.createSession(userId, {});
       const sessionCookie = lucia.createSessionCookie(session.id);
-      (await cookies()).set(sessionCookie.name, sessionCookie.value, {
+      cooks.set(sessionCookie.name, sessionCookie.value, {
         ...sessionCookie.attributes,
       });
     } catch (e) {

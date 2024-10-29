@@ -10,18 +10,19 @@ export async function GET(request: NextRequest): Promise<Response> {
   const from = request.nextUrl.searchParams.get('from');
   const state = generateState();
   const codeVerifier = generateCodeVerifier();
-  const url = await lichess.createAuthorizationURL(state, codeVerifier, {
-    scopes: ['email:read', 'team:write'],
+  const url = lichess.createAuthorizationURL(state, codeVerifier, [
+    'email:read',
+    'team:write',
+  ]);
+
+  const cooks = await cookies();
+
+  cooks.getAll().forEach((cookie) => {
+    if (cookie.name !== 'NEXT_LOCALE') cooks.delete(cookie.name);
   });
 
-  (await cookies())
-    .getAll()
-    .forEach(async cookie => {
-      if (cookie.name !== 'NEXT_LOCALE') (await cookies()).delete(cookie.name);
-    });
-
   if (from) {
-    (await cookies()).set('auth_from', from, {
+    cooks.set('auth_from', from, {
       path: '/',
       secure: process.env.NODE_ENV === 'production',
       httpOnly: true,
@@ -29,13 +30,13 @@ export async function GET(request: NextRequest): Promise<Response> {
     });
   }
 
-  (await cookies()).set('lichess_oauth_state', state, {
+  cooks.set('lichess_oauth_state', state, {
     path: '/',
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
     sameSite: 'lax',
   });
-  (await cookies()).set('lichess_oauth_code_validation', codeVerifier, {
+  cooks.set('lichess_oauth_code_validation', codeVerifier, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     path: '/',
