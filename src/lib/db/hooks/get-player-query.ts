@@ -1,13 +1,8 @@
 import { db } from '@/lib/db';
-import {
-  DatabaseClub,
-  DatabasePlayer,
-  clubs,
-  players,
-} from '@/lib/db/schema/tournaments';
+import { clubs, DatabaseClub, DatabasePlayer, players } from '@/lib/db/schema/tournaments';
 import { eq } from 'drizzle-orm';
 
-export default async function usePlayerQuery(id: string) {
+export default async function getPlayerQuery(id: string) {
   const result = (
     await db
       .select()

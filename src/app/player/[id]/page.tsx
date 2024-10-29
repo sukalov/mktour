@@ -1,6 +1,6 @@
 import DeletePlayer from '@/app/player/[id]/delete-player-button';
 import { validateRequest } from '@/lib/auth/lucia';
-import usePlayerQuery from '@/lib/db/hooks/use-player-query';
+import getPlayerQuery from '@/lib/db/hooks/get-player-query';
 import getStatus from '@/lib/db/hooks/use-status-query';
 import { StatusInClub } from '@/lib/db/schema/tournaments';
 import Link from 'next/link';
@@ -9,7 +9,7 @@ import { notFound } from 'next/navigation';
 export default async function TournamentPage(props: PlayerPageProps) {
   const params = await props.params;
   const { user } = await validateRequest();
-  const { player, club } = await usePlayerQuery(params.id);
+  const { player, club } = await getPlayerQuery(params.id);
   if (!player || !club) notFound();
   let status: StatusInClub | undefined | 'owner';
   if (user)
