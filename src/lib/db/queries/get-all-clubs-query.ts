@@ -2,7 +2,7 @@ import { db } from '@/lib/db';
 import { clubs, DatabaseClub } from '@/lib/db/schema/tournaments';
 import { asc } from 'drizzle-orm';
 
-export default async function useAllClubsQuery() {
+export default async function getAllClubsQuery() {
   // page: number = 1,
   // pageSize: number = 10
   const allClubs = await db

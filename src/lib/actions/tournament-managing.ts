@@ -2,24 +2,24 @@
 
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
-import { getStatusInTournament } from '@/lib/db/hooks/get-status-in-tournament';
+import { getStatusInTournament } from '@/lib/db/queries/get-status-in-tournament';
 import {
-  DatabasePlayer,
-  DatabasePlayerToTournament,
-  DatabaseTournament,
-  clubs,
-  games,
-  players,
-  players_to_tournaments,
-  tournaments,
+    DatabasePlayer,
+    DatabasePlayerToTournament,
+    DatabaseTournament,
+    clubs,
+    games,
+    players,
+    players_to_tournaments,
+    tournaments,
 } from '@/lib/db/schema/tournaments';
 import { newid } from '@/lib/utils';
 import { NewTournamentFormType } from '@/lib/zod/new-tournament-form';
 import {
-  GameModel,
-  PlayerModel,
-  Result,
-  TournamentInfo,
+    GameModel,
+    PlayerModel,
+    Result,
+    TournamentInfo,
 } from '@/types/tournaments';
 import { aliasedTable, and, eq, isNotNull, isNull, ne, sql } from 'drizzle-orm';
 import { redirect } from 'next/navigation';

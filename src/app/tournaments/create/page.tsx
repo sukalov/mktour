@@ -1,6 +1,6 @@
 import NewTournamentForm from '@/app/tournaments/create/new-tournament-form';
 import { validateRequest } from '@/lib/auth/lucia';
-import getUserToClubs from '@/lib/db/hooks/get-user-to-clubs';
+import getUserToClubs from '@/lib/db/queries/get-user-to-clubs';
 import { DatabaseClub } from '@/lib/db/schema/tournaments';
 import { redirect } from 'next/navigation';
 

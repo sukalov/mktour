@@ -1,7 +1,7 @@
 import DeletePlayer from '@/app/player/[id]/delete-player-button';
 import { validateRequest } from '@/lib/auth/lucia';
-import getPlayerQuery from '@/lib/db/hooks/get-player-query';
-import getStatus from '@/lib/db/hooks/use-status-query';
+import getPlayerQuery from '@/lib/db/queries/get-player-query';
+import getStatus from '@/lib/db/queries/get-status-query';
 import { StatusInClub } from '@/lib/db/schema/tournaments';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';

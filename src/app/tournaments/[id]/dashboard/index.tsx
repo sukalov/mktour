@@ -2,13 +2,13 @@
 
 import CarouselContainer from '@/app/tournaments/[id]/dashboard/carousel-container';
 import {
-  DashboardContext,
-  DashboardContextType,
+    DashboardContext,
+    DashboardContextType,
 } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import FabProvider from '@/app/tournaments/[id]/dashboard/fab-provider';
 import TabsContainer from '@/app/tournaments/[id]/dashboard/tabs-container';
 import { useDashboardWebsocket } from '@/components/hooks/use-dashboard-websocket';
-import { Status } from '@/lib/db/hooks/get-status-in-tournament';
+import { Status } from '@/lib/db/queries/get-status-in-tournament';
 import { useQueryClient } from '@tanstack/react-query';
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 

@@ -1,4 +1,4 @@
-import { TournamentWithClub } from '@/lib/db/hooks/use-tournaments-to-user-clubs-query';
+import { TournamentWithClub } from '@/lib/db/queries/get-tournaments-to-user-clubs-query';
 
 const getGroupedTournaments = (props: TournamentWithClub[]) =>
   props.reduce(

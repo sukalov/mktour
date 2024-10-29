@@ -1,6 +1,6 @@
 import getGroupedTournaments from '@/components/helpers/get-grouped-tournaments';
 import TournamentItemIteratee from '@/components/tournament-item';
-import { TournamentWithClub } from '@/lib/db/hooks/use-tournaments-to-user-clubs-query';
+import { TournamentWithClub } from '@/lib/db/queries/get-tournaments-to-user-clubs-query';
 import Link from 'next/link';
 import { FC } from 'react';
 

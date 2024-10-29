@@ -3,7 +3,7 @@ import { players } from '@/lib/db/schema/tournaments';
 import { eq } from 'drizzle-orm';
 import { User } from 'lucia';
 
-export default async function usePlayersToClubQuery(user: User) {
+export default async function getPlayersToClubQuery(user: User) {
   const result = await db
     .select()
     .from(players)
