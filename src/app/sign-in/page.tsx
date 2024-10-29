@@ -2,7 +2,8 @@ import SignInWithLichessButton from '@/components/auth/sign-in-with-lichess-butt
 import { validateRequest } from '@/lib/auth/lucia';
 import { redirect } from 'next/navigation';
 
-const Page = async ({ searchParams }: any) => {
+const Page = async (props: any) => {
+  const searchParams = await props.searchParams;
   const { user } = await validateRequest();
   if (user) redirect('/');
   return (

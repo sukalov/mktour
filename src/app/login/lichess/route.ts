@@ -14,14 +14,14 @@ export async function GET(request: NextRequest): Promise<Response> {
     scopes: ['email:read', 'team:write'],
   });
 
-  cookies()
+  (await cookies())
     .getAll()
-    .forEach((cookie) => {
-      if (cookie.name !== 'NEXT_LOCALE') cookies().delete(cookie.name);
+    .forEach(async cookie => {
+      if (cookie.name !== 'NEXT_LOCALE') (await cookies()).delete(cookie.name);
     });
 
   if (from) {
-    cookies().set('auth_from', from, {
+    (await cookies()).set('auth_from', from, {
       path: '/',
       secure: process.env.NODE_ENV === 'production',
       httpOnly: true,
@@ -29,13 +29,13 @@ export async function GET(request: NextRequest): Promise<Response> {
     });
   }
 
-  cookies().set('lichess_oauth_state', state, {
+  (await cookies()).set('lichess_oauth_state', state, {
     path: '/',
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
     sameSite: 'lax',
   });
-  cookies().set('lichess_oauth_code_validation', codeVerifier, {
+  (await cookies()).set('lichess_oauth_code_validation', codeVerifier, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     path: '/',

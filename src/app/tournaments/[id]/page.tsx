@@ -14,8 +14,9 @@ import { notFound } from 'next/navigation';
 
 export const revalidate = 0;
 
-export default async function TournamentPage({ params }: TournamentPageProps) {
-  const session = cookies().get('auth_session')?.value ?? '';
+export default async function TournamentPage(props: TournamentPageProps) {
+  const params = await props.params;
+  const session = (await cookies()).get('auth_session')?.value ?? '';
   const { user } = await validateRequest();
   const tournament = (
     await db.select().from(tournaments).where(eq(tournaments.id, params.id))
@@ -40,5 +41,5 @@ export default async function TournamentPage({ params }: TournamentPageProps) {
 }
 
 export interface TournamentPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }

@@ -14,10 +14,10 @@ export async function GET(request: Request): Promise<Response> {
   const url = new URL(request.url);
   const code = url.searchParams.get('code');
   const state = url.searchParams.get('state');
-  const authFrom = cookies().get('auth_from')?.value ?? null;
-  cookies().delete('auth_from');
-  const storedState = cookies().get('lichess_oauth_state')?.value ?? null;
-  const codeVerifier = cookies().get('lichess_oauth_code_validation')?.value;
+  const authFrom = (await cookies()).get('auth_from')?.value ?? null;
+  (await cookies()).delete('auth_from');
+  const storedState = (await cookies()).get('lichess_oauth_state')?.value ?? null;
+  const codeVerifier = (await cookies()).get('lichess_oauth_code_validation')?.value;
 
   if (
     !code ||
@@ -53,7 +53,7 @@ export async function GET(request: Request): Promise<Response> {
     const lichessUserEmail = (await lichessUserEmailResponse.json())
       .email as string;
 
-    cookies().set('token', tokens.accessToken, {
+    (await cookies()).set('token', tokens.accessToken, {
       sameSite: 'none',
       secure: true,
     });
@@ -65,7 +65,7 @@ export async function GET(request: Request): Promise<Response> {
     if (existingUser) {
       const session = await lucia.createSession(existingUser.id, {});
       const sessionCookie = lucia.createSessionCookie(session.id);
-      cookies().set(sessionCookie.name, sessionCookie.value, {
+      (await cookies()).set(sessionCookie.name, sessionCookie.value, {
         ...sessionCookie.attributes,
       });
       return new Response(null, {
@@ -109,11 +109,11 @@ export async function GET(request: Request): Promise<Response> {
         language: 'en',
       });
 
-      cookies().set('show_new_user_toast', 'true');
+      (await cookies()).set('show_new_user_toast', 'true');
 
       const session = await lucia.createSession(userId, {});
       const sessionCookie = lucia.createSessionCookie(session.id);
-      cookies().set(sessionCookie.name, sessionCookie.value, {
+      (await cookies()).set(sessionCookie.name, sessionCookie.value, {
         ...sessionCookie.attributes,
       });
     } catch (e) {

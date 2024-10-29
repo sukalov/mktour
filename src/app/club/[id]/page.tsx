@@ -2,7 +2,8 @@ import { db } from '@/lib/db';
 import { clubs } from '@/lib/db/schema/tournaments';
 import { eq } from 'drizzle-orm';
 
-export default async function ClubPage({ params }: ClubPageProps) {
+export default async function ClubPage(props: ClubPageProps) {
+  const params = await props.params;
   const club = await db.select().from(clubs).where(eq(clubs.id, params.id));
 
   return (
@@ -13,5 +14,5 @@ export default async function ClubPage({ params }: ClubPageProps) {
 }
 
 export interface ClubPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }

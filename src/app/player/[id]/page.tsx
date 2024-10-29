@@ -6,7 +6,8 @@ import { StatusInClub } from '@/lib/db/schema/tournaments';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-export default async function TournamentPage({ params }: PlayerPageProps) {
+export default async function TournamentPage(props: PlayerPageProps) {
+  const params = await props.params;
   const { user } = await validateRequest();
   const { player, club } = await usePlayerQuery(params.id);
   if (!player || !club) notFound();
@@ -46,5 +47,5 @@ export default async function TournamentPage({ params }: PlayerPageProps) {
 }
 
 export interface PlayerPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }

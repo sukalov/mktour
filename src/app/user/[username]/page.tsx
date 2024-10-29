@@ -4,7 +4,8 @@ import { validateRequest } from '@/lib/auth/lucia';
 import { getTranslations } from 'next-intl/server';
 import { redirect } from 'next/navigation';
 
-export default async function UserPage({ params }: TournamentPageProps) {
+export default async function UserPage(props: TournamentPageProps) {
+  const params = await props.params;
   const { user } = await validateRequest();
   if (!user) redirect('/sign-in');
   const data = await getUserData(params.username);
@@ -22,5 +23,5 @@ export default async function UserPage({ params }: TournamentPageProps) {
   return <Profile user={data} isOwner={isOwner} />;
 }
 export interface TournamentPageProps {
-  params: { username: string };
+  params: Promise<{ username: string }>;
 }
