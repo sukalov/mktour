@@ -6,7 +6,7 @@ import { DatabaseUser, user_preferences, users } from '@/lib/db/schema/auth';
 import { clubs, clubs_to_users } from '@/lib/db/schema/tournaments';
 import { newid } from '@/lib/utils';
 import { LichessUser } from '@/types/lichess-api';
-import { OAuth2RequestError } from 'arctic';
+import { ArcticFetchError, OAuth2RequestError } from 'arctic';
 import { eq } from 'drizzle-orm';
 import { cookies } from 'next/headers';
 
@@ -136,7 +136,13 @@ export async function GET(request: Request): Promise<Response> {
         status: 400,
       });
     }
-    return new Response(null, {
+    if (e instanceof ArcticFetchError) {
+      const cause = e.cause;
+      return new Response(JSON.stringify(cause), {
+        status: 400,
+      });
+    }
+    return new Response(JSON.stringify(e), {
       status: 500,
     });
   }
