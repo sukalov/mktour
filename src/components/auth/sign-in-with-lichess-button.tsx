@@ -16,6 +16,7 @@ export default async function SignInWithLichessButton({
   const t = await getTranslations();
   return (
     <Link
+    prefetch={false}
       href={`/login/lichess${from ? '?from=' + from : ''}`}
       className="w-full"
     >

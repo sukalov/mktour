@@ -31,7 +31,7 @@ export default function AuthButton({ user }: AuthButtonProps) {
   if (!user) {
     return (
       <>
-        <Link href="/login/lichess">
+        <Link href="/login/lichess" prefetch={false}>
           <Button className={`flex-row gap-2 p-2`} variant="ghost">
             <LichessLogo size="24" />
             {t('Profile.login')}
