@@ -1,14 +1,19 @@
 {
   "locale": "ru",
   "Menu": {
-    "club": "мой клуб",
-    "tournaments": "мои турниры",
+    "club": "клубы",
+    "tournaments": "турниры",
     "about us": "о нас",
     "Profile": {
       "profile": "мой профиль",
       "logout": "выйти",
       "login": "войти",
       "sign in": "войти через личес"
+    },
+    "Subheadings": {
+      "club": "мой клуб",
+      "tournaments": "мои турниры",
+      "about us": "о нас"
     },
     "Descriptions": {
       "club": "это панель управления клубом. тут можно его редактировать, добавлять и удалять игроков и так далее",

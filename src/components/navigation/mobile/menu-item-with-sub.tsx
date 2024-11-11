@@ -2,7 +2,6 @@ import { selected } from '@/components/navigation/mobile/menu';
 import MenuItem from '@/components/navigation/mobile/menu-item';
 import { NavbarItem } from '@/components/navigation/nav-menu-items';
 import { cn } from '@/lib/utils';
-
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -23,7 +22,7 @@ const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({
           href={item.path}
         >
           <div className="flex w-full flex-row items-center justify-between">
-            {t(item.title)}
+            {t(`Subheadings.${item.title}`)}
           </div>
         </Link>
       </MenuItem>

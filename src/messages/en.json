@@ -1,14 +1,19 @@
 {
   "locale": "en",
   "Menu": {
-    "club": "my club",
-    "tournaments": "my tournaments",
+    "club": "club",
+    "tournaments": "tournaments",
     "about us": "about us",
     "Profile": {
       "profile": "my profile",
       "logout": "log out",
       "login": "log in",
       "sign in": "sign in with lichess"
+    },
+    "Subheadings": {
+      "club": "my club",
+      "tournaments": "my tournaments",
+      "about us": "about us"
     },
     "Descriptions": {
       "club": "it is your chess club dashboard. here you can manage your players, events and other club settings",
