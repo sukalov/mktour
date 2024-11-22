@@ -31,9 +31,6 @@ export default function useSaveRound(
         queryClient.invalidateQueries({
           queryKey: [tournamentId, 'games', 'all'],
         });
-        queryClient.invalidateQueries({
-          queryKey: [tournamentId, 'tournament'],
-        });
       }
     },
     onError: () => toast.error(t('server error')),
