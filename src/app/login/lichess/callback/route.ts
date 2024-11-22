@@ -9,10 +9,8 @@ import { LichessUser } from '@/types/lichess-api';
 import { ArcticFetchError, OAuth2RequestError } from 'arctic';
 import { eq } from 'drizzle-orm';
 import { cookies } from 'next/headers';
-import { unstable_noStore as noStore } from 'next/cache';
 
 export async function GET(request: Request): Promise<Response> {
-  noStore();
   const url = new URL(request.url);
   const code = url.searchParams.get('code');
   const state = url.searchParams.get('state');
@@ -139,7 +137,7 @@ export async function GET(request: Request): Promise<Response> {
       });
     }
     if (e instanceof ArcticFetchError) {
-      const cause = e.cause;
+      const cause = e.message;
       return new Response(JSON.stringify(cause), {
         status: 400,
       });
