@@ -2,8 +2,8 @@
 
 import CarouselContainer from '@/app/tournaments/[id]/dashboard/carousel-container';
 import {
-    DashboardContext,
-    DashboardContextType,
+  DashboardContext,
+  DashboardContextType,
 } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import FabProvider from '@/app/tournaments/[id]/dashboard/fab-provider';
 import TabsContainer from '@/app/tournaments/[id]/dashboard/tabs-container';
@@ -39,7 +39,7 @@ const Dashboard: FC<TournamentPageContentProps> = ({
         setEscapedItemId,
         escapedItemId,
         roundInView,
-        setRoundInView
+        setRoundInView,
       }}
     >
       <TabsContainer currentTab={currentTab} setCurrentTab={setCurrentTab} />

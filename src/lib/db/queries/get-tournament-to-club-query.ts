@@ -1,5 +1,10 @@
 import { db } from '@/lib/db';
-import { clubs, DatabaseClub, DatabaseTournament, tournaments } from '@/lib/db/schema/tournaments';
+import {
+  clubs,
+  DatabaseClub,
+  DatabaseTournament,
+  tournaments,
+} from '@/lib/db/schema/tournaments';
 import { eq } from 'drizzle-orm';
 
 export default async function getTournamentToClubQuery({

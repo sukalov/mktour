@@ -22,7 +22,7 @@ const RoundControls: FC<RoundControlProps> = ({
 
   return (
     <div
-      className={`top-0 sticky z-10 grid h-10 p-1 w-full grid-cols-3 items-center justify-between px-4 backdrop-blur-md`}
+      className={`sticky top-0 z-10 grid h-10 w-full grid-cols-3 items-center justify-between p-1 px-4 backdrop-blur-md`}
     >
       <Button
         style={{ visibility: roundInView === 1 ? 'hidden' : 'visible' }}
@@ -35,7 +35,7 @@ const RoundControls: FC<RoundControlProps> = ({
         variant="ghost"
         className="w-full"
         onClick={() => setRoundInView(currentRound)}
-        size='sm'
+        size="sm"
       >
         <span className={roundInView === currentRound ? 'font-bold' : ''}>
           {t('round', { roundInView })}

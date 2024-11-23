@@ -24,7 +24,7 @@ const GameItemCompact: FC<GameProps> = ({
   result,
   playerLeft,
   playerRight,
-  roundNumber
+  roundNumber,
 }) => {
   const draw = result === '1/2-1/2';
   const [scaled, setScaled] = useState(false);
@@ -69,7 +69,7 @@ const GameItemCompact: FC<GameProps> = ({
         result: newResult,
         prevResult: result,
         tournamentId,
-        roundNumber
+        roundNumber,
       });
     }
   };
@@ -221,7 +221,7 @@ export type GameProps = {
   result: ResultModel | null;
   playerLeft: Record<'white_id' | 'white_nickname', string | null>;
   playerRight: Record<'black_id' | 'black_nickname', string | null>;
-  roundNumber: number
+  roundNumber: number;
 };
 
 export default GameItemCompact;

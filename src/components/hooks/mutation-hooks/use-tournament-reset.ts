@@ -11,7 +11,7 @@ export default function useTournamentReset(
   tournamentId: string,
   queryClient: QueryClient,
   sendJsonMessage: (_message: Message) => void,
-  setRoundInView: Dispatch<SetStateAction<number>>
+  setRoundInView: Dispatch<SetStateAction<number>>,
 ) {
   const t = useTranslations('Toasts');
   return useMutation({
