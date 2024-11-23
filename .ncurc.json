@@ -1,5 +1,3 @@
 {
-  "reject": [
-    "react-day-picker"
-  ]
+  "reject": []
 }
