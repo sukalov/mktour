@@ -68,7 +68,7 @@ export type TabType = {
   component: FC;
 };
 
-export interface TournamentPageContentProps {
+interface TournamentPageContentProps {
   session: string;
   id: string;
   status: Status;

@@ -97,6 +97,6 @@ type MenuItems = {
   path: string;
 }[];
 
-export interface AuthButtonProps {
+interface AuthButtonProps {
   user?: User | null;
 }

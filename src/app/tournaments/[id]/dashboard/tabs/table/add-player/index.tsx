@@ -122,15 +122,4 @@ export type DrawerProps = {
   setValue: Dispatch<SetStateAction<string>>;
 };
 
-export type HandlerProps =
-  | {
-      type: 'existing';
-      id: string;
-    }
-  | {
-      type: 'new';
-      name: string;
-      rating: number;
-    };
-
 export default AddPlayerDrawer;

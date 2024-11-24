@@ -216,7 +216,7 @@ type ResultProps = {
   handleMutate: (_result: ResultModel) => void;
 };
 
-export type GameProps = {
+type GameProps = {
   id: string;
   result: ResultModel | null;
   playerLeft: Record<'white_id' | 'white_nickname', string | null>;

@@ -110,5 +110,8 @@
     "src/components/ui/**/*.ts",
     "src/components/ui/**/*.tsx",
     "src/types/**/*.ts"
-  ]
+  ],
+  "knip": {
+    "ignore": ["./archive/**"]
+  }
 }

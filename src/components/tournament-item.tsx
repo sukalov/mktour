@@ -38,7 +38,7 @@ const TournamentItem = ({
     </Link>
   );
 };
-export const TournamentItemIteratee = (props: TournamentItemProps) => (
+const TournamentItemIteratee = (props: TournamentItemProps) => (
   <TournamentItem
     id={props.id}
     key={props.id}
