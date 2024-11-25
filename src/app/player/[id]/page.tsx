@@ -6,13 +6,12 @@ import { StatusInClub } from '@/lib/db/schema/tournaments';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-export default async function TournamentPage(props: PlayerPageProps) {
+export default async function PlayerPage(props: PlayerPageProps) {
   const params = await props.params;
   const { user } = await validateRequest();
   const { player, club } = await getPlayerQuery(params.id);
   if (!player || !club) notFound();
   let status: StatusInClub | undefined | 'owner';
-  if (user)
     status = await getStatus({
       user,
       club,
@@ -20,7 +19,6 @@ export default async function TournamentPage(props: PlayerPageProps) {
   const isOwner = player.user_id === user?.id; // the viewer of the page is this player
   const isClubOwner = status === 'admin'; // FIXME make Enum
 
-  if (user)
     return (
       <div className="flex w-full flex-col gap-2 p-4 pt-2">
         <div className="flex flex-col gap-2">

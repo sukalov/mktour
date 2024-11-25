@@ -21,7 +21,7 @@ export default async function getStatus({ user, club }: UserClubsQueryProps) {
 }
 
 export type UserClubsQueryProps = {
-  user: User;
+  user?: User | null;
   club: {
     id: string;
     name: string;
