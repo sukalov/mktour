@@ -12,5 +12,7 @@ export async function getUserLocale() {
 }
 
 export async function setUserLocale(locale: Locale) {
-  (await cookies()).set(COOKIE_NAME, locale);
+  (await cookies()).set(COOKIE_NAME, locale, {
+    sameSite: 'lax',
+  });
 }
