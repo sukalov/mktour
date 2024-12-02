@@ -56,7 +56,7 @@ export default function GlobalSearch() {
               {isOpen && (
                 <div className="w-full">
                   <input
-                    className="mt-2 w-full bg-transparent pl-1 pr-2 focus:outline-none"
+                    className="mt-2 w-full bg-transparent pl-1 pr-2 focus:outline-hidden"
                     autoFocus
                   />
                   <div className="right-1 top-0 flex h-full items-center justify-center"></div>

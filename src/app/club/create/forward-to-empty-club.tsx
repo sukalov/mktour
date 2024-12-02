@@ -17,7 +17,7 @@ export default function ForwardToEmpryClub({
   const t = useTranslations('NewClubForm.ForwardToEmpty');
   return (
     <div className="p-4 py-2">
-      <Card className="mx-auto flex max-w-[min(600px,98%)] flex-col gap-4 border-none shadow-none sm:border-solid sm:p-8 sm:shadow-sm">
+      <Card className="mx-auto flex max-w-[min(600px,98%)] flex-col gap-4 border-none shadow-none sm:border-solid sm:p-8 sm:shadow-2xs">
         <div>
           {t.rich('message', {
             club: club.name,

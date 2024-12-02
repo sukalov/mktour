@@ -45,7 +45,7 @@ export default function EditProfileForm({ userId }: { userId: string }) {
 
   return (
     <Form {...form}>
-      <Card className="w-full border-none shadow-none sm:border-solid sm:shadow-sm">
+      <Card className="w-full border-none shadow-none sm:border-solid sm:shadow-2xs">
         <CardContent className="p-4 sm:p-8">
           <form
             onSubmit={form.handleSubmit((data) =>

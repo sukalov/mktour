@@ -44,7 +44,7 @@ const ClubSettingsForm: FC<ClubTabProps> = ({ selectedClub, userId }) => {
   if (!data && isFetching) return <SkeletonList length={1} />;
   return (
     <Form {...form}>
-      <Card className="border-none shadow-none sm:border-solid sm:shadow-sm">
+      <Card className="border-none shadow-none sm:border-solid sm:shadow-2xs">
         <CardContent className="sm:py-8">
           <form
             onSubmit={form.handleSubmit((data) =>

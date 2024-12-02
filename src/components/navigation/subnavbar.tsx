@@ -30,7 +30,7 @@ const NavItem: React.FC<{
   const selection = useSelectedLayoutSegment() ?? '';
   const isActive = item.path === selection;
   const style = isActive
-    ? 'bg-background py-1.5 px-2 rounded-sm shadow-sm md:px-4'
+    ? 'bg-background py-1.5 px-2 rounded-sm shadow-2xs md:px-4'
     : 'text-foreground/60 px-2 hover:text-foreground md:px-4';
   const Logo = (props: LogoProps) =>
     item.logo && (

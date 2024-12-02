@@ -69,7 +69,7 @@ const AddPlayerDrawer = () => {
       open={open}
     >
       <Fab
-        className={`${elevated && 'z-[60]'}`}
+        className={`${elevated && 'z-60'}`}
         onClick={handleFabClick}
         icon={open ? X : UserPlus}
       />
@@ -77,7 +77,7 @@ const AddPlayerDrawer = () => {
         <Drawer.Overlay className="fixed inset-0 top-0 z-50 bg-black/80" />
         <Drawer.Content
           onInteractOutside={handleClose}
-          className="fixed bottom-0 left-[5rem] right-0 top-0 z-50 flex flex-col outline-none"
+          className="fixed bottom-0 left-[5rem] right-0 top-0 z-50 flex flex-col outline-hidden"
         >
           <Drawer.Title />
           <Drawer.Description />

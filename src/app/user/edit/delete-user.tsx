@@ -32,7 +32,7 @@ export default function DeleteUser({ userId }: DeleteProfileProps) {
   const t = useTranslations('EditUser');
   if (isDesktop) {
     return (
-      <Card className="w-full border-none shadow-none md:border-solid md:shadow-sm">
+      <Card className="w-full border-none shadow-none md:border-solid md:shadow-2xs">
         <CardHeader>{t('danger zone')}</CardHeader>
         <CardContent className="flex flex-col gap-4">
           <Dialog open={open} onOpenChange={setOpen}>
@@ -58,7 +58,7 @@ export default function DeleteUser({ userId }: DeleteProfileProps) {
   }
 
   return (
-    <Card className="w-full border-none shadow-none sm:border-solid sm:shadow-sm">
+    <Card className="w-full border-none shadow-none sm:border-solid sm:shadow-2xs">
       <CardHeader>{t('danger zone')}</CardHeader>
       <CardContent className="flex flex-col gap-4">
         <Drawer open={open} onOpenChange={setOpen}>
