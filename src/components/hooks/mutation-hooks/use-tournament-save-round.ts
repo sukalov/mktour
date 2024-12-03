@@ -30,7 +30,7 @@ export default function useSaveRound({
     mutationFn: saveRound,
     onSuccess: (_data, { tournamentId, roundNumber, newGames }) => {
       if (state.length === 1) {
-        sendJsonMessage({ type: 'new-round', roundNumber, newGames });
+        sendJsonMessage({ type: 'new-round', roundNumber, newGames, isTournamentGoing });
         queryClient.invalidateQueries({
           queryKey: [tournamentId, 'games', { roundNumber }],
         });

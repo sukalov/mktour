@@ -12,7 +12,7 @@ type Message =
     }
   | { type: 'start-tournament'; started_at: Date }
   | { type: 'reset-tournament' }
-  | { type: 'new-round'; roundNumber: number; newGames: GameModel[] }
+  | { type: 'new-round'; roundNumber: number; newGames: GameModel[], isTournamentGoing: boolean }
   | ErrorMessage;
 
 type ErrorMessage = {

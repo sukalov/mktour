@@ -1,6 +1,7 @@
 import { SOCKET_URL } from '@/lib/config/urls';
 import { handleSocketMessage } from '@/lib/handle-socket-message';
 import { QueryClient } from '@tanstack/react-query';
+import { Dispatch, SetStateAction } from 'react';
 import useWebSocket from 'react-use-websocket';
 import { toast } from 'sonner';
 import { useTranslations } from 'use-intl';
@@ -9,6 +10,7 @@ export const useDashboardWebsocket = (
   session: string,
   id: string,
   queryClient: QueryClient,
+  setRoundInView: Dispatch<SetStateAction<number>>,
 ) => {
   const t = useTranslations('Toasts');
   return useWebSocket(`${SOCKET_URL}/${id}`, {
@@ -27,7 +29,7 @@ export const useDashboardWebsocket = (
     onMessage: (event: MessageEvent<any>) => {
       if (!event.data) return;
       const message = JSON.parse(event.data);
-      handleSocketMessage(message, queryClient, id, t('ws message error'));
+      handleSocketMessage(message, queryClient, id, t('ws message error'), setRoundInView);
     },
     onError: () => {
       setTimeout(() => toast.dismiss('wsSuccess'));

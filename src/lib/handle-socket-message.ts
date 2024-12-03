@@ -8,6 +8,7 @@ import {
 import { GameModel, PlayerModel } from '@/types/tournaments';
 import type { Message } from '@/types/ws-events';
 import { QueryClient } from '@tanstack/react-query';
+import { Dispatch, SetStateAction } from 'react';
 import { toast } from 'sonner';
 
 export const handleSocketMessage = (
@@ -15,6 +16,7 @@ export const handleSocketMessage = (
   queryClient: QueryClient,
   tournamentId: string,
   errorMessage: string,
+  setRoundInView: Dispatch<SetStateAction<number>>,
 ) => {
   switch (message.type) {
     case 'add-new-player':
@@ -118,6 +120,7 @@ export const handleSocketMessage = (
       queryClient.invalidateQueries({
         queryKey: [tournamentId, 'players', 'added'],
       });
+      setRoundInView(1)
       break;
     case 'new-round':
       queryClient.setQueryData(
@@ -127,6 +130,10 @@ export const handleSocketMessage = (
       queryClient.invalidateQueries({
         queryKey: [tournamentId, 'games'],
       });
+      message.isTournamentGoing && queryClient.invalidateQueries({
+        queryKey: [tournamentId, 'tournament'],
+      });
+      message.isTournamentGoing && setRoundInView(message.roundNumber)
       break;
     case 'error':
       toast.error(errorMessage, { id: 'wsErrorMessage' });
