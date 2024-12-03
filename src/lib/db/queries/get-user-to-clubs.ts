@@ -6,6 +6,7 @@ import { eq } from 'drizzle-orm';
 export default async function getUserToClubs({
   user,
 }: Pick<UserClubsQueryProps, 'user'>) {
+  if (!user) throw new Error('USER_UNDEFINED')
   return await db
     .select()
     .from(clubs_to_users)
