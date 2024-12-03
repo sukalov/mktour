@@ -41,7 +41,7 @@ export const createClub = async (values: NewClubFormType) => {
       .set({ selected_club: id })
       .where(eq(users.id, user.id));
   } catch (e) {
-    throw new Error('club has NOT been saved');
+    throw new Error(`club has NOT been saved. ${e}`);
   }
   redirect('/club/dashboard');
 };

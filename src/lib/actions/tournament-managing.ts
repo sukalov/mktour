@@ -43,7 +43,7 @@ export const createTournament = async (values: NewTournamentFormType) => {
   try {
     await db.insert(tournaments).values(newTournament);
   } catch (e) {
-    throw new Error('tournament has NOT been saved');
+    throw new Error(`tournament has NOT been saved, ${e}`);
   }
   redirect(`/tournaments/${newTournamentID}`);
 };

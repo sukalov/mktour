@@ -41,7 +41,7 @@ export default function NewClubForm({ teams }: NewClubFormProps) {
 
     try {
       await createClub({ ...data, created_at: new Date() });
-    } catch (e) {
+    } catch {
       toast.error(t('club not saved'));
     } finally {
       setIsSubmitting(false);

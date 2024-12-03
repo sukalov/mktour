@@ -67,7 +67,7 @@ export default function NewTournamentForm({
     );
     try {
       await createTournament(data);
-    } catch (e) {
+    } catch {
       setSubmitButton(
         <Button type="submit" className="w-full">
           {t('make tournament')}

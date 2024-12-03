@@ -22,7 +22,7 @@ export default async function CreateClubPage() {
         value: el.id,
       }));
   } catch (e) {
-    console.log('ERROR: unable to connect to lichess');
+    console.log(`ERROR: unable to connect to lichess.  ${e}`);
   }
 
   return (
