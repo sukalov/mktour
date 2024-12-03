@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { generateRoundRobinRoundFunction } from '@/lib/client-actions/round-robin-generator';
 import { GameModel, PlayerModel } from '@/types/tournaments';
 import { useQueryClient } from '@tanstack/react-query';
+import { ArrowRightIcon, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { FC, useContext } from 'react';
@@ -27,12 +28,13 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
   const info = useTournamentInfo(tournamentId);
   const t = useTranslations('Tournament.Round');
   const queryClient = useQueryClient();
-  const { sendJsonMessage } = useContext(DashboardContext);
-  const { mutate, isPending: mutating } = useSaveRound(
+  const { sendJsonMessage, status } = useContext(DashboardContext);
+  const { mutate, isPending: mutating } = useSaveRound({
     tournamentId,
     queryClient,
     sendJsonMessage,
-  );
+    isTournamentGoing: true,
+  });
 
   if (isLoading || !info.data)
     return (
@@ -74,8 +76,15 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
     <>
       <div className="flex w-full flex-col gap-2 px-4 pt-2">
         {roundNumber === info.data.tournament.ongoing_round &&
-          ongoingGames === 0 && (
+          ongoingGames === 0 &&
+          status === 'organizer' && (
             <Button className="w-full" onClick={newRound} disabled={mutating}>
+              {!mutating ? (
+                <ArrowRightIcon />
+              ) : (
+                <Loader2 className="animate-spin" />
+              )}
+              &nbsp;
               {t('new round button')}
             </Button>
           )}

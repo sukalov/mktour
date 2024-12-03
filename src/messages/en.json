@@ -70,7 +70,7 @@
     "player exists error": "this player already exists!",
     "name": "what's their name?",
     "add-player-error": "sorry! couldn't add {player} to the tournament",
-    "remove-player-error": "sorry! could't remove {player} from the tournament"
+    "remove-player-error": "sorry! couldn't remove {player} from the tournament"
   },
   "NewClubForm": {
     "new club": "new club",

@@ -16,7 +16,12 @@ export const useTournamentAddNewPlayer = (
   returnToNewPlayer: (_player: DatabasePlayer) => void,
 ) => {
   const t = useTranslations('Errors');
-  const saveRound = useSaveRound(tournamentId, queryClient, sendJsonMessage);
+  const saveRound = useSaveRound({
+    tournamentId,
+    queryClient,
+    sendJsonMessage,
+    isTournamentGoing: false,
+  });
   return useMutation({
     mutationKey: [tournamentId, 'players', 'add-new'],
     mutationFn: addNewPlayer,

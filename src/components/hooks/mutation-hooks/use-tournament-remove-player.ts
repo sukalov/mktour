@@ -15,7 +15,12 @@ export const useTournamentRemovePlayer = (
   sendJsonMessage: (_message: Message) => void,
 ) => {
   const t = useTranslations('Errors');
-  const saveRound = useSaveRound(tournamentId, queryClient, sendJsonMessage);
+  const saveRound = useSaveRound({
+    tournamentId,
+    queryClient,
+    sendJsonMessage,
+    isTournamentGoing: false,
+  });
   return useMutation({
     mutationKey: [tournamentId, 'players', 'remove'],
     mutationFn: removePlayer,
@@ -42,7 +47,7 @@ export const useTournamentRemovePlayer = (
       const player = context?.previousState?.find(
         (player) => player.id === playerId,
       );
-      console.log(err);
+      console.log({ err });
       toast.error(
         t('remove-player-error', {
           player: player?.nickname,

@@ -8,11 +8,17 @@ import {
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
-export default function useSaveRound(
-  tournamentId: string,
-  queryClient: QueryClient,
-  sendJsonMessage: (_message: Message) => void,
-) {
+export default function useSaveRound({
+  tournamentId,
+  queryClient,
+  sendJsonMessage,
+  isTournamentGoing,
+}: {
+  tournamentId: string;
+  queryClient: QueryClient;
+  sendJsonMessage: (_message: Message) => void;
+  isTournamentGoing: boolean;
+}) {
   const t = useTranslations('Toasts');
   const state = useMutationState({
     filters: {
@@ -28,6 +34,10 @@ export default function useSaveRound(
         queryClient.invalidateQueries({
           queryKey: [tournamentId, 'games', { roundNumber }],
         });
+        isTournamentGoing &&
+          queryClient.invalidateQueries({
+            queryKey: [tournamentId, 'tournament'],
+          });
         queryClient.invalidateQueries({
           queryKey: [tournamentId, 'games', 'all'],
         });
