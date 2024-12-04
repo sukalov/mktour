@@ -14,7 +14,7 @@ export const useDashboardWebsocket = (
 ) => {
   const t = useTranslations('Toasts');
   return useWebSocket(`${SOCKET_URL}/${id}`, {
-    protocols: session,
+    protocols: session ?? 'guest',
     onOpen: () => {
       setTimeout(() => toast.dismiss('wsError'));
       toast.success(t('ws success'), {
