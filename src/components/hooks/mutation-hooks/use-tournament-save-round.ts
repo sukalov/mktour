@@ -1,4 +1,5 @@
 import { saveRound } from '@/lib/actions/tournament-managing';
+import { TournamentInfo } from '@/types/tournaments';
 import { Message } from '@/types/ws-events';
 import {
   QueryClient,
@@ -6,19 +7,10 @@ import {
   useMutationState,
 } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
+import { Dispatch, SetStateAction } from 'react';
 import { toast } from 'sonner';
 
-export default function useSaveRound({
-  tournamentId,
-  queryClient,
-  sendJsonMessage,
-  isTournamentGoing,
-}: {
-  tournamentId: string;
-  queryClient: QueryClient;
-  sendJsonMessage: (_message: Message) => void;
-  isTournamentGoing: boolean;
-}) {
+export default function useSaveRound(props: SaveRoundMutationProps) {
   const t = useTranslations('Toasts');
   const state = useMutationState({
     filters: {
@@ -26,23 +18,72 @@ export default function useSaveRound({
     },
   });
   return useMutation({
-    mutationKey: [tournamentId, 'save-round'],
+    mutationKey: [props.tournamentId, 'save-round'],
     mutationFn: saveRound,
+    onMutate: ({ tournamentId, roundNumber, newGames }) => {
+      if (props.isTournamentGoing) {
+        props.setRoundInView(roundNumber);
+      }
+      props.queryClient.setQueryData(
+        [tournamentId, 'tournament'],
+        (cache: TournamentInfo) => {
+          cache.tournament.ongoing_round = roundNumber;
+          return cache;
+        },
+      );
+      props.queryClient.setQueryData(
+        [tournamentId, 'games', { roundNumber }],
+        () => newGames,
+      );
+    },
     onSuccess: (_data, { tournamentId, roundNumber, newGames }) => {
       if (state.length === 1) {
-        sendJsonMessage({ type: 'new-round', roundNumber, newGames, isTournamentGoing });
-        queryClient.invalidateQueries({
+        props.sendJsonMessage({
+          type: 'new-round',
+          roundNumber,
+          newGames,
+          isTournamentGoing: props.isTournamentGoing,
+        });
+        props.queryClient.invalidateQueries({
           queryKey: [tournamentId, 'games', { roundNumber }],
         });
-        isTournamentGoing &&
-          queryClient.invalidateQueries({
+        props.isTournamentGoing &&
+          props.queryClient.invalidateQueries({
             queryKey: [tournamentId, 'tournament'],
           });
-        queryClient.invalidateQueries({
+        props.queryClient.invalidateQueries({
           queryKey: [tournamentId, 'games', 'all'],
         });
       }
     },
-    onError: () => toast.error(t('server error')),
+    onError: (_, { tournamentId, roundNumber }) => {
+      props.isTournamentGoing && props.setRoundInView(roundNumber - 1);
+      props.queryClient.setQueryData(
+        [tournamentId, 'tournament'],
+        (cache: TournamentInfo) => {
+          cache.tournament.ongoing_round = roundNumber - 1;
+          return cache;
+        },
+      );
+      props.queryClient.removeQueries({
+        queryKey: [tournamentId, 'games', { roundNumber }],
+      });
+      toast.error(t('server error'));
+    },
   });
 }
+
+type SaveRoundMutationProps =
+  | {
+      tournamentId: string;
+      queryClient: QueryClient;
+      sendJsonMessage: (_message: Message) => void;
+      isTournamentGoing: true;
+      setRoundInView: Dispatch<SetStateAction<number>>;
+    }
+  | {
+      tournamentId: string;
+      queryClient: QueryClient;
+      sendJsonMessage: (_message: Message) => void;
+      isTournamentGoing: false;
+    };
