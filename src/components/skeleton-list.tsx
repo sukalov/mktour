@@ -10,7 +10,7 @@ const SkeletonList: FC<{ length?: number; height?: number }> = ({
 
   return (
     <div>
-      <div className="absolute z-10 h-[100svh] w-full bg-linear-to-t from-background"></div>
+      <div className="from-background absolute z-10 h-[100svh] w-full bg-linear-to-t"></div>
       <div className="flex flex-col gap-2">
         {list.map((_, i) => (
           <Skeleton key={i} className={`${h} w-full`} />

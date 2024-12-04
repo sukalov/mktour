@@ -25,7 +25,7 @@ export default function NotFound() {
           className={'custom-cursor w-full text-3xl'}
           repeat={0}
         />
-        <Link href="/" className="text-3xl underline hover:text-foreground/70">
+        <Link href="/" className="hover:text-foreground/70 text-3xl underline">
           return home
         </Link>
       </main>

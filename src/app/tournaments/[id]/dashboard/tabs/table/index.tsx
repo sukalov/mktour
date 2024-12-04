@@ -48,7 +48,7 @@ const TournamentTable: FC = ({}) => {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="pl-4 pr-0">#</TableHead>
+          <TableHead className="pr-0 pl-4">#</TableHead>
           <TableHead className="pl-0">
             {t('name column', { number: players.data?.length ?? 0 })}
           </TableHead>
@@ -73,7 +73,7 @@ const TournamentTable: FC = ({}) => {
               }
             }}
           >
-            <TableCell className="font-small pl-4 pr-0">{i + 1}</TableCell>
+            <TableCell className="font-small pr-0 pl-4">{i + 1}</TableCell>
             <TableCell className="font-small max-w-[150px] truncate pl-0">
               {player.nickname}
             </TableCell>

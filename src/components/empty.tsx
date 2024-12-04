@@ -7,7 +7,7 @@ const Empty: FC<PropsWithChildren> = ({ children }) => {
   const t = useTranslations('Empty');
 
   return (
-    <div className="flex w-full justify-center px-4 text-sm text-muted-foreground">
+    <div className="text-muted-foreground flex w-full justify-center px-4 text-sm">
       <p>{children ? children : t(`${pathname}`)}</p>
     </div>
   );

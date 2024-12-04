@@ -23,7 +23,12 @@ const Dashboard: FC<TournamentPageContentProps> = ({
     useState<DashboardContextType['currentTab']>('main');
   const queryClient = useQueryClient();
   const [roundInView, setRoundInView] = useState(1);
-  const { sendJsonMessage } = useDashboardWebsocket(session, id, queryClient, setRoundInView);
+  const { sendJsonMessage } = useDashboardWebsocket(
+    session,
+    id,
+    queryClient,
+    setRoundInView,
+  );
   const [overlayed, setOverlayed] = useState(false);
   const [escapedItemId, setEscapedItemId] = useState('');
 

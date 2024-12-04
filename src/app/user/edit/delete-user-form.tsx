@@ -97,7 +97,7 @@ export default function DeleteUserForm({
                     return (
                       <FormItem
                         key={checkbox}
-                        className="flex flex-row items-start space-x-3 space-y-0"
+                        className="flex flex-row items-start space-y-0 space-x-3"
                       >
                         <FormControl>
                           <Checkbox

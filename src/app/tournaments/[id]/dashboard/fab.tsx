@@ -15,7 +15,7 @@ const Fab: FC<FabProps> = ({
   return (
     <PortalWrapper container={container}>
       <Button
-        className={`pointer-events-auto fixed bottom-8 right-6 z-40 rounded-full ${className} `}
+        className={`pointer-events-auto fixed right-6 bottom-8 z-40 rounded-full ${className} `}
         variant="secondary"
         size="icon"
         style={{ scale: 1.5 }}

@@ -3,7 +3,7 @@ import { MotionProps, motion } from 'framer-motion';
 const MenuToggle = ({ toggle }: { toggle: any }) => (
   <button
     onClick={toggle}
-    className="pointer-events-auto absolute right-4 top-[18px] z-30 stroke-none text-foreground"
+    className="text-foreground pointer-events-auto absolute top-[18px] right-4 z-30 stroke-none"
   >
     <svg width="23" height="23" viewBox="0 0 23 23">
       <Path

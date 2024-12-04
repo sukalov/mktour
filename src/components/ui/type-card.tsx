@@ -20,7 +20,7 @@ export default function TypeCard({ name, disabled }: TypeCardProps) {
       />
       <Label
         htmlFor={name}
-        className={`flex h-10 flex-row items-center justify-center gap-2 rounded-md border-2 border-muted bg-popover py-4 text-[0.7rem] hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary sm:text-sm [&:has([data-state=checked])]:border-primary`}
+        className={`border-muted bg-popover hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary flex h-10 flex-row items-center justify-center gap-2 rounded-md border-2 py-4 text-[0.7rem] sm:text-sm`}
       >
         <div className={'items-end align-bottom'}>
           <TypeIcon type={name} />

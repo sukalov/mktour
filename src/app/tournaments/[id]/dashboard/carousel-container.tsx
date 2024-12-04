@@ -104,7 +104,7 @@ const CarouselIteratee: FC<{
       <RemoveScroll
         noIsolation
         ref={viewportRef}
-        className="mt-10 h-[calc(100dvh-5rem)] overflow-scroll pb-16 small-scrollbar"
+        className="small-scrollbar mt-10 h-[calc(100dvh-5rem)] overflow-scroll pb-16"
       >
         <Overlay open={overlayed} />
         <Component />

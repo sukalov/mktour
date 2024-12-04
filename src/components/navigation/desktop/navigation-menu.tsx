@@ -37,13 +37,13 @@ export default function NavigationMenuContainer() {
                   <li className="row-span-3">
                     <NavigationMenuLink asChild>
                       <a
-                        className="flex w-full select-none flex-col gap-2 rounded-md bg-linear-to-b from-muted/50 to-muted p-4 px-6 no-underline outline-hidden focus:shadow-md"
+                        className="from-muted/50 to-muted flex w-full flex-col gap-2 rounded-md bg-linear-to-b p-4 px-6 no-underline outline-hidden select-none focus:shadow-md"
                         href={tab.path}
                       >
                         <div className="text-lg font-medium">
                           {t(`Subheadings.${tab.title}`)}
                         </div>
-                        <p className="text-sm leading-tight text-muted-foreground">
+                        <p className="text-muted-foreground text-sm leading-tight">
                           {t(`Descriptions.${tab.title}`)}
                         </p>
                       </a>
@@ -80,13 +80,13 @@ const ListItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-hidden transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
+            'hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground block space-y-1 rounded-md p-3 leading-none no-underline outline-hidden transition-colors select-none',
             className,
           )}
           {...props}
         >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="text-sm leading-snug text-muted-foreground">
+          <div className="text-sm leading-none font-medium">{title}</div>
+          <p className="text-muted-foreground text-sm leading-snug">
             {children}
           </p>
         </a>

@@ -5,7 +5,7 @@ export default function MktourNavbar() {
   return (
     <Link href="/">
       <h1
-        className={`${turboPascal.className} m-auto select-none text-2xl font-bold`}
+        className={`${turboPascal.className} m-auto text-2xl font-bold select-none`}
       >
         <span className="group">
           mktour

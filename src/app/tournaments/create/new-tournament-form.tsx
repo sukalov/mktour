@@ -131,7 +131,7 @@ export default function NewTournamentForm({
                           >
                             <Button
                               variant="ghost"
-                              className="flex h-[30px] w-full flex-row justify-end gap-2 pl-7 font-extrabold text-muted-foreground"
+                              className="text-muted-foreground flex h-[30px] w-full flex-row justify-end gap-2 pl-7 font-extrabold"
                             >
                               <PlusIcon fontStyle="bold" /> {t('new club')}
                             </Button>
@@ -236,7 +236,7 @@ export default function NewTournamentForm({
                       disabled
                     />
                   </div>
-                  <p className="hidden text-sm text-muted-foreground peer-hover:block">
+                  <p className="text-muted-foreground hidden text-sm peer-hover:block">
                     <span className="text-xs">*</span>
                     {t('comming soon')}
                   </p>

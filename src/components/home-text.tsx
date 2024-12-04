@@ -7,7 +7,7 @@ export default function HomeText() {
   const cursor = 'custom-cursor';
   const t = useTranslations('Home');
   return (
-    <div className="m-auto flex h-full w-full max-w-[min(28rem,99.9%)] flex-auto grow items-center text-balance text-[clamp(3rem,8svh,6rem);] font-extrabold leading-none md:max-w-[min(70rem,90%)] md:text-center md:text-[clamp(5rem,10vw,6rem);]">
+    <div className="m-auto flex h-full w-full max-w-[min(28rem,99.9%)] flex-auto grow items-center text-[clamp(3rem,8svh,6rem);] leading-none font-extrabold text-balance md:max-w-[min(70rem,90%)] md:text-center md:text-[clamp(5rem,10vw,6rem);]">
       <TypeAnimation
         sequence={[
           `${t('big text 1')}`,

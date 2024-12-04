@@ -104,7 +104,7 @@ const GameItemCompact: FC<GameProps> = ({
 
   return (
     <Card
-      className={`grid ${result && !scaled && 'opacity-50'} h-16 w-full select-none grid-cols-3 items-center gap-2 border p-2 text-sm transition-all hover:duration-300 md:max-w-72 ${scaled && 'z-50 -translate-y-2.5 scale-105'}`}
+      className={`grid ${result && !scaled && 'opacity-50'} h-16 w-full grid-cols-3 items-center gap-2 border p-2 text-sm transition-all select-none hover:duration-300 md:max-w-72 ${scaled && 'z-50 -translate-y-2.5 scale-105'}`}
       ref={ref}
       {...bind()}
     >
@@ -117,7 +117,7 @@ const GameItemCompact: FC<GameProps> = ({
       />
       <Button
         variant="ghost"
-        className={`${!scaled && 'pointer-events-none'} mx-4 flex h-full w-full min-w-16 grow select-none gap-2 justify-self-center rounded-sm p-1 px-2 ${scaled && draw && 'underline underline-offset-4'}`}
+        className={`${!scaled && 'pointer-events-none'} mx-4 flex h-full w-full min-w-16 grow gap-2 justify-self-center rounded-sm p-1 px-2 select-none ${scaled && draw && 'underline underline-offset-4'}`}
       >
         <Result {...resultProps} />
       </Button>
@@ -144,7 +144,7 @@ const PlayerButton: FC<PlayerButtonProps> = ({
     <Button
       variant="ghost"
       className={cn(
-        `${!scaled ? `pointer-events-none ${position.justify}` : 'justify-center'} line-clamp-2 h-full w-full max-w-full select-none text-ellipsis hyphens-auto break-words rounded-sm p-1 px-2 ${muted ? 'text-muted-foreground' : scaled && isWinner && 'underline underline-offset-4'}`,
+        `${!scaled ? `pointer-events-none ${position.justify}` : 'justify-center'} line-clamp-2 h-full w-full max-w-full rounded-sm p-1 px-2 break-words text-ellipsis hyphens-auto select-none ${muted ? 'text-muted-foreground' : scaled && isWinner && 'underline underline-offset-4'}`,
       )}
       onClick={handleMutate}
     >
@@ -176,9 +176,9 @@ const Result: FC<ResultProps> = ({
     );
   if (!result) {
     return (
-      <Card className="relative grid h-full w-24 min-w-16 select-none grid-cols-2">
+      <Card className="relative grid h-full w-24 min-w-16 grid-cols-2 select-none">
         <div className="flex w-full items-center justify-center"></div>
-        <div className="flex w-full items-center justify-center border-l border-l-muted"></div>
+        <div className="border-l-muted flex w-full items-center justify-center border-l"></div>
       </Card>
     );
   }
@@ -186,11 +186,11 @@ const Result: FC<ResultProps> = ({
   const left = parsedResult?.at(0) === '1/2' ? '½' : parsedResult?.at(0);
   const right = parsedResult?.at(1) === '1/2' ? '½' : parsedResult?.at(1);
   return (
-    <Card className="grid h-full w-24 min-w-16 select-none grid-cols-2">
+    <Card className="grid h-full w-24 min-w-16 grid-cols-2 select-none">
       <div className="flex w-full items-center justify-center opacity-60">
         {left ?? ''}
       </div>
-      <div className="flex w-full items-center justify-center border-l border-l-muted opacity-60">
+      <div className="border-l-muted flex w-full items-center justify-center border-l opacity-60">
         {right ?? ''}
       </div>
     </Card>

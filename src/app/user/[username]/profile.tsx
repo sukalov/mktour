@@ -37,7 +37,7 @@ const Profile: FC<{ user: DatabaseUser; isOwner: boolean }> = ({
       <div className="px-2">
         {user.username} ({user.name})
       </div>
-      <Card className="flex flex-col gap-2 break-words p-4 text-muted-foreground">
+      <Card className="text-muted-foreground flex flex-col gap-2 p-4 break-words">
         <span>
           {t('rating')}: {user.rating}
         </span>

@@ -13,7 +13,7 @@ export const useDashboardWebsocket = (
   setRoundInView: Dispatch<SetStateAction<number>>,
 ) => {
   const t = useTranslations('Toasts');
-const protocols = session !== '' ? session : 'guest'
+  const protocols = session !== '' ? session : 'guest';
   return useWebSocket(`${SOCKET_URL}/${id}`, {
     protocols,
     onOpen: () => {
@@ -30,7 +30,13 @@ const protocols = session !== '' ? session : 'guest'
     onMessage: (event: MessageEvent<any>) => {
       if (!event.data) return;
       const message = JSON.parse(event.data);
-      handleSocketMessage(message, queryClient, id, t('ws message error'), setRoundInView);
+      handleSocketMessage(
+        message,
+        queryClient,
+        id,
+        t('ws message error'),
+        setRoundInView,
+      );
     },
     onError: () => {
       setTimeout(() => toast.dismiss('wsSuccess'));

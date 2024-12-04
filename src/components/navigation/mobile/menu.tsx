@@ -76,12 +76,12 @@ const Menu: FC<{ user: User | null }> = ({ user }) => {
       ref={containerRef}
     >
       <motion.div
-        className="absolute inset-0 right-0 w-full bg-secondary"
+        className="bg-secondary absolute inset-0 right-0 w-full"
         variants={sidebar}
       />
       <motion.ul variants={variants}>
         <ScrollArea
-          className="offset-4 grid h-[92svh] w-full gap-2 px-8 pb-4 pt-8"
+          className="offset-4 grid h-[92svh] w-full gap-2 px-8 pt-8 pb-4"
           type="auto"
           noScrollbar
         >

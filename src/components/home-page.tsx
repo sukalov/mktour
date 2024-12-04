@@ -16,7 +16,7 @@ export default function HomePage() {
         {/* {!session ? ( */}
         {true ? (
           <div className="mt-16 flex h-[calc(100svh-3.5rem)] w-full flex-col gap-7 p-3 md:mt-2 md:gap-2">
-            <div className="m-auto flex w-full max-w-[min(28rem,99.9%)] flex-auto grow items-center text-balance text-[clamp(3rem,8svh,6rem);] font-extrabold leading-none md:max-w-[min(70rem,90%)] md:text-center md:text-[clamp(5rem,10vw,6rem);]">
+            <div className="m-auto flex w-full max-w-[min(28rem,99.9%)] flex-auto grow items-center text-[clamp(3rem,8svh,6rem);] leading-none font-extrabold text-balance md:max-w-[min(70rem,90%)] md:text-center md:text-[clamp(5rem,10vw,6rem);]">
               <TypeAnimation
                 sequence={[
                   'chess events',
@@ -44,7 +44,7 @@ export default function HomePage() {
                   <span className="grid-col-3">
                     <LichessLogo size="40" />
                   </span>
-                  <span className="grid-col--9 text-[1.4rem] font-light leading-none">
+                  <span className="grid-col--9 text-[1.4rem] leading-none font-light">
                     sign in with lichess
                   </span>
                 </Button>
@@ -57,7 +57,7 @@ export default function HomePage() {
                   <h1 className="text-2xl font-light min-[320px]:text-3xl">
                     make tournament awdawdawdaw
                   </h1>
-                  <p className="text-balance font-extralight"></p>
+                  <p className="font-extralight text-balance"></p>
                 </Button>
               </Link>
             </div>
@@ -71,7 +71,7 @@ export default function HomePage() {
               <h1 className="text-2xl font-light min-[320px]:text-3xl">
                 make tournament
               </h1>
-              <p className="text-balance font-extralight"></p>
+              <p className="font-extralight text-balance"></p>
             </Button>
           </Link>
         )}

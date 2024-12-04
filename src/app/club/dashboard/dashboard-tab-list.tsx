@@ -27,7 +27,7 @@ const ClubDashboardTabList: FC<{
       value={activeTab}
       className="fixed z-40 w-full rounded-none transition-all duration-500"
     >
-      <TabsList className="w-full justify-around overflow-scroll rounded-none no-scrollbar md:justify-start">
+      <TabsList className="no-scrollbar w-full justify-around overflow-scroll rounded-none md:justify-start">
         {preparedTabs.map((tab) => (
           <TabsTrigger key={tab} className="w-full" value={tab}>
             {isMobile ? (

@@ -29,7 +29,7 @@ export default async function PlayerPage(props: PlayerPageProps) {
           club: <Link href={`/club/${player.club_id}`}>{club.name}</Link>
         </p>
       </div>
-      <div className="flex flex-col gap-2 text-sm text-muted-foreground">
+      <div className="text-muted-foreground flex flex-col gap-2 text-sm">
         <p>
           {status
             ? `you can edit this player because he is from ${club.name}`

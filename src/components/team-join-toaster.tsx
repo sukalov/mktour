@@ -31,7 +31,7 @@ export default function TeamJoinToaster() {
     toast(
       <div>
         <h1
-          className={`${turboPascal.className} text-center text-2xl font-bold leading-8`}
+          className={`${turboPascal.className} text-center text-2xl leading-8 font-bold`}
         >
           {t('toast header')}
         </h1>

@@ -372,7 +372,7 @@ export async function saveRound({
 export async function startTournament({
   tournamentId,
   started_at,
-  rounds_number
+  rounds_number,
 }: {
   tournamentId: string;
   started_at: Date;

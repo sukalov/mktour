@@ -134,7 +134,7 @@ export const handleSocketMessage = (
       queryClient.invalidateQueries({
         queryKey: [tournamentId, 'players', 'added'],
       });
-      setRoundInView(1)
+      setRoundInView(1);
       break;
     case 'new-round':
       queryClient.setQueryData(
@@ -144,10 +144,11 @@ export const handleSocketMessage = (
       queryClient.invalidateQueries({
         queryKey: [tournamentId, 'games'],
       });
-      message.isTournamentGoing && queryClient.invalidateQueries({
-        queryKey: [tournamentId, 'tournament'],
-      });
-      message.isTournamentGoing && setRoundInView(message.roundNumber)
+      message.isTournamentGoing &&
+        queryClient.invalidateQueries({
+          queryKey: [tournamentId, 'tournament'],
+        });
+      message.isTournamentGoing && setRoundInView(message.roundNumber);
       break;
     case 'error':
       toast.error(errorMessage, { id: 'wsErrorMessage' });

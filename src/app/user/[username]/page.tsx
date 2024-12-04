@@ -15,7 +15,7 @@ export default async function UserPage(props: TournamentPageProps) {
 
   if (!data)
     return (
-      <div className="mt-8 w-full text-center text-muted-foreground">
+      <div className="text-muted-foreground mt-8 w-full text-center">
         {t('Empty.user')}
       </div>
     );

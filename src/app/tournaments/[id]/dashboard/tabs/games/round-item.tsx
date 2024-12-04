@@ -29,13 +29,14 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
   const info = useTournamentInfo(tournamentId);
   const t = useTranslations('Tournament.Round');
   const queryClient = useQueryClient();
-  const { sendJsonMessage, status, setRoundInView } = useContext(DashboardContext);
+  const { sendJsonMessage, status, setRoundInView } =
+    useContext(DashboardContext);
   const { mutate, isPending: mutating } = useSaveRound({
     tournamentId,
     queryClient,
     sendJsonMessage,
     isTournamentGoing: true,
-    setRoundInView
+    setRoundInView,
   });
 
   if (isLoading || !info.data)

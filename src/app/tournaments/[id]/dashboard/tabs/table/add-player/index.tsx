@@ -77,11 +77,11 @@ const AddPlayerDrawer = () => {
         <Drawer.Overlay className="fixed inset-0 top-0 z-50 bg-black/80" />
         <Drawer.Content
           onInteractOutside={handleClose}
-          className="fixed bottom-0 left-[5rem] right-0 top-0 z-50 flex flex-col outline-hidden"
+          className="fixed top-0 right-0 bottom-0 left-[5rem] z-50 flex flex-col outline-hidden"
         >
           <Drawer.Title />
           <Drawer.Description />
-          <div className="flex h-[100dvh] flex-1 flex-col gap-3 rounded-l-[15px] border border-secondary bg-background p-4">
+          <div className="border-secondary bg-background flex h-[100dvh] flex-1 flex-col gap-3 rounded-l-[15px] border p-4">
             <div className="flex flex-col gap-3">
               <Button
                 className="flex w-full gap-2"

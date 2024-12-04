@@ -54,7 +54,7 @@ const TournamentInfoList = () => {
 
   return (
     <>
-      <div className="truncate whitespace-break-spaces text-4xl font-bold">
+      <div className="truncate text-4xl font-bold whitespace-break-spaces">
         {data.tournament.title}
       </div>
       <Card className="items-left flex w-full flex-col gap-8 p-4 px-8">

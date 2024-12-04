@@ -43,7 +43,7 @@ const PlayerItem: FC<{ player: PlayerProps }> = ({ player }) => {
         <div className="flex flex-col truncate">
           <span>{nickname}</span>
           <span className="text-xs">{realname && `(${realname})`}</span>
-          <span className="text-xs text-muted-foreground">
+          <span className="text-muted-foreground text-xs">
             {t('Player.last seen') + lastSeen}
           </span>
         </div>

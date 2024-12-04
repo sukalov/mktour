@@ -46,7 +46,7 @@ export default function GlobalSearch() {
           >
             <div className="flex flex-row">
               <Button
-                className={`relative flex aspect-square select-none items-center justify-center p-2.5 transition-colors disabled:pointer-events-none disabled:opacity-50 ${isOpen && `text-muted-foreground hover:bg-transparent`}`}
+                className={`relative flex aspect-square items-center justify-center p-2.5 transition-colors select-none disabled:pointer-events-none disabled:opacity-50 ${isOpen && `text-muted-foreground hover:bg-transparent`}`}
                 onClick={() => setIsOpen((prev) => !prev)}
                 aria-label="search"
                 variant="ghost"
@@ -56,10 +56,10 @@ export default function GlobalSearch() {
               {isOpen && (
                 <div className="w-full">
                   <input
-                    className="mt-2 w-full bg-transparent pl-1 pr-2 focus:outline-hidden"
+                    className="mt-2 w-full bg-transparent pr-2 pl-1 focus:outline-hidden"
                     autoFocus
                   />
-                  <div className="right-1 top-0 flex h-full items-center justify-center"></div>
+                  <div className="top-0 right-1 flex h-full items-center justify-center"></div>
                 </div>
               )}
             </div>

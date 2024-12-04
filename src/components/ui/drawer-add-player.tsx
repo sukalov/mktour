@@ -10,7 +10,7 @@ export function MyDrawer() {
       </Drawer.Trigger>
       <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 bg-black/40" />
-        <Drawer.Content className="fixed bottom-0 left-0 right-0 mt-24 flex h-[96%] flex-col rounded-t-[10px] bg-zinc-100">
+        <Drawer.Content className="fixed right-0 bottom-0 left-0 mt-24 flex h-[96%] flex-col rounded-t-[10px] bg-zinc-100">
           <div className="flex-1 rounded-t-[10px] bg-white p-4">
             <div className="mx-auto mb-8 h-1.5 w-12 shrink-0 rounded-full bg-zinc-300" />
             <div className="mx-auto max-w-md">
@@ -44,7 +44,7 @@ export function MyDrawer() {
           <div className="mt-auto border-t border-zinc-200 bg-zinc-100 p-4">
             <div className="mx-auto flex max-w-md justify-end gap-6">
               <a
-                className="gap-0.25 flex items-center text-xs text-zinc-600"
+                className="flex items-center gap-0.25 text-xs text-zinc-600"
                 href="https://github.com/emilkowalski/vaul"
                 target="_blank"
               >
@@ -67,7 +67,7 @@ export function MyDrawer() {
                 </svg>
               </a>
               <a
-                className="gap-0.25 flex items-center text-xs text-zinc-600"
+                className="flex items-center gap-0.25 text-xs text-zinc-600"
                 href="https://twitter.com/emilkowalski_"
                 target="_blank"
               >
