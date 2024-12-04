@@ -5,7 +5,7 @@ import {
   DatabasePlayer,
   InsertDatabasePlayer,
 } from '@/lib/db/schema/tournaments';
-import { GameModel, PlayerModel } from '@/types/tournaments';
+import { GameModel, PlayerModel, TournamentInfo } from '@/types/tournaments';
 import type { Message } from '@/types/ws-events';
 import { QueryClient } from '@tanstack/react-query';
 import { Dispatch, SetStateAction } from 'react';
@@ -110,7 +110,21 @@ export const handleSocketMessage = (
       });
       break;
     case 'start-tournament':
+      queryClient.setQueryData(
+        [tournamentId, 'tournament'],
+        (cache: TournamentInfo) => {
+          cache.tournament.started_at = message.started_at;
+          return cache;
+        },
+      );
     case 'reset-tournament':
+      queryClient.setQueryData(
+        [tournamentId, 'tournament'],
+        (cache: TournamentInfo) => {
+          cache.tournament.started_at = null;
+          return cache;
+        },
+      );
       queryClient.invalidateQueries({
         queryKey: [tournamentId, 'tournament'],
       });
