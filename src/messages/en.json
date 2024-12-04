@@ -137,7 +137,8 @@
       "confirmation header": "are you sure?",
       "confirmation body": "all results and scores are going to be deleted. the tournament will get to 'not started' state",
       "cancel": "cancel",
-      "confirm reset": "reset tournament"
+      "confirm reset": "reset tournament",
+      "finish tournament": "finish tournament"
     },
     "Results": {
       "1-0": "1 - 0",

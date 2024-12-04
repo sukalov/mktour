@@ -13,10 +13,10 @@ export default function useTournamentStart(
   const t = useTranslations('Toasts');
   return useMutation({
     mutationFn: startTournament,
-    onSuccess: (_error, { started_at }) => {
+    onSuccess: (_error, { started_at, rounds_number }) => {
       if (started_at) {
         toast.success(t('started'));
-        sendJsonMessage({ type: 'start-tournament', started_at });
+        sendJsonMessage({ type: 'start-tournament', started_at, rounds_number });
       }
       queryClient.invalidateQueries({
         queryKey: [tournamentId, 'tournament'],

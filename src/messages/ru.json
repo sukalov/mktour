@@ -137,7 +137,8 @@
       "confirmation header": "вы уверены?",
       "reset progress": "обнулить турнир",
       "confirm reset": "сбросить турнир",
-      "cancel": "отмена"
+      "cancel": "отмена",
+      "finish tournament": "закончить турнир"
     },
     "Results": {
       "1-0": "1 - 0",

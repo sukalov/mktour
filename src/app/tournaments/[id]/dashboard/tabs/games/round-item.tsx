@@ -1,5 +1,6 @@
 'use client';
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
+import FinishTournamentButton from '@/app/tournaments/[id]/dashboard/finish-tournament-button';
 import GameItemCompact from '@/app/tournaments/[id]/dashboard/tabs/games/game-item-compact';
 import Center from '@/components/center';
 import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
@@ -77,7 +78,11 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
       <div className="flex w-full flex-col gap-2 px-4 pt-2">
         {roundNumber === info.data.tournament.ongoing_round &&
           ongoingGames === 0 &&
-          status === 'organizer' && (
+          status === 'organizer' &&
+          (info.data.tournament.ongoing_round ===
+          info.data.tournament.rounds_number ? (
+            <FinishTournamentButton roundNumber={roundNumber} />
+          ) : (
             <Button className="w-full" onClick={newRound} disabled={mutating}>
               {!mutating ? (
                 <ArrowRightIcon />
@@ -87,7 +92,7 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
               &nbsp;
               {t('new round button')}
             </Button>
-          )}
+          ))}
         {sortedRound.map((game, index) => {
           return <GamesIteratee key={index} {...game} />;
         })}

@@ -1,17 +1,16 @@
 'use client';
 
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
+import FinishTournamentButton from '@/app/tournaments/[id]/dashboard/finish-tournament-button';
 import ResetTournamentButton from '@/app/tournaments/[id]/dashboard/tabs/main/reset-tournament-button';
+import StartTournamentButton from '@/app/tournaments/[id]/dashboard/tabs/main/start-tournament-button';
 import TournamentInfoList from '@/app/tournaments/[id]/dashboard/tabs/main/tournament-info-card';
 import useTournamentStart from '@/components/hooks/mutation-hooks/use-tournament-start';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
-import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useQueryClient } from '@tanstack/react-query';
-import { CirclePlay, Loader2 } from 'lucide-react';
-import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { FC, useContext } from 'react';
 
@@ -27,33 +26,23 @@ const Main = () => {
     sendJsonMessage,
   });
   const { status } = useContext(DashboardContext);
-  const t = useTranslations('Tournament.Main');
 
-  const handleClick = () => {
-    startTournamentMutation.mutate({ started_at: new Date(), tournamentId });
-  };
-
+  if (!data) return <LoadingElement />;
   return (
     <div className="flex flex-col gap-4 p-4">
       <TournamentInfoList />
       {/* here is place to chose number of rounds in swiss */}
 
-      {status !== 'organizer' ? null : !data?.tournament.started_at ? (
-        <Button
-          disabled={
-            !players || players?.length < 2 || startTournamentMutation.isPending
-          }
-          onClick={handleClick}
-          size="lg"
-        >
-          {startTournamentMutation.isPending ? (
-            <Loader2 className="animate-spin" />
-          ) : (
-            <CirclePlay />
+      {status !== 'organizer'
+        ? null
+        : data?.tournament.ongoing_round === data.tournament.rounds_number && (
+            <FinishTournamentButton
+              roundNumber={data.tournament.ongoing_round}
+            />
           )}
-          &nbsp;
-          {t('start tournament')}
-        </Button>
+
+      {status !== 'organizer' ? null : !data.tournament.started_at ? (
+        <StartTournamentButton />
       ) : (
         <ResetTournamentButton />
       )}

@@ -372,9 +372,11 @@ export async function saveRound({
 export async function startTournament({
   tournamentId,
   started_at,
+  rounds_number
 }: {
   tournamentId: string;
   started_at: Date;
+  rounds_number: number;
 }) {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
@@ -383,7 +385,7 @@ export async function startTournament({
   if (started_at)
     await db
       .update(tournaments)
-      .set({ started_at })
+      .set({ started_at, rounds_number })
       .where(
         and(eq(tournaments.id, tournamentId), isNull(tournaments.started_at)),
       )
