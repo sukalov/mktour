@@ -5,26 +5,15 @@ import FinishTournamentButton from '@/app/tournaments/[id]/dashboard/finish-tour
 import ResetTournamentButton from '@/app/tournaments/[id]/dashboard/tabs/main/reset-tournament-button';
 import StartTournamentButton from '@/app/tournaments/[id]/dashboard/tabs/main/start-tournament-button';
 import TournamentInfoList from '@/app/tournaments/[id]/dashboard/tabs/main/tournament-info-card';
-import useTournamentStart from '@/components/hooks/mutation-hooks/use-tournament-start';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
-import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
 import { Card } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useQueryClient } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
 import { FC, useContext } from 'react';
 
 const Main = () => {
   const tournamentId = usePathname().split('/').at(-1) as string;
   const { data } = useTournamentInfo(tournamentId);
-  const { data: players } = useTournamentPlayers(tournamentId);
-  const { sendJsonMessage } = useContext(DashboardContext);
-  const queryClient = useQueryClient();
-
-  const startTournamentMutation = useTournamentStart(queryClient, {
-    tournamentId,
-    sendJsonMessage,
-  });
   const { status } = useContext(DashboardContext);
 
   if (!data) return <LoadingElement />;
