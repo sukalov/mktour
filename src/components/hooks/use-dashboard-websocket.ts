@@ -13,8 +13,9 @@ export const useDashboardWebsocket = (
   setRoundInView: Dispatch<SetStateAction<number>>,
 ) => {
   const t = useTranslations('Toasts');
+const protocols = session !== '' ? session : 'guest'
   return useWebSocket(`${SOCKET_URL}/${id}`, {
-    protocols: session ?? 'guest',
+    protocols,
     onOpen: () => {
       setTimeout(() => toast.dismiss('wsError'));
       toast.success(t('ws success'), {
