@@ -17,7 +17,7 @@ const LichessLogo: FC<LogoProps> = ({ size }) => {
   );
 };
 
-export type LogoProps = {
+type LogoProps = {
   size: string;
 };
 

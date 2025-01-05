@@ -18,7 +18,7 @@ import {
 import { selectRef } from '@/lib/utils';
 import { X } from 'lucide-react';
 import { useState } from 'react';
-import { useTranslations } from 'use-intl';
+import { useTranslations } from 'next-intl';
 
 export function TeamSelector({ teams, form }: TeamSelectorProps) {
   const [state, setState] = useState<boolean>(false);

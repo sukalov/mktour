@@ -1,10 +1,10 @@
 import { SOCKET_URL } from '@/lib/config/urls';
 import { handleSocketMessage } from '@/lib/handle-socket-message';
 import { QueryClient } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import { Dispatch, SetStateAction } from 'react';
 import useWebSocket from 'react-use-websocket';
 import { toast } from 'sonner';
-import { useTranslations } from 'use-intl';
 
 export const useDashboardWebsocket = (
   session: string,

@@ -2,7 +2,7 @@ import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-
 import { addExistingPlayer } from '@/lib/actions/tournament-managing';
 import { generateRoundRobinRoundFunction } from '@/lib/client-actions/round-robin-generator';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
-import { shuffleImmutable } from '@/lib/utils';
+import { shuffle } from '@/lib/utils';
 import { GameModel, PlayerModel } from '@/types/tournaments';
 import { Message } from '@/types/ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
@@ -75,7 +75,7 @@ export const useTournamentAddExistingPlayer = (
     onSuccess: (_err, _data, context) => {
       sendJsonMessage({ type: 'add-existing-player', body: context.newPlayer });
       const newGames = generateRoundRobinRoundFunction({
-        players: shuffleImmutable(
+        players: shuffle(
           queryClient.getQueryData([
             tournamentId,
             'players',

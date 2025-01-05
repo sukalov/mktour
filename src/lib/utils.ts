@@ -1,4 +1,4 @@
-import { clsx, type ClassValue } from 'clsx';
+import { ClassValue, clsx } from 'clsx';
 import { customAlphabet } from 'nanoid';
 import { twMerge } from 'tailwind-merge';
 
@@ -49,14 +49,6 @@ export function selectRef(ref: HTMLDivElement) {
 }
 
 export function shuffle(array: any[]) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-}
-
-export function shuffleImmutable(array: any[]) {
   const copy = [...array];
   for (let i = copy.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));

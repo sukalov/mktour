@@ -1,0 +1,3 @@
+{
+  "ignore": ["./archive/**", "src/components/i18n.ts", "src/lib/utils.ts", "**/_**"]
+}

@@ -8,7 +8,7 @@ import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournam
 import { useTournamentRoundGames } from '@/components/hooks/query-hooks/use-tournament-round-games';
 import { generateRoundRobinRoundFunction } from '@/lib/client-actions/round-robin-generator';
 import { Status } from '@/lib/db/queries/get-status-in-tournament';
-import { shuffleImmutable } from '@/lib/utils';
+import { shuffle } from '@/lib/utils';
 import { useQueryClient } from '@tanstack/react-query';
 import { Loader2, Shuffle } from 'lucide-react';
 import { usePathname } from 'next/navigation';
@@ -50,7 +50,7 @@ const ShuffleFab = () => {
 
   const handleClick = () => {
     const newGames = generateRoundRobinRoundFunction({
-      players: shuffleImmutable(players.data),
+      players: shuffle(players.data),
       games: games.data,
       roundNumber: 1,
       tournamentId,
