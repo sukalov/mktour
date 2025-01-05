@@ -2,6 +2,9 @@ const MillionLint = require('@million/lint');
 /** @type {import('next').NextConfig} */
 const withBundleAnalyzer = require('@next/bundle-analyzer');
 const nextConfig = {
+  experimental: {
+    reactCompiler: true
+  },
   logging: {
     fetches: {
       fullUrl: true,
