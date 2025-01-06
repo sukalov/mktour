@@ -7,8 +7,8 @@ export const DashboardContext = createContext<DashboardContextType>({
   sendJsonMessage: () => null,
   status: 'viewer',
   userId: undefined,
-  escapedItemId: null,
-  setEscapedItemId: () => null,
+  selectedGameId: null,
+  setSelectedGameId: () => null,
   roundInView: 1,
   setRoundInView: () => null,
 });
@@ -18,8 +18,8 @@ export type DashboardContextType = {
   sendJsonMessage: (_jsonMessage: Message, _keep?: boolean) => void;
   status: Status;
   userId: string | undefined;
-  escapedItemId: string | null;
-  setEscapedItemId: Dispatch<SetStateAction<string | null>>;
+  selectedGameId: string | null;
+  setSelectedGameId: Dispatch<SetStateAction<string | null>>;
   roundInView: number;
   setRoundInView: Dispatch<SetStateAction<number>>;
 };

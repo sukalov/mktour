@@ -24,7 +24,7 @@ const RoundsMobile: FC = () => {
   const mutations = useMutationState({
     filters: { status: 'pending' },
   });
-  const { escapedItemId } = useContext(DashboardContext);
+  const { selectedGameId } = useContext(DashboardContext);
 
   if (isError || isPlayersError) {
     return (
@@ -60,7 +60,7 @@ const RoundsMobile: FC = () => {
 
   return (
     <div>
-      <Overlay open={!!escapedItemId} />
+      <Overlay open={!!selectedGameId} />
       <RoundControls
         roundInView={roundInView}
         setRoundInView={setRoundInView}

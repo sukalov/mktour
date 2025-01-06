@@ -16,7 +16,7 @@ const TabsContainer: FC<TabProps> = ({ currentTab, setCurrentTab, top }) => {
   const tabRef = useRef<HTMLDivElement>(null);
   const indexOfTab = tabs?.findIndex((tab) => tab?.title === value);
   const t = useTranslations('Tournament.Tabs');
-  const { escapedItemId } = useContext(DashboardContext);
+  const { selectedGameId } = useContext(DashboardContext);
 
   const onSwipe = (direction: string) =>
     handleSwipe(direction, indexOfTab, setCurrentTab);
@@ -34,7 +34,7 @@ const TabsContainer: FC<TabProps> = ({ currentTab, setCurrentTab, top }) => {
         value={value}
         className={`relative h-10 w-full rounded-none`}
       >
-        <Overlay open={!!escapedItemId} />
+        <Overlay open={!!selectedGameId} />
         <TabsList
           ref={tabRef}
           className={`no-scrollbar h-full w-full justify-around overflow-scroll rounded-none md:justify-evenly`}

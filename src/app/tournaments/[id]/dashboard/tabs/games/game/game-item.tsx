@@ -22,7 +22,7 @@ const GameItem: FC<GameProps> = ({
 }) => {
   const draw = result === '1/2-1/2';
   const tournamentId = usePathname().split('/').at(-1) as string;
-  const { escapedItemId, setEscapedItemId, sendJsonMessage, status } =
+  const { selectedGameId, setSelectedGameId, sendJsonMessage, status } =
     useContext(DashboardContext);
   const queryClient = useQueryClient();
   const mutation = useTournamentSetGameResult(queryClient, {
@@ -30,13 +30,13 @@ const GameItem: FC<GameProps> = ({
     sendJsonMessage,
   });
   const ref = useRef<any>(null); // FIXME any
-  const selected = escapedItemId === id;
+  const selected = selectedGameId === id;
 
   const handleCardState = useCallback(
     (state: boolean) => {
-      setEscapedItemId(state ? id : null);
+      setSelectedGameId(state ? id : null);
     },
-    [id, setEscapedItemId],
+    [id, setSelectedGameId],
   );
 
   const handleMutate = (newResult: ResultModel) => {
