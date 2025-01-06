@@ -2,7 +2,7 @@ import { Card } from '@/components/ui/card';
 import { Result as ResultModel } from '@/types/tournaments';
 import { FC } from 'react';
 
-const GameItem: FC<GameProps> = ({ result, player1, player2 }) => {
+const GameItemExpanded: FC<GameProps> = ({ result, player1, player2 }) => {
   return (
     <Card
       className={`flex w-full flex-row items-center justify-between gap-2 border p-4 md:max-w-[250px]`}
@@ -42,4 +42,4 @@ interface GameProps {
   player2: string;
 }
 
-export default GameItem;
+export default GameItemExpanded;

@@ -1,9 +1,5 @@
-import {
-  DashboardContext,
-  DashboardContextType,
-} from '@/app/tournaments/[id]/dashboard/dashboard-context';
+import { DashboardContextType } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import tabs from '@/app/tournaments/[id]/dashboard/tabs';
-import Overlay from '@/components/overlay';
 import {
   Carousel,
   CarouselApi,
@@ -15,7 +11,6 @@ import {
   FC,
   SetStateAction,
   useCallback,
-  useContext,
   useEffect,
   useRef,
   useState,
@@ -29,11 +24,6 @@ const CarouselContainer: FC<CarouselProps> = ({
 }) => {
   const [api, setApi] = useState<CarouselApi>();
   const indexOfTab = tabs.findIndex((tab) => tab.title === currentTab);
-  const { overlayed } = useContext(DashboardContext); // TODO pass props from parent
-
-  useEffect(() => {
-    overlayed && api?.reInit();
-  }, [api, api?.reInit, overlayed]); // FIXME kinda wrong, should not rely on Overlay state
 
   const handleSelect = useCallback(() => {
     if (!api) return;
@@ -70,7 +60,6 @@ const CarouselIteratee: FC<{
   currentTab: string;
 }> = ({ children: Component, setScrolling, currentTab }) => {
   const viewportRef = useRef<HTMLDivElement>(null);
-  const { overlayed } = useContext(DashboardContext);
 
   useEffect(() => {
     // NB: this hook controls FAB opacity when scrolling
@@ -106,7 +95,6 @@ const CarouselIteratee: FC<{
         ref={viewportRef}
         className="small-scrollbar mt-10 h-[calc(100dvh-5rem)] overflow-scroll pb-16"
       >
-        <Overlay open={overlayed} />
         <Component />
       </RemoveScroll>
     </CarouselItem>

@@ -1,7 +1,7 @@
 'use client';
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import FinishTournamentButton from '@/app/tournaments/[id]/dashboard/finish-tournament-button';
-import GameItemCompact from '@/app/tournaments/[id]/dashboard/tabs/games/game-item-compact';
+import GameItem from '@/app/tournaments/[id]/dashboard/tabs/games/game/game-item';
 import Center from '@/components/center';
 import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
@@ -112,7 +112,7 @@ const GamesIteratee = ({
   black_id,
   round_number,
 }: GameModel) => (
-  <GameItemCompact
+  <GameItem
     id={id}
     result={result}
     playerLeft={{ white_id, white_nickname }}

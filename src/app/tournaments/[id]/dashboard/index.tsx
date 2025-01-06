@@ -29,8 +29,7 @@ const Dashboard: FC<TournamentPageContentProps> = ({
     queryClient,
     setRoundInView,
   );
-  const [overlayed, setOverlayed] = useState(false);
-  const [escapedItemId, setEscapedItemId] = useState('');
+  const [escapedItemId, setEscapedItemId] = useState<string | null>(null);
 
   return (
     <DashboardContext.Provider
@@ -39,8 +38,6 @@ const Dashboard: FC<TournamentPageContentProps> = ({
         sendJsonMessage,
         status,
         userId,
-        overlayed,
-        setOverlayed,
         setEscapedItemId,
         escapedItemId,
         roundInView,

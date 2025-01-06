@@ -5,6 +5,7 @@ import RoundItem from '@/app/tournaments/[id]/dashboard/tabs/games/round-item';
 import Center from '@/components/center';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
+import Overlay from '@/components/overlay';
 import SkeletonList from '@/components/skeleton-list';
 import { useMutationState } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
@@ -23,6 +24,7 @@ const RoundsMobile: FC = () => {
   const mutations = useMutationState({
     filters: { status: 'pending' },
   });
+  const { escapedItemId } = useContext(DashboardContext);
 
   if (isError || isPlayersError) {
     return (
@@ -58,6 +60,7 @@ const RoundsMobile: FC = () => {
 
   return (
     <div>
+      <Overlay open={!!escapedItemId} />
       <RoundControls
         roundInView={roundInView}
         setRoundInView={setRoundInView}

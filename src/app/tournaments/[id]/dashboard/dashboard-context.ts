@@ -7,10 +7,8 @@ export const DashboardContext = createContext<DashboardContextType>({
   sendJsonMessage: () => null,
   status: 'viewer',
   userId: undefined,
-  overlayed: false,
   escapedItemId: null,
   setEscapedItemId: () => null,
-  setOverlayed: () => null,
   roundInView: 1,
   setRoundInView: () => null,
 });
@@ -20,10 +18,8 @@ export type DashboardContextType = {
   sendJsonMessage: (_jsonMessage: Message, _keep?: boolean) => void;
   status: Status;
   userId: string | undefined;
-  overlayed: boolean;
-  setOverlayed: Dispatch<SetStateAction<boolean>>;
   escapedItemId: string | null;
-  setEscapedItemId: Dispatch<SetStateAction<string>>;
+  setEscapedItemId: Dispatch<SetStateAction<string | null>>;
   roundInView: number;
   setRoundInView: Dispatch<SetStateAction<number>>;
 };
