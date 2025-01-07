@@ -29,8 +29,9 @@ const GameItem: FC<GameProps> = ({
     tournamentId,
     sendJsonMessage,
   });
-  const ref = useRef<any>(null); // FIXME any
+  const ref = useRef<HTMLDivElement>(null);
   const selected = selectedGameId === id;
+  const muted = result && !selected;
 
   const handleCardState = useCallback(
     (state: boolean) => {
@@ -57,7 +58,6 @@ const GameItem: FC<GameProps> = ({
     isPending: mutation.isPending,
     result,
     selected,
-    handleMutate,
   };
 
   useEffect(() => {
@@ -75,8 +75,9 @@ const GameItem: FC<GameProps> = ({
   return (
     <motion.div
       key={id}
-      className={`cursor-pointer rounded-lg shadow-lg ${
-        selected ? 'pointer-events-auto z-50' : 'z-0'
+      ref={ref}
+      className={`${status !== 'organizer' && 'pointer-events-none'} cursor-pointer rounded-lg shadow-lg md:w-fit ${
+        selected ? 'z-50' : 'z-0'
       }`}
       initial={{ scale: 1, y: 0 }}
       animate={selected ? { scale: 1.05, y: -10 } : { scale: 1, y: 0 }}
@@ -84,8 +85,7 @@ const GameItem: FC<GameProps> = ({
       onClick={() => handleCardState(true)}
     >
       <Card
-        className={`grid ${result && !selected && 'opacity-50'} h-16 w-full grid-cols-3 items-center gap-2 border p-2 text-sm transition-all select-none hover:duration-300 md:max-w-72`}
-        ref={ref}
+        className={`grid ${muted && 'opacity-50'} h-16 w-full grid-cols-3 items-center gap-2 border p-2 text-sm transition-all select-none ${!selected && 'pointer-events-none'} md:max-w-72`}
       >
         <Player
           isWinner={result === '1-0'}
@@ -96,7 +96,8 @@ const GameItem: FC<GameProps> = ({
         />
         <Button
           variant="ghost"
-          className={`${!selected && 'pointer-events-none'} mx-4 flex h-full w-full min-w-16 grow gap-2 justify-self-center rounded-sm p-1 px-2 select-none ${selected && draw && 'underline underline-offset-4'}`}
+          onClick={() => handleMutate('1/2-1/2')}
+          className={`mx-4 flex h-full w-full min-w-16 grow gap-2 justify-self-center rounded-sm p-1 px-2 select-none ${selected && draw && 'underline underline-offset-4'}`}
         >
           <Result {...resultProps} />
         </Button>

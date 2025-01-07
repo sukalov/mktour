@@ -1,34 +1,40 @@
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { FC } from "react";
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { AnimatePresence, motion } from 'framer-motion';
+import { FC } from 'react';
 
 const Player: FC<PlayerProps> = ({
   handleMutate,
   isWinner,
   nickname,
   selected,
-  muted,
   position,
 }) => {
   return (
-    <Button
-      variant="ghost"
-      className={cn(
-        `${!selected ? `pointer-events-none ${position.justify}` : 'justify-center'} line-clamp-2 h-full w-full max-w-full rounded-sm p-1 px-2 break-words text-ellipsis hyphens-auto select-none ${muted ? 'text-muted-foreground' : selected && isWinner && 'underline underline-offset-4'}`,
-      )}
-      onClick={handleMutate}
-    >
-      <small
-        className={`line-clamp-2 ${!selected ? `pointer-events-none ${position.text}` : 'text-center'} `}
+    <AnimatePresence>
+      <motion.div
+        className="h-full"
+        animate={{
+          x: selected ? (position.text === 'text-left' ? '10%' : '-10%') : 0,
+        }}
+        transition={{ duration: 0.25, ease: 'linear' }}
       >
-        {nickname}
-      </small>
-    </Button>
+        <Button
+          variant="ghost"
+          className={cn(
+            `line-clamp-2 h-full w-full max-w-full ${position.text} rounded-sm p-1 px-2 break-words text-ellipsis hyphens-auto select-none ${selected && isWinner && 'underline underline-offset-4'}`,
+          )}
+          onClick={handleMutate}
+        >
+          <small className={``}>{nickname}</small>
+        </Button>
+      </motion.div>
+    </AnimatePresence>
   );
 };
 
 type PlayerProps = {
-  handleMutate: () => void;
+  handleMutate?: () => void;
   nickname: string | null;
   isWinner: boolean;
   selected: boolean;
@@ -39,4 +45,4 @@ type PlayerProps = {
   };
 };
 
-export default Player
+export default Player;
