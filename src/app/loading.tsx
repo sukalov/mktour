@@ -9,3 +9,7 @@ export default function Loading() {
     </div>
   );
 }
+
+export const LoadingSpinner = () => (
+  <Loader2 className="size-5 animate-spin p-0" />
+);

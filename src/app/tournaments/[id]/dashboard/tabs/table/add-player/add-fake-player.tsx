@@ -23,9 +23,13 @@ const AddFakerPlayer: FC<{ setOpen: (_arg: boolean) => void }> = ({
     returnToNewPlayer,
   );
 
+  const nickname = Math.round(Math.random()) > 0 
+    ? faker.internet.username()
+    : faker.person.fullName()
+
   const player: DatabasePlayer = {
     id: faker.string.uuid(),
-    nickname: faker.internet.username(),
+    nickname,
     realname: null,
     club_id: tournament.data?.club?.id!,
     user_id: null,
