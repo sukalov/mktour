@@ -15,7 +15,7 @@ const Player: FC<PlayerProps> = ({
       <motion.div
         className="h-full"
         animate={{
-          x: selected ? (position.text === 'text-left' ? '10%' : '-10%') : 0,
+          x: selected ? (position.text === 'text-left' ? '15%' : '-15%') : 0,
         }}
         transition={{ duration: 0.25, ease: 'linear' }}
       >
@@ -26,7 +26,7 @@ const Player: FC<PlayerProps> = ({
           )}
           onClick={handleMutate}
         >
-          <small className={``}>{nickname}</small>
+          <small>{nickname}</small>
         </Button>
       </motion.div>
     </AnimatePresence>

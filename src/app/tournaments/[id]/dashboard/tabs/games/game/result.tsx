@@ -7,15 +7,15 @@ import { FC } from 'react';
 const Result: FC<ResultProps> = ({ isPending, result, selected }) => {
   const t = useTranslations('Tournament.Results');
 
-  if (isPending) return <LoadingSpinner/>
+  if (isPending) return <LoadingSpinner />;
 
   if (selected)
     return (
       <div
         className={`select-none ${result && result !== '1/2-1/2' && 'text-muted-foreground'}`}
       >
-        <p className="select-none">{t('1/2')}</p>
-        {/* <small className="select-none">{t('draw')}</small> */}
+        {/* <p className="select-none">{t('1/2')}</p> */}
+        <small className="select-none">{t('draw')}</small>
       </div>
     );
 
