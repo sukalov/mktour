@@ -22,7 +22,7 @@ export default async function PlayerPage(props: PlayerPageProps) {
   return (
     <div className="flex w-full flex-col gap-2 p-4 pt-2">
       <div className="flex flex-col gap-2">
-        <div className="flex w-full justify-between items-center border-b-2 pb-2">
+        <div className="flex w-full items-center justify-between border-b-2 pb-2">
           <span className="text-2xl">{player.nickname}</span>
           {isClubOwner && (
             <DeletePlayer playerId={player.id} userId={user!.id} />

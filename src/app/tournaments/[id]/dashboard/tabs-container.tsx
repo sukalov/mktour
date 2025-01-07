@@ -11,7 +11,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs-grid';
 import { useTranslations } from 'next-intl';
 import { FC, useContext, useRef } from 'react';
 
-const TabsContainer: FC<TabProps> = ({ currentTab, setCurrentTab, top }) => {
+const TabsContainer: FC<TabProps> = ({ currentTab, setCurrentTab }) => {
   const value: DashboardContextType['currentTab'] = currentTab;
   const tabRef = useRef<HTMLDivElement>(null);
   const indexOfTab = tabs?.findIndex((tab) => tab?.title === value);

@@ -1,3 +1,8 @@
 {
-  "ignore": ["./archive/**", "src/components/i18n.ts", "src/lib/utils.ts", "**/_**"]
+  "ignore": [
+    "./archive/**",
+    "src/components/i18n.ts",
+    "src/lib/utils.ts",
+    "**/_**"
+  ]
 }

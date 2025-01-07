@@ -32,7 +32,7 @@ async function RootLayout({ children }: PropsWithChildren) {
                 <ReactQueryProvider>
                   <NavWrapper />
                   <ViewTransitions>
-                    <div className="pt-14 mb-40">{children}</div>
+                    <div className="mb-40 pt-14">{children}</div>
                   </ViewTransitions>
                   <Analytics />
                   <SpeedInsights />

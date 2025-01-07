@@ -1,8 +1,4 @@
-import {
-  Card,
-  CardDescription,
-  CardTitle
-} from '@/components/ui/card';
+import { Card, CardDescription, CardTitle } from '@/components/ui/card';
 import { Format, TournamentType } from '@/types/tournaments';
 import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
@@ -26,7 +22,7 @@ const TournamentItem = ({
 
   return (
     <Link key={id} href={`/tournaments/${id}`} className="flex w-full flex-col">
-      <Card className="p-3 flex flex-col gap-3">
+      <Card className="flex flex-col gap-3 p-3">
         <CardTitle className="text-md">{title}</CardTitle>
         <CardDescription className="flex gap-2 text-xs">
           {description}

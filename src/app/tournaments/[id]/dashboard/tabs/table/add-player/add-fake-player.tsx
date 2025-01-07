@@ -23,9 +23,10 @@ const AddFakerPlayer: FC<{ setOpen: (_arg: boolean) => void }> = ({
     returnToNewPlayer,
   );
 
-  const nickname = Math.round(Math.random()) > 0 
-    ? faker.internet.username()
-    : faker.person.fullName()
+  const nickname =
+    Math.round(Math.random()) > 0
+      ? faker.internet.username()
+      : faker.person.fullName();
 
   const player: DatabasePlayer = {
     id: faker.string.uuid(),

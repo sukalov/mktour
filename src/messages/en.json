@@ -108,7 +108,7 @@
       "inbox": "inbox",
       "settings": "settings"
     },
-   "Page": {
+    "Page": {
       "no description": "no description",
       "lichess team": "lichess team",
       "createdAt": "created: {date}",

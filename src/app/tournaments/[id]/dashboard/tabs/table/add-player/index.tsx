@@ -92,7 +92,7 @@ const AddPlayerDrawer = () => {
                 {!addingNewPlayer ? <Plus /> : <ArrowLeft />}
                 {!addingNewPlayer ? t('add new player') : t('back')}{' '}
               </Button>
-              <AddFakerPlayer setOpen={setOpen}/>
+              <AddFakerPlayer setOpen={setOpen} />
             </div>
             <div className="w-full">
               {addingNewPlayer ? (
