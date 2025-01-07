@@ -92,7 +92,11 @@ const AddPlayerDrawer = () => {
                 {!addingNewPlayer ? <Plus /> : <ArrowLeft />}
                 {!addingNewPlayer ? t('add new player') : t('back')}{' '}
               </Button>
-              <AddFakerPlayer setOpen={setOpen} />
+              {process.env.NODE_ENV !== 'production' && (
+                <AddFakerPlayer setOpen={setOpen} />
+              )
+              // NB DEVTOOL
+              }
             </div>
             <div className="w-full">
               {addingNewPlayer ? (
