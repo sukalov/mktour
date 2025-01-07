@@ -1,23 +1,32 @@
 'use client';
 
+import { LoadingSpinner } from '@/app/loading';
 import useDeletePlayerMutation from '@/components/hooks/mutation-hooks/use-player-delete';
 import { Button } from '@/components/ui/button';
 import { useQueryClient } from '@tanstack/react-query';
 import { Trash2 } from 'lucide-react';
+import { redirect } from 'next/navigation';
 import { FC } from 'react';
 
-const DeletePlayer: FC<{ playerId: string }> = ({ playerId }) => {
+const DeletePlayer: FC<{ playerId: string; userId: string }> = ({
+  playerId,
+  userId,
+}) => {
   const queryClient = useQueryClient();
-  // eslint-disable-next-line no-unused-vars
-  const { mutate, isPending } = useDeletePlayerMutation(queryClient);
+  const { mutate, isPending, isSuccess } = useDeletePlayerMutation(queryClient);
+  const handleClick = () => mutate({ playerId, userId });
+
+  if (isSuccess) redirect('/club/dashboard');
 
   return (
     <Button
       disabled={isPending}
-      onClick={() => console.log(playerId)}
+      variant="ghost"
+      className="text-destructive"
+      onClick={handleClick}
       size="icon"
     >
-      <Trash2 />
+      {isPending ? <LoadingSpinner /> : <Trash2 />}
     </Button>
   );
 };
