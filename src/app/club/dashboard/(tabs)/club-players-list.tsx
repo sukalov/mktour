@@ -38,17 +38,17 @@ const PlayerItem: FC<{ player: PlayerProps }> = ({ player }) => {
       : t('Player.never');
 
   return (
-    <Card key={id} className="flex items-center justify-between truncate p-4">
+    <Card key={id} className="flex items-center justify-between truncate p-3">
       <Link href={`/player/${id}`}>
-        <div className="flex flex-col truncate">
+        <div className="flex flex-col truncate text-wrap">
           <span>{nickname}</span>
-          <span className="text-xs">{realname && `(${realname})`}</span>
+          {/* <span className="text-xs">{realname && `(${realname})`}</span> */}
           <span className="text-muted-foreground text-xs">
             {t('Player.last seen') + lastSeen}
           </span>
         </div>
       </Link>
-      <div className="text-2xl">{rating}</div>
+      <div className="text-xl">{rating}</div>
     </Card>
   );
 };
