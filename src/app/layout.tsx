@@ -49,7 +49,7 @@ async function RootLayout({ children }: PropsWithChildren) {
 
 export const metadata: Metadata = {
   title: 'mktour',
-  description: 'an app for managing complex tournaments of all kind',
+  description: 'web app for managing complex tournaments of all kind',
 };
 
 export const viewport: Viewport = {
