@@ -1,4 +1,5 @@
 import Fab from '@/app/tournaments/[id]/dashboard/fab';
+import AddFakerPlayer from '@/app/tournaments/[id]/dashboard/tabs/table/add-player/add-fake-player';
 import AddNewPlayer from '@/app/tournaments/[id]/dashboard/tabs/table/add-player/add-new-player';
 import AddPlayer from '@/app/tournaments/[id]/dashboard/tabs/table/add-player/add-player';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
@@ -90,8 +91,8 @@ const AddPlayerDrawer = () => {
               >
                 {!addingNewPlayer ? <Plus /> : <ArrowLeft />}
                 {!addingNewPlayer ? t('add new player') : t('back')}{' '}
-                {/* FIXME Intl */}
               </Button>
+              <AddFakerPlayer setOpen={setOpen}/>
             </div>
             <div className="w-full">
               {addingNewPlayer ? (
