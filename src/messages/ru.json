@@ -111,7 +111,8 @@
     "Page": {
       "no description": "без описания",
       "lichess team": "команда в личес",
-      "createdAt": "создана: {date}"
+      "createdAt": "создана: {date}",
+      "tournaments": "турниры клуба:"
     }
   },
   "Status": {

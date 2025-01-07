@@ -23,7 +23,7 @@ const ClubPage: FC<ClubProps> = ({ club }) => {
           <CardTitle>{club.name}</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm">
             {club.description || t('Club.Page.no description')}
           </p>
           {club.lichess_team && (
@@ -34,7 +34,7 @@ const ClubPage: FC<ClubProps> = ({ club }) => {
               t('Club.Page.lichess team')
             </Link>
           )}
-          <p className="mt-2 text-xs text-gray-400">
+          <p className="mt-2 text-xs text-muted-foreground">
             {club.created_at &&
               t('Club.Page.createdAt', {
                 date: club.created_at!.toLocaleDateString(locale, {
@@ -44,6 +44,7 @@ const ClubPage: FC<ClubProps> = ({ club }) => {
           </p>
         </CardContent>
       </Card>
+      <p>{t('Club.Page.tournaments')}</p>
       <ClubDashboardTournaments selectedClub={club.id} userId="" />
     </motion.div>
   );
