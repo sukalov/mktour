@@ -39,7 +39,7 @@ const ClubSettingsForm: FC<ClubTabProps> = ({ selectedClub, userId }) => {
     values: defaultValues,
   });
 
-  const t = useTranslations('ClubSettings');
+  const t = useTranslations('Club.Settings');
 
   if (!data && isFetching) return <SkeletonList length={1} />;
   return (

@@ -90,7 +90,29 @@
   },
   "Club": {
     "managers list": "managers list:",
-    "add manager": "add new manager"
+    "add manager": "add new manager",
+    "Settings": {
+      "name": "name",
+      "save": "save",
+      "confirmation title": "you're about to delete everything!",
+      "danger zone": "danger zone",
+      "delete club": "delete club",
+      "confirmation body": "all players and tournaments will be deleted. if you're completely sure, type the name of the club you are deleting",
+      "cancel": "cancel"
+    },
+    "Dashboard": {
+      "no data": "no data",
+      "main": "main",
+      "players": "players",
+      "tournaments": "tournaments",
+      "inbox": "inbox",
+      "settings": "settings"
+    },
+   "Page": {
+      "no description": "no description",
+      "lichess team": "lichess team",
+      "createdAt": "created: {date}"
+    }
   },
   "Status": {
     "admin": "admin",
@@ -198,23 +220,6 @@
     "name": "name",
     "rated": "rated",
     "comming soon": "coming soon"
-  },
-  "ClubSettings": {
-    "name": "name",
-    "save": "save",
-    "confirmation title": "you're about to delete everything!",
-    "danger zone": "danger zone",
-    "delete club": "delete club",
-    "confirmation body": "all players and tournaments will be deleted. if you're completely sure, type the name of the club you are deleting",
-    "cancel": "cancel"
-  },
-  "ClubDashboard": {
-    "no data": "no data",
-    "main": "main",
-    "players": "players",
-    "tournaments": "tournaments",
-    "inbox": "inbox",
-    "settings": "settings"
   },
   "Home": {
     "make tournament": "make tournament",

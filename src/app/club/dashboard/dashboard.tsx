@@ -13,7 +13,7 @@ import { useUser } from '@/components/hooks/query-hooks/use-user';
 import { useTranslations } from 'next-intl';
 import { FC, useState } from 'react';
 export default function Dashboard({ userId }: { userId: string }) {
-  const t = useTranslations('ClubDashboard');
+  const t = useTranslations('Club.Dashboard');
   const { data, isLoading } = useUser(userId);
   const [tab, setTab] = useState<ClubDashboardTab>('main');
   const ActiveTab: FC<ClubTabProps> = tabMap[tab];

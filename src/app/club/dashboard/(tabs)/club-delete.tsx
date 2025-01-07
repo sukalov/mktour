@@ -34,7 +34,7 @@ export default function ClubDelete({
 }: DeleteConfirmationFormProps) {
   const [open, setOpen] = React.useState(false);
   const isDesktop = useMediaQuery({ minWidth: 768 });
-  const t = useTranslations('ClubSettings');
+  const t = useTranslations('Club.Settings');
   if (isDesktop) {
     return (
       <Card className="border-none shadow-none sm:border-solid sm:shadow-2xs">

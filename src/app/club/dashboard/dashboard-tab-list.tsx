@@ -12,7 +12,7 @@ const ClubDashboardTabList: FC<{
   setTab: (_arg: ClubDashboardTab) => void;
   activeTab: ClubDashboardTab;
 }> = ({ setTab, activeTab }) => {
-  const t = useTranslations('ClubDashboard');
+  const t = useTranslations('Club.Dashboard');
   const { isMobile, isTablet } = useContext(MediaQueryContext);
   const preparedTabs = isTablet
     ? (Object.keys(tabMap) as ClubDashboardTab[])
