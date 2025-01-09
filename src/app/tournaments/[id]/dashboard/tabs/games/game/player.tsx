@@ -1,6 +1,5 @@
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { AnimatePresence, motion } from 'framer-motion';
 import { FC } from 'react';
 
 const Player: FC<PlayerProps> = ({
@@ -9,29 +8,17 @@ const Player: FC<PlayerProps> = ({
   nickname,
   selected,
   position,
-}) => {
-  return (
-    <AnimatePresence>
-      <motion.div
-        className="h-full"
-        animate={{
-          x: selected ? (position.text === 'text-left' ? '15%' : '-15%') : 0,
-        }}
-        transition={{ duration: 0.25, ease: 'linear' }}
-      >
-        <Button
-          variant="ghost"
-          className={cn(
-            `line-clamp-2 h-full w-full max-w-full ${position.text} rounded-sm p-1 px-2 break-words text-ellipsis hyphens-auto select-none ${selected && isWinner && 'underline underline-offset-4'}`,
-          )}
-          onClick={handleMutate}
-        >
-          <small>{nickname}</small>
-        </Button>
-      </motion.div>
-    </AnimatePresence>
-  );
-};
+}) => (
+  <Button
+    variant="ghost"
+    className={cn(
+      `line-clamp-2 h-full w-full max-w-full ${position.text} rounded-sm p-1 px-2 break-words text-ellipsis hyphens-auto select-none ${selected && isWinner && 'underline underline-offset-4'}`,
+    )}
+    onClick={handleMutate}
+  >
+    <small>{nickname}</small>
+  </Button>
+);
 
 type PlayerProps = {
   handleMutate?: () => void;
