@@ -12,7 +12,7 @@ const Result: FC<ResultProps> = ({ isPending, result, selected }) => {
   if (selected)
     return (
       <div
-        className={`select-none ${result && result !== '1/2-1/2' && 'text-muted-foreground'}`}
+        className={`select-none ${result !== '1/2-1/2' && 'text-muted-foreground'}`}
       >
         {/* <p className="select-none">{t('1/2')}</p> */}
         <small className="select-none">{t('draw')}</small>
