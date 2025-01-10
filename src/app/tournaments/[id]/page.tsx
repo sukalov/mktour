@@ -28,14 +28,12 @@ export default async function TournamentPage(props: TournamentPageProps) {
 
   return (
     <HydrationBoundary state={dehydrate(tournamentQueryClient)}>
-      <div className="w-full">
-        <Dashboard
-          session={session}
-          id={params.id}
-          status={status}
-          userId={user?.id}
-        />
-      </div>
+      <Dashboard
+        session={session}
+        id={params.id}
+        status={status}
+        userId={user?.id}
+      />
     </HydrationBoundary>
   );
 }
