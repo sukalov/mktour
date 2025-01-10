@@ -17,12 +17,13 @@ const Dashboard: FC<TournamentPageContentProps> = ({
   session,
   id,
   status,
+  currentRound
 }) => {
   const [scrolling, setScrolling] = useState(false);
   const [currentTab, setCurrentTab] =
     useState<DashboardContextType['currentTab']>('main');
   const queryClient = useQueryClient();
-  const [roundInView, setRoundInView] = useState(1);
+  const [roundInView, setRoundInView] = useState(currentRound || 1);
   const { sendJsonMessage } = useDashboardWebsocket(
     session,
     id,
@@ -75,6 +76,7 @@ interface TournamentPageContentProps {
   id: string;
   status: Status;
   userId: string | undefined;
+  currentRound: number | null
 }
 
 export default Dashboard;
