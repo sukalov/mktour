@@ -81,7 +81,7 @@ const GameItem: FC<GameProps> = ({
       }`}
       initial={{ scale: 1, y: 0 }}
       animate={selected ? { scale: 1.05, y: -10 } : { scale: 1, y: 0 }}
-      transition={{ type: 'spring', bounce: .5 }}
+      transition={{ type: 'spring', bounce: 0.5 }}
       onClick={() => handleCardState(true)}
     >
       <Card

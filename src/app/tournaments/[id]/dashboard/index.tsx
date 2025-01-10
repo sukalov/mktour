@@ -17,7 +17,7 @@ const Dashboard: FC<TournamentPageContentProps> = ({
   session,
   id,
   status,
-  currentRound
+  currentRound,
 }) => {
   const [scrolling, setScrolling] = useState(false);
   const [currentTab, setCurrentTab] =
@@ -76,7 +76,7 @@ interface TournamentPageContentProps {
   id: string;
   status: Status;
   userId: string | undefined;
-  currentRound: number | null
+  currentRound: number | null;
 }
 
 export default Dashboard;

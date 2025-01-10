@@ -83,8 +83,7 @@
   /* cyrillic */
   @font-face {
     font-family: 'Main';
-    src: url('./fonts/ubuntu-mono/UbuntuMono-Regular.ttf')
-      format('truetype');
+    src: url('./fonts/ubuntu-mono/UbuntuMono-Regular.ttf') format('truetype');
     unicode-range: U+0400-04FF, U+0500-052F, U+2DE0-2DFF, U+A640-A69F;
     size-adjust: 115%;
   }

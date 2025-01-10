@@ -8,7 +8,7 @@ import { FC } from 'react';
 const ClubPage: FC<ClubProps> = ({ club }) => {
   const t = useTranslations();
   return (
-    <div className='space-y-4 p-4'>
+    <div className="space-y-4 p-4">
       <ClubCard club={club} />
       <p>{t('Club.Page.tournaments')}</p>
       <ClubDashboardTournaments selectedClub={club.id} userId="" />
