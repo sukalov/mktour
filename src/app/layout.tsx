@@ -10,7 +10,6 @@ import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata, Viewport } from 'next';
 import { getLocale, getMessages } from 'next-intl/server';
-import { ViewTransitions } from 'next-view-transitions';
 import { PropsWithChildren } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
@@ -31,9 +30,9 @@ async function RootLayout({ children }: PropsWithChildren) {
               <MediaQueryProvider>
                 <ReactQueryProvider>
                   <NavWrapper />
-                  <ViewTransitions>
-                    <div className="pt-14">{children}</div>
-                  </ViewTransitions>
+                  {/* <ViewTransitions> */}
+                  <div className="pt-14">{children}</div>
+                  {/* </ViewTransitions> */}
                   <Analytics />
                   <SpeedInsights />
                   <Toaster richColors />

@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { getTranslations } from 'next-intl/server';
-import { Link } from 'next-view-transitions';
+import Link from 'next/link';
+// import { Link } from 'next-view-transitions';
 
 export default async function MakeTournamentButton() {
   const t = await getTranslations();
