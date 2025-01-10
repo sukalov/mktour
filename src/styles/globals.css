@@ -59,7 +59,7 @@
   /* latin */
   @font-face {
     font-family: 'Main';
-    src: url('../styles/fonts/Azeret_Mono/AzeretMono-VariableFont_wght.ttf')
+    src: url('./fonts/Azeret_Mono/AzeretMono-VariableFont_wght.ttf')
       format('truetype');
     unicode-range: U+0000-007F, U+0080-00FF;
   }
@@ -83,7 +83,7 @@
   /* cyrillic */
   @font-face {
     font-family: 'Main';
-    src: url('../styles/fonts/ubuntu-mono/UbuntuMono-Regular.ttf')
+    src: url('./fonts/ubuntu-mono/UbuntuMono-Regular.ttf')
       format('truetype');
     unicode-range: U+0400-04FF, U+0500-052F, U+2DE0-2DFF, U+A640-A69F;
     size-adjust: 115%;
