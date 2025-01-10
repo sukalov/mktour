@@ -12,7 +12,7 @@ const ClubDashboardTournaments: FC<ClubTabProps> = ({ selectedClub }) => {
 
   const t = useTranslations('MakeTournament');
 
-  if (!data && isLoading) return <SkeletonList length={4} />;
+  if (isLoading) return <SkeletonList length={4} height={16} />;
   if (!data || !data.length) return <Empty>{t('no data')}</Empty>;
   if (isError) return <p className="w-full">{failureReason?.message}</p>;
   return (
