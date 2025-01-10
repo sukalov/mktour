@@ -2,16 +2,27 @@
 
 import ClubCard from '@/app/club/club-card';
 import { DatabaseClub } from '@/lib/db/schema/tournaments';
-import Link from 'next/link';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 
-const ClubsList: FC<{ clubs: DatabaseClub[] }> = ({ clubs }) =>
-  clubs.map((club) => <ClubItemIteratee key={club.id} club={club} />);
+const ClubsList: FC<{ clubs: DatabaseClub[] }> = ({ clubs }) => {
+  const router = useRouter();
+  return clubs.map((club) => (
+    <ClubItemIteratee key={club.id} club={club} router={router} />
+  ));
+};
 
-const ClubItemIteratee = ({ club }: { club: DatabaseClub }) => (
-  <Link href={`/club/${club.id}`}>
+const ClubItemIteratee = ({
+  club,
+  router,
+}: {
+  club: DatabaseClub;
+  router: AppRouterInstance;
+}) => (
+  <div onClick={() => router.push(`/club/${club.id}`)}>
     <ClubCard club={club} />
-  </Link>
+  </div>
 );
 
 export default ClubsList;
