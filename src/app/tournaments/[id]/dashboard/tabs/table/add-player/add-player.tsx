@@ -9,13 +9,13 @@ import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { useQueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
-import { usePathname } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useContext } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { toast } from 'sonner';
 
 const AddPlayer = ({ value, setValue, handleClose }: DrawerProps) => {
-  const id = usePathname().split('/').at(-1) as string;
+  const { id } = useParams<{ id: string }>();
   const possiblePlayers = useTournamentPossiblePlayers(id);
   const queryClient = useQueryClient();
   const { sendJsonMessage, userId } = useContext(DashboardContext);

@@ -8,13 +8,13 @@ import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournam
 import Overlay from '@/components/overlay';
 import SkeletonList from '@/components/skeleton-list';
 import { useMutationState } from '@tanstack/react-query';
-import { usePathname } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { FC, useContext } from 'react';
 
 const RoundsMobile: FC = () => {
   const { currentTab, roundInView, setRoundInView } =
     useContext(DashboardContext);
-  const id = usePathname().split('/').at(-1) as string;
+  const { id } = useParams<{ id: string }>();
   const { data, isError, isLoading } = useTournamentInfo(id);
   const {
     data: players,

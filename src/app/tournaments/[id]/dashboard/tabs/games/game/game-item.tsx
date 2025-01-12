@@ -10,6 +10,7 @@ import { Card } from '@/components/ui/card';
 import { Result as ResultModel } from '@/types/tournaments';
 import { useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
+import { useParams } from 'next/navigation';
 import { FC, useCallback, useContext, useEffect, useRef } from 'react';
 
 const GameItem: FC<GameProps> = ({

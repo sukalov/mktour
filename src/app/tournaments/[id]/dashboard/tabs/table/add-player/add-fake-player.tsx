@@ -5,13 +5,13 @@ import { Button } from '@/components/ui/button';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { faker } from '@faker-js/faker';
 import { useQueryClient } from '@tanstack/react-query';
-import { usePathname } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { FC, useContext } from 'react';
 
 const AddFakerPlayer: FC<{ setOpen: (_arg: boolean) => void }> = ({
   setOpen,
 }) => {
-  const id = usePathname().split('/').at(-1) as string;
+  const { id } = useParams<{ id: string }>();
   const tournament = useTournamentInfo(id);
   const queryClient = useQueryClient();
   const returnToNewPlayer = () => null;

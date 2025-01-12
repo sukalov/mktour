@@ -13,6 +13,7 @@ import {
     UserRound,
 } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
+import { useParams } from 'next/navigation';
 import { FC } from 'react';
 import { toast } from 'sonner';
 

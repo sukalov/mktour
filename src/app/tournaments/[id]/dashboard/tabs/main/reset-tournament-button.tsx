@@ -25,6 +25,7 @@ import {
 import { useQueryClient } from '@tanstack/react-query';
 import { CircleX, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useParams } from 'next/navigation';
 import * as React from 'react';
 import { useMediaQuery } from 'react-responsive';
 
