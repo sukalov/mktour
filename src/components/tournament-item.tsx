@@ -1,10 +1,10 @@
 import { Card, CardDescription, CardTitle } from '@/components/ui/card';
-import { TournamentWithClub } from '@/lib/db/queries/get-tournaments-to-user-clubs-query';
+import { DatabaseClub, DatabaseTournament } from '@/lib/db/schema/tournaments';
 import { Dot } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
 
-const TournamentItem = ({ club, tournament, showClubName }: Props) => {
+const TournamentItem = ({ club, tournament }: Props) => {
   const { date, type, format, id, title } = tournament;
   const locale = useLocale();
   const localizedDate = new Date(date).toLocaleDateString([locale]);
@@ -26,8 +26,8 @@ const TournamentItem = ({ club, tournament, showClubName }: Props) => {
       <Card className="flex flex-col gap-3 p-3">
         <CardTitle className="text-md flex flex-col">
           <span>{title}</span>
-          {showClubName && (
-            <span className="text-muted text-xs">{club.name}</span>
+          {club && (
+            <span className="text-muted-foreground text-xs">{club.name}</span>
           )}
         </CardTitle>
         <CardDescription className="flex text-xs">
@@ -38,14 +38,10 @@ const TournamentItem = ({ club, tournament, showClubName }: Props) => {
   );
 };
 
-const TournamentItemIteratee = ({ club, tournament, showClubName }: Props) => (
-  <TournamentItem
-    tournament={tournament}
-    club={club}
-    showClubName={showClubName}
-  />
+const TournamentItemIteratee = ({ club, tournament }: Props) => (
+  <TournamentItem tournament={tournament} club={club} />
 );
 
-type Props = TournamentWithClub & { showClubName: boolean | undefined };
+type Props = { tournament: DatabaseTournament; club?: DatabaseClub };
 
 export default TournamentItemIteratee;

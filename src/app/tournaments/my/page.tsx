@@ -29,11 +29,10 @@ const TournamentGroups: FC<{ props: TournamentWithClub[] }> = ({ props }) => {
           <Link href={`/club/${clubId}`} className="pl-3">
             <h2 className="text-muted-foreground">{clubName}</h2>
           </Link>
-          {tournaments.map((props) => (
+          {tournaments.map(({ tournament }) => (
             <TournamentItemIteratee
-              key={props.tournament.id}
-              {...props}
-              showClubName={false}
+              key={tournament.id}
+              tournament={tournament}
             />
           ))}
         </div>

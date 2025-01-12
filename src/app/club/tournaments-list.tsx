@@ -17,7 +17,9 @@ const ClubDashboardTournaments: FC<ClubTabProps> = ({ selectedClub }) => {
   if (isError) return <p className="w-full">{failureReason?.message}</p>;
   return (
     <div className="mb-2 flex flex-col gap-2">
-      {data.map(TournamentItemIteratee)}
+      {data.map((props) => (
+        <TournamentItemIteratee key={props.id} tournament={props} />
+      ))}
     </div>
   );
 };

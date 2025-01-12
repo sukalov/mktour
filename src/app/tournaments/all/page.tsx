@@ -9,11 +9,7 @@ export default async function Tournaments() {
   return (
     <main className="m-4 flex flex-col items-center gap-4">
       {allTournaments.map((props) => (
-        <TournamentItemIteratee
-          key={props.tournament.id}
-          {...props}
-          showClubName
-        />
+        <TournamentItemIteratee key={props.tournament.id} {...props} />
       ))}
     </main>
   );
