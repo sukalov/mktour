@@ -406,7 +406,7 @@ export async function resetTournament({
   const queries = [
     db
       .update(tournaments)
-      .set({ started_at: null, ongoing_round: 1 })
+      .set({ started_at: null, ongoing_round: 1, closed_at: null })
       .where(
         and(
           eq(tournaments.id, tournamentId),
