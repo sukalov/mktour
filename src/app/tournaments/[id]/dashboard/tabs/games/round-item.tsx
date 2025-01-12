@@ -93,6 +93,7 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
           </Button>
         )}
       {status === 'organizer' &&
+        !info.data.tournament.closed_at &&
         info.data.tournament.ongoing_round ===
           info.data.tournament.rounds_number && (
           <FinishTournamentButton

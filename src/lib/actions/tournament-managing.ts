@@ -812,3 +812,26 @@ async function handleResultReset(
   }
   return 'RESULT_RESET';
 }
+
+export async function finishTournament({
+  tournamentId,
+  closed_at,
+}: {
+  tournamentId: string;
+  closed_at: Date;
+}) {
+  const { user } = await validateRequest();
+  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
+  const status = await getStatusInTournament(user, tournamentId);
+  if (status === 'viewer') throw new Error('NOT_ADMIN');
+  if (closed_at)
+    await db
+      .update(tournaments)
+      .set({ closed_at })
+      .where(
+        and(eq(tournaments.id, tournamentId), isNull(tournaments.closed_at)),
+      )
+      .then((value) => {
+        if (!value.rowsAffected) throw new Error('TOURNAMENT_ALREADY_FINISHED');
+      });
+}

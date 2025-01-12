@@ -23,6 +23,7 @@ const Main = () => {
       {/* here is place to chose number of rounds in swiss */}
 
       {status === 'organizer' &&
+        !data.tournament.closed_at &&
         data?.tournament.ongoing_round === data.tournament.rounds_number && (
           <FinishTournamentButton
             lastRoundNumber={data.tournament.rounds_number}
