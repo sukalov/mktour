@@ -4,25 +4,25 @@ import { useTournamentAddNewPlayer } from '@/components/hooks/mutation-hooks/use
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { Button } from '@/components/ui/button';
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Slider } from '@/components/ui/slider';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { newid } from '@/lib/utils';
 import {
-  NewPlayerFormType,
-  newPlayerFormSchema,
+    NewPlayerFormType,
+    newPlayerFormSchema,
 } from '@/lib/zod/new-player-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { Loader2, Save } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { usePathname } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useHotkeys } from 'react-hotkeys-hook';
@@ -33,7 +33,7 @@ const AddNewPlayer = ({
   returnToNewPlayer,
   handleClose,
 }: AddNewPlayerProps) => {
-  const id = usePathname().split('/').at(-1) as string;
+  const { id } = useParams<{ id: string }>();
   const tournament = useTournamentInfo(id);
   const queryClient = useQueryClient();
   const { sendJsonMessage, userId } = useContext(DashboardContext);

@@ -11,7 +11,7 @@ import { Status } from '@/lib/db/queries/get-status-in-tournament';
 import { shuffle } from '@/lib/utils';
 import { useQueryClient } from '@tanstack/react-query';
 import { Loader2, Shuffle } from 'lucide-react';
-import { usePathname } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { FC, useContext } from 'react';
 
 const FabProvider: FC<FabProviderProps> = ({
@@ -30,7 +30,7 @@ const FabProvider: FC<FabProviderProps> = ({
 };
 
 const ShuffleFab = () => {
-  const tournamentId = usePathname().split('/').at(-1) as string;
+  const { id: tournamentId } = useParams<{ id: string }>();;
   const { data } = useTournamentInfo(tournamentId);
   const players = useTournamentPlayers(tournamentId);
   const games = useTournamentRoundGames({ tournamentId, roundNumber: 1 });

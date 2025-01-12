@@ -8,13 +8,13 @@ import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { delay } from 'framer-motion';
 import { ArrowLeft, Plus, UserPlus, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { usePathname } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { Drawer } from 'vaul';
 
 const AddPlayerDrawer = () => {
-  const tournamentId = usePathname().split('/').at(-1) as string;
+  const { id: tournamentId } = useParams<{ id: string }>();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
   const [elevated, setElevated] = useState<boolean>(false);

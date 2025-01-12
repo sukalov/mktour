@@ -6,23 +6,23 @@ import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament
 import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
 import { MediaQueryContext } from '@/components/providers/media-query-context';
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
 } from '@/components/ui/table';
 import { useQueryClient } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useParams } from 'next/navigation';
 
-import { usePathname } from 'next/navigation';
 import { FC, useContext } from 'react';
 import { toast } from 'sonner';
 
 const TournamentTable: FC = ({}) => {
-  const id = usePathname().split('/').at(-1) as string;
+  const { id } = useParams<{ id: string }>();
   const queryClient = useQueryClient();
   const players = useTournamentPlayers(id);
   const tournament = useTournamentInfo(id);

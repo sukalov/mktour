@@ -5,12 +5,12 @@ import { Button } from '@/components/ui/button';
 import { useQueryClient } from '@tanstack/react-query';
 import { CirclePlay, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { usePathname } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useContext } from 'react';
 
 export default function StartTournamentButton() {
   const queryClient = useQueryClient();
-  const tournamentId = usePathname().split('/').at(-1) as string;
+  const { id: tournamentId } = useParams<{ id: string }>();
   const { sendJsonMessage } = useContext(DashboardContext);
   const { data: players } = useTournamentPlayers(tournamentId);
   const startTournamentMutation = useTournamentStart(queryClient, {

@@ -13,11 +13,11 @@ import { GameModel, PlayerModel } from '@/types/tournaments';
 import { useQueryClient } from '@tanstack/react-query';
 import { ArrowRightIcon, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { usePathname } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { FC, useContext } from 'react';
 
 const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
-  const tournamentId = usePathname().split('/').at(-1) as string;
+  const { id: tournamentId } = useParams<{ id: string }>();
   const {
     data: round,
     isError,
@@ -78,12 +78,10 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
   return (
     <div className="flex w-full flex-col gap-2 px-4 pt-2">
       {roundNumber === info.data.tournament.ongoing_round &&
+        info.data.tournament.ongoing_round !==
+          info.data.tournament.rounds_number &&
         ongoingGames === 0 &&
-        status === 'organizer' &&
-        (info.data.tournament.ongoing_round ===
-        info.data.tournament.rounds_number ? (
-          <FinishTournamentButton roundNumber={roundNumber} />
-        ) : (
+        status === 'organizer' && (
           <Button className="w-full" onClick={newRound} disabled={mutating}>
             {!mutating ? (
               <ArrowRightIcon />
@@ -93,7 +91,15 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
             &nbsp;
             {t('new round button')}
           </Button>
-        ))}
+        )}
+      {status === 'organizer' &&
+        !info.data.tournament.closed_at &&
+        info.data.tournament.ongoing_round ===
+          info.data.tournament.rounds_number && (
+          <FinishTournamentButton
+            lastRoundNumber={info.data.tournament.rounds_number}
+          />
+        )}
       {sortedRound.map((game, index) => {
         return <GamesIteratee key={index} {...game} />;
       })}

@@ -8,11 +8,11 @@ import TournamentInfoList from '@/app/tournaments/[id]/dashboard/tabs/main/tourn
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { Card } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { usePathname } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { FC, useContext } from 'react';
 
 const Main = () => {
-  const tournamentId = usePathname().split('/').at(-1) as string;
+  const { id: tournamentId } = useParams<{ id: string }>();
   const { data } = useTournamentInfo(tournamentId);
   const { status } = useContext(DashboardContext);
 
@@ -22,13 +22,13 @@ const Main = () => {
       <TournamentInfoList />
       {/* here is place to chose number of rounds in swiss */}
 
-      {status !== 'organizer'
-        ? null
-        : data?.tournament.ongoing_round === data.tournament.rounds_number && (
-            <FinishTournamentButton
-              roundNumber={data.tournament.ongoing_round}
-            />
-          )}
+      {status === 'organizer' &&
+        !data.tournament.closed_at &&
+        data?.tournament.ongoing_round === data.tournament.rounds_number && (
+          <FinishTournamentButton
+            lastRoundNumber={data.tournament.rounds_number}
+          />
+        )}
 
       {status !== 'organizer' ? null : !data.tournament.started_at ? (
         <StartTournamentButton />

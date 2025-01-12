@@ -131,7 +131,8 @@
     "started": "tournament has started!",
     "ended": "tournament is finished!",
     "tmt-not-started error": "first you need to start the tournament to then set game results",
-    "ws message error": "sorry! realtime server couldn't forward this event to other viewers"
+    "ws message error": "sorry! realtime server couldn't forward this event to other viewers",
+    "finished": "tournament finished!"
   },
   "EditUser": {
     "header": "settings",

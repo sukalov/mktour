@@ -1,24 +1,24 @@
 import {
-  InfoItem,
-  LoadingElement,
+    InfoItem,
+    LoadingElement,
 } from '@/app/tournaments/[id]/dashboard/tabs/main';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { Card } from '@/components/ui/card';
 import {
-  CalendarDays,
-  Clock,
-  Dices,
-  icons,
-  NotebookPen,
-  UserRound,
+    CalendarDays,
+    Clock,
+    Dices,
+    icons,
+    NotebookPen,
+    UserRound,
 } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
-import { usePathname } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { FC } from 'react';
 import { toast } from 'sonner';
 
 const TournamentInfoList = () => {
-  const tournamentId = usePathname().split('/').at(-1) as string;
+  const { id: tournamentId } = useParams<{ id: string }>();
   const { data, isLoading, isError } = useTournamentInfo(tournamentId);
   const t = useTranslations('MakeTournament');
   const locale = useLocale();

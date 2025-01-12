@@ -18,6 +18,7 @@ type Message =
       newGames: GameModel[];
       isTournamentGoing: boolean;
     }
+  | { type: 'finish-tournament'; closed_at: Date }
   | ErrorMessage;
 
 type ErrorMessage = {
