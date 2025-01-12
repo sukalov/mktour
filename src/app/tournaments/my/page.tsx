@@ -3,7 +3,7 @@ import { validateRequest } from '@/lib/auth/lucia';
 import getTournamentsToUserClubsQuery, {
   TournamentWithClub,
 } from '@/lib/db/queries/get-tournaments-to-user-clubs-query';
-import { Link } from 'lucide-react';
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { FC } from 'react';
 
@@ -24,13 +24,18 @@ const TournamentGroups: FC<{ props: TournamentWithClub[] }> = ({ props }) => {
 
   return Object.entries(groupedTournaments).map(
     ([clubId, { clubName, tournaments }]) => {
-      const data = tournaments.map((tour) => tour.tournament);
       return (
         <div className="flex w-full flex-col gap-2" key={clubId}>
-          <Link href={`/club/${clubId}`}>
+          <Link href={`/club/${clubId}`} className="pl-3">
             <h2 className="text-muted-foreground">{clubName}</h2>
           </Link>
-          {data.map(TournamentItemIteratee)}
+          {tournaments.map((props) => (
+            <TournamentItemIteratee
+              key={props.tournament.id}
+              {...props}
+              showClubName={false}
+            />
+          ))}
         </div>
       );
     },
