@@ -1,6 +1,6 @@
-import { emptyClubCheck } from '@/app/club/create/empty-club-check';
-import ForwardToEmpryClub from '@/app/club/create/forward-to-empty-club';
-import NewClubForm, { TeamSlice } from '@/app/club/create/new-club-form';
+import { emptyClubCheck } from '@/app/clubs/create/empty-club-check';
+import ForwardToEmpryClub from '@/app/clubs/create/forward-to-empty-club';
+import NewClubForm, { TeamSlice } from '@/app/clubs/create/new-club-form';
 import { validateRequest } from '@/lib/auth/lucia';
 import { Team } from '@/types/lichess-api';
 import { redirect } from 'next/navigation';

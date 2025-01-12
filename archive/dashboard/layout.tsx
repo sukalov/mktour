@@ -10,7 +10,7 @@
 //   children,
 // }: ClubsPageLayoutProps) {
 //   const { user } = await validateRequest();
-//   if (!user) redirect('/club/all/');
+//   if (!user) redirect('/clubs/all/');
 //   await clubQueryPrefetch(user.id, user.selected_club);
 //   return (
 //     <HydrationBoundary state={dehydrate(clubQueryClient)}>

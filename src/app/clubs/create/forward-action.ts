@@ -11,5 +11,5 @@ export const forwardAction = async ({
   userId: string;
 }) => {
   await selectClub({ clubId, userId });
-  redirect('/club/dashboard');
+  redirect('/clubs/my');
 };

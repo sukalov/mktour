@@ -1,6 +1,6 @@
 'use client';
 
-import { ClubDashboardTab, tabMap } from '@/app/club/dashboard/dashboard';
+import { ClubDashboardTab, tabMap } from '@/app/clubs/my/dashboard';
 import { CLUB_DASHBOARD_NAVBAR_ITEMS } from '@/components/navigation/club-dashboard-navbar-items';
 import { MediaQueryContext } from '@/components/providers/media-query-context';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';

@@ -1,4 +1,4 @@
-import ClubsList from '@/app/club/all/clubs-list';
+import ClubsList from '@/app/clubs/all/clubs-list';
 import Center from '@/components/center';
 import getAllClubsQuery from '@/lib/db/queries/get-all-clubs-query';
 

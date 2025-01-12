@@ -1,18 +1,18 @@
 'use client';
 
-import { ClubTabProps } from '@/app/club/dashboard/dashboard';
+import { ClubTabProps } from '@/app/clubs/my/dashboard';
 import useEditClubMutation from '@/components/hooks/mutation-hooks/use-club-edit';
 import { useClubInfo } from '@/components/hooks/query-hooks/use-club-info';
 import SkeletonList from '@/components/skeleton-list';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { shallowEqual } from '@/lib/utils';

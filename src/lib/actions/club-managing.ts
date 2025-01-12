@@ -4,15 +4,15 @@ import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
 import { DatabaseUser, users } from '@/lib/db/schema/auth';
 import {
-  DatabaseClub,
-  DatabaseClubsToUsers,
-  DatabasePlayer,
-  clubs,
-  clubs_to_users,
-  games,
-  players,
-  players_to_tournaments,
-  tournaments,
+    DatabaseClub,
+    DatabaseClubsToUsers,
+    DatabasePlayer,
+    clubs,
+    clubs_to_users,
+    games,
+    players,
+    players_to_tournaments,
+    tournaments,
 } from '@/lib/db/schema/tournaments';
 import { newid } from '@/lib/utils';
 import { NewClubFormType } from '@/lib/zod/new-club-form';
@@ -43,7 +43,7 @@ export const createClub = async (values: NewClubFormType) => {
   } catch (e) {
     throw new Error(`club has NOT been saved. ${e}`);
   }
-  redirect('/club/dashboard');
+  redirect('/clubs/my');
 };
 
 export const getClubInfo = async (id: DatabaseClub['id']) => {

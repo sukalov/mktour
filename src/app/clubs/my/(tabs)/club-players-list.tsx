@@ -1,6 +1,6 @@
 'use client';
 
-import { ClubTabProps } from '@/app/club/dashboard/dashboard';
+import { ClubTabProps } from '@/app/clubs/my/dashboard';
 import Empty from '@/components/empty';
 import { useClubPlayers } from '@/components/hooks/query-hooks/use-club-players';
 import SkeletonList from '@/components/skeleton-list';

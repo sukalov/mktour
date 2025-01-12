@@ -1,6 +1,6 @@
 'use client';
 
-import { forwardAction } from '@/app/club/create/forward-action';
+import { forwardAction } from '@/app/clubs/create/forward-action';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { DatabaseClub } from '@/lib/db/schema/tournaments';

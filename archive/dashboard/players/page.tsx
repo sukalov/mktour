@@ -4,6 +4,6 @@ import { redirect } from 'next/navigation';
 
 export default async function ClubDashboardPlayers() {
   const { user } = await validateRequest();
-  if (!user) redirect('/club/all');
+  if (!user) redirect('/clubs/all');
   return <ClubPlayersList userId={user.id} />;
 }

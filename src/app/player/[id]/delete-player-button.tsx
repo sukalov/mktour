@@ -16,7 +16,7 @@ const DeletePlayer: FC<{ playerId: string; userId: string }> = ({
   const { mutate, isPending, isSuccess } = useDeletePlayerMutation(queryClient);
   const handleClick = () => mutate({ playerId, userId });
 
-  if (isSuccess) redirect('/club/dashboard');
+  if (isSuccess) redirect('/clubs/my');
 
   return (
     <Button

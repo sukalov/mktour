@@ -1,12 +1,12 @@
 'use client';
 
-import ClubPlayersList from '@/app/club/dashboard/(tabs)/club-players-list';
-import ClubSettings from '@/app/club/dashboard/(tabs)/club-settings';
-import ClubInbox from '@/app/club/dashboard/(tabs)/inbox';
-import ClubMain from '@/app/club/dashboard/(tabs)/main';
-import ClubSelect from '@/app/club/dashboard/club-select';
-import ClubDashboardTabList from '@/app/club/dashboard/dashboard-tab-list';
-import ClubDashboardTournaments from '@/app/club/tournaments-list';
+import ClubPlayersList from '@/app/clubs/my/(tabs)/club-players-list';
+import ClubSettings from '@/app/clubs/my/(tabs)/club-settings';
+import ClubInbox from '@/app/clubs/my/(tabs)/inbox';
+import ClubMain from '@/app/clubs/my/(tabs)/main';
+import ClubSelect from '@/app/clubs/my/club-select';
+import ClubDashboardTabList from '@/app/clubs/my/dashboard-tab-list';
+import ClubDashboardTournaments from '@/app/clubs/tournaments-list';
 import Loading from '@/app/loading';
 import Empty from '@/components/empty';
 import { useUser } from '@/components/hooks/query-hooks/use-user';

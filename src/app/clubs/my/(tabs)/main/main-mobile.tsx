@@ -1,4 +1,4 @@
-import { ClubTabProps } from '@/app/club/dashboard/dashboard';
+import { ClubTabProps } from '@/app/clubs/my/dashboard';
 import { InfoItem } from '@/app/tournaments/[id]/dashboard/tabs/main';
 import { Card } from '@/components/ui/card';
 import { CalendarDays, Info } from 'lucide-react';

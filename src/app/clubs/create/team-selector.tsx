@@ -1,6 +1,6 @@
 'use client';
 
-import { NewClubForm, TeamSlice } from '@/app/club/create/new-club-form';
+import { NewClubForm, TeamSlice } from '@/app/clubs/create/new-club-form';
 import { Button } from '@/components/ui/button';
 import {
   FormControl,
@@ -17,8 +17,8 @@ import {
 } from '@/components/ui/select';
 import { selectRef } from '@/lib/utils';
 import { X } from 'lucide-react';
-import { useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { useState } from 'react';
 
 export function TeamSelector({ teams, form }: TeamSelectorProps) {
   const [state, setState] = useState<boolean>(false);

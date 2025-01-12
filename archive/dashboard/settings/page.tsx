@@ -4,6 +4,6 @@ import { redirect } from 'next/navigation';
 
 export default async function ClubSettings() {
   const { user } = await validateRequest();
-  if (!user) redirect('/club/all');
+  if (!user) redirect('/clubs/all');
   return <ClubSettingsForm userId={user.id} />;
 }

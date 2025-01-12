@@ -1,7 +1,7 @@
 'use client';
 
-import ClubDescription from '@/app/club/create/description';
-import { TeamSelector } from '@/app/club/create/team-selector';
+import ClubDescription from '@/app/clubs/create/description';
+import { TeamSelector } from '@/app/clubs/create/team-selector';
 import { turboPascal } from '@/app/fonts';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';

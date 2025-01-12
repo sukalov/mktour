@@ -1,4 +1,4 @@
-import { ClubTabProps } from '@/app/club/dashboard/dashboard';
+import { ClubTabProps } from '@/app/clubs/my/dashboard';
 import Empty from '@/components/empty';
 import { useClubTournaments } from '@/components/hooks/query-hooks/use-club-tournaments';
 import SkeletonList from '@/components/skeleton-list';

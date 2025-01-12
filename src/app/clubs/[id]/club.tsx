@@ -1,7 +1,7 @@
 'use client';
 
-import ClubCard, { ClubProps } from '@/app/club/club-card';
-import ClubDashboardTournaments from '@/app/club/tournaments-list';
+import ClubCard, { ClubProps } from '@/app/clubs/club-card';
+import ClubDashboardTournaments from '@/app/clubs/tournaments-list';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 

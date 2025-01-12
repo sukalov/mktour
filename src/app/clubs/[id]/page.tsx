@@ -1,4 +1,4 @@
-import ClubPage from '@/app/club/[id]/club';
+import ClubPage from '@/app/clubs/[id]/club';
 import { db } from '@/lib/db';
 import { clubs } from '@/lib/db/schema/tournaments';
 import { eq } from 'drizzle-orm';

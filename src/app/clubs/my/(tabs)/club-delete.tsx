@@ -1,28 +1,28 @@
 'use client';
 
 import DeleteConfirmationForm, {
-  DeleteConfirmationFormProps,
-} from '@/app/club/dashboard/(tabs)/club-delete-form';
+    DeleteConfirmationFormProps,
+} from '@/app/clubs/my/(tabs)/club-delete-form';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
 } from '@/components/ui/dialog';
 import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
 } from '@/components/ui/drawer';
 import { useTranslations } from 'next-intl';
 import * as React from 'react';
