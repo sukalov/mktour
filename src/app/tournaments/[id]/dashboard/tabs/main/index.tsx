@@ -8,11 +8,11 @@ import TournamentInfoList from '@/app/tournaments/[id]/dashboard/tabs/main/tourn
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { Card } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { usePathname } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { FC, useContext } from 'react';
 
 const Main = () => {
-  const tournamentId = usePathname().split('/').at(-1) as string;
+  const { id: tournamentId } = useParams<{ id: string }>();
   const { data } = useTournamentInfo(tournamentId);
   const { status } = useContext(DashboardContext);
 

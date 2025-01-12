@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { useQueryClient } from '@tanstack/react-query';
 import { Save } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { usePathname } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useContext } from 'react';
 
 export default function FinishTournamentButton({
@@ -14,7 +14,7 @@ export default function FinishTournamentButton({
   lastRoundNumber: number;
 }) {
   const queryClient = useQueryClient();
-  const tournamentId = usePathname().split('/').at(-1) as string;
+  const { id: tournamentId } = useParams<{ id: string }>();
   const { sendJsonMessage } = useContext(DashboardContext);
   const t = useTranslations('Tournament.Main');
   const { data: round } = useTournamentRoundGames({

@@ -1,7 +1,7 @@
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import Player from '@/app/tournaments/[id]/dashboard/tabs/games/game/player';
 import Result, {
-  ResultProps,
+    ResultProps,
 } from '@/app/tournaments/[id]/dashboard/tabs/games/game/result';
 import useTournamentSetGameResult from '@/components/hooks/mutation-hooks/use-tournament-set-game-result';
 import useOutsideClick from '@/components/hooks/use-outside-click';
@@ -10,7 +10,6 @@ import { Card } from '@/components/ui/card';
 import { Result as ResultModel } from '@/types/tournaments';
 import { useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { usePathname } from 'next/navigation';
 import { FC, useCallback, useContext, useEffect, useRef } from 'react';
 
 const GameItem: FC<GameProps> = ({
@@ -21,7 +20,7 @@ const GameItem: FC<GameProps> = ({
   roundNumber,
 }) => {
   const draw = result === '1/2-1/2';
-  const tournamentId = usePathname().split('/').at(-1) as string;
+  const { id: tournamentId } = useParams<{ id: string }>();
   const { selectedGameId, setSelectedGameId, sendJsonMessage, status } =
     useContext(DashboardContext);
   const queryClient = useQueryClient();
