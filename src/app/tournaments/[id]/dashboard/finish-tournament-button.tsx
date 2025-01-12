@@ -5,15 +5,15 @@ import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 
 export default function FinishTournamentButton({
-  roundNumber,
+  lastRoundNumber,
 }: {
-  roundNumber: number;
+  lastRoundNumber: number;
 }) {
   const tournamentId = usePathname().split('/').at(-1) as string;
   const t = useTranslations('Tournament.Main');
   const { data: round } = useTournamentRoundGames({
     tournamentId,
-    roundNumber,
+    roundNumber: lastRoundNumber,
   });
 
   if (!round) return;

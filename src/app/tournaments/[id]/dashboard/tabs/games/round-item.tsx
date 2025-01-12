@@ -78,12 +78,10 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
   return (
     <div className="flex w-full flex-col gap-2 px-4 pt-2">
       {roundNumber === info.data.tournament.ongoing_round &&
+        info.data.tournament.ongoing_round !==
+          info.data.tournament.rounds_number &&
         ongoingGames === 0 &&
-        status === 'organizer' &&
-        (info.data.tournament.ongoing_round ===
-        info.data.tournament.rounds_number ? (
-          <FinishTournamentButton roundNumber={roundNumber} />
-        ) : (
+        status === 'organizer' && (
           <Button className="w-full" onClick={newRound} disabled={mutating}>
             {!mutating ? (
               <ArrowRightIcon />
@@ -93,7 +91,14 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
             &nbsp;
             {t('new round button')}
           </Button>
-        ))}
+        )}
+      {status === 'organizer' &&
+        info.data.tournament.ongoing_round ===
+          info.data.tournament.rounds_number && (
+          <FinishTournamentButton
+            lastRoundNumber={info.data.tournament.rounds_number}
+          />
+        )}
       {sortedRound.map((game, index) => {
         return <GamesIteratee key={index} {...game} />;
       })}

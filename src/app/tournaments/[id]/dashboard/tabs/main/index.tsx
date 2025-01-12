@@ -22,13 +22,12 @@ const Main = () => {
       <TournamentInfoList />
       {/* here is place to chose number of rounds in swiss */}
 
-      {status !== 'organizer'
-        ? null
-        : data?.tournament.ongoing_round === data.tournament.rounds_number && (
-            <FinishTournamentButton
-              roundNumber={data.tournament.ongoing_round}
-            />
-          )}
+      {status === 'organizer' &&
+        data?.tournament.ongoing_round === data.tournament.rounds_number && (
+          <FinishTournamentButton
+            lastRoundNumber={data.tournament.rounds_number}
+          />
+        )}
 
       {status !== 'organizer' ? null : !data.tournament.started_at ? (
         <StartTournamentButton />
