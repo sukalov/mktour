@@ -126,7 +126,7 @@ export default function NewTournamentForm({
                         ))}
                         <SelectGroup>
                           <Link
-                            href="/club/create"
+                            href="/clubs/create"
                             className="m-0 box-border h-[30px] w-full p-0"
                           >
                             <Button

@@ -26,7 +26,7 @@ const TournamentGroups: FC<{ props: TournamentWithClub[] }> = ({ props }) => {
     ([clubId, { clubName, tournaments }]) => {
       return (
         <div className="flex w-full flex-col gap-2" key={clubId}>
-          <Link href={`/club/${clubId}`} className="pl-3">
+          <Link href={`/clubs/${clubId}`} className="pl-3">
             <h2 className="text-muted-foreground">{clubName}</h2>
           </Link>
           {tournaments.map(({ tournament }) => (

@@ -20,7 +20,7 @@ const ClubItemIteratee = ({
   club: DatabaseClub;
   router: AppRouterInstance;
 }) => (
-  <div onClick={() => router.push(`/club/${club.id}`)}>
+  <div onClick={() => router.push(`/clubs/${club.id}`)}>
     <ClubCard club={club} />
   </div>
 );

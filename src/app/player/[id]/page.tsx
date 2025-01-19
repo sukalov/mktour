@@ -31,7 +31,7 @@ export default async function PlayerPage(props: PlayerPageProps) {
         <span>{player.realname}</span>
         <span>rating: {player.rating}</span>
         <p>
-          club: <Link href={`/club/${player.club_id}`}>{club.name}</Link>
+          club: <Link href={`/clubs/${player.club_id}`}>{club.name}</Link>
         </p>
       </div>
       <div className="text-muted-foreground flex flex-col gap-2 text-sm">

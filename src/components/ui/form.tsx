@@ -159,7 +159,7 @@ const FormMessage = React.forwardRef<
       <span>
         {t('lichess team connected')}&nbsp;
         <a
-          href={`${BASE_URL}/club/${teamData[1]}`}
+          href={`${BASE_URL}/clubs/${teamData[1]}`}
           className="font-semibold underline underline-offset-2"
         >
           {teamData[2]}
