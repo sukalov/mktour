@@ -174,7 +174,8 @@
     },
     "Round": {
       "round": "тур {roundInView}",
-      "new round button": "следующий тур"
+      "new round button": "следующий тур",
+      "add two players": "добавьте хотя бы двоих игроков чтобы увидеть пары первого тура"
     },
     "Table": {
       "added players error": "простите! не получилось загрузить игроков",

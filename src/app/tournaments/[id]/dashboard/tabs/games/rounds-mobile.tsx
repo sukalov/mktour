@@ -2,12 +2,12 @@
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import RoundControls from '@/app/tournaments/[id]/dashboard/tabs/games/round-controls';
 import RoundItem from '@/app/tournaments/[id]/dashboard/tabs/games/round-item';
-import Center from '@/components/center';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
 import Overlay from '@/components/overlay';
 import SkeletonList from '@/components/skeleton-list';
 import { useMutationState } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { FC, useContext } from 'react';
 
@@ -25,6 +25,7 @@ const RoundsMobile: FC = () => {
     filters: { status: 'pending' },
   });
   const { selectedGameId } = useContext(DashboardContext);
+  const t = useTranslations('Tournament.Round');
 
   if (isError || isPlayersError) {
     return (
@@ -54,7 +55,11 @@ const RoundsMobile: FC = () => {
     );
   }
   if (!players || players.length < 2)
-    return <Center>{'add at least two players to see generated round'}</Center>; // FIXME Intl
+    return (
+      <p className="text-muted-foreground p-4 text-center text-sm text-balance">
+        {t('add two players')}
+      </p>
+    );
 
   if (!data) return 'no data'; // FIXME Intl
 

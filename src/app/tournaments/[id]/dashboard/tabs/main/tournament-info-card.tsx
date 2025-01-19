@@ -1,16 +1,16 @@
 import {
-    InfoItem,
-    LoadingElement,
+  InfoItem,
+  LoadingElement,
 } from '@/app/tournaments/[id]/dashboard/tabs/main';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { Card } from '@/components/ui/card';
 import {
-    CalendarDays,
-    Clock,
-    Dices,
-    icons,
-    NotebookPen,
-    UserRound,
+  CalendarDays,
+  Clock,
+  Dices,
+  HomeIcon,
+  icons,
+  UserRound,
 } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
@@ -40,6 +40,13 @@ const TournamentInfoList = () => {
       minute: '2-digit',
     },
   );
+  const formattedClosedAt = data.tournament.closed_at?.toLocaleTimeString(
+    locale,
+    {
+      hour: '2-digit',
+      minute: '2-digit',
+    },
+  );
   const formattedDate = new Date(data.tournament.date).toLocaleDateString(
     locale,
     {
@@ -58,7 +65,7 @@ const TournamentInfoList = () => {
         {data.tournament.title}
       </div>
       <Card className="items-left flex w-full flex-col gap-8 p-4 px-8">
-        <InfoItem icon={NotebookPen} value={data.club?.name} />
+        <InfoItem icon={HomeIcon} value={data.club?.name} />
         <InfoItem icon={UserRound} value={t(`Types.${data.tournament.type}`)} />
         <InfoItem icon={Dices} value={t(data.tournament.format)} />
         <InfoItem icon={CalendarDays} value={decapitalizedWeekday} />
@@ -66,6 +73,12 @@ const TournamentInfoList = () => {
           <InfoItem
             icon={getClockIcon(data.tournament.started_at!)}
             value={formattedStartedAt}
+          />
+        )}
+        {formattedClosedAt && (
+          <InfoItem
+            icon={getClockIcon(data.tournament.closed_at!)}
+            value={formattedClosedAt}
           />
         )}
       </Card>
