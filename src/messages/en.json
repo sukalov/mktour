@@ -162,7 +162,18 @@
       "confirmation body": "all results and scores are going to be deleted. the tournament will get to 'not started' state",
       "cancel": "cancel",
       "confirm reset": "reset tournament",
-      "finish tournament": "finish tournament"
+      "finish tournament": "finish tournament",
+      "round robin": "round robin",
+      "swiss": "swiss",
+      "single elimination": "single elimination",
+      "double elimination": "double elimination",
+      "Types": {
+        "solo": "solo",
+        "doubles": "doubles",
+        "team": "team"
+      },
+      "started at": "started at",
+      "ended at": "ended at"
     },
     "Results": {
       "1-0": "1 - 0",
