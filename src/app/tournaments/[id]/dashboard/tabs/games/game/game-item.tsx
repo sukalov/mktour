@@ -4,6 +4,7 @@ import Result, {
   ResultProps,
 } from '@/app/tournaments/[id]/dashboard/tabs/games/game/result';
 import useTournamentSetGameResult from '@/components/hooks/mutation-hooks/use-tournament-set-game-result';
+import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import useOutsideClick from '@/components/hooks/use-outside-click';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -29,6 +30,7 @@ const GameItem: FC<GameProps> = ({
     tournamentId,
     sendJsonMessage,
   });
+  const { data } = useTournamentInfo(tournamentId);
   const ref = useRef<HTMLDivElement>(null);
   const selected = selectedGameId === id;
   const muted = result && !selected;
@@ -72,11 +74,16 @@ const GameItem: FC<GameProps> = ({
     }
   }, ref);
 
+  const disabled =
+    status !== 'organizer' ||
+    !!data?.tournament.closed_at ||
+    !data?.tournament.started_at;
+
   return (
     <motion.div
       key={id}
       ref={ref}
-      className={`${status !== 'organizer' && 'pointer-events-none'} cursor-pointer rounded-lg shadow-lg md:w-fit ${
+      className={`${disabled && 'pointer-events-none'} cursor-pointer rounded-lg shadow-lg md:w-fit ${
         selected ? 'z-50' : 'z-0'
       }`}
       initial={{ scale: 1, y: 0 }}
