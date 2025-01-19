@@ -67,7 +67,7 @@ export const InfoItem: FC<{
     ) : (
       <Link
         href={href!}
-        className="underline underline-offset-4 hover:opacity-90"
+        className="underline underline-offset-4 hover:opacity-75"
       >
         {value}
       </Link>
