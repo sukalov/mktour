@@ -162,7 +162,18 @@
       "reset progress": "обнулить турнир",
       "confirm reset": "сбросить турнир",
       "cancel": "отмена",
-      "finish tournament": "закончить турнир"
+      "finish tournament": "закончить турнир",
+      "round robin": "круговик",
+      "swiss": "швейцарка",
+      "single elimination": "на вылет",
+      "double elimination": "до двух поражений",
+      "Types": {
+        "solo": "одиночный",
+        "doubles": "парный",
+        "team": "командный"
+      },
+      "started at": "начался в",
+      "ended at": "закончился в"
     },
     "Results": {
       "1-0": "1 - 0",
