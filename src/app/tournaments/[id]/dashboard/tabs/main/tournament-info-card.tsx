@@ -1,7 +1,17 @@
-import { InfoItem, LoadingElement } from '@/app/tournaments/[id]/dashboard/tabs/main';
+import {
+  InfoItem,
+  LoadingElement,
+} from '@/app/tournaments/[id]/dashboard/tabs/main';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { Card } from '@/components/ui/card';
-import { CalendarDays, Clock, Dices, HomeIcon, icons, UserRound } from 'lucide-react';
+import {
+  CalendarDays,
+  Clock,
+  Dices,
+  HomeIcon,
+  icons,
+  UserRound,
+} from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
@@ -66,13 +76,13 @@ const TournamentInfoList = () => {
         {formattedStartedAt && (
           <InfoItem
             icon={getClockIcon(data.tournament.started_at!)}
-            value={`${t("started at")} ${formattedStartedAt}`}
+            value={`${t('started at')} ${formattedStartedAt}`}
           />
         )}
         {formattedClosedAt && (
           <InfoItem
             icon={getClockIcon(data.tournament.closed_at!)}
-            value={`${t("ended at")} ${formattedClosedAt}`}
+            value={`${t('ended at')} ${formattedClosedAt}`}
           />
         )}
       </Card>

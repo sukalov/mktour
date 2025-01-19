@@ -25,7 +25,8 @@ const Main = () => {
 
       {status === 'organizer' &&
         !data.tournament.closed_at &&
-        data?.tournament.ongoing_round === data.tournament.rounds_number && (
+        data?.tournament.ongoing_round === data.tournament.rounds_number &&
+        data?.tournament.started_at && (
           <FinishTournamentButton
             lastRoundNumber={data.tournament.rounds_number}
           />

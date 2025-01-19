@@ -47,7 +47,9 @@ export const createClub = async (values: NewClubFormType) => {
 };
 
 export const getClubInfo = async (id: DatabaseClub['id']) => {
-  return (await db.select().from(clubs).where(eq(clubs.id, id)))?.at(0);
+  const data = (await db.select().from(clubs).where(eq(clubs.id, id)))?.at(0);
+  if (!data) throw new Error('CLUB_NOT_FOUND');
+  return data;
 };
 
 export const getClubPlayers = async (id: DatabasePlayer['club_id']) => {

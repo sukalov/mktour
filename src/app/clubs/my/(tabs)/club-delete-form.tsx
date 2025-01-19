@@ -14,16 +14,18 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { Loader2, Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { Dispatch, SetStateAction } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 
 export default function DeleteConfirmationForm({
   className,
   id,
   userId,
+  setOpenAction,
 }: DeleteConfirmationFormProps) {
   const queryClient = useQueryClient();
   const { data, isFetching } = useClubInfo(id);
-  const clubDeleteMutation = useDeleteClubMutation(queryClient);
+  const clubDeleteMutation = useDeleteClubMutation(queryClient, setOpenAction);
   const form = useForm<DeleteClubFormType>({
     resolver: zodResolver(deleteClubFormSchema),
     values: { name: '', id },
@@ -38,13 +40,13 @@ export default function DeleteConfirmationForm({
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit((data) =>
+        onSubmit={form.handleSubmit((data) => {
           clubDeleteMutation.mutate({
             id: data.id,
             userId,
             userDeletion: false,
-          }),
-        )}
+          });
+        })}
         className={cn('grid items-start gap-6 px-4 py-0 md:px-0', className)}
         name="delete-club-form"
       >
@@ -86,8 +88,9 @@ export default function DeleteConfirmationForm({
   );
 }
 
-export interface DeleteConfirmationFormProps {
+interface DeleteConfirmationFormProps {
   className?: string;
   id: string;
   userId: string;
+  setOpenAction: Dispatch<SetStateAction<boolean>>;
 }

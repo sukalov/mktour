@@ -1,8 +1,6 @@
 'use client';
 
-import DeleteConfirmationForm, {
-  DeleteConfirmationFormProps,
-} from '@/app/clubs/my/(tabs)/club-delete-form';
+import DeleteConfirmationForm from '@/app/clubs/my/(tabs)/club-delete-form';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import {
@@ -28,10 +26,7 @@ import { useTranslations } from 'next-intl';
 import * as React from 'react';
 import { useMediaQuery } from 'react-responsive';
 
-export default function ClubDelete({
-  id,
-  userId,
-}: DeleteConfirmationFormProps) {
+export default function ClubDelete({ id, userId }: ClubDeleteProps) {
   const [open, setOpen] = React.useState(false);
   const isDesktop = useMediaQuery({ minWidth: 768 });
   const t = useTranslations('Club.Settings');
@@ -49,7 +44,11 @@ export default function ClubDelete({
                 <DialogTitle>{t('confirmation title')}</DialogTitle>
                 <DialogDescription>{t('confirmation body')}</DialogDescription>
               </DialogHeader>
-              <DeleteConfirmationForm id={id} userId={userId} />
+              <DeleteConfirmationForm
+                id={id}
+                userId={userId}
+                setOpenAction={setOpen}
+              />
               <DialogClose asChild>
                 <Button variant="outline">{t('cancel')}</Button>
               </DialogClose>
@@ -73,7 +72,11 @@ export default function ClubDelete({
               <DrawerTitle>{t('confirmation title')}</DrawerTitle>
               <DrawerDescription>{t('confirmation body')}</DrawerDescription>
             </DrawerHeader>
-            <DeleteConfirmationForm id={id} userId={userId} />
+            <DeleteConfirmationForm
+              id={id}
+              userId={userId}
+              setOpenAction={setOpen}
+            />
             <DrawerFooter className="pt-2">
               <DrawerClose asChild>
                 <Button variant="outline">{t('cancel')}</Button>
@@ -84,4 +87,10 @@ export default function ClubDelete({
       </CardContent>
     </Card>
   );
+}
+
+interface ClubDeleteProps {
+  className?: string;
+  id: string;
+  userId: string;
 }

@@ -15,7 +15,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { selectRef } from '@/lib/utils';
 import { X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
@@ -60,7 +59,7 @@ export function TeamSelector({ teams, form }: TeamSelectorProps) {
                 <SelectValue placeholder={t('connect lichess team')} />
               </SelectTrigger>
             </FormControl>
-            <SelectContent ref={selectRef}>
+            <SelectContent>
               {teams.map((team) => (
                 <SelectItem
                   key={team.value}
