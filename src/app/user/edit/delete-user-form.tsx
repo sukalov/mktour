@@ -59,7 +59,7 @@ export default function DeleteUserForm({
           userDeleteMutation.mutate({ userId }),
         )}
         className={cn('grid items-start gap-6 px-4 py-0 md:px-0', className)}
-        name="delete-club-form"
+        name="delete-user-form"
       >
         <FormField
           control={form.control}
