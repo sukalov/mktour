@@ -1,7 +1,7 @@
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import Player from '@/app/tournaments/[id]/dashboard/tabs/games/game/player';
 import Result, {
-    ResultProps,
+  ResultProps,
 } from '@/app/tournaments/[id]/dashboard/tabs/games/game/result';
 import useTournamentSetGameResult from '@/components/hooks/mutation-hooks/use-tournament-set-game-result';
 import useOutsideClick from '@/components/hooks/use-outside-click';

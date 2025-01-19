@@ -6,12 +6,12 @@ import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament
 import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
 import { MediaQueryContext } from '@/components/providers/media-query-context';
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from '@/components/ui/table';
 import { useQueryClient } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';

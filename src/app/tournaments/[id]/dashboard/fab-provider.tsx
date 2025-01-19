@@ -30,7 +30,7 @@ const FabProvider: FC<FabProviderProps> = ({
 };
 
 const ShuffleFab = () => {
-  const { id: tournamentId } = useParams<{ id: string }>();;
+  const { id: tournamentId } = useParams<{ id: string }>();
   const { data } = useTournamentInfo(tournamentId);
   const players = useTournamentPlayers(tournamentId);
   const games = useTournamentRoundGames({ tournamentId, roundNumber: 1 });

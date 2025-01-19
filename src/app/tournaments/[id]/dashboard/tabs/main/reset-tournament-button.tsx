@@ -4,23 +4,23 @@ import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-con
 import useTournamentReset from '@/components/hooks/mutation-hooks/use-tournament-reset';
 import { Button } from '@/components/ui/button';
 import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
 } from '@/components/ui/dialog';
 import {
-    Drawer,
-    DrawerClose,
-    DrawerContent,
-    DrawerDescription,
-    DrawerFooter,
-    DrawerHeader,
-    DrawerTitle,
-    DrawerTrigger,
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
 } from '@/components/ui/drawer';
 import { useQueryClient } from '@tanstack/react-query';
 import { CircleX, Loader2 } from 'lucide-react';
