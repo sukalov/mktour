@@ -8,6 +8,7 @@ import TournamentInfoList from '@/app/tournaments/[id]/dashboard/tabs/main/tourn
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { Card } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC, useContext } from 'react';
 
@@ -56,10 +57,20 @@ export const LoadingElement = () => {
 export const InfoItem: FC<{
   icon: FC;
   value: string | number | null | undefined;
-}> = ({ icon: Icon, value }) => (
+  href?: string;
+}> = ({ icon: Icon, value, href }) => (
   <div className="flex gap-2">
     <Icon />
-    {value}
+    {!href ? (
+      <span>{value}</span>
+    ) : (
+      <Link
+        href={href!}
+        className="underline underline-offset-4 hover:opacity-90"
+      >
+        {value}
+      </Link>
+    )}
   </div>
 );
 
