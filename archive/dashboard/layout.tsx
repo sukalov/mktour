@@ -14,7 +14,7 @@
 //   await clubQueryPrefetch(user.id, user.selected_club);
 //   return (
 //     <HydrationBoundary state={dehydrate(clubQueryClient)}>
-//       <SubNavbar items={CLUB_DASHBOARD_NAVBAR_ITEMS} root="/club/dashboard/" />
+//       <SubNavbar items={CLUB_DASHBOARD_NAVBAR_ITEMS} root="/clubs/my/" />
 //       <div className="pt-12">
 //         <div className="px-1">
 //           <ClubSelect userId={user.id} />

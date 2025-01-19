@@ -14,7 +14,7 @@ Authorization: Bearer lip_D8TJFPK1r8qd9m7sXmxI
 
 
 ###
-POST http://localhost:3000/club/dashboard
+POST http://localhost:3000/clubs/my
 Content-Type: application/json
 accept: text/x-component
 accept-encoding: gzip, deflate, br, zstd
@@ -27,7 +27,7 @@ host: localhost:3000
 next-action: 85068ca603daaee03a3759d660cba749e4e53f1c
 next-router-state-tree: %5B%22%22%2C%7B%22children%22%3A%5B%22club%22%2C%7B%22children%22%3A%5B%22dashboard%22%2C%7B%22children%22%3A%5B%22__PAGE__%22%2C%7B%7D%2C%22%2Fclub%2Fdashboard%22%2C%22refresh%22%5D%7D%5D%7D%5D%7D%2Cnull%2Cnull%2Ctrue%5D
 origin: http://localhost:3000
-referer: http://localhost:3000/club/dashboard
+referer: http://localhost:3000/clubs/my
 sec-ch-ua: "Not)A;Brand";v="99", "Google Chrome";v="127", "Chromium";v="127"
 sec-ch-ua-mobile: ?0
 sec-ch-ua-platform: "macOS"

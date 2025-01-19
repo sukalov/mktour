@@ -80,7 +80,7 @@ const ClubList: FC<ClubListProps> = ({ clubs, isPending, mutate }) => {
         {clubs.map((club) => (
           <li key={club.id}>
             <Link
-              href={`/club/dashboard`}
+              href={`/clubs/my`}
               onClick={() => club.id && mutate(club.id)} // FIXME maybe find a better way
             >
               <Card className="min-h-8 p-4">{club.name}</Card>
