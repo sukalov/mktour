@@ -5,7 +5,6 @@ import AddPlayer from '@/app/tournaments/[id]/dashboard/tabs/table/add-player/ad
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { Button } from '@/components/ui/button';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
-import { delay } from 'framer-motion';
 import { ArrowLeft, Plus, UserPlus, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
@@ -57,7 +56,7 @@ const AddPlayerDrawer = () => {
   };
 
   useEffect(() => {
-    !open && delay(() => setElevated(open), 500);
+    !open && setElevated(open);
   }, [open]);
 
   const { data: tournamentInfo } = useTournamentInfo(tournamentId);
