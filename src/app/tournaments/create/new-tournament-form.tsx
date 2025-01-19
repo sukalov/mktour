@@ -115,7 +115,7 @@ export default function NewTournamentForm({
                     <SelectContent
                       ref={(ref) => {
                         if (!ref) return;
-                        ref.ontouchstart = (e) => e.preventDefault();
+                        // ref.ontouchstart = (e) => e.preventDefault();
                       }}
                     >
                       <SelectGroup>
@@ -175,7 +175,7 @@ export default function NewTournamentForm({
                     <SelectContent
                       ref={(ref) => {
                         if (!ref) return;
-                        ref.ontouchstart = (e) => e.preventDefault();
+                        // ref.ontouchstart = (e) => e.preventDefault();
                       }}
                     >
                       <SelectGroup>
