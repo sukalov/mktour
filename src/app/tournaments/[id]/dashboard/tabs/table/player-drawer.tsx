@@ -15,7 +15,7 @@ import { FC, ReactElement } from 'react';
 
 const PlayerDrawer: FC<{
   player: PlayerModel | null;
-  setSelectedPlayer: (arg: null) => void;
+  setSelectedPlayer: (_arg: null) => void;
   onDelete: () => void;
   destructiveButton: ReactElement;
 }> = ({ player, setSelectedPlayer, destructiveButton }) => (

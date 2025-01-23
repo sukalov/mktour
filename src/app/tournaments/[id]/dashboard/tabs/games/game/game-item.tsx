@@ -144,7 +144,7 @@ const GameItem: FC<GameProps> = ({
 
 const StartTournamentDrawer: FC<{
   open: boolean;
-  setOpen: (arg: boolean) => void;
+  setOpen: (_arg: boolean) => void;
 }> = ({ open, setOpen }) => {
   return (
     <Drawer open={open} onClose={() => setOpen(false)}>
