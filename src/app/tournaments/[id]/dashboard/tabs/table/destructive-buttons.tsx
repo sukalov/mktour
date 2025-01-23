@@ -17,7 +17,7 @@ export const DeleteButton: FC<{ handleDelete: () => void }> = ({
   handleDelete,
 }) => (
   <Button
-    className="flex justify-start gap-2 text-start"
+    className="flex gap-2"
     size="lg"
     variant="destructive"
     onClick={handleDelete}
@@ -62,7 +62,7 @@ export const WithdrawButtonWithConfirmation: FC<{
           </Button>
           <DrawerClose asChild>
             <Button size="lg" className="w-full" variant="outline">
-              <FormattedMessage id="Common.cancel" />
+              <FormattedMessage id="Common.close" />
             </Button>
           </DrawerClose>
         </div>

@@ -35,7 +35,7 @@ const PlayerDrawer: FC<{
         {destructiveButton}
         <DrawerClose asChild>
           <Button size="lg" variant="outline">
-            <FormattedMessage id="Common.back" />
+            <FormattedMessage id="Common.close" />
           </Button>
         </DrawerClose>
       </div>

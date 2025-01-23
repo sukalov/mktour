@@ -5,7 +5,8 @@
     "cancel": "cancel",
     "login": "log in",
     "logout": "log out",
-    "confirm": "are you sure?"
+    "confirm": "are you sure?",
+    "close": "close"
   },
   "Menu": {
     "club": "club",
