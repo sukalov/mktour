@@ -3,6 +3,7 @@ import { useTournamentAddNewPlayer } from '@/components/hooks/mutation-hooks/use
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { Button } from '@/components/ui/button';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
+import { newid } from '@/lib/utils';
 import { faker } from '@faker-js/faker';
 import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
@@ -29,7 +30,7 @@ const AddFakerPlayer: FC<{ setOpen: (_arg: boolean) => void }> = ({
       : faker.person.fullName();
 
   const player: DatabasePlayer = {
-    id: faker.string.uuid(),
+    id: newid(),
     nickname,
     realname: null,
     club_id: tournament.data?.club?.id!,
