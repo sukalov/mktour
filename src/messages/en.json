@@ -193,7 +193,11 @@
     "Round": {
       "round": "round {roundInView}",
       "new round button": "next round",
-      "add two players": "add at least two players to see generated round"
+      "add two players": "add at least two players to see generated round",
+      "start tournament": {
+        "title": "start tournament?",
+        "description": "you have to start tournament before saving results"
+      }
     },
     "Table": {
       "added players error": "sorry! couldn't get added players from the server",
