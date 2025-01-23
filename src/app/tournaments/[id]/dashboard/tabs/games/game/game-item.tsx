@@ -73,7 +73,7 @@ const GameItem: FC<GameProps> = ({
     <motion.div
       key={id}
       ref={ref}
-      className={`${disabled && 'pointer-events-none'} cursor-pointer rounded-lg shadow-lg md:w-fit ${
+      className={`${disabled && 'pointer-events-none'} cursor-pointer rounded-lg shadow-md md:w-fit ${
         selected ? 'z-50' : 'z-0'
       }`}
       initial={{ scale: 1, y: 0 }}
