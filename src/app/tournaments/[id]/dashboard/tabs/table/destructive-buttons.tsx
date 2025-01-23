@@ -17,7 +17,7 @@ export const DeleteButton: FC<{ handleDelete: () => void }> = ({
   handleDelete,
 }) => (
   <Button
-    className="flex justify-start gap-4 text-start"
+    className="flex justify-start gap-2 text-start"
     size="lg"
     variant="destructive"
     onClick={handleDelete}
@@ -49,7 +49,7 @@ export const WithdrawButtonWithConfirmation: FC<{
         </DrawerHeader>
         <div className="flex w-full flex-col gap-4 p-4 pt-0">
           <Button
-            className="flex w-full gap-3"
+            className="flex w-full gap-2"
             size="lg"
             onClick={console.log} // FIXME handle Withdraw from tournament
             variant="destructive"
