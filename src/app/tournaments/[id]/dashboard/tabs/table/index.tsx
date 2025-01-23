@@ -1,6 +1,11 @@
 'use client';
 
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
+import {
+  DeleteButton,
+  WithdrawButtonWithConfirmation,
+} from '@/app/tournaments/[id]/dashboard/tabs/table/destructive-buttons';
+import PlayerDrawer from '@/app/tournaments/[id]/dashboard/tabs/table/player-drawer';
 import { useTournamentRemovePlayer } from '@/components/hooks/mutation-hooks/use-tournament-remove-player';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
@@ -13,12 +18,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { PlayerModel } from '@/types/tournaments';
 import { useQueryClient } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
-
-import { FC, useContext } from 'react';
+import { FC, useContext, useState } from 'react';
 import { toast } from 'sonner';
 
 const TournamentTable: FC = ({}) => {
@@ -34,6 +39,10 @@ const TournamentTable: FC = ({}) => {
   );
   const { userId } = useContext(DashboardContext);
   const t = useTranslations('Tournament.Table');
+  const [selectedPlayer, setSelectedPlayer] = useState<PlayerModel | null>(
+    null,
+  );
+  const hasStarted = !!tournament.data?.tournament.started_at;
 
   if (players.isLoading) return <TableLoading />;
   if (players.isError) {
@@ -44,52 +53,61 @@ const TournamentTable: FC = ({}) => {
     return <TableLoading />;
   }
 
+  const handleDelete = () => {
+    if (userId && status === 'organizer' && !hasStarted) {
+      removePlayers.mutate({
+        tournamentId: id,
+        playerId: selectedPlayer!.id,
+        userId,
+      });
+      setSelectedPlayer(null);
+    }
+  };
+
+  // prettier-ignore
+  const destructiveButton = hasStarted 
+    ? <WithdrawButtonWithConfirmation selectedPlayer={selectedPlayer} />
+    : <DeleteButton handleDelete={handleDelete} />
+
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead className="pr-0 pl-4">#</TableHead>
-          <TableHead className="pl-0">
-            {t('name column', { number: players.data?.length ?? 0 })}
-          </TableHead>
-          <TableStatsHeads />
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {players.data?.map((player, i) => (
-          <TableRow
-            key={player.id}
-            onClick={() => {
-              if (
-                userId &&
-                status === 'organizer' &&
-                tournament.data?.tournament.started_at === null
-              ) {
-                removePlayers.mutate({
-                  tournamentId: id,
-                  playerId: player.id,
-                  userId,
-                });
-              }
-            }}
-          >
-            <TableCell className="font-small pr-0 pl-4">{i + 1}</TableCell>
-            <TableCell className="font-small max-w-[150px] truncate pl-0">
-              {player.nickname}
-            </TableCell>
-            <TableCell className="px-1 text-center font-medium">
-              {player.wins}
-            </TableCell>
-            <TableCell className="px-1 text-center font-medium">
-              {player.draws}
-            </TableCell>
-            <TableCell className="px-1 pr-2 text-center font-medium">
-              {player.losses}
-            </TableCell>
+    <>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="pr-0 pl-4">#</TableHead>
+            <TableHead className="pl-0">
+              {t('name column', { number: players.data?.length ?? 0 })}
+            </TableHead>
+            <TableStatsHeads />
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHeader>
+        <TableBody>
+          {players.data?.map((player, i) => (
+            <TableRow key={player.id} onClick={() => setSelectedPlayer(player)}>
+              <TableCell className="font-small pr-0 pl-4">{i + 1}</TableCell>
+              <TableCell className="font-small max-w-[150px] truncate pl-0">
+                {player.nickname}
+              </TableCell>
+              <TableCell className="px-1 text-center font-medium">
+                {player.wins}
+              </TableCell>
+              <TableCell className="px-1 text-center font-medium">
+                {player.draws}
+              </TableCell>
+              <TableCell className="px-1 pr-2 text-center font-medium">
+                {player.losses}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      <PlayerDrawer
+        player={selectedPlayer}
+        setSelectedPlayer={setSelectedPlayer}
+        onDelete={handleDelete}
+        destructiveButton={destructiveButton}
+      />
+    </>
   );
 };
 

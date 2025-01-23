@@ -1,5 +1,12 @@
 {
   "locale": "ru",
+  "Common": {
+    "back": "назад",
+    "cancel": "отмена",
+    "login": "войти",
+    "logout": "выйти",
+    "confirm": "вы уверены?"
+  },
   "Menu": {
     "club": "клубы",
     "tournaments": "турниры",
@@ -202,6 +209,15 @@
           "wins": "в",
           "draws": "н",
           "losses": "п"
+        }
+      },
+      "Player": {
+        "profile": "профиль",
+        "delete": "удалить из турнира",
+        "Withdraw": {
+          "withdraw": "выписать из турнира",
+          "confirm": "выписать {nickname}",
+          "description": "удалённого игрока нельзя будет вернуть"
         }
       }
     },

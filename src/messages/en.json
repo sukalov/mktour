@@ -1,5 +1,12 @@
 {
   "locale": "en",
+  "Common": {
+    "back": "back",
+    "cancel": "cancel",
+    "login": "log in",
+    "logout": "log out",
+    "confirm": "are you sure?"
+  },
   "Menu": {
     "club": "club",
     "tournaments": "tournaments",
@@ -202,6 +209,15 @@
           "wins": "w",
           "draws": "d",
           "losses": "l"
+        }
+      },
+      "Player": {
+        "profile": "profile",
+        "delete": "delete from tournament",
+        "Withdraw": {
+          "withdraw": "withdraw from tournament",
+          "confirm": "withdraw {nickname}",
+          "description": "this cannot be undone"
         }
       }
     },
