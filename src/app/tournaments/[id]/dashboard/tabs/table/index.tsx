@@ -144,9 +144,9 @@ const NicknameWithStatus: FC<{ player: PlayerModel; hasEnded: boolean }> = ({
   player,
   hasEnded,
 }) => {
-  if (!hasEnded && player.exited)
+  if (hasEnded && !player.exited)
     return (
-      <div className="flex items-center gap-2 line-through opacity-50">
+      <div className="flex items-center gap-2 opacity-50">
         {player.nickname}
         <UserRoundX className="size-4" />
       </div>
