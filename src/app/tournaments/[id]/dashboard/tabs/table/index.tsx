@@ -1,10 +1,6 @@
 'use client';
 
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
-import {
-  DeleteButton,
-  WithdrawButtonWithConfirmation,
-} from '@/app/tournaments/[id]/dashboard/tabs/table/destructive-buttons';
 import PlayerDrawer from '@/app/tournaments/[id]/dashboard/tabs/table/player-drawer';
 import { useTournamentRemovePlayer } from '@/components/hooks/mutation-hooks/use-tournament-remove-player';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
@@ -56,20 +52,15 @@ const TournamentTable: FC = ({}) => {
 
   const handleDelete = () => {
     if (userId && status === 'organizer' && !hasStarted) {
-      removePlayers.mutate({
-        tournamentId: id,
-        playerId: selectedPlayer!.id,
-        userId,
-      });
-      setSelectedPlayer(null);
+      removePlayers.mutate(
+        {
+          tournamentId: id,
+          playerId: selectedPlayer!.id,
+          userId,
+        },
+        { onSuccess: () => setSelectedPlayer(null) },
+      );
     }
-  };
-
-  const DestructiveButton = () => {
-    if (hasEnded) return null;
-    if (hasStarted)
-      return <WithdrawButtonWithConfirmation selectedPlayer={selectedPlayer} />;
-    return <DeleteButton handleDelete={handleDelete} />;
   };
 
   return (
@@ -104,12 +95,15 @@ const TournamentTable: FC = ({}) => {
           ))}
         </TableBody>
       </Table>
-      <PlayerDrawer
-        player={selectedPlayer}
-        setSelectedPlayer={setSelectedPlayer}
-        onDelete={handleDelete}
-        DestructiveButton={DestructiveButton}
-      />
+      {selectedPlayer && (
+        <PlayerDrawer
+          player={selectedPlayer}
+          setSelectedPlayer={setSelectedPlayer}
+          handleDelete={handleDelete}
+          hasStarted={hasStarted}
+          hasEnded={hasEnded}
+        />
+      )}
     </>
   );
 };
