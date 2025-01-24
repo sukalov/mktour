@@ -822,9 +822,11 @@ export async function finishTournament({
 }) {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
+
   const status = await getStatusInTournament(user, tournamentId);
   if (status === 'viewer') throw new Error('NOT_ADMIN');
-  if (closed_at)
+
+  if (closed_at) {
     await db
       .update(tournaments)
       .set({ closed_at })
@@ -834,4 +836,24 @@ export async function finishTournament({
       .then((value) => {
         if (!value.rowsAffected) throw new Error('TOURNAMENT_ALREADY_FINISHED');
       });
+  }
+
+  //// NB following block is chatGPT generated and needs review:
+  const players = await getTournamentPlayers(tournamentId);
+  players.forEach((player, index) => {
+    player.place = index + 1;
+  });
+  const updates = players.map((player) =>
+    db
+      .update(players_to_tournaments)
+      .set({ place: player.place })
+      .where(
+        and(
+          eq(players_to_tournaments.tournament_id, tournamentId),
+          eq(players_to_tournaments.player_id, player.id),
+        ),
+      ),
+  );
+  await Promise.all(updates);
+  ////
 }
