@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/table';
 import { PlayerModel } from '@/types/tournaments';
 import { useQueryClient } from '@tanstack/react-query';
-import { Loader2 } from 'lucide-react';
+import { Loader2, UserRoundX } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { FC, useContext, useState } from 'react';
@@ -77,10 +77,14 @@ const TournamentTable: FC = ({}) => {
         </TableHeader>
         <TableBody>
           {players.data?.map((player, i) => (
-            <TableRow key={player.id} onClick={() => setSelectedPlayer(player)}>
-              <TableCell className="font-small pr-0 pl-4">{i + 1}</TableCell>
+            <TableRow
+              key={player.id}
+              className={`backdrop-blur-2xl`}
+              onClick={() => setSelectedPlayer(player)}
+            >
+              <TableCell className={`font-small pr-0 pl-4`}>{i + 1}</TableCell>
               <TableCell className="font-small max-w-[150px] truncate pl-0">
-                {player.nickname}
+                <NicknameWithStatus player={player} hasEnded={hasEnded} />
               </TableCell>
               <TableCell className="px-1 text-center font-medium">
                 {player.wins}
@@ -132,6 +136,35 @@ const TableLoading = () => {
     <div className="mt-12 flex h-[calc(100svh-13rem)] w-full flex-auto items-center justify-center">
       <span className="sr-only">{t('loading')}</span>
       <Loader2 className="h-16 w-16 animate-spin" />
+    </div>
+  );
+};
+
+const NicknameWithStatus: FC<{ player: PlayerModel; hasEnded: boolean }> = ({
+  player,
+  hasEnded,
+}) => {
+  if (!hasEnded && player.exited)
+    return (
+      <div className="flex items-center gap-2 line-through opacity-50">
+        {player.nickname}
+        <UserRoundX className="size-4" />
+      </div>
+    );
+  if (!hasEnded || !player.place || player.place > 3) return player.nickname;
+
+  const place = player.place;
+  const medalColour = ['bg-amber-300', 'bg-amber-500', 'bg-amber-700'];
+  const medal = (
+    <div
+      className={`aspect-square size-4 rounded-full ${medalColour[place - 1]}`}
+    />
+  );
+
+  return (
+    <div className="flex items-center gap-2">
+      {player.nickname}
+      {medal}
     </div>
   );
 };
