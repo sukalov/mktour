@@ -79,7 +79,7 @@ const GameItem: FC<GameProps> = ({
       initial={{ scale: 1, y: 0 }}
       animate={selected ? { scale: 1.05, y: -10 } : { scale: 1, y: 0 }}
       transition={{ type: 'spring', bounce: 0.5 }}
-      onClick={() => setSelectedGameId(id)}
+      onClick={() => setSelectedGameId(!selected ? id : null)}
     >
       <Card
         className={`grid ${muted && 'opacity-50'} h-16 w-full grid-cols-3 items-center gap-2 border p-2 text-sm transition-all select-none ${!selected && 'pointer-events-none'} md:max-w-72`}
