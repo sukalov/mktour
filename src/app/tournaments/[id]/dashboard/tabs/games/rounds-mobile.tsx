@@ -41,6 +41,8 @@ const RoundsMobile: FC = () => {
     filters: { status: 'pending' },
   });
   const t = useTranslations('Tournament.Round');
+
+  ///// TODO Probably should move this block elsewhere
   const [openDrawer, setOpenDrawer] = useState(false);
   const now = new Date().getTime();
   const startedAt = new Date(data?.tournament.started_at!).getTime();
@@ -50,6 +52,7 @@ const RoundsMobile: FC = () => {
     if (!startedAt && !!selectedGameId) setOpenDrawer(true);
     if (startedAt) setOpenDrawer(false);
   }, [selectedGameId, startedAt]);
+  /////
 
   if (isError || isPlayersError) {
     return (
