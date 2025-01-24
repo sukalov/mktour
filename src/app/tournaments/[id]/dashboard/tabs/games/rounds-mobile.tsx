@@ -23,8 +23,13 @@ import { useParams } from 'next/navigation';
 import { FC, useContext, useEffect, useState } from 'react';
 
 const RoundsMobile: FC = () => {
-  const { currentTab, roundInView, setRoundInView, selectedGameId } =
-    useContext(DashboardContext);
+  const {
+    currentTab,
+    roundInView,
+    setRoundInView,
+    selectedGameId,
+    setSelectedGameId,
+  } = useContext(DashboardContext);
   const { id } = useParams<{ id: string }>();
   const { data, isError, isLoading } = useTournamentInfo(id);
   const {
@@ -36,13 +41,15 @@ const RoundsMobile: FC = () => {
     filters: { status: 'pending' },
   });
   const t = useTranslations('Tournament.Round');
-  const hasStarted = !!data?.tournament.started_at;
   const [openDrawer, setOpenDrawer] = useState(false);
+  const now = new Date().getTime();
+  const startedAt = new Date(data?.tournament.started_at!).getTime();
+  const renderDrawer = !startedAt || now - startedAt <= 5000;
 
   useEffect(() => {
-    if (!hasStarted && !!selectedGameId) setOpenDrawer(true);
-    if (hasStarted) setOpenDrawer(false);
-  }, [selectedGameId, hasStarted]);
+    if (!startedAt && !!selectedGameId) setOpenDrawer(true);
+    if (startedAt) setOpenDrawer(false);
+  }, [selectedGameId, startedAt]);
 
   if (isError || isPlayersError) {
     return (
@@ -56,6 +63,7 @@ const RoundsMobile: FC = () => {
       </div>
     );
   }
+
   if (isLoading || isPlayersloading || mutations.length > 1) {
     return (
       <div>
@@ -71,12 +79,14 @@ const RoundsMobile: FC = () => {
       </div>
     );
   }
-  if (!players || players.length < 2)
+
+  if (!players || players.length < 2) {
     return (
       <p className="text-muted-foreground p-4 text-center text-sm text-balance">
         {t('add two players')}
       </p>
     );
+  }
 
   if (!data) return 'no data'; // FIXME Intl
 
@@ -90,37 +100,40 @@ const RoundsMobile: FC = () => {
         currentTab={currentTab}
       />
       <RoundItem roundNumber={roundInView} />
-      <StartTournamentDrawer open={openDrawer} setOpen={setOpenDrawer} />
+      {renderDrawer && (
+        <StartTournamentDrawer
+          open={openDrawer}
+          onClose={() => setOpenDrawer(false)}
+        />
+      )}
     </div>
   );
 };
 
 const StartTournamentDrawer: FC<{
   open: boolean;
-  setOpen: (_arg: boolean) => void;
-}> = ({ open, setOpen }) => {
-  return (
-    <Drawer open={open} onClose={() => setOpen(false)}>
-      <DrawerContent>
-        <DrawerHeader className="text-left">
-          <DrawerTitle>
-            <FormattedMessage id="Tournament.Round.start tournament.title" />
-          </DrawerTitle>
-          <DrawerDescription>
-            <FormattedMessage id="Tournament.Round.start tournament.description" />
-          </DrawerDescription>
-        </DrawerHeader>
-        <div className="flex w-full flex-col gap-4 p-4 pt-0">
-          <StartTournamentButton />
-          <DrawerClose asChild>
-            <Button size="lg" variant="outline">
-              <FormattedMessage id="Common.cancel" />
-            </Button>
-          </DrawerClose>
-        </div>
-      </DrawerContent>
-    </Drawer>
-  );
-};
+  onClose: () => void;
+}> = ({ open, onClose }) => (
+  <Drawer open={open} onClose={onClose}>
+    <DrawerContent>
+      <DrawerHeader className="text-left">
+        <DrawerTitle>
+          <FormattedMessage id="Tournament.Round.start tournament.title" />
+        </DrawerTitle>
+        <DrawerDescription>
+          <FormattedMessage id="Tournament.Round.start tournament.description" />
+        </DrawerDescription>
+      </DrawerHeader>
+      <div className="flex w-full flex-col gap-4 p-4 pt-0">
+        <StartTournamentButton />
+        <DrawerClose asChild>
+          <Button size="lg" variant="outline">
+            <FormattedMessage id="Common.cancel" />
+          </Button>
+        </DrawerClose>
+      </div>
+    </DrawerContent>
+  </Drawer>
+);
 
 export default RoundsMobile;
