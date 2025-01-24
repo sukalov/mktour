@@ -41,18 +41,9 @@ const RoundsMobile: FC = () => {
     filters: { status: 'pending' },
   });
   const t = useTranslations('Tournament.Round');
-
-  ///// TODO Probably should move this block elsewhere
-  const [openDrawer, setOpenDrawer] = useState(false);
   const now = new Date().getTime();
-  const startedAt = new Date(data?.tournament.started_at!).getTime();
+  const startedAt = data?.tournament.started_at?.getTime();
   const renderDrawer = !startedAt || now - startedAt <= 5000;
-
-  useEffect(() => {
-    if (!startedAt && !!selectedGameId) setOpenDrawer(true);
-    if (startedAt) setOpenDrawer(false);
-  }, [selectedGameId, startedAt]);
-  /////
 
   if (isError || isPlayersError) {
     return (
@@ -103,40 +94,44 @@ const RoundsMobile: FC = () => {
         currentTab={currentTab}
       />
       <RoundItem roundNumber={roundInView} />
-      {renderDrawer && (
-        <StartTournamentDrawer
-          open={openDrawer}
-          onClose={() => setOpenDrawer(false)}
-        />
-      )}
+      {renderDrawer && <StartTournamentDrawer startedAt={startedAt} />}
     </div>
   );
 };
 
 const StartTournamentDrawer: FC<{
-  open: boolean;
-  onClose: () => void;
-}> = ({ open, onClose }) => (
-  <Drawer open={open} onClose={onClose}>
-    <DrawerContent>
-      <DrawerHeader className="text-left">
-        <DrawerTitle>
-          <FormattedMessage id="Tournament.Round.start tournament.title" />
-        </DrawerTitle>
-        <DrawerDescription>
-          <FormattedMessage id="Tournament.Round.start tournament.description" />
-        </DrawerDescription>
-      </DrawerHeader>
-      <div className="flex w-full flex-col gap-4 p-4 pt-0">
-        <StartTournamentButton />
-        <DrawerClose asChild>
-          <Button size="lg" variant="outline">
-            <FormattedMessage id="Common.cancel" />
-          </Button>
-        </DrawerClose>
-      </div>
-    </DrawerContent>
-  </Drawer>
-);
+  startedAt: number | undefined;
+}> = ({ startedAt }) => {
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const { selectedGameId } = useContext(DashboardContext);
+
+  useEffect(() => {
+    if (!startedAt && !!selectedGameId) setOpenDrawer(true);
+    if (startedAt) setOpenDrawer(false);
+  }, [selectedGameId, startedAt]);
+
+  return (
+    <Drawer open={openDrawer} onClose={() => setOpenDrawer(false)}>
+      <DrawerContent>
+        <DrawerHeader className="text-left">
+          <DrawerTitle>
+            <FormattedMessage id="Tournament.Round.start tournament.title" />
+          </DrawerTitle>
+          <DrawerDescription>
+            <FormattedMessage id="Tournament.Round.start tournament.description" />
+          </DrawerDescription>
+        </DrawerHeader>
+        <div className="flex w-full flex-col gap-4 p-4 pt-0">
+          <StartTournamentButton />
+          <DrawerClose asChild>
+            <Button size="lg" variant="outline">
+              <FormattedMessage id="Common.cancel" />
+            </Button>
+          </DrawerClose>
+        </div>
+      </DrawerContent>
+    </Drawer>
+  );
+};
 
 export default RoundsMobile;

@@ -7,6 +7,9 @@ const useOutsideClick = (
 ) => {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+      const target = event.target as Element | null;
+
+      if (target && target.classList.contains('isolate-touch')) return;
       if (ref.current && !ref.current.contains(event.target)) {
         handler();
       }
