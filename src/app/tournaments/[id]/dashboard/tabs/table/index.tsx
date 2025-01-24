@@ -43,6 +43,7 @@ const TournamentTable: FC = ({}) => {
     null,
   );
   const hasStarted = !!tournament.data?.tournament.started_at;
+  const hasEnded = !!tournament.data?.tournament.closed_at;
 
   if (players.isLoading) return <TableLoading />;
   if (players.isError) {
@@ -64,10 +65,12 @@ const TournamentTable: FC = ({}) => {
     }
   };
 
-  // prettier-ignore
-  const destructiveButton = hasStarted 
-    ? <WithdrawButtonWithConfirmation selectedPlayer={selectedPlayer} />
-    : <DeleteButton handleDelete={handleDelete} />
+  const DestructiveButton = () => {
+    if (hasEnded) return null;
+    if (hasStarted)
+      return <WithdrawButtonWithConfirmation selectedPlayer={selectedPlayer} />;
+    return <DeleteButton handleDelete={handleDelete} />;
+  };
 
   return (
     <>
@@ -105,7 +108,7 @@ const TournamentTable: FC = ({}) => {
         player={selectedPlayer}
         setSelectedPlayer={setSelectedPlayer}
         onDelete={handleDelete}
-        destructiveButton={destructiveButton}
+        DestructiveButton={DestructiveButton}
       />
     </>
   );

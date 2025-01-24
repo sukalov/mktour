@@ -11,14 +11,14 @@ import {
 import { PlayerModel } from '@/types/tournaments';
 import { UserRound } from 'lucide-react';
 import Link from 'next/link';
-import { FC, ReactElement } from 'react';
+import { FC } from 'react';
 
 const PlayerDrawer: FC<{
   player: PlayerModel | null;
   setSelectedPlayer: (_arg: null) => void;
   onDelete: () => void;
-  destructiveButton: ReactElement;
-}> = ({ player, setSelectedPlayer, destructiveButton }) => (
+  DestructiveButton: FC;
+}> = ({ player, setSelectedPlayer, DestructiveButton }) => (
   <Drawer open={!!player} onClose={() => setSelectedPlayer(null)}>
     <DrawerContent>
       <DrawerHeader className="text-left">
@@ -32,7 +32,7 @@ const PlayerDrawer: FC<{
             <FormattedMessage id="Tournament.Table.Player.profile" />
           </Button>
         </Link>
-        {destructiveButton}
+        <DestructiveButton />
         <DrawerClose asChild>
           <Button size="lg" variant="outline">
             <FormattedMessage id="Common.close" />
