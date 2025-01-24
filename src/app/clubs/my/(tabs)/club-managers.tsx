@@ -18,7 +18,7 @@ const ClubManagersList: FC<{ id: string }> = ({ id }) => {
   return (
     <div className="flex flex-col gap-2 px-6 sm:px-0">
       {t('managers list')}
-      <Card className="border-none shadow-none px-6 py-3 sm:border-solid sm:px-12 sm:shadow-2xs">
+      <Card className="border-none px-6 py-3 shadow-none sm:border-solid sm:px-12 sm:shadow-2xs">
         {isLoading ? (
           <Skeleton className="h-12 w-full" />
         ) : (

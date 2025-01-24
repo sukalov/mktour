@@ -43,12 +43,14 @@ const ClubSettingsForm: FC<ClubTabProps> = ({ selectedClub, userId }) => {
       lichess_team: '',
       id: selectedClub,
     },
-    values: data ? {
-      name: data.name,
-      description: data.description,
-      lichess_team: data.lichess_team,
-      id: selectedClub,
-    } : undefined,
+    values: data
+      ? {
+          name: data.name,
+          description: data.description,
+          lichess_team: data.lichess_team,
+          id: selectedClub,
+        }
+      : undefined,
   });
 
   const t = useTranslations('Club.Settings');

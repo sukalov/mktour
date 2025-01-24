@@ -1,6 +1,11 @@
-'use client'
+'use client';
 
-import { MessageKeys, NestedKeyOf, TranslationValues, useTranslations } from 'next-intl';
+import {
+  MessageKeys,
+  NestedKeyOf,
+  TranslationValues,
+  useTranslations,
+} from 'next-intl';
 import { FC } from 'react';
 
 const FormattedMessage: FC<{

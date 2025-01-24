@@ -61,7 +61,7 @@ const GameItem: FC<GameProps> = ({
     if (mutation.isSuccess) {
       setSelectedGameId(null);
     }
-  }, [mutation.isSuccess]);
+  }, [mutation.isSuccess, setSelectedGameId]);
 
   useOutsideClick(() => {
     if (selected) {

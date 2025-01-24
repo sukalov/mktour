@@ -11,9 +11,7 @@ const Result: FC<ResultProps> = ({ isPending, result, selected }) => {
 
   if (selected)
     return (
-      <div
-        className={`select-none`}
-      >
+      <div className={`select-none`}>
         {/* <p className="select-none">{t('1/2')}</p> */}
         <small className="select-none">{t('draw')}</small>
       </div>
