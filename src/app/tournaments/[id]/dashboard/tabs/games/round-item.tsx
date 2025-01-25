@@ -27,17 +27,7 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
     roundNumber,
   });
   const info = useTournamentInfo(tournamentId);
-  const t = useTranslations('Tournament.Round');
-  const queryClient = useQueryClient();
-  const { sendJsonMessage, status, setRoundInView } =
-    useContext(DashboardContext);
-  const { mutate, isPending: mutating } = useSaveRound({
-    tournamentId,
-    queryClient,
-    sendJsonMessage,
-    isTournamentGoing: true,
-    setRoundInView,
-  });
+  const { status } = useContext(DashboardContext);
 
   if (isLoading || !info.data)
     return (
@@ -45,10 +35,61 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
         <SkeletonList length={8} height={16} />
       </div>
     );
+
   if (isError) return <Center>error</Center>;
   if (!round) return <Center>no round</Center>;
+
   const sortedRound = [...round].sort((a, b) => {
     return Number(a.result !== null) - Number(b.result !== null);
+  });
+  const ongoingGames = round.reduce(
+    (acc, current) => (current.result === null ? acc + 1 : acc),
+    0,
+  );
+
+  const { ongoing_round, rounds_number, closed_at } = info.data.tournament;
+  const renderFinishButton =
+    status === 'organizer' && !closed_at && ongoing_round === rounds_number;
+  const renderNewRoundButton =
+    roundNumber === ongoing_round &&
+    ongoing_round !== rounds_number &&
+    ongoingGames === 0 &&
+    status === 'organizer';
+
+  const ActionButton = () => {
+    if (renderNewRoundButton)
+      return (
+        <NewRoundButton tournamentId={tournamentId} roundNumber={roundNumber} />
+      );
+    if (renderFinishButton)
+      return <FinishTournamentButton lastRoundNumber={rounds_number} />;
+    return null;
+  };
+
+  return (
+    <div className="flex w-full flex-col gap-2 px-4 pt-2">
+      <ActionButton />
+      {sortedRound.map((game, index) => {
+        return <GamesIteratee key={index} {...game} />;
+      })}
+    </div>
+  );
+};
+
+const NewRoundButton: FC<{ tournamentId: string; roundNumber: number }> = ({
+  tournamentId,
+  roundNumber,
+}) => {
+  const t = useTranslations('Tournament.Round');
+  const queryClient = useQueryClient();
+  const { sendJsonMessage, setRoundInView } = useContext(DashboardContext);
+
+  const { mutate, isPending: mutating } = useSaveRound({
+    tournamentId,
+    queryClient,
+    sendJsonMessage,
+    isTournamentGoing: true,
+    setRoundInView,
   });
 
   const newRound = () => {
@@ -70,40 +111,12 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
     mutate({ tournamentId, roundNumber: roundNumber + 1, newGames });
   };
 
-  const ongoingGames = round.reduce(
-    (acc, current) => (current.result === null ? acc + 1 : acc),
-    0,
-  );
-
   return (
-    <div className="flex w-full flex-col gap-2 px-4 pt-2">
-      {roundNumber === info.data.tournament.ongoing_round &&
-        info.data.tournament.ongoing_round !==
-          info.data.tournament.rounds_number &&
-        ongoingGames === 0 &&
-        status === 'organizer' && (
-          <Button className="w-full" onClick={newRound} disabled={mutating}>
-            {!mutating ? (
-              <ArrowRightIcon />
-            ) : (
-              <Loader2 className="animate-spin" />
-            )}
-            &nbsp;
-            {t('new round button')}
-          </Button>
-        )}
-      {status === 'organizer' &&
-        !info.data.tournament.closed_at &&
-        info.data.tournament.ongoing_round ===
-          info.data.tournament.rounds_number && (
-          <FinishTournamentButton
-            lastRoundNumber={info.data.tournament.rounds_number}
-          />
-        )}
-      {sortedRound.map((game, index) => {
-        return <GamesIteratee key={index} {...game} />;
-      })}
-    </div>
+    <Button className="w-full" onClick={newRound} disabled={mutating}>
+      {!mutating ? <ArrowRightIcon /> : <Loader2 className="animate-spin" />}
+      &nbsp;
+      {t('new round button')}
+    </Button>
   );
 };
 
