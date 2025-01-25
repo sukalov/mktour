@@ -175,7 +175,7 @@ const TableCellStyled: FC<PropsWithChildren & { className?: string }> = ({
 const TableHeadStyled: FC<PropsWithChildren & { className?: string }> = ({
   children,
   className,
-}) => <TableHead className={`h-8 p-0 ${className}`}>{children}</TableHead>;
+}) => <TableHead className={`h-11 p-0 ${className}`}>{children}</TableHead>;
 
 const Stat: FC<PropsWithChildren> = ({ children }) => (
   <TableCellStyled className="min-w-8 text-center font-medium">
