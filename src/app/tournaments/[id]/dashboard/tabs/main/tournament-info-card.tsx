@@ -2,8 +2,11 @@ import {
   InfoItem,
   LoadingElement,
 } from '@/app/tournaments/[id]/dashboard/tabs/main';
+import { Medal } from '@/app/tournaments/[id]/dashboard/tabs/table';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
+import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
 import { Card } from '@/components/ui/card';
+import { TournamentInfo } from '@/types/tournaments';
 import {
   CalendarDays,
   Clock,
@@ -13,6 +16,7 @@ import {
   UserRound,
 } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC } from 'react';
 import { toast } from 'sonner';
@@ -61,6 +65,7 @@ const TournamentInfoList = () => {
 
   return (
     <Card className="items-left flex w-full flex-col gap-8 p-4 px-8">
+      <WinnersCard {...data} />
       <InfoItem
         icon={HomeIcon}
         value={data.club?.name}
@@ -97,6 +102,31 @@ const getClockIcon = (time: Date | null | undefined): FC => {
   const clockIcon = `Clock${hour === 0 ? '12' : hour}` as keyof typeof icons;
 
   return icons[clockIcon];
+};
+
+const WinnersCard: FC<TournamentInfo> = ({ tournament }) => {
+  const { data: players } = useTournamentPlayers(tournament.id);
+  const winners = players?.filter(({ place }) => place && place <= 3);
+
+  if (!winners || !tournament.closed_at) return null;
+  return (
+    <div className="flex flex-col items-center justify-center gap-4 underline underline-offset-4">
+      <div className="flex flex-col items-center justify-center gap-2 text-center text-xl text-wrap">
+        <Medal className="size-8 bg-amber-300" />
+        <Link href={`/player/${winners[0].id}`}> {winners[0].nickname}</Link>
+      </div>
+      <div className="flex w-full items-center">
+        <div className="flex w-full flex-col items-center justify-center gap-1 text-center text-wrap">
+          <Medal className="size-6 bg-gray-300" />
+          <Link href={`/player/${winners[1].id}`}> {winners[1].nickname}</Link>
+        </div>
+        <div className="flex w-full flex-col items-center justify-center gap-1 text-center text-wrap">
+          <Medal className="size-6 bg-amber-700" />
+          <Link href={`/player/${winners[2].id}`}> {winners[2].nickname} </Link>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default TournamentInfoList;
