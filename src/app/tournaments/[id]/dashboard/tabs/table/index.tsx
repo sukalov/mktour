@@ -19,7 +19,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Loader2, UserRoundX } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
-import { FC, useContext, useState } from 'react';
+import { FC, PropsWithChildren, useContext, useState } from 'react';
 import { toast } from 'sonner';
 
 const TournamentTable: FC = ({}) => {
@@ -68,33 +68,29 @@ const TournamentTable: FC = ({}) => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="pr-0 pl-4">#</TableHead>
-            <TableHead className="pl-0">
+            <TableHeadStyled className="text-center">#</TableHeadStyled>
+            <TableHeadStyled>
               {t('name column', { number: players.data?.length ?? 0 })}
-            </TableHead>
+            </TableHeadStyled>
             <TableStatsHeads />
           </TableRow>
         </TableHeader>
         <TableBody>
           {players.data?.map((player, i) => (
-            <TableRow
-              key={player.id}
-              className={`backdrop-blur-2xl`}
-              onClick={() => setSelectedPlayer(player)}
-            >
-              <TableCell className={`font-small pr-0 pl-4`}>{i + 1}</TableCell>
-              <TableCell className="font-small max-w-[150px] truncate pl-0">
-                <NicknameWithStatus player={player} hasEnded={hasEnded} />
-              </TableCell>
-              <TableCell className="px-1 text-center font-medium">
-                {player.wins}
-              </TableCell>
-              <TableCell className="px-1 text-center font-medium">
-                {player.draws}
-              </TableCell>
-              <TableCell className="px-1 pr-2 text-center font-medium">
-                {player.losses}
-              </TableCell>
+            <TableRow key={player.id} onClick={() => setSelectedPlayer(player)}>
+              <TableCellStyled className={`font-small w-10 text-center`}>
+                <Place player={player} hasEnded={hasEnded}>
+                  {i + 1}
+                </Place>
+              </TableCellStyled>
+              <TableCellStyled className="font-small flex gap-2 truncate pl-0">
+                <Status player={{ ...player, exited: false }}>
+                  {player.nickname}
+                </Status>
+              </TableCellStyled>
+              <Stat>{player.wins}</Stat>
+              <Stat>{player.draws}</Stat>
+              <Stat>{player.losses}</Stat>
             </TableRow>
           ))}
         </TableBody>
@@ -122,9 +118,9 @@ const TableStatsHeads = () => {
   return (
     <>
       {stats.map((stat) => (
-        <TableHead key={stat} className="px-1 text-center">
+        <TableHeadStyled key={stat} className="text-center">
           {t(stat)}
-        </TableHead>
+        </TableHeadStyled>
       ))}
     </>
   );
@@ -140,34 +136,54 @@ const TableLoading = () => {
   );
 };
 
-const NicknameWithStatus: FC<{ player: PlayerModel; hasEnded: boolean }> = ({
-  player,
-  hasEnded,
-}) => {
-  if (!hasEnded && player.exited)
-    return (
-      <div className="flex items-center gap-2 opacity-50">
-        {player.nickname}
-        <UserRoundX className="size-4" />
-      </div>
-    );
-  if (!hasEnded || !player.place || player.place > 3) return player.nickname;
-
+const Place: FC<
+  { player: PlayerModel; hasEnded: boolean } & PropsWithChildren
+> = ({ player, hasEnded, children }) => {
   const place = player.place;
-  const medalColour = ['bg-amber-300', 'bg-amber-500', 'bg-amber-700'];
-  const medal = (
+
+  if (!place || !hasEnded) return children;
+
+  return place > 3 ? (
+    place
+  ) : (
     <div
-      className={`aspect-square size-4 rounded-full ${medalColour[place - 1]}`}
+      className={`aspect-square size-4 self-center rounded-full ${medalColour[place - 1]}`}
     />
   );
+};
 
+const Status: FC<{ player: PlayerModel } & PropsWithChildren> = ({
+  player,
+  children,
+}) => {
+  if (!player.exited) return children;
   return (
-    <div className="flex items-center gap-2">
-      {player.nickname}
-      {medal}
+    <div className="flex items-center gap-2 opacity-50">
+      <UserRoundX className="size-4 min-w-fit" />
+      {children}
     </div>
   );
 };
+
+const TableCellStyled: FC<PropsWithChildren & { className?: string }> = ({
+  children,
+  className,
+}) => (
+  <TableCell className={`p-3 text-wrap ${className}`}>{children}</TableCell>
+);
+
+const TableHeadStyled: FC<PropsWithChildren & { className?: string }> = ({
+  children,
+  className,
+}) => <TableHead className={`h-8 p-0 ${className}`}>{children}</TableHead>;
+
+const Stat: FC<PropsWithChildren> = ({ children }) => (
+  <TableCellStyled className="min-w-8 text-center font-medium">
+    {children}
+  </TableCellStyled>
+);
+
+const medalColour = ['bg-amber-300', 'bg-gray-300', 'bg-amber-700'];
 
 type Stats = 'wins' | 'draws' | 'losses';
 
