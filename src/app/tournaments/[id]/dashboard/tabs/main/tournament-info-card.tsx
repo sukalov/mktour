@@ -60,33 +60,28 @@ const TournamentInfoList = () => {
     formattedDate.charAt(0).toLowerCase() + formattedDate.slice(1);
 
   return (
-    <>
-      <div className="truncate text-4xl font-bold whitespace-break-spaces">
-        {data.tournament.title}
-      </div>
-      <Card className="items-left flex w-full flex-col gap-8 p-4 px-8">
+    <Card className="items-left flex w-full flex-col gap-8 p-4 px-8">
+      <InfoItem
+        icon={HomeIcon}
+        value={data.club?.name}
+        href={`/clubs/${data.club?.id}`}
+      />
+      <InfoItem icon={UserRound} value={t(`Types.${data.tournament.type}`)} />
+      <InfoItem icon={Dices} value={t(data.tournament.format)} />
+      <InfoItem icon={CalendarDays} value={decapitalizedWeekday} />
+      {formattedStartedAt && (
         <InfoItem
-          icon={HomeIcon}
-          value={data.club?.name}
-          href={`/clubs/${data.club?.id}`}
+          icon={getClockIcon(data.tournament.started_at!)}
+          value={`${t('started at')} ${formattedStartedAt}`}
         />
-        <InfoItem icon={UserRound} value={t(`Types.${data.tournament.type}`)} />
-        <InfoItem icon={Dices} value={t(data.tournament.format)} />
-        <InfoItem icon={CalendarDays} value={decapitalizedWeekday} />
-        {formattedStartedAt && (
-          <InfoItem
-            icon={getClockIcon(data.tournament.started_at!)}
-            value={`${t('started at')} ${formattedStartedAt}`}
-          />
-        )}
-        {formattedClosedAt && (
-          <InfoItem
-            icon={getClockIcon(data.tournament.closed_at!)}
-            value={`${t('ended at')} ${formattedClosedAt}`}
-          />
-        )}
-      </Card>
-    </>
+      )}
+      {formattedClosedAt && (
+        <InfoItem
+          icon={getClockIcon(data.tournament.closed_at!)}
+          value={`${t('ended at')} ${formattedClosedAt}`}
+        />
+      )}
+    </Card>
   );
 };
 

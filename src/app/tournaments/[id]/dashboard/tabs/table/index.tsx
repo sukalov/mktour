@@ -146,9 +146,7 @@ const Place: FC<
   return place > 3 ? (
     place
   ) : (
-    <div
-      className={`aspect-square size-4 self-center rounded-full ${medalColour[place - 1]}`}
-    />
+    <Medal className={`${medalColour[place - 1]} size-4`} />
   );
 };
 
@@ -184,6 +182,10 @@ const Stat: FC<PropsWithChildren> = ({ children }) => (
 );
 
 const medalColour = ['bg-amber-300', 'bg-gray-300', 'bg-amber-700'];
+
+export const Medal: FC<{ className: string }> = ({ className }) => (
+  <div className={`aspect-square rounded-full ${className}`} />
+);
 
 type Stats = 'wins' | 'draws' | 'losses';
 
