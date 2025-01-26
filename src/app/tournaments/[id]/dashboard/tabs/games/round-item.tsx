@@ -2,6 +2,7 @@
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import FinishTournamentButton from '@/app/tournaments/[id]/dashboard/finish-tournament-button';
 import GameItem from '@/app/tournaments/[id]/dashboard/tabs/games/game/game-item';
+import { LoadingElement } from '@/app/tournaments/[id]/dashboard/tabs/main';
 import Center from '@/components/center';
 import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
@@ -11,7 +12,7 @@ import { Button } from '@/components/ui/button';
 import { generateRoundRobinRoundFunction } from '@/lib/client-actions/round-robin-generator';
 import { GameModel, PlayerModel } from '@/types/tournaments';
 import { useQueryClient } from '@tanstack/react-query';
-import { ArrowRightIcon, Loader2 } from 'lucide-react';
+import { ArrowRightIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { FC, useContext } from 'react';
@@ -113,7 +114,7 @@ const NewRoundButton: FC<{ tournamentId: string; roundNumber: number }> = ({
 
   return (
     <Button className="w-full" onClick={newRound} disabled={mutating}>
-      {!mutating ? <ArrowRightIcon /> : <Loader2 className="animate-spin" />}
+      {!mutating ? <ArrowRightIcon className="size-5" /> : <LoadingElement />}
       &nbsp;
       {t('new round button')}
     </Button>

@@ -1,6 +1,7 @@
 'use client';
 
 import { turboPascal } from '@/app/fonts';
+import { LoadingElement } from '@/app/tournaments/[id]/dashboard/tabs/main';
 import FormDatePicker from '@/app/tournaments/create/form-date-picker';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -33,7 +34,7 @@ import {
   newTournamentFormSchema,
 } from '@/lib/zod/new-tournament-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2, PlusIcon } from 'lucide-react';
+import { PlusIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import * as React from 'react';
@@ -61,7 +62,8 @@ export default function NewTournamentForm({
   const onSubmit = async (data: NewTournamentFormType) => {
     setSubmitButton(
       <Button disabled className="w-full">
-        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+        <LoadingElement />
+        &nbsp;
         {t('making')}
       </Button>,
     );

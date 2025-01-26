@@ -1,5 +1,6 @@
 'use client';
 
+import { LoadingElement } from '@/app/tournaments/[id]/dashboard/tabs/main';
 import useDeleteClubMutation from '@/components/hooks/mutation-hooks/use-club-delete';
 import { useClubInfo } from '@/components/hooks/query-hooks/use-club-info';
 import { Button } from '@/components/ui/button';
@@ -25,7 +26,7 @@ export default function DeleteConfirmationForm({
 }: DeleteConfirmationFormProps) {
   const queryClient = useQueryClient();
   const { data, isFetching } = useClubInfo(id);
-  const clubDeleteMutation = useDeleteClubMutation(queryClient, setOpenAction);
+  const {isPending mutate} = useDeleteClubMutation(queryClient, setOpenAction);
   const form = useForm<DeleteClubFormType>({
     resolver: zodResolver(deleteClubFormSchema),
     values: { name: '', id },
@@ -41,7 +42,7 @@ export default function DeleteConfirmationForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit((data) => {
-          clubDeleteMutation.mutate({
+          mutate({
             id: data.id,
             userId,
             userDeletion: false,
@@ -58,7 +59,7 @@ export default function DeleteConfirmationForm({
               <FormControl>
                 <Input
                   {...field}
-                  disabled={clubDeleteMutation.isPending}
+                  disabled={isPending}
                   autoComplete="off"
                 />
               </FormControl>
@@ -71,16 +72,16 @@ export default function DeleteConfirmationForm({
           disabled={
             data?.name !== watchedName ||
             !data ||
-            clubDeleteMutation.isPending ||
+            isPending ||
             isFetching
           }
           variant="destructive"
         >
-          {clubDeleteMutation.isPending ? (
-            <Loader2 className="animate-spin" />
-          ) : (
-            <Trash2 size={18} />
-          )}
+          {isPending ? 
+            <LoadingElement />
+           : 
+            <Trash2 className="size-5" />
+          }
           &nbsp;{t('delete club')}
         </Button>
       </form>

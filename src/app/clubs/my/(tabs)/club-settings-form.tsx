@@ -1,6 +1,7 @@
 'use client';
 
 import { ClubTabProps } from '@/app/clubs/my/dashboard';
+import { LoadingSpinner } from '@/app/loading';
 import useEditClubMutation from '@/components/hooks/mutation-hooks/use-club-edit';
 import { useClubInfo } from '@/components/hooks/query-hooks/use-club-info';
 import SkeletonList from '@/components/skeleton-list';
@@ -19,7 +20,7 @@ import { shallowEqual } from '@/lib/utils';
 import { EditClubFormType, editClubFormSchema } from '@/lib/zod/edit-club-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
-import { Loader2, Save } from 'lucide-react';
+import { Save } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
@@ -99,9 +100,9 @@ const ClubSettingsForm: FC<ClubTabProps> = ({ selectedClub, userId }) => {
               className="w-full"
             >
               {clubSettingsMutation.isPending ? (
-                <Loader2 className="animate-spin" />
+                <LoadingSpinner />
               ) : (
-                <Save />
+                <Save className="size-5" />
               )}
               &nbsp;{t('save')}
             </Button>

@@ -1,6 +1,7 @@
 'use client';
 
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
+import { LoadingElement } from '@/app/tournaments/[id]/dashboard/tabs/main';
 import PlayerDrawer from '@/app/tournaments/[id]/dashboard/tabs/table/player-drawer';
 import { useTournamentRemovePlayer } from '@/components/hooks/mutation-hooks/use-tournament-remove-player';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
@@ -16,7 +17,7 @@ import {
 } from '@/components/ui/table';
 import { PlayerModel } from '@/types/tournaments';
 import { useQueryClient } from '@tanstack/react-query';
-import { Loader2, UserRoundX } from 'lucide-react';
+import { UserRoundX } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { FC, PropsWithChildren, useContext, useState } from 'react';
@@ -131,7 +132,7 @@ const TableLoading = () => {
   return (
     <div className="mt-12 flex h-[calc(100svh-13rem)] w-full flex-auto items-center justify-center">
       <span className="sr-only">{t('loading')}</span>
-      <Loader2 className="h-16 w-16 animate-spin" />
+      <LoadingElement />
     </div>
   );
 };
