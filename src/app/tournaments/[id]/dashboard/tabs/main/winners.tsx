@@ -13,7 +13,7 @@ const Winners: FC<TournamentInfo> = ({ tournament }) => {
   return (
     <div className="flex flex-col gap-8 underline underline-offset-4">
       {winners.map((player) => (
-        <Player {...player} />
+        <Player key={player.id} {...player} />
       ))}
     </div>
   );
