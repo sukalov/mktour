@@ -13,6 +13,6 @@ export default function Loading() {
 
 export const LoadingSpinner = ({ className }: { className?: string }) => (
   <Loader2
-    className={cn(`size-5 -translate-0.5 animate-spin p-0`, className)}
+    className={cn(`size-5 animate-spin`, className)}
   />
 );
