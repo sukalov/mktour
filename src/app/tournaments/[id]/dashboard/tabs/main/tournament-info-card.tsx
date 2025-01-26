@@ -1,7 +1,4 @@
-import {
-  InfoItem,
-  LoadingElement,
-} from '@/app/tournaments/[id]/dashboard/tabs/main';
+import { InfoItem, LoadingElement } from '@/app/tournaments/[id]/dashboard/tabs/main';
 import { Medal } from '@/app/tournaments/[id]/dashboard/tabs/table';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';

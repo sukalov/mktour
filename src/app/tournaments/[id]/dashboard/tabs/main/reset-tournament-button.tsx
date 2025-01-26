@@ -1,5 +1,6 @@
 'use client';
 
+import { LoadingSpinner } from '@/app/loading';
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import useTournamentReset from '@/components/hooks/mutation-hooks/use-tournament-reset';
 import { Button } from '@/components/ui/button';
@@ -23,7 +24,7 @@ import {
   DrawerTrigger,
 } from '@/components/ui/drawer';
 import { useQueryClient } from '@tanstack/react-query';
-import { CircleX, Loader2 } from 'lucide-react';
+import { CircleX } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import * as React from 'react';
@@ -48,7 +49,7 @@ export default function ResetTournamentButton() {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button variant="destructive">
-            <CircleX />
+            <CircleX className="size-5" />
             &nbsp;{t('reset progress')}
           </Button>
         </DialogTrigger>
@@ -62,7 +63,7 @@ export default function ResetTournamentButton() {
             onClick={() => mutate({ tournamentId })}
             disabled={isPending}
           >
-            {isPending ? <Loader2 className="animate-spin" /> : <CircleX />}
+            {isPending ? <LoadingSpinner /> : <CircleX className="size-5" />}
             &nbsp;
             {t('confirm reset')}
           </Button>
@@ -78,7 +79,7 @@ export default function ResetTournamentButton() {
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
         <Button variant="destructive">
-          <CircleX />
+          <CircleX className="size-5" />
           &nbsp;{t('reset progress')}
         </Button>
       </DrawerTrigger>
@@ -94,7 +95,7 @@ export default function ResetTournamentButton() {
             onClick={() => mutate({ tournamentId })}
             disabled={isPending}
           >
-            {isPending ? <Loader2 className="animate-spin" /> : <CircleX />}
+            {isPending ? <LoadingSpinner /> : <CircleX className="size-5" />}
             &nbsp;
             {t('confirm reset')}
           </Button>

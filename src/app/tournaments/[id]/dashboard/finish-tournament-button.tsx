@@ -1,3 +1,4 @@
+import { LoadingSpinner } from '@/app/loading';
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import useTournamentFinish from '@/components/hooks/mutation-hooks/use-tournament-finish';
 import { useTournamentRoundGames } from '@/components/hooks/query-hooks/use-tournament-round-games';
@@ -22,7 +23,7 @@ export default function FinishTournamentButton({
     roundNumber: lastRoundNumber,
   });
 
-  const { mutate } = useTournamentFinish(queryClient, {
+  const { mutate, isPending } = useTournamentFinish(queryClient, {
     tournamentId,
     sendJsonMessage,
   });
@@ -38,8 +39,9 @@ export default function FinishTournamentButton({
       <Button
         className="w-full"
         onClick={() => mutate({ tournamentId, closed_at: new Date() })}
+        disabled={isPending}
       >
-        <Save />
+        {isPending ? <LoadingSpinner /> : <Save className="size-5" />}
         &nbsp;
         {t('finish tournament')}
       </Button>
