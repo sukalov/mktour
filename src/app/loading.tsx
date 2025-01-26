@@ -11,5 +11,5 @@ export default function Loading() {
 }
 
 export const LoadingSpinner = () => (
-  <Loader2 className="size-5 animate-spin p-0" />
+  <Loader2 className="size-5 animate-spin p-0 -translate-0.5" />
 );

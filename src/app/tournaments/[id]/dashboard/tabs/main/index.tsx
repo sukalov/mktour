@@ -61,7 +61,7 @@ export const LoadingElement = () => {
 };
 
 export const InfoItem: FC<{
-  icon: FC;
+  icon: FC<{ className?: string }>;
   value: string | number | null | undefined;
   href?: string;
 }> = ({ icon: Icon, value, href }) => (

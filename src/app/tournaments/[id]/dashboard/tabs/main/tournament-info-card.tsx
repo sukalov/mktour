@@ -1,20 +1,10 @@
-import {
-  InfoItem,
-  LoadingElement,
-} from '@/app/tournaments/[id]/dashboard/tabs/main';
+import { InfoItem, LoadingElement } from '@/app/tournaments/[id]/dashboard/tabs/main';
 import { Medal } from '@/app/tournaments/[id]/dashboard/tabs/table';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
 import { Card } from '@/components/ui/card';
 import { TournamentInfo } from '@/types/tournaments';
-import {
-  CalendarDays,
-  Clock,
-  Dices,
-  HomeIcon,
-  icons,
-  UserRound,
-} from 'lucide-react';
+import { CalendarDays, Clock, Dices, HomeIcon, icons, UserRound } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -122,7 +112,7 @@ const WinnersCard: FC<TournamentInfo> = ({ tournament }) => {
         </div>
         <div className="flex w-full flex-col items-center justify-center gap-1 text-center text-wrap">
           <Medal className="size-6 bg-amber-700" />
-          <Link href={`/player/${winners[2].id}`}> {winners[2].nickname} </Link>
+          <Link href={`/player/${winners[2]?.id}`}> {winners[2]?.nickname} </Link>
         </div>
       </div>
     </div>
