@@ -3,109 +3,61 @@
 import { LoadingSpinner } from '@/app/loading';
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import useTournamentReset from '@/components/hooks/mutation-hooks/use-tournament-reset';
+import useComboModal from '@/components/hooks/use-combo-modal';
 import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from '@/components/ui/drawer';
 import { useQueryClient } from '@tanstack/react-query';
 import { CircleX } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
-import * as React from 'react';
-import { useMediaQuery } from 'react-responsive';
+import { useContext, useState } from 'react';
 
 export default function ResetTournamentButton() {
   const { id: tournamentId } = useParams<{ id: string }>();
-  const [open, setOpen] = React.useState(false);
-  const isDesktop = useMediaQuery({ minWidth: 768 });
-  const t = useTranslations('Tournament.Main');
   const queryClient = useQueryClient();
-  const { sendJsonMessage, setRoundInView } =
-    React.useContext(DashboardContext);
+  const { sendJsonMessage, setRoundInView } = useContext(DashboardContext);
   const { mutate, isPending } = useTournamentReset(
     tournamentId,
     queryClient,
     sendJsonMessage,
     setRoundInView,
   );
-  if (isDesktop) {
-    return (
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
-          <Button variant="destructive">
-            <CircleX />
-            &nbsp;{t('reset progress')}
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>{t('confirmation header')}</DialogTitle>
-            <DialogDescription>{t.rich('confirmation body')}</DialogDescription>
-          </DialogHeader>
-          <Button
-            variant={'destructive'}
-            onClick={() => mutate({ tournamentId })}
-            disabled={isPending}
-          >
-            {isPending ? <LoadingSpinner /> : <CircleX />}
-            &nbsp;
-            {t('confirm reset')}
-          </Button>
-          <DialogClose asChild>
-            <Button variant="outline">{t('cancel')}</Button>
-          </DialogClose>
-        </DialogContent>
-      </Dialog>
-    );
-  }
+  const [open, setOpen] = useState(false);
+  const t = useTranslations('Tournament.Main');
+  const ComboModal = useComboModal();
 
   return (
-    <Drawer open={open} onOpenChange={setOpen}>
-      <DrawerTrigger asChild>
+    <ComboModal.Root open={open} onOpenChange={setOpen}>
+      <ComboModal.Trigger asChild>
         <Button variant="destructive">
-          <CircleX/>
+          <CircleX />
           &nbsp;{t('reset progress')}
         </Button>
-      </DrawerTrigger>
-      <DrawerContent>
-        <DrawerHeader className="text-left">
-          <DrawerTitle>{t('confirmation header')}</DrawerTitle>
-          <DrawerDescription>{t.rich('confirmation body')}</DrawerDescription>
-        </DrawerHeader>
-        <div className="w-full px-4">
+      </ComboModal.Trigger>
+      <ComboModal.Content className="pb-4">
+        <ComboModal.Header className="text-left">
+          <ComboModal.Title>{t('confirmation header')}</ComboModal.Title>
+          <ComboModal.Description>
+            {t.rich('confirmation body')}
+          </ComboModal.Description>
+        </ComboModal.Header>
+        <div className="flex flex-col gap-4 sm:px-4 md:p-0">
           <Button
             variant={'destructive'}
             className="w-full"
-            onClick={() => mutate({ tournamentId })}
+            onClick={() => mutate()}
             disabled={isPending}
           >
             {isPending ? <LoadingSpinner /> : <CircleX />}
             &nbsp;
             {t('confirm reset')}
           </Button>
+          <ComboModal.Close asChild>
+            <Button className="w-full" variant="outline">
+              {t('cancel')}
+            </Button>
+          </ComboModal.Close>
         </div>
-        <DrawerFooter className="pt-2">
-          <DrawerClose asChild>
-            <Button variant="outline">{t('cancel')}</Button>
-          </DrawerClose>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
+      </ComboModal.Content>
+    </ComboModal.Root>
   );
 }
