@@ -1,4 +1,7 @@
-import { InfoItem, LoadingElement } from '@/app/tournaments/[id]/dashboard/tabs/main';
+import {
+  InfoItem,
+  LoadingElement,
+} from '@/app/tournaments/[id]/dashboard/tabs/main';
 import { Medal } from '@/app/tournaments/[id]/dashboard/tabs/table';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
@@ -114,7 +117,7 @@ const Winners: FC<TournamentInfo> = ({ tournament }) => {
       </PlayerContainer>
       <PlayerContainer>
         <Medal className="size-6 bg-amber-700" />
-        <Link href={`/player/${winners[2].id}`}>{winners[2].nickname}</Link>
+        <Link href={`/player/${winners[2]?.id}`}>{winners[2]?.nickname}</Link>
       </PlayerContainer>
     </div>
   );

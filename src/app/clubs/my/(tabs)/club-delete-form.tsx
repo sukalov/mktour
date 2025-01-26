@@ -13,7 +13,7 @@ import {
 } from '@/lib/zod/delete-club-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
-import { Loader2, Trash2 } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Dispatch, SetStateAction } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
@@ -26,7 +26,7 @@ export default function DeleteConfirmationForm({
 }: DeleteConfirmationFormProps) {
   const queryClient = useQueryClient();
   const { data, isFetching } = useClubInfo(id);
-  const {isPending mutate} = useDeleteClubMutation(queryClient, setOpenAction);
+  const {isPending, mutate} = useDeleteClubMutation(queryClient, setOpenAction);
   const form = useForm<DeleteClubFormType>({
     resolver: zodResolver(deleteClubFormSchema),
     values: { name: '', id },

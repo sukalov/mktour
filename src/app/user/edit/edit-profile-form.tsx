@@ -1,6 +1,5 @@
 'use client';
 
-import { LoadingElement } from '@/app/tournaments/[id]/dashboard/tabs/main';
 import useEditUserMutation from '@/components/hooks/mutation-hooks/use-user-edit';
 import { useUser } from '@/components/hooks/query-hooks/use-user';
 import { Button } from '@/components/ui/button';
@@ -79,7 +78,7 @@ export default function EditProfileForm({ userId }: { userId: string }) {
               className="w-full"
             >
               {editUserMutation.isPending ? (
-                <LoadingElement />
+                <LoadingSpinner />
               ) : (
                 <Save className="size-5" />
               )}
