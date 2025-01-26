@@ -19,7 +19,6 @@ import { createClub } from '@/lib/actions/club-managing';
 import { DatabaseUser } from '@/lib/db/schema/auth';
 import { NewClubFormType, newClubFormSchema } from '@/lib/zod/new-club-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import * as React from 'react';
 import { UseFormReturn, useForm } from 'react-hook-form';

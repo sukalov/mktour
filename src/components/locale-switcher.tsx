@@ -1,3 +1,4 @@
+import { LoadingSpinner } from '@/app/loading';
 import { setUserLocale } from '@/components/get-user-locale';
 import { Button } from '@/components/ui/button';
 import { useLocale } from 'next-intl';
