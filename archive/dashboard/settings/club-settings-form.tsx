@@ -1,5 +1,6 @@
 'use client';
 
+import { LoadingElement } from '@/app/tournaments/[id]/dashboard/tabs/main';
 import useEditClubMutation from '@/components/hooks/mutation-hooks/use-club-edit';
 import { useClubInfo } from '@/components/hooks/query-hooks/use-club-info';
 import { useUser } from '@/components/hooks/query-hooks/use-user';
@@ -20,7 +21,7 @@ import { EditClubFormType, editClubFormSchema } from '@/lib/zod/edit-club-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { User } from 'lucia';
-import { Loader2, Save } from 'lucide-react';
+import { Save } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
 export default function ClubSettingsForm({ userId }: { userId: string }) {
@@ -85,9 +86,9 @@ const ClubSettingsFormContent = ({ user }: { user: User }) => {
               className="w-full"
             >
               {clubSettingsMutation.isPending ? (
-                <Loader2 className="animate-spin" />
+                <LoadingElement />
               ) : (
-                <Save />
+                <Save className="size-5" />
               )}
               &nbsp;save
             </Button>

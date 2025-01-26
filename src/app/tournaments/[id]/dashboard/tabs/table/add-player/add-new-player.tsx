@@ -1,4 +1,5 @@
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
+import { LoadingElement } from '@/app/tournaments/[id]/dashboard/tabs/main';
 import { DrawerProps } from '@/app/tournaments/[id]/dashboard/tabs/table/add-player';
 import { useTournamentAddNewPlayer } from '@/components/hooks/mutation-hooks/use-tournament-add-new-player';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
@@ -20,7 +21,7 @@ import {
 } from '@/lib/zod/new-player-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
-import { Loader2, Save } from 'lucide-react';
+import { Save } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { useContext, useEffect } from 'react';
@@ -135,12 +136,12 @@ const AddNewPlayer = ({
         >
           {form.formState.isSubmitting || form.formState.isValidating ? (
             <>
-              <Loader2 className="animate-spin" />
+              <LoadingElement />
               &nbsp;{t('save')}
             </>
           ) : (
             <>
-              <Save />
+              <Save className="size-5" />
               &nbsp;{t('save')}
             </>
           )}

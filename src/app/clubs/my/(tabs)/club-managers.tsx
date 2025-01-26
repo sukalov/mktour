@@ -31,7 +31,7 @@ const ClubManagersList: FC<{ id: string }> = ({ id }) => {
         onClick={console.log}
         className="flex w-full gap-2"
       >
-        <UserPlus size={18} />
+        <UserPlus className="size-5" />
         {t('add manager')}
       </Button>
     </div>

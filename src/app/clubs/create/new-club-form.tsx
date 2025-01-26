@@ -3,6 +3,7 @@
 import ClubDescription from '@/app/clubs/create/description';
 import { TeamSelector } from '@/app/clubs/create/team-selector';
 import { turboPascal } from '@/app/fonts';
+import { LoadingElement } from '@/app/tournaments/[id]/dashboard/tabs/main';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -85,7 +86,8 @@ export default function NewClubForm({ teams }: NewClubFormProps) {
             <Button type="submit" className="w-full" disabled={isSubmitting}>
               {isSubmitting ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <LoadingElement />
+                  &nbsp;
                   {t('making')}
                 </>
               ) : (

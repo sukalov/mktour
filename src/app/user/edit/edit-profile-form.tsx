@@ -1,5 +1,6 @@
 'use client';
 
+import { LoadingElement } from '@/app/tournaments/[id]/dashboard/tabs/main';
 import useEditUserMutation from '@/components/hooks/mutation-hooks/use-user-edit';
 import { useUser } from '@/components/hooks/query-hooks/use-user';
 import { Button } from '@/components/ui/button';
@@ -21,7 +22,7 @@ import {
 } from '@/lib/zod/edit-profile-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
-import { Loader2, Save } from 'lucide-react';
+import { Save } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 
@@ -78,9 +79,9 @@ export default function EditProfileForm({ userId }: { userId: string }) {
               className="w-full"
             >
               {editUserMutation.isPending ? (
-                <Loader2 className="animate-spin" />
+                <LoadingElement />
               ) : (
-                <Save />
+                <Save className="size-5" />
               )}
               &nbsp;{t('save')}
             </Button>

@@ -1,5 +1,6 @@
 'use client';
 
+import { LoadingElement } from '@/app/tournaments/[id]/dashboard/tabs/main';
 import useDeleteUserMutation from '@/components/hooks/mutation-hooks/use-user-delete';
 import { useUser } from '@/components/hooks/query-hooks/use-user';
 import { Button } from '@/components/ui/button';
@@ -19,7 +20,7 @@ import {
 } from '@/lib/zod/delete-user-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
-import { Loader2, Trash2 } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useForm, useWatch } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -30,7 +31,7 @@ export default function DeleteUserForm({
 }: DeleteProfileFormProps) {
   const queryClient = useQueryClient();
   const { data, isFetching } = useUser(userId);
-  const userDeleteMutation = useDeleteUserMutation(queryClient);
+  const { mutate, isPending } = useDeleteUserMutation(queryClient);
   const form = useForm<DeleteUserFormType>({
     resolver: zodResolver(deleteUserFormSchema),
     values: { username: '', userId, checkboxes: [] },
@@ -55,9 +56,7 @@ export default function DeleteUserForm({
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(() =>
-          userDeleteMutation.mutate({ userId }),
-        )}
+        onSubmit={form.handleSubmit(() => mutate({ userId }))}
         className={cn('grid items-start gap-6 px-4 py-0 md:px-0', className)}
         name="delete-user-form"
       >
@@ -69,7 +68,7 @@ export default function DeleteUserForm({
               <FormControl>
                 <Input
                   {...field}
-                  disabled={userDeleteMutation.isPending}
+                  disabled={isPending}
                   autoComplete="off"
                   onPaste={(e) => {
                     e.preventDefault();
@@ -130,17 +129,13 @@ export default function DeleteUserForm({
           disabled={
             data?.username !== watchedName ||
             !data ||
-            userDeleteMutation.isPending ||
+            isPending ||
             isFetching ||
             watchedLength.length !== 3
           }
           variant="destructive"
         >
-          {userDeleteMutation.isPending ? (
-            <Loader2 className="animate-spin" />
-          ) : (
-            <Trash2 size={18} />
-          )}
+          {isPending ? <LoadingElement /> : <Trash2 className="size-5" />}
           &nbsp;{t('delete profile')}
         </Button>
       </form>

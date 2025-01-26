@@ -1,6 +1,6 @@
+import { LoadingElement } from '@/app/tournaments/[id]/dashboard/tabs/main';
 import { setUserLocale } from '@/components/get-user-locale';
 import { Button } from '@/components/ui/button';
-import { Loader2 } from 'lucide-react';
 import { useLocale } from 'next-intl';
 import { useEffect, useState } from 'react';
 
@@ -19,11 +19,7 @@ const LocaleSwitcher = () => {
 
   return (
     <Button variant="ghost" size="icon" onClick={handleClickLocale}>
-      {pending ? (
-        <Loader2 className="animate-spin text-center font-thin" />
-      ) : (
-        <span>{locale}</span>
-      )}
+      {pending ? <LoadingElement /> : <span>{locale}</span>}
     </Button>
   );
 };
