@@ -1,6 +1,6 @@
 'use client';
 
-import { LoadingElement } from '@/app/tournaments/[id]/dashboard/tabs/main';
+import { LoadingSpinner } from '@/app/loading';
 import useEditClubMutation from '@/components/hooks/mutation-hooks/use-club-edit';
 import { useClubInfo } from '@/components/hooks/query-hooks/use-club-info';
 import { useUser } from '@/components/hooks/query-hooks/use-user';
@@ -85,11 +85,7 @@ const ClubSettingsFormContent = ({ user }: { user: User }) => {
               }
               className="w-full"
             >
-              {clubSettingsMutation.isPending ? (
-                <LoadingElement />
-              ) : (
-                <Save className="size-5" />
-              )}
+              {clubSettingsMutation.isPending ? <LoadingSpinner /> : <Save />}
               &nbsp;save
             </Button>
           </form>

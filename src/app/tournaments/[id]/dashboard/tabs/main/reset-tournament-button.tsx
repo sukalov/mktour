@@ -49,7 +49,7 @@ export default function ResetTournamentButton() {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button variant="destructive">
-            <CircleX className="size-5" />
+            <CircleX />
             &nbsp;{t('reset progress')}
           </Button>
         </DialogTrigger>
@@ -63,7 +63,7 @@ export default function ResetTournamentButton() {
             onClick={() => mutate({ tournamentId })}
             disabled={isPending}
           >
-            {isPending ? <LoadingSpinner /> : <CircleX className="size-5" />}
+            {isPending ? <LoadingSpinner /> : <CircleX />}
             &nbsp;
             {t('confirm reset')}
           </Button>
@@ -79,7 +79,7 @@ export default function ResetTournamentButton() {
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
         <Button variant="destructive">
-          <CircleX className="size-5" />
+          <CircleX/>
           &nbsp;{t('reset progress')}
         </Button>
       </DrawerTrigger>
@@ -95,7 +95,7 @@ export default function ResetTournamentButton() {
             onClick={() => mutate({ tournamentId })}
             disabled={isPending}
           >
-            {isPending ? <LoadingSpinner /> : <CircleX className="size-5" />}
+            {isPending ? <LoadingSpinner /> : <CircleX />}
             &nbsp;
             {t('confirm reset')}
           </Button>

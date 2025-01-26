@@ -1,8 +1,8 @@
 'use client';
+import { LoadingSpinner } from '@/app/loading';
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import FinishTournamentButton from '@/app/tournaments/[id]/dashboard/finish-tournament-button';
 import GameItem from '@/app/tournaments/[id]/dashboard/tabs/games/game/game-item';
-import { LoadingElement } from '@/app/tournaments/[id]/dashboard/tabs/main';
 import Center from '@/components/center';
 import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
@@ -114,7 +114,7 @@ const NewRoundButton: FC<{ tournamentId: string; roundNumber: number }> = ({
 
   return (
     <Button className="w-full" onClick={newRound} disabled={mutating}>
-      {!mutating ? <ArrowRightIcon className="size-5" /> : <LoadingElement />}
+      {!mutating ? <ArrowRightIcon /> : <LoadingSpinner />}
       &nbsp;
       {t('new round button')}
     </Button>

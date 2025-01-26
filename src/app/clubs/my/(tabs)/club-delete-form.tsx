@@ -13,7 +13,7 @@ import {
 } from '@/lib/zod/delete-club-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
-import { Loader2, Trash2 } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Dispatch, SetStateAction } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
@@ -26,7 +26,10 @@ export default function DeleteConfirmationForm({
 }: DeleteConfirmationFormProps) {
   const queryClient = useQueryClient();
   const { data, isFetching } = useClubInfo(id);
-  const {isPending mutate} = useDeleteClubMutation(queryClient, setOpenAction);
+  const { isPending, mutate } = useDeleteClubMutation(
+    queryClient,
+    setOpenAction,
+  );
   const form = useForm<DeleteClubFormType>({
     resolver: zodResolver(deleteClubFormSchema),
     values: { name: '', id },
@@ -57,11 +60,7 @@ export default function DeleteConfirmationForm({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input
-                  {...field}
-                  disabled={isPending}
-                  autoComplete="off"
-                />
+                <Input {...field} disabled={isPending} autoComplete="off" />
               </FormControl>
             </FormItem>
           )}
@@ -70,18 +69,11 @@ export default function DeleteConfirmationForm({
 
         <Button
           disabled={
-            data?.name !== watchedName ||
-            !data ||
-            isPending ||
-            isFetching
+            data?.name !== watchedName || !data || isPending || isFetching
           }
           variant="destructive"
         >
-          {isPending ? 
-            <LoadingElement />
-           : 
-            <Trash2 className="size-5" />
-          }
+          {isPending ? <LoadingElement /> : <Trash2 />}
           &nbsp;{t('delete club')}
         </Button>
       </form>

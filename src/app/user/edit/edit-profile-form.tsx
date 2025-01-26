@@ -1,6 +1,6 @@
 'use client';
 
-import { LoadingElement } from '@/app/tournaments/[id]/dashboard/tabs/main';
+import { LoadingSpinner } from '@/app/loading';
 import useEditUserMutation from '@/components/hooks/mutation-hooks/use-user-edit';
 import { useUser } from '@/components/hooks/query-hooks/use-user';
 import { Button } from '@/components/ui/button';
@@ -25,7 +25,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Save } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
-
 export default function EditProfileForm({ userId }: { userId: string }) {
   const queryClient = useQueryClient();
   const userQuery = useUser(userId);
@@ -78,11 +77,7 @@ export default function EditProfileForm({ userId }: { userId: string }) {
               }
               className="w-full"
             >
-              {editUserMutation.isPending ? (
-                <LoadingElement />
-              ) : (
-                <Save className="size-5" />
-              )}
+              {editUserMutation.isPending ? <LoadingSpinner /> : <Save />}
               &nbsp;{t('save')}
             </Button>
           </form>

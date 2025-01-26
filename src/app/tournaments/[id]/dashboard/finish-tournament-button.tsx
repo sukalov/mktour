@@ -41,7 +41,7 @@ export default function FinishTournamentButton({
         onClick={() => mutate({ tournamentId, closed_at: new Date() })}
         disabled={isPending}
       >
-        {isPending ? <LoadingSpinner /> : <Save className="size-5" />}
+        {isPending ? <LoadingSpinner /> : <Save />}
         &nbsp;
         {t('finish tournament')}
       </Button>

@@ -1,6 +1,6 @@
 'use client';
 
-import { LoadingElement } from '@/app/tournaments/[id]/dashboard/tabs/main';
+import { LoadingSpinner } from '@/app/loading';
 import useDeleteUserMutation from '@/components/hooks/mutation-hooks/use-user-delete';
 import { useUser } from '@/components/hooks/query-hooks/use-user';
 import { Button } from '@/components/ui/button';
@@ -135,7 +135,7 @@ export default function DeleteUserForm({
           }
           variant="destructive"
         >
-          {isPending ? <LoadingElement /> : <Trash2 className="size-5" />}
+          {isPending ? <LoadingSpinner /> : <Trash2 />}
           &nbsp;{t('delete profile')}
         </Button>
       </form>

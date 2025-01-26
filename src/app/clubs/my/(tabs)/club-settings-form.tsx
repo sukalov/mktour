@@ -99,11 +99,7 @@ const ClubSettingsForm: FC<ClubTabProps> = ({ selectedClub, userId }) => {
               }
               className="w-full"
             >
-              {clubSettingsMutation.isPending ? (
-                <LoadingSpinner />
-              ) : (
-                <Save className="size-5" />
-              )}
+              {clubSettingsMutation.isPending ? <LoadingSpinner /> : <Save />}
               &nbsp;{t('save')}
             </Button>
           </form>
