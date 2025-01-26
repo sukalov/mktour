@@ -24,6 +24,9 @@ export default function useTournamentFinish(
       queryClient.invalidateQueries({
         queryKey: [tournamentId, 'tournament'],
       });
+      queryClient.invalidateQueries({
+        queryKey: [tournamentId, 'players', 'added'],
+      });
     },
     onError: (error) => {
       toast.error(t('server error'));
