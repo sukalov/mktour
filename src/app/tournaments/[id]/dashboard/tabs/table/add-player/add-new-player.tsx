@@ -141,7 +141,7 @@ const AddNewPlayer = ({
             </>
           ) : (
             <>
-              <Save className="size-5" />
+              <Save />
               &nbsp;{t('save')}
             </>
           )}
