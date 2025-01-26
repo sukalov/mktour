@@ -7,18 +7,11 @@ import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament
 import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
 import { Card } from '@/components/ui/card';
 import { TournamentInfo } from '@/types/tournaments';
-import {
-  CalendarDays,
-  Clock,
-  Dices,
-  HomeIcon,
-  icons,
-  UserRound,
-} from 'lucide-react';
+import { CalendarDays, Dices, HomeIcon, UserRound } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { FC } from 'react';
+import { FC, PropsWithChildren } from 'react';
 import { toast } from 'sonner';
 
 const TournamentInfoList = () => {
@@ -37,20 +30,20 @@ const TournamentInfoList = () => {
   }
   if (!data) return 'tournament info is `undefined` somehow';
 
-  const formattedStartedAt = data.tournament.started_at?.toLocaleTimeString(
-    locale,
-    {
-      hour: '2-digit',
-      minute: '2-digit',
-    },
-  );
-  const formattedClosedAt = data.tournament.closed_at?.toLocaleTimeString(
-    locale,
-    {
-      hour: '2-digit',
-      minute: '2-digit',
-    },
-  );
+  // const formattedStartedAt = data.tournament.started_at?.toLocaleTimeString(
+  //   locale,
+  //   {
+  //     hour: '2-digit',
+  //     minute: '2-digit',
+  //   },
+  // );
+  // const formattedClosedAt = data.tournament.closed_at?.toLocaleTimeString(
+  //   locale,
+  //   {
+  //     hour: '2-digit',
+  //     minute: '2-digit',
+  //   },
+  // );
   const formattedDate = new Date(data.tournament.date).toLocaleDateString(
     locale,
     {
@@ -65,7 +58,6 @@ const TournamentInfoList = () => {
 
   return (
     <Card className="items-left flex w-full flex-col gap-8 p-4 px-8">
-      <WinnersCard {...data} />
       <InfoItem
         icon={HomeIcon}
         value={data.club?.name}
@@ -74,7 +66,7 @@ const TournamentInfoList = () => {
       <InfoItem icon={UserRound} value={t(`Types.${data.tournament.type}`)} />
       <InfoItem icon={Dices} value={t(data.tournament.format)} />
       <InfoItem icon={CalendarDays} value={decapitalizedWeekday} />
-      {formattedStartedAt && (
+      {/* {formattedStartedAt && (
         <InfoItem
           icon={getClockIcon(data.tournament.started_at!)}
           value={`${t('started at')} ${formattedStartedAt}`}
@@ -85,46 +77,48 @@ const TournamentInfoList = () => {
           icon={getClockIcon(data.tournament.closed_at!)}
           value={`${t('ended at')} ${formattedClosedAt}`}
         />
-      )}
+      )} */}
+      <Winners {...data} />
     </Card>
   );
 };
 
-const getClockIcon = (time: Date | null | undefined): FC => {
-  if (!time) return Clock;
+// const getClockIcon = (time: Date | null | undefined): FC => {
+//   if (!time) return Clock;
 
-  let hour = time.getHours();
-  const minutes = time.getMinutes();
-  if (minutes >= 30) {
-    hour = hour + 1;
-  }
-  hour = hour % 12;
-  const clockIcon = `Clock${hour === 0 ? '12' : hour}` as keyof typeof icons;
+//   let hour = time.getHours();
+//   const minutes = time.getMinutes();
+//   if (minutes >= 30) {
+//     hour = hour + 1;
+//   }
+//   hour = hour % 12;
+//   const clockIcon = `Clock${hour === 0 ? '12' : hour}` as keyof typeof icons;
 
-  return icons[clockIcon];
-};
+//   return icons[clockIcon];
+// };
 
-const WinnersCard: FC<TournamentInfo> = ({ tournament }) => {
+const Winners: FC<TournamentInfo> = ({ tournament }) => {
   const { data: players } = useTournamentPlayers(tournament.id);
   const winners = players?.filter(({ place }) => place && place <= 3);
+  const PlayerContainer: FC<PropsWithChildren> = ({ children }) => (
+    <div className="flex items-center gap-2 truncate">{children}</div>
+  );
 
   if (!winners || !tournament.closed_at) return null;
   return (
-    <div className="flex flex-col items-center justify-center gap-4 underline underline-offset-4">
-      <div className="flex flex-col items-center justify-center gap-2 text-center text-xl text-wrap">
-        <Medal className="size-8 bg-amber-300" />
+    <div className="flex flex-col gap-8 underline underline-offset-4">
+      <PlayerContainer>
+        <Medal className="size-6 bg-amber-300" />
         <Link href={`/player/${winners[0].id}`}> {winners[0].nickname}</Link>
-      </div>
-      <div className="flex w-full items-center">
-        <div className="flex w-full flex-col items-center justify-center gap-1 text-center text-wrap">
-          <Medal className="size-6 bg-gray-300" />
-          <Link href={`/player/${winners[1].id}`}> {winners[1].nickname}</Link>
-        </div>
-        <div className="flex w-full flex-col items-center justify-center gap-1 text-center text-wrap">
-          <Medal className="size-6 bg-amber-700" />
-          <Link href={`/player/${winners[2].id}`}> {winners[2].nickname} </Link>
-        </div>
-      </div>
+      </PlayerContainer>
+      <PlayerContainer>
+        <Medal className="size-6 bg-gray-300" />
+        <Link href={`/player/${winners[1].id}`}> {winners[1].nickname}</Link>
+      </PlayerContainer>
+      <PlayerContainer>
+        <Medal className="size-6 bg-amber-700" />
+        <Link href={`/player/${winners[2].id}`}>{winners[2].nickname}</Link>
+      </PlayerContainer>
     </div>
   );
 };
