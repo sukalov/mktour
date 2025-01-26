@@ -1,71 +1,97 @@
 'use client';
-import useOutsideClick from '@/components/hooks/use-outside-click';
-import { Button } from '@/components/ui/button';
-import { motion, MotionConfig } from 'framer-motion';
-import { Search } from 'lucide-react';
-import { useRef, useState } from 'react';
-import { useHotkeys } from 'react-hotkeys-hook';
-import { useMediaQuery } from 'react-responsive';
 
-const transition = {
-  type: 'spring',
-  bounce: 0.15,
-  duration: 0.3,
-};
+import {
+  Calculator,
+  Calendar,
+  CreditCard,
+  Search,
+  Settings,
+  Smile,
+  User,
+} from 'lucide-react';
+import * as React from 'react';
+
+import { Button } from '@/components/ui/button';
+import {
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from '@/components/ui/command';
+import { DialogDescription, DialogTitle } from '@/components/ui/dialog';
 
 export default function GlobalSearch() {
-  const [isOpen, setIsOpen] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const miniScreen = useMediaQuery({ maxWidth: 495 });
-  const microScreen = useMediaQuery({ maxWidth: 395 });
-  const mostMicroScreen = useMediaQuery({ maxWidth: 340 });
-
-  useOutsideClick(() => setIsOpen(false), containerRef);
-  useHotkeys('meta+k', () => setIsOpen((prev) => !prev), {
-    enableOnFormTags: true,
-  });
-
-  const searchBarWidth = !miniScreen
-    ? 250
-    : !microScreen
-      ? 200
-      : !mostMicroScreen
-        ? 150
-        : 100;
+  const [open, setOpen] = React.useState(false);
+  React.useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setOpen((open) => !open);
+      }
+    };
+    document.addEventListener('keydown', down);
+    return () => document.removeEventListener('keydown', down);
+  }, []);
 
   return (
-    <MotionConfig transition={transition}>
-      <div ref={containerRef}>
-        <div>
-          <motion.div
-            animate={{
-              width: isOpen ? searchBarWidth : '2.5rem',
-            }}
-            initial={false}
-          >
-            <div className="flex flex-row">
-              <Button
-                className={`relative flex aspect-square items-center justify-center p-2.5 transition-colors select-none disabled:pointer-events-none disabled:opacity-50 ${isOpen && `text-muted-foreground hover:bg-transparent`}`}
-                onClick={() => setIsOpen((prev) => !prev)}
-                aria-label="search"
-                variant="ghost"
-              >
-                <Search size={20} />
-              </Button>
-              {isOpen && (
-                <div className="w-full">
-                  <input
-                    className="mt-2 w-full bg-transparent pr-2 pl-1 focus:outline-hidden"
-                    autoFocus
-                  />
-                  <div className="top-0 right-1 flex h-full items-center justify-center"></div>
-                </div>
-              )}
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </MotionConfig>
+    <>
+      <Button
+        variant="ghost"
+        className="flex flex-row items-center justify-center gap-1 p-3 text-sm"
+        onClick={() => setOpen((prev) => !prev)}
+      >
+        <Search className="size-5" />
+        <kbd className="bg-muted text-muted-foreground pointer-events-none hidden h-6 items-center gap-1 rounded border px-1.5 font-mono text-[10px] font-medium opacity-100 select-none sm:inline-flex">
+          <span className="text-xs">⌘</span>K
+        </kbd>
+      </Button>
+      <CommandDialog open={open} onOpenChange={setOpen}>
+        <DialogTitle className="sr-only">Global search menu</DialogTitle>{' '}
+        <DialogDescription>here you can find any club, tournament or mktour user</DialogDescription>
+        {
+          // FIXME intl
+        }
+        <CommandInput placeholder="Type a command or search..." />
+        <CommandList>
+          <CommandEmpty>No results found.</CommandEmpty>
+          <CommandGroup heading="Suggestions">
+            <CommandItem>
+              <Calendar />
+              <span>Calendar</span>
+            </CommandItem>
+            <CommandItem>
+              <Smile />
+              <span>Search Emoji</span>
+            </CommandItem>
+            <CommandItem>
+              <Calculator />
+              <span>Calculator</span>
+            </CommandItem>
+          </CommandGroup>
+          <CommandSeparator />
+          <CommandGroup heading="Settings">
+            <CommandItem>
+              <User />
+              <span>Profile</span>
+              <CommandShortcut>⌘P</CommandShortcut>
+            </CommandItem>
+            <CommandItem>
+              <CreditCard />
+              <span>Billing</span>
+              <CommandShortcut>⌘B</CommandShortcut>
+            </CommandItem>
+            <CommandItem>
+              <Settings />
+              <span>Settings</span>
+              <CommandShortcut>⌘S</CommandShortcut>
+            </CommandItem>
+          </CommandGroup>
+        </CommandList>
+      </CommandDialog>
+    </>
   );
 }
