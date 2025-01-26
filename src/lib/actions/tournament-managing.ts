@@ -429,7 +429,7 @@ export async function resetTournament({
         draws: 0,
         losses: 0,
         color_index: 0,
-        place: 0,
+        place: null,
       })
       .where(eq(players_to_tournaments.tournament_id, tournamentId)),
   ];
