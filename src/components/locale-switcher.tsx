@@ -1,4 +1,3 @@
-import { LoadingElement } from '@/app/tournaments/[id]/dashboard/tabs/main';
 import { setUserLocale } from '@/components/get-user-locale';
 import { Button } from '@/components/ui/button';
 import { useLocale } from 'next-intl';
@@ -19,7 +18,7 @@ const LocaleSwitcher = () => {
 
   return (
     <Button variant="ghost" size="icon" onClick={handleClickLocale}>
-      {pending ? <LoadingElement /> : <span>{locale}</span>}
+      {pending ? <LoadingSpinner /> : <span>{locale}</span>}
     </Button>
   );
 };

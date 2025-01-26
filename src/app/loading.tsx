@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils';
 import { Loader2 } from 'lucide-react';
 
 // FIXME intl
@@ -10,6 +11,8 @@ export default function Loading() {
   );
 }
 
-export const LoadingSpinner = () => (
-  <Loader2 className="-translate-0.5 animate-spin p-0" />
+export const LoadingSpinner = ({ className }: { className?: string }) => (
+  <Loader2
+    className={cn(`size-5 -translate-0.5 animate-spin p-0`, className)}
+  />
 );

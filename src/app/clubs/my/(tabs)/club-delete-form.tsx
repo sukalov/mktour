@@ -1,6 +1,6 @@
 'use client';
 
-import { LoadingElement } from '@/app/tournaments/[id]/dashboard/tabs/main';
+import { LoadingSpinner } from '@/app/loading';
 import useDeleteClubMutation from '@/components/hooks/mutation-hooks/use-club-delete';
 import { useClubInfo } from '@/components/hooks/query-hooks/use-club-info';
 import { Button } from '@/components/ui/button';
@@ -73,7 +73,7 @@ export default function DeleteConfirmationForm({
           }
           variant="destructive"
         >
-          {isPending ? <LoadingElement /> : <Trash2 />}
+          {isPending ? <LoadingSpinner /> : <Trash2 />}
           &nbsp;{t('delete club')}
         </Button>
       </form>
