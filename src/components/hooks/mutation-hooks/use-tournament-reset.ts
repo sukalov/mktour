@@ -15,7 +15,7 @@ export default function useTournamentReset(
 ) {
   const t = useTranslations('Toasts');
   return useMutation({
-    mutationFn: resetTournament,
+    mutationFn: () => resetTournament({ tournamentId }),
     onSuccess: () => {
       sendJsonMessage({ type: 'reset-tournament' });
       queryClient.invalidateQueries({
