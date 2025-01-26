@@ -2,16 +2,12 @@ import {
   InfoItem,
   LoadingElement,
 } from '@/app/tournaments/[id]/dashboard/tabs/main';
-import { Medal } from '@/app/tournaments/[id]/dashboard/tabs/table';
+import Winners from '@/app/tournaments/[id]/dashboard/tabs/main/winners';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
-import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
 import { Card } from '@/components/ui/card';
-import { TournamentInfo } from '@/types/tournaments';
 import { CalendarDays, Dices, HomeIcon, UserRound } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
-import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { FC, PropsWithChildren } from 'react';
 import { toast } from 'sonner';
 
 const TournamentInfoList = () => {
@@ -96,31 +92,5 @@ const TournamentInfoList = () => {
 
 //   return icons[clockIcon];
 // };
-
-const Winners: FC<TournamentInfo> = ({ tournament }) => {
-  const { data: players } = useTournamentPlayers(tournament.id);
-  const winners = players?.filter(({ place }) => place && place <= 3);
-  const PlayerContainer: FC<PropsWithChildren> = ({ children }) => (
-    <div className="flex items-center gap-2 truncate">{children}</div>
-  );
-
-  if (!winners || !tournament.closed_at) return null;
-  return (
-    <div className="flex flex-col gap-8 underline underline-offset-4">
-      <PlayerContainer>
-        <Medal className="size-6 bg-amber-300" />
-        <Link href={`/player/${winners[0].id}`}> {winners[0].nickname}</Link>
-      </PlayerContainer>
-      <PlayerContainer>
-        <Medal className="size-6 bg-gray-300" />
-        <Link href={`/player/${winners[1].id}`}> {winners[1].nickname}</Link>
-      </PlayerContainer>
-      <PlayerContainer>
-        <Medal className="size-6 bg-amber-700" />
-        <Link href={`/player/${winners[2]?.id}`}>{winners[2]?.nickname}</Link>
-      </PlayerContainer>
-    </div>
-  );
-};
 
 export default TournamentInfoList;

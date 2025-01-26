@@ -2,6 +2,7 @@
 
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import { LoadingElement } from '@/app/tournaments/[id]/dashboard/tabs/main';
+import { Medal, medalColour } from '@/app/tournaments/[id]/dashboard/tabs/main/winners';
 import PlayerDrawer from '@/app/tournaments/[id]/dashboard/tabs/table/player-drawer';
 import { useTournamentRemovePlayer } from '@/components/hooks/mutation-hooks/use-tournament-remove-player';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
@@ -180,12 +181,6 @@ const Stat: FC<PropsWithChildren> = ({ children }) => (
   <TableCellStyled className="min-w-8 text-center font-medium">
     {children}
   </TableCellStyled>
-);
-
-const medalColour = ['bg-amber-300', 'bg-gray-300', 'bg-amber-700'];
-
-export const Medal: FC<{ className: string }> = ({ className }) => (
-  <div className={`aspect-square rounded-full ${className}`} />
 );
 
 type Stats = 'wins' | 'draws' | 'losses';
