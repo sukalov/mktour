@@ -429,6 +429,7 @@ export async function resetTournament({
         draws: 0,
         losses: 0,
         color_index: 0,
+        place: 0,
       })
       .where(eq(players_to_tournaments.tournament_id, tournamentId)),
   ];
@@ -844,11 +845,10 @@ export async function finishTournament({
   players.forEach((player, i) => {
     const playerScore = player.wins + player.draws / 2;
     if (i === 0) {
-      player.place === counter;
+      player.place = counter;
       counter++;
     } else {
       const prevPlayerScore = players[i - 1].wins + players[i - 1].draws / 2;
-      console.log({ playerScore, prevPlayerScore, counter });
       if (playerScore === prevPlayerScore) {
         player.place = counter - 1;
       } else {
