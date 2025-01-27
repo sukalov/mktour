@@ -2,7 +2,10 @@
 
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import { LoadingElement } from '@/app/tournaments/[id]/dashboard/tabs/main';
-import { Medal, medalColour } from '@/app/tournaments/[id]/dashboard/tabs/main/winners';
+import {
+  Medal,
+  medalColour,
+} from '@/app/tournaments/[id]/dashboard/tabs/main/winners';
 import PlayerDrawer from '@/app/tournaments/[id]/dashboard/tabs/table/player-drawer';
 import { useTournamentRemovePlayer } from '@/components/hooks/mutation-hooks/use-tournament-remove-player';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';

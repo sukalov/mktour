@@ -51,7 +51,9 @@ export default function GlobalSearch() {
       </Button>
       <CommandDialog open={open} onOpenChange={setOpen}>
         <DialogTitle className="sr-only">Global search menu</DialogTitle>{' '}
-        <DialogDescription>here you can find any club, tournament or mktour user</DialogDescription>
+        <DialogDescription className="sr-only">
+          here you can find any club, tournament or mktour user
+        </DialogDescription>
         {
           // FIXME intl
         }
