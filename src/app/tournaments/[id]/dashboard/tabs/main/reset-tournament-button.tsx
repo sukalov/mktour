@@ -40,7 +40,7 @@ export default function ResetTournamentButton() {
             {t.rich('confirmation body')}
           </ComboModal.Description>
         </ComboModal.Header>
-        <div className="flex flex-col gap-4 sm:px-4 md:p-0">
+        <div className="flex flex-col gap-4 px-4 md:p-0">
           <Button
             variant={'destructive'}
             className="w-full"
