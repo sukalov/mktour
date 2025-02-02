@@ -28,7 +28,7 @@ export default async function SignInWithLichessButton({
       >
         <div className="grid-flow-col"></div>
         <span className="grid-col-3">
-          <LichessLogo size="40" />
+          <LichessLogo />
         </span>
         <span className="grid-col--9 text-[1.4rem] leading-none font-light md:px-4 md:text-xl">
           {t('Home.sign in with lichess')}

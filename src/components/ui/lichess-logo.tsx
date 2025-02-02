@@ -1,11 +1,7 @@
-import { FC } from 'react';
-
-const LichessLogo: FC<LogoProps> = ({ size }) => {
+const LichessLogo = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
       viewBox={`0 0 28 28`}
       className="fill-primary stroke-primary"
     >
@@ -15,10 +11,6 @@ const LichessLogo: FC<LogoProps> = ({ size }) => {
       />
     </svg>
   );
-};
-
-type LogoProps = {
-  size: string;
 };
 
 export default LichessLogo;
