@@ -869,5 +869,23 @@ export async function finishTournament({
       ),
   );
   await Promise.all(updates);
-  ////
+}
+
+export async function deleteTournament({
+  tournamentId,
+}: {
+  tournamentId: string;
+}) {
+  const { user } = await validateRequest();
+  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
+  const status = await getStatusInTournament(user, tournamentId);
+  if (status === 'viewer') throw new Error('NOT_ADMIN');
+  const queries = [
+    db.delete(games).where(eq(games.tournament_id, tournamentId)),
+    db
+      .delete(players_to_tournaments)
+      .where(eq(players_to_tournaments.tournament_id, tournamentId)),
+  ];
+  await Promise.all(queries);
+  await db.delete(tournaments).where(eq(tournaments.id, tournamentId));
 }
