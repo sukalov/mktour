@@ -21,7 +21,7 @@ export default async function SignInWithLichessButton({
     >
       <Button
         className={cn(
-          `m-auto flex h-28 min-h-28 w-full max-w-[28rem] flex-none flex-col gap-2 px-1 font-bold`,
+          `m-auto flex h-28 min-h-28 w-full max-w-[28rem] flex-none flex-col gap-2 px-1 font-bold [&_svg]:size-10`,
           className,
         )}
         variant="outline"
