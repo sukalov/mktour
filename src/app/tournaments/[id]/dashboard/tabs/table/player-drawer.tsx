@@ -5,13 +5,13 @@ import {
 import FormattedMessage from '@/components/formatted-message';
 import { Button } from '@/components/ui/button';
 import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerHeader,
-  DrawerTitle,
-} from '@/components/ui/drawer';
+  Close,
+  Content,
+  Description,
+  Header,
+  Root,
+  Title,
+} from '@/components/ui/combo-modal';
 import { PlayerModel } from '@/types/tournaments';
 import { UserRound } from 'lucide-react';
 import Link from 'next/link';
@@ -37,17 +37,18 @@ const PlayerDrawer: FC<{
   useEffect(() => setOpen(!!player), [player]);
 
   return (
-    <Drawer
+    <Root
       open={open}
       onClose={() => setOpen(false)}
+      onOpenChange={setOpen}
       onAnimationEnd={() => setSelectedPlayer(null)}
     >
-      <DrawerContent>
-        <DrawerHeader className="text-left">
-          <DrawerTitle>{player?.nickname}</DrawerTitle>
-          <DrawerDescription />
-        </DrawerHeader>
-        <div className="flex w-full flex-col gap-4 p-4 pt-0">
+      <Content>
+        <Header className="text-left">
+          <Title>{player?.nickname}</Title>
+          <Description />
+        </Header>
+        <div className="flex w-full flex-col gap-4 p-4 sm:p-0 pt-0">
           <Link href={`/player/${player?.id}`}>
             <Button className="flex w-full gap-2" size="lg">
               <UserRound />
@@ -55,14 +56,14 @@ const PlayerDrawer: FC<{
             </Button>
           </Link>
           <DestructiveButton />
-          <DrawerClose asChild>
+          <Close asChild>
             <Button size="lg" variant="outline">
               <FormattedMessage id="Common.close" />
             </Button>
-          </DrawerClose>
+          </Close>
         </div>
-      </DrawerContent>
-    </Drawer>
+      </Content>
+    </Root>
   );
 };
 
