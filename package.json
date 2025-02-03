@@ -2,11 +2,11 @@
   "name": "mktour",
   "version": "0.1.0",
   "private": true,
-  "packageManager": "bun@1.2.0",
+  "packageManager": "bun@1.2.2",
   "scripts": {
     "dev": "bunx --bun next dev --turbo",
     "dev:local": "OFFLINE=true bunx --bun next dev --turbo",
-    "build": "bunx --bun next build",
+    "build": "next build",
     "start": "bunx --bun next start",
     "lint": "bunx --bun next lint",
     "opt": "OPT=true bunx --bun next dev --turbo",
