@@ -16,32 +16,30 @@ export default async function PlayerPage(props: PlayerPageProps) {
     user,
     club,
   }); // if defined, this player can be edited by page viewer
-  const isOwner = player.user_id === user?.id; // the viewer of the page is this player
+  // const isOwner = player.user_id === user?.id; // the viewer of the page is this player
   const isClubOwner = status === 'admin'; // FIXME make Enum
+  const isDuplicatingName =
+    player.nickname.trim().toLocaleLowerCase().replaceAll(' ', '') ===
+    player.realname!.trim().toLocaleLowerCase().replaceAll(' ', '');
 
   return (
     <div className="flex w-full flex-col gap-2 p-4 pt-2">
       <div className="flex flex-col gap-2">
-        <div className="flex w-full items-center justify-between border-b-2 pb-2">
+        <div className="flex w-full items-center justify-between">
           <span className="text-2xl">{player.nickname}</span>
-          {isClubOwner && (
-            <DeletePlayer playerId={player.id} userId={user!.id} />
-          )}
         </div>
-        <span>{player.realname}</span>
+        {!isDuplicatingName && <span>{player.realname}</span>}
         <span>rating: {player.rating}</span>
         <p>
           club: <Link href={`/clubs/${player.club_id}`}>{club.name}</Link>
         </p>
       </div>
       <div className="text-muted-foreground flex flex-col gap-2 text-sm">
+        {isClubOwner && <DeletePlayer playerId={player.id} userId={user!.id} />}
         <p>
           {status
             ? `you can edit this player because he is from ${club.name}`
-            : `you cannot edit this player, you are not admin of ${club.name}`}
-        </p>
-        <p className="font-bold">
-          {isOwner ? 'this player is you!' : 'it is NOT you'}
+            : `you cannot edit this player, you are not admin of ${(<strong>{club.name}</strong>)}`}
         </p>
       </div>
     </div>

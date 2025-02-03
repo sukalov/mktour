@@ -6,7 +6,8 @@
     "login": "log in",
     "logout": "log out",
     "confirm": "are you sure?",
-    "close": "close"
+    "close": "close",
+    "delete": "delete"
   },
   "Menu": {
     "club": "club",
@@ -64,7 +65,8 @@
   },
   "Player": {
     "last seen": "last seen: ",
-    "never": "never"
+    "never": "never",
+    "delete": "delete player"
   },
   "Errors": {
     "hard naming": "naming is hard, but necessary",
