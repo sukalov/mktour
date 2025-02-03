@@ -29,7 +29,6 @@
     "knip": "knip-bun"
   },
   "dependencies": {
-    "@faker-js/faker": "^9.4.0",
     "@hookform/resolvers": "^3.10.0",
     "@libsql/client": "^0.14.0",
     "@lucia-auth/adapter-drizzle": "^1.1.0",
@@ -102,7 +101,8 @@
     "next-compose-plugins": "^2.2.1",
     "tailwindcss": "^4.0.3",
     "tsx": "4.19.2",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "@faker-js/faker": "^9.4.0"
   },
   "vsc-organize-imports": {
     "orderSpecifiers": true,
