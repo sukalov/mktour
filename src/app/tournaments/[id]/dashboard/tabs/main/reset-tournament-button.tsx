@@ -4,7 +4,15 @@ import { LoadingSpinner } from '@/app/loading';
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import useTournamentReset from '@/components/hooks/mutation-hooks/use-tournament-reset';
 import { Button } from '@/components/ui/button';
-import ComboModal from '@/components/ui/combo-modal';
+import {
+  Close,
+  Content,
+  Description,
+  Header,
+  Root,
+  Title,
+  Trigger,
+} from '@/components/ui/combo-modal';
 import { useQueryClient } from '@tanstack/react-query';
 import { CircleX } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -25,20 +33,18 @@ export default function ResetTournamentButton() {
   const t = useTranslations('Tournament.Main');
 
   return (
-    <ComboModal.Root open={open} onOpenChange={setOpen}>
-      <ComboModal.Trigger asChild>
+    <Root open={open} onOpenChange={setOpen}>
+      <Trigger asChild>
         <Button variant="destructive">
           <CircleX />
           &nbsp;{t('reset progress')}
         </Button>
-      </ComboModal.Trigger>
-      <ComboModal.Content className="pb-4">
-        <ComboModal.Header className="text-left">
-          <ComboModal.Title>{t('confirmation header')}</ComboModal.Title>
-          <ComboModal.Description>
-            {t.rich('confirmation body')}
-          </ComboModal.Description>
-        </ComboModal.Header>
+      </Trigger>
+      <Content className="pb-4">
+        <Header className="text-left">
+          <Title>{t('confirmation header')}</Title>
+          <Description>{t.rich('confirmation body')}</Description>
+        </Header>
         <div className="flex flex-col gap-4 px-4 md:p-0">
           <Button
             variant={'destructive'}
@@ -50,13 +56,13 @@ export default function ResetTournamentButton() {
             &nbsp;
             {t('confirm reset')}
           </Button>
-          <ComboModal.Close asChild>
+          <Close asChild>
             <Button className="w-full" variant="outline">
               {t('cancel')}
             </Button>
-          </ComboModal.Close>
+          </Close>
         </div>
-      </ComboModal.Content>
-    </ComboModal.Root>
+      </Content>
+    </Root>
   );
 }

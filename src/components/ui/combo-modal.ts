@@ -19,32 +19,30 @@ import {
   DrawerTrigger,
 } from '@/components/ui/drawer';
 
-const drawer = {
-  Root: Drawer,
-  Trigger: DrawerTrigger,
-  Content: DrawerContent,
-  Header: DrawerHeader,
-  Title: DrawerTitle,
-  Description: DrawerDescription,
-  Footer: DrawerFooter,
-  Close: DrawerClose,
-};
-
-const dialog = {
-  Root: Dialog,
-  Trigger: DialogTrigger,
-  Content: DialogContent,
-  Header: DialogHeader,
-  Title: DialogTitle,
-  Description: DialogDescription,
-  Footer: DialogFooter,
-  Close: DialogClose,
-};
-
 const isDesktop =
   typeof window !== 'undefined' &&
   window.matchMedia('(min-width: 768px)').matches;
 
-const ComboModal = isDesktop ? dialog : drawer;
+const ComboModal = {
+  Root: isDesktop ? Dialog : Drawer,
+  Trigger: isDesktop ? DialogTrigger : DrawerTrigger,
+  Content: isDesktop ? DialogContent : DrawerContent,
+  Header: isDesktop ? DialogHeader : DrawerHeader,
+  Title: isDesktop ? DialogTitle : DrawerTitle,
+  Description: isDesktop ? DialogDescription : DrawerDescription,
+  Footer: isDesktop ? DialogFooter : DrawerFooter,
+  Close: isDesktop ? DialogClose : DrawerClose,
+};
+
+export const {
+  Root,
+  Trigger,
+  Content,
+  Header,
+  Title,
+  Description,
+  Footer,
+  Close,
+} = ComboModal;
 
 export default ComboModal;
