@@ -1,7 +1,7 @@
 'use client';
 
 import { turboPascal } from '@/app/fonts';
-import { LoadingElement } from '@/app/tournaments/[id]/dashboard/tabs/main';
+import { LoadingSpinner } from '@/app/loading';
 import FormDatePicker from '@/app/tournaments/create/form-date-picker';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -62,7 +62,7 @@ export default function NewTournamentForm({
   const onSubmit = async (data: NewTournamentFormType) => {
     setSubmitButton(
       <Button disabled className="w-full">
-        <LoadingElement />
+        <LoadingSpinner />
         &nbsp;
         {t('making')}
       </Button>,
