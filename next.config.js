@@ -1,6 +1,10 @@
 const MillionLint = require('@million/lint');
+const withPlugins = require('next-compose-plugins');
+const createNextIntlPlugin = require('next-intl/plugin');
 /** @type {import('next').NextConfig} */
-const withBundleAnalyzer = require('@next/bundle-analyzer');
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true'
+});
 const nextConfig = {
   experimental: {
     reactCompiler: true,
@@ -11,15 +15,8 @@ const nextConfig = {
     },
   },
 };
-module.exports =
-  process.env.ANALYZE === 'true'
-    ? withBundleAnalyzer(nextConfig)
-    : process.env.OPT === 'true'
-      ? MillionLint.next({ rsc: true })(nextConfig)
-      : nextConfig;
-
-const createNextIntlPlugin = require('next-intl/plugin');
-
 const withNextIntl = createNextIntlPlugin('./src/components/i18n.ts');
 
-module.exports = withNextIntl(nextConfig);
+module.exports = process.env.OPT === 'true'
+  ? MillionLint.next({ rsc: true })(nextConfig)
+  : withPlugins([[withBundleAnalyzer], [withNextIntl]], nextConfig);

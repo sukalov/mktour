@@ -44,16 +44,12 @@ const Button = React.forwardRef<
   ButtonProps & { iconSize?: string }
 >(({ className, variant, size, asChild = false, ...props }, ref) => {
   const Comp = asChild ? Slot : 'button';
-  return (
-    <Comp
-      className={cn(
-        '[&_svg]:size-5',
-        buttonVariants({ variant, size, className }),
-      )}
-      ref={ref}
-      {...props}
-    />
+  const computedClassName = React.useMemo(
+    () => cn('[&_svg]:size-5', buttonVariants({ variant, size, className })),
+    [variant, size, className],
   );
+
+  return <Comp className={computedClassName} ref={ref} {...props} />;
 });
 Button.displayName = 'Button';
 
