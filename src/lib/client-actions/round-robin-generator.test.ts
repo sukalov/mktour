@@ -1,6 +1,7 @@
 import { expect, mock, test } from "bun:test";
 
 import { DatabaseUser } from "@/lib/db/schema/auth";
+import { DatabaseClub, DatabaseTournament } from "@/lib/db/schema/tournaments";
 import { newid } from "@/lib/utils";
 import { PlayerModel } from "@/types/tournaments";
 import { faker } from "@faker-js/faker";
@@ -36,6 +37,53 @@ const generateDatabasePlayer = mock(
       created_at: randomCreationDate
     };
     return randomUser;
+  }
+)
+
+const DEFAULT_FORMAT = "round_robin";
+const DEFAULT_TYPE = "solo";
+
+
+const generateRandomDatabaseClub = mock(
+  () => {
+    const randomId = newid();
+    const randomTitle = faker.animal.cat();
+    const randomDescription = faker.food.description();
+    const randomCreatedAt = faker.date.anytime();
+    const randomLichessTeam = faker.book.title();
+    const randomClub: DatabaseClub = {
+      id: randomId,
+      name: randomTitle,
+      description: randomDescription,
+      created_at: randomCreatedAt,
+      lichess_team: randomLichessTeam
+    }
+    return randomClub;
+  }
+)
+
+const generateRandomDatabaseTournament = mock(
+  () => {
+    const randomDate = faker.date.anytime();
+    const randomId = newid();
+    const randomTitle = faker.music.songName();
+    const randomCreationDate = faker.date.anytime();
+
+    const randomClub = generateRandomDatabaseClub();
+    const randomTournament: DatabaseTournament =  {
+      date: "",
+      id: "",
+      title: "",
+      format: "swiss",
+      type: "solo",
+      created_at: undefined,
+      club_id: "",
+      started_at: null,
+      closed_at: null,
+      rounds_number: null,
+      ongoing_round: 0,
+      rated: null
+    }
   }
 )
 
