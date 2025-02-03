@@ -2,7 +2,7 @@
 
 import { LoadingSpinner } from '@/app/loading';
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
-import useTournamentReset from '@/components/hooks/mutation-hooks/use-tournament-reset';
+import useTournamentDelete from '@/components/hooks/mutation-hooks/use-tournament-delete';
 import { Button } from '@/components/ui/button';
 import {
   Close,
@@ -14,20 +14,19 @@ import {
   Trigger,
 } from '@/components/ui/combo-modal';
 import { useQueryClient } from '@tanstack/react-query';
-import { RotateCcw } from 'lucide-react';
+import { CircleX } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { useContext, useState } from 'react';
 
-export default function ResetTournamentButton() {
+export default function DeleteTournamentButton() {
   const { id: tournamentId } = useParams<{ id: string }>();
   const queryClient = useQueryClient();
-  const { sendJsonMessage, setRoundInView } = useContext(DashboardContext);
-  const { mutate, isPending } = useTournamentReset(
+  const { sendJsonMessage } = useContext(DashboardContext);
+  const { mutate, isPending } = useTournamentDelete(
     tournamentId,
     queryClient,
     sendJsonMessage,
-    setRoundInView,
   );
   const [open, setOpen] = useState(false);
   const t = useTranslations('Tournament.Main');
@@ -35,15 +34,15 @@ export default function ResetTournamentButton() {
   return (
     <Root open={open} onOpenChange={setOpen}>
       <Trigger asChild>
-        <Button variant="outline">
-          <RotateCcw />
-          &nbsp;{t('reset progress')}
+        <Button variant="destructive">
+          <CircleX />
+          &nbsp;{t('Delete.title')}
         </Button>
       </Trigger>
       <Content className="pb-4">
         <Header className="text-left">
-          <Title>{t('confirmation header')}</Title>
-          <Description>{t.rich('confirmation body')}</Description>
+          <Title>{t('Delete.confirmation header')}</Title>
+          <Description>{t.rich('Delete.confirmation body')}</Description>
         </Header>
         <div className="flex flex-col gap-4 px-4 md:p-0">
           <Button
@@ -52,9 +51,9 @@ export default function ResetTournamentButton() {
             onClick={() => mutate()}
             disabled={isPending}
           >
-            {isPending ? <LoadingSpinner /> : <RotateCcw />}
+            {isPending ? <LoadingSpinner /> : <CircleX />}
             &nbsp;
-            {t('confirm reset')}
+            {t('Delete.confirm')}
           </Button>
           <Close asChild>
             <Button className="w-full" variant="outline">

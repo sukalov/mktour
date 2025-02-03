@@ -169,6 +169,12 @@
       "confirmation header": "вы уверены?",
       "reset progress": "обнулить турнир",
       "confirm reset": "сбросить турнир",
+      "Delete": {
+        "title": "удалить турнир",
+        "confirm": "удалить турнир",
+        "confirmation header": "вы уверены?",
+        "confirmation body": "турнир будет безвозвратно удалён"
+      },
       "cancel": "отмена",
       "finish tournament": "закончить турнир",
       "round robin": "круговик",

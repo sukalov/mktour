@@ -21,7 +21,7 @@ export default function useTournamentDelete(
       queryClient.invalidateQueries({
         queryKey: [tournamentId, 'tournament'],
       });
-      router.push('/tournaments/all');
+      router.push('/tournaments/my');
       router.refresh();
     },
     onError: () => {
