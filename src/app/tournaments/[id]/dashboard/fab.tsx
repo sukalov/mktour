@@ -20,7 +20,6 @@ const Fab: FC<FabProps> = ({
         size="icon"
         onClick={onClick}
         disabled={disabled}
-        iconSize="8"
       >
         <Icon className={`${Icon === Loader2 && 'animate-spin'}`} />
       </Button>
