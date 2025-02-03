@@ -32,7 +32,12 @@ const ActionButton: FC<{
     );
   }
 
-  return <StartTournamentButton />;
+  return (
+    <>
+      <StartTournamentButton />
+      <DeleteTournamentButton />
+    </>
+  );
 };
 
 export default ActionButton;
