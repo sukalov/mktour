@@ -3,8 +3,8 @@
 import { LoadingSpinner } from '@/app/loading';
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import useTournamentReset from '@/components/hooks/mutation-hooks/use-tournament-reset';
-import useComboModal from '@/components/hooks/use-combo-modal';
 import { Button } from '@/components/ui/button';
+import ComboModal from '@/components/ui/combo-modal';
 import { useQueryClient } from '@tanstack/react-query';
 import { CircleX } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -23,7 +23,6 @@ export default function ResetTournamentButton() {
   );
   const [open, setOpen] = useState(false);
   const t = useTranslations('Tournament.Main');
-  const ComboModal = useComboModal();
 
   return (
     <ComboModal.Root open={open} onOpenChange={setOpen}>
