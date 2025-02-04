@@ -38,7 +38,7 @@ export const WithdrawButtonWithConfirmation: FC<{
       </Button>
     </Trigger>
     <Content>
-      <Header className="text-left">
+      <Header>
         <Title>
           <FormattedMessage id="Tournament.Main.confirmation header" />
         </Title>
@@ -46,25 +46,23 @@ export const WithdrawButtonWithConfirmation: FC<{
           <FormattedMessage id="Tournament.Table.Player.Withdraw.description" />
         </Description>
       </Header>
-      <div className="flex w-full flex-col gap-4 p-4 sm:p-0 pt-0">
-        <Button
-          className="flex w-full gap-2"
-          size="lg"
-          onClick={console.log} // FIXME handle Withdraw from tournament
-          variant="destructive"
-        >
-          <LogOut />
-          <FormattedMessage
-            id="Tournament.Table.Player.Withdraw.confirm"
-            values={{ nickname: selectedPlayer?.nickname }}
-          />
+      <Button
+        className="flex w-full gap-2"
+        size="lg"
+        onClick={console.log} // FIXME handle Withdraw from tournament
+        variant="destructive"
+      >
+        <LogOut />
+        <FormattedMessage
+          id="Tournament.Table.Player.Withdraw.confirm"
+          values={{ nickname: selectedPlayer?.nickname }}
+        />
+      </Button>
+      <Close asChild>
+        <Button size="lg" className="w-full" variant="outline">
+          <FormattedMessage id="Common.close" />
         </Button>
-        <Close asChild>
-          <Button size="lg" className="w-full" variant="outline">
-            <FormattedMessage id="Common.close" />
-          </Button>
-        </Close>
-      </div>
+      </Close>
     </Content>
   </Root>
 );

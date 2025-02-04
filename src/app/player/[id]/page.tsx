@@ -1,4 +1,4 @@
-import DeletePlayer from '@/app/player/[id]/delete-player-button';
+import ActionButton from '@/app/player/[id]/action-button';
 import { validateRequest } from '@/lib/auth/lucia';
 import getPlayerQuery from '@/lib/db/queries/get-player-query';
 import getStatus from '@/lib/db/queries/get-status-query';
@@ -27,6 +27,7 @@ export default async function PlayerPage(props: PlayerPageProps) {
       <div className="flex flex-col gap-2">
         <div className="flex w-full items-center justify-between">
           <span className="text-2xl">{player.nickname}</span>
+          <ActionButton userId={user!.id} />
         </div>
         {!isDuplicatingName && <span>{player.realname}</span>}
         <span>rating: {player.rating}</span>
@@ -35,7 +36,6 @@ export default async function PlayerPage(props: PlayerPageProps) {
         </p>
       </div>
       <div className="text-muted-foreground flex flex-col gap-2 text-sm">
-        {isClubOwner && <DeletePlayer playerId={player.id} userId={user!.id} />}
         <p>
           {status
             ? `you can edit this player because he is from ${club.name}`
@@ -45,6 +45,7 @@ export default async function PlayerPage(props: PlayerPageProps) {
     </div>
   );
 }
+
 
 export interface PlayerPageProps {
   params: Promise<{ id: string }>;

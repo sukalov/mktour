@@ -18,7 +18,6 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer';
-
 const isDesktop =
   typeof window !== 'undefined' &&
   window.matchMedia('(min-width: 768px)').matches;

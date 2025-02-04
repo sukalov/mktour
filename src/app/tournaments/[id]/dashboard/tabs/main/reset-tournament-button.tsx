@@ -40,28 +40,26 @@ export default function ResetTournamentButton() {
           &nbsp;{t('reset progress')}
         </Button>
       </Trigger>
-      <Content className="pb-4">
-        <Header className="text-left">
+      <Content>
+        <Header>
           <Title>{t('confirmation header')}</Title>
           <Description>{t.rich('confirmation body')}</Description>
         </Header>
-        <div className="flex flex-col gap-4 px-4 md:p-0">
-          <Button
-            variant={'destructive'}
-            className="w-full"
-            onClick={() => mutate()}
-            disabled={isPending}
-          >
-            {isPending ? <LoadingSpinner /> : <RotateCcw />}
-            &nbsp;
-            {t('confirm reset')}
+        <Button
+          variant={'destructive'}
+          className="w-full"
+          onClick={() => mutate()}
+          disabled={isPending}
+        >
+          {isPending ? <LoadingSpinner /> : <RotateCcw />}
+          &nbsp;
+          {t('confirm reset')}
+        </Button>
+        <Close asChild>
+          <Button className="w-full" variant="outline">
+            {t('cancel')}
           </Button>
-          <Close asChild>
-            <Button className="w-full" variant="outline">
-              {t('cancel')}
-            </Button>
-          </Close>
-        </div>
+        </Close>
       </Content>
     </Root>
   );

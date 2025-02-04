@@ -44,24 +44,22 @@ const PlayerDrawer: FC<{
       onAnimationEnd={() => setSelectedPlayer(null)}
     >
       <Content>
-        <Header className="text-left">
+        <Header>
           <Title>{player?.nickname}</Title>
-          <Description />
+          <Description hidden />
         </Header>
-        <div className="flex w-full flex-col gap-4 p-4 sm:p-0 pt-0">
-          <Link href={`/player/${player?.id}`}>
-            <Button className="flex w-full gap-2" size="lg">
-              <UserRound />
-              <FormattedMessage id="Tournament.Table.Player.profile" />
-            </Button>
-          </Link>
-          <DestructiveButton />
-          <Close asChild>
-            <Button size="lg" variant="outline">
-              <FormattedMessage id="Common.close" />
-            </Button>
-          </Close>
-        </div>
+        <Link href={`/player/${player?.id}`}>
+          <Button className="flex w-full gap-2" size="lg">
+            <UserRound />
+            <FormattedMessage id="Tournament.Table.Player.profile" />
+          </Button>
+        </Link>
+        <DestructiveButton />
+        <Close asChild>
+          <Button size="lg" variant="outline">
+            <FormattedMessage id="Common.close" />
+          </Button>
+        </Close>
       </Content>
     </Root>
   );

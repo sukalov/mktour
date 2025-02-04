@@ -35,6 +35,7 @@ const ActionButton: FC<{
   return (
     <>
       <StartTournamentButton />
+      <ResetTournamentButton/>
       <DeleteTournamentButton />
     </>
   );

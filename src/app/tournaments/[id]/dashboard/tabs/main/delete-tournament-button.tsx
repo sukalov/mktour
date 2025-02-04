@@ -3,16 +3,8 @@
 import { LoadingSpinner } from '@/app/loading';
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import useTournamentDelete from '@/components/hooks/mutation-hooks/use-tournament-delete';
+import useComboModal from '@/components/hooks/use-combo-modal';
 import { Button } from '@/components/ui/button';
-import {
-  Close,
-  Content,
-  Description,
-  Header,
-  Root,
-  Title,
-  Trigger,
-} from '@/components/ui/combo-modal';
 import { useQueryClient } from '@tanstack/react-query';
 import { CircleX } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -31,6 +23,9 @@ export default function DeleteTournamentButton() {
   const [open, setOpen] = useState(false);
   const t = useTranslations('Tournament.Main');
 
+  const { Close, Content, Description, Header, Root, Title, Trigger } =
+    useComboModal();
+
   return (
     <Root open={open} onOpenChange={setOpen}>
       <Trigger asChild>
@@ -39,28 +34,26 @@ export default function DeleteTournamentButton() {
           &nbsp;{t('Delete.title')}
         </Button>
       </Trigger>
-      <Content className="pb-4">
-        <Header className="text-left">
+      <Content>
+        <Header>
           <Title>{t('Delete.confirmation header')}</Title>
           <Description>{t.rich('Delete.confirmation body')}</Description>
         </Header>
-        <div className="flex flex-col gap-4 px-4 md:p-0">
-          <Button
-            variant={'destructive'}
-            className="w-full"
-            onClick={() => mutate()}
-            disabled={isPending}
-          >
-            {isPending ? <LoadingSpinner /> : <CircleX />}
-            &nbsp;
-            {t('Delete.confirm')}
+        <Button
+          variant={'destructive'}
+          className="w-full"
+          onClick={() => mutate()}
+          disabled={isPending}
+        >
+          {isPending ? <LoadingSpinner /> : <CircleX />}
+          &nbsp;
+          {t('Delete.confirm')}
+        </Button>
+        <Close asChild>
+          <Button className="w-full" variant="outline">
+            {t('cancel')}
           </Button>
-          <Close asChild>
-            <Button className="w-full" variant="outline">
-              {t('cancel')}
-            </Button>
-          </Close>
-        </div>
+        </Close>
       </Content>
     </Root>
   );
