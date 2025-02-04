@@ -27,7 +27,7 @@ export default async function PlayerPage(props: PlayerPageProps) {
       <div className="flex flex-col gap-2">
         <div className="flex w-full items-center justify-between">
           <span className="text-2xl">{player.nickname}</span>
-          <ActionButton userId={user!.id} />
+          <ActionButton player={player} userId={user!.id} />
         </div>
         {!isDuplicatingName && <span>{player.realname}</span>}
         <span>rating: {player.rating}</span>

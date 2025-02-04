@@ -1,6 +1,7 @@
 'use client';
 
 import DeletePlayer from '@/app/player/[id]/delete-player-button';
+import EditPlayerForm from '@/app/player/[id]/player-form';
 import { Button } from '@/components/ui/button';
 import {
   Content,
@@ -10,10 +11,14 @@ import {
   Title,
   Trigger,
 } from '@/components/ui/combo-modal';
+import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { Pencil } from 'lucide-react';
 import { FC } from 'react';
 
-const ActionButton: FC<{ userId: string }> = ({ userId }) => {
+const ActionButton: FC<{ userId: string; player: DatabasePlayer }> = ({
+  userId,
+  player,
+}) => {
   return (
     <Root>
       <Trigger asChild>
@@ -26,6 +31,7 @@ const ActionButton: FC<{ userId: string }> = ({ userId }) => {
           <Title>edit</Title>
           <Description hidden />
         </Header>
+        <EditPlayerForm {...player}/>
         <DeletePlayer userId={userId} />
       </Content>
     </Root>
