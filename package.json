@@ -31,7 +31,6 @@
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
     "@libsql/client": "^0.14.0",
-    "@libsql/isomorphic-ws": "^0.1.5",
     "@lucia-auth/adapter-drizzle": "^1.1.0",
     "@million/lint": "^1.0.14",
     "@next/bundle-analyzer": "^15.1.6",
