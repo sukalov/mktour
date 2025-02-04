@@ -7,6 +7,15 @@ import { PlayerModel } from "@/types/tournaments";
 import { faker } from "@faker-js/faker";
 
 const INITIAL_WINS = 0;
+const INITIAL_LOSSES = 0;
+const INITIAL_DRAWS = 0;
+const INITIAL_ONGOING_ROUND = 0;
+const INITIAL_COLOUR_INDEX = 0;
+
+const DEFAULT_PLACE = null;
+const DEFAULT_IS_EXITED = null;
+const DEFAULT_FORMAT = "round robin";
+const DEFAULT_TYPE = "solo";
 
 const COLOUR_INDEX_FAKEOPTS = {
   min: -10,
@@ -27,6 +36,7 @@ const generateDatabasePlayer = mock(
     const randomEmail = faker.internet.email();
     const randomClubName = faker.company.name();
     const randomCreationDate = faker.date.anytime();
+
     const randomUser: DatabaseUser = {
       id: randomId,
       username: randomNickname,
@@ -39,9 +49,6 @@ const generateDatabasePlayer = mock(
     return randomUser;
   }
 )
-
-const DEFAULT_FORMAT = "round_robin";
-const DEFAULT_TYPE = "solo";
 
 
 const generateRandomDatabaseClub = mock(
@@ -68,46 +75,53 @@ const generateRandomDatabaseTournament = mock(
     const randomId = newid();
     const randomTitle = faker.music.songName();
     const randomCreationDate = faker.date.anytime();
-
     const randomClub = generateRandomDatabaseClub();
+    const randomStartDate = faker.date.anytime();
+    const randomEndDate = faker.date.anytime();
+    const randomRoundsNumber = faker.number.int();
+    const randomIsRated = faker.datatype.boolean();
+    
     const randomTournament: DatabaseTournament =  {
-      date: "",
-      id: "",
-      title: "",
-      format: "swiss",
-      type: "solo",
-      created_at: undefined,
-      club_id: "",
-      started_at: null,
-      closed_at: null,
-      rounds_number: null,
-      ongoing_round: 0,
-      rated: null
+      date: randomDate.toDateString(),
+      id: randomId,
+      title: randomTitle,
+      format: DEFAULT_FORMAT,
+      type: DEFAULT_TYPE,
+      created_at: randomCreationDate,
+      club_id: randomClub.id,
+      started_at: randomStartDate,
+      closed_at: randomEndDate,
+      rounds_number: randomRoundsNumber,
+      ongoing_round: INITIAL_ONGOING_ROUND,
+      rated: randomIsRated
     }
+
+    return randomTournament;
   }
 )
 
 const generatePlayerModel = mock(
   () => {
     const randomUser = generateDatabasePlayer();
+
     const randomPlayer: PlayerModel = {
-      id: randomId,
-      nickname: randomNickname, 
-      wins: 0,
-      draws: 0,
-      losses: 0,
-      color_index: 0,
-      realname: randomRealName,
-      rating: randomRating,
-      exited: null,
-      place: null,
+      id: randomUser.id,
+      nickname: randomUser.username, 
+      wins: INITIAL_WINS,
+      draws: INITIAL_DRAWS,
+      losses: INITIAL_LOSSES,
+      color_index: INITIAL_COLOUR_INDEX,
+      realname: randomUser.name,
+      rating: randomUser.rating,
+      exited: DEFAULT_IS_EXITED,
+      place: DEFAULT_PLACE,
     }
-    
-    
+
+    return randomPlayer; 
   }
 )
 
-const randomName = faker.person.fullName();
+
 
 test("2 + 2", () => {
   expect(2 + 2).toBe(4);
