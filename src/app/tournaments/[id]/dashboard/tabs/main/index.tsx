@@ -1,7 +1,7 @@
 'use client';
 
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
-import ActionButton from '@/app/tournaments/[id]/dashboard/tabs/main/action-button';
+import ActionButtons from '@/app/tournaments/[id]/dashboard/tabs/main/action-buttons';
 import TournamentInfoList from '@/app/tournaments/[id]/dashboard/tabs/main/tournament-info-card';
 import Center from '@/components/center';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
@@ -26,7 +26,7 @@ const Main = () => {
       </div>
       <TournamentInfoList />
       {/* here is place to chose number of rounds in swiss */}
-      <ActionButton status={status} tournament={data.tournament} />
+      <ActionButtons status={status} tournament={data.tournament} />
     </div>
   );
 };

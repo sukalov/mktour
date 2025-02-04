@@ -6,13 +6,13 @@ import { Status } from '@/lib/db/queries/get-status-in-tournament';
 import { TournamentInfo } from '@/types/tournaments';
 import { FC } from 'react';
 
-const ActionButton: FC<{
+const ActionButtons: FC<{
   status: Status;
   tournament: TournamentInfo['tournament'];
 }> = ({ status, tournament }) => {
   if (status !== 'organizer') return null;
 
-  const { closed_at, rounds_number, ongoing_round } = tournament;
+  const { closed_at, rounds_number, ongoing_round, started_at } = tournament;
 
   if (closed_at) {
     return (
@@ -23,7 +23,7 @@ const ActionButton: FC<{
     );
   }
 
-  if (rounds_number === ongoing_round) {
+  if (started_at && rounds_number === ongoing_round) {
     return (
       <>
         <FinishTournamentButton lastRoundNumber={rounds_number} />
@@ -32,13 +32,14 @@ const ActionButton: FC<{
     );
   }
 
+  if (started_at) return <ResetTournamentButton />;
+
   return (
     <>
       <StartTournamentButton />
-      <ResetTournamentButton/>
       <DeleteTournamentButton />
     </>
   );
 };
 
-export default ActionButton;
+export default ActionButtons;
