@@ -5,47 +5,45 @@ import StartTournamentButton from '@/app/tournaments/[id]/dashboard/tabs/main/st
 import FormattedMessage from '@/components/formatted-message';
 import { Button } from '@/components/ui/button';
 import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerHeader,
-  DrawerTitle,
-} from '@/components/ui/drawer';
+  Close,
+  Content,
+  Description,
+  Header,
+  Root,
+  Title,
+} from '@/components/ui/combo-modal';
 import { FC, useContext, useEffect, useState } from 'react';
 
 const StartTournamentDrawer: FC<{
   startedAt: number | undefined;
 }> = ({ startedAt }) => {
-  const [openDrawer, setOpenDrawer] = useState(false);
+  const [open, setOpen] = useState(false);
   const { selectedGameId } = useContext(DashboardContext);
 
   useEffect(() => {
-    if (!startedAt && !!selectedGameId) setOpenDrawer(true);
-    if (startedAt) setOpenDrawer(false);
+    if (!startedAt && !!selectedGameId) setOpen(true);
+    if (startedAt) setOpen(false);
   }, [selectedGameId, startedAt]);
 
   return (
-    <Drawer open={openDrawer} onClose={() => setOpenDrawer(false)}>
-      <DrawerContent>
-        <DrawerHeader className="text-left">
-          <DrawerTitle>
+    <Root open={open} onOpenChange={setOpen}>
+      <Content>
+        <Header>
+          <Title>
             <FormattedMessage id="Tournament.Round.start tournament.title" />
-          </DrawerTitle>
-          <DrawerDescription>
+          </Title>
+          <Description>
             <FormattedMessage id="Tournament.Round.start tournament.description" />
-          </DrawerDescription>
-        </DrawerHeader>
-        <div className="flex w-full flex-col gap-4 p-4 pt-0">
-          <StartTournamentButton />
-          <DrawerClose asChild>
-            <Button size="lg" variant="outline">
-              <FormattedMessage id="Common.cancel" />
-            </Button>
-          </DrawerClose>
-        </div>
-      </DrawerContent>
-    </Drawer>
+          </Description>
+        </Header>
+        <StartTournamentButton />
+        <Close asChild>
+          <Button size="lg" variant="outline">
+            <FormattedMessage id="Common.cancel" />
+          </Button>
+        </Close>
+      </Content>
+    </Root>
   );
 };
 
