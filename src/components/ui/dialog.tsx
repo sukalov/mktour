@@ -38,7 +38,7 @@ const DialogContent = React.forwardRef<
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
-        'bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-0 left-[50%] z-50 grid w-full max-w-2xl translate-x-[-50%] gap-4 border p-6 shadow-lg duration-200 sm:top-[50%] sm:max-w-lg sm:translate-y-[-50%] sm:rounded-lg',
+        'bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border p-6 shadow-lg duration-200 sm:rounded-lg',
         className,
       )}
       {...props}
@@ -58,10 +58,7 @@ const DialogHeader = ({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={cn(
-      'flex flex-col gap-1.5 text-center sm:text-left',
-      className,
-    )}
+    className={cn('flex flex-col gap-1.5 text-center sm:text-left', className)}
     {...props}
   />
 );
@@ -88,7 +85,7 @@ const DialogTitle = React.forwardRef<
   <DialogPrimitive.Title
     ref={ref}
     className={cn(
-      'text-lg pr-6 leading-none font-semibold tracking-tight',
+      'pr-6 text-lg leading-none font-semibold tracking-tight',
       className,
     )}
     {...props}
