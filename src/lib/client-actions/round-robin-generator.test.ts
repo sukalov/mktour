@@ -1,9 +1,10 @@
-import { expect, mock, test } from "bun:test";
+import { mock, test } from "bun:test";
 
+import { generateRoundRobinRoundFunction } from "@/lib/client-actions/round-robin-generator";
 import { DatabaseUser } from "@/lib/db/schema/auth";
 import { DatabaseClub, DatabaseTournament } from "@/lib/db/schema/tournaments";
 import { newid } from "@/lib/utils";
-import { PlayerModel } from "@/types/tournaments";
+import { GameModel, PlayerModel } from "@/types/tournaments";
 import { faker } from "@faker-js/faker";
 
 const INITIAL_WINS = 0;
@@ -11,6 +12,7 @@ const INITIAL_LOSSES = 0;
 const INITIAL_DRAWS = 0;
 const INITIAL_ONGOING_ROUND = 0;
 const INITIAL_COLOUR_INDEX = 0;
+
 
 const DEFAULT_PLACE = null;
 const DEFAULT_IS_EXITED = null;
@@ -121,9 +123,34 @@ const generatePlayerModel = mock(
   }
 )
 
+const generateGameModel = mock(
+ () => {
+  const randomWhitePlayer = generatePlayerModel();
+  const randomBlackPlayer = generatePlayerModel();
+  
+  const randomGameId = newid();
+
+  const randomGame: GameModel = {
+    black_nickname: randomBlackPlayer.nickname,
+    white_nickname: randomWhitePlayer.nickname,
+    id: "",
+    game_number: 0,
+    round_number: 0,
+    round_name: null,
+    white_id: "",
+    black_id: "",
+    white_prev_game_id: null,
+    black_prev_game_id: null,
+    result: null,
+    tournament_id: ""
+  };
+ }
+)
 
 
-test("2 + 2", () => {
-  expect(2 + 2).toBe(4);
+test("initial tournament", () => {
+
+  const roundRobinProps;
+  const gamesToInsert = generateRoundRobinRoundFunction();
 });
 
