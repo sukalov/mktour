@@ -49,6 +49,7 @@ async function RootLayout({ children }: PropsWithChildren) {
 export const metadata: Metadata = {
   title: 'mktour',
   description: 'web app for managing complex tournaments of all kind',
+  manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
