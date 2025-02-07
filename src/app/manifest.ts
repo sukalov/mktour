@@ -2,8 +2,8 @@ import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'mktour PWA',
-    short_name: 'mktourPWA',
+    name: 'mktour',
+    short_name: 'mktour',
     start_url: '/',
     display: 'standalone',
     icons: [
