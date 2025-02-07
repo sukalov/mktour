@@ -21,7 +21,9 @@ const withPWA = require('next-pwa')({
   disable: false,
   cacheOnFrontEndNav: true,
   reloadOnOnline: true,
+  register: true,
   mode: 'production',
+  skipWaiting: true
 });
 
 module.exports =
