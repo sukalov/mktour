@@ -2,9 +2,8 @@ import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Next.js PWA',
-    short_name: 'NextPWA',
-    description: 'A Progressive Web App built with Next.js',
+    name: 'mktour PWA',
+    short_name: 'mktourPWA',
     start_url: '/',
     display: 'standalone',
     background_color: '#ffffff',
@@ -21,19 +20,6 @@ export default function manifest(): MetadataRoute.Manifest {
         type: 'image/png',
       },
     ],
-    screenshots: [
-      {
-        src: 'screenshot.webp',
-        sizes: '1280x720',
-        type: 'image/webp',
-        form_factor: 'wide',
-      },
-      {
-        src: 'screenshot.webp',
-        sizes: '1280x720',
-        type: 'image/webp',
-        form_factor: 'narrow',
-      },
-    ],
+    shortcuts: [{ name: 'make tournament', url: '/tournaments/create' }],
   };
 }
