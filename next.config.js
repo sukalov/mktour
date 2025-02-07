@@ -20,7 +20,8 @@ const withPWA = require('next-pwa')({
   dest: 'public',
   disable: false,
   cacheOnFrontEndNav: true,
-  reloadOnOnline: true
+  reloadOnOnline: true,
+  mode: 'production',
 });
 
 module.exports =

@@ -60,13 +60,6 @@ export const metadata: Metadata = {
     description: 'making tournaments the easy way',
     url: 'https://mktour.org',
     siteName: 'mktour.org',
-    images: [
-      {
-        url: 'public/icon.png',
-        width: 98,
-        height: 98,
-      },
-    ],
   },
   other: {
     'mobile-web-app-capable': 'yes',
