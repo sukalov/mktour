@@ -49,8 +49,28 @@ async function RootLayout({ children }: PropsWithChildren) {
 export const metadata: Metadata = {
   title: 'mktour',
   description: 'web app for managing complex tournaments of all kind',
-  appleWebApp: { capable: true, statusBarStyle: 'default' },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    startupImage: '/icon.png',
+  },
   formatDetection: { telephone: false },
+  openGraph: {
+    title: 'mktour',
+    description: 'making tournaments the easy way',
+    url: 'https://mktour.org',
+    siteName: 'mktour.org',
+    images: [
+      {
+        url: 'public/icon.png',
+        width: 98,
+        height: 98,
+      },
+    ],
+  },
+  other: {
+    'mobile-web-app-capable': 'yes',
+  },
 };
 
 export const viewport: Viewport = {
