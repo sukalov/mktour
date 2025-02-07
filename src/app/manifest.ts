@@ -11,15 +11,16 @@ export default function manifest(): MetadataRoute.Manifest {
     icons: [
       {
         src: '/icon.png',
-        sizes: '192x192',
-        type: 'image/png',
-      },
-      {
-        src: '/icon.png',
-        sizes: '512x512',
+        sizes: '98x98',
         type: 'image/png',
       },
     ],
-    shortcuts: [{ name: 'make tournament', url: '/tournaments/create' }],
+    shortcuts: [
+      {
+        name: 'make tournament',
+        url: '/tournaments/create',
+        icons: [{ src: '/icon.png', sizes: '98x98', type: 'image/png' }],
+      },
+    ],
   };
 }
