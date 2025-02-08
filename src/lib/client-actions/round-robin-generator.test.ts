@@ -1,4 +1,4 @@
-import { mock, test } from "bun:test";
+import { expect, mock, test } from "bun:test";
 
 import { generateRoundRobinRoundFunction } from "@/lib/client-actions/round-robin-generator";
 import { DatabaseUser } from "@/lib/db/schema/auth";
@@ -146,11 +146,37 @@ const generateGameModel = mock(
   };
  }
 )
+const PLAYER_NUMBER_FAKEOPTS = {
+  min:2,
+  max:1024
+};
+
 
 
 test("initial tournament", () => {
 
-  const roundRobinProps;
-  const gamesToInsert = generateRoundRobinRoundFunction();
+  const randomPlayerNumber = faker.number.int(PLAYER_NUMBER_FAKEOPTS);
+
+  const randomPlayers = [];
+  for (let playerIdx = 0; playerIdx < randomPlayerNumber; playerIdx++) {
+    const generatedPlayer = generatePlayerModel();
+    randomPlayers.push(generatedPlayer);
+  }
+
+  const previousGames: GameModel[] = [];
+
+  const randomTournament = generateRandomDatabaseTournament();
+  
+
+  const roundRobinProps: Parameters<typeof generateRoundRobinRoundFunction>[0] = {
+    players: randomPlayers,
+    games: previousGames,
+    roundNumber: INITIAL_ONGOING_ROUND,
+    tournamentId: randomTournament.id
+  };
+  const gamesToInsert = generateRoundRobinRoundFunction(roundRobinProps);
+  const expectedGameCount = Math.floor(randomPlayerNumber / 2);
+  expect(gamesToInsert.length).toBe(expectedGameCount);
+
 });
 
