@@ -153,21 +153,26 @@ const PLAYER_NUMBER_FAKEOPTS = {
 
 
 
-test("initial tournament", () => {
-
+test("first tournament RR generation", () => {
+  
+  // initialising the player number for the tournament
   const randomPlayerNumber = faker.number.int(PLAYER_NUMBER_FAKEOPTS);
 
+  // initialising the player list
   const randomPlayers = [];
   for (let playerIdx = 0; playerIdx < randomPlayerNumber; playerIdx++) {
     const generatedPlayer = generatePlayerModel();
     randomPlayers.push(generatedPlayer);
   }
 
+  // for the initial case, the previous games are missing
   const previousGames: GameModel[] = [];
 
+  // random tournament initialised
   const randomTournament = generateRandomDatabaseTournament();
   
 
+  // 
   const roundRobinProps: Parameters<typeof generateRoundRobinRoundFunction>[0] = {
     players: randomPlayers,
     games: previousGames,
@@ -175,8 +180,8 @@ test("initial tournament", () => {
     tournamentId: randomTournament.id
   };
   const gamesToInsert = generateRoundRobinRoundFunction(roundRobinProps);
+  
   const expectedGameCount = Math.floor(randomPlayerNumber / 2);
   expect(gamesToInsert.length).toBe(expectedGameCount);
-
 });
 

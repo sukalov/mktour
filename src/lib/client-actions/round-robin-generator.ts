@@ -1,6 +1,21 @@
 import { newid } from '@/lib/utils';
 import { GameModel, PlayerModel } from '@/types/tournaments';
 
+
+export interface RoundRobinRoundProps {
+  /**
+   * Current round players
+   */
+  players: PlayerModel[];
+
+  /**
+   * Previously played games
+   */
+  games: GameModel[];
+  roundNumber: number;
+  tournamentId: string;
+};
+
 /**
  * This function purposefully generates the bracket round for the round robin tournament. It gets the
  * tournamentId, checks the query for the current list of players, and  gets the games played by them.
@@ -13,12 +28,7 @@ export function generateRoundRobinRoundFunction({
   games,
   roundNumber,
   tournamentId,
-}: {
-  players: PlayerModel[];
-  games: GameModel[];
-  roundNumber: number;
-  tournamentId: string;
-}): GameModel[] {
+}: RoundRobinRoundProps): GameModel[] {
   games = games?.filter((game) => game.round_number !== roundNumber) ?? [];
 
   // checking if the set of layers is even, if not, making it even with a smart alg
