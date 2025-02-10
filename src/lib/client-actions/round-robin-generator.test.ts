@@ -1,10 +1,10 @@
-import { expect, mock, test } from "bun:test";
+import { describe, expect, mock, test } from "bun:test";
 
-import { generateRoundRobinRoundFunction } from "@/lib/client-actions/round-robin-generator";
+import { generateRoundRobinRoundFunction, RoundRobinRoundProps } from "@/lib/client-actions/round-robin-generator";
 import { DatabaseUser } from "@/lib/db/schema/auth";
 import { DatabaseClub, DatabaseTournament } from "@/lib/db/schema/tournaments";
 import { newid } from "@/lib/utils";
-import { GameModel, PlayerModel } from "@/types/tournaments";
+import { GameModel, PlayerModel, Result } from "@/types/tournaments";
 import { faker } from "@faker-js/faker";
 
 const INITIAL_WINS = 0;
@@ -18,6 +18,9 @@ const DEFAULT_PLACE = null;
 const DEFAULT_IS_EXITED = null;
 const DEFAULT_FORMAT = "round robin";
 const DEFAULT_TYPE = "solo";
+
+
+const POSSIBLE_RESULTS = ["0-1", "1-0", "1/2-1/2"];
 
 const COLOUR_INDEX_FAKEOPTS = {
   min: -10,
@@ -148,40 +151,58 @@ const generateGameModel = mock(
 )
 const PLAYER_NUMBER_FAKEOPTS = {
   min:2,
-  max:1024
+  max:10
 };
 
+describe("tournament generation test set", () => {
 
+    // initialising the player number for the tournament
+    const randomPlayerNumber = faker.number.int(PLAYER_NUMBER_FAKEOPTS);
 
-test("first tournament RR generation", () => {
+    // initialising the player list
+    const randomPlayers = [];
+    for (let playerIdx = 0; playerIdx < randomPlayerNumber; playerIdx++) {
+      const generatedPlayer = generatePlayerModel();
+      randomPlayers.push(generatedPlayer);
+    }
   
-  // initialising the player number for the tournament
-  const randomPlayerNumber = faker.number.int(PLAYER_NUMBER_FAKEOPTS);
-
-  // initialising the player list
-  const randomPlayers = [];
-  for (let playerIdx = 0; playerIdx < randomPlayerNumber; playerIdx++) {
-    const generatedPlayer = generatePlayerModel();
-    randomPlayers.push(generatedPlayer);
-  }
-
-  // for the initial case, the previous games are missing
-  const previousGames: GameModel[] = [];
-
-  // random tournament initialised
-  const randomTournament = generateRandomDatabaseTournament();
+    // for the initial case, the previous games are missing
+    const previousGames: GameModel[] = [];
   
-
-  // 
-  const roundRobinProps: Parameters<typeof generateRoundRobinRoundFunction>[0] = {
-    players: randomPlayers,
-    games: previousGames,
-    roundNumber: INITIAL_ONGOING_ROUND,
-    tournamentId: randomTournament.id
-  };
-  const gamesToInsert = generateRoundRobinRoundFunction(roundRobinProps);
+    // random tournament initialised
+    const randomTournament = generateRandomDatabaseTournament();
+    
   
-  const expectedGameCount = Math.floor(randomPlayerNumber / 2);
-  expect(gamesToInsert.length).toBe(expectedGameCount);
-});
+    // constructing initial props
+    const roundRobinProps: RoundRobinRoundProps = {
+      players: randomPlayers,
+      games: previousGames,
+      roundNumber: INITIAL_ONGOING_ROUND,
+      tournamentId: randomTournament.id
+    };
+    const gamesToInsert = generateRoundRobinRoundFunction(roundRobinProps);
+
+    test("first tournament RR generation", () => {  
+      const expectedGameCount = Math.floor(randomPlayerNumber / 2);
+      expect(gamesToInsert.length).toBe(expectedGameCount);
+    });
+
+    for (const gameScheduled of gamesToInsert) {
+      const randomGameResult = faker.helpers.arrayElement(POSSIBLE_RESULTS) as Result;
+      gameScheduled.result = randomGameResult;
+
+    }
+
+    const nextRoundRobinProps: RoundRobinRoundProps = {
+      players: randomPlayers,
+      games: gamesToInsert,
+      roundNumber: INITIAL_ONGOING_ROUND + 1,
+      tournamentId: randomTournament.id
+    };
+
+
+    const gamesToInsertNext = generateRoundRobinRoundFunction(nextRoundRobinProps);
+
+    console.log(gamesToInsertNext);
+})
 

@@ -12,7 +12,15 @@ export interface RoundRobinRoundProps {
    * Previously played games
    */
   games: GameModel[];
+
+  /**
+   * Current round played
+   */
   roundNumber: number;
+
+  /**
+   * The maternal tournament
+   */
   tournamentId: string;
 };
 
