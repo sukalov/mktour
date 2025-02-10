@@ -18,12 +18,11 @@ const nextConfig = {
 const withNextIntl = createNextIntlPlugin('./src/components/i18n.ts');
 const withPWA = require('next-pwa')({
   dest: 'public',
-  disable: false,
+  mode: process.env.VERCEL_ENV,
+  disable: process.env.VERCEL_ENV === 'development',
   cacheOnFrontEndNav: true,
   reloadOnOnline: true,
   register: true,
-  mode: 'production',
-  skipWaiting: true
 });
 
 module.exports =

@@ -10,29 +10,36 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: '#000000',
     icons: [
       {
-        src: '/icon.png',
-        sizes: '98x98',
+        src: '/apple-icon.png',
+        sizes: '512x512',
         type: 'image/png',
+        purpose: 'any',
       },
     ],
     shortcuts: [
       {
         name: 'make tournament',
         url: '/tournaments/create',
-        icons: [{ src: '/icon.png', sizes: '98x98', type: 'image/png' }],
+        icons: [
+          {
+            src: '/apple-icon.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
+        ],
       },
     ],
     screenshots: [
       {
-        src: '/icon.png',
+        src: '/apple-icon.png',
         form_factor: 'narrow',
-        sizes: '320x320',
+        sizes: '512x512',
         type: 'image/png',
       },
       {
-        src: '/icon.png',
+        src: '/apple-icon.png',
         form_factor: 'wide',
-        sizes: '320x320',
+        sizes: '512x512',
         type: 'image/png',
       },
     ],
