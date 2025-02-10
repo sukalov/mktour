@@ -54,6 +54,7 @@ export const metadata: Metadata = {
     capable: true,
     statusBarStyle: 'black-translucent',
     startupImage: [
+      '/splash_screens/iPhone_13_mini__iPhone_12_mini__iPhone_11_Pro__iPhone_XS__iPhone_X_portrait',
       {
         url: '/splash_screens/iPhone_16_Pro_Max_landscape.png',
         media:
