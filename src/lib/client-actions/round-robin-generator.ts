@@ -195,8 +195,7 @@ function convertGameToEntitiesMatch(
 ): NumberedEntitiesPair {
   const whitePlayer = players.find((person) => person.id === game.white_id);
   const blackPlayer = players.find((person) => person.id === game.black_id);
-  console.log({ game, players, whitePlayer });
-  console.log({ game, players, blackPlayer });
+
   if (!whitePlayer || !blackPlayer)
     throw new Error('the set of games seems to not match the set of players');
 
@@ -286,6 +285,8 @@ function getNumberedPair(
 function getColouredPair(uncolouredPair: EntitiesPair): ColouredEntitiesPair {
   let [whiteEntity, blackEntity] = uncolouredPair;
 
+
+  console.log(uncolouredPair);
   // reversing the white and black, if the white colour index is bigger
   // (that means that current white has played more whites, than black player)
   // or if the colour is the same, then if the white rating is bigger, then we also reverse
@@ -324,6 +325,7 @@ function generateRoundRobinPairs(
 
     // this shit is written because of how the set is working in js
     const possibleSecondEntities = Array.from(firstEntityPool.values());
+    console.log("feeep", poolById);
     const secondEntity = possibleSecondEntities.pop() as ChessTournamentEntity;
 
     // removing matched entity from the matched list

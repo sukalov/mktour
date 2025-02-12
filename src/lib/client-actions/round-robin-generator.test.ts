@@ -150,8 +150,8 @@ const generateGameModel = mock(
  }
 )
 const PLAYER_NUMBER_FAKEOPTS = {
-  min:2,
-  max:10
+  min:7,
+  max:7
 };
 
 describe("tournament generation test set", () => {
@@ -190,7 +190,7 @@ describe("tournament generation test set", () => {
     for (const gameScheduled of gamesToInsert) {
       const randomGameResult = faker.helpers.arrayElement(POSSIBLE_RESULTS) as Result;
       gameScheduled.result = randomGameResult;
-
+      gameScheduled.black_id
     }
 
     const nextRoundRobinProps: RoundRobinRoundProps = {
@@ -199,6 +199,9 @@ describe("tournament generation test set", () => {
       roundNumber: INITIAL_ONGOING_ROUND + 1,
       tournamentId: randomTournament.id
     };
+
+
+
 
 
     const gamesToInsertNext = generateRoundRobinRoundFunction(nextRoundRobinProps);
