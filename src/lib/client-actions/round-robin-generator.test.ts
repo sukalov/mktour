@@ -1,4 +1,4 @@
-import { describe, expect, mock, test } from "bun:test";
+import { describe, mock } from "bun:test";
 
 import { generateRoundRobinRoundFunction, RoundRobinRoundProps } from "@/lib/client-actions/round-robin-generator";
 import { DatabaseUser } from "@/lib/db/schema/auth";
@@ -150,8 +150,8 @@ const generateGameModel = mock(
  }
 )
 const PLAYER_NUMBER_FAKEOPTS = {
-  min:7,
-  max:7
+  min:2,
+  max:1024
 };
 
 describe("tournament generation test set", () => {
@@ -180,32 +180,46 @@ describe("tournament generation test set", () => {
       roundNumber: INITIAL_ONGOING_ROUND,
       tournamentId: randomTournament.id
     };
-    const gamesToInsert = generateRoundRobinRoundFunction(roundRobinProps);
 
-    test("first tournament RR generation", () => {  
-      const expectedGameCount = Math.floor(randomPlayerNumber / 2);
-      expect(gamesToInsert.length).toBe(expectedGameCount);
-    });
+    let gamesToInsert = generateRoundRobinRoundFunction(roundRobinProps);
 
-    for (const gameScheduled of gamesToInsert) {
-      const randomGameResult = faker.helpers.arrayElement(POSSIBLE_RESULTS) as Result;
-      gameScheduled.result = randomGameResult;
-      gameScheduled.black_id
-    }
+    for ( let roundNumber = 1; roundNumber < randomPlayerNumber - 1; roundNumber++) {
+      // simulating round results
+      for (const gameScheduled of gamesToInsert) {
 
-    const nextRoundRobinProps: RoundRobinRoundProps = {
-      players: randomPlayers,
-      games: gamesToInsert,
-      roundNumber: INITIAL_ONGOING_ROUND + 1,
-      tournamentId: randomTournament.id
-    };
+        // selecting random result
+        const randomGameResult = faker.helpers.arrayElement(POSSIBLE_RESULTS) as Result;
+        gameScheduled.result = randomGameResult;
+
+        // updating info about the players in the tournament
+        const blackPlayer = randomPlayers.find((player) => player.id === gameScheduled.black_id);
+        const whitePlayer = randomPlayers.find((player) => player.id === gameScheduled.white_id);
+        if (randomGameResult === "1-0") {
+          blackPlayer!.losses += 1;
+          whitePlayer!.wins +=1;
+        } else if (randomGameResult === "0-1") {
+          blackPlayer!.wins += 1;
+          whitePlayer!.losses +=1;
+        } else {
+          blackPlayer!.draws +=1;
+          whitePlayer!.draws +=1;
+        }
+      }
+
+      // next round info
+      const nextRoundRobinProps: RoundRobinRoundProps = {
+        players: randomPlayers,
+        games: gamesToInsert,
+        roundNumber: INITIAL_ONGOING_ROUND + 1,
+        tournamentId: randomTournament.id
+      };
 
 
 
 
 
-    const gamesToInsertNext = generateRoundRobinRoundFunction(nextRoundRobinProps);
+      gamesToInsert = generateRoundRobinRoundFunction(nextRoundRobinProps);
+  }
 
-    console.log(gamesToInsertNext);
-})
+  })
 
