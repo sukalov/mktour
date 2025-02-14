@@ -29,6 +29,8 @@
     "knip": "knip-bun"
   },
   "dependencies": {
+    "@eslint/eslintrc": "^3.2.0",
+    "@eslint/js": "^9.20.0",
     "@hookform/resolvers": "^3.10.0",
     "@libsql/client": "^0.14.0",
     "@lucia-auth/adapter-drizzle": "^1.1.0",
@@ -92,7 +94,7 @@
     "@tailwindcss/postcss": "^4.0.3",
     "@tanstack/react-query-devtools": "^5.66.0",
     "@types/node": "^22.13.0",
-    "@types/react": "^18.3.12",
+    "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "drizzle-kit": "0.30.4",
     "eslint": "^9.19.0",
@@ -115,5 +117,8 @@
     "src/components/ui/**/*.ts",
     "src/components/ui/**/*.tsx",
     "src/types/**/*.ts"
+  ],
+  "trustedDependencies": [
+    "@vercel/speed-insights"
   ]
 }
