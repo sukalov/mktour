@@ -7,7 +7,7 @@ import { useMediaQuery } from 'react-responsive';
 const MediaQueryProvider: FC<PropsWithChildren> = ({ children }) => {
   const [isClient, setIsClient] = useState(false);
   const isMobile = useMediaQuery({ maxWidth: 640 });
-  const isTablet = useMediaQuery({ minWidth: 640, maxWidth: 768 });
+  const isTablet = useMediaQuery({ maxWidth: 768 });
   const isDesktop = useMediaQuery({ minWidth: 768 });
 
   useEffect(() => {
