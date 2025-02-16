@@ -13,8 +13,8 @@ const ClubDashboardTabList: FC<{
   activeTab: ClubDashboardTab;
 }> = ({ setTab, activeTab }) => {
   const t = useTranslations('Club.Dashboard');
-  const { isMobile, isTablet } = useContext(MediaQueryContext);
-  const preparedTabs = isTablet
+  const { isMobile } = useContext(MediaQueryContext);
+  const preparedTabs = isMobile
     ? (Object.keys(tabMap) as ClubDashboardTab[])
     : (Object.keys(tabMap).filter((tab) =>
         ['main', 'players', 'tournaments'].includes(tab),
