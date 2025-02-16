@@ -151,42 +151,48 @@ const generateGameModel = mock(
 )
 const PLAYER_NUMBER_FAKEOPTS = {
   min:2,
-  max:1024
+  max:10
+
 };
 
 describe("tournament generation test set", () => {
 
+
     // initialising the player number for the tournament
     const randomPlayerNumber = faker.number.int(PLAYER_NUMBER_FAKEOPTS);
 
+    console.log(randomPlayerNumber)
     // initialising the player list
     const randomPlayers = [];
     for (let playerIdx = 0; playerIdx < randomPlayerNumber; playerIdx++) {
       const generatedPlayer = generatePlayerModel();
       randomPlayers.push(generatedPlayer);
     }
+
   
     // for the initial case, the previous games are missing
-    const previousGames: GameModel[] = [];
+    let previousGames: GameModel[] = [];
   
     // random tournament initialised
     const randomTournament = generateRandomDatabaseTournament();
     
   
-    // constructing initial props
-    const roundRobinProps: RoundRobinRoundProps = {
-      players: randomPlayers,
-      games: previousGames,
-      roundNumber: INITIAL_ONGOING_ROUND,
-      tournamentId: randomTournament.id
-    };
 
-    let gamesToInsert = generateRoundRobinRoundFunction(roundRobinProps);
-
-    for ( let roundNumber = 1; roundNumber < randomPlayerNumber - 1; roundNumber++) {
+    for ( let roundNumber = 0; roundNumber < randomPlayerNumber; roundNumber++) {
+      // generating round info formed
+      const nextRoundRobinProps: RoundRobinRoundProps = {
+        players: randomPlayers,
+        games: previousGames,
+        roundNumber: roundNumber,
+        tournamentId: randomTournament.id
+      };
+      
+      const gamesToInsert = generateRoundRobinRoundFunction(nextRoundRobinProps);
+      
       // simulating round results
       for (const gameScheduled of gamesToInsert) {
-
+        console.log(roundNumber);
+        
         // selecting random result
         const randomGameResult = faker.helpers.arrayElement(POSSIBLE_RESULTS) as Result;
         gameScheduled.result = randomGameResult;
@@ -206,20 +212,10 @@ describe("tournament generation test set", () => {
         }
       }
 
-      // next round info
-      const nextRoundRobinProps: RoundRobinRoundProps = {
-        players: randomPlayers,
-        games: gamesToInsert,
-        roundNumber: INITIAL_ONGOING_ROUND + 1,
-        tournamentId: randomTournament.id
-      };
+      previousGames.push(...gamesToInsert);
 
+    }
 
-
-
-
-      gamesToInsert = generateRoundRobinRoundFunction(nextRoundRobinProps);
-  }
-
+    console.log(previousGames.length)
   })
 

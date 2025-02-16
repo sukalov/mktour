@@ -51,9 +51,11 @@ export function generateRoundRobinRoundFunction({
   const previousMatches = games.map((game) =>
     convertGameToEntitiesMatch(game, players),
   );
-
   const poolByIdUpdated = updateChessEntitiesMatches(poolById, previousMatches);
+  
 
+  console.log(poolByIdUpdated)
+  console.log(games)
   // checking the pool for liveability
   poolById.forEach((entityPool, _) => {
     if (entityPool.size == 0)
@@ -285,8 +287,6 @@ function getNumberedPair(
 function getColouredPair(uncolouredPair: EntitiesPair): ColouredEntitiesPair {
   let [whiteEntity, blackEntity] = uncolouredPair;
 
-
-  console.log(uncolouredPair);
   // reversing the white and black, if the white colour index is bigger
   // (that means that current white has played more whites, than black player)
   // or if the colour is the same, then if the white rating is bigger, then we also reverse
@@ -313,6 +313,13 @@ function generateRoundRobinPairs(
 ) {
   const generatedPairs: EntitiesPair[] = [];
 
+  // sorting the entities given by the length of the pool in ascending order
+  matchedEntities.sort((firstEntity, secondEntity) => {
+    const firstEntityPool = poolById.get(firstEntity.entityId);
+    const secondEntityPool = poolById.get(secondEntity.entityId);
+    const poolDifference =  secondEntityPool!.size - firstEntityPool!.size;
+    return poolDifference;
+  });
   // until the pool is not zero, we continue slicing it
   while (matchedEntities.length !== 0) {
     // it is guaranteed that it will be even, and thus we use a type guards here
@@ -325,7 +332,6 @@ function generateRoundRobinPairs(
 
     // this shit is written because of how the set is working in js
     const possibleSecondEntities = Array.from(firstEntityPool.values());
-    console.log("feeep", poolById);
     const secondEntity = possibleSecondEntities.pop() as ChessTournamentEntity;
 
     // removing matched entity from the matched list
@@ -342,7 +348,6 @@ function generateRoundRobinPairs(
     const generatedPair: EntitiesPair = [firstEntity, secondEntity];
     generatedPairs.push(generatedPair);
   }
-
   return generatedPairs;
 }
 
