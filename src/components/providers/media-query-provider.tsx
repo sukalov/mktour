@@ -16,8 +16,6 @@ const MediaQueryProvider: FC<PropsWithChildren> = ({ children }) => {
 
   if (!isClient) return children;
 
-  console.log(isMobile, isTablet, isDesktop);
-
   return (
     <MediaQueryContext.Provider value={{ isMobile, isTablet, isDesktop }}>
       {children}
