@@ -6,8 +6,9 @@ import { useMediaQuery } from 'react-responsive';
 
 const MediaQueryProvider: FC<PropsWithChildren> = ({ children }) => {
   const [isClient, setIsClient] = useState(false);
-  const isMobile = useMediaQuery({ maxWidth: 500 });
-  const isTablet = useMediaQuery({ maxWidth: 770 });
+  const isMobile = useMediaQuery({ maxWidth: 640 });
+  const isTablet = useMediaQuery({ minWidth: 640, maxWidth: 768 });
+  const isDesktop = useMediaQuery({ minWidth: 768 });
 
   useEffect(() => {
     setIsClient(true);
@@ -15,8 +16,10 @@ const MediaQueryProvider: FC<PropsWithChildren> = ({ children }) => {
 
   if (!isClient) return children;
 
+  console.log(isMobile, isTablet, isDesktop);
+
   return (
-    <MediaQueryContext.Provider value={{ isMobile, isTablet }}>
+    <MediaQueryContext.Provider value={{ isMobile, isTablet, isDesktop }}>
       {children}
     </MediaQueryContext.Provider>
   );
