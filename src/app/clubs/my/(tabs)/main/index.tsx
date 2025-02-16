@@ -5,21 +5,19 @@ import Empty from '@/components/empty';
 import { useClubInfo } from '@/components/hooks/query-hooks/use-club-info';
 import { MediaQueryContext } from '@/components/providers/media-query-context';
 import { Skeleton } from '@/components/ui/skeleton';
-import { createElement as $, FC, useContext } from 'react';
+import { FC, useContext } from 'react';
 
 const ClubMain: FC<ClubTabProps> = ({ selectedClub, userId }) => {
   const club = useClubInfo(selectedClub);
-  const { isTablet } = useContext(MediaQueryContext);
-  const component = $(!isTablet ? Desktop : Mobile, {
-    club,
-    selectedClub,
-    userId,
-  });
+  const { isMobile } = useContext(MediaQueryContext);
+  const Component: FC<ClubTabProps & { club: any }> = isMobile
+    ? Mobile
+    : Desktop;
 
   if (club.isPending) return <Skeleton className="h-24 w-full" />;
   if (!club.data) return <Empty />;
 
-  return component;
+  return <Component club={club} selectedClub={selectedClub} userId={userId} />;
 };
 
 export default ClubMain;
