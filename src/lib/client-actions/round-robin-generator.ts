@@ -70,6 +70,7 @@ export function generateRoundRobinRoundFunction({
     matchedEntities,
   );
 
+  console.log(entitiesMatchingsGenerated);
   // colouring the set of the matcthes
   const colouredMatches = entitiesMatchingsGenerated.map(getColouredPair);
 
@@ -93,10 +94,11 @@ export function generateRoundRobinRoundFunction({
  * */
 interface ChessTournamentEntity {
   entityId: string;
-  entityColourIndex: number;
+  colourIndex: number;
   entityRating: number;
   gamesPlayed: number;
   entityNickname: string;
+  pairingNumber: number | null;
 }
 
 /**
@@ -177,10 +179,11 @@ function convertPlayerToEntity(playerModel: PlayerModel) {
   const tournamentEntity: ChessTournamentEntity = {
     entityId: playerModel.id,
     entityNickname: playerModel.nickname,
-    entityColourIndex: playerModel.color_index,
+    colourIndex: playerModel.color_index,
     entityRating: playerModel.rating ?? 0, // If the player rating is null, we just use zero as a complement
     // Now we sum all the revious results to get the count of games
     gamesPlayed: playerModel.draws + playerModel.wins + playerModel.losses,
+    pairingNumber: playerModel.pairingNumber ?? null
   };
   return tournamentEntity;
 }
@@ -291,8 +294,8 @@ function getColouredPair(uncolouredPair: EntitiesPair): ColouredEntitiesPair {
   // (that means that current white has played more whites, than black player)
   // or if the colour is the same, then if the white rating is bigger, then we also reverse
   if (
-    whiteEntity.entityColourIndex > blackEntity.entityColourIndex ||
-    (whiteEntity.entityColourIndex === blackEntity.entityColourIndex &&
+    whiteEntity.colourIndex > blackEntity.colourIndex ||
+    (whiteEntity.colourIndex === blackEntity.colourIndex &&
       whiteEntity.entityRating > blackEntity.entityRating)
   ) {
     [whiteEntity, blackEntity] = [blackEntity, whiteEntity];
