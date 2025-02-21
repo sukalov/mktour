@@ -150,8 +150,8 @@ const generateGameModel = mock(
  }
 )
 const PLAYER_NUMBER_FAKEOPTS = {
-  min:2,
-  max:10
+  min:6,
+  max:6
 
 };
 
@@ -172,18 +172,19 @@ describe("tournament generation test set", () => {
   
     // for the initial case, the previous games are missing
     let previousGames: GameModel[] = [];
-  
+ 
+    let currentRound = 0;
+
+    const gameCount = randomPlayerNumber/ 2  *(randomPlayerNumber - 1)
     // random tournament initialised
     const randomTournament = generateRandomDatabaseTournament();
-    
-  
 
-    for ( let roundNumber = 0; roundNumber < randomPlayerNumber; roundNumber++) {
+    while ( previousGames.length < gameCount) {
       // generating round info formed
       const nextRoundRobinProps: RoundRobinRoundProps = {
         players: randomPlayers,
         games: previousGames,
-        roundNumber: roundNumber,
+        roundNumber: currentRound,
         tournamentId: randomTournament.id
       };
       
@@ -191,7 +192,7 @@ describe("tournament generation test set", () => {
       
       // simulating round results
       for (const gameScheduled of gamesToInsert) {
-        console.log(roundNumber);
+        console.log(currentRound);
         
         // selecting random result
         const randomGameResult = faker.helpers.arrayElement(POSSIBLE_RESULTS) as Result;
@@ -213,7 +214,7 @@ describe("tournament generation test set", () => {
       }
 
       previousGames.push(...gamesToInsert);
-
+      currentRound++;
     }
 
     console.log(previousGames.length)
