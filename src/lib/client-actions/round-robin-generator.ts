@@ -41,29 +41,20 @@ export function generateRoundRobinRoundFunction({
 
   // checking if the set of layers is even, if not, making it even with a smart alg
   let matchedEntities = players.map(convertPlayerToEntity);
-  if (matchedEntities.length % 2 != 0)
-    matchedEntities = getEvenSetOfPlayers(matchedEntities);
 
-  // getting the bootstrap for the map, initially for all the players the pools are the same
-  const initialEntitiesPools = getInitialEntitiesIdPairs(matchedEntities);
-  const poolById: PoolById = new Map(initialEntitiesPools);
 
-  const previousMatches = games.map((game) =>
-    convertGameToEntitiesMatch(game, players),
-  );
-  const poolByIdUpdated = updateChessEntitiesMatches(poolById, previousMatches);
+  // if this is first round, assign unique indices to the players based on rating ranking
+  if (roundNumber == 0) {
+    // sorting the matched entities by the rating difference, namely rating-descending order
+    matchedEntities.sort((leftPlayer, rightPlayer) => leftPlayer.entityRating - rightPlayer.entityRating);
+
+    // simple pairing number rating assignment based on array index
+    matchedEntities.forEach((matchedEntity, entityIndex) => {
+      matchedEntity.pairingNumber = entityIndex;
+    });
+  }
+
   
-
-  console.log(poolByIdUpdated)
-  console.log(games)
-  // checking the pool for liveability
-  poolById.forEach((entityPool, _) => {
-    if (entityPool.size == 0)
-      throw new EvalError(
-        'Trying to generate a round without possible matches',
-      );
-  });
-
   // generating set of base matches
   const entitiesMatchingsGenerated = generateRoundRobinPairs(
     poolByIdUpdated,
@@ -354,40 +345,7 @@ function generateRoundRobinPairs(
   return generatedPairs;
 }
 
-/**
- * This function gets the initial (or not) matched pools by id maps, which should show the possible opponent-entities for each entity
- * It also gets list of the previous matches, by which the possible remained matches are being recorded
- * It returns the pools without already matched pairs, dual sided -- chess style
- * @param poolById  map-like which is recording which player pair played already
- * @param previousMatches a list of previous matches
- * @returns the newly updated possible pool
- */
-function updateChessEntitiesMatches(
-  poolById: PoolById,
-  previousMatches: NumberedEntitiesPair[],
-) {
-  // for every game we get the pair, and delete respective entry from each of the two pools of the possible
-  // players
-  previousMatches.forEach((previousMatch) => {
-    const { whiteEntity, blackEntity } = previousMatch;
 
-    // this is done so, because of the weird set object conversion
-    const whitePool = poolById.get(whiteEntity.entityId);
-    const blackPool = poolById.get(blackEntity.entityId);
-
-    // updating
-    whitePool?.forEach((matchedEntity) => {
-      if (matchedEntity.entityId == blackEntity.entityId)
-        whitePool.delete(matchedEntity);
-    });
-    blackPool?.forEach((matchedEntity) => {
-      if (matchedEntity.entityId == whiteEntity.entityId)
-        blackPool.delete(matchedEntity);
-    });
-  });
-
-  return poolById;
-}
 
 /**
  * This function gets uneven set of alyers guaranteed, and excludes alyer with the most games
