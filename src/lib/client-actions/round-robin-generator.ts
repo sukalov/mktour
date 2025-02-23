@@ -302,18 +302,13 @@ function getColouredPair(uncolouredPair: EntitiesPair): ColouredEntitiesPair {
  */
 
 function generateRoundRobinPairs(
-  poolById: PoolById,
   matchedEntities: ChessTournamentEntity[],
+  roundNumber: number
 ) {
   const generatedPairs: EntitiesPair[] = [];
 
-  // sorting the entities given by the length of the pool in ascending order
-  matchedEntities.sort((firstEntity, secondEntity) => {
-    const firstEntityPool = poolById.get(firstEntity.entityId);
-    const secondEntityPool = poolById.get(secondEntity.entityId);
-    const poolDifference =  secondEntityPool!.size - firstEntityPool!.size;
-    return poolDifference;
-  });
+
+  const currentNumberPairs;
   // until the pool is not zero, we continue slicing it
   while (matchedEntities.length !== 0) {
     // it is guaranteed that it will be even, and thus we use a type guards here
