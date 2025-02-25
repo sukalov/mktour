@@ -308,34 +308,36 @@ function generateRoundRobinPairs(
   const generatedPairs: EntitiesPair[] = [];
 
 
-  const currentNumberPairs;
-  // until the pool is not zero, we continue slicing it
-  while (matchedEntities.length !== 0) {
-    // it is guaranteed that it will be even, and thus we use a type guards here
-    const firstEntity = matchedEntities.pop() as ChessTournamentEntity;
+  const initialPairingEmpty = Array(matchedEntities.length);
+  const pairingNumbersFlat = Array.from(initialPairingEmpty.keys());
 
-    // getting a set of possible matches, and then converting it to a list, to get a random entity
-    const firstEntityPool = poolById.get(
-      firstEntity.entityId,
-    ) as PossibleMatches;
+  const constantPairingNumber = pairingNumbersFlat.shift() as number;
 
-    // this shit is written because of how the set is working in js
-    const possibleSecondEntities = Array.from(firstEntityPool.values());
-    const secondEntity = possibleSecondEntities.pop() as ChessTournamentEntity;
+  for (let cycleNumber = 0; cycleNumber< roundNumber; cycleNumber++) {
+    const lastPairingNumber = pairingNumbersFlat.shift() as number;
+    pairingNumbersFlat.push(lastPairingNumber);
+  }
 
-    // removing matched entity from the matched list
-    const secondEntityIndex = matchedEntities.indexOf(secondEntity);
-    matchedEntities.splice(secondEntityIndex, 1);
+  pairingNumbersFlat.unshift(constantPairingNumber);
 
-    // removing matched entity from all other pools
-    poolById.forEach((entityPool, _) => {
-      entityPool.delete(firstEntity);
-      entityPool.delete(secondEntity);
-    });
+  const pairedNumbers = pairingNumbersFlat.reduce(
+    (pairedNumbers: number[][], currentValue, currentIndex, flatNumbers) => {
+      if (currentIndex%2 == 0){
+        const newPairing = [currentValue];
+        pairedNumbers.push(newPairing);
+      } else {
+        const previousPairing = pairedNumbers[pairedNumbers.length];
+        previousPairing.push(currentValue);
+      }
+      return pairedNumbers;
+    },
+    []
+  );
 
-    // generating a new pair
-    const generatedPair: EntitiesPair = [firstEntity, secondEntity];
-    generatedPairs.push(generatedPair);
+
+  // generating a new pair
+  const generatedPair: EntitiesPair = [firstEntity, secondEntity];
+  generatedPairs.push(generatedPair);
   }
   return generatedPairs;
 }
