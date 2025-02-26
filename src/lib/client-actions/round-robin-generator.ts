@@ -308,6 +308,17 @@ function generateRoundRobinPairs(
   const generatedPairs: EntitiesPair[] = [];
 
 
+  const entityByPairingNumber = new Map<number, ChessTournamentEntity>;
+
+  matchedEntities.forEach(
+    (chessEntity) => {
+      const pairingNumber = chessEntity.pairingNumber as number;
+      entityByPairingNumber.set(pairingNumber, chessEntity);
+    }
+  )
+
+
+
   const initialPairingEmpty = Array(matchedEntities.length);
   const pairingNumbersFlat = Array.from(initialPairingEmpty.keys());
 
@@ -333,6 +344,16 @@ function generateRoundRobinPairs(
     },
     []
   );
+
+  const pairedPlayers = pairedNumbers.map(
+    (numberPair) => {
+      return numberPair.map(
+        (entityNumber) => entityByPairingNumber.get(entityNumber) as ChessTournamentEntity
+      )
+    }
+  )
+
+
 
 
   // generating a new pair
