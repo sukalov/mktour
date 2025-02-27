@@ -89,7 +89,7 @@ interface ChessTournamentEntity {
   entityRating: number;
   gamesPlayed: number;
   entityNickname: string;
-  pairingNumber: number | null;
+  pairingNumber: number;
 }
 
 /**
@@ -345,11 +345,13 @@ function generateRoundRobinPairs(
     []
   );
 
-  const pairedPlayers = pairedNumbers.map(
+  const pairedPlayers: EntitiesPair[] = pairedNumbers.map(
     (numberPair) => {
-      return numberPair.map(
-        (entityNumber) => entityByPairingNumber.get(entityNumber) as ChessTournamentEntity
-      )
+      const firstPlayerNumber = numberPair[0];
+      const secondPlayerNumber = numberPair[1];
+      const firstPlayer =  entityByPairingNumber.get(firstPlayerNumber);
+      const secondPlayer = entityByPairingNumber.get(secondPlayerNumber);
+      const generatedPair: EntitiesPair = [firstPlayer, secondPlayer];
     }
   )
 
