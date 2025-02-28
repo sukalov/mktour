@@ -307,12 +307,11 @@ function generateRoundRobinPairs(
 ) {
   const generatedPairs: EntitiesPair[] = [];
 
-
   const entityByPairingNumber = new Map<number, ChessTournamentEntity>;
 
   matchedEntities.forEach(
     (chessEntity) => {
-      const pairingNumber = chessEntity.pairingNumber as number;
+      const pairingNumber = chessEntity.pairingNumber;
       entityByPairingNumber.set(pairingNumber, chessEntity);
     }
   )
