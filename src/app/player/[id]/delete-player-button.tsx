@@ -33,7 +33,7 @@ const DeletePlayer: FC<{ userId: string }> = ({ userId }) => {
       <Trigger asChild>
         <Button
           disabled={isPending}
-          className="flex gap-2"
+          className="flex w-full gap-2 justify-self-center sm:w-fit"
           variant="destructive"
         >
           {isPending ? <LoadingSpinner /> : <CircleX />}

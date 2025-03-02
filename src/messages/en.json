@@ -7,7 +7,8 @@
     "logout": "log out",
     "confirm": "are you sure?",
     "close": "close",
-    "delete": "delete"
+    "delete": "delete",
+    "edit": "edit"
   },
   "Menu": {
     "club": "club",
@@ -57,7 +58,6 @@
     "user": "user not found"
   },
   "Profile": {
-    "edit": "edit",
     "rating": "lichess blitz rating",
     "email": "email",
     "created": "joined on",
@@ -66,7 +66,10 @@
   "Player": {
     "last seen": "last seen: ",
     "never": "never",
-    "delete": "delete player"
+    "delete": "delete player",
+    "username": "username",
+    "rating": "rating",
+    "realname": "real name"
   },
   "Errors": {
     "hard naming": "naming is hard, but necessary",

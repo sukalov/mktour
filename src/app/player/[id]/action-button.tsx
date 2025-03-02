@@ -2,6 +2,7 @@
 
 import DeletePlayer from '@/app/player/[id]/delete-player-button';
 import EditPlayerForm from '@/app/player/[id]/player-form';
+import FormattedMessage from '@/components/formatted-message';
 import { Button } from '@/components/ui/button';
 import {
   Content,
@@ -28,10 +29,12 @@ const ActionButton: FC<{ userId: string; player: DatabasePlayer }> = ({
       </Trigger>
       <Content>
         <Header>
-          <Title>edit</Title>
+          <Title className="pl-3">
+            <FormattedMessage id="Common.edit" />
+          </Title>
           <Description hidden />
         </Header>
-        <EditPlayerForm {...player}/>
+        <EditPlayerForm {...player} />
         <DeletePlayer userId={userId} />
       </Content>
     </Root>
