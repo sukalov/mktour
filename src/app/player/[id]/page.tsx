@@ -1,4 +1,5 @@
-import ActionButton from '@/app/player/[id]/action-button';
+import DeletePlayer from '@/app/player/[id]/delete-button';
+import ActionButton from '@/app/player/[id]/edit-button';
 import { validateRequest } from '@/lib/auth/lucia';
 import getPlayerQuery from '@/lib/db/queries/get-player-query';
 import getStatus from '@/lib/db/queries/get-status-query';
@@ -27,7 +28,10 @@ export default async function PlayerPage(props: PlayerPageProps) {
       <div className="flex flex-col gap-2">
         <div className="flex w-full items-center justify-between">
           <span className="text-2xl">{player.nickname}</span>
-          <ActionButton player={player} userId={user!.id} />
+          <div className="flex gap-2">
+            <ActionButton player={player} userId={user!.id} />
+            <DeletePlayer userId={user!.id} />
+          </div>
         </div>
         {!isDuplicatingName && <span>{player.realname}</span>}
         <span>rating: {player.rating}</span>
@@ -45,7 +49,6 @@ export default async function PlayerPage(props: PlayerPageProps) {
     </div>
   );
 }
-
 
 export interface PlayerPageProps {
   params: Promise<{ id: string }>;

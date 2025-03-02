@@ -1,4 +1,5 @@
 import FormattedMessage from '@/components/formatted-message';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -20,10 +21,21 @@ const EditPlayerForm: FC<DatabasePlayer> = ({ nickname, rating, realname }) => {
       rating,
     },
   });
+  const onSubmit = (values: any) => console.log(values);
+
   return (
     <Form {...form}>
-      <Field name="username" placeholder={nickname} form={form} />
-      <Field name="realname" placeholder={realname || ''} form={form} />
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
+        <Field name="username" placeholder={nickname} form={form} />
+        <Field name="realname" placeholder={realname || ''} form={form} />
+        <div className="flex w-full justify-end mt-4">
+          <Button type="submit" className="w-full md:w-fit">
+            <FormattedMessage id="Common.save" />
+          </Button>
+        </div>
+      </form>
     </Form>
   );
 };
@@ -34,7 +46,7 @@ const Field: FC<FieldProps> = ({ name, CustomInput, form, placeholder }) => (
     control={form.control}
     render={({ field }) => (
       <FormItem>
-        <FormLabel className="pl-3">
+        <FormLabel className="text-muted-foreground pl-3 font-light">
           <FormattedMessage id={`Player.${name}` as any /*FIXME any*/} />
         </FormLabel>
         <FormControl>

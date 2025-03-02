@@ -13,7 +13,7 @@ import {
   Trigger,
 } from '@/components/ui/combo-modal';
 import { useQueryClient } from '@tanstack/react-query';
-import { CircleX } from 'lucide-react';
+import { CircleX, Trash2Icon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { redirect, useParams } from 'next/navigation';
 import { FC, useState } from 'react';
@@ -31,13 +31,8 @@ const DeletePlayer: FC<{ userId: string }> = ({ userId }) => {
   return (
     <Root open={open} onOpenChange={setOpen}>
       <Trigger asChild>
-        <Button
-          disabled={isPending}
-          className="flex w-full gap-2 justify-self-center sm:w-fit"
-          variant="destructive"
-        >
-          {isPending ? <LoadingSpinner /> : <CircleX />}
-          {t('Player.delete')}
+        <Button disabled={isPending} size="icon" variant="destructive">
+          {isPending ? <LoadingSpinner /> : <Trash2Icon />}
         </Button>
       </Trigger>
       <Content>

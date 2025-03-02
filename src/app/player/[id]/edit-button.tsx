@@ -1,6 +1,5 @@
 'use client';
 
-import DeletePlayer from '@/app/player/[id]/delete-player-button';
 import EditPlayerForm from '@/app/player/[id]/player-form';
 import FormattedMessage from '@/components/formatted-message';
 import { Button } from '@/components/ui/button';
@@ -35,7 +34,6 @@ const ActionButton: FC<{ userId: string; player: DatabasePlayer }> = ({
           <Description hidden />
         </Header>
         <EditPlayerForm {...player} />
-        <DeletePlayer userId={userId} />
       </Content>
     </Root>
   );

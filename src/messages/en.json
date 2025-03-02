@@ -8,7 +8,8 @@
     "confirm": "are you sure?",
     "close": "close",
     "delete": "delete",
-    "edit": "edit"
+    "edit": "edit",
+    "save": "save"
   },
   "Menu": {
     "club": "club",
