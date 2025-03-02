@@ -54,6 +54,7 @@
     "@vercel/speed-insights": "^1.2.0",
     "arctic": "^3.4.0",
     "autoprefixer": "^10.4.20",
+    "babel-plugin-react-compiler": "^19.0.0-beta-e1e972c-20250221",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "1.0.4",
