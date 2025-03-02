@@ -283,5 +283,11 @@
     "toast message": "in case you experience any difficulties while using our app, please describe the problem at <lichess>our lichess team </lichess> forum. do you want to join the team, where you can reach us any time?",
     "join team": "join team",
     "no join button": "don't join"
+  },
+  "GlobalSearch": {
+    "search dialog title": "global search menu",
+    "search dialog description": "here you can find any club, tournament or mktour user",
+    "search placeholder": "whate are you looking for?",
+    "not found": "nothing found"
   }
 }
