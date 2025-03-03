@@ -22,7 +22,7 @@ const ActionButton: FC<{ userId: string; player: DatabasePlayer }> = ({
   return (
     <Root>
       <Trigger asChild>
-        <Button variant="outline" size="icon" className="aspect-square">
+        <Button variant="ghost" size="icon" className="aspect-square">
           <Pencil />
         </Button>
       </Trigger>

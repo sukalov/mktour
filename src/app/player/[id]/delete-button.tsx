@@ -31,7 +31,7 @@ const DeletePlayer: FC<{ userId: string }> = ({ userId }) => {
   return (
     <Root open={open} onOpenChange={setOpen}>
       <Trigger asChild>
-        <Button disabled={isPending} size="icon" variant="destructive">
+        <Button disabled={isPending} size="icon" variant="ghost">
           {isPending ? <LoadingSpinner /> : <Trash2Icon />}
         </Button>
       </Trigger>
