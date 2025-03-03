@@ -2,12 +2,17 @@ import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { FC, PropsWithChildren } from 'react';
 
-const Empty: FC<PropsWithChildren> = ({ children }) => {
+const Empty: FC<PropsWithChildren & { className?: string }> = ({
+  children,
+  className,
+}) => {
   const pathname = usePathname().split('/').at(-1) as Pathname;
   const t = useTranslations('Empty');
 
   return (
-    <div className="text-muted-foreground flex w-full justify-center px-4 text-sm">
+    <div
+      className={`text-muted-foreground flex w-full justify-center text-sm ${className}`}
+    >
       <p>{children ? children : t(`${pathname}`)}</p>
     </div>
   );

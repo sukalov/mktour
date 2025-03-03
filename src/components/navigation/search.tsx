@@ -38,7 +38,7 @@ export default function GlobalSearch() {
     return () => document.removeEventListener('keydown', down);
   }, []);
 
-  const t = useTranslations('GlobalSearch')
+  const t = useTranslations('GlobalSearch');
 
   return (
     <>
@@ -53,13 +53,15 @@ export default function GlobalSearch() {
         </kbd>
       </Button>
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <DialogTitle className="sr-only">{t('search dialog title')}</DialogTitle>{' '}
+        <DialogTitle className="sr-only">
+          {t('search dialog title')}
+        </DialogTitle>{' '}
         <DialogDescription className="sr-only">
           {t('search dialog description')}
         </DialogDescription>
-        <CommandInput placeholder={t("search placeholder")} />
+        <CommandInput placeholder={t('search placeholder')} />
         <CommandList>
-          <CommandEmpty>{t("not found")}</CommandEmpty>
+          <CommandEmpty>{t('not found')}</CommandEmpty>
           <CommandGroup heading="Suggestions">
             <CommandItem>
               <Calendar />

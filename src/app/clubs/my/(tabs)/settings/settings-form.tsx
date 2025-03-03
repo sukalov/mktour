@@ -1,6 +1,6 @@
 'use client';
 
-import { ClubTabProps } from '@/app/clubs/my/dashboard';
+import { ClubTabProps } from '@/app/clubs/my/tabMap';
 import { LoadingSpinner } from '@/app/loading';
 import useEditClubMutation from '@/components/hooks/mutation-hooks/use-club-edit';
 import { useClubInfo } from '@/components/hooks/query-hooks/use-club-info';
@@ -60,7 +60,7 @@ const ClubSettingsForm: FC<ClubTabProps> = ({ selectedClub, userId }) => {
   return (
     <Form {...form}>
       <Card className="border-none shadow-none sm:border-solid sm:shadow-2xs">
-        <CardContent className="sm:py-8">
+        <CardContent className="max-sm:p-0 sm:py-8">
           <form
             onSubmit={form.handleSubmit((data) =>
               clubSettingsMutation.mutate({
@@ -69,7 +69,7 @@ const ClubSettingsForm: FC<ClubTabProps> = ({ selectedClub, userId }) => {
                 values: data,
               }),
             )}
-            className="flex flex-col gap-8"
+            className="flex flex-col gap-2"
             name="edit-club-form"
           >
             <FormField
@@ -77,12 +77,13 @@ const ClubSettingsForm: FC<ClubTabProps> = ({ selectedClub, userId }) => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t('name')}</FormLabel>
+                  <FormLabel className="pl-4">{t('name')}</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       disabled={isFetching}
                       autoComplete="off"
+                      className="px-4"
                     />
                   </FormControl>
                   <FormMessage />
@@ -90,7 +91,6 @@ const ClubSettingsForm: FC<ClubTabProps> = ({ selectedClub, userId }) => {
               )}
             />
             <FormField control={form.control} name="id" render={() => <></>} />
-
             <Button
               disabled={
                 shallowEqual(form.getValues(), defaultValues) ||

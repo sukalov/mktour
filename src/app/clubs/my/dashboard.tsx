@@ -1,12 +1,8 @@
 'use client';
 
-import ClubPlayersList from '@/app/clubs/my/(tabs)/club-players-list';
-import ClubSettings from '@/app/clubs/my/(tabs)/club-settings';
-import ClubInbox from '@/app/clubs/my/(tabs)/inbox';
-import ClubMain from '@/app/clubs/my/(tabs)/main';
 import ClubSelect from '@/app/clubs/my/club-select';
 import ClubDashboardTabList from '@/app/clubs/my/dashboard-tab-list';
-import ClubDashboardTournaments from '@/app/clubs/tournaments-list';
+import { ClubDashboardTab, ClubTabProps, tabMap } from '@/app/clubs/my/tabMap';
 import Loading from '@/app/loading';
 import Empty from '@/components/empty';
 import { useUser } from '@/components/hooks/query-hooks/use-user';
@@ -29,14 +25,12 @@ export default function Dashboard({ userId }: { userId: string }) {
     <SwipeHandlerProvider
       handleSwipe={(dir) => handleSwipe(dir, indexOfTab, tabs, setTab)}
     >
-      <ClubDashboardTabList activeTab={tab} setTab={setTab} />
-      <div className="pt-12">
-        <div className="px-1">
-          <ClubSelect user={data} />
-        </div>
-        <div className="p-2 pt-2 pb-16">
-          <ActiveTab selectedClub={data.selected_club} userId={userId} />
-        </div>
+      <div className="fixed top-14 w-full">
+        <ClubDashboardTabList activeTab={tab} setTab={setTab} />
+        <ClubSelect user={data} />
+      </div>
+      <div className="max-h-full px-2 py-20">
+        <ActiveTab selectedClub={data.selected_club} userId={userId} />
       </div>
     </SwipeHandlerProvider>
   );
@@ -56,25 +50,4 @@ const handleSwipe = (
   } else return;
 
   setTab(tabs[newIndex]);
-};
-
-export const tabMap: Record<ClubDashboardTab, FC<ClubTabProps>> = {
-  main: ClubMain,
-  players: ClubPlayersList,
-  tournaments: ClubDashboardTournaments,
-  inbox: ClubInbox,
-  settings: ClubSettings,
-};
-
-export type ClubDashboardTab =
-  | 'main'
-  | 'players'
-  | 'tournaments'
-  | 'inbox'
-  | 'settings';
-
-export type ClubTabProps = {
-  selectedClub: string;
-  userId: string;
-  isInView?: boolean;
 };

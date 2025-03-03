@@ -1,6 +1,6 @@
 'use client';
 
-import DeleteConfirmationForm from '@/app/clubs/my/(tabs)/club-delete-form';
+import DeleteConfirmationForm from '@/app/clubs/my/(tabs)/settings/delete-form';
 import { Button } from '@/components/ui/button';
 import ComboModal from '@/components/ui/combo-modal';
 import { useTranslations } from 'next-intl';
@@ -12,10 +12,8 @@ export default function ClubDelete({ id, userId }: ClubDeleteProps) {
 
   return (
     <ComboModal.Root open={open} onOpenChange={setOpen}>
-      <ComboModal.Trigger asChild className='max-sm:mx-6'>
-        <Button variant="destructive">
-          {t('delete club')}
-        </Button>
+      <ComboModal.Trigger asChild>
+        <Button variant="destructive">{t('delete club')}</Button>
       </ComboModal.Trigger>
       <ComboModal.Content>
         <ComboModal.Header>
@@ -30,7 +28,9 @@ export default function ClubDelete({ id, userId }: ClubDeleteProps) {
           setOpenAction={setOpen}
         />
         <ComboModal.Close asChild>
-          <Button variant="outline" className='w-full'>{t('cancel')}</Button>
+          <Button variant="outline" className="w-full">
+            {t('cancel')}
+          </Button>
         </ComboModal.Close>
       </ComboModal.Content>
     </ComboModal.Root>

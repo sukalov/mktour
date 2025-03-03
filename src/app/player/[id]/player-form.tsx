@@ -25,12 +25,10 @@ const EditPlayerForm: FC<DatabasePlayer> = ({ nickname, rating, realname }) => {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         <Field name="username" placeholder={nickname} form={form} />
         <Field name="realname" placeholder={realname || ''} form={form} />
-        <div className="flex w-full justify-end mt-4">
+        <div className="mt-4 flex w-full justify-end">
           <Button type="submit" className="w-full md:w-fit">
             <FormattedMessage id="Common.save" />
           </Button>

@@ -16,7 +16,6 @@ import { Pencil } from 'lucide-react';
 import { FC } from 'react';
 
 const ActionButton: FC<{ userId: string; player: DatabasePlayer }> = ({
-  userId,
   player,
 }) => {
   return (

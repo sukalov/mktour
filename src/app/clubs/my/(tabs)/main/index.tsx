@@ -1,6 +1,6 @@
 import Desktop from '@/app/clubs/my/(tabs)/main/main-desktop';
 import Mobile from '@/app/clubs/my/(tabs)/main/main-mobile';
-import { ClubTabProps } from '@/app/clubs/my/dashboard';
+import { ClubTabProps } from '@/app/clubs/my/tabMap';
 import Empty from '@/components/empty';
 import { useClubInfo } from '@/components/hooks/query-hooks/use-club-info';
 import { MediaQueryContext } from '@/components/providers/media-query-context';

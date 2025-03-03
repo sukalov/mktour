@@ -1,6 +1,6 @@
 'use client';
 
-import { ClubDashboardTab, tabMap } from '@/app/clubs/my/dashboard';
+import { ClubDashboardTab, tabMap } from '@/app/clubs/my/tabMap';
 import { CLUB_DASHBOARD_NAVBAR_ITEMS } from '@/components/navigation/club-dashboard-navbar-items';
 import { MediaQueryContext } from '@/components/providers/media-query-context';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -25,7 +25,7 @@ const ClubDashboardTabList: FC<{
       defaultValue="main"
       onValueChange={(value) => setTab(value as ClubDashboardTab)}
       value={activeTab}
-      className="fixed z-40 w-full rounded-none transition-all duration-500"
+      className="z-40 w-full rounded-none transition-all duration-500"
     >
       <TabsList className="no-scrollbar w-full justify-around overflow-scroll rounded-none md:justify-start">
         {preparedTabs.map((tab) => (

@@ -6,7 +6,7 @@ import {
   Select,
   SelectContent,
   SelectItem,
-  SelectTrigger,
+  SelectTriggerNoOutline,
   SelectValue,
 } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -25,30 +25,24 @@ const ClubSelect: FC<{ user: User }> = ({ user }) => {
   );
 
   return (
-    <div>
-      <Select
-        onValueChange={(value) =>
-          clubSelection.mutate({
-            values: { selected_club: value },
-            id: user.id,
-          })
-        }
-      >
-        <SelectTrigger className="border-0">
-          <SelectValue placeholder={placeholder} />
-        </SelectTrigger>
-        {sortedClubs && (
-          <SelectContent
-            position="popper"
-            alignOffset={100}
-            // ref={selectRef}
-            className="-translate-x-1.5"
-          >
-            {sortedClubs.map(SelectItemIteratee)}
-          </SelectContent>
-        )}
-      </Select>
-    </div>
+    <Select
+      value={user.selected_club}
+      onValueChange={(value) =>
+        clubSelection.mutate({
+          values: { selected_club: value },
+          id: user.id,
+        })
+      }
+    >
+      <SelectTriggerNoOutline className="bg-background/30 w-full px-6 backdrop-blur-md">
+        <SelectValue placeholder={placeholder} />
+      </SelectTriggerNoOutline>
+      {sortedClubs && (
+        <SelectContent position="popper" collisionPadding={0} className="-mt-1">
+          {sortedClubs.map(SelectItemIteratee)}
+        </SelectContent>
+      )}
+    </Select>
   );
 };
 

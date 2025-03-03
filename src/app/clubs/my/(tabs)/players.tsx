@@ -1,6 +1,6 @@
 'use client';
 
-import { ClubTabProps } from '@/app/clubs/my/dashboard';
+import { ClubTabProps } from '@/app/clubs/my/tabMap';
 import Empty from '@/components/empty';
 import { useClubPlayers } from '@/components/hooks/query-hooks/use-club-players';
 import SkeletonList from '@/components/skeleton-list';
@@ -15,7 +15,8 @@ const ClubPlayersList: FC<ClubTabProps> = ({ selectedClub }) => {
 
   if (players.status === 'pending' || players.status === 'error')
     return <SkeletonList length={4} />;
-  if (players.data?.length < 1) return <Empty>{t('players')}</Empty>;
+  if (players.data?.length < 1)
+    return <Empty className="justify-start px-4">{t('players')}</Empty>;
 
   return (
     <div className="flex flex-col gap-2">
@@ -38,7 +39,7 @@ const PlayerItem: FC<{ player: PlayerProps }> = ({ player }) => {
       : t('Player.never');
 
   return (
-    <Card key={id} className="flex items-center justify-between truncate p-3">
+    <Card key={id} className="flex items-center justify-between truncate p-4">
       <Link href={`/player/${id}`}>
         <div className="flex flex-col truncate text-wrap">
           <span>{nickname}</span>
