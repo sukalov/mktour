@@ -296,8 +296,12 @@ function getColouredPair(uncolouredPair: EntitiesPair): ColouredEntitiesPair {
   return colouredPair;
 }
 
+
 /**
  * This function takes an entities pool constructs a list of possible pairs of those
+ * 
+ * 
+ * 
  * @param poolById always EVEN set of players
  */
 
@@ -316,10 +320,14 @@ function generateRoundRobinPairs(
     }
   )
 
+  const dummyIndex = matchedEntities.length;
 
 
   const initialPairingEmpty = Array(matchedEntities.length);
   const pairingNumbersFlat = Array.from(initialPairingEmpty.keys());
+
+  if (matchedEntities.length %2 ===0)
+    pairingNumbersFlat.push(dummyIndex);
 
   const constantPairingNumber = pairingNumbersFlat.shift() as number;
 
@@ -330,32 +338,23 @@ function generateRoundRobinPairs(
 
   pairingNumbersFlat.unshift(constantPairingNumber);
 
-  const pairedNumbers = pairingNumbersFlat.reduce(
-    (pairedNumbers: number[][], currentValue, currentIndex, flatNumbers) => {
-      if (currentIndex%2 == 0){
-        const newPairing = [currentValue];
-        pairedNumbers.push(newPairing);
-      } else {
-        const previousPairing = pairedNumbers[pairedNumbers.length];
-        previousPairing.push(currentValue);
-      }
-      return pairedNumbers;
-    },
-    []
-  );
+  const numberOfPairs = Math.ceil(pairingNumbersFlat.length / 2)
+  const firstPlayers = pairingNumbersFlat.slice(0, numberOfPairs);
+  const secondPlayers = pairingNumbersFlat.slice(numberOfPairs);
+  secondPlayers.reverse();
 
-  const pairedPlayers: EntitiesPair[] = pairedNumbers.map(
-    (numberPair) => {
-      const firstPlayerNumber = numberPair[0];
-      const secondPlayerNumber = numberPair[1];
-      const firstPlayer =  entityByPairingNumber.get(firstPlayerNumber);
-      const secondPlayer = entityByPairingNumber.get(secondPlayerNumber);
-      const generatedPair: EntitiesPair = [firstPlayer, secondPlayer];
+  const pairedPlayerNumbers = firstPlayers.map(
+    (firstPlayer, pairNumber) => {
+      const secondPlayer = secondPlayers[pairNumber];
+      const generatedNumberPair = [firstPlayer, secondPlayer];
+      return generatedNumberPair;
     }
   )
 
-
-
+  if (matchedEntities.length %2 ===0)
+    pairedPlayerNumbers.filter(
+    (numberPair) => !numberPair.includes(dummyIndex)
+    )
 
   // generating a new pair
   const generatedPair: EntitiesPair = [firstEntity, secondEntity];
