@@ -1,4 +1,4 @@
-import ClubsList from '@/app/clubs/all/clubs-list';
+import ClubsIteratee from '@/app/clubs/all/clubs-list';
 import Center from '@/components/center';
 import getAllClubsQuery from '@/lib/db/queries/get-all-clubs-query';
 
@@ -7,7 +7,7 @@ export default async function ClubSettings() {
 
   return (
     <Center className="flex flex-col gap-4">
-      <ClubsList clubs={clubs} />
+      <ClubsIteratee clubs={clubs} />
     </Center>
   );
 }
