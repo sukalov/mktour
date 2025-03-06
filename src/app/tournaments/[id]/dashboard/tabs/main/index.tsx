@@ -2,7 +2,7 @@
 
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import ActionButtons from '@/app/tournaments/[id]/dashboard/tabs/main/action-buttons';
-import TournamentInfoList from '@/app/tournaments/[id]/dashboard/tabs/main/tournament-info-card';
+import TournamentInfoList from '@/app/tournaments/[id]/dashboard/tabs/main/tournament-info';
 import Center from '@/components/center';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { Card } from '@/components/ui/card';
@@ -21,7 +21,7 @@ const Main = () => {
 
   return (
     <div className="flex flex-col gap-4 px-4 py-2">
-      <div className="truncate text-4xl font-bold whitespace-break-spaces border-b-2 pb-4">
+      <div className="truncate text-4xl font-bold whitespace-break-spaces border-b-2 px-4 pb-4">
         {data.tournament.title}
       </div>
       <TournamentInfoList />
