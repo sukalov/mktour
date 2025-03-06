@@ -4,7 +4,6 @@ import {
 } from '@/app/tournaments/[id]/dashboard/tabs/main';
 import Winners from '@/app/tournaments/[id]/dashboard/tabs/main/winners';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
-import { Card } from '@/components/ui/card';
 import { CalendarDays, Dices, HomeIcon, UserRound } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
@@ -53,7 +52,8 @@ const TournamentInfoList = () => {
     formattedDate.charAt(0).toLowerCase() + formattedDate.slice(1);
 
   return (
-    <Card className="items-left flex w-full flex-col gap-8 p-4 px-8">
+    // <Card className="items-left flex w-full flex-col gap-8 p-4 px-8">
+    <div className='flex flex-col gap-4'>
       <InfoItem
         icon={HomeIcon}
         value={data.club?.name}
@@ -75,7 +75,7 @@ const TournamentInfoList = () => {
         />
       )} */}
       <Winners {...data} />
-    </Card>
+    </div>
   );
 };
 
