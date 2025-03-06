@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardTitle } from '@/components/ui/card';
 import LichessLogo from '@/components/ui/lichess-logo';
 import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
@@ -11,34 +11,33 @@ const ClubCard: FC<ClubProps> = ({ club }) => {
   const t = useTranslations();
 
   return (
-    <Card className="shadow-lg">
-      <CardHeader>
-        <CardTitle>{club.name}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p className="text-sm">
-          {club.description || t('Club.Page.no description')}
-        </p>
+    <Card className="flex flex-col gap-2 p-4 shadow-lg">
+      <CardTitle className="text-md flex items-center gap-2">
+        <Link href={`/clubs/${club.id}`}>{club.name}</Link>
         {club.lichess_team && (
           <Link
             href={`https://lichess.org/team/${club.lichess_team}`}
             target="_blank"
+            className="size-4"
           >
-            <p className="flex items-center gap-2">
-              <LichessLogo />
-              {t('Club.Page.lichess team')}
-            </p>
+            <LichessLogo />
           </Link>
         )}
-        <p className="text-muted-foreground mt-2 text-xs">
-          {club.created_at &&
-            t('Club.Page.createdAt', {
-              date: club.created_at!.toLocaleDateString(locale, {
-                dateStyle: 'long',
-              }),
-            })}
-        </p>
-      </CardContent>
+      </CardTitle>
+      {club.description && (
+        <span className="text-muted-foreground text-sm">
+          {club.description || t('Club.Page.no description')}
+        </span>
+      )}
+
+      <p className="text-muted-foreground text-xs">
+        {club.created_at &&
+          t('Club.Page.createdAt', {
+            date: club.created_at!.toLocaleDateString(locale, {
+              dateStyle: 'long',
+            }),
+          })}
+      </p>
     </Card>
   );
 };
