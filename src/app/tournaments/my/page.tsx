@@ -13,7 +13,7 @@ export default async function MyTournaments() {
   const tournaments = await getTournamentsToUserClubsQuery({ user });
 
   return (
-    <main className="m-4 flex flex-col items-center gap-4">
+    <main className="px-4 py-2 flex flex-col items-center gap-4">
       <TournamentGroups props={tournaments} />
     </main>
   );
