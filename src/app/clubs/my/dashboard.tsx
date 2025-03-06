@@ -29,7 +29,7 @@ export default function Dashboard({ userId }: { userId: string }) {
         <ClubDashboardTabList activeTab={tab} setTab={setTab} />
         <ClubSelect user={data} />
       </div>
-      <div className="max-h-full px-2 py-20">
+      <div className="max-h-full px-4 py-20">
         <ActiveTab selectedClub={data.selected_club} userId={userId} />
       </div>
     </SwipeHandlerProvider>
