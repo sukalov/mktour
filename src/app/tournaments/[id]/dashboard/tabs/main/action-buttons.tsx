@@ -6,7 +6,7 @@ import { Status } from '@/lib/db/queries/get-status-in-tournament';
 import { TournamentInfo } from '@/types/tournaments';
 import { FC } from 'react';
 
-const ActionButtons: FC<{
+const ActionButtonsRoot: FC<{
   status: Status;
   tournament: TournamentInfo['tournament'];
 }> = ({ status, tournament }) => {
@@ -41,5 +41,14 @@ const ActionButtons: FC<{
     </>
   );
 };
+
+const ActionButtons: FC<{
+  status: Status;
+  tournament: TournamentInfo['tournament'];
+}> = (props) => (
+  <div className="flex w-full flex-col gap-4">
+    <ActionButtonsRoot {...props} />
+  </div>
+);
 
 export default ActionButtons;
