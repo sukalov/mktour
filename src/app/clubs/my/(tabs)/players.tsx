@@ -19,7 +19,7 @@ const ClubPlayersList: FC<ClubTabProps> = ({ selectedClub }) => {
     return <Empty className="justify-start px-4">{t('players')}</Empty>;
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 pb-20">
       {players.data.map(PlayerItemIteratee)}
     </div>
   );
