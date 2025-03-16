@@ -34,7 +34,7 @@ const ClubSelect: FC<{ user: User }> = ({ user }) => {
         })
       }
     >
-      <SelectTriggerNoOutline className="bg-background/30 w-full px-6 backdrop-blur-md">
+      <SelectTriggerNoOutline className="bg-background/30 w-full rounded-none px-6 backdrop-blur-md">
         <SelectValue placeholder={placeholder} />
       </SelectTriggerNoOutline>
       {sortedClubs && (
