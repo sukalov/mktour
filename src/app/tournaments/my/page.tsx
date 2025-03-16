@@ -13,7 +13,7 @@ export default async function MyTournaments() {
   const tournaments = await getTournamentsToUserClubsQuery({ user });
 
   return (
-    <main className="px-4 py-2 flex flex-col items-center gap-4">
+    <main className="mk-container">
       <TournamentGroups props={tournaments} />
     </main>
   );
@@ -25,8 +25,8 @@ const TournamentGroups: FC<{ props: TournamentWithClub[] }> = ({ props }) => {
   return Object.entries(groupedTournaments).map(
     ([clubId, { clubName, tournaments }]) => {
       return (
-        <div className="flex w-full flex-col gap-2" key={clubId}>
-          <Link href={`/clubs/${clubId}`} className="pl-3">
+        <div className="mk-list" key={clubId}>
+          <Link href={`/clubs/${clubId}`} className="pl-4">
             <h2 className="text-muted-foreground">{clubName}</h2>
           </Link>
           {tournaments.map(({ tournament }) => (
