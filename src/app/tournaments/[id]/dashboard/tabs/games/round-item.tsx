@@ -68,7 +68,7 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
   };
 
   return (
-    <div className="flex w-full flex-col gap-2 px-4 pt-2">
+    <div className="mk-list mk-container pt-2">
       <ActionButton />
       {sortedRound.map((game, index) => {
         return <GamesIteratee key={index} {...game} />;

@@ -20,8 +20,8 @@ const Main = () => {
   if (!data) return <Center>no data</Center>;
 
   return (
-    <div className="flex flex-col px-4">
-      <div className="truncate text-4xl font-bold whitespace-break-spaces border-b-2 p-4">
+    <div className="mk-container">
+      <div className="truncate text-4xl font-bold whitespace-break-spaces border-b-2 p-4 pt-0">
         {data.tournament.title}
       </div>
       <TournamentInfoList />
