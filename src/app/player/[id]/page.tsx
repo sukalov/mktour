@@ -21,7 +21,7 @@ export default async function PlayerPage(props: PlayerPageProps) {
   // const isClubOwner = status === 'admin'; // FIXME make Enum
   const isDuplicatingName =
     player.nickname.trim().toLocaleLowerCase().replaceAll(' ', '') ===
-    player.realname!.trim().toLocaleLowerCase().replaceAll(' ', '');
+    player.realname?.trim().toLocaleLowerCase().replaceAll(' ', '');
 
   return (
     <div className="flex w-full flex-col gap-2 p-4 pt-2">
@@ -30,7 +30,7 @@ export default async function PlayerPage(props: PlayerPageProps) {
           <span className="truncate text-2xl font-semibold text-wrap">
             {player.nickname}
           </span>
-          <div className="flex self-end">
+          <div className="flex self-end text-muted-foreground">
             <ActionButton player={player} userId={user!.id} />
             <DeletePlayer userId={user!.id} />
           </div>
