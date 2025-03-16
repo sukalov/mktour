@@ -28,7 +28,7 @@ const PlayerItemIteratee = (player: PlayerProps) => {
 const PlayerItem: FC<{ player: PlayerProps }> = ({ player }) => {
   // const t = useTranslations();
   // const formatter = useFormatter();
-  const { last_seen, id, nickname, rating } = player;
+  const { id, nickname, rating } = player;
   // const lastSeen =
   //   last_seen && last_seen > 0
   //     ? formatter.relativeTime(last_seen)
