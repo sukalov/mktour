@@ -175,6 +175,8 @@ button {
   padding: calc(var(--spacing) * 4);
 }
 
-@utility mk-gap {
-  gap: calc(var(--spacing) * 4);
+@utility mk-list {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing) * 2);
 }

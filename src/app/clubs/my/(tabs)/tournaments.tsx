@@ -15,14 +15,14 @@ const ClubDashboardTournaments: FC<ClubTabProps> = ({ selectedClub }) => {
   if (isLoading) return <SkeletonList length={4} height={16} />;
   if (!data || !data.length)
     return (
-      <Empty className="px-4">
+      <Empty className="mk-container">
         <FormattedMessage id="Empty.tournaments" />
         <MakeTournament />
       </Empty>
     );
   if (isError) return <p className="w-full">{failureReason?.message}</p>;
   return (
-    <div className="mb-2 flex flex-col gap-2">
+    <div className="mk-list">
       {data.map((props) => (
         <TournamentItemIteratee key={props.id} tournament={props} />
       ))}

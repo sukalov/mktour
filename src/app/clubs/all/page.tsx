@@ -6,7 +6,7 @@ export default async function ClubSettings() {
   const clubs = await getAllClubsQuery();
 
   return (
-    <Center className="flex flex-col gap-4">
+    <Center className="mk-list">
       <ClubsIteratee clubs={clubs} />
     </Center>
   );
