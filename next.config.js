@@ -8,6 +8,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const nextConfig = {
   experimental: {
     reactCompiler: true,
+    ppr: 'incremental',
   },
   logging: {
     fetches: {
@@ -29,6 +30,6 @@ module.exports =
   process.env.OPT === 'true'
     ? MillionLint.next({ rsc: true })(nextConfig)
     : withPlugins(
-        [[withBundleAnalyzer], [withNextIntl], [withPWA]],
-        nextConfig,
-      );
+      [[withBundleAnalyzer], [withNextIntl], [withPWA]],
+      nextConfig,
+    );
