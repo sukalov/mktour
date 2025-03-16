@@ -84,7 +84,8 @@
     "player exists error": "this player already exists!",
     "name": "what's their name?",
     "add-player-error": "sorry! couldn't add {player} to the tournament",
-    "remove-player-error": "sorry! couldn't remove {player} from the tournament"
+    "remove-player-error": "sorry! couldn't remove {player} from the tournament",
+    "internal-error": "internal error: {error}"
   },
   "NewClubForm": {
     "new club": "new club",
@@ -98,7 +99,7 @@
     "unselect lichess team": "don't select any team",
     "club not saved": "sorry! server error happened, club wasn't saved",
     "ForwardToEmpty": {
-      "message": "it seems that you have a club with no finished tournaments: <bold>{club}</bold>. you can just edit it!",
+      "message": "it seems that you have a club with no finished tournaments: <b>{club}</b>. you can just edit it!",
       "button text": "go to"
     }
   },
@@ -155,7 +156,7 @@
     "danger zone": "danger zone",
     "delete profile": "delete profile",
     "confirmation header": "you're about to delete everything!",
-    "confirmation body": "this confirmation will immediately delete your profile <bold>completely</bold>. there is no way back! if you're completely sure type your nickname below",
+    "confirmation body": "this confirmation will immediately delete your profile <b>completely</b>. there is no way back! if you're completely sure type your nickname below",
     "username": "username",
     "cancel": "cancel",
     "checkbox1": "delete every tournament i made",

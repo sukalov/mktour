@@ -1,6 +1,7 @@
 'use client';
 
 import DeleteUserForm from '@/app/user/edit/delete-user-form';
+import RichText from '@/components/rich-text';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import {
@@ -43,7 +44,9 @@ export default function DeleteUser({ userId }: DeleteProfileProps) {
               <DialogHeader>
                 <DialogTitle>{t('confirmation header')}</DialogTitle>
                 <DialogDescription>
-                  {t.rich('confirmation body')}
+                  <RichText>
+                    {(tags) => t.rich('confirmation body', tags)}
+                  </RichText>
                 </DialogDescription>
               </DialogHeader>
               <DeleteUserForm userId={userId} />
