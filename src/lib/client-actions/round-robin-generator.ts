@@ -42,7 +42,6 @@ export function generateRoundRobinRoundFunction({
   // checking if the set of layers is even, if not, making it even with a smart alg
   let matchedEntities = players.map(convertPlayerToEntity);
 
-
   // if this is first round, assign unique indices to the players based on rating ranking
   if (roundNumber == 0) {
     // sorting the matched entities by the rating difference, namely rating-descending order
@@ -57,17 +56,15 @@ export function generateRoundRobinRoundFunction({
   
   // generating set of base matches
   const entitiesMatchingsGenerated = generateRoundRobinPairs(
-    poolByIdUpdated,
-    matchedEntities,
+    matchedEntities, roundNumber
   );
 
-  console.log(entitiesMatchingsGenerated);
   // colouring the set of the matcthes
   const colouredMatches = entitiesMatchingsGenerated.map(getColouredPair);
 
   // numbering each match
   // 1 is added to start game numeration from 1 instead of 0
-  const currentOffset = previousMatches.length + 1;
+  const currentOffset = games.length + 1;
   const numberedMatches = colouredMatches.map(
     (colouredMatch, coulouredMatchIndex) =>
       getNumberedPair(colouredMatch, coulouredMatchIndex, currentOffset),
@@ -118,6 +115,9 @@ interface NumberedEntitiesPair extends ColouredEntitiesPair {
  * This is a generic type, which selects only unique properties of `Child`
  */
 type OnlyChild<Child, Parent> = Omit<Child, keyof Parent>;
+
+
+type EntitiesNumberPair = [number, number];
 
 /**
  * First generated type of a round is just a pair of two entities
@@ -174,8 +174,8 @@ function convertPlayerToEntity(playerModel: PlayerModel) {
     entityRating: playerModel.rating ?? 0, // If the player rating is null, we just use zero as a complement
     // Now we sum all the revious results to get the count of games
     gamesPlayed: playerModel.draws + playerModel.wins + playerModel.losses,
-    pairingNumber: playerModel.pairingNumber ?? null
-  };
+    pairingNumber: playerModel.pairingNumber
+    };
   return tournamentEntity;
 }
 
@@ -280,6 +280,7 @@ function getNumberedPair(
  */
 function getColouredPair(uncolouredPair: EntitiesPair): ColouredEntitiesPair {
   let [whiteEntity, blackEntity] = uncolouredPair;
+  console.log(uncolouredPair);
 
   // reversing the white and black, if the white colour index is bigger
   // (that means that current white has played more whites, than black player)
@@ -326,7 +327,9 @@ function generateRoundRobinPairs(
   const initialPairingEmpty = Array(matchedEntities.length);
   const pairingNumbersFlat = Array.from(initialPairingEmpty.keys());
 
-  if (matchedEntities.length %2 ===0)
+  console.log()
+
+  if (matchedEntities.length %2 !== 0)
     pairingNumbersFlat.push(dummyIndex);
 
   const constantPairingNumber = pairingNumbersFlat.shift() as number;
@@ -343,22 +346,27 @@ function generateRoundRobinPairs(
   const secondPlayers = pairingNumbersFlat.slice(numberOfPairs);
   secondPlayers.reverse();
 
-  const pairedPlayerNumbers = firstPlayers.map(
+  console.log(firstPlayers, secondPlayers)
+
+  let pairedPlayerNumbers = firstPlayers.map(
     (firstPlayer, pairNumber) => {
       const secondPlayer = secondPlayers[pairNumber];
-      const generatedNumberPair = [firstPlayer, secondPlayer];
+      const generatedNumberPair: EntitiesNumberPair = [firstPlayer, secondPlayer];
       return generatedNumberPair;
     }
   )
 
   if (matchedEntities.length %2 ===0)
-    pairedPlayerNumbers.filter(
+    pairedPlayerNumbers = pairedPlayerNumbers.filter(
     (numberPair) => !numberPair.includes(dummyIndex)
     )
 
-  // generating a new pair
-  const generatedPair: EntitiesPair = [firstEntity, secondEntity];
-  generatedPairs.push(generatedPair);
+
+  for (let numberPair of pairedPlayerNumbers){
+    const entitiesPair = numberPair.map(
+      (numberPair) => entityByPairingNumber.get(numberPair) as ChessTournamentEntity
+    ) as EntitiesPair
+    generatedPairs.push(entitiesPair);
   }
   return generatedPairs;
 }

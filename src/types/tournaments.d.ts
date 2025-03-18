@@ -8,7 +8,7 @@ import {
  * combination of player general info and tournament performance, recorded in players_to_tournaments
  */
 export interface PlayerModel {
-  pairingNumber: null;
+  pairingNumber: number;
   id: string;
   nickname: string; // players.nickname
   realname?: string | null;
