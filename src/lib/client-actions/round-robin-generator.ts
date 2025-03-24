@@ -42,16 +42,6 @@ export function generateRoundRobinRoundFunction({
   // checking if the set of layers is even, if not, making it even with a smart alg
   let matchedEntities = players.map(convertPlayerToEntity);
 
-  // if this is first round, assign unique indices to the players based on rating ranking
-  if (roundNumber == 0) {
-    // sorting the matched entities by the rating difference, namely rating-descending order
-    matchedEntities.sort((leftPlayer, rightPlayer) => leftPlayer.entityRating - rightPlayer.entityRating);
-
-    // simple pairing number rating assignment based on array index
-    matchedEntities.forEach((matchedEntity, entityIndex) => {
-      matchedEntity.pairingNumber = entityIndex;
-    });
-  }
 
   
   // generating set of base matches
@@ -160,6 +150,17 @@ function getInitialEntitiesIdPairs(matchedEntities: ChessTournamentEntity[]) {
   );
 
   return initialEntitiesIdPoolPairs;
+}
+
+export function assignPairingNumbers(players: PlayerModel[]) {
+      // sorting the matched entities by the rating difference, namely rating-descending order
+      players.sort((leftPlayer, rightPlayer) => leftPlayer.rating - rightPlayer.rating);
+
+      // simple pairing number rating assignment based on array index
+      players.forEach((matchedEntity, entityIndex) => {
+        matchedEntity.pairingNumber = entityIndex;
+      });
+  
 }
 
 /**
@@ -280,7 +281,6 @@ function getNumberedPair(
  */
 function getColouredPair(uncolouredPair: EntitiesPair): ColouredEntitiesPair {
   let [whiteEntity, blackEntity] = uncolouredPair;
-  console.log(uncolouredPair);
 
   // reversing the white and black, if the white colour index is bigger
   // (that means that current white has played more whites, than black player)
@@ -327,7 +327,6 @@ function generateRoundRobinPairs(
   const initialPairingEmpty = Array(matchedEntities.length);
   const pairingNumbersFlat = Array.from(initialPairingEmpty.keys());
 
-  console.log()
 
   if (matchedEntities.length %2 !== 0)
     pairingNumbersFlat.push(dummyIndex);
@@ -346,7 +345,6 @@ function generateRoundRobinPairs(
   const secondPlayers = pairingNumbersFlat.slice(numberOfPairs);
   secondPlayers.reverse();
 
-  console.log(firstPlayers, secondPlayers)
 
   let pairedPlayerNumbers = firstPlayers.map(
     (firstPlayer, pairNumber) => {
@@ -356,11 +354,11 @@ function generateRoundRobinPairs(
     }
   )
 
-  if (matchedEntities.length %2 ===0)
+  if (matchedEntities.length %2 !==0)
     pairedPlayerNumbers = pairedPlayerNumbers.filter(
     (numberPair) => !numberPair.includes(dummyIndex)
     )
-
+  
 
   for (let numberPair of pairedPlayerNumbers){
     const entitiesPair = numberPair.map(

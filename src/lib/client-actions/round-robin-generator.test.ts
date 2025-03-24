@@ -150,26 +150,28 @@ const generateGameModel = mock(
  }
 )
 const PLAYER_NUMBER_FAKEOPTS = {
-  min:6,
-  max:6
+  min:2,
+  max:1024
 
 };
 
 describe("tournament generation test set", () => {
 
-
+    
     // initialising the player number for the tournament
     const randomPlayerNumber = faker.number.int(PLAYER_NUMBER_FAKEOPTS);
-
-    console.log(randomPlayerNumber)
+    console.log(randomPlayerNumber);
     // initialising the player list
-    const randomPlayers = [];
+    const randomPlayers: PlayerModel[] = [];
     for (let playerIdx = 0; playerIdx < randomPlayerNumber; playerIdx++) {
       const generatedPlayer = generatePlayerModel();
       randomPlayers.push(generatedPlayer);
     }
 
-  
+    // simple pairing number rating assignment based on array index
+    randomPlayers.forEach((matchedEntity, entityIndex) => {
+          matchedEntity.pairingNumber = entityIndex;
+    })
     // for the initial case, the previous games are missing
     let previousGames: GameModel[] = [];
  
@@ -192,7 +194,6 @@ describe("tournament generation test set", () => {
       
       // simulating round results
       for (const gameScheduled of gamesToInsert) {
-        console.log(currentRound);
         
         // selecting random result
         const randomGameResult = faker.helpers.arrayElement(POSSIBLE_RESULTS) as Result;
