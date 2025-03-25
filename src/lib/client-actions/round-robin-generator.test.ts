@@ -1,4 +1,4 @@
-import { describe, mock } from "bun:test";
+import { describe, expect, mock, test } from "bun:test";
 
 import { generateRoundRobinRoundFunction, RoundRobinRoundProps } from "@/lib/client-actions/round-robin-generator";
 import { DatabaseUser } from "@/lib/db/schema/auth";
@@ -105,6 +105,33 @@ const generateRandomDatabaseTournament = mock(
   }
 )
 
+const fillRandomResult = mock(
+  (gameScheduled) => {
+            // selecting random result
+            const randomGameResult = faker.helpers.arrayElement(POSSIBLE_RESULTS) as Result;
+            gameScheduled.result = randomGameResult;
+    
+            return gameScheduled    
+  }
+)
+
+const updatePlayerStatsByResult = mock(
+  (gameResult, blackPlayer, whitePlayer) => {
+    if (gameResult === "1-0") {
+      blackPlayer!.losses += 1;
+      whitePlayer!.wins +=1;
+    } else if (gameResult === "0-1") {
+      blackPlayer!.wins += 1;
+      whitePlayer!.losses +=1;
+    } else {
+
+      blackPlayer!.draws +=1;
+      whitePlayer!.draws +=1;
+    }
+    return {blackPlayer, whitePlayer}
+  }
+)
+
 const generatePlayerModel = mock(
   () => {
     const randomUser = generateDatabasePlayer();
@@ -155,12 +182,12 @@ const PLAYER_NUMBER_FAKEOPTS = {
 
 };
 
-describe("tournament generation test set", () => {
+describe("stress tournament full generation game count", () => {
 
     
     // initialising the player number for the tournament
     const randomPlayerNumber = faker.number.int(PLAYER_NUMBER_FAKEOPTS);
-    console.log(randomPlayerNumber);
+
     // initialising the player list
     const randomPlayers: PlayerModel[] = [];
     for (let playerIdx = 0; playerIdx < randomPlayerNumber; playerIdx++) {
@@ -195,29 +222,17 @@ describe("tournament generation test set", () => {
       // simulating round results
       for (const gameScheduled of gamesToInsert) {
         
-        // selecting random result
-        const randomGameResult = faker.helpers.arrayElement(POSSIBLE_RESULTS) as Result;
-        gameScheduled.result = randomGameResult;
-
-        // updating info about the players in the tournament
-        const blackPlayer = randomPlayers.find((player) => player.id === gameScheduled.black_id);
-        const whitePlayer = randomPlayers.find((player) => player.id === gameScheduled.white_id);
-        if (randomGameResult === "1-0") {
-          blackPlayer!.losses += 1;
-          whitePlayer!.wins +=1;
-        } else if (randomGameResult === "0-1") {
-          blackPlayer!.wins += 1;
-          whitePlayer!.losses +=1;
-        } else {
-          blackPlayer!.draws +=1;
-          whitePlayer!.draws +=1;
-        }
       }
 
       previousGames.push(...gamesToInsert);
       currentRound++;
     }
 
-    console.log(previousGames.length)
+    test("game count", () =>{
+      // checking that the game count is equal to theoretical one
+      const theoreticalGameCount = randomPlayerNumber/2 * (randomPlayerNumber -1) 
+      expect(previousGames.length).toBe(theoreticalGameCount);
+      
+  })
   })
 
