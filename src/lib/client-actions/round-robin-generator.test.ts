@@ -6,6 +6,7 @@ import { DatabaseClub, DatabaseTournament } from "@/lib/db/schema/tournaments";
 import { newid } from "@/lib/utils";
 import { GameModel, PlayerModel, Result } from "@/types/tournaments";
 import { faker } from "@faker-js/faker";
+import assert from "assert";
 
 const INITIAL_WINS = 0;
 const INITIAL_LOSSES = 0;
@@ -20,7 +21,7 @@ const DEFAULT_FORMAT = "round robin";
 const DEFAULT_TYPE = "solo";
 
 
-const POSSIBLE_RESULTS = ["0-1", "1-0", "1/2-1/2"];
+const POSSIBLE_RESULTS: Result[] = ["0-1", "1-0", "1/2-1/2"];
 
 const COLOUR_INDEX_FAKEOPTS = {
   min: -10,
@@ -106,27 +107,38 @@ const generateRandomDatabaseTournament = mock(
 )
 
 const fillRandomResult = mock(
-  (gameScheduled) => {
+  /**
+   * This function takes an array of games, and sets random results there
+   * @param gameScheduled , a Game model with a null-result
+   * @returns 
+   */
+  (gameScheduled: GameModel) => {
+            assert(gameScheduled.result === null, "A game result here should be null, or something went wrong!");
             // selecting random result
-            const randomGameResult = faker.helpers.arrayElement(POSSIBLE_RESULTS) as Result;
+            const randomGameResult = faker.helpers.arrayElement(POSSIBLE_RESULTS);
             gameScheduled.result = randomGameResult;
-    
             return gameScheduled    
   }
 )
 
 const updatePlayerStatsByResult = mock(
-  (gameResult, blackPlayer, whitePlayer) => {
+  /**
+   * This function essentially fills the player results inside their models by getting the *simulated* result of the game
+   * @param gameResult 
+   * @param blackPlayer 
+   * @param whitePlayer 
+   * @returns an object, containing two updated player models
+   */
+  (gameResult: Result, blackPlayer: PlayerModel, whitePlayer: PlayerModel) => {
     if (gameResult === "1-0") {
-      blackPlayer!.losses += 1;
-      whitePlayer!.wins +=1;
+      blackPlayer.losses += 1;
+      whitePlayer.wins +=1;
     } else if (gameResult === "0-1") {
-      blackPlayer!.wins += 1;
-      whitePlayer!.losses +=1;
+      blackPlayer.wins += 1;
+      whitePlayer.losses += 1;
     } else {
-
-      blackPlayer!.draws +=1;
-      whitePlayer!.draws +=1;
+      blackPlayer.draws +=1;
+      whitePlayer.draws +=1;
     }
     return {blackPlayer, whitePlayer}
   }
@@ -204,7 +216,7 @@ describe("stress tournament full generation game count", () => {
  
     let currentRound = 0;
 
-    const gameCount = randomPlayerNumber/ 2  *(randomPlayerNumber - 1)
+    const gameCount = randomPlayerNumber/ 2  * (randomPlayerNumber - 1)
     // random tournament initialised
     const randomTournament = generateRandomDatabaseTournament();
 
@@ -221,7 +233,7 @@ describe("stress tournament full generation game count", () => {
       
       // simulating round results
       for (const gameScheduled of gamesToInsert) {
-        
+        fillRandomResult
       }
 
       previousGames.push(...gamesToInsert);
