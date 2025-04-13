@@ -11,13 +11,13 @@ export interface PlayerModel {
   pairingNumber: number;
   id: string;
   nickname: string; // players.nickname
-  realname?: string | null;
+  realname?: string;
   rating: number | null;
   wins: number;
   draws: number;
   losses: number;
   color_index: number;
-  exited: boolean | null;
+  exited: boolean;
   place: number | null;
 }
 

@@ -159,6 +159,7 @@ const generatePlayerModel = mock(
       rating: randomUser.rating,
       exited: DEFAULT_IS_EXITED,
       place: DEFAULT_PLACE,
+      pairingNumber: null
     }
 
     return randomPlayer; 

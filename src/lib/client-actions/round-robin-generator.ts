@@ -79,15 +79,6 @@ interface ChessTournamentEntity {
   pairingNumber: number;
 }
 
-/**
- * This is a set of a possible opponents, by entities' ids
- */
-type PossibleMatches = Set<ChessTournamentEntity>;
-
-/**
- * This type is representing the bootstrapping material for the map of possible player pools
- */
-type EntityIdPoolPair = [ChessTournamentEntity['entityId'], PossibleMatches];
 
 /**
  * This interface is representing an entiies pair, which is already has colour in it
@@ -114,43 +105,6 @@ type EntitiesNumberPair = [number, number];
  */
 type EntitiesPair = [ChessTournamentEntity, ChessTournamentEntity];
 
-/**
- * This is a map-like which maps every entity id to a set of possible matches for it
- */
-type PoolById = Map<ChessTournamentEntity['entityId'], PossibleMatches>;
-
-/**
- * This function gets a list of entities, and populates it as a list of pairs of entity id, to the whole list excluding this entity.
- * This is done to have a bootstrap for mapping entities to the possible opponents for the round.
- * @param matchedEntities list with entities-like objects
- * @returns initialEntitiesIdPairs
- */
-function getInitialEntitiesIdPairs(matchedEntities: ChessTournamentEntity[]) {
-  // initializing a bootstrapping array
-  const initialEntitiesIdPoolPairs: EntityIdPoolPair[] = [];
-
-  // filling the bootstrapping array here
-  matchedEntities.forEach(
-    /**
-     * This function is taking the matched entity, forms a copy of a big set of players, then removes the current entity from a
-     * pool. Then it just forms a pair of values (this is a map bootstrap, remember?) and updates the outer array
-     * @param matchedEntity
-     */
-    (matchedEntity: ChessTournamentEntity) => {
-      const matchedEntitiesPool = new Set(matchedEntities);
-      matchedEntitiesPool.delete(matchedEntity);
-
-      const poolIdPair: EntityIdPoolPair = [
-        matchedEntity.entityId,
-        matchedEntitiesPool,
-      ];
-
-      initialEntitiesIdPoolPairs.push(poolIdPair);
-    },
-  );
-
-  return initialEntitiesIdPoolPairs;
-}
 
 export function assignPairingNumbers(players: PlayerModel[]) {
       // sorting the matched entities by the rating difference, namely rating-descending order
@@ -178,34 +132,6 @@ function convertPlayerToEntity(playerModel: PlayerModel) {
     pairingNumber: playerModel.pairingNumber
     };
   return tournamentEntity;
-}
-
-/**
- * This function takes drizzle specific large join, containing detailed game information of both the game
- * and the players set, then it converts it to the match in the match database.
- * @param databaseDetailedGame collection of objects related to database game
- * @returns the numbered pair, the final tye of matched entities
- */
-function convertGameToEntitiesMatch(
-  game: GameModel,
-  players: Array<PlayerModel>,
-): NumberedEntitiesPair {
-  const whitePlayer = players.find((person) => person.id === game.white_id);
-  const blackPlayer = players.find((person) => person.id === game.black_id);
-
-  if (!whitePlayer || !blackPlayer)
-    throw new Error('the set of games seems to not match the set of players');
-
-  const whiteEntity = convertPlayerToEntity(whitePlayer);
-  const blackEntity = convertPlayerToEntity(blackPlayer);
-
-  // putting everything together
-  const entitiesMatch: NumberedEntitiesPair = {
-    whiteEntity,
-    blackEntity,
-    pairNumber: game.game_number,
-  };
-  return entitiesMatch;
 }
 
 /**
@@ -299,18 +225,22 @@ function getColouredPair(uncolouredPair: EntitiesPair): ColouredEntitiesPair {
 
 
 /**
- * This function takes an entities pool constructs a list of possible pairs of those
+ * This function takes an entities pool and constructs a next round of games, by the circle method
+ * 
+ * @param matchedEntities a list like of all the players, converted to the entities already
+ * @param roundNumber for correct analysis of the current circle shift, we pass a round number parpmeter
  * 
  * 
- * 
- * @param poolById always EVEN set of players
  */
-
 function generateRoundRobinPairs(
   matchedEntities: ChessTournamentEntity[],
   roundNumber: number
 ) {
+  // an empty array for a future generated pair
   const generatedPairs: EntitiesPair[] = [];
+
+
+  // creating a helper map, which is returning entity by its pairing number
 
   const entityByPairingNumber = new Map<number, ChessTournamentEntity>;
 
@@ -321,31 +251,39 @@ function generateRoundRobinPairs(
     }
   )
 
+  // this is used, if the length of players is odd, marking the non-matched player
+  // it is not in if block for simplifying the work for the typescript (otherwise we would need to check the thing twice)
   const dummyIndex = matchedEntities.length;
 
-
+  // generating an initial number array, a flat collection of numbers from 0 to n-1 (where n is number of players)
   const initialPairingEmpty = Array(matchedEntities.length);
   const pairingNumbersFlat = Array.from(initialPairingEmpty.keys());
 
 
+  // adding the dummy index if odd player count
   if (matchedEntities.length %2 !== 0)
     pairingNumbersFlat.push(dummyIndex);
 
+  // starting shifting process (cycling the circle of players, having one number fixed)
   const constantPairingNumber = pairingNumbersFlat.shift() as number;
 
+  // cycling process, where you just rotate the array
   for (let cycleNumber = 0; cycleNumber< roundNumber; cycleNumber++) {
     const lastPairingNumber = pairingNumbersFlat.shift() as number;
     pairingNumbersFlat.push(lastPairingNumber);
   }
 
+  // adding the first player, which is always fixed
   pairingNumbersFlat.unshift(constantPairingNumber);
 
+  // splitting the array, and matching the reverse of the second part with the first part, making a proper circle
   const numberOfPairs = Math.ceil(pairingNumbersFlat.length / 2)
   const firstPlayers = pairingNumbersFlat.slice(0, numberOfPairs);
   const secondPlayers = pairingNumbersFlat.slice(numberOfPairs);
   secondPlayers.reverse();
 
 
+  // converting those two arrays to the list of playre matching number pairs
   let pairedPlayerNumbers = firstPlayers.map(
     (firstPlayer, pairNumber) => {
       const secondPlayer = secondPlayers[pairNumber];
@@ -354,12 +292,14 @@ function generateRoundRobinPairs(
     }
   )
 
+  // again, if the array is odd, we remove the pair with the dummy index inside
   if (matchedEntities.length %2 !==0)
     pairedPlayerNumbers = pairedPlayerNumbers.filter(
     (numberPair) => !numberPair.includes(dummyIndex)
     )
   
 
+  // final mapping of the player numbers to the players together
   for (let numberPair of pairedPlayerNumbers){
     const entitiesPair = numberPair.map(
       (numberPair) => entityByPairingNumber.get(numberPair) as ChessTournamentEntity
@@ -370,20 +310,3 @@ function generateRoundRobinPairs(
 }
 
 
-
-/**
- * This function gets uneven set of alyers guaranteed, and excludes alyer with the most games
- * @param matchedEntities list like of entities with info about games
- * @returns matched entities list but even
- */
-function getEvenSetOfPlayers(matchedEntities: ChessTournamentEntity[]) {
-  const gamesCounts = matchedEntities.map(
-    (matchedEntity) => matchedEntity.gamesPlayed,
-  );
-  const maxGameCount = Math.max(...gamesCounts);
-  const playerIndexToExclude = matchedEntities.findIndex(
-    (matchedEntity) => matchedEntity.gamesPlayed === maxGameCount,
-  );
-  matchedEntities.splice(playerIndexToExclude, 1);
-  return matchedEntities;
-}
