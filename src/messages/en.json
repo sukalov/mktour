@@ -6,6 +6,7 @@
     "login": "log in",
     "logout": "log out",
     "confirm": "are you sure?",
+    "send": "send",  
     "close": "close",
     "delete": "delete",
     "edit": "edit",
@@ -73,7 +74,8 @@
     "realname": "real name",
     "lichess": "lichess",
     "club": "club",
-    "itsMe": "it's me!"
+    "claim": "it's me!",
+    "claim confirmation": "you are gonna send application. as soon as admins confirm it, the player will be associated with your account"
   },
   "Errors": {
     "hard naming": "naming is hard, but necessary",

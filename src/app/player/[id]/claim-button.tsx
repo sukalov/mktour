@@ -1,0 +1,75 @@
+'use client';
+
+import { LoadingSpinner } from '@/app/loading';
+import FormattedMessage from '@/components/formatted-message';
+import { Button } from '@/components/ui/button';
+import {
+  Close,
+  Content,
+  Description,
+  Header,
+  Root,
+  Title,
+  Trigger,
+} from '@/components/ui/combo-modal';
+import { Check, Pointer } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { useParams } from 'next/navigation';
+import { FC, useState } from 'react';
+
+const ClaimPlayer: FC<{ userId: string }> = ({ userId }) => {
+  const { id: playerId } = useParams<{ id: string }>();
+  const [open, setOpen] = useState(false);
+  const [isPending, setPending] = useState(false);
+  const handleClick = () => {
+    // TODO: replace with mutation, add Toast success/error confirmation
+    setPending(true);
+    setTimeout(() => {
+      setPending(false);
+      setOpen(false);
+    }, 2000);
+    console.log({ playerId, userId });
+  };
+  const t = useTranslations();
+
+  return (
+    <Root open={open} onOpenChange={setOpen}>
+      <Trigger asChild>
+        <Button variant="ghost" className="flex gap-2 p-2">
+          {isPending ? (
+            <LoadingSpinner />
+          ) : (
+            <>
+              <Pointer />
+              <div className="text-[10px] text-nowrap">
+                <FormattedMessage id="Player.claim" />
+              </div>
+            </>
+          )}
+        </Button>
+      </Trigger>
+      <Content>
+        <Header>
+          <Title>
+            <FormattedMessage id="Player.claim" />
+          </Title>
+          <Description>
+            <FormattedMessage id="Player.claim confirmation" />
+          </Description>
+        </Header>
+        <Button className="w-full" onClick={handleClick} disabled={isPending}>
+          {isPending ? <LoadingSpinner /> : <Check />}
+          &nbsp;
+          {t('Common.send')}
+        </Button>
+        <Close asChild>
+          <Button className="w-full" variant="outline">
+            {t('Common.cancel')}
+          </Button>
+        </Close>
+      </Content>
+    </Root>
+  );
+};
+
+export default ClaimPlayer;

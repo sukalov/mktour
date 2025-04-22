@@ -1,12 +1,11 @@
+import ClaimPlayer from '@/app/player/[id]/claim-button';
 import DeletePlayer from '@/app/player/[id]/delete-button';
 import EditButton from '@/app/player/[id]/edit-button';
 import FormattedMessage from '@/components/formatted-message';
-import { Button } from '@/components/ui/button';
 import { validateRequest } from '@/lib/auth/lucia';
 import getPlayerQuery from '@/lib/db/queries/get-player-query';
 import getStatus from '@/lib/db/queries/get-status-query';
 import { StatusInClub } from '@/lib/db/schema/tournaments';
-import { Pointer } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
@@ -38,14 +37,7 @@ export default async function PlayerPage(props: PlayerPageProps) {
                 <DeletePlayer userId={user.id} />
               </>
             )}
-            {canClaim && (
-              <Button variant="ghost" className="flex gap-2 p-2">
-                <Pointer />
-                <div className="text-[10px] text-nowrap">
-                  <FormattedMessage id="Player.itsMe" />
-                </div>
-              </Button>
-            )}
+            {canClaim && <ClaimPlayer userId={user.id} />}
           </div>
         )}
       </div>
