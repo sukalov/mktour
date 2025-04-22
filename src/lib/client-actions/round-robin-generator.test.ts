@@ -33,7 +33,7 @@ const RATING_FAKEOPTS = {
   max:3000
 };
 
-const generateDatabasePlayer = mock(
+const generateDatabasePlayer = mock<() => DatabaseUser>(
   () => {
     const randomId = newid();
     const randomNickname = faker.internet.username();
@@ -57,7 +57,7 @@ const generateDatabasePlayer = mock(
 )
 
 
-const generateRandomDatabaseClub = mock(
+const generateRandomDatabaseClub = mock<() => DatabaseClub>(
   () => {
     const randomId = newid();
     const randomTitle = faker.animal.cat();
@@ -75,7 +75,7 @@ const generateRandomDatabaseClub = mock(
   }
 )
 
-const generateRandomDatabaseTournament = mock(
+const generateRandomDatabaseTournament = mock<() => DatabaseTournament>(
   () => {
     const randomDate = faker.date.anytime();
     const randomId = newid();
@@ -195,9 +195,66 @@ const PLAYER_NUMBER_FAKEOPTS = {
 
 };
 
-describe("stress tournament full generation game count", () => {
+const RANDOM_TOURNAMENTS_COUNT = 5;
 
-    
+describe("pure matching generation test", () => {
+
+    for (let tournamentNumber = 0; tournamentNumber < RANDOM_TOURNAMENTS_COUNT; tournamentNumber++) {
+      // initialising the player number for the tournament
+      const randomPlayerNumber = faker.number.int(PLAYER_NUMBER_FAKEOPTS);
+
+      // initialising the player list
+      const randomPlayers: PlayerModel[] = [];
+      for (let playerIdx = 0; playerIdx < randomPlayerNumber; playerIdx++) {
+        const generatedPlayer = generatePlayerModel();
+        randomPlayers.push(generatedPlayer);
+      }
+
+      // simple pairing number rating assignment based on array index
+      randomPlayers.forEach((matchedEntity, entityIndex) => {
+            matchedEntity.pairingNumber = entityIndex;
+      })
+      // for the initial case, the previous games are missing
+      let previousGames: GameModel[] = [];
+  
+      let currentRound = 0;
+
+      const gameCount = randomPlayerNumber/ 2  * (randomPlayerNumber - 1)
+      // random tournament initialised
+      const randomTournament = generateRandomDatabaseTournament();
+
+      while ( previousGames.length < gameCount) {
+        // generating round info formed
+        const nextRoundRobinProps: RoundRobinRoundProps = {
+          players: randomPlayers,
+          games: previousGames,
+          roundNumber: currentRound,
+          tournamentId: randomTournament.id
+        };
+        
+        const gamesToInsert = generateRoundRobinRoundFunction(nextRoundRobinProps);
+        
+        // simulating round results
+        gamesToInsert.forEach(fillRandomResult);        
+
+        previousGames.push(...gamesToInsert);
+        currentRound++;
+      }
+
+      test(`${tournamentNumber} - game count equality to theoretical`, () =>{
+        // checking that the game count is equal to theoretical one
+        const theoreticalGameCount = randomPlayerNumber/2 * (randomPlayerNumber -1) 
+        expect(previousGames.length).toBe(theoreticalGameCount);
+        })
+      
+    }
+  })
+
+
+  
+describe("matching generator END TO END", () => {
+
+  for (let tournamentNumber = 0; tournamentNumber < RANDOM_TOURNAMENTS_COUNT; tournamentNumber++) {
     // initialising the player number for the tournament
     const randomPlayerNumber = faker.number.int(PLAYER_NUMBER_FAKEOPTS);
 
@@ -214,7 +271,7 @@ describe("stress tournament full generation game count", () => {
     })
     // for the initial case, the previous games are missing
     let previousGames: GameModel[] = [];
- 
+
     let currentRound = 0;
 
     const gameCount = randomPlayerNumber/ 2  * (randomPlayerNumber - 1)
@@ -233,19 +290,17 @@ describe("stress tournament full generation game count", () => {
       const gamesToInsert = generateRoundRobinRoundFunction(nextRoundRobinProps);
       
       // simulating round results
-      for (const gameScheduled of gamesToInsert) {
-        fillRandomResult
-      }
+      gamesToInsert.forEach(fillRandomResult);        
 
       previousGames.push(...gamesToInsert);
       currentRound++;
     }
 
-    test("game count", () =>{
+    test(`${tournamentNumber} - game count`, () =>{
       // checking that the game count is equal to theoretical one
       const theoreticalGameCount = randomPlayerNumber/2 * (randomPlayerNumber -1) 
       expect(previousGames.length).toBe(theoreticalGameCount);
-      
-  })
-  })
-
+      })
+    
+  }
+})

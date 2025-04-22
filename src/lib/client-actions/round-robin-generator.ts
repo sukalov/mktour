@@ -106,16 +106,6 @@ type EntitiesNumberPair = [number, number];
 type EntitiesPair = [ChessTournamentEntity, ChessTournamentEntity];
 
 
-export function assignPairingNumbers(players: PlayerModel[]) {
-      // sorting the matched entities by the rating difference, namely rating-descending order
-      players.sort((leftPlayer, rightPlayer) => leftPlayer.rating - rightPlayer.rating);
-
-      // simple pairing number rating assignment based on array index
-      players.forEach((matchedEntity, entityIndex) => {
-        matchedEntity.pairingNumber = entityIndex;
-      });
-  
-}
 
 /**
  * This simple converter is taking a joined player info and transforms it to a matched entity
