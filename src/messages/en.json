@@ -70,7 +70,10 @@
     "delete": "delete player",
     "username": "username",
     "rating": "rating",
-    "realname": "real name"
+    "realname": "real name",
+    "lichess": "lichess",
+    "club": "club",
+    "itsMe": "it's me!"
   },
   "Errors": {
     "hard naming": "naming is hard, but necessary",
