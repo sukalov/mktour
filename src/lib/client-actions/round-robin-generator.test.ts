@@ -16,17 +16,13 @@ const INITIAL_COLOUR_INDEX = 0;
 
 
 const DEFAULT_PLACE = null;
-const DEFAULT_IS_EXITED = null;
+const DEFAULT_IS_EXITED = false;
 const DEFAULT_FORMAT = "round robin";
 const DEFAULT_TYPE = "solo";
 
 
 const POSSIBLE_RESULTS: Result[] = ["0-1", "1-0", "1/2-1/2"];
 
-const COLOUR_INDEX_FAKEOPTS = {
-  min: -10,
-  max: 10
-};
 
 const RATING_FAKEOPTS = {
   min:500,
@@ -120,30 +116,6 @@ const fillRandomResult = mock(
             return gameScheduled    
   }
 )
-
-const updatePlayerStatsByResult = mock(
-  /**
-   * This function essentially fills the player results inside their models by getting the *simulated* result of the game
-   * @param gameResult 
-   * @param blackPlayer 
-   * @param whitePlayer 
-   * @returns an object, containing two updated player models
-   */
-  (gameResult: Result, blackPlayer: PlayerModel, whitePlayer: PlayerModel) => {
-    if (gameResult === "1-0") {
-      blackPlayer.losses += 1;
-      whitePlayer.wins +=1;
-    } else if (gameResult === "0-1") {
-      blackPlayer.wins += 1;
-      whitePlayer.losses += 1;
-    } else {
-      blackPlayer.draws +=1;
-      whitePlayer.draws +=1;
-    }
-    return {blackPlayer, whitePlayer}
-  }
-)
-
 const generatePlayerModel = mock(
   () => {
     const randomUser = generateDatabasePlayer();
@@ -166,29 +138,6 @@ const generatePlayerModel = mock(
   }
 )
 
-const generateGameModel = mock(
- () => {
-  const randomWhitePlayer = generatePlayerModel();
-  const randomBlackPlayer = generatePlayerModel();
-  
-  const randomGameId = newid();
-
-  const randomGame: GameModel = {
-    black_nickname: randomBlackPlayer.nickname,
-    white_nickname: randomWhitePlayer.nickname,
-    id: "",
-    game_number: 0,
-    round_number: 0,
-    round_name: null,
-    white_id: "",
-    black_id: "",
-    white_prev_game_id: null,
-    black_prev_game_id: null,
-    result: null,
-    tournament_id: ""
-  };
- }
-)
 const PLAYER_NUMBER_FAKEOPTS = {
   min:2,
   max:1024
