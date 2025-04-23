@@ -1,7 +1,7 @@
 import Dashboard from '@/app/clubs/my/dashboard';
+import { clubQueryClient, clubQueryPrefetch } from '@/app/clubs/my/prefetch';
 import { validateRequest } from '@/lib/auth/lucia';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
-import { clubQueryClient, clubQueryPrefetch } from 'archive/dashboard/prefetch';
 import { redirect } from 'next/navigation';
 
 export default async function ClubInfo() {

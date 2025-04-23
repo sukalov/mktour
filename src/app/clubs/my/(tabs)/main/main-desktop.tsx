@@ -1,6 +1,6 @@
-import ClubSettings from '@/app/clubs/my/(tabs)/club-settings';
 import ClubInbox from '@/app/clubs/my/(tabs)/inbox';
-import { ClubTabProps } from '@/app/clubs/my/dashboard';
+import ClubSettings from '@/app/clubs/my/(tabs)/settings';
+import { ClubTabProps } from '@/app/clubs/my/tabMap';
 import { InfoItem } from '@/app/tournaments/[id]/dashboard/tabs/main';
 import { Card } from '@/components/ui/card';
 import { CalendarDays, Info } from 'lucide-react';

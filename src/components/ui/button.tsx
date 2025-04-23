@@ -39,18 +39,17 @@ export interface ButtonProps
   asChild?: boolean;
 }
 
-const Button = React.forwardRef<
-  HTMLButtonElement,
-  ButtonProps
->(({ className, variant, size, asChild = false, ...props }, ref) => {
-  const Comp = asChild ? Slot : 'button';
-  const computedClassName = React.useMemo(
-    () => cn('[&_svg]:size-5', buttonVariants({ variant, size, className })),
-    [variant, size, className],
-  );
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : 'button';
+    const computedClassName = React.useMemo(
+      () => cn('[&_svg]:size-5', buttonVariants({ variant, size, className })),
+      [variant, size, className],
+    );
 
-  return <Comp className={computedClassName} ref={ref} {...props} />;
-});
+    return <Comp className={computedClassName} ref={ref} {...props} />;
+  },
+);
 Button.displayName = 'Button';
 
 export { Button, buttonVariants };

@@ -58,7 +58,7 @@ const SwipeHandlerProvider: FC<SwipeDetectorProps & PropsWithChildren> = ({
 
   return (
     <div
-      className="h-[calc(100dvh-4rem)] w-full"
+      className='w-full h-full'
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}

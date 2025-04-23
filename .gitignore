@@ -44,3 +44,7 @@ src/lib/config/urls.ts
 
 .million
 .archive
+
+# PWA service workers
+public/sw.js
+public/workbox-*.js

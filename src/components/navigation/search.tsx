@@ -23,6 +23,7 @@ import {
   CommandShortcut,
 } from '@/components/ui/command';
 import { DialogDescription, DialogTitle } from '@/components/ui/dialog';
+import { useTranslations } from 'next-intl';
 
 export default function GlobalSearch() {
   const [open, setOpen] = React.useState(false);
@@ -37,6 +38,8 @@ export default function GlobalSearch() {
     return () => document.removeEventListener('keydown', down);
   }, []);
 
+  const t = useTranslations('GlobalSearch');
+
   return (
     <>
       <Button
@@ -45,21 +48,20 @@ export default function GlobalSearch() {
         onClick={() => setOpen((prev) => !prev)}
       >
         <Search className="size-5" />
-        <kbd className="bg-muted text-muted-foreground pointer-events-none hidden h-6 items-center gap-1 rounded border px-1.5 font-mono text-[10px] font-medium opacity-100 select-none md:inline-flex">
+        <kbd className="bg-muted text-muted-foreground pointer-events-none hidden h-6 items-center gap-1 rounded border px-1.5 font-mono text-[10px] font-medium opacity-100 select-none lg:inline-flex">
           <span className="text-xs">⌘</span>K
         </kbd>
       </Button>
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <DialogTitle className="sr-only">Global search menu</DialogTitle>{' '}
+        <DialogTitle className="sr-only">
+          {t('search dialog title')}
+        </DialogTitle>{' '}
         <DialogDescription className="sr-only">
-          here you can find any club, tournament or mktour user
+          {t('search dialog description')}
         </DialogDescription>
-        {
-          // FIXME intl
-        }
-        <CommandInput placeholder="Type a command or search..." />
+        <CommandInput placeholder={t('search placeholder')} />
         <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
+          <CommandEmpty>{t('not found')}</CommandEmpty>
           <CommandGroup heading="Suggestions">
             <CommandItem>
               <Calendar />

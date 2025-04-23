@@ -2,7 +2,7 @@
 
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import ActionButtons from '@/app/tournaments/[id]/dashboard/tabs/main/action-buttons';
-import TournamentInfoList from '@/app/tournaments/[id]/dashboard/tabs/main/tournament-info-card';
+import TournamentInfoList from '@/app/tournaments/[id]/dashboard/tabs/main/tournament-info';
 import Center from '@/components/center';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { Card } from '@/components/ui/card';
@@ -20,8 +20,8 @@ const Main = () => {
   if (!data) return <Center>no data</Center>;
 
   return (
-    <div className="flex flex-col gap-4 p-4">
-      <div className="truncate text-4xl font-bold whitespace-break-spaces">
+    <div className="mk-container">
+      <div className="truncate text-4xl font-bold whitespace-break-spaces border-b-2 p-4 pt-0">
         {data.tournament.title}
       </div>
       <TournamentInfoList />
@@ -51,7 +51,7 @@ export const InfoItem: FC<{
   href?: string;
 }> = ({ icon: Icon, value, href }) => (
   <div className="flex gap-2">
-    <Icon />
+    <Icon className='text-muted-foreground'/>
     {!href ? (
       <span>{value}</span>
     ) : (

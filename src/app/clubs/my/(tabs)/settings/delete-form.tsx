@@ -51,7 +51,7 @@ export default function DeleteConfirmationForm({
             userDeletion: false,
           });
         })}
-        className={cn('grid items-start gap-6 px-4 py-0 md:px-0', className)}
+        className={cn('grid items-start gap-6 py-0', className)}
         name="delete-club-form"
       >
         <FormField

@@ -1,5 +1,5 @@
+import { LoadingSpinner } from '@/app/loading';
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
-import { LoadingElement } from '@/app/tournaments/[id]/dashboard/tabs/main';
 import { DrawerProps } from '@/app/tournaments/[id]/dashboard/tabs/table/add-player';
 import { useTournamentAddNewPlayer } from '@/components/hooks/mutation-hooks/use-tournament-add-new-player';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
@@ -16,8 +16,8 @@ import { Slider } from '@/components/ui/slider';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { newid } from '@/lib/utils';
 import {
-  NewPlayerFormType,
   newPlayerFormSchema,
+  NewPlayerFormType,
 } from '@/lib/zod/new-player-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
@@ -136,7 +136,7 @@ const AddNewPlayer = ({
         >
           {form.formState.isSubmitting || form.formState.isValidating ? (
             <>
-              <LoadingElement />
+              <LoadingSpinner />
               &nbsp;{t('save')}
             </>
           ) : (

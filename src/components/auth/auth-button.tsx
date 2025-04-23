@@ -71,7 +71,7 @@ const StyledItem: FC<
   PropsWithChildren & { className?: string; onClick?: () => void }
 > = ({ children, className, onClick }) => (
   <DropdownMenuItem
-    className={`text-md flex w-full justify-start ${className}`}
+    className={`text-base flex w-full justify-start ${className}`}
     onClick={onClick}
   >
     {children}

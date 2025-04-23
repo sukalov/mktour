@@ -13,6 +13,8 @@ import { getLocale, getMessages } from 'next-intl/server';
 import { PropsWithChildren } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
+export const experimental_ppr = true;
+
 async function RootLayout({ children }: PropsWithChildren) {
   const locale = await getLocale();
   const messages = await getMessages();

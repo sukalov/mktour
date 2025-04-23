@@ -1,5 +1,6 @@
 'use client';
 
+import FormattedMessage from '@/components/formatted-message';
 import { useUserSelectClub } from '@/components/hooks/mutation-hooks/use-user-select-club';
 import { useUserClubs } from '@/components/hooks/query-hooks/use-user-clubs';
 import SkeletonList from '@/components/skeleton-list';
@@ -58,7 +59,7 @@ const Profile: FC<{ user: DatabaseUser; isOwner: boolean }> = ({
           variant="outline"
           className="w-full"
         >
-          {t('edit')}
+          <FormattedMessage id="Common.edit" />
         </Button>
       )}
       <ClubList clubs={data} isPending={isPending} mutate={mutate} />

@@ -1,5 +1,6 @@
 'use client';
 
+import FormattedMessage from '@/components/formatted-message';
 import { useClubManagers } from '@/components/hooks/query-hooks/use-club-managers';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -16,13 +17,15 @@ const ClubManagersList: FC<{ id: string }> = ({ id }) => {
   const t = useTranslations('Club');
 
   return (
-    <div className="flex flex-col gap-2 px-6 sm:px-0">
-      {t('managers list')}
+    <div className="flex flex-col sm:px-0">
+      <div className="pl-4">
+        <FormattedMessage id="Club.managers list" />
+      </div>
       <Card className="border-none px-6 py-3 shadow-none sm:border-solid sm:px-12 sm:shadow-2xs">
         {isLoading ? (
           <Skeleton className="h-12 w-full" />
         ) : (
-          <ul className="list-disc">{data?.map(ManagersIteratee)}</ul>
+          <ul className="list-disc pl-4">{data?.map(ManagersIteratee)}</ul>
         )}
       </Card>
       <Button

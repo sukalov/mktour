@@ -70,7 +70,7 @@ const Menu: FC<{ user: User | null }> = ({ user }) => {
       initial={false}
       animate={isOpen ? 'open' : 'closed'}
       custom={height}
-      className={`fixed inset-0 z-100 block w-full md:hidden ${
+      className={`fixed inset-0 z-100 block w-full ${
         isOpen ? '' : 'pointer-events-none'
       }`}
       ref={containerRef}

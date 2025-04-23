@@ -1,5 +1,6 @@
 'use client';
 
+import { MediaQueryContext } from '@/components/providers/media-query-context';
 import {
   Dialog,
   DialogClose,
@@ -20,11 +21,11 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer';
-import { useMediaQuery } from 'react-responsive';
+import { useContext } from 'react';
 
 const useComboModal = () => {
-  const isDesktop = useMediaQuery({ minWidth: 768 });
-  const comboModal = isDesktop ? dialog : drawer;
+  const { isMobile } = useContext(MediaQueryContext);
+  const comboModal = isMobile ? drawer : dialog;
 
   return comboModal;
 };

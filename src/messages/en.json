@@ -6,8 +6,11 @@
     "login": "log in",
     "logout": "log out",
     "confirm": "are you sure?",
+    "send": "send",  
     "close": "close",
-    "delete": "delete"
+    "delete": "delete",
+    "edit": "edit",
+    "save": "save"
   },
   "Menu": {
     "club": "club",
@@ -57,7 +60,6 @@
     "user": "user not found"
   },
   "Profile": {
-    "edit": "edit",
     "rating": "lichess blitz rating",
     "email": "email",
     "created": "joined on",
@@ -66,7 +68,14 @@
   "Player": {
     "last seen": "last seen: ",
     "never": "never",
-    "delete": "delete player"
+    "delete": "delete player",
+    "username": "username",
+    "rating": "rating",
+    "realname": "real name",
+    "lichess": "lichess",
+    "club": "club",
+    "claim": "it's me!",
+    "claim confirmation": "you are gonna send application. as soon as admins confirm it, the player will be associated with your account"
   },
   "Errors": {
     "hard naming": "naming is hard, but necessary",
@@ -80,7 +89,8 @@
     "player exists error": "this player already exists!",
     "name": "what's their name?",
     "add-player-error": "sorry! couldn't add {player} to the tournament",
-    "remove-player-error": "sorry! couldn't remove {player} from the tournament"
+    "remove-player-error": "sorry! couldn't remove {player} from the tournament",
+    "internal-error": "internal error: {error}"
   },
   "NewClubForm": {
     "new club": "new club",
@@ -94,7 +104,7 @@
     "unselect lichess team": "don't select any team",
     "club not saved": "sorry! server error happened, club wasn't saved",
     "ForwardToEmpty": {
-      "message": "it seems that you have a club with no finished tournaments: <bold>{club}</bold>. you can just edit it!",
+      "message": "it seems that you have a club with no finished tournaments: <b>{club}</b>. you can just edit it!",
       "button text": "go to"
     }
   },
@@ -151,7 +161,7 @@
     "danger zone": "danger zone",
     "delete profile": "delete profile",
     "confirmation header": "you're about to delete everything!",
-    "confirmation body": "this confirmation will immediately delete your profile <bold>completely</bold>. there is no way back! if you're completely sure type your nickname below",
+    "confirmation body": "this confirmation will immediately delete your profile <b>completely</b>. there is no way back! if you're completely sure type your nickname below",
     "username": "username",
     "cancel": "cancel",
     "checkbox1": "delete every tournament i made",
@@ -279,5 +289,11 @@
     "toast message": "in case you experience any difficulties while using our app, please describe the problem at <lichess>our lichess team </lichess> forum. do you want to join the team, where you can reach us any time?",
     "join team": "join team",
     "no join button": "don't join"
+  },
+  "GlobalSearch": {
+    "search dialog title": "global search menu",
+    "search dialog description": "here you can find any club, tournament or mktour user",
+    "search placeholder": "whate are you looking for?",
+    "not found": "nothing found"
   }
 }

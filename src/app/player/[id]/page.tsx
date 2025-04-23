@@ -1,4 +1,7 @@
-import ActionButton from '@/app/player/[id]/action-button';
+import ClaimPlayer from '@/app/player/[id]/claim-button';
+import DeletePlayer from '@/app/player/[id]/delete-button';
+import EditButton from '@/app/player/[id]/edit-button';
+import FormattedMessage from '@/components/formatted-message';
 import { validateRequest } from '@/lib/auth/lucia';
 import getPlayerQuery from '@/lib/db/queries/get-player-query';
 import getStatus from '@/lib/db/queries/get-status-query';
@@ -11,41 +14,61 @@ export default async function PlayerPage(props: PlayerPageProps) {
   const { user } = await validateRequest();
   const { player, club } = await getPlayerQuery(params.id);
   if (!player || !club) notFound();
+
+  console.log(player);
   let status: StatusInClub | undefined | 'owner';
-  status = await getStatus({
-    user,
-    club,
-  }); // if defined, this player can be edited by page viewer
-  // const isOwner = player.user_id === user?.id; // the viewer of the page is this player
-  // const isClubOwner = status === 'admin'; // FIXME make Enum
-  const isDuplicatingName =
-    player.nickname.trim().toLocaleLowerCase().replaceAll(' ', '') ===
-    player.realname!.trim().toLocaleLowerCase().replaceAll(' ', '');
+  status = user ? await getStatus({ user, club }) : undefined;
+
+  const isOwnPlayer = user && player.user_id === user.id;
+  const canEdit = status === 'admin' || isOwnPlayer;
+  const canClaim = user && !player.user_id;
 
   return (
-    <div className="flex w-full flex-col gap-2 p-4 pt-2">
-      <div className="flex flex-col gap-2">
-        <div className="flex w-full items-center justify-between">
-          <span className="text-2xl">{player.nickname}</span>
-          <ActionButton player={player} userId={user!.id} />
-        </div>
-        {!isDuplicatingName && <span>{player.realname}</span>}
-        <span>rating: {player.rating}</span>
-        <p>
-          club: <Link href={`/clubs/${player.club_id}`}>{club.name}</Link>
-        </p>
+    <div className="flex w-full flex-col gap-4 p-4 pt-2">
+      <div className="flex w-full items-center justify-between border-b-2 pb-2">
+        <span className="truncate text-2xl font-semibold text-wrap">
+          {player.nickname}
+        </span>
+        {user && (
+          <div className="text-muted-foreground flex self-end">
+            {canEdit && (
+              <>
+                <EditButton userId={user.id} player={player} />
+                <DeletePlayer userId={user.id} />
+              </>
+            )}
+            {canClaim && <ClaimPlayer userId={user.id} />}
+          </div>
+        )}
       </div>
-      <div className="text-muted-foreground flex flex-col gap-2 text-sm">
+      <div className="flex flex-col gap-2">
+        {player.realname && <span className="text-lg">{player.realname}</span>}
+        <span>
+          <FormattedMessage id="Player.rating" />
+          {': '}
+          {player.rating}
+        </span>
         <p>
-          {status
-            ? `you can edit this player because he is from ${club.name}`
-            : `you cannot edit this player, you are not admin of ${(<strong>{club.name}</strong>)}`}
+          <FormattedMessage id="Player.club" />
+          {': '}
+          <Link href={`/clubs/${player.club_id}`}>{club.name}</Link>
         </p>
+        {player.user_id && (
+          <p>
+            <FormattedMessage id="Player.lichess" />
+            {': '}
+            <Link
+              href={`https://lichess.org/@/${player.nickname}`}
+              target="_blank"
+            >
+              {player.nickname}
+            </Link>
+          </p>
+        )}
       </div>
     </div>
   );
 }
-
 
 export interface PlayerPageProps {
   params: Promise<{ id: string }>;

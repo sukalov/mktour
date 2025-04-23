@@ -1,14 +1,6 @@
 import FormattedMessage from '@/components/formatted-message';
 import { Button } from '@/components/ui/button';
-import {
-  Close,
-  Content,
-  Description,
-  Header,
-  Root,
-  Title,
-  Trigger,
-} from '@/components/ui/combo-modal';
+import { Close, Content, Description, Header, Root, Title, Trigger } from '@/components/ui/combo-modal';
 import { PlayerModel } from '@/types/tournaments';
 import { LogOut, Trash2 } from 'lucide-react';
 import { FC } from 'react';
@@ -28,7 +20,7 @@ export const DeleteButton: FC<{ handleDelete: () => void }> = ({
 );
 
 export const WithdrawButtonWithConfirmation: FC<{
-  selectedPlayer: PlayerModel | null;
+  selectedPlayer: PlayerModel;
 }> = ({ selectedPlayer }) => (
   <Root>
     <Trigger asChild>
@@ -55,7 +47,7 @@ export const WithdrawButtonWithConfirmation: FC<{
         <LogOut />
         <FormattedMessage
           id="Tournament.Table.Player.Withdraw.confirm"
-          values={{ nickname: selectedPlayer?.nickname }}
+          values={{ nickname: selectedPlayer.nickname }}
         />
       </Button>
       <Close asChild>
