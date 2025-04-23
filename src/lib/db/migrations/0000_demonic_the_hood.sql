@@ -22,11 +22,13 @@ CREATE TABLE `user` (
 	FOREIGN KEY (`selected_club`) REFERENCES `club`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
+CREATE UNIQUE INDEX `user_email_unique` ON `user` (`email`);--> statement-breakpoint
+CREATE UNIQUE INDEX `user_username_unique` ON `user` (`username`);--> statement-breakpoint
 CREATE TABLE `club` (
 	`id` text PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
 	`description` text,
-	`created_at` integer,
+	`created_at` integer NOT NULL,
 	`lichess_team` text
 );
 --> statement-breakpoint
@@ -41,6 +43,7 @@ CREATE TABLE `clubs_to_users` (
 --> statement-breakpoint
 CREATE TABLE `game` (
 	`id` text PRIMARY KEY NOT NULL,
+	`game_number` integer NOT NULL,
 	`round_number` integer NOT NULL,
 	`round_name` text,
 	`white_id` text NOT NULL,
@@ -76,6 +79,7 @@ CREATE TABLE `players_to_tournaments` (
 	`color_index` integer NOT NULL,
 	`place` integer,
 	`exited` integer,
+	`pairing_number` integer,
 	FOREIGN KEY (`player_id`) REFERENCES `player`(`id`) ON UPDATE no action ON DELETE no action,
 	FOREIGN KEY (`tournament_id`) REFERENCES `tournament`(`id`) ON UPDATE no action ON DELETE no action
 );
@@ -95,6 +99,3 @@ CREATE TABLE `tournament` (
 	`rated` integer,
 	FOREIGN KEY (`club_id`) REFERENCES `club`(`id`) ON UPDATE no action ON DELETE no action
 );
---> statement-breakpoint
-CREATE UNIQUE INDEX `user_email_unique` ON `user` (`email`);--> statement-breakpoint
-CREATE UNIQUE INDEX `user_username_unique` ON `user` (`username`);
