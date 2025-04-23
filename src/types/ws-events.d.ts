@@ -19,6 +19,7 @@ type Message =
       isTournamentGoing: boolean;
     }
   | { type: 'finish-tournament'; closed_at: Date }
+  | { type: 'delete-tournament' }
   | ErrorMessage;
 
 type ErrorMessage = {

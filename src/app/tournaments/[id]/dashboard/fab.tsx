@@ -15,12 +15,11 @@ const Fab: FC<FabProps> = ({
   return (
     <PortalWrapper container={container}>
       <Button
-        className={`pointer-events-auto fixed right-6 bottom-8 z-40 size-16 rounded-full ${className}`}
+        className={`pointer-events-auto fixed right-6 bottom-8 z-40 size-16 [&_svg]:size-6 rounded-full ${className}`}
         variant="secondary"
         size="icon"
         onClick={onClick}
         disabled={disabled}
-        iconSize="8"
       >
         <Icon className={`${Icon === Loader2 && 'animate-spin'}`} />
       </Button>

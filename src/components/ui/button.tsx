@@ -41,19 +41,15 @@ export interface ButtonProps
 
 const Button = React.forwardRef<
   HTMLButtonElement,
-  ButtonProps & { iconSize?: string }
->(({ className, variant, size, asChild = false, iconSize, ...props }, ref) => {
+  ButtonProps
+>(({ className, variant, size, asChild = false, ...props }, ref) => {
   const Comp = asChild ? Slot : 'button';
-  return (
-    <Comp
-      className={cn(
-        buttonVariants({ variant, size, className }),
-        `[&_svg]:size-${iconSize ?? '5'}`,
-      )}
-      ref={ref}
-      {...props}
-    />
+  const computedClassName = React.useMemo(
+    () => cn('[&_svg]:size-5', buttonVariants({ variant, size, className })),
+    [variant, size, className],
   );
+
+  return <Comp className={computedClassName} ref={ref} {...props} />;
 });
 Button.displayName = 'Button';
 

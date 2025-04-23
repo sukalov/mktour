@@ -28,24 +28,24 @@ export default function FinishTournamentButton({
     sendJsonMessage,
   });
 
-  if (!round) return;
+  if (!round) return null;
 
   const ongoingGames = round.reduce(
     (acc, current) => (current.result === null ? acc + 1 : acc),
     0,
   );
-  if (ongoingGames === 0) {
-    return (
-      <Button
-        className="w-full"
-        onClick={() => mutate({ tournamentId, closed_at: new Date() })}
-        disabled={isPending}
-      >
-        {isPending ? <LoadingSpinner /> : <Save />}
-        &nbsp;
-        {t('finish tournament')}
-      </Button>
-    );
-  }
-  return;
+
+  if (!!ongoingGames) return null;
+
+  return (
+    <Button
+      className="w-full"
+      onClick={() => mutate({ tournamentId, closed_at: new Date() })}
+      disabled={isPending}
+    >
+      {isPending ? <LoadingSpinner /> : <Save />}
+      &nbsp;
+      {t('finish tournament')}
+    </Button>
+  );
 }

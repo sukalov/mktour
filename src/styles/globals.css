@@ -39,12 +39,6 @@
 }
 
 @layer utilities {
-  /* disables overflow scrolling to reload page: */
-  html {
-    overflow: hidden;
-    height: 100%;
-  }
-
   body {
     font-family: 'Main';
     text-rendering: optimizeLegibility;

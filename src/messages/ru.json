@@ -6,7 +6,8 @@
     "login": "войти",
     "logout": "выйти",
     "confirm": "вы уверены?",
-    "close": "закрыть"
+    "close": "закрыть",
+    "delete": "удалить"
   },
   "Menu": {
     "club": "клубы",
@@ -64,7 +65,8 @@
   },
   "Player": {
     "last seen": "были на сайте: ",
-    "never": "никогда"
+    "never": "никогда",
+    "delete":"удалить игрока"
   },
   "Errors": {
     "hard naming": "увы, название придётся придумать",
@@ -169,6 +171,12 @@
       "confirmation header": "вы уверены?",
       "reset progress": "обнулить турнир",
       "confirm reset": "сбросить турнир",
+      "Delete": {
+        "title": "удалить турнир",
+        "confirm": "удалить турнир",
+        "confirmation header": "вы уверены?",
+        "confirmation body": "турнир будет безвозвратно удалён"
+      },
       "cancel": "отмена",
       "finish tournament": "закончить турнир",
       "round robin": "круговик",

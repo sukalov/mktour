@@ -3,10 +3,18 @@
 import { LoadingSpinner } from '@/app/loading';
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import useTournamentReset from '@/components/hooks/mutation-hooks/use-tournament-reset';
-import useComboModal from '@/components/hooks/use-combo-modal';
 import { Button } from '@/components/ui/button';
+import {
+  Close,
+  Content,
+  Description,
+  Header,
+  Root,
+  Title,
+  Trigger,
+} from '@/components/ui/combo-modal';
 import { useQueryClient } from '@tanstack/react-query';
-import { CircleX } from 'lucide-react';
+import { RotateCcw } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { useContext, useState } from 'react';
@@ -23,41 +31,36 @@ export default function ResetTournamentButton() {
   );
   const [open, setOpen] = useState(false);
   const t = useTranslations('Tournament.Main');
-  const ComboModal = useComboModal();
 
   return (
-    <ComboModal.Root open={open} onOpenChange={setOpen}>
-      <ComboModal.Trigger asChild>
-        <Button variant="destructive">
-          <CircleX />
+    <Root open={open} onOpenChange={setOpen}>
+      <Trigger asChild>
+        <Button variant="outline">
+          <RotateCcw />
           &nbsp;{t('reset progress')}
         </Button>
-      </ComboModal.Trigger>
-      <ComboModal.Content className="pb-4">
-        <ComboModal.Header className="text-left">
-          <ComboModal.Title>{t('confirmation header')}</ComboModal.Title>
-          <ComboModal.Description>
-            {t.rich('confirmation body')}
-          </ComboModal.Description>
-        </ComboModal.Header>
-        <div className="flex flex-col gap-4 sm:px-4 md:p-0">
-          <Button
-            variant={'destructive'}
-            className="w-full"
-            onClick={() => mutate()}
-            disabled={isPending}
-          >
-            {isPending ? <LoadingSpinner /> : <CircleX />}
-            &nbsp;
-            {t('confirm reset')}
+      </Trigger>
+      <Content>
+        <Header>
+          <Title>{t('confirmation header')}</Title>
+          <Description>{t.rich('confirmation body')}</Description>
+        </Header>
+        <Button
+          variant={'destructive'}
+          className="w-full"
+          onClick={() => mutate()}
+          disabled={isPending}
+        >
+          {isPending ? <LoadingSpinner /> : <RotateCcw />}
+          &nbsp;
+          {t('confirm reset')}
+        </Button>
+        <Close asChild>
+          <Button className="w-full" variant="outline">
+            {t('cancel')}
           </Button>
-          <ComboModal.Close asChild>
-            <Button className="w-full" variant="outline">
-              {t('cancel')}
-            </Button>
-          </ComboModal.Close>
-        </div>
-      </ComboModal.Content>
-    </ComboModal.Root>
+        </Close>
+      </Content>
+    </Root>
   );
 }

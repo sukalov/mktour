@@ -4,6 +4,8 @@ export declare global {
       [key: string]: string | undefined;
       PORT: string;
       DATABASE_URL: string;
+      TEST_DATABASE_URL: string;
+      TEST_DATABASE_AUTH_TOKEN: string;
       DATABASE_AUTH_TOKEN: string;
       UPSTASH_REDIS_REST_TOKEN: string;
       UPSTASH_REDIS_REST_URL: string;

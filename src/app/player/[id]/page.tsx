@@ -1,4 +1,4 @@
-import DeletePlayer from '@/app/player/[id]/delete-player-button';
+import ActionButton from '@/app/player/[id]/action-button';
 import { validateRequest } from '@/lib/auth/lucia';
 import getPlayerQuery from '@/lib/db/queries/get-player-query';
 import getStatus from '@/lib/db/queries/get-status-query';
@@ -16,19 +16,20 @@ export default async function PlayerPage(props: PlayerPageProps) {
     user,
     club,
   }); // if defined, this player can be edited by page viewer
-  const isOwner = player.user_id === user?.id; // the viewer of the page is this player
-  const isClubOwner = status === 'admin'; // FIXME make Enum
+  // const isOwner = player.user_id === user?.id; // the viewer of the page is this player
+  // const isClubOwner = status === 'admin'; // FIXME make Enum
+  const isDuplicatingName =
+    player.nickname.trim().toLocaleLowerCase().replaceAll(' ', '') ===
+    player.realname!.trim().toLocaleLowerCase().replaceAll(' ', '');
 
   return (
     <div className="flex w-full flex-col gap-2 p-4 pt-2">
       <div className="flex flex-col gap-2">
-        <div className="flex w-full items-center justify-between border-b-2 pb-2">
+        <div className="flex w-full items-center justify-between">
           <span className="text-2xl">{player.nickname}</span>
-          {isClubOwner && (
-            <DeletePlayer playerId={player.id} userId={user!.id} />
-          )}
+          <ActionButton player={player} userId={user!.id} />
         </div>
-        <span>{player.realname}</span>
+        {!isDuplicatingName && <span>{player.realname}</span>}
         <span>rating: {player.rating}</span>
         <p>
           club: <Link href={`/clubs/${player.club_id}`}>{club.name}</Link>
@@ -38,15 +39,13 @@ export default async function PlayerPage(props: PlayerPageProps) {
         <p>
           {status
             ? `you can edit this player because he is from ${club.name}`
-            : `you cannot edit this player, you are not admin of ${club.name}`}
-        </p>
-        <p className="font-bold">
-          {isOwner ? 'this player is you!' : 'it is NOT you'}
+            : `you cannot edit this player, you are not admin of ${(<strong>{club.name}</strong>)}`}
         </p>
       </div>
     </div>
   );
 }
+
 
 export interface PlayerPageProps {
   params: Promise<{ id: string }>;

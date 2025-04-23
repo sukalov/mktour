@@ -6,7 +6,8 @@
     "login": "log in",
     "logout": "log out",
     "confirm": "are you sure?",
-    "close": "close"
+    "close": "close",
+    "delete": "delete"
   },
   "Menu": {
     "club": "club",
@@ -64,7 +65,8 @@
   },
   "Player": {
     "last seen": "last seen: ",
-    "never": "never"
+    "never": "never",
+    "delete": "delete player"
   },
   "Errors": {
     "hard naming": "naming is hard, but necessary",
@@ -169,6 +171,12 @@
       "confirmation header": "are you sure?",
       "confirmation body": "all results and scores are going to be deleted. the tournament will get to 'not started' state",
       "cancel": "cancel",
+      "Delete": {
+        "title": "delete tournament",
+        "confirm": "delete tournament",
+        "confirmation header": "are you sure?",
+        "confirmation body": "the tournament will be permanently deleted"
+      },
       "confirm reset": "reset tournament",
       "finish tournament": "finish tournament",
       "round robin": "round robin",

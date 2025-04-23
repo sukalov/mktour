@@ -25,7 +25,7 @@ const ClubCard: FC<ClubProps> = ({ club }) => {
             target="_blank"
           >
             <p className="flex items-center gap-2">
-              <LichessLogo size="16" />
+              <LichessLogo />
               {t('Club.Page.lichess team')}
             </p>
           </Link>
