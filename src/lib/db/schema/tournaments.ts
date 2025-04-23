@@ -8,7 +8,7 @@ export const players = sqliteTable('player', {
   nickname: text('nickname').notNull(),
   realname: text('realname'),
   user_id: text('user_id').references(() => users.id), 
-  rating: int('rating'),
+  rating: int('rating').notNull(),
   club_id: text('club_id')
     .references(() => clubs.id)
     .notNull(), // TODO: add constraint on combination fo club_id and nickname

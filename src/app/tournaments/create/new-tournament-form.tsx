@@ -69,12 +69,13 @@ export default function NewTournamentForm({
     );
     try {
       await createTournament(data);
-    } catch {
+    } catch (e) {
       setSubmitButton(
         <Button type="submit" className="w-full">
           {t('make tournament')}
         </Button>,
       );
+      console.log({ OSHHHHHHHIBBBBBKS: e });
       toast.error(t('server error'));
     }
   };

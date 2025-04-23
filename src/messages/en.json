@@ -69,7 +69,7 @@
     "last seen": "last seen: ",
     "never": "never",
     "delete": "delete player",
-    "username": "username",
+    "nickname": "username",
     "rating": "rating",
     "realname": "real name",
     "lichess": "lichess",
@@ -152,7 +152,8 @@
     "ended": "tournament is finished!",
     "tmt-not-started error": "first you need to start the tournament to then set game results",
     "ws message error": "sorry! realtime server couldn't forward this event to other viewers",
-    "finished": "tournament finished!"
+    "finished": "tournament finished!",
+    "player updated": "player updated"
   },
   "EditUser": {
     "header": "settings",

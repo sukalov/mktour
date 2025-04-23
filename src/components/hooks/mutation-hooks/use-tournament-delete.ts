@@ -24,7 +24,8 @@ export default function useTournamentDelete(
       router.push('/tournaments/my');
       router.refresh();
     },
-    onError: () => {
+    onError: (error) => {
+      console.error("SERVER_ERROR", error)
       toast.error(t('server error'));
       queryClient.invalidateQueries({
         queryKey: [tournamentId, 'tournament'],

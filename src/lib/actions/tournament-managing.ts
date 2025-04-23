@@ -22,7 +22,7 @@ import {
   TournamentInfo,
 } from '@/types/tournaments';
 import { aliasedTable, and, eq, isNotNull, isNull, ne, sql } from 'drizzle-orm';
-import { redirect } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 
 export const createTournament = async (values: NewTournamentFormType) => {
   const { user } = await validateRequest();
@@ -45,7 +45,7 @@ export const createTournament = async (values: NewTournamentFormType) => {
   } catch (e) {
     throw new Error(`tournament has NOT been saved, ${e}`);
   }
-  redirect(`/tournaments/${newTournamentID}`);
+  permanentRedirect(`/tournaments/${newTournamentID}`);
 };
 
 export async function getTournamentPlayers(
@@ -920,4 +920,5 @@ export async function deleteTournament({
   ];
   await Promise.all(queries);
   await db.delete(tournaments).where(eq(tournaments.id, tournamentId));
+  permanentRedirect('/tournaments/my');
 }

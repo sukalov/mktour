@@ -16,7 +16,7 @@ import { Pencil } from 'lucide-react';
 import { FC } from 'react';
 
 const ActionButton: FC<{ userId: string; player: DatabasePlayer }> = ({
-  player,
+  player, userId
 }) => {
   return (
     <Root>
@@ -32,7 +32,7 @@ const ActionButton: FC<{ userId: string; player: DatabasePlayer }> = ({
           </Title>
           <Description hidden />
         </Header>
-        <EditPlayerForm {...player} />
+        <EditPlayerForm {...{ player, userId }} />
       </Content>
     </Root>
   );
