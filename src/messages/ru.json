@@ -37,7 +37,7 @@
       "all clubs": "все клубы",
       "new club": "новый клуб",
       "all tournaments": "все турниры",
-      "make tournament": "создать турнир",
+      "make tournament": "сделать турнир",
       "FAQ": "FAQ",
       "contact": "связаться с нами",
       "profile": "мой профиль",
@@ -95,8 +95,8 @@
   },
   "NewClubForm": {
     "new club": "новый клуб",
-    "make new club": "создать клуб",
-    "making": "создаём...",
+    "make new club": "сделать новый клуб",
+    "making": "делаем...",
     "name": "название",
     "description": "описание",
     "description placeholder": "расскажите что-нибудь о клубе...",
@@ -252,8 +252,12 @@
       "estimated raiting": "предполагаемый рейтинг",
       "save": "сохранить",
       "search": "поиск",
-      "possible players error": "ошибка! не получилось загрузить ваших игроков"
+      "possible players error": "ошибка! не получилось загрузить ваших игроков",
+      "no players": "тут пока никого! можно добавить новых игроков"
     }
+  },
+  "Tournaments": {
+    "no tournaments": "у вас пока нет никаких турниров"
   },
   "MakeTournament": {
     "making": "делаем...",

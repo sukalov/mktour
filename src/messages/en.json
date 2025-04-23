@@ -6,7 +6,7 @@
     "login": "log in",
     "logout": "log out",
     "confirm": "are you sure?",
-    "send": "send",  
+    "send": "send",
     "close": "close",
     "delete": "delete",
     "edit": "edit",
@@ -251,8 +251,12 @@
       "estimated raiting": "estimated rating",
       "save": "save",
       "search": "search",
-      "possible players error": "error happened while loading club players"
+      "possible players error": "error happened while loading club players",
+      "no players": "nobody here yet!\ngo add some new people"
     }
+  },
+  "Tournaments": {
+    "no tournaments": "you don't have any tournaments yet"
   },
   "MakeTournament": {
     "making": "making...",

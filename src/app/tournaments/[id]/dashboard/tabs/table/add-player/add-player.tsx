@@ -75,8 +75,7 @@ const AddPlayer = ({ value, setValue, handleClose }: DrawerProps) => {
       />
       {possiblePlayers.data?.length === 0 && (
         <p className="text-muted-foreground pt-4 pl-[10%] text-sm">
-          nobody here yet! <br />
-          go add some new people
+          {t('no players')}
         </p>
       )}
       <ScrollArea className="rounded-2 h-[calc(100dvh-6rem)] w-full rounded-b-md">
