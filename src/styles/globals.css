@@ -11,7 +11,6 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
-
   *,
   ::after,
   ::before,
@@ -30,7 +29,6 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
-
   *,
   ::after,
   ::before,
@@ -55,7 +53,8 @@
   /* latin */
   @font-face {
     font-family: 'Main';
-    src: url('./fonts/Azeret_Mono/AzeretMono-VariableFont_wght.ttf') format('truetype');
+    src: url('./fonts/Azeret_Mono/AzeretMono-VariableFont_wght.ttf')
+      format('truetype');
     unicode-range: U+0000-007F, U+0080-00FF;
   }
 

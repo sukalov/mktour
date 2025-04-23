@@ -38,6 +38,6 @@ export default function useTournamentDelete(
           queryKey: [tournamentId, 'players'],
         });
       }
-    }
+    },
   });
 }

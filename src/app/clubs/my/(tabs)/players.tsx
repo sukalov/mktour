@@ -18,7 +18,7 @@ const ClubPlayersList: FC<ClubTabProps> = ({ selectedClub }) => {
   if (players.data?.length < 1)
     return <Empty className="justify-start">{t('players')}</Empty>;
 
-  return <div className='mk-list'>{players.data.map(PlayerItemIteratee)}</div>
+  return <div className="mk-list">{players.data.map(PlayerItemIteratee)}</div>;
 };
 
 const PlayerItemIteratee = (player: PlayerProps) => {

@@ -11,8 +11,8 @@ const ClubCard: FC<ClubProps> = ({ club }) => {
   const t = useTranslations();
 
   return (
-    <Card className="flex flex-col mk-card shadow-lg">
-      <CardTitle className="text-base flex items-center gap-2">
+    <Card className="mk-card flex flex-col shadow-lg">
+      <CardTitle className="flex items-center gap-2 text-base">
         <Link href={`/clubs/${club.id}`}>{club.name}</Link>
         {club.lichess_team && (
           <Link

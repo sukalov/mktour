@@ -17,7 +17,7 @@ export default async function MyTournaments() {
 
   if (tournaments.length === 0) {
     return (
-      <p className="text-muted-foreground pt-4 text-center text-balance text-sm">
+      <p className="text-muted-foreground pt-4 text-center text-sm text-balance">
         {t('no tournaments')}
       </p>
     );

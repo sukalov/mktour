@@ -21,7 +21,7 @@ const Main = () => {
 
   return (
     <div className="mk-container">
-      <div className="truncate text-4xl font-bold whitespace-break-spaces border-b-2 p-4 pt-0">
+      <div className="truncate border-b-2 p-4 pt-0 text-4xl font-bold whitespace-break-spaces">
         {data.tournament.title}
       </div>
       <TournamentInfoList />
@@ -51,14 +51,11 @@ export const InfoItem: FC<{
   href?: string;
 }> = ({ icon: Icon, value, href }) => (
   <div className="flex gap-2">
-    <Icon className='text-muted-foreground'/>
+    <Icon className="text-muted-foreground" />
     {!href ? (
       <span>{value}</span>
     ) : (
-      <Link
-        href={href!}
-        className="mk-link hover:opacity-75"
-      >
+      <Link href={href!} className="mk-link hover:opacity-75">
         {value}
       </Link>
     )}
