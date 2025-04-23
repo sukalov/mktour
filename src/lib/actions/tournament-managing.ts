@@ -155,6 +155,7 @@ export async function addNewPlayer({
     color_index: 0,
     place: null,
     exited: null,
+    pairing_number: null,
   };
   await db.insert(players_to_tournaments).values(playerToTournament);
 }
@@ -184,6 +185,7 @@ export async function addExistingPlayer({
     color_index: 0,
     place: null,
     exited: null,
+    pairing_number: null,
   };
   await db.insert(players_to_tournaments).values(playerToTournament);
 }

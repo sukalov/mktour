@@ -114,7 +114,7 @@ export type NewClubForm = UseFormReturn<
   {
     name: string;
     description?: string | undefined;
-    created_at?: Date | undefined;
+    created_at: Date;
     lichess_team?: string | undefined;
     set_default?: boolean | undefined;
   },
