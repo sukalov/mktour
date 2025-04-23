@@ -15,7 +15,6 @@ export default async function PlayerPage(props: PlayerPageProps) {
   const { player, club } = await getPlayerQuery(params.id);
   if (!player || !club) notFound();
 
-  console.log(player);
   let status: StatusInClub | undefined | 'owner';
   status = user ? await getStatus({ user, club }) : undefined;
 
