@@ -1,8 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "bb205537-5a91-47e4-93b1-00d6f429b8f7",
-  "prevId": "23ce6165-0785-49a0-ac23-698f5baee7e7",
+  "id": "e939ce8b-968a-437e-82b4-b8dc43deef0f",
+  "prevId": "7635c48b-fe3e-4ac3-a756-8392345548af",
   "tables": {
     "user_session": {
       "name": "user_session",
@@ -35,14 +35,19 @@
           "name": "user_session_user_id_user_id_fk",
           "tableFrom": "user_session",
           "tableTo": "user",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "user_preferences": {
       "name": "user_preferences",
@@ -68,14 +73,19 @@
           "name": "user_preferences_user_id_user_id_fk",
           "tableFrom": "user_preferences",
           "tableTo": "user",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "user": {
       "name": "user",
@@ -133,12 +143,16 @@
       "indexes": {
         "user_email_unique": {
           "name": "user_email_unique",
-          "columns": ["email"],
+          "columns": [
+            "email"
+          ],
           "isUnique": true
         },
         "user_username_unique": {
           "name": "user_username_unique",
-          "columns": ["username"],
+          "columns": [
+            "username"
+          ],
           "isUnique": true
         }
       },
@@ -147,14 +161,19 @@
           "name": "user_selected_club_club_id_fk",
           "tableFrom": "user",
           "tableTo": "club",
-          "columnsFrom": ["selected_club"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "selected_club"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "club": {
       "name": "club",
@@ -184,7 +203,7 @@
           "name": "created_at",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "lichess_team": {
@@ -198,7 +217,8 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "clubs_to_users": {
       "name": "clubs_to_users",
@@ -238,8 +258,12 @@
           "name": "clubs_to_users_club_id_club_id_fk",
           "tableFrom": "clubs_to_users",
           "tableTo": "club",
-          "columnsFrom": ["club_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "club_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -247,14 +271,19 @@
           "name": "clubs_to_users_user_id_user_id_fk",
           "tableFrom": "clubs_to_users",
           "tableTo": "user",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "game": {
       "name": "game",
@@ -270,7 +299,7 @@
           "name": "game_number",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "round_number": {
@@ -336,8 +365,12 @@
           "name": "game_white_id_player_id_fk",
           "tableFrom": "game",
           "tableTo": "player",
-          "columnsFrom": ["white_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "white_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -345,8 +378,12 @@
           "name": "game_black_id_player_id_fk",
           "tableFrom": "game",
           "tableTo": "player",
-          "columnsFrom": ["black_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "black_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -354,14 +391,19 @@
           "name": "game_tournament_id_tournament_id_fk",
           "tableFrom": "game",
           "tableTo": "tournament",
-          "columnsFrom": ["tournament_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "tournament_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "player": {
       "name": "player",
@@ -422,8 +464,12 @@
           "name": "player_user_id_user_id_fk",
           "tableFrom": "player",
           "tableTo": "user",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -431,14 +477,19 @@
           "name": "player_club_id_club_id_fk",
           "tableFrom": "player",
           "tableTo": "club",
-          "columnsFrom": ["club_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "club_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "players_to_tournaments": {
       "name": "players_to_tournaments",
@@ -499,8 +550,15 @@
           "notNull": false,
           "autoincrement": false
         },
-        "exited": {
-          "name": "exited",
+        "out": {
+          "name": "out",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pairing_number": {
+          "name": "pairing_number",
           "type": "integer",
           "primaryKey": false,
           "notNull": false,
@@ -513,8 +571,12 @@
           "name": "players_to_tournaments_player_id_player_id_fk",
           "tableFrom": "players_to_tournaments",
           "tableTo": "player",
-          "columnsFrom": ["player_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "player_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -522,14 +584,19 @@
           "name": "players_to_tournaments_tournament_id_tournament_id_fk",
           "tableFrom": "players_to_tournaments",
           "tableTo": "tournament",
-          "columnsFrom": ["tournament_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "tournament_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "tournament": {
       "name": "tournament",
@@ -625,21 +692,29 @@
           "name": "tournament_club_id_club_id_fk",
           "tableFrom": "tournament",
           "tableTo": "club",
-          "columnsFrom": ["club_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "club_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     }
   },
+  "views": {},
   "enums": {},
   "_meta": {
     "schemas": {},
     "tables": {},
-    "columns": {}
+    "columns": {
+      "\"players_to_tournaments\".\"exited\"": "\"players_to_tournaments\".\"out\""
+    }
   },
   "internal": {
     "indexes": {}

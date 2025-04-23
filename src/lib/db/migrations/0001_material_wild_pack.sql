@@ -1,0 +1,1 @@
+ALTER TABLE `players_to_tournaments` RENAME COLUMN "exited" TO "out";

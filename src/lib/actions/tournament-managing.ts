@@ -66,7 +66,7 @@ export async function getTournamentPlayers(
     draws: each.players_to_tournaments.draws,
     losses: each.players_to_tournaments.losses,
     color_index: each.players_to_tournaments.color_index,
-    exited: each.players_to_tournaments.exited,
+    exited: each.players_to_tournaments.out,
     place: each.players_to_tournaments.place,
   }));
 
@@ -154,7 +154,8 @@ export async function addNewPlayer({
     draws: 0,
     color_index: 0,
     place: null,
-    exited: null,
+    out: null,
+    pairing_number: null,
   };
   await db.insert(players_to_tournaments).values(playerToTournament);
 }
@@ -183,7 +184,8 @@ export async function addExistingPlayer({
     draws: 0,
     color_index: 0,
     place: null,
-    exited: null,
+    out: null,
+    pairing_number: null,
   };
   await db.insert(players_to_tournaments).values(playerToTournament);
 }
