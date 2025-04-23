@@ -117,5 +117,9 @@
     "src/components/ui/**/*.ts",
     "src/components/ui/**/*.tsx",
     "src/types/**/*.ts"
+  ],
+  "trustedDependencies": [
+    "@vercel/speed-insights",
+    "unrs-resolver"
   ]
 }
