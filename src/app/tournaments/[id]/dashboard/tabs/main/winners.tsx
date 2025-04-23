@@ -11,7 +11,7 @@ const Winners: FC<TournamentInfo> = ({ tournament }) => {
 
   if (!winners || !tournament.closed_at) return null;
   return (
-    <div className="flex flex-col gap-8 underline underline-offset-4">
+    <div className="flex flex-col gap-8 mk-link">
       {winners.map((player) => (
         <Player key={player.id} {...player} />
       ))}
