@@ -180,3 +180,13 @@ button {
   flex-direction: column;
   gap: calc(var(--spacing) * 2);
 }
+
+@utility mk-link {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.6;
+  }
+}

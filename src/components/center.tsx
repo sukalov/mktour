@@ -5,7 +5,9 @@ const Center: FC<
     className?: HTMLAttributes<HTMLDivElement>['className'];
   }
 > = ({ children, className }) => (
-  <div className={`flex justify-center mk-container ${className}`}>{children}</div>
+  <div className={`mk-container flex justify-center ${className}`}>
+    {children}
+  </div>
 );
 
 export default Center;

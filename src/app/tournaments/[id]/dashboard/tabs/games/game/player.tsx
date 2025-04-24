@@ -12,7 +12,7 @@ const Player: FC<PlayerProps> = ({
   <Button
     variant="ghost"
     className={cn(
-      `line-clamp-2 h-full w-full max-w-full ${!selected && position.text} rounded-sm p-1 px-2 break-words text-ellipsis hyphens-auto select-none ${selected && isWinner && 'underline underline-offset-4'}`,
+      `line-clamp-2 h-full w-full max-w-full ${!selected && position.text} rounded-sm p-1 px-2 break-words text-ellipsis hyphens-auto select-none ${selected && isWinner && 'mk-link'}`,
     )}
     onClick={handleMutate}
   >

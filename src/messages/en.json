@@ -6,7 +6,7 @@
     "login": "log in",
     "logout": "log out",
     "confirm": "are you sure?",
-    "send": "send",  
+    "send": "send",
     "close": "close",
     "delete": "delete",
     "edit": "edit",
@@ -69,7 +69,7 @@
     "last seen": "last seen: ",
     "never": "never",
     "delete": "delete player",
-    "username": "username",
+    "nickname": "username",
     "rating": "rating",
     "realname": "real name",
     "lichess": "lichess",
@@ -152,7 +152,8 @@
     "ended": "tournament is finished!",
     "tmt-not-started error": "first you need to start the tournament to then set game results",
     "ws message error": "sorry! realtime server couldn't forward this event to other viewers",
-    "finished": "tournament finished!"
+    "finished": "tournament finished!",
+    "player updated": "player updated"
   },
   "EditUser": {
     "header": "settings",
@@ -251,8 +252,12 @@
       "estimated raiting": "estimated rating",
       "save": "save",
       "search": "search",
-      "possible players error": "error happened while loading club players"
+      "possible players error": "error happened while loading club players",
+      "no players": "nobody here yet!\ngo add some new people"
     }
+  },
+  "Tournaments": {
+    "no tournaments": "you don't have any tournaments yet"
   },
   "MakeTournament": {
     "making": "making...",

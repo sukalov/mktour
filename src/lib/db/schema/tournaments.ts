@@ -8,7 +8,7 @@ export const players = sqliteTable('player', {
   nickname: text('nickname').notNull(),
   realname: text('realname'),
   user_id: text('user_id').references(() => users.id),
-  rating: int('rating'),
+  rating: int('rating').notNull(),
   club_id: text('club_id')
     .references(() => clubs.id)
     .notNull(), // TODO: add constraint on combination fo club_id and nickname
@@ -40,7 +40,7 @@ export const clubs = sqliteTable('club', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
   description: text('description'),
-  created_at: integer('created_at', { mode: 'timestamp' }),
+  created_at: integer('created_at', { mode: 'timestamp' }).notNull(),
   lichess_team: text('lichess_team'),
 });
 
@@ -77,7 +77,8 @@ export const players_to_tournaments = sqliteTable('players_to_tournaments', {
     .$default(() => 0)
     .notNull(),
   place: int('place'),
-  exited: int('exited', { mode: 'boolean' }),
+  out: int('out', { mode: 'boolean' }),
+  pairing_number: int('pairing_number'),
 });
 
 export const games = sqliteTable('game', {

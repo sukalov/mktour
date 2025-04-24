@@ -49,8 +49,8 @@ export const useTournamentRemovePlayer = (
       );
       if (!player) {
         toast.error(
-          t("internal-error", {
-            error: "player not found in context.previousState",
+          t('internal-error', {
+            error: 'player not found in context.previousState',
           }),
           {
             id: 'internal-error',

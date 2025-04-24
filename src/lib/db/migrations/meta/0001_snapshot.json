@@ -1,8 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "bb205537-5a91-47e4-93b1-00d6f429b8f7",
-  "prevId": "23ce6165-0785-49a0-ac23-698f5baee7e7",
+  "id": "e939ce8b-968a-437e-82b4-b8dc43deef0f",
+  "prevId": "7635c48b-fe3e-4ac3-a756-8392345548af",
   "tables": {
     "user_session": {
       "name": "user_session",
@@ -42,7 +42,8 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "user_preferences": {
       "name": "user_preferences",
@@ -75,7 +76,8 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "user": {
       "name": "user",
@@ -154,7 +156,8 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "club": {
       "name": "club",
@@ -184,7 +187,7 @@
           "name": "created_at",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "lichess_team": {
@@ -198,7 +201,8 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "clubs_to_users": {
       "name": "clubs_to_users",
@@ -254,7 +258,8 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "game": {
       "name": "game",
@@ -270,7 +275,7 @@
           "name": "game_number",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "round_number": {
@@ -361,7 +366,8 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "player": {
       "name": "player",
@@ -438,7 +444,8 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "players_to_tournaments": {
       "name": "players_to_tournaments",
@@ -499,8 +506,15 @@
           "notNull": false,
           "autoincrement": false
         },
-        "exited": {
-          "name": "exited",
+        "out": {
+          "name": "out",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pairing_number": {
+          "name": "pairing_number",
           "type": "integer",
           "primaryKey": false,
           "notNull": false,
@@ -529,7 +543,8 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "tournament": {
       "name": "tournament",
@@ -632,14 +647,18 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     }
   },
+  "views": {},
   "enums": {},
   "_meta": {
     "schemas": {},
     "tables": {},
-    "columns": {}
+    "columns": {
+      "\"players_to_tournaments\".\"exited\"": "\"players_to_tournaments\".\"out\""
+    }
   },
   "internal": {
     "indexes": {}

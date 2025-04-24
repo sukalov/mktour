@@ -30,6 +30,6 @@ module.exports =
   process.env.OPT === 'true'
     ? MillionLint.next({ rsc: true })(nextConfig)
     : withPlugins(
-      [[withBundleAnalyzer], [withNextIntl], [withPWA]],
-      nextConfig,
-    );
+        [[withBundleAnalyzer], [withNextIntl], [withPWA]],
+        nextConfig,
+      );

@@ -17,6 +17,7 @@ import {
 import { newid } from '@/lib/utils';
 import { NewClubFormType } from '@/lib/zod/new-club-form';
 import { and, eq, ne } from 'drizzle-orm';
+import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 export const createClub = async (values: NewClubFormType) => {
@@ -100,6 +101,20 @@ export const deletePlayer = async ({
   await db.transaction(async (tx) => {
     await tx.delete(players).where(eq(players.id, playerId));
   });
+};
+
+export const editPlayer = async ({
+  userId,
+  values,
+}: {
+  userId: string;
+  values: Pick<DatabasePlayer, 'id' | 'nickname' | 'realname' | 'rating'>;
+}) => {
+  const { user } = await validateRequest();
+  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
+  if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
+  await db.update(players).set(values).where(eq(players.id, values.id));
+  revalidatePath(`/player/${values.id}`);
 };
 
 export default async function getAllClubManagers(

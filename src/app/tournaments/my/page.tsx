@@ -3,6 +3,7 @@ import { validateRequest } from '@/lib/auth/lucia';
 import getTournamentsToUserClubsQuery, {
   TournamentWithClub,
 } from '@/lib/db/queries/get-tournaments-to-user-clubs-query';
+import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { FC } from 'react';
@@ -11,6 +12,16 @@ export default async function MyTournaments() {
   const { user } = await validateRequest();
   if (!user) redirect('/sign-in');
   const tournaments = await getTournamentsToUserClubsQuery({ user });
+
+  const t = await getTranslations('Tournaments');
+
+  if (tournaments.length === 0) {
+    return (
+      <p className="text-muted-foreground pt-4 text-center text-sm text-balance">
+        {t('no tournaments')}
+      </p>
+    );
+  }
 
   return (
     <main className="mk-container">

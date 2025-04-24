@@ -25,6 +25,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Save } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
+
 export default function EditProfileForm({ userId }: { userId: string }) {
   const queryClient = useQueryClient();
   const userQuery = useUser(userId);
@@ -75,6 +76,7 @@ export default function EditProfileForm({ userId }: { userId: string }) {
                 editUserMutation.isPending ||
                 userQuery.isFetching
               }
+              type="submit"
               className="w-full"
             >
               {editUserMutation.isPending ? <LoadingSpinner /> : <Save />}

@@ -1,4 +1,4 @@
-import { DATABASE_AUTH_TOKEN, DATABASE_URL } from '@/lib/config/urls';
+import { DATABASE_AUTH_TOKEN, DATABASE_URL } from '@/lib/config/non-next-urls';
 import { createClient } from '@libsql/client';
 import { drizzle } from 'drizzle-orm/libsql';
 import { migrate } from 'drizzle-orm/libsql/migrator';

@@ -11,7 +11,7 @@ export const newClubFormSchema = z
       .min(3, { message: 'short club name' })
       .max(100, { message: 'long club name' }),
     description: z.string().optional(),
-    created_at: z.date().optional(),
+    created_at: z.date(),
     lichess_team: z.string().optional(),
   })
   .refine(

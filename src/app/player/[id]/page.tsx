@@ -15,13 +15,12 @@ export default async function PlayerPage(props: PlayerPageProps) {
   const { player, club } = await getPlayerQuery(params.id);
   if (!player || !club) notFound();
 
-  console.log(player);
   let status: StatusInClub | undefined | 'owner';
   status = user ? await getStatus({ user, club }) : undefined;
 
   const isOwnPlayer = user && player.user_id === user.id;
   const canEdit = status === 'admin' || isOwnPlayer;
-  const canClaim = user && !player.user_id;
+  const canClaim = status !== 'admin' && user && !player.user_id;
 
   return (
     <div className="flex w-full flex-col gap-4 p-4 pt-2">
@@ -51,7 +50,9 @@ export default async function PlayerPage(props: PlayerPageProps) {
         <p>
           <FormattedMessage id="Player.club" />
           {': '}
-          <Link href={`/clubs/${player.club_id}`}>{club.name}</Link>
+          <Link className="mk-link" href={`/clubs/${player.club_id}`}>
+            {club.name}
+          </Link>
         </p>
         {player.user_id && (
           <p>
@@ -60,6 +61,7 @@ export default async function PlayerPage(props: PlayerPageProps) {
             <Link
               href={`https://lichess.org/@/${player.nickname}`}
               target="_blank"
+              className="mk-link"
             >
               {player.nickname}
             </Link>

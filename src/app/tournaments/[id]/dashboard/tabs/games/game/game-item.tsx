@@ -94,7 +94,7 @@ const GameItem: FC<GameProps> = ({
         <Button
           variant="ghost"
           onClick={() => handleMutate('1/2-1/2')}
-          className={`mx-4 flex h-full w-full min-w-16 grow gap-2 justify-self-center rounded-sm p-1 px-2 select-none ${selected && draw && 'underline underline-offset-4'}`}
+          className={`mx-4 flex h-full w-full min-w-16 grow gap-2 justify-self-center rounded-sm p-1 px-2 select-none ${selected && draw && 'mk-link'}`}
         >
           <Result {...resultProps} />
         </Button>

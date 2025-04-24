@@ -18,23 +18,26 @@ export default function useTournamentDelete(
     mutationFn: () => deleteTournament({ tournamentId }),
     onSuccess: () => {
       sendJsonMessage({ type: 'delete-tournament' });
-      queryClient.invalidateQueries({
-        queryKey: [tournamentId, 'tournament'],
-      });
       router.push('/tournaments/my');
       router.refresh();
-    },
-    onError: () => {
-      toast.error(t('server error'));
-      queryClient.invalidateQueries({
+      queryClient.cancelQueries({
         queryKey: [tournamentId, 'tournament'],
       });
-      queryClient.invalidateQueries({
-        queryKey: [tournamentId, 'games'],
-      });
-      queryClient.invalidateQueries({
-        queryKey: [tournamentId, 'players'],
-      });
+    },
+    onError: (error) => {
+      if ((error as Error).message !== 'NEXT_REDIRECT') {
+        console.error('SERVER_ERROR', error);
+        toast.error(t('server error'));
+        queryClient.invalidateQueries({
+          queryKey: [tournamentId, 'tournament'],
+        });
+        queryClient.invalidateQueries({
+          queryKey: [tournamentId, 'games'],
+        });
+        queryClient.invalidateQueries({
+          queryKey: [tournamentId, 'players'],
+        });
+      }
     },
   });
 }
