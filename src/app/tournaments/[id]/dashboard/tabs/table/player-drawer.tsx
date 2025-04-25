@@ -1,3 +1,4 @@
+import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import {
   DeleteButton,
   WithdrawButtonWithConfirmation,
@@ -15,7 +16,7 @@ import {
 import { PlayerModel } from '@/types/tournaments';
 import { UserRound } from 'lucide-react';
 import Link from 'next/link';
-import { FC, useEffect, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 
 const PlayerDrawer: FC<{
   player: PlayerModel;
@@ -25,6 +26,7 @@ const PlayerDrawer: FC<{
   hasStarted: boolean;
 }> = ({ player, setSelectedPlayer, hasEnded, hasStarted, handleDelete }) => {
   const [open, setOpen] = useState(!!player);
+  const { status } = useContext(DashboardContext);
 
   const DestructiveButton = () => {
     if (hasEnded) return null;
@@ -54,7 +56,7 @@ const PlayerDrawer: FC<{
             <FormattedMessage id="Tournament.Table.Player.profile" />
           </Button>
         </Link>
-        <DestructiveButton />
+        {status === 'organizer' && <DestructiveButton />}
         <Close asChild>
           <Button size="lg" variant="outline">
             <FormattedMessage id="Common.close" />
