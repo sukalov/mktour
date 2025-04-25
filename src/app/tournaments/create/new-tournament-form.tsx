@@ -68,7 +68,7 @@ export default function NewTournamentForm({
       </Button>,
     );
     try {
-      await createTournament(data);
+      await createTournament({...data, date: data.date.toISOString().slice(0, 10)});
     } catch (e) {
       if ((e as Error).message !== 'NEXT_REDIRECT') {
         console.log('SERVER_ERROR', e);

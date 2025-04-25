@@ -24,21 +24,22 @@ import {
 import { aliasedTable, and, eq, isNotNull, isNull, ne, sql } from 'drizzle-orm';
 import { permanentRedirect } from 'next/navigation';
 
-export const createTournament = async (values: NewTournamentFormType) => {
+export const createTournament = async (
+  values: Omit<NewTournamentFormType, 'date'> & {
+    date: string;
+  },
+) => {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   const newTournamentID = newid();
   const newTournament: DatabaseTournament = {
     ...values,
-    date: new Date(values.date).toISOString().slice(0, 10),
     id: newTournamentID,
     created_at: new Date(),
     closed_at: null,
     started_at: null,
-    club_id: values.club_id,
     rounds_number: null,
     ongoing_round: 1,
-    rated: values.rated,
   };
   try {
     await db.insert(tournaments).values(newTournament);
