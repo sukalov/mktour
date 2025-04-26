@@ -1,6 +1,7 @@
 import { newid } from '@/lib/utils';
 import { GameModel, PlayerModel } from '@/types/tournaments';
 
+const INITIAL_ROUND_NUMBER = 1;
 
 export interface RoundRobinRoundProps {
   /**
@@ -42,7 +43,7 @@ export function generateRoundRobinRoundFunction({
   // checking if the set of layers is even, if not, making it even with a smart alg
   let matchedEntities = players.map(convertPlayerToEntity);
 
-
+  console.log(matchedEntities, players, games, roundNumber, tournamentId);
   
   // generating set of base matches
   const entitiesMatchingsGenerated = generateRoundRobinPairs(
@@ -258,7 +259,7 @@ function generateRoundRobinPairs(
   const constantPairingNumber = pairingNumbersFlat.shift() as number;
 
   // cycling process, where you just rotate the array
-  for (let cycleNumber = 0; cycleNumber< roundNumber; cycleNumber++) {
+  for (let cycleNumber = INITIAL_ROUND_NUMBER; cycleNumber< roundNumber; cycleNumber++) {
     const lastPairingNumber = pairingNumbersFlat.shift() as number;
     pairingNumbersFlat.push(lastPairingNumber);
   }

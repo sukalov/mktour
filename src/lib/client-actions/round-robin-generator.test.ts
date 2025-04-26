@@ -11,7 +11,7 @@ import assert from "assert";
 const INITIAL_WINS = 0;
 const INITIAL_LOSSES = 0;
 const INITIAL_DRAWS = 0;
-const INITIAL_ONGOING_ROUND = 0;
+const INITIAL_ONGOING_ROUND = 1;
 const INITIAL_COLOUR_INDEX = 0;
 
 
@@ -166,7 +166,7 @@ describe("pure matching generation test", () => {
       // for the initial case, the previous games are missing
       let previousGames: GameModel[] = [];
   
-      let currentRound = 0;
+      let currentRound = INITIAL_ONGOING_ROUND;
 
       const gameCount = randomPlayerNumber/ 2  * (randomPlayerNumber - 1)
       // random tournament initialised
@@ -221,7 +221,7 @@ describe("matching generator END TO END", () => {
     // for the initial case, the previous games are missing
     let previousGames: GameModel[] = [];
 
-    let currentRound = 0;
+    let currentRound = DEFAULT_INITIAL_ROUND; 
 
     const gameCount = randomPlayerNumber/ 2  * (randomPlayerNumber - 1)
     // random tournament initialised
