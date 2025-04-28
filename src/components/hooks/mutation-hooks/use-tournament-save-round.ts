@@ -24,6 +24,9 @@ export default function useSaveRound(props: SaveRoundMutationProps) {
       if (props.isTournamentGoing) {
         props.setRoundInView(roundNumber);
       }
+      props.queryClient.cancelQueries({
+        queryKey: [tournamentId, 'games', { roundNumber }],
+      });
       props.isTournamentGoing &&
         props.queryClient.setQueryData(
           [tournamentId, 'tournament'],
@@ -45,16 +48,18 @@ export default function useSaveRound(props: SaveRoundMutationProps) {
           newGames,
           isTournamentGoing: props.isTournamentGoing,
         });
-        props.queryClient.invalidateQueries({
-          queryKey: [tournamentId, 'games', { roundNumber }],
-        });
-        props.isTournamentGoing &&
+        if (props.queryClient.isMutating() === 1) {
           props.queryClient.invalidateQueries({
-            queryKey: [tournamentId, 'tournament'],
+            queryKey: [tournamentId, 'games', { roundNumber }],
           });
-        props.queryClient.invalidateQueries({
-          queryKey: [tournamentId, 'games', 'all'],
-        });
+          props.isTournamentGoing &&
+            props.queryClient.invalidateQueries({
+              queryKey: [tournamentId, 'tournament'],
+            });
+          props.queryClient.invalidateQueries({
+            queryKey: [tournamentId, 'games', 'all'],
+          });
+        }
       }
     },
     onError: (_, { tournamentId, roundNumber }) => {

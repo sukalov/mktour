@@ -71,27 +71,42 @@ export const useTournamentRemovePlayer = (
       );
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: [tournamentId, 'players'] });
+      if (
+        queryClient.isMutating({
+          mutationKey: [tournamentId, 'players', 'remove'],
+        }) === 1
+      ) {
+        queryClient.invalidateQueries({ queryKey: [tournamentId, 'players'] });
+      }
     },
     onSuccess: (_err, data) => {
       sendJsonMessage({ type: 'remove-player', id: data.playerId });
-      const newGames = generateRoundRobinRoundFunction({
-        players: shuffle(
-          queryClient.getQueryData([
+      if (
+        queryClient.isMutating({
+          mutationKey: [tournamentId, 'players', 'remove'],
+        }) === 1
+      ) {
+        const newGames = generateRoundRobinRoundFunction({
+          players: shuffle(
+            queryClient.getQueryData([
+              tournamentId,
+              'players',
+              'added',
+            ]) as PlayerModel[],
+          ),
+          games: queryClient.getQueryData([
             tournamentId,
-            'players',
-            'added',
-          ]) as PlayerModel[],
-        ),
-        games: queryClient.getQueryData([tournamentId, 'games']) as GameModel[],
-        roundNumber: 1,
-        tournamentId,
-      });
-      saveRound.mutate({ tournamentId, roundNumber: 1, newGames });
-      queryClient.setQueryData(
-        [tournamentId, 'games', { roundNumber: 1 }],
-        () => newGames.sort((a, b) => a.game_number - b.game_number),
-      );
+            'games',
+          ]) as GameModel[],
+          roundNumber: 1,
+          tournamentId,
+        });
+        saveRound.mutate({ tournamentId, roundNumber: 1, newGames });
+        queryClient.setQueryData(
+          [tournamentId, 'games', { roundNumber: 1 }],
+          () => newGames.sort((a, b) => a.game_number - b.game_number),
+        );
+      }
     },
   });
 };

@@ -74,27 +74,33 @@ export const useTournamentAddExistingPlayer = (
     },
     onSuccess: (_err, _data, context) => {
       sendJsonMessage({ type: 'add-existing-player', body: context.newPlayer });
-      const newGames = generateRoundRobinRoundFunction({
-        players: shuffle(
-          queryClient.getQueryData([
+      if (
+        queryClient.isMutating({
+          mutationKey: [tournamentId, 'players', 'add-existing'],
+        }) === 1
+      ) {
+        const newGames = generateRoundRobinRoundFunction({
+          players: shuffle(
+            queryClient.getQueryData([
+              tournamentId,
+              'players',
+              'added',
+            ]) as PlayerModel[],
+          ),
+          games: queryClient.getQueryData([
             tournamentId,
-            'players',
-            'added',
-          ]) as PlayerModel[],
-        ),
-        games: queryClient.getQueryData([
+            'games',
+            'all',
+          ]) as GameModel[],
+          roundNumber: 1,
           tournamentId,
-          'games',
-          'all',
-        ]) as GameModel[],
-        roundNumber: 1,
-        tournamentId,
-      });
-      saveRound.mutate({ tournamentId, roundNumber: 1, newGames });
-      queryClient.setQueryData(
-        [tournamentId, 'games', { roundNumber: 1 }],
-        () => newGames.sort((a, b) => a.game_number - b.game_number),
-      );
+        });
+        saveRound.mutate({ tournamentId, roundNumber: 1, newGames });
+        queryClient.setQueryData(
+          [tournamentId, 'games', { roundNumber: 1 }],
+          () => newGames.sort((a, b) => a.game_number - b.game_number),
+        );
+      }
     },
   });
 };
