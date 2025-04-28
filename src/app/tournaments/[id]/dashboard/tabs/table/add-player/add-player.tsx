@@ -74,7 +74,7 @@ const AddPlayer = ({ value, setValue, handleClose }: DrawerProps) => {
         onChange={(e) => setValue(e.target.value)}
       />
       {possiblePlayers.data?.length === 0 && (
-        <p className="text-muted-foreground pt-4 pl-[10%] text-sm">
+        <p className="text-muted-foreground px-8 pt-8 text-center text-sm text-balance">
           {t('no players')}
         </p>
       )}

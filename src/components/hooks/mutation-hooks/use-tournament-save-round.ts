@@ -24,13 +24,14 @@ export default function useSaveRound(props: SaveRoundMutationProps) {
       if (props.isTournamentGoing) {
         props.setRoundInView(roundNumber);
       }
-      props.queryClient.setQueryData(
-        [tournamentId, 'tournament'],
-        (cache: TournamentInfo) => {
-          cache.tournament.ongoing_round = roundNumber;
-          return cache;
-        },
-      );
+      props.isTournamentGoing &&
+        props.queryClient.setQueryData(
+          [tournamentId, 'tournament'],
+          (cache: TournamentInfo) => {
+            cache.tournament.ongoing_round = roundNumber;
+            return cache;
+          },
+        );
       props.queryClient.setQueryData(
         [tournamentId, 'games', { roundNumber }],
         () => newGames,
