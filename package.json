@@ -26,7 +26,8 @@
     "localdb:push": "OFFLINE=true drizzle-kit push",
     "localdb:studio": "OFFLINE=true drizzle-kit studio",
     "localdb:check": "OFFLINE=true drizzle-kit check",
-    "knip": "knip-bun"
+    "knip": "knip-bun",
+    "prepare": "husky"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
@@ -106,11 +107,6 @@
     "tailwindcss": "^4.1.4",
     "tsx": "4.19.3",
     "typescript": "^5.8.3"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "bun lint && bun format"
-    }
   },
   "vsc-organize-imports": {
     "orderSpecifiers": true,
