@@ -73,7 +73,7 @@ const AddNewPlayer = ({
       club_id: data.club_id,
       nickname: data.name,
       realname: data.name,
-      rating: data.rating ?? null,
+      rating: data.rating,
       user_id: null,
       last_seen: 0,
     };
