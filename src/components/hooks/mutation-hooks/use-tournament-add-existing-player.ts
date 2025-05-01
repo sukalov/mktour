@@ -75,9 +75,15 @@ export const useTournamentAddExistingPlayer = (
       });
     },
     onSettled: () => {
-      queryClient.invalidateQueries({
-        queryKey: [tournamentId, 'players'],
-      });
+      if (
+        queryClient.isMutating({
+          mutationKey: [tournamentId, 'players', 'add-existing'],
+        }) === 1
+      ) {
+        queryClient.invalidateQueries({
+          queryKey: [tournamentId, 'players'],
+        });
+      }
     },
     onSuccess: (_err, _data, context) => {
       sendJsonMessage({ type: 'add-existing-player', body: context.newPlayer });
