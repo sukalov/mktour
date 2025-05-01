@@ -1,7 +1,6 @@
 'use client';
 
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
-import { LoadingElement } from '@/app/tournaments/[id]/dashboard/tabs/main';
 import {
   Medal,
   medalColour,
@@ -134,9 +133,31 @@ const TableStatsHeads = () => {
 const TableLoading = () => {
   const t = useTranslations('Tournament.Table');
   return (
-    <div className="mt-12 flex h-[calc(100svh-13rem)] w-full flex-auto items-center justify-center">
+    <div className="h-full w-full items-center justify-center">
       <span className="sr-only">{t('loading')}</span>
-      <LoadingElement />
+      <Table>
+        <TableBody>
+          {Array(5)
+            .fill(0)
+            .map((_, i) => (
+              <TableRow key={i}>
+                <TableCellStyled className="h-11">
+                  <div className="bg-muted mx-auto h-4 w-4 animate-pulse rounded" />
+                </TableCellStyled>
+                <TableCellStyled>
+                  <div className="bg-muted h-4 w-40 animate-pulse rounded" />
+                </TableCellStyled>
+                {Array(3)
+                  .fill(0)
+                  .map((_, j) => (
+                    <TableCellStyled key={j}>
+                      <div className="bg-muted mx-auto h-4 w-8 animate-pulse rounded" />
+                    </TableCellStyled>
+                  ))}
+              </TableRow>
+            ))}
+        </TableBody>
+      </Table>
     </div>
   );
 };
