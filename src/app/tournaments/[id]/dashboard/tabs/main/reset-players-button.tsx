@@ -2,7 +2,7 @@
 
 import { LoadingSpinner } from '@/app/loading';
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
-import useTournamentReset from '@/components/hooks/mutation-hooks/use-tournament-reset';
+import useTournamentResetPlayers from '@/components/hooks/mutation-hooks/use-tournament-reset-players';
 import { Button } from '@/components/ui/button';
 import {
   Close,
@@ -19,11 +19,11 @@ import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { useContext, useState } from 'react';
 
-export default function ResetTournamentButton() {
+export default function ResetTournamentPButton() {
   const { id: tournamentId } = useParams<{ id: string }>();
   const queryClient = useQueryClient();
   const { sendJsonMessage, setRoundInView } = useContext(DashboardContext);
-  const { mutate, isPending } = useTournamentReset(
+  const { mutate, isPending } = useTournamentResetPlayers(
     tournamentId,
     queryClient,
     sendJsonMessage,
@@ -37,7 +37,7 @@ export default function ResetTournamentButton() {
       <Trigger asChild>
         <Button variant="outline">
           <RotateCcw />
-          &nbsp;{t('reset progress')}
+          &nbsp;reset players
         </Button>
       </Trigger>
       <Content>
@@ -52,8 +52,7 @@ export default function ResetTournamentButton() {
           disabled={isPending}
         >
           {isPending ? <LoadingSpinner /> : <RotateCcw />}
-          &nbsp;
-          {t('confirm reset')}
+          &nbsp; reset players
         </Button>
         <Close asChild>
           <Button className="w-full" variant="outline">

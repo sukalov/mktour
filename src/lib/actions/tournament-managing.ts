@@ -923,3 +923,13 @@ export async function deleteTournament({
   await db.delete(tournaments).where(eq(tournaments.id, tournamentId));
   permanentRedirect('/tournaments/my');
 }
+
+export async function resetTournamentPlayers({
+  tournamentId,
+}: {
+  tournamentId: string;
+}) {
+  await db
+    .delete(players_to_tournaments)
+    .where(eq(players_to_tournaments.tournament_id, tournamentId));
+}

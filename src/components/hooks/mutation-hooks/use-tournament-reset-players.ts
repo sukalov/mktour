@@ -1,6 +1,6 @@
 'use client';
 
-import { resetTournament } from '@/lib/actions/tournament-managing';
+import { resetTournamentPlayers } from '@/lib/actions/tournament-managing';
 import { Message } from '@/types/ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
@@ -15,7 +15,7 @@ export default function useTournamentReset(
 ) {
   const t = useTranslations('Toasts');
   return useMutation({
-    mutationFn: resetTournament,
+    mutationFn: resetTournamentPlayers,
     onSuccess: () => {
       sendJsonMessage({ type: 'reset-tournament' });
       queryClient.invalidateQueries({
