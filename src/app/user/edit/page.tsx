@@ -14,15 +14,15 @@ import { redirect } from 'next/navigation';
 export default async function EditUserPage() {
   const { user } = await validateRequest();
   if (!user) redirect('/sign-in');
-  const queryClient = new QueryClient();
-  await queryClient.prefetchQuery({
+  const userQueryClient = new QueryClient();
+  await userQueryClient.prefetchQuery({
     queryKey: [user.id, 'user', 'profile'],
     queryFn: getUser,
   });
 
   const t = await getTranslations('EditUser');
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
+    <HydrationBoundary state={dehydrate(userQueryClient)}>
       <h2
         className={`m-2 text-center text-4xl font-bold ${turboPascal.className}`}
       >
