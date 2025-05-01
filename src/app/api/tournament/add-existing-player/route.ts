@@ -9,11 +9,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   try {
-    const body = (await req.json()) as {
-      tournamentId: string;
-      player: DatabasePlayer;
-      userId: string;
-    };
+    const body: AddExistingPlayerBody = await req.json();
     const { tournamentId, player, userId } = body;
 
     const { user } = await validateRequest();
@@ -53,4 +49,10 @@ export async function POST(req: NextRequest) {
       error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
+}
+
+export interface AddExistingPlayerBody {
+  tournamentId: string;
+  player: DatabasePlayer;
+  userId: string;
 }

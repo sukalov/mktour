@@ -1,3 +1,4 @@
+import { AddExistingPlayerBody } from '@/app/api/tournament/add-existing-player/route';
 import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
 import { generateRoundRobinRoundFunction } from '@/lib/client-actions/round-robin-generator';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
@@ -22,11 +23,7 @@ export const useTournamentAddExistingPlayer = (
   });
   return useMutation({
     mutationKey: [tournamentId, 'players', 'add-existing'],
-    mutationFn: (body: {
-      tournamentId: string;
-      player: DatabasePlayer;
-      userId: string;
-    }) =>
+    mutationFn: (body: AddExistingPlayerBody) =>
       fetch('/api/tournament/add-existing-player', {
         method: 'POST',
         body: JSON.stringify(body),
