@@ -48,7 +48,7 @@ export default function ResetTournamentButton() {
         <Button
           variant={'destructive'}
           className="w-full"
-          onClick={() => mutate()}
+          onClick={() => mutate({ tournamentId })}
           disabled={isPending}
         >
           {isPending ? <LoadingSpinner /> : <RotateCcw />}
