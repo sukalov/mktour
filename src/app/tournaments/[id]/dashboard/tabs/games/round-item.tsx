@@ -55,7 +55,8 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
     roundNumber === ongoing_round &&
     ongoing_round !== rounds_number &&
     ongoingGames === 0 &&
-    status === 'organizer';
+    status === 'organizer' &&
+    round.length > 0;
 
   const ActionButton = () => {
     if (renderNewRoundButton)
