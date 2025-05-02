@@ -90,7 +90,7 @@ const AddPlayer = ({ value, setValue, handleClose }: DrawerProps) => {
                     return;
                   }
                   setValue('');
-                  mutate({ tournamentId: id, player, userId });
+                  mutate({ player, userId });
                 }}
                 className="p-0"
               >

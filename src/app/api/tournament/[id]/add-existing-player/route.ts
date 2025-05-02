@@ -7,10 +7,14 @@ import {
 } from '@/lib/db/schema/tournaments';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(req: NextRequest) {
+export async function POST(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
   try {
+    const { id: tournamentId } = await params;
     const body: AddExistingPlayerBody = await req.json();
-    const { tournamentId, player, userId } = body;
+    const { player, userId } = body;
 
     const { user } = await validateRequest();
     if (!user) {
@@ -52,7 +56,6 @@ export async function POST(req: NextRequest) {
 }
 
 export interface AddExistingPlayerBody {
-  tournamentId: string;
   player: DatabasePlayer;
   userId: string;
 }

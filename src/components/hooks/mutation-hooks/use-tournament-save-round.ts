@@ -1,5 +1,4 @@
-import { saveRound } from '@/lib/actions/tournament-managing';
-import { TournamentInfo } from '@/types/tournaments';
+import { GameModel, TournamentInfo } from '@/types/tournaments';
 import { Message } from '@/types/ws-events';
 import {
   QueryClient,
@@ -19,7 +18,18 @@ export default function useSaveRound(props: SaveRoundMutationProps) {
   });
   return useMutation({
     mutationKey: [props.tournamentId, 'save-round'],
-    mutationFn: saveRound,
+    mutationFn: async ({
+      newGames,
+      roundNumber,
+    }: {
+      tournamentId: string;
+      newGames: GameModel[];
+      roundNumber: number;
+    }) =>
+      fetch(`/api/tournament/${props.tournamentId}/round/${roundNumber}`, {
+        method: 'POST',
+        body: JSON.stringify(newGames),
+      }),
     onMutate: ({ tournamentId, roundNumber, newGames }) => {
       if (props.isTournamentGoing) {
         props.setRoundInView(roundNumber);

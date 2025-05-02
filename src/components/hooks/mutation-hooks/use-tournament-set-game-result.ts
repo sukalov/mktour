@@ -28,7 +28,6 @@ export default function useTournamentSetGameResult(
             return cache;
           }
           cache[index].result = result;
-          console.log({ cache, result });
           return cache;
         },
       );
@@ -38,7 +37,6 @@ export default function useTournamentSetGameResult(
       queryClient.invalidateQueries({
         queryKey: [tournamentId, 'players', 'added'],
       });
-      console.log('result added');
       sendJsonMessage({ type: 'set-game-result', gameId, result, roundNumber });
     },
     onError: (error) => {

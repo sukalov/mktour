@@ -1,4 +1,4 @@
-import { getTournamentRoundGames } from '@/lib/actions/tournament-managing';
+import { GameModel } from '@/types/tournaments';
 import { useQuery } from '@tanstack/react-query';
 
 export const useTournamentRoundGames = ({
@@ -10,6 +10,14 @@ export const useTournamentRoundGames = ({
 }) =>
   useQuery({
     queryKey: [tournamentId, 'games', { roundNumber }],
-    queryFn: () => getTournamentRoundGames({ tournamentId, roundNumber }),
+    queryFn: async (): Promise<GameModel[]> => {
+      const response = await fetch(
+        `/api/tournament/${tournamentId}/round/${roundNumber}`,
+      );
+      if (!response.ok) {
+        throw new Error(`failed to fetch round-${roundNumber} games`);
+      }
+      return response.json();
+    },
     staleTime: Infinity,
   });
