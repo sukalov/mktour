@@ -49,7 +49,6 @@ export function generateRoundRobinRoundFunction({
   const entitiesMatchingsGenerated = generateRoundRobinPairs(
     matchedEntities, roundNumber
   );
-
   // colouring the set of the matcthes
   const colouredMatches = entitiesMatchingsGenerated.map(getColouredPair);
 
@@ -113,6 +112,8 @@ type EntitiesPair = [ChessTournamentEntity, ChessTournamentEntity];
  * @param playerModel a joined representation of player
  */
 function convertPlayerToEntity(playerModel: PlayerModel) {
+  if (playerModel.pairingNumber === null)
+    throw new TypeError("No pairing happened to the player model; SOMETHING WENT WRONG");
   const tournamentEntity: ChessTournamentEntity = {
     entityId: playerModel.id,
     entityNickname: playerModel.nickname,
@@ -199,6 +200,7 @@ function getNumberedPair(
 function getColouredPair(uncolouredPair: EntitiesPair): ColouredEntitiesPair {
   let [whiteEntity, blackEntity] = uncolouredPair;
 
+
   // reversing the white and black, if the white colour index is bigger
   // (that means that current white has played more whites, than black player)
   // or if the colour is the same, then if the white rating is bigger, then we also reverse
@@ -282,6 +284,7 @@ function generateRoundRobinPairs(
       return generatedNumberPair;
     }
   )
+
 
   // again, if the array is odd, we remove the pair with the dummy index inside
   if (matchedEntities.length %2 !==0)

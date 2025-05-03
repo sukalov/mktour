@@ -11,6 +11,8 @@ export default function useTournamentStart(
   { tournamentId, sendJsonMessage }: SetStatusProps,
 ) {
   const t = useTranslations('Toasts');
+
+  // TODO: add pairing number inferring
   return useMutation({
     mutationFn: startTournament,
     onSuccess: (_error, { started_at, rounds_number }) => {

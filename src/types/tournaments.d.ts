@@ -11,13 +11,8 @@ export interface PlayerModel {
   pairingNumber: number | null;
   id: string;
   nickname: string; // players.nickname
-<<<<<<< HEAD
   realname: string | null;
   rating: number | null;
-=======
-  realname?: string | null;
-  rating: number;
->>>>>>> main
   wins: number;
   draws: number;
   losses: number;
