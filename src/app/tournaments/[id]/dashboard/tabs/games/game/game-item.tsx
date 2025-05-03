@@ -30,6 +30,7 @@ const GameItem: FC<GameProps> = ({
     sendJsonMessage,
   });
   const { data } = useTournamentInfo(tournamentId);
+  const { userId } = useContext(DashboardContext);
   const ref = useRef<HTMLDivElement>(null);
   const selected = selectedGameId === id;
   const muted = result && !selected;
@@ -38,6 +39,7 @@ const GameItem: FC<GameProps> = ({
   const draw = result === '1/2-1/2';
 
   const handleMutate = (newResult: ResultModel) => {
+    if (!userId) return;
     if (selected && hasStarted && !mutation.isPending) {
       mutation.mutate({
         gameId: id,
@@ -47,6 +49,7 @@ const GameItem: FC<GameProps> = ({
         prevResult: result,
         tournamentId,
         roundNumber,
+        userId,
       });
     }
   };

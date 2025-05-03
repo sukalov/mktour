@@ -1,6 +1,6 @@
 'use client';
 
-import { setTournamentGameResult } from '@/lib/actions/tournament-managing';
+import { SetGameResultBody } from '@/app/api/tournament/[id]/set-game-result/route';
 import { DatabaseGame } from '@/lib/db/schema/tournaments';
 import { Message } from '@/types/ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
@@ -13,7 +13,17 @@ export default function useTournamentSetGameResult(
 ) {
   const t = useTranslations('Toasts');
   return useMutation({
-    mutationFn: setTournamentGameResult,
+    mutationKey: [tournamentId, 'set-game-result'],
+    mutationFn: async (body: SetGameResultBody) => {
+      const res = await fetch(
+        `/api/tournament/${tournamentId}/set-game-result`,
+        {
+          method: 'POST',
+          body: JSON.stringify(body),
+        },
+      );
+      return res.json() as Promise<{ success: boolean; error?: string }>;
+    },
     onMutate: async ({ roundNumber }) => {
       await queryClient.cancelQueries({
         queryKey: [tournamentId, 'games', { roundNumber }],
@@ -22,29 +32,37 @@ export default function useTournamentSetGameResult(
         queryKey: [tournamentId, 'players', 'added'],
       });
     },
-    onSuccess: (fnReturn, { gameId, result, roundNumber }) => {
-      if (fnReturn === 'TOURNAMENT_NOT_STARTED') {
+    onSuccess: (res, { gameId, result, roundNumber }) => {
+      if (res.error === 'TOURNAMENT_NOT_STARTED') {
         toast.error(t('tmt-not-started error'));
         return;
       }
       queryClient.setQueryData(
         [tournamentId, 'games', { roundNumber }],
         (cache: Array<DatabaseGame>) => {
-          const index = cache.findIndex((obj) => obj.id == gameId);
-          if (cache[index].result === result) {
-            cache[index].result = null;
-            return cache;
-          }
-          cache[index].result = result;
-          return cache;
+          return cache.map((game) => {
+            if (game.id === gameId) {
+              return {
+                ...game,
+                result: game.result === result ? null : result,
+              };
+            }
+            return game;
+          });
         },
       );
-      queryClient.invalidateQueries({
-        queryKey: [tournamentId, 'games', { roundNumber }],
-      });
-      queryClient.invalidateQueries({
-        queryKey: [tournamentId, 'players', 'added'],
-      });
+      if (
+        queryClient.isMutating({
+          mutationKey: [tournamentId, 'set-game-result'],
+        }) === 1
+      ) {
+        queryClient.invalidateQueries({
+          queryKey: [tournamentId, 'games', { roundNumber }],
+        });
+        queryClient.invalidateQueries({
+          queryKey: [tournamentId, 'players', 'added'],
+        });
+      }
       sendJsonMessage({ type: 'set-game-result', gameId, result, roundNumber });
     },
     onError: (error) => {

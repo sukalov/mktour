@@ -103,9 +103,6 @@ export const handleSocketMessage = (
         queryKey: [tournamentId, 'games', { roundNumber: message.roundNumber }],
       });
       queryClient.invalidateQueries({
-        queryKey: [tournamentId, 'games', 'all'],
-      });
-      queryClient.invalidateQueries({
         queryKey: [tournamentId, 'players', 'added'],
       });
       break;
