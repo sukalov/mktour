@@ -14,6 +14,14 @@ export default function useTournamentSetGameResult(
   const t = useTranslations('Toasts');
   return useMutation({
     mutationFn: setTournamentGameResult,
+    onMutate: async ({ roundNumber }) => {
+      await queryClient.cancelQueries({
+        queryKey: [tournamentId, 'games', { roundNumber }],
+      });
+      await queryClient.cancelQueries({
+        queryKey: [tournamentId, 'players', 'added'],
+      });
+    },
     onSuccess: (fnReturn, { gameId, result, roundNumber }) => {
       if (fnReturn === 'TOURNAMENT_NOT_STARTED') {
         toast.error(t('tmt-not-started error'));
@@ -32,7 +40,7 @@ export default function useTournamentSetGameResult(
         },
       );
       queryClient.invalidateQueries({
-        queryKey: [tournamentId, 'games'],
+        queryKey: [tournamentId, 'games', { roundNumber }],
       });
       queryClient.invalidateQueries({
         queryKey: [tournamentId, 'players', 'added'],
