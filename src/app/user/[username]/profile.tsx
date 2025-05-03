@@ -33,7 +33,6 @@ const Profile: FC<{ user: DatabaseUser; isOwner: boolean }> = ({
     });
 
   return (
-    // FIXME Intl
     <div className="flex w-full flex-col gap-2 p-2">
       <div className="px-2">
         {user.username} ({user.name})

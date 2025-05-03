@@ -6,7 +6,7 @@ import { validateRequest } from '@/lib/auth/lucia';
 import getPlayerQuery from '@/lib/db/queries/get-player-query';
 import getStatus from '@/lib/db/queries/get-status-query';
 import { DatabaseUser } from '@/lib/db/schema/auth';
-import { StatusInClub } from '@/lib/db/schema/tournaments';
+import { DatabasePlayer, StatusInClub } from '@/lib/db/schema/tournaments';
 import { User2 } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -27,7 +27,7 @@ export default async function PlayerPage(props: PlayerPageProps) {
   const canClaim = status !== 'admin' && user && !player.user_id;
 
   return (
-    <div className="mk-container flex w-full flex-col gap-4">
+    <div className="mk-container flex w-full flex-col gap-2">
       <div className="flex w-full items-center justify-between border-b-2 pb-2 pl-2">
         <div className="flex flex-col">
           <span className="truncate text-2xl font-semibold text-wrap">
@@ -47,8 +47,8 @@ export default async function PlayerPage(props: PlayerPageProps) {
           </div>
         )}
       </div>
-      <div className="flex flex-col gap-2 pl-2">
-        {player.realname && <span className="text-lg">{player.realname}</span>}
+      <div className="flex flex-col gap-2 pl-2 text-sm">
+        <FullName player={player} user={playerUser} />
         <span>
           <FormattedMessage id="Player.rating" />
           {': '}
@@ -78,6 +78,14 @@ export default async function PlayerPage(props: PlayerPageProps) {
     </div>
   );
 }
+
+const FullName: FC<{ player: DatabasePlayer; user: DatabaseUser | null }> = ({
+  player,
+  user,
+}) => {
+  if (!player.realname && !user?.name) return null;
+  return <span className="font-semibold">{user?.name || player.realname}</span>;
+};
 
 const UserLink: FC<{ user: DatabaseUser | null }> = ({ user }) => {
   if (!user) return null;
