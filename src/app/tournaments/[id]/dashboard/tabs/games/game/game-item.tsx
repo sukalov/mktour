@@ -12,7 +12,7 @@ import { Result as ResultModel } from '@/types/tournaments';
 import { useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { useParams } from 'next/navigation';
-import { FC, useContext, useEffect, useRef } from 'react';
+import { FC, useContext, useRef } from 'react';
 
 const GameItem: FC<GameProps> = ({
   id,
@@ -30,6 +30,7 @@ const GameItem: FC<GameProps> = ({
     sendJsonMessage,
   });
   const { data } = useTournamentInfo(tournamentId);
+  const { userId } = useContext(DashboardContext);
   const ref = useRef<HTMLDivElement>(null);
   const selected = selectedGameId === id;
   const muted = result && !selected;
@@ -38,6 +39,7 @@ const GameItem: FC<GameProps> = ({
   const draw = result === '1/2-1/2';
 
   const handleMutate = (newResult: ResultModel) => {
+    if (!userId) return;
     if (selected && hasStarted && !mutation.isPending) {
       mutation.mutate({
         gameId: id,
@@ -47,6 +49,7 @@ const GameItem: FC<GameProps> = ({
         prevResult: result,
         tournamentId,
         roundNumber,
+        userId,
       });
     }
   };
@@ -57,11 +60,12 @@ const GameItem: FC<GameProps> = ({
     selected,
   };
 
-  useEffect(() => {
-    if (mutation.isSuccess) {
-      setSelectedGameId(null);
-    }
-  }, [mutation.isSuccess, setSelectedGameId]);
+  // deprecated to allow multiple mutations in parallel (without flickering)
+  // useEffect(() => {
+  //   if (mutation.isSuccess) {
+  //     setSelectedGameId(null);
+  //   }
+  // }, [mutation.isSuccess, setSelectedGameId]);
 
   useOutsideClick(() => {
     if (selected) {
