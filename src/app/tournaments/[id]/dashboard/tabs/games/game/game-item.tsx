@@ -12,7 +12,7 @@ import { Result as ResultModel } from '@/types/tournaments';
 import { useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { useParams } from 'next/navigation';
-import { FC, useContext, useEffect, useRef } from 'react';
+import { FC, useContext, useRef } from 'react';
 
 const GameItem: FC<GameProps> = ({
   id,
@@ -60,11 +60,12 @@ const GameItem: FC<GameProps> = ({
     selected,
   };
 
-  useEffect(() => {
-    if (mutation.isSuccess) {
-      setSelectedGameId(null);
-    }
-  }, [mutation.isSuccess, setSelectedGameId]);
+  // deprecated to allow multiple mutations in parallel (without flickering)
+  // useEffect(() => {
+  //   if (mutation.isSuccess) {
+  //     setSelectedGameId(null);
+  //   }
+  // }, [mutation.isSuccess, setSelectedGameId]);
 
   useOutsideClick(() => {
     if (selected) {
