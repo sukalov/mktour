@@ -104,7 +104,7 @@ const Menu: FC<{ user: User | null }> = ({ user }) => {
               ) : (
                 <MenuItemWithSubMenu toggleOpen={toggleOpen} item={item} />
               )}
-              <MenuItem className="my-3 h-px w-full bg-gray-300" />
+              <MenuItem className="bg-muted-foreground my-3 h-px w-full" />
             </div>
           ))}
           <MenuItem>
