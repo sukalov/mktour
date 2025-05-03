@@ -26,7 +26,7 @@ export default async function PlayerPage(props: PlayerPageProps) {
   return (
     <div className="mk-container">
       <div className="flex w-full flex-col gap-4">
-        <div className="flex w-full items-center px-2 pb-2 justify-between border-b-2">
+        <div className="flex w-full items-center justify-between border-b-2 pb-2 pl-2">
           <span className="truncate text-2xl font-semibold text-wrap">
             {player.nickname}
           </span>
@@ -42,7 +42,7 @@ export default async function PlayerPage(props: PlayerPageProps) {
             </div>
           )}
         </div>
-        <div className="flex flex-col gap-2 px-2">
+        <div className="flex flex-col gap-2 pl-2">
           {player.realname && (
             <span className="text-lg">{player.realname}</span>
           )}
