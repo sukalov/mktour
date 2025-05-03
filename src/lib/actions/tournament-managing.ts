@@ -468,7 +468,7 @@ export async function setTournamentGameResult({
   ).at(0);
   if (tournament?.started_at === null) return 'TOURNAMENT_NOT_STARTED';
   if (result === prevResult) {
-    Promise.all([
+    await Promise.all([
       handleResultReset(whiteId, blackId, tournamentId, prevResult),
       db.update(games).set({ result: null }).where(eq(games.id, gameId)),
     ]);
@@ -484,7 +484,7 @@ export async function setTournamentGameResult({
   if (result === '1/2-1/2') {
     handler = handleDraw(whiteId, blackId, tournamentId, prevResult);
   }
-  Promise.all([
+  await Promise.all([
     handler,
     db.update(games).set({ result }).where(eq(games.id, gameId)),
   ]);
@@ -497,7 +497,7 @@ async function handleWhiteWin(
   prevResult?: Result | null,
 ) {
   if (!prevResult) {
-    Promise.all([
+    await Promise.all([
       db
         .update(players_to_tournaments)
         .set({
@@ -522,7 +522,7 @@ async function handleWhiteWin(
     ]);
   }
   if (prevResult === '0-1') {
-    Promise.all([
+    await Promise.all([
       db
         .update(players_to_tournaments)
         .set({
@@ -550,7 +550,7 @@ async function handleWhiteWin(
     ]);
   }
   if (prevResult === '1/2-1/2') {
-    Promise.all([
+    await Promise.all([
       db
         .update(players_to_tournaments)
         .set({
@@ -586,7 +586,7 @@ async function handleBlackWin(
   prevResult?: Result | null,
 ) {
   if (!prevResult) {
-    Promise.all([
+    await Promise.all([
       db
         .update(players_to_tournaments)
         .set({
@@ -611,7 +611,7 @@ async function handleBlackWin(
     ]);
   }
   if (prevResult === '1-0') {
-    Promise.all([
+    await Promise.all([
       db
         .update(players_to_tournaments)
         .set({
@@ -639,7 +639,7 @@ async function handleBlackWin(
     ]);
   }
   if (prevResult === '1/2-1/2') {
-    Promise.all([
+    await Promise.all([
       db
         .update(players_to_tournaments)
         .set({
@@ -675,7 +675,7 @@ async function handleDraw(
   prevResult?: Result | null,
 ) {
   if (!prevResult) {
-    Promise.all([
+    await Promise.all([
       db
         .update(players_to_tournaments)
         .set({
@@ -700,7 +700,7 @@ async function handleDraw(
     ]);
   }
   if (prevResult === '1-0') {
-    Promise.all([
+    await Promise.all([
       db
         .update(players_to_tournaments)
         .set({
@@ -728,7 +728,7 @@ async function handleDraw(
     ]);
   }
   if (prevResult === '0-1') {
-    Promise.all([
+    await Promise.all([
       db
         .update(players_to_tournaments)
         .set({
@@ -764,7 +764,7 @@ async function handleResultReset(
   prevResult: Result,
 ) {
   if (prevResult === '1-0') {
-    Promise.all([
+    await Promise.all([
       db
         .update(players_to_tournaments)
         .set({
@@ -791,7 +791,7 @@ async function handleResultReset(
     ]);
   }
   if (prevResult === '0-1') {
-    Promise.all([
+    await Promise.all([
       db
         .update(players_to_tournaments)
         .set({
@@ -818,7 +818,7 @@ async function handleResultReset(
     ]);
   }
   if (prevResult === '1/2-1/2') {
-    Promise.all([
+    await Promise.all([
       db
         .update(players_to_tournaments)
         .set({
