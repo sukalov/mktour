@@ -161,6 +161,7 @@
 
 button {
   user-select: none;
+  cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -185,6 +186,7 @@ button {
   text-decoration: underline;
   text-underline-offset: 4px;
   transition: opacity 0.2s ease;
+  cursor: pointer;
 
   &:hover {
     opacity: 0.6;
