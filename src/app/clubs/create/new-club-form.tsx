@@ -31,6 +31,7 @@ export default function NewClubForm({ teams }: NewClubFormProps) {
       name: '',
       description: '',
       created_at: undefined,
+      set_default: false,
     },
   });
 
@@ -110,14 +111,10 @@ export interface TeamSlice {
   value: string;
 }
 
-export type NewClubForm = UseFormReturn<
-  {
-    name: string;
-    description?: string | undefined;
-    created_at: Date;
-    lichess_team?: string | undefined;
-    set_default?: boolean | undefined;
-  },
-  any,
-  undefined
->;
+export type NewClubForm = UseFormReturn<{
+  name: string;
+  description?: string | undefined;
+  created_at: Date;
+  lichess_team?: string | undefined;
+  set_default?: boolean | undefined;
+}>;

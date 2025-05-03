@@ -1,5 +1,4 @@
-import { saveRound } from '@/lib/actions/tournament-managing';
-import { TournamentInfo } from '@/types/tournaments';
+import { GameModel, TournamentInfo } from '@/types/tournaments';
 import { Message } from '@/types/ws-events';
 import {
   QueryClient,
@@ -19,18 +18,33 @@ export default function useSaveRound(props: SaveRoundMutationProps) {
   });
   return useMutation({
     mutationKey: [props.tournamentId, 'save-round'],
-    mutationFn: saveRound,
+    mutationFn: async ({
+      newGames,
+      roundNumber,
+    }: {
+      tournamentId: string;
+      newGames: GameModel[];
+      roundNumber: number;
+    }) =>
+      fetch(`/api/tournament/${props.tournamentId}/round/${roundNumber}`, {
+        method: 'POST',
+        body: JSON.stringify(newGames),
+      }),
     onMutate: ({ tournamentId, roundNumber, newGames }) => {
       if (props.isTournamentGoing) {
         props.setRoundInView(roundNumber);
       }
-      props.queryClient.setQueryData(
-        [tournamentId, 'tournament'],
-        (cache: TournamentInfo) => {
-          cache.tournament.ongoing_round = roundNumber;
-          return cache;
-        },
-      );
+      props.queryClient.cancelQueries({
+        queryKey: [tournamentId, 'games', { roundNumber }],
+      });
+      props.isTournamentGoing &&
+        props.queryClient.setQueryData(
+          [tournamentId, 'tournament'],
+          (cache: TournamentInfo) => {
+            cache.tournament.ongoing_round = roundNumber;
+            return cache;
+          },
+        );
       props.queryClient.setQueryData(
         [tournamentId, 'games', { roundNumber }],
         () => newGames,
@@ -44,16 +58,18 @@ export default function useSaveRound(props: SaveRoundMutationProps) {
           newGames,
           isTournamentGoing: props.isTournamentGoing,
         });
-        props.queryClient.invalidateQueries({
-          queryKey: [tournamentId, 'games', { roundNumber }],
-        });
-        props.isTournamentGoing &&
+        if (props.queryClient.isMutating() === 1) {
           props.queryClient.invalidateQueries({
-            queryKey: [tournamentId, 'tournament'],
+            queryKey: [tournamentId, 'games', { roundNumber }],
           });
-        props.queryClient.invalidateQueries({
-          queryKey: [tournamentId, 'games', 'all'],
-        });
+          props.isTournamentGoing &&
+            props.queryClient.invalidateQueries({
+              queryKey: [tournamentId, 'tournament'],
+            });
+          props.queryClient.invalidateQueries({
+            queryKey: [tournamentId, 'games', 'all'],
+          });
+        }
       }
     },
     onError: (_, { tournamentId, roundNumber }) => {

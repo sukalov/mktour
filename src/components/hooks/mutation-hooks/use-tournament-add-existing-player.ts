@@ -1,5 +1,5 @@
+import { AddExistingPlayerBody } from '@/app/api/tournament/[id]/add-existing-player/route';
 import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
-import { addExistingPlayer } from '@/lib/actions/tournament-managing';
 import { generateRoundRobinRoundFunction } from '@/lib/client-actions/round-robin-generator';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { shuffle } from '@/lib/utils';
@@ -23,7 +23,11 @@ export const useTournamentAddExistingPlayer = (
   });
   return useMutation({
     mutationKey: [tournamentId, 'players', 'add-existing'],
-    mutationFn: addExistingPlayer,
+    mutationFn: (body: AddExistingPlayerBody) =>
+      fetch(`/api/tournament/${tournamentId}/add-existing-player`, {
+        method: 'POST',
+        body: JSON.stringify(body),
+      }),
     onMutate: async ({ player }) => {
       await queryClient.cancelQueries({
         queryKey: [tournamentId, 'players'],
@@ -68,33 +72,45 @@ export const useTournamentAddExistingPlayer = (
       });
     },
     onSettled: () => {
-      queryClient.invalidateQueries({
-        queryKey: [tournamentId, 'players'],
-      });
+      if (
+        queryClient.isMutating({
+          mutationKey: [tournamentId, 'players', 'add-existing'],
+        }) === 1
+      ) {
+        queryClient.invalidateQueries({
+          queryKey: [tournamentId, 'players'],
+        });
+      }
     },
     onSuccess: (_err, _data, context) => {
       sendJsonMessage({ type: 'add-existing-player', body: context.newPlayer });
-      const newGames = generateRoundRobinRoundFunction({
-        players: shuffle(
-          queryClient.getQueryData([
+      if (
+        queryClient.isMutating({
+          mutationKey: [tournamentId, 'players', 'add-existing'],
+        }) === 1
+      ) {
+        const newGames = generateRoundRobinRoundFunction({
+          players: shuffle(
+            queryClient.getQueryData([
+              tournamentId,
+              'players',
+              'added',
+            ]) as PlayerModel[],
+          ),
+          games: queryClient.getQueryData([
             tournamentId,
-            'players',
-            'added',
-          ]) as PlayerModel[],
-        ),
-        games: queryClient.getQueryData([
+            'games',
+            'all',
+          ]) as GameModel[],
+          roundNumber: 1,
           tournamentId,
-          'games',
-          'all',
-        ]) as GameModel[],
-        roundNumber: 1,
-        tournamentId,
-      });
-      saveRound.mutate({ tournamentId, roundNumber: 1, newGames });
-      queryClient.setQueryData(
-        [tournamentId, 'games', { roundNumber: 1 }],
-        () => newGames.sort((a, b) => a.game_number - b.game_number),
-      );
+        });
+        saveRound.mutate({ tournamentId, roundNumber: 1, newGames });
+        queryClient.setQueryData(
+          [tournamentId, 'games', { roundNumber: 1 }],
+          () => newGames.sort((a, b) => a.game_number - b.game_number),
+        );
+      }
     },
   });
 };

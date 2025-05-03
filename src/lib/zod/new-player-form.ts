@@ -11,8 +11,7 @@ export const newPlayerFormSchema = z
       })
       .max(3000, {
         message: 'max rating',
-      })
-      .default(1500),
+      }),
     club_id: z.string(),
   })
   .refine(

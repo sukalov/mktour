@@ -56,3 +56,39 @@ export function shuffle(array: any[]) {
   }
   return copy;
 }
+/**
+ * Creates a debounced function that delays invoking the provided function
+ * until after 'wait' milliseconds have elapsed since the last time it was invoked.
+ *
+ * @param func - The function to debounce
+ * @param wait - The number of milliseconds to delay
+ * @param immediate - If true, trigger the function on the leading edge instead of the trailing edge
+ * @returns A debounced version of the provided function
+ */
+export function debounce<T extends (..._args: any[]) => any>(
+  func: T,
+  wait: number,
+  immediate = false,
+): (..._args: Parameters<T>) => void {
+  let timeout: ReturnType<typeof setTimeout> | null = null;
+
+  // eslint-disable-next-line no-unused-vars
+  return function (this: any, ...args: Parameters<T>): void {
+    const context = this;
+
+    const later = function () {
+      timeout = null;
+      if (!immediate) func.apply(context, args);
+    };
+
+    const callNow = immediate && !timeout;
+
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+
+    timeout = setTimeout(later, wait);
+
+    if (callNow) func.apply(context, args);
+  };
+}

@@ -24,21 +24,22 @@ import {
 import { aliasedTable, and, eq, isNotNull, isNull, ne, sql } from 'drizzle-orm';
 import { permanentRedirect } from 'next/navigation';
 
-export const createTournament = async (values: NewTournamentFormType) => {
+export const createTournament = async (
+  values: Omit<NewTournamentFormType, 'date'> & {
+    date: string;
+  },
+) => {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   const newTournamentID = newid();
   const newTournament: DatabaseTournament = {
     ...values,
-    date: new Date(values.date).toISOString().slice(0, 10),
     id: newTournamentID,
     created_at: new Date(),
     closed_at: null,
     started_at: null,
-    club_id: values.club_id,
     rounds_number: null,
     ongoing_round: 1,
-    rated: values.rated,
   };
   try {
     await db.insert(tournaments).values(newTournament);
@@ -48,6 +49,7 @@ export const createTournament = async (values: NewTournamentFormType) => {
   permanentRedirect(`/tournaments/${newTournamentID}`);
 };
 
+// moved to API endpoint
 export async function getTournamentPlayers(
   id: string,
 ): Promise<Array<PlayerModel>> {
@@ -75,6 +77,7 @@ export async function getTournamentPlayers(
   );
 }
 
+// decided to keep using server action for this one not to face problems with dates serialization
 export async function getTournamentInfo(id: string): Promise<TournamentInfo> {
   const tournamentInfo = (
     await db
@@ -88,6 +91,7 @@ export async function getTournamentInfo(id: string): Promise<TournamentInfo> {
   return tournamentInfo;
 }
 
+// moved to API endpoint
 export async function getTournamentPossiblePlayers(
   id: string,
 ): Promise<Array<DatabasePlayer>> {
@@ -160,6 +164,7 @@ export async function addNewPlayer({
   await db.insert(players_to_tournaments).values(playerToTournament);
 }
 
+// moved to API endpoint
 export async function addExistingPlayer({
   tournamentId,
   player,
@@ -218,6 +223,7 @@ export async function getTournamentGames(
   return gamesDb.sort((a, b) => a.game_number - b.game_number);
 }
 
+// moved to API endpoint
 export async function getTournamentRoundGames({
   tournamentId,
   roundNumber,
@@ -467,7 +473,7 @@ export async function setTournamentGameResult({
   ).at(0);
   if (tournament?.started_at === null) return 'TOURNAMENT_NOT_STARTED';
   if (result === prevResult) {
-    Promise.all([
+    await Promise.all([
       handleResultReset(whiteId, blackId, tournamentId, prevResult),
       db.update(games).set({ result: null }).where(eq(games.id, gameId)),
     ]);
@@ -483,7 +489,7 @@ export async function setTournamentGameResult({
   if (result === '1/2-1/2') {
     handler = handleDraw(whiteId, blackId, tournamentId, prevResult);
   }
-  Promise.all([
+  await Promise.all([
     handler,
     db.update(games).set({ result }).where(eq(games.id, gameId)),
   ]);
@@ -496,7 +502,7 @@ async function handleWhiteWin(
   prevResult?: Result | null,
 ) {
   if (!prevResult) {
-    Promise.all([
+    await Promise.all([
       db
         .update(players_to_tournaments)
         .set({
@@ -521,7 +527,7 @@ async function handleWhiteWin(
     ]);
   }
   if (prevResult === '0-1') {
-    Promise.all([
+    await Promise.all([
       db
         .update(players_to_tournaments)
         .set({
@@ -549,7 +555,7 @@ async function handleWhiteWin(
     ]);
   }
   if (prevResult === '1/2-1/2') {
-    Promise.all([
+    await Promise.all([
       db
         .update(players_to_tournaments)
         .set({
@@ -585,7 +591,7 @@ async function handleBlackWin(
   prevResult?: Result | null,
 ) {
   if (!prevResult) {
-    Promise.all([
+    await Promise.all([
       db
         .update(players_to_tournaments)
         .set({
@@ -610,7 +616,7 @@ async function handleBlackWin(
     ]);
   }
   if (prevResult === '1-0') {
-    Promise.all([
+    await Promise.all([
       db
         .update(players_to_tournaments)
         .set({
@@ -638,7 +644,7 @@ async function handleBlackWin(
     ]);
   }
   if (prevResult === '1/2-1/2') {
-    Promise.all([
+    await Promise.all([
       db
         .update(players_to_tournaments)
         .set({
@@ -674,7 +680,7 @@ async function handleDraw(
   prevResult?: Result | null,
 ) {
   if (!prevResult) {
-    Promise.all([
+    await Promise.all([
       db
         .update(players_to_tournaments)
         .set({
@@ -699,7 +705,7 @@ async function handleDraw(
     ]);
   }
   if (prevResult === '1-0') {
-    Promise.all([
+    await Promise.all([
       db
         .update(players_to_tournaments)
         .set({
@@ -727,7 +733,7 @@ async function handleDraw(
     ]);
   }
   if (prevResult === '0-1') {
-    Promise.all([
+    await Promise.all([
       db
         .update(players_to_tournaments)
         .set({
@@ -763,7 +769,7 @@ async function handleResultReset(
   prevResult: Result,
 ) {
   if (prevResult === '1-0') {
-    Promise.all([
+    await Promise.all([
       db
         .update(players_to_tournaments)
         .set({
@@ -790,7 +796,7 @@ async function handleResultReset(
     ]);
   }
   if (prevResult === '0-1') {
-    Promise.all([
+    await Promise.all([
       db
         .update(players_to_tournaments)
         .set({
@@ -817,7 +823,7 @@ async function handleResultReset(
     ]);
   }
   if (prevResult === '1/2-1/2') {
-    Promise.all([
+    await Promise.all([
       db
         .update(players_to_tournaments)
         .set({
@@ -921,4 +927,14 @@ export async function deleteTournament({
   await Promise.all(queries);
   await db.delete(tournaments).where(eq(tournaments.id, tournamentId));
   permanentRedirect('/tournaments/my');
+}
+
+export async function resetTournamentPlayers({
+  tournamentId,
+}: {
+  tournamentId: string;
+}) {
+  await db
+    .delete(players_to_tournaments)
+    .where(eq(players_to_tournaments.tournament_id, tournamentId));
 }
