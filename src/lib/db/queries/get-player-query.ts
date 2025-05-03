@@ -21,7 +21,6 @@ export default async function getPlayerQuery(
       .leftJoin(users, eq(players.user_id, users.id))
   ).at(0) as PlayerToClubLeftJoin;
 
-  if (!result?.player || !result?.club) return undefined;
   return result;
 }
 

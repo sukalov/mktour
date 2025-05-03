@@ -12,8 +12,9 @@ import { notFound } from 'next/navigation';
 export default async function PlayerPage(props: PlayerPageProps) {
   const params = await props.params;
   const { user } = await validateRequest();
-  const { player, club } = await getPlayerQuery(params.id);
-  if (!player || !club) notFound();
+  const data = await getPlayerQuery(params.id);
+  if (!data) notFound();
+  const { player, club } = data;
 
   let status: StatusInClub | undefined | 'owner';
   status = user ? await getStatus({ user, club }) : undefined;
