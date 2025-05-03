@@ -12,7 +12,7 @@ const ClubCard: FC<ClubProps> = ({ club }) => {
 
   return (
     <Card className="mk-card flex flex-col shadow-lg">
-      <CardTitle className="flex items-center gap-2 text-base">
+      <CardTitle className="flex items-center gap-2 text-sm">
         <Link href={`/clubs/${club.id}`}>{club.name}</Link>
         {club.lichess_team && (
           <Link
