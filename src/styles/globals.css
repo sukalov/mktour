@@ -173,7 +173,7 @@ button {
 }
 
 @utility mk-card {
-  padding: calc(var(--spacing) * 4);
+  padding: calc(var(--spacing) * 2);
 }
 
 @utility mk-list {
