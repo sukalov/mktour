@@ -49,6 +49,7 @@ export const createTournament = async (
   permanentRedirect(`/tournaments/${newTournamentID}`);
 };
 
+// moved to API endpoint
 export async function getTournamentPlayers(
   id: string,
 ): Promise<Array<PlayerModel>> {
@@ -76,6 +77,7 @@ export async function getTournamentPlayers(
   );
 }
 
+// decided to keep using server action for this one not to face problems with dates serialization
 export async function getTournamentInfo(id: string): Promise<TournamentInfo> {
   const tournamentInfo = (
     await db
@@ -89,6 +91,7 @@ export async function getTournamentInfo(id: string): Promise<TournamentInfo> {
   return tournamentInfo;
 }
 
+// moved to API endpoint
 export async function getTournamentPossiblePlayers(
   id: string,
 ): Promise<Array<DatabasePlayer>> {
@@ -161,6 +164,7 @@ export async function addNewPlayer({
   await db.insert(players_to_tournaments).values(playerToTournament);
 }
 
+// moved to API endpoint
 export async function addExistingPlayer({
   tournamentId,
   player,
@@ -219,6 +223,7 @@ export async function getTournamentGames(
   return gamesDb.sort((a, b) => a.game_number - b.game_number);
 }
 
+// moved to API endpoint
 export async function getTournamentRoundGames({
   tournamentId,
   roundNumber,
