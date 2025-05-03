@@ -1,5 +1,5 @@
 import { db } from '@/lib/db';
-import { users } from '@/lib/db/schema/auth';
+import { DatabaseUser, users } from '@/lib/db/schema/auth';
 import {
   clubs,
   DatabaseClub,
@@ -7,11 +7,10 @@ import {
   players,
 } from '@/lib/db/schema/tournaments';
 import { eq } from 'drizzle-orm';
-import { DatabaseUser } from 'lucia';
 
 export default async function getPlayerQuery(
   id: string,
-): Promise<PlayerToClubLeftJoin | undefined> {
+): Promise<PlayerToClubLeftJoin> {
   const result = (
     await db
       .select()
@@ -21,7 +20,6 @@ export default async function getPlayerQuery(
       .leftJoin(users, eq(players.user_id, users.id))
   ).at(0) as PlayerToClubLeftJoin;
 
-  if (!result?.player || !result?.club) return undefined;
   return result;
 }
 
