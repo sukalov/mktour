@@ -3,6 +3,8 @@ import { players, players_to_tournaments } from '@/lib/db/schema/tournaments';
 import { eq } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
@@ -36,6 +38,7 @@ export async function GET(
       status: 200,
       headers: {
         'content-type': 'application/json',
+        'cache-control': 'no-store, no-cache, max-age=0, must-revalidate',
       },
     });
   } catch (error) {
@@ -47,6 +50,7 @@ export async function GET(
         status: 500,
         headers: {
           'content-type': 'application/json',
+          'cache-control': 'no-store, no-cache, max-age=0, must-revalidate',
         },
       },
     );

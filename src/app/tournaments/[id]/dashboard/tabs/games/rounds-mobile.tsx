@@ -8,7 +8,7 @@ import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament
 import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
 import Overlay from '@/components/overlay';
 import SkeletonList from '@/components/skeleton-list';
-import { useMutationState } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { FC, useContext } from 'react';
@@ -16,6 +16,7 @@ import { FC, useContext } from 'react';
 const RoundsMobile: FC = () => {
   const { currentTab, roundInView, setRoundInView, selectedGameId } =
     useContext(DashboardContext);
+  const queryClient = useQueryClient();
   const { id } = useParams<{ id: string }>();
   const { data, isError, isLoading } = useTournamentInfo(id);
   const {
@@ -23,9 +24,6 @@ const RoundsMobile: FC = () => {
     isLoading: isPlayersloading,
     isError: isPlayersError,
   } = useTournamentPlayers(id);
-  const mutations = useMutationState({
-    filters: { status: 'pending' },
-  });
   const t = useTranslations('Tournament.Round');
   const now = new Date().getTime();
   const startedAt = data?.tournament.started_at
@@ -46,7 +44,12 @@ const RoundsMobile: FC = () => {
     );
   }
 
-  if (isLoading || isPlayersloading || mutations.length > 1) {
+  if (
+    isLoading ||
+    isPlayersloading ||
+    queryClient.isMutating({ mutationKey: [id, 'save-round'] }) > 1 ||
+    queryClient.isMutating({ mutationKey: [id, 'players', 'add-existing'] }) > 0
+  ) {
     return (
       <div>
         <RoundControls
