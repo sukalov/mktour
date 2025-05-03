@@ -5,14 +5,17 @@ import FormattedMessage from '@/components/formatted-message';
 import { validateRequest } from '@/lib/auth/lucia';
 import getPlayerQuery from '@/lib/db/queries/get-player-query';
 import getStatus from '@/lib/db/queries/get-status-query';
+import { DatabaseUser } from '@/lib/db/schema/auth';
 import { StatusInClub } from '@/lib/db/schema/tournaments';
+import { User2 } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { FC } from 'react';
 
 export default async function PlayerPage(props: PlayerPageProps) {
   const params = await props.params;
   const { user } = await validateRequest();
-  const { player, club } = await getPlayerQuery(params.id);
+  const { player, club, user: playerUser } = await getPlayerQuery(params.id);
   if (!player || !club) notFound();
 
   const status: StatusInClub | undefined = user
@@ -24,58 +27,69 @@ export default async function PlayerPage(props: PlayerPageProps) {
   const canClaim = status !== 'admin' && user && !player.user_id;
 
   return (
-    <div className="mk-container">
-      <div className="flex w-full flex-col gap-4">
-        <div className="flex w-full items-center justify-between border-b-2 pb-2 pl-2">
+    <div className="mk-container flex w-full flex-col gap-4">
+      <div className="flex w-full items-center justify-between border-b-2 pb-2 pl-2">
+        <div className="flex flex-col">
           <span className="truncate text-2xl font-semibold text-wrap">
             {player.nickname}
           </span>
-          {user && (
-            <div className="text-muted-foreground flex self-end">
-              {canEdit && (
-                <>
-                  <EditButton userId={user.id} player={player} />
-                  <DeletePlayer userId={user.id} />
-                </>
-              )}
-              {canClaim && <ClaimPlayer userId={user.id} />}
-            </div>
-          )}
+          <UserLink user={playerUser} />
         </div>
-        <div className="flex flex-col gap-2 pl-2">
-          {player.realname && (
-            <span className="text-lg">{player.realname}</span>
-          )}
-          <span>
-            <FormattedMessage id="Player.rating" />
-            {': '}
-            {player.rating}
-          </span>
+        {user && (
+          <div className="text-muted-foreground flex self-end">
+            {canEdit && (
+              <>
+                <EditButton userId={user.id} player={player} />
+                <DeletePlayer userId={user.id} />
+              </>
+            )}
+            {canClaim && <ClaimPlayer userId={user.id} />}
+          </div>
+        )}
+      </div>
+      <div className="flex flex-col gap-2 pl-2">
+        {player.realname && <span className="text-lg">{player.realname}</span>}
+        <span>
+          <FormattedMessage id="Player.rating" />
+          {': '}
+          {player.rating}
+        </span>
+        <p>
+          <FormattedMessage id="Player.club" />
+          {': '}
+          <Link className="mk-link" href={`/clubs/${player.club_id}`}>
+            {club.name}
+          </Link>
+        </p>
+        {player.user_id && (
           <p>
-            <FormattedMessage id="Player.club" />
+            <FormattedMessage id="Player.lichess" />
             {': '}
-            <Link className="mk-link" href={`/clubs/${player.club_id}`}>
-              {club.name}
+            <Link
+              href={`https://lichess.org/@/${player.nickname}`}
+              target="_blank"
+              className="mk-link"
+            >
+              {player.nickname}
             </Link>
           </p>
-          {player.user_id && (
-            <p>
-              <FormattedMessage id="Player.lichess" />
-              {': '}
-              <Link
-                href={`https://lichess.org/@/${player.nickname}`}
-                target="_blank"
-                className="mk-link"
-              >
-                {player.nickname}
-              </Link>
-            </p>
-          )}
-        </div>
+        )}
       </div>
     </div>
   );
 }
+
+const UserLink: FC<{ user: DatabaseUser | null }> = ({ user }) => {
+  if (!user) return null;
+  return (
+    <Link href={`/user/${user.username}`}>
+      <span className="mk-link text-muted-foreground flex gap-1 truncate text-xs text-wrap">
+        <User2 className="size-4" />
+        <span>{user.username}</span>
+      </span>
+    </Link>
+  );
+};
 
 export interface PlayerPageProps {
   params: Promise<{ id: string }>;
