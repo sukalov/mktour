@@ -61,16 +61,16 @@ export default async function PlayerPage(props: PlayerPageProps) {
             {club.name}
           </Link>
         </p>
-        {player.user_id && (
+        {playerUser && (
           <p>
             <FormattedMessage id="Player.lichess" />
             {': '}
             <Link
-              href={`https://lichess.org/@/${player.nickname}`}
+              href={`https://lichess.org/@/${playerUser.username}`}
               target="_blank"
               className="mk-link"
             >
-              {player.nickname}
+              {playerUser.username}
             </Link>
           </p>
         )}
