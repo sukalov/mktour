@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+const ReactComponentName = require('react-scan/react-component-name/webpack');
 const MillionLint = require('@million/lint');
 const withPlugins = require('next-compose-plugins');
 const createNextIntlPlugin = require('next-intl/plugin');
@@ -14,6 +15,10 @@ const nextConfig = {
     fetches: {
       fullUrl: true,
     },
+  },
+  webpack: (config) => {
+    config.plugins.push(ReactComponentName({}));
+    return config;
   },
 };
 const withNextIntl = createNextIntlPlugin('./src/components/i18n.ts');
