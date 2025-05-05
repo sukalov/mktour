@@ -1,8 +1,8 @@
-import ReactComponentName from 'react-scan/react-component-name/webpack';
 import MillionLint from '@million/lint';
+import withBundleAnalyzer from '@next/bundle-analyzer';
 import withPlugins from 'next-compose-plugins';
 import createNextIntlPlugin from 'next-intl/plugin';
-import withBundleAnalyzer from '@next/bundle-analyzer';
+import ReactComponentName from 'react-scan/react-component-name/webpack';
 
 /** @type {import('next').NextConfig} */
 const bundleAnalyzer = withBundleAnalyzer({
@@ -18,10 +18,6 @@ const nextConfig = {
     fetches: {
       fullUrl: true,
     },
-  },
-  webpack: (config) => {
-    config.plugins.push(ReactComponentName({}));
-    return config;
   },
 };
 
@@ -39,4 +35,7 @@ const withPWA = nextPWA({
 
 export default process.env.OPT === 'true'
   ? MillionLint.next({ rsc: true })(nextConfig)
-  : withPlugins([[bundleAnalyzer], [withNextIntl], [withPWA]], nextConfig);
+  : withPlugins(
+      [[bundleAnalyzer], [withNextIntl], [withPWA], [ReactComponentName]],
+      nextConfig,
+    );
