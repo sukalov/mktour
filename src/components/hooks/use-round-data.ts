@@ -14,7 +14,7 @@ export const useRoundData = (
       scores.set(player.id, score);
     });
     return scores;
-  }, [players]);
+  }, [round, players]);
 
   const sortedRound = useMemo(() => {
     if (!round || !players) return [];
@@ -33,7 +33,7 @@ export const useRoundData = (
 
       return bFinalScore - aFinalScore;
     });
-  }, [round, playerScores]);
+  }, [players, round, playerScores]);
 
   const ongoingGames = useMemo(() => {
     if (!round || !players) return 0;
@@ -42,7 +42,7 @@ export const useRoundData = (
       (acc, current) => (current.result === null ? acc + 1 : acc),
       0,
     );
-  }, [round]);
+  }, [players, round]);
 
   return { playerScores, sortedRound, ongoingGames };
 };
