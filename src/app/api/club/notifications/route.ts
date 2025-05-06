@@ -1,7 +1,7 @@
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
-import { notifications } from '@/lib/db/schema/notifications';
-import { and, eq } from 'drizzle-orm';
+import { affiliations, notifications } from '@/lib/db/schema/notifications';
+import { and, eq, sql } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
@@ -25,9 +25,12 @@ export async function GET() {
           eq(notifications.club_id, selectedClub),
           eq(notifications.for_whom, 'club'),
         ),
+      )
+      .leftJoin(
+        affiliations,
+        sql`json_extract(${notifications.metadata}, '$.affiliation_id') = ${affiliations.id}`,
       );
 
-    console.log(notifications.metadata.getSQL);
     return new Response(JSON.stringify(clubNotifications), {
       status: 200,
       headers: {
