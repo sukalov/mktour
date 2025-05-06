@@ -1,4 +1,3 @@
-import MillionLint from '@million/lint';
 import withBundleAnalyzer from '@next/bundle-analyzer';
 import withPlugins from 'next-compose-plugins';
 import createNextIntlPlugin from 'next-intl/plugin';
@@ -19,6 +18,10 @@ const nextConfig = {
       fullUrl: true,
     },
   },
+  webpack: (config) => {
+    config.plugins.push(ReactComponentName({}));
+    return config;
+  },
 };
 
 const withNextIntl = createNextIntlPlugin('./src/components/i18n.ts');
@@ -33,9 +36,7 @@ const withPWA = nextPWA({
   register: true,
 });
 
-export default process.env.OPT === 'true'
-  ? MillionLint.next({ rsc: true })(nextConfig)
-  : withPlugins(
-      [[bundleAnalyzer], [withNextIntl], [withPWA], [ReactComponentName]],
-      nextConfig,
-    );
+export default withPlugins(
+  [[bundleAnalyzer], [withNextIntl], [withPWA]],
+  nextConfig,
+);

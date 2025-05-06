@@ -1,8 +1,8 @@
-import plugin from 'tailwindcss/plugin';
+const plugin = require('tailwindcss/plugin');
 
 /** @type {import('tailwindcss').Config} */
 
-export default {
+module.exports = {
   darkMode: ['class'],
   content: [
     './pages/**/*.{ts,tsx}',
