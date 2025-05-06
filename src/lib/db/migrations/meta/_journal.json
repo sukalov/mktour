@@ -15,6 +15,13 @@
       "when": 1746519682054,
       "tag": "0001_luxuriant_bucky",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1746554440039,
+      "tag": "0002_easy_flatman",
+      "breakpoints": true
     }
   ]
 }

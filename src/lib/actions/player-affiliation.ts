@@ -56,7 +56,7 @@ export async function requestAffiliation({
     id: newid(),
     user_id: userId,
     club_id: clubId,
-    sent_by: 'user',
+    for_whom: 'club',
     notification_type: 'affiliation_request',
     is_seen: false,
     created_at,
