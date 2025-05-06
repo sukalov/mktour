@@ -15,7 +15,7 @@ export const players = sqliteTable(
     id: text('id').primaryKey(),
     nickname: text('nickname').notNull(),
     realname: text('realname'),
-    user_username: text('user_username').references(() => users.username),
+    user_id: text('user_id').references(() => users.username),
     rating: int('rating').notNull(),
     club_id: text('club_id')
       .references(() => clubs.id)
@@ -27,6 +27,7 @@ export const players = sqliteTable(
       table.nickname,
       table.club_id,
     ),
+    uniqueIndex('player_user_club_unique_idx').on(table.user_id, table.club_id),
   ],
 );
 
@@ -48,7 +49,9 @@ export const tournaments = sqliteTable('tournament', {
   ongoing_round: integer('ongoing_round')
     .$default(() => 1)
     .notNull(),
-  rated: integer('rated', { mode: 'boolean' }),
+  rated: integer('rated', { mode: 'boolean' })
+    .notNull()
+    .$default(() => false),
 });
 
 export const clubs = sqliteTable('club', {

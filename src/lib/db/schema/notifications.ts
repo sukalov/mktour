@@ -39,8 +39,8 @@ export const affiliations = sqliteTable(
   'affiliation',
   {
     id: text('id').primaryKey(),
-    lichess_username: text('user_id')
-      .references(() => users.username, { onDelete: 'cascade' })
+    user_id: text('user_id')
+      .references(() => users.id, { onDelete: 'cascade' })
       .notNull(),
     club_id: text('club_id')
       .references(() => clubs.id, { onDelete: 'cascade' })
@@ -58,7 +58,7 @@ export const affiliations = sqliteTable(
   },
   (table) => [
     uniqueIndex('affiliation_user_club_unique_idx').on(
-      table.lichess_username,
+      table.user_id,
       table.club_id,
     ),
   ],
@@ -66,7 +66,7 @@ export const affiliations = sqliteTable(
 
 // all notifications are stored in one table
 // each notifiation is an interaction between a club and a user
-// on of them is trigger, the other receives the notification
+// one of them is trigger, the other receives the notification
 export const notifications = sqliteTable('notification', {
   id: text('id').primaryKey(),
   created_at: integer('created_at', { mode: 'timestamp' })
@@ -92,16 +92,16 @@ export const notifications = sqliteTable('notification', {
 
 export const affiliations_relations = relations(affiliations, ({ one }) => ({
   user: one(users, {
-    fields: [affiliations.lichess_username],
+    fields: [affiliations.user_id],
     references: [users.id],
   }),
   club: one(clubs, {
     fields: [affiliations.club_id],
     references: [clubs.id],
   }),
-  player: one(users, {
+  player: one(players, {
     fields: [affiliations.player_id],
-    references: [users.id],
+    references: [players.id],
   }),
 }));
 
@@ -137,7 +137,7 @@ export type InsertDatabaseNotification = InferInsertModel<typeof notifications>;
 
 // Example Usage Flow:
 // 1. User clicks "Request Affiliation" for Club X.
-//    - Application creates an `affiliations` record: { user_id: user.id, club_id: clubX.id, status: 'pending', ... }
+//    - Application creates an `affiliations` record: { user_id: user.id, club_id: clubX.id, player_id: player.id, status: 'pending', ... }
 //    - Application creates a `notifications` record: { user_id: user.id, club_id: clubX.id, sent_by: 'user', notification_type: 'affiliation_request', metadata: { affiliation_id: newAffiliation.id }, ... }
 //      (This notification is *for* the club).
 // 2. Club Admin sees the request notification and approves it.

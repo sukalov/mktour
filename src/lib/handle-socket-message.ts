@@ -79,7 +79,7 @@ export const handleSocketMessage = (
           realname: removedPlayer.realname,
           rating: removedPlayer.rating,
           club_id: '',
-          user_username: null,
+          user_id: null,
         };
         queryClient.setQueryData(
           [tournamentId, 'players', 'possible'],

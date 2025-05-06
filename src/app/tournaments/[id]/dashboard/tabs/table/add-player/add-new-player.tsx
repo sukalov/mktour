@@ -74,7 +74,7 @@ const AddNewPlayer = ({
       nickname: data.name,
       realname: data.name,
       rating: data.rating,
-      user_username: null,
+      user_id: null,
       last_seen: 0,
     };
     mutate({ tournamentId: id, player: newPlayer, userId });
