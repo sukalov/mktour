@@ -15,7 +15,7 @@ export const players = sqliteTable(
     id: text('id').primaryKey(),
     nickname: text('nickname').notNull(),
     realname: text('realname'),
-    user_lichess: text('user_lichess').references(() => users.username),
+    user_username: text('user_username').references(() => users.username),
     rating: int('rating').notNull(),
     club_id: text('club_id')
       .references(() => clubs.id)

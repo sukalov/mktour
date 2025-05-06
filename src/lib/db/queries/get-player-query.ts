@@ -17,7 +17,7 @@ export default async function getPlayerQuery(
       .from(players)
       .where(eq(players.id, id))
       .leftJoin(clubs, eq(players.club_id, clubs.id))
-      .leftJoin(users, eq(players.user_id, users.id))
+      .leftJoin(users, eq(players.user_username, users.username))
   ).at(0) as PlayerToClubLeftJoin;
 
   return result;

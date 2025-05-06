@@ -35,7 +35,10 @@ export const getStatusInTournament = cache(
     ).at(0)?.status;
     if (dbStatus) return 'organizer';
     const player = (
-      await db.select().from(players).where(eq(players.user_id, user.id))
+      await db
+        .select()
+        .from(players)
+        .where(eq(players.user_username, user.username))
     ).at(0);
     if (!player) return 'viewer';
     const isHere = (

@@ -34,7 +34,7 @@ const AddFakerPlayer: FC<{ setOpen: (_arg: boolean) => void }> = ({
     nickname,
     realname: null,
     club_id: tournament.data?.club?.id!,
-    user_id: null,
+    user_username: null,
     rating: faker.number.int({ min: 100, max: 3000 }),
     last_seen: null,
   };

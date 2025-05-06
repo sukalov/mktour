@@ -5,6 +5,7 @@ import Empty from '@/components/empty';
 import { useClubPlayers } from '@/components/hooks/query-hooks/use-club-players';
 import SkeletonList from '@/components/skeleton-list';
 import { Card } from '@/components/ui/card';
+import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { FC } from 'react';
@@ -21,11 +22,11 @@ const ClubPlayersList: FC<ClubTabProps> = ({ selectedClub }) => {
   return <div className="mk-list">{players.data.map(PlayerItemIteratee)}</div>;
 };
 
-const PlayerItemIteratee = (player: PlayerProps) => {
+const PlayerItemIteratee = (player: DatabasePlayer) => {
   return <PlayerItem player={player} key={player.id} />;
 };
 
-const PlayerItem: FC<{ player: PlayerProps }> = ({ player }) => {
+const PlayerItem: FC<{ player: DatabasePlayer }> = ({ player }) => {
   // const t = useTranslations();
   // const formatter = useFormatter();
   const { id, nickname, rating } = player;
@@ -45,16 +46,6 @@ const PlayerItem: FC<{ player: PlayerProps }> = ({ player }) => {
       </Card>
     </Link>
   );
-};
-
-type PlayerProps = {
-  id: string;
-  nickname: string;
-  realname: string | null;
-  user_id: string | null;
-  rating: number | null;
-  club_id: string;
-  last_seen: number | null;
 };
 
 export default ClubPlayersList;

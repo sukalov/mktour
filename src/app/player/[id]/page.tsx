@@ -22,9 +22,9 @@ export default async function PlayerPage(props: PlayerPageProps) {
     ? await getStatus({ user, club })
     : undefined;
 
-  const isOwnPlayer = user && player.user_id === user.id;
+  const isOwnPlayer = user && player.user_username === user.username;
   const canEdit = status === 'admin' || isOwnPlayer;
-  const canClaim = status !== 'admin' && user && !player.user_id;
+  const canClaim = status !== 'admin' && user && !player.user_username;
 
   return (
     <div className="mk-container flex w-full flex-col gap-2">
