@@ -2,13 +2,12 @@
 
 import { Card, CardTitle } from '@/components/ui/card';
 import LichessLogo from '@/components/ui/lichess-logo';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 
 const ClubCard: FC<ClubProps> = ({ club }) => {
-  const locale = useLocale();
   const router = useRouter();
   const t = useTranslations();
 
