@@ -1,19 +1,34 @@
 import { users } from '@/lib/db/schema/auth';
 import { Format, Result, RoundName, TournamentType } from '@/types/tournaments';
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
-import { int, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import {
+  int,
+  integer,
+  sqliteTable,
+  text,
+  uniqueIndex,
+} from 'drizzle-orm/sqlite-core';
 
-export const players = sqliteTable('player', {
-  id: text('id').primaryKey(),
-  nickname: text('nickname').notNull(),
-  realname: text('realname'),
-  user_id: text('user_id').references(() => users.id),
-  rating: int('rating').notNull(),
-  club_id: text('club_id')
-    .references(() => clubs.id)
-    .notNull(), // TODO: add constraint on combination fo club_id and nickname
-  last_seen: integer('last_seen'), // equals closed_at() last tournament they participated
-});
+export const players = sqliteTable(
+  'player',
+  {
+    id: text('id').primaryKey(),
+    nickname: text('nickname').notNull(),
+    realname: text('realname'),
+    user_lichess: text('user_lichess').references(() => users.username),
+    rating: int('rating').notNull(),
+    club_id: text('club_id')
+      .references(() => clubs.id)
+      .notNull(),
+    last_seen: integer('last_seen'), // equals closed_at() last tournament they participated
+  },
+  (table) => [
+    uniqueIndex('player_nickname_club_unique_idx').on(
+      table.nickname,
+      table.club_id,
+    ),
+  ],
+);
 
 export const tournaments = sqliteTable('tournament', {
   id: text('id').primaryKey(),
