@@ -16,7 +16,7 @@ export interface PlayerModel {
   draws: number;
   losses: number;
   color_index: number;
-  exited: boolean | null;
+  is_out: boolean | null;
   place: number | null;
 }
 

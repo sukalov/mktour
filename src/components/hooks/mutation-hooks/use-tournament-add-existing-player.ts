@@ -45,7 +45,7 @@ export const useTournamentAddExistingPlayer = (
         draws: 0,
         color_index: 0,
         place: null,
-        exited: null,
+        is_out: null,
       };
 
       queryClient.setQueryData(

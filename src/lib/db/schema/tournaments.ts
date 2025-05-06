@@ -1,19 +1,36 @@
 import { users } from '@/lib/db/schema/auth';
+import { affiliations, notifications } from '@/lib/db/schema/notifications';
 import { Format, Result, RoundName, TournamentType } from '@/types/tournaments';
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
-import { int, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import {
+  int,
+  integer,
+  sqliteTable,
+  text,
+  uniqueIndex,
+} from 'drizzle-orm/sqlite-core';
 
-export const players = sqliteTable('player', {
-  id: text('id').primaryKey(),
-  nickname: text('nickname').notNull(),
-  realname: text('realname'),
-  user_id: text('user_id').references(() => users.id),
-  rating: int('rating').notNull(),
-  club_id: text('club_id')
-    .references(() => clubs.id)
-    .notNull(), // TODO: add constraint on combination fo club_id and nickname
-  last_seen: integer('last_seen'), // equals closed_at() last tournament they participated
-});
+export const players = sqliteTable(
+  'player',
+  {
+    id: text('id').primaryKey(),
+    nickname: text('nickname').notNull(),
+    realname: text('realname'),
+    user_id: text('user_id').references(() => users.username),
+    rating: int('rating').notNull(),
+    club_id: text('club_id')
+      .references(() => clubs.id)
+      .notNull(),
+    last_seen: integer('last_seen'), // equals closed_at() last tournament they participated
+  },
+  (table) => [
+    uniqueIndex('player_nickname_club_unique_idx').on(
+      table.nickname,
+      table.club_id,
+    ),
+    uniqueIndex('player_user_club_unique_idx').on(table.user_id, table.club_id),
+  ],
+);
 
 export const tournaments = sqliteTable('tournament', {
   id: text('id').primaryKey(),
@@ -33,7 +50,9 @@ export const tournaments = sqliteTable('tournament', {
   ongoing_round: integer('ongoing_round')
     .$default(() => 1)
     .notNull(),
-  rated: integer('rated', { mode: 'boolean' }),
+  rated: integer('rated', { mode: 'boolean' })
+    .notNull()
+    .$default(() => false),
 });
 
 export const clubs = sqliteTable('club', {
@@ -77,7 +96,7 @@ export const players_to_tournaments = sqliteTable('players_to_tournaments', {
     .$default(() => 0)
     .notNull(),
   place: int('place'),
-  out: int('out', { mode: 'boolean' }),
+  is_out: int('is_out', { mode: 'boolean' }),
   pairing_number: int('pairing_number'),
 });
 
@@ -103,6 +122,8 @@ export const games = sqliteTable('game', {
 export const clubs_relations = relations(clubs, ({ many }) => ({
   tournaments: many(tournaments),
   players: many(players),
+  notifications: many(notifications), // user can be involved in many notifications
+  affiliations: many(affiliations),
 }));
 
 export const players_relations = relations(players, ({ one, many }) => ({

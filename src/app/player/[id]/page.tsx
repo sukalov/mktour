@@ -43,7 +43,7 @@ export default async function PlayerPage(props: PlayerPageProps) {
                 <DeletePlayer userId={user.id} />
               </>
             )}
-            {canClaim && <ClaimPlayer userId={user.id} />}
+            {canClaim && <ClaimPlayer userId={user.id} clubId={club.id} />}
           </div>
         )}
       </div>
