@@ -20,7 +20,7 @@ const Menu: FC<{ user: User | null }> = ({ user }) => {
   const pathname = usePathname();
   const handleSignOut = async () => {
     toggleOpen();
-    const response = await fetch('/api/sign-out', {
+    const response = await fetch('/api/auth/sign-out', {
       method: 'POST',
       redirect: 'manual',
     });

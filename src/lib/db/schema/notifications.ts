@@ -8,7 +8,7 @@ import {
   uniqueIndex,
 } from 'drizzle-orm/sqlite-core';
 
-export type SenderType = 'user' | 'club' | 'system'; // Added 'system' for flexibility
+export type SenderType = 'user' | 'club';
 export type NotificationType =
   | 'affiliation_request' // User requests to join club (creates pending affiliation)
   | 'affiliation_approved' // Club approves request
@@ -78,7 +78,7 @@ export const notifications = sqliteTable('notification', {
   club_id: text('club_id')
     .references(() => clubs.id, { onDelete: 'cascade' })
     .notNull(),
-  sent_by: text('sent_by').$type<SenderType>().notNull(),
+  for_whom: text('for_whom').$type<SenderType>().notNull(),
   notification_type: text('notification_type')
     .$type<NotificationType>()
     .notNull(),
@@ -128,9 +128,9 @@ export type InsertDatabaseNotification = InferInsertModel<typeof notifications>;
 // Example Usage Flow:
 // 1. User clicks "Request Affiliation" for Club X.
 //    - Application creates an `affiliations` record: { user_id: user.id, club_id: clubX.id, player_id: player.id, status: 'pending', ... }
-//    - Application creates a `notifications` record: { user_id: user.id, club_id: clubX.id, sent_by: 'user', notification_type: 'affiliation_request', metadata: { affiliation_id: newAffiliation.id }, ... }
 //      (This notification is *for* the club).
+//    - Application creates a `notifications` record: { user_id: user.id, club_id: clubX.id, for_whom: 'club', notification_type: 'affiliation_request', metadata: { affiliation_id: newAffiliation.id }, ... }
 // 2. Club Admin sees the request notification and approves it.
 //    - Application updates the `affiliations` record: status = 'approved', updated_at = now()
-//    - Application creates a `notifications` record: { user_id: user.id, club_id: clubX.id, sent_by: 'club', notification_type: 'affiliation_approved', metadata: { affiliation_id: affiliation.id }, ... }
+//    - Application creates a `notifications` record: { user_id: user.id, club_id: clubX.id, for_whom: 'user', notification_type: 'affiliation_approved', metadata: { affiliation_id: affiliation.id }, ... }
 //      (This notification is *for* the user).

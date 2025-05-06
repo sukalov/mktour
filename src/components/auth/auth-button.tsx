@@ -18,7 +18,7 @@ export default function AuthButton({ user }: AuthButtonProps) {
   const t = useTranslations('Menu');
 
   const handleSignOut = async () => {
-    const response = await fetch('/api/sign-out', {
+    const response = await fetch('/api/auth/sign-out', {
       method: 'POST',
       redirect: 'manual',
     });
