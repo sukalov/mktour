@@ -136,8 +136,15 @@ const TableLoading = () => {
     <div className="h-full w-full items-center justify-center">
       <span className="sr-only">{t('loading')}</span>
       <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHeadStyled className="text-center">#</TableHeadStyled>
+            <TableHeadStyled>{t('name column', { number: 0 })}</TableHeadStyled>
+            <TableStatsHeads />
+          </TableRow>
+        </TableHeader>
         <TableBody>
-          {Array(5)
+          {Array(20)
             .fill(0)
             .map((_, i) => (
               <TableRow key={i}>
