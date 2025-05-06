@@ -1,7 +1,6 @@
 import withBundleAnalyzer from '@next/bundle-analyzer';
 import withPlugins from 'next-compose-plugins';
 import createNextIntlPlugin from 'next-intl/plugin';
-import ReactComponentName from 'react-scan/react-component-name/webpack';
 
 /** @type {import('next').NextConfig} */
 const bundleAnalyzer = withBundleAnalyzer({
@@ -17,10 +16,6 @@ const nextConfig = {
     fetches: {
       fullUrl: true,
     },
-  },
-  webpack: (config) => {
-    config.plugins.push(ReactComponentName({}));
-    return config;
   },
 };
 
