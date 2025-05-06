@@ -119,16 +119,6 @@ export const notifications_relations = relations(notifications, ({ one }) => ({
   }),
 }));
 
-export const users_relations = relations(users, ({ many }) => ({
-  notifications: many(notifications), // user can be involved in many notifications
-  affiliations: many(affiliations), // user can have affiliations in many clubs
-}));
-
-export const clubs_relations = relations(clubs, ({ many }) => ({
-  notifications: many(notifications), // Club can be involved in many notifications
-  affiliations: many(affiliations), // Club can have affiliations with many users
-}));
-
 export type DatabaseAffiliation = InferSelectModel<typeof affiliations>;
 export type InsertDatabaseAffiliation = InferInsertModel<typeof affiliations>;
 

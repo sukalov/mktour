@@ -26,7 +26,7 @@ export async function GET(
       draws: each.players_to_tournaments.draws,
       losses: each.players_to_tournaments.losses,
       color_index: each.players_to_tournaments.color_index,
-      exited: each.players_to_tournaments.out,
+      is_out: each.players_to_tournaments.is_out,
       place: each.players_to_tournaments.place,
     }));
 

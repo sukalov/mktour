@@ -1,4 +1,5 @@
 import { users } from '@/lib/db/schema/auth';
+import { affiliations, notifications } from '@/lib/db/schema/notifications';
 import { Format, Result, RoundName, TournamentType } from '@/types/tournaments';
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import {
@@ -95,7 +96,7 @@ export const players_to_tournaments = sqliteTable('players_to_tournaments', {
     .$default(() => 0)
     .notNull(),
   place: int('place'),
-  out: int('out', { mode: 'boolean' }),
+  is_out: int('is_out', { mode: 'boolean' }),
   pairing_number: int('pairing_number'),
 });
 
@@ -121,6 +122,8 @@ export const games = sqliteTable('game', {
 export const clubs_relations = relations(clubs, ({ many }) => ({
   tournaments: many(tournaments),
   players: many(players),
+  notifications: many(notifications), // user can be involved in many notifications
+  affiliations: many(affiliations),
 }));
 
 export const players_relations = relations(players, ({ one, many }) => ({

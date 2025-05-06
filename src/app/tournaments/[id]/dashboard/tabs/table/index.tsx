@@ -88,7 +88,7 @@ const TournamentTable: FC = ({}) => {
                 </Place>
               </TableCellStyled>
               <TableCellStyled className="font-small flex gap-2 truncate pl-0">
-                <Status player={{ ...player, exited: false }}>
+                <Status player={{ ...player, is_out: false }}>
                   {player.nickname}
                 </Status>
               </TableCellStyled>
@@ -187,7 +187,7 @@ const Status: FC<{ player: PlayerModel } & PropsWithChildren> = ({
   player,
   children,
 }) => {
-  if (!player.exited) return children;
+  if (!player.is_out) return children;
   return (
     <div className="flex items-center gap-2 opacity-50">
       <UserRoundX className="size-4 min-w-fit" />

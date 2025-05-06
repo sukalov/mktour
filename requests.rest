@@ -2,15 +2,11 @@
 GET https://lichess.org/api/account
 Content-Type: application/json
 Authorization: Bearer lip_D8TJFPK1r8qd9m7sXmxI
-###
 
-{
-    "code": "liu_njzoZQ9q6QwFcE09a1kaxA1rqOx9WxMm",
-		"grant_type": "authorization_code",
-		"code_verifier": "LtU3UnPQM02QGYseIBOKThd8XlIIadPRClZ08Sz9tzo",
-		"redirect_uri": "/",
-		"client_id": "mktour.org",
-}
+###
+GET https://lichess.org/api/player/autocomplete?term=yatskov
+Authorization: Bearer {BEARER_TOKEN}
+
 
 
 ###
