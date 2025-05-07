@@ -1,7 +1,6 @@
 import { db } from '@/lib/db';
+import { DatabasePlayer, players } from '@/lib/db/schema/players';
 import {
-  DatabasePlayer,
-  players,
   players_to_tournaments,
   tournaments,
 } from '@/lib/db/schema/tournaments';

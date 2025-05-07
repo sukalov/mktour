@@ -1,7 +1,7 @@
 import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
 import { removePlayer } from '@/lib/actions/tournament-managing';
 import { generateRoundRobinRoundFunction } from '@/lib/client-actions/round-robin-generator';
-import { DatabasePlayer } from '@/lib/db/schema/tournaments';
+import { DatabasePlayer } from '@/lib/db/schema/players';
 import { shuffle } from '@/lib/utils';
 import { GameModel, PlayerModel } from '@/types/tournaments';
 import { Message } from '@/types/ws-events';
