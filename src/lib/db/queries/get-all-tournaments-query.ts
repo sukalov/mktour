@@ -1,6 +1,7 @@
 import { db } from '@/lib/db';
 import { TournamentWithClub } from '@/lib/db/queries/get-tournaments-to-user-clubs-query';
-import { clubs, tournaments } from '@/lib/db/schema/tournaments';
+import { clubs } from '@/lib/db/schema/clubs';
+import { tournaments } from '@/lib/db/schema/tournaments';
 import { eq } from 'drizzle-orm';
 
 export default async function getAllTournamentsQuery() {

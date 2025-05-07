@@ -1,5 +1,5 @@
 import { db } from '@/lib/db';
-import { clubs_to_users } from '@/lib/db/schema/tournaments';
+import { clubs_to_users } from '@/lib/db/schema/clubs';
 import { and, eq } from 'drizzle-orm';
 import { User } from 'lucia';
 

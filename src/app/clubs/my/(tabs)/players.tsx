@@ -5,7 +5,7 @@ import Empty from '@/components/empty';
 import { useClubPlayers } from '@/components/hooks/query-hooks/use-club-players';
 import SkeletonList from '@/components/skeleton-list';
 import { Card } from '@/components/ui/card';
-import { DatabasePlayer } from '@/lib/db/schema/tournaments';
+import { DatabasePlayer } from '@/lib/db/schema/players';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { FC } from 'react';

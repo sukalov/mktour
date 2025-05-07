@@ -1,5 +1,6 @@
 import { db } from '@/lib/db';
-import { players, players_to_tournaments } from '@/lib/db/schema/tournaments';
+import { players } from '@/lib/db/schema/players';
+import { players_to_tournaments } from '@/lib/db/schema/tournaments';
 import { eq } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
 

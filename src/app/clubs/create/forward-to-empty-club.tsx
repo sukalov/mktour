@@ -4,7 +4,7 @@ import { forwardAction } from '@/app/clubs/create/forward-action';
 import RichText from '@/components/rich-text';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { DatabaseClub } from '@/lib/db/schema/tournaments';
+import { DatabaseClub } from '@/lib/db/schema/clubs';
 import { ArrowRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 

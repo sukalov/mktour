@@ -1,5 +1,5 @@
 import { db } from '@/lib/db';
-import { clubs, DatabaseClub } from '@/lib/db/schema/tournaments';
+import { clubs, DatabaseClub } from '@/lib/db/schema/clubs';
 import { asc } from 'drizzle-orm';
 
 export default async function getAllClubsQuery() {

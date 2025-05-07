@@ -1,11 +1,7 @@
 import { db } from '@/lib/db';
-import { DatabaseUser, users } from '@/lib/db/schema/auth';
-import {
-  clubs,
-  DatabaseClub,
-  DatabasePlayer,
-  players,
-} from '@/lib/db/schema/tournaments';
+import { DatabaseClub, clubs } from '@/lib/db/schema/clubs';
+import { DatabasePlayer, players } from '@/lib/db/schema/players';
+import { DatabaseUser, users } from '@/lib/db/schema/users';
 import { eq } from 'drizzle-orm';
 
 export default async function getPlayerQuery(
