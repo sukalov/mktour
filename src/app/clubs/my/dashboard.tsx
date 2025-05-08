@@ -18,6 +18,8 @@ export default function Dashboard({ userId }: { userId: string }) {
   const tabs = Object.keys(tabMap) as ClubDashboardTab[];
   const indexOfTab = tabs.indexOf(tab);
 
+  console.log('PRE MAIN HERE');
+
   if (!data && isLoading) return <Loading />;
   if (!data) return <Empty>{t('no data')}</Empty>;
 
