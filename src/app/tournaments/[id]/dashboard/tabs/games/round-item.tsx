@@ -9,7 +9,7 @@ import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament
 import { useTournamentRoundGames } from '@/components/hooks/query-hooks/use-tournament-round-games';
 import SkeletonList from '@/components/skeleton-list';
 import { Button } from '@/components/ui/button';
-import { generateRoundRobinRoundFunction } from '@/lib/client-actions/round-robin-generator';
+import { generateRoundRobinRound } from '@/lib/client-actions/round-robin-generator';
 import { GameModel, PlayerModel } from '@/types/tournaments';
 import { useQueryClient } from '@tanstack/react-query';
 import { ArrowRightIcon } from 'lucide-react';
@@ -104,7 +104,7 @@ const NewRoundButton: FC<{ tournamentId: string; roundNumber: number }> = ({
       tournamentId,
       'games',
     ]) as GameModel[];
-    const newGames = generateRoundRobinRoundFunction({
+    const newGames = generateRoundRobinRound({
       players,
       games,
       roundNumber: roundNumber + 1,

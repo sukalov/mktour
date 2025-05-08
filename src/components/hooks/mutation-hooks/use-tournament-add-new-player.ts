@@ -1,6 +1,6 @@
 import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
 import { addNewPlayer } from '@/lib/actions/tournament-managing';
-import { generateRoundRobinRoundFunction } from '@/lib/client-actions/round-robin-generator';
+import { generateRoundRobinRound } from '@/lib/client-actions/round-robin-generator';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { shuffle } from '@/lib/utils';
 import { GameModel, PlayerModel } from '@/types/tournaments';
@@ -72,7 +72,7 @@ export const useTournamentAddNewPlayer = (
     },
     onSuccess: (_err, _data, context) => {
       sendJsonMessage({ type: 'add-new-player', body: context.newPlayer });
-      const newGames = generateRoundRobinRoundFunction({
+      const newGames = generateRoundRobinRound({
         players: shuffle(
           queryClient.getQueryData([
             tournamentId,

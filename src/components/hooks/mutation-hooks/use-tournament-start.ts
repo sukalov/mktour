@@ -27,6 +27,7 @@ export default function useTournamentStart(
       queryClient.invalidateQueries({
         queryKey: [tournamentId, 'tournament'],
       });
+      console.log(queryClient.getQueryData([tournamentId, 'games']));
     },
     onError: (error) => {
       toast.error(t('server error'));

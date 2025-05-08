@@ -1,6 +1,6 @@
 import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
 import { removePlayer } from '@/lib/actions/tournament-managing';
-import { generateRoundRobinRoundFunction } from '@/lib/client-actions/round-robin-generator';
+import { generateRoundRobinRound } from '@/lib/client-actions/round-robin-generator';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { shuffle } from '@/lib/utils';
 import { GameModel, PlayerModel } from '@/types/tournaments';
@@ -86,7 +86,7 @@ export const useTournamentRemovePlayer = (
           mutationKey: [tournamentId, 'players', 'remove'],
         }) === 1
       ) {
-        const newGames = generateRoundRobinRoundFunction({
+        const newGames = generateRoundRobinRound({
           players: shuffle(
             queryClient.getQueryData([
               tournamentId,

@@ -1,6 +1,6 @@
 import { AddExistingPlayerBody } from '@/app/api/tournament/[id]/add-existing-player/route';
 import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
-import { generateRoundRobinRoundFunction } from '@/lib/client-actions/round-robin-generator';
+import { generateRoundRobinRound } from '@/lib/client-actions/round-robin-generator';
 import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { shuffle } from '@/lib/utils';
 import { GameModel, PlayerModel } from '@/types/tournaments';
@@ -89,7 +89,7 @@ export const useTournamentAddExistingPlayer = (
           mutationKey: [tournamentId, 'players', 'add-existing'],
         }) === 1
       ) {
-        const newGames = generateRoundRobinRoundFunction({
+        const newGames = generateRoundRobinRound({
           players: shuffle(
             queryClient.getQueryData([
               tournamentId,
