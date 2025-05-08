@@ -1,7 +1,7 @@
 'use server';
 
 import { db } from '@/lib/db';
-import { clubs } from '@/lib/db/schema/clubs';
+import { clubs } from '@/lib/db/schema/tournaments';
 import { eq } from 'drizzle-orm';
 
 export async function validateLichessTeam({

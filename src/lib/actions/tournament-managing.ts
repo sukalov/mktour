@@ -3,12 +3,13 @@
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
 import { getStatusInTournament } from '@/lib/db/queries/get-status-in-tournament';
-import { clubs } from '@/lib/db/schema/clubs';
-import { DatabasePlayer, players } from '@/lib/db/schema/players';
 import {
+  DatabasePlayer,
   DatabasePlayerToTournament,
   DatabaseTournament,
+  clubs,
   games,
+  players,
   players_to_tournaments,
   tournaments,
 } from '@/lib/db/schema/tournaments';

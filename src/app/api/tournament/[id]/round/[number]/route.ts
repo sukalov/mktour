@@ -1,8 +1,7 @@
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
 import { getStatusInTournament } from '@/lib/db/queries/get-status-in-tournament';
-import { players } from '@/lib/db/schema/players';
-import { games, tournaments } from '@/lib/db/schema/tournaments';
+import { games, players, tournaments } from '@/lib/db/schema/tournaments';
 import { GameModel } from '@/types/tournaments';
 import { aliasedTable, and, eq } from 'drizzle-orm';
 import { NextRequest } from 'next/server';

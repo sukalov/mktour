@@ -1,7 +1,7 @@
 'use client';
 
 import ClubCard from '@/app/clubs/club-card';
-import { DatabaseClub } from '@/lib/db/schema/clubs';
+import { DatabaseClub } from '@/lib/db/schema/tournaments';
 import { FC } from 'react';
 
 const ClubsIteratee: FC<{ clubs: DatabaseClub[] }> = ({ clubs }) =>

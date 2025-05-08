@@ -1,8 +1,10 @@
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
 import { getStatusInTournament } from '@/lib/db/queries/get-status-in-tournament';
-import { DatabasePlayer } from '@/lib/db/schema/players';
-import { players_to_tournaments } from '@/lib/db/schema/tournaments';
+import {
+  DatabasePlayer,
+  players_to_tournaments,
+} from '@/lib/db/schema/tournaments';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(

@@ -3,14 +3,12 @@
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
 import {
+  affiliations,
+  InsertDatabaseAffiliation,
   InsertDatabaseNotification,
   notifications,
 } from '@/lib/db/schema/notifications';
-import {
-  affiliations,
-  InsertDatabaseAffiliation,
-  players,
-} from '@/lib/db/schema/players';
+import { players } from '@/lib/db/schema/tournaments';
 import { newid } from '@/lib/utils';
 import { and, eq } from 'drizzle-orm';
 

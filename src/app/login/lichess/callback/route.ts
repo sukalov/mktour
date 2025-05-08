@@ -2,8 +2,8 @@
 
 import { lichess, lucia } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
-import { clubs, clubs_to_users } from '@/lib/db/schema/clubs';
-import { DatabaseUser, user_preferences, users } from '@/lib/db/schema/users';
+import { DatabaseUser, user_preferences, users } from '@/lib/db/schema/auth';
+import { clubs, clubs_to_users } from '@/lib/db/schema/tournaments';
 import { newid } from '@/lib/utils';
 import { LichessUser } from '@/types/lichess-api';
 import { ArcticFetchError, OAuth2RequestError } from 'arctic';

@@ -1,7 +1,6 @@
 import { db } from '@/lib/db';
 import getUserToClubs from '@/lib/db/queries/get-user-to-clubs';
-import { DatabaseClub } from '@/lib/db/schema/clubs';
-import { tournaments } from '@/lib/db/schema/tournaments';
+import { DatabaseClub, tournaments } from '@/lib/db/schema/tournaments';
 import { and, eq, isNotNull } from 'drizzle-orm';
 import { User } from 'lucia';
 

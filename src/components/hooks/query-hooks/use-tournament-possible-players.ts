@@ -1,4 +1,4 @@
-import { DatabasePlayer } from '@/lib/db/schema/players';
+import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { useQuery } from '@tanstack/react-query';
 
 export const useTournamentPossiblePlayers = (id: string) =>

@@ -2,7 +2,7 @@
 
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
-import { users } from '@/lib/db/schema/users';
+import { users } from '@/lib/db/schema/auth';
 import { eq } from 'drizzle-orm';
 
 const selectClub = async ({

@@ -11,7 +11,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { DatabasePlayer } from '@/lib/db/schema/players';
+import { DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { useQueryClient } from '@tanstack/react-query';
 import { Save } from 'lucide-react';
 import { FC } from 'react';

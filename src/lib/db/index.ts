@@ -1,9 +1,6 @@
 import { DATABASE_AUTH_TOKEN, DATABASE_URL } from '@/lib/config/urls';
-import * as schema5 from '@/lib/db/schema/clubs';
-import * as schema3 from '@/lib/db/schema/notifications';
-import * as schema4 from '@/lib/db/schema/players';
-import * as schema1 from '@/lib/db/schema/tournaments';
-import * as schema2 from '@/lib/db/schema/users';
+import * as schema1 from '@/lib/db/schema/auth';
+import * as schema2 from '@/lib/db/schema/tournaments';
 import { createClient } from '@libsql/client';
 import { drizzle } from 'drizzle-orm/libsql';
 
@@ -14,6 +11,4 @@ const config = {
 
 const sqlite = createClient(config);
 
-export const db = drizzle(sqlite, {
-  schema: { ...schema1, ...schema2, ...schema3, ...schema4, ...schema5 },
-});
+export const db = drizzle(sqlite, { schema: { ...schema1, ...schema2 } });
