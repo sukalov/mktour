@@ -10,8 +10,10 @@ import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata, Viewport } from 'next';
 import { getLocale, getMessages } from 'next-intl/server';
+import Script from 'next/script';
 import { PropsWithChildren } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
+import { Monitoring } from 'react-scan/monitoring/next';
 
 export const experimental_ppr = true;
 
@@ -22,6 +24,12 @@ async function RootLayout({ children }: PropsWithChildren) {
     <html lang={locale} suppressHydrationWarning>
       <body className="small-scrollbar">
         <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <Monitoring
+            apiKey="lF6izIzLWPWQf0iBiCWoWp02icHdOhdg" // Safe to expose publically
+            url="https://monitoring.react-scan.com/api/v1/ingest"
+            commit={process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA}
+            branch={process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF}
+          />
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -38,6 +46,10 @@ async function RootLayout({ children }: PropsWithChildren) {
                   <Analytics />
                   <SpeedInsights />
                   <Toaster richColors />
+                  <Script
+                    src="https://unpkg.com/react-scan/dist/install-hook.global.js"
+                    strategy="beforeInteractive"
+                  />
                 </ReactQueryProvider>
               </MediaQueryProvider>
             </IntlProvider>

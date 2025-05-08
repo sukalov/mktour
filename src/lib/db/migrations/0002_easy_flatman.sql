@@ -1,0 +1,1 @@
+ALTER TABLE `notification` RENAME COLUMN "sent_by" TO "for_whom";

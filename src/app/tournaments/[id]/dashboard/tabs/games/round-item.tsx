@@ -6,7 +6,9 @@ import GameItem from '@/app/tournaments/[id]/dashboard/tabs/games/game/game-item
 import Center from '@/components/center';
 import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
+import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
 import { useTournamentRoundGames } from '@/components/hooks/query-hooks/use-tournament-round-games';
+import { useRoundData } from '@/components/hooks/use-round-data';
 import SkeletonList from '@/components/skeleton-list';
 import { Button } from '@/components/ui/button';
 import { generateRoundRobinRoundFunction } from '@/lib/client-actions/round-robin-generator';
@@ -28,9 +30,11 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
     roundNumber,
   });
   const info = useTournamentInfo(tournamentId);
+  const { data: players } = useTournamentPlayers(tournamentId);
   const { status } = useContext(DashboardContext);
+  const { sortedRound, ongoingGames } = useRoundData(round, players);
 
-  if (isLoading || !info.data)
+  if (isLoading || !info.data || !players)
     return (
       <div className="px-4 pt-2">
         <SkeletonList length={8} height={16} />
@@ -39,14 +43,6 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
 
   if (isError) return <Center>error</Center>;
   if (!round) return <Center>no round</Center>;
-
-  const sortedRound = [...round].sort((a, b) => {
-    return Number(a.result !== null) - Number(b.result !== null);
-  });
-  const ongoingGames = round.reduce(
-    (acc, current) => (current.result === null ? acc + 1 : acc),
-    0,
-  );
 
   const { ongoing_round, rounds_number, closed_at } = info.data.tournament;
   const renderFinishButton =

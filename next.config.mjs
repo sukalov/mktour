@@ -1,10 +1,13 @@
+import withBundleAnalyzer from '@next/bundle-analyzer';
+import withPlugins from 'next-compose-plugins';
+import createNextIntlPlugin from 'next-intl/plugin';
+import ReactComponentName from 'react-scan/react-component-name/webpack';
+
 /** @type {import('next').NextConfig} */
-const MillionLint = require('@million/lint');
-const withPlugins = require('next-compose-plugins');
-const createNextIntlPlugin = require('next-intl/plugin');
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
+const bundleAnalyzer = withBundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
 });
+
 const nextConfig = {
   experimental: {
     reactCompiler: true,
@@ -16,8 +19,11 @@ const nextConfig = {
     },
   },
 };
+
 const withNextIntl = createNextIntlPlugin('./src/components/i18n.ts');
-const withPWA = require('next-pwa')({
+
+import nextPWA from 'next-pwa';
+const withPWA = nextPWA({
   dest: 'public',
   mode: process.env.VERCEL_ENV,
   disable: process.env.VERCEL_ENV === 'development',
@@ -26,10 +32,7 @@ const withPWA = require('next-pwa')({
   register: true,
 });
 
-module.exports =
-  process.env.OPT === 'true'
-    ? MillionLint.next({ rsc: true })(nextConfig)
-    : withPlugins(
-        [[withBundleAnalyzer], [withNextIntl], [withPWA]],
-        nextConfig,
-      );
+export default withPlugins(
+  [[bundleAnalyzer], [withNextIntl], [withPWA], [ReactComponentName]],
+  nextConfig,
+);

@@ -11,7 +11,7 @@ const Mobile: FC<ClubTabProps & { club: any }> = ({ club }) => {
   });
 
   return (
-    <div className="items-left mx-auto flex max-w-[min(640px,100%)] flex-col gap-4 border-t-2 p-4">
+    <div className="items-left mx-auto flex max-w-[min(640px,100%)] flex-col gap-4 border-t-2 p-2">
       {club.data.description && (
         <InfoItem icon={Info} value={club.data.description} />
       )}

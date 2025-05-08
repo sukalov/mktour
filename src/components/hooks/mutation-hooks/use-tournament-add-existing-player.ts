@@ -1,7 +1,7 @@
 import { AddExistingPlayerBody } from '@/app/api/tournament/[id]/add-existing-player/route';
 import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
 import { generateRoundRobinRoundFunction } from '@/lib/client-actions/round-robin-generator';
-import { DatabasePlayer } from '@/lib/db/schema/tournaments';
+import { DatabasePlayer } from '@/lib/db/schema/players';
 import { shuffle } from '@/lib/utils';
 import { GameModel, PlayerModel } from '@/types/tournaments';
 import { Message } from '@/types/ws-events';
@@ -45,7 +45,7 @@ export const useTournamentAddExistingPlayer = (
         draws: 0,
         color_index: 0,
         place: null,
-        exited: null,
+        is_out: null,
       };
 
       queryClient.setQueryData(

@@ -11,7 +11,7 @@ import {
   Title,
   Trigger,
 } from '@/components/ui/combo-modal';
-import { DatabasePlayer } from '@/lib/db/schema/tournaments';
+import { DatabasePlayer } from '@/lib/db/schema/players';
 import { Pencil } from 'lucide-react';
 import { FC } from 'react';
 

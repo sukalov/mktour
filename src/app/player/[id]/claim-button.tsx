@@ -2,6 +2,7 @@
 
 import { LoadingSpinner } from '@/app/loading';
 import FormattedMessage from '@/components/formatted-message';
+import useAffiliationRequestMutation from '@/components/hooks/mutation-hooks/use-affiliation-request';
 import { Button } from '@/components/ui/button';
 import {
   Close,
@@ -17,18 +18,15 @@ import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { FC, useState } from 'react';
 
-const ClaimPlayer: FC<{ userId: string }> = ({ userId }) => {
+const ClaimPlayer: FC<{ userId: string; clubId: string }> = ({
+  userId,
+  clubId,
+}) => {
   const { id: playerId } = useParams<{ id: string }>();
   const [open, setOpen] = useState(false);
-  const [isPending, setPending] = useState(false);
+  const { mutate, isPending } = useAffiliationRequestMutation();
   const handleClick = () => {
-    // TODO: replace with mutation, add Toast success/error confirmation
-    setPending(true);
-    setTimeout(() => {
-      setPending(false);
-      setOpen(false);
-    }, 2000);
-    console.log({ playerId, userId });
+    mutate({ playerId, userId, clubId });
   };
   const t = useTranslations();
 
@@ -57,7 +55,12 @@ const ClaimPlayer: FC<{ userId: string }> = ({ userId }) => {
             <FormattedMessage id="Player.claim confirmation" />
           </Description>
         </Header>
-        <Button className="w-full" onClick={handleClick} disabled={isPending}>
+        <Button
+          className="w-full"
+          onClick={handleClick}
+          disabled={isPending}
+          type="submit"
+        >
           {isPending ? <LoadingSpinner /> : <Check />}
           &nbsp;
           {t('Common.send')}

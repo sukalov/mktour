@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Slider } from '@/components/ui/slider';
-import { DatabasePlayer } from '@/lib/db/schema/tournaments';
+import { DatabasePlayer } from '@/lib/db/schema/players';
 import { newid } from '@/lib/utils';
 import {
   newPlayerFormSchema,
@@ -82,7 +82,7 @@ const AddNewPlayer = ({
   }
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="h-svh space-y-8">
         <FormField
           control={form.control}
           name="name"
