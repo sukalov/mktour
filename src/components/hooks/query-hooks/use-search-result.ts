@@ -1,9 +1,7 @@
 import { DatabaseUser } from '@/lib/db/schema/auth';
-import {
-  DatabaseClub,
-  DatabasePlayer,
-  DatabaseTournament,
-} from '@/lib/db/schema/tournaments';
+import { DatabaseClub } from '@/lib/db/schema/clubs';
+import { DatabasePlayer } from '@/lib/db/schema/players';
+import { DatabaseTournament } from '@/lib/db/schema/tournaments';
 import { useQuery } from '@tanstack/react-query';
 
 export const useSearchQuery = ({

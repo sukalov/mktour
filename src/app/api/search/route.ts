@@ -1,6 +1,8 @@
 import { db } from '@/lib/db';
 import { users } from '@/lib/db/schema/auth';
-import { clubs, players, tournaments } from '@/lib/db/schema/tournaments';
+import { clubs } from '@/lib/db/schema/clubs';
+import { players } from '@/lib/db/schema/players';
+import { tournaments } from '@/lib/db/schema/tournaments';
 import { or, sql } from 'drizzle-orm';
 import { NextRequest } from 'next/server';
 
