@@ -10,7 +10,7 @@ const Desktop: FC<NavMenuProps> = ({ user }) => {
   return (
     <div className="flex w-full justify-end">
       <NavigationMenuContainer />
-      <GlobalSearch />
+      <GlobalSearch user={user} />
       <div className="flex items-center">
         <AuthButton user={user} />
         <LocaleSwitcher />

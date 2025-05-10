@@ -7,7 +7,7 @@ import { FC } from 'react';
 const Mobile: FC<NavMenuProps> = ({ user }) => {
   return (
     <div className="flex">
-      <GlobalSearch />
+      <GlobalSearch user={user} />
       {user && <AuthButton user={user} />}
       <div className="w-8">
         <Menu user={user} />

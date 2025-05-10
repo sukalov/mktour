@@ -1,12 +1,10 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
 
 # Format only staged files and add them back to the staging area
 FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep -E '\.(js|jsx|ts|tsx|json|css|scss|md|yaml|yml)$' || true)
 if [ -n "$FILES" ]; then
-  bun prettier $FILES --write
+  /opt/homebrew/bin/bun run prettier $FILES --write
   git add $FILES
 fi
 
 # Run linting on all files
-bun lint
+/opt/homebrew/bin/bunx next lint
