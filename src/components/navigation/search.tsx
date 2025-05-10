@@ -179,7 +179,11 @@ export default function GlobalSearch({ user }: { user: User | null }) {
                 <>
                   <CommandGroup heading="players">
                     {data.players.map((item: DatabasePlayer) => (
-                      <CommandItem key={item.id} value={item.id}>
+                      <CommandItem
+                        key={item.id}
+                        value={item.id}
+                        onSelect={() => router.push(`/player/${item.id}`)}
+                      >
                         <span>{item.nickname}</span>
                       </CommandItem>
                     ))}
