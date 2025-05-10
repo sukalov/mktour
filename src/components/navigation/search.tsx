@@ -17,7 +17,6 @@ import {
   CommandShortcut,
 } from '@/components/ui/command';
 import { DialogDescription, DialogTitle } from '@/components/ui/dialog';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { DatabaseUser } from '@/lib/db/schema/auth';
 import { DatabaseClub, DatabasePlayer } from '@/lib/db/schema/tournaments';
 import { User } from 'lucia';
@@ -128,7 +127,7 @@ export default function GlobalSearch({ user }: { user: User | null }) {
         <CommandList>
           <CommandEmpty>{t('not found')}</CommandEmpty>
           {data && (
-            <ScrollArea className="h-96">
+            <>
               {data?.users && data?.users.length > 0 && (
                 <>
                   <CommandGroup heading="users">
@@ -188,7 +187,7 @@ export default function GlobalSearch({ user }: { user: User | null }) {
                   <CommandSeparator />
                 </>
               )}
-            </ScrollArea>
+            </>
           )}
           <CommandGroup heading="actions">
             {filteredActions.map((action) => (
