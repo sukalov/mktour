@@ -73,7 +73,7 @@ export interface ChessGameStats {
   prov?: boolean;
 }
 
-interface Team {
+export interface Team {
   id: string;
   name: string;
   description: string;

@@ -39,15 +39,18 @@ const TournamentInfoList = () => {
   //     minute: '2-digit',
   //   },
   // );
-  const formattedDate = new Date(data.tournament.date).toLocaleDateString(
-    locale,
-    {
-      year: 'numeric',
-      month: 'numeric',
-      day: 'numeric',
-      weekday: 'long',
-    },
-  );
+
+  const dateArr = data.tournament.date.split('-');
+  const formattedDate = new Date(
+    Number(dateArr[0]),
+    Number(dateArr[1]) - 1, // month is 0-indexed 2025-01-01 is (2025, 0, 1) = first of january
+    Number(dateArr[2]),
+  ).toLocaleDateString(locale, {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    weekday: 'long',
+  });
   const decapitalizedWeekday =
     formattedDate.charAt(0).toLowerCase() + formattedDate.slice(1);
 
