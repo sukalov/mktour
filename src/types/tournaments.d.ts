@@ -25,24 +25,6 @@ export interface GameModel extends DatabaseGame {
   white_nickname: string | null; // players where id === games.white_id  nickname;
 }
 
-// export interface TournamentModel { // FIXME this seems out-dated or misleading
-//   id: string; //tournaments.id
-//   date: string; // tournaments.date
-//   title: string; // tournaments.title
-//   export type: TournamentType | undefined; // tournaments.type
-//   format: Format | undefined; // tournaments.format
-//   organizer: {
-//     id: string; // club.id
-//     name: string; // club.name
-//   };
-//   status: TournamentStatus | undefined; // created according to started_at and closed_at
-//   rounds_number: number | null; // tournamnets.rounds_number
-//   ongoing_round: number;
-//   games: Array<GameModel>; // games where tournament.id === id
-//   players: Array<PlayerModel>; // players_to_tournaments where tournament.id === id
-//   possiblePlayers: Array<DatabasePlayerSlice>; // players of organizer club except already added
-// }
-
 export interface TournamentInfo {
   tournament: DatabaseTournament;
   club: DatabaseClub | null;
