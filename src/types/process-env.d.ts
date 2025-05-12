@@ -1,6 +1,6 @@
 export declare global {
-  namespace NodeJS {
-    interface ProcessEnv {
+  export namespace NodeJS {
+    export interface ProcessEnv {
       [key: string]: string | undefined;
       PORT: string;
       DATABASE_URL: string;

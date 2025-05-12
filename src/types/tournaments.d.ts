@@ -29,7 +29,7 @@ export interface GameModel extends DatabaseGame {
 //   id: string; //tournaments.id
 //   date: string; // tournaments.date
 //   title: string; // tournaments.title
-//   type: TournamentType | undefined; // tournaments.type
+//   export type: TournamentType | undefined; // tournaments.type
 //   format: Format | undefined; // tournaments.format
 //   organizer: {
 //     id: string; // club.id
@@ -43,20 +43,20 @@ export interface GameModel extends DatabaseGame {
 //   possiblePlayers: Array<DatabasePlayerSlice>; // players of organizer club except already added
 // }
 
-interface TournamentInfo {
+export interface TournamentInfo {
   tournament: DatabaseTournament;
   club: DatabaseClub | null;
 }
 
-type Result = '0-1' | '1-0' | '1/2-1/2' | null;
+export type Result = '0-1' | '1-0' | '1/2-1/2' | null;
 
-type Format = 'swiss' | 'round robin' | 'double elimination';
+export type Format = 'swiss' | 'round robin' | 'double elimination';
 
-type TournamentType = 'solo' | 'doubles' | 'team';
+export type TournamentType = 'solo' | 'doubles' | 'team';
 
-type TournamentStatus = 'not started' | 'ongoing' | 'finished';
+export type TournamentStatus = 'not started' | 'ongoing' | 'finished';
 
-type RoundName =
+export type RoundName =
   | 'final'
   | 'match_for_third'
   | 'semifinal'
