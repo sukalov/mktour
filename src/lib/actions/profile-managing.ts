@@ -3,20 +3,19 @@
 import { deleteClubFunction } from '@/lib/actions/club-managing';
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
+import { clubs, clubs_to_users } from '@/lib/db/schema/clubs';
+import { players } from '@/lib/db/schema/players';
+import {
+  games,
+  players_to_tournaments,
+  tournaments,
+} from '@/lib/db/schema/tournaments';
 import {
   DatabaseUser,
   sessions,
   user_preferences,
   users,
-} from '@/lib/db/schema/auth';
-import {
-  clubs,
-  clubs_to_users,
-  games,
-  players,
-  players_to_tournaments,
-  tournaments,
-} from '@/lib/db/schema/tournaments';
+} from '@/lib/db/schema/users';
 import { eq, sql } from 'drizzle-orm';
 
 export const editUser = async ({ id, values }: UpdateDatabaseUser) => {

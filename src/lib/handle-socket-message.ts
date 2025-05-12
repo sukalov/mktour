@@ -1,10 +1,7 @@
 'use client';
 // ws-handler
 
-import {
-  DatabasePlayer,
-  InsertDatabasePlayer,
-} from '@/lib/db/schema/tournaments';
+import { DatabasePlayer, InsertDatabasePlayer } from '@/lib/db/schema/players';
 import { GameModel, PlayerModel, TournamentInfo } from '@/types/tournaments';
 import type { Message } from '@/types/ws-events';
 import { QueryClient } from '@tanstack/react-query';
