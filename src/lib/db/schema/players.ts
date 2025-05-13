@@ -84,10 +84,9 @@ export const affiliations_relations = relations(affiliations, ({ one }) => ({
 
 export type AffiliationStatus =
   | 'requested' // by user
-  | 'approved' //by club
-  | 'removed' // by club
-  | 'set_manually' // by club
-  | 'cancelled'; // by user
+  | 'active' // set by club or approved by club
+  | 'cancelled_by_club' // by club
+  | 'cancelled_by_user'; // by user
 
 export type DatabasePlayer = InferSelectModel<typeof players>;
 export type InsertDatabasePlayer = InferInsertModel<typeof players>;
