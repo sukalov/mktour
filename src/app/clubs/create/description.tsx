@@ -19,7 +19,11 @@ export default function ClubDescription({ form }: ClubDescriptionProps) {
         <FormItem>
           <FormLabel>{t('description')}</FormLabel>
           <FormControl>
-            <Textarea placeholder={t('description placeholder')} {...field} />
+            <Textarea
+              placeholder={t('description placeholder')}
+              {...field}
+              className="min-h-26"
+            />
           </FormControl>
           <FormMessage />
         </FormItem>
