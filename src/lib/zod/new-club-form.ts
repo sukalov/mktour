@@ -1,4 +1,4 @@
-import { DatabaseClub } from '@/lib/db/schema/tournaments';
+import { DatabaseClub } from '@/lib/db/schema/clubs';
 import { validateLichessTeam } from '@/lib/zod/new-club-validation-action';
 import * as z from 'zod';
 

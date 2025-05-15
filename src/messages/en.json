@@ -98,7 +98,7 @@
     "making": "making...",
     "name": "name",
     "description": "description",
-    "description placeholder": "tell something about your club...",
+    "description placeholder": "tell something about your club...\n\nP.S it's useful to mention here, how to contact admins",
     "no lichess teams": "couldn't find your lichess teams",
     "connect lichess team": "connect lichess team!",
     "unselect lichess team": "don't select any team",
@@ -118,7 +118,13 @@
       "danger zone": "danger zone",
       "delete club": "delete club",
       "confirmation body": "all players and tournaments will be deleted. if you're completely sure, type the name of the club you are deleting",
-      "cancel": "cancel"
+      "cancel": "cancel",
+      "add manager": "add manager",
+      "search": "sesrch for mktour users",
+      "no affiliated users": "couldn't find real people related to your club. start typing to search among all mktour users",
+      "search users error": "an error happened while searching",
+      "make admin": "make admin",
+      "make co-owner": "make co-owner"
     },
     "Dashboard": {
       "no data": "no data",
@@ -137,7 +143,7 @@
   },
   "Status": {
     "admin": "admin",
-    "moderator": "moderator"
+    "co-owner": "co-owner"
   },
   "Toasts": {
     "server error": "sorry! server error happened",
@@ -153,7 +159,8 @@
     "tmt-not-started error": "first you need to start the tournament to then set game results",
     "ws message error": "sorry! realtime server couldn't forward this event to other viewers",
     "finished": "tournament finished!",
-    "player updated": "player updated"
+    "player updated": "player updated",
+    "affiliation requested": "request sent"
   },
   "EditUser": {
     "header": "settings",

@@ -17,7 +17,7 @@ export default function TeamJoinToaster() {
   const handleJoin = async () => {
     setTimeout(() => toast.dismiss('teamJoin'));
     toast.promise(
-      fetch('/api/join-team', {
+      fetch('/api/auth/join-team', {
         method: 'POST',
       }),
       {
@@ -64,7 +64,7 @@ export default function TeamJoinToaster() {
   }, 500);
 
   useEffect(() => {
-    fetch('/api/delete-new-user-cookie', {
+    fetch('/api/auth/delete-new-user-cookie', {
       method: 'GET',
       credentials: 'same-origin',
     });

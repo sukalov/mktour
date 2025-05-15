@@ -22,6 +22,8 @@ export interface RoundProps {
   tournamentId: string;
 }
 
+// TODO: REMOVE IGNORE HERE, VERY TEMPORARY
+// eslint-disable-next-line no-unused-vars
 export type RoundGenerator = (roundProps: RoundProps) => GameModel[];
 
 /**

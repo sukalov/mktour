@@ -1,5 +1,6 @@
 import { db } from '@/lib/db';
-import { clubs, tournaments } from '@/lib/db/schema/tournaments';
+import { clubs } from '@/lib/db/schema/clubs';
+import { tournaments } from '@/lib/db/schema/tournaments';
 import { eq } from 'drizzle-orm';
 
 import { NextRequest, NextResponse } from 'next/server';

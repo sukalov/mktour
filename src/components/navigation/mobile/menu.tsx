@@ -20,7 +20,7 @@ const Menu: FC<{ user: User | null }> = ({ user }) => {
   const pathname = usePathname();
   const handleSignOut = async () => {
     toggleOpen();
-    const response = await fetch('/api/sign-out', {
+    const response = await fetch('/api/auth/sign-out', {
       method: 'POST',
       redirect: 'manual',
     });
@@ -70,9 +70,7 @@ const Menu: FC<{ user: User | null }> = ({ user }) => {
       initial={false}
       animate={isOpen ? 'open' : 'closed'}
       custom={height}
-      className={`fixed inset-0 z-100 block w-full ${
-        isOpen ? '' : 'pointer-events-none'
-      }`}
+      className={`fixed inset-0 z-100 block w-full ${isOpen ? '' : 'pointer-events-none'}`}
       ref={containerRef}
     >
       <motion.div
@@ -104,7 +102,7 @@ const Menu: FC<{ user: User | null }> = ({ user }) => {
               ) : (
                 <MenuItemWithSubMenu toggleOpen={toggleOpen} item={item} />
               )}
-              <MenuItem className="my-3 h-px w-full bg-gray-300" />
+              <MenuItem className="bg-muted-foreground my-3 h-px w-full" />
             </div>
           ))}
           <MenuItem>

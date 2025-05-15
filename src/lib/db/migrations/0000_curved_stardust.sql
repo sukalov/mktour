@@ -24,6 +24,33 @@ CREATE TABLE `user` (
 --> statement-breakpoint
 CREATE UNIQUE INDEX `user_email_unique` ON `user` (`email`);--> statement-breakpoint
 CREATE UNIQUE INDEX `user_username_unique` ON `user` (`username`);--> statement-breakpoint
+CREATE TABLE `affiliation` (
+	`id` text PRIMARY KEY NOT NULL,
+	`user_id` text NOT NULL,
+	`club_id` text NOT NULL,
+	`player_id` text NOT NULL,
+	`status` text NOT NULL,
+	`created_at` integer NOT NULL,
+	`updated_at` integer NOT NULL,
+	FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade,
+	FOREIGN KEY (`club_id`) REFERENCES `club`(`id`) ON UPDATE no action ON DELETE cascade,
+	FOREIGN KEY (`player_id`) REFERENCES `player`(`id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
+CREATE UNIQUE INDEX `affiliation_user_club_unique_idx` ON `affiliation` (`user_id`,`club_id`);--> statement-breakpoint
+CREATE TABLE `notification` (
+	`id` text PRIMARY KEY NOT NULL,
+	`created_at` integer NOT NULL,
+	`user_id` text NOT NULL,
+	`club_id` text NOT NULL,
+	`sent_by` text NOT NULL,
+	`notification_type` text NOT NULL,
+	`is_seen` integer NOT NULL,
+	`metadata` text,
+	FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade,
+	FOREIGN KEY (`club_id`) REFERENCES `club`(`id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
 CREATE TABLE `club` (
 	`id` text PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
@@ -62,13 +89,15 @@ CREATE TABLE `player` (
 	`nickname` text NOT NULL,
 	`realname` text,
 	`user_id` text,
-	`rating` integer,
+	`rating` integer NOT NULL,
 	`club_id` text NOT NULL,
 	`last_seen` integer,
-	FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action,
+	FOREIGN KEY (`user_id`) REFERENCES `user`(`username`) ON UPDATE no action ON DELETE no action,
 	FOREIGN KEY (`club_id`) REFERENCES `club`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
+CREATE UNIQUE INDEX `player_nickname_club_unique_idx` ON `player` (`nickname`,`club_id`);--> statement-breakpoint
+CREATE UNIQUE INDEX `player_user_club_unique_idx` ON `player` (`user_id`,`club_id`);--> statement-breakpoint
 CREATE TABLE `players_to_tournaments` (
 	`id` text PRIMARY KEY NOT NULL,
 	`player_id` text NOT NULL,
@@ -78,7 +107,7 @@ CREATE TABLE `players_to_tournaments` (
 	`draws` integer NOT NULL,
 	`color_index` integer NOT NULL,
 	`place` integer,
-	`exited` integer,
+	`out` integer,
 	`pairing_number` integer,
 	FOREIGN KEY (`player_id`) REFERENCES `player`(`id`) ON UPDATE no action ON DELETE no action,
 	FOREIGN KEY (`tournament_id`) REFERENCES `tournament`(`id`) ON UPDATE no action ON DELETE no action
@@ -96,6 +125,6 @@ CREATE TABLE `tournament` (
 	`closed_at` integer,
 	`rounds_number` integer,
 	`ongoing_round` integer NOT NULL,
-	`rated` integer,
+	`rated` integer NOT NULL,
 	FOREIGN KEY (`club_id`) REFERENCES `club`(`id`) ON UPDATE no action ON DELETE no action
 );

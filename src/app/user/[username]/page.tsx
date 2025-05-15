@@ -1,4 +1,5 @@
 import Profile from '@/app/user/[username]/profile';
+import Empty from '@/components/empty';
 import getUserData from '@/lib/actions/get-user-data';
 import { validateRequest } from '@/lib/auth/lucia';
 import { getTranslations } from 'next-intl/server';
@@ -13,12 +14,7 @@ export default async function UserPage(props: TournamentPageProps) {
   const isOwner = user.username === params.username;
   const t = await getTranslations();
 
-  if (!data)
-    return (
-      <div className="text-muted-foreground mt-8 w-full text-center">
-        {t('Empty.user')}
-      </div>
-    );
+  if (!data) return <Empty>{t('Empty.user')}</Empty>;
 
   return <Profile user={data} isOwner={isOwner} />;
 }

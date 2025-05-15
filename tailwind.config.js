@@ -1,5 +1,6 @@
-/** @type {import('tailwindcss').Config} */
 const plugin = require('tailwindcss/plugin');
+
+/** @type {import('tailwindcss').Config} */
 
 module.exports = {
   darkMode: ['class'],
@@ -99,12 +100,13 @@ module.exports = {
           'scrollbar-width': 'none',
         },
         '.small-scrollbar': {
-          '-ms-overflow-style': 'none',
           'scrollbar-width': '4px',
+          'scrollbar-color': 'hsl(var(--muted)) transparent',
+          '-ms-overflow-style': 'none',
         },
         '.small-scrollbar::-webkit-scrollbar': {
-          'background-color': 'transparent',
           width: '4px',
+          'background-color': 'transparent',
         },
         '.small-scrollbar::-webkit-scrollbar-thumb': {
           background: 'hsl(var(--muted))',

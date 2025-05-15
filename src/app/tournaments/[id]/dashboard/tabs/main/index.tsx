@@ -21,7 +21,7 @@ const Main = () => {
 
   return (
     <div className="mk-container">
-      <div className="truncate border-b-2 p-4 pt-0 text-4xl font-bold whitespace-break-spaces">
+      <div className="truncate border-b-2 px-4 py-2 pt-0 text-4xl font-bold whitespace-break-spaces">
         {data.tournament.title}
       </div>
       <TournamentInfoList />

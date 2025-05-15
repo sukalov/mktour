@@ -5,30 +5,37 @@ import FormattedMessage from '@/components/formatted-message';
 import { validateRequest } from '@/lib/auth/lucia';
 import getPlayerQuery from '@/lib/db/queries/get-player-query';
 import getStatus from '@/lib/db/queries/get-status-query';
-import { StatusInClub } from '@/lib/db/schema/tournaments';
+import { StatusInClub } from '@/lib/db/schema/clubs';
+import { DatabasePlayer } from '@/lib/db/schema/players';
+import { DatabaseUser } from '@/lib/db/schema/users';
+import { User2 } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { FC } from 'react';
 
 export default async function PlayerPage(props: PlayerPageProps) {
   const params = await props.params;
   const { user } = await validateRequest();
-  const data = await getPlayerQuery(params.id);
-  if (!data) notFound();
-  const { player, club } = data;
+  const { player, club, user: playerUser } = await getPlayerQuery(params.id);
+  if (!player || !club) notFound();
 
-  let status: StatusInClub | undefined | 'owner';
-  status = user ? await getStatus({ user, club }) : undefined;
+  const status: StatusInClub | undefined = user
+    ? await getStatus({ user, club })
+    : undefined;
 
   const isOwnPlayer = user && player.user_id === user.id;
-  const canEdit = status === 'admin' || isOwnPlayer;
-  const canClaim = status !== 'admin' && user && !player.user_id;
+  const canEdit = status || isOwnPlayer;
+  const canClaim = status && user && !player.user_id;
 
   return (
-    <div className="flex w-full flex-col gap-4 p-4 pt-2">
-      <div className="flex w-full items-center justify-between border-b-2 pb-2">
-        <span className="truncate text-2xl font-semibold text-wrap">
-          {player.nickname}
-        </span>
+    <div className="mk-container flex w-full flex-col gap-2">
+      <div className="flex w-full items-center justify-between border-b-2 pb-2 pl-2">
+        <div className="flex flex-col">
+          <span className="truncate text-2xl font-semibold text-wrap">
+            {player.nickname}
+          </span>
+          <UserLink user={playerUser} />
+        </div>
         {user && (
           <div className="text-muted-foreground flex self-end">
             {canEdit && (
@@ -37,12 +44,12 @@ export default async function PlayerPage(props: PlayerPageProps) {
                 <DeletePlayer userId={user.id} />
               </>
             )}
-            {canClaim && <ClaimPlayer userId={user.id} />}
+            {canClaim && <ClaimPlayer userId={user.id} clubId={club.id} />}
           </div>
         )}
       </div>
-      <div className="flex flex-col gap-2">
-        {player.realname && <span className="text-lg">{player.realname}</span>}
+      <div className="flex flex-col gap-2 pl-2 text-sm">
+        <FullName player={player} user={playerUser} />
         <span>
           <FormattedMessage id="Player.rating" />
           {': '}
@@ -55,16 +62,16 @@ export default async function PlayerPage(props: PlayerPageProps) {
             {club.name}
           </Link>
         </p>
-        {player.user_id && (
+        {playerUser && (
           <p>
             <FormattedMessage id="Player.lichess" />
             {': '}
             <Link
-              href={`https://lichess.org/@/${player.nickname}`}
+              href={`https://lichess.org/@/${playerUser.username}`}
               target="_blank"
               className="mk-link"
             >
-              {player.nickname}
+              {playerUser.username}
             </Link>
           </p>
         )}
@@ -72,6 +79,26 @@ export default async function PlayerPage(props: PlayerPageProps) {
     </div>
   );
 }
+
+const FullName: FC<{ player: DatabasePlayer; user: DatabaseUser | null }> = ({
+  player,
+  user,
+}) => {
+  if (!player.realname && !user?.name) return null;
+  return <span className="font-semibold">{user?.name || player.realname}</span>;
+};
+
+const UserLink: FC<{ user: DatabaseUser | null }> = ({ user }) => {
+  if (!user) return null;
+  return (
+    <Link href={`/user/${user.username}`}>
+      <span className="mk-link text-muted-foreground flex gap-1 truncate text-xs text-wrap">
+        <User2 className="size-4" />
+        <span>{user.username}</span>
+      </span>
+    </Link>
+  );
+};
 
 export interface PlayerPageProps {
   params: Promise<{ id: string }>;

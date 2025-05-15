@@ -2,18 +2,19 @@
 
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
-import { DatabaseUser, users } from '@/lib/db/schema/auth';
 import {
   DatabaseClub,
   DatabaseClubsToUsers,
-  DatabasePlayer,
   clubs,
   clubs_to_users,
+} from '@/lib/db/schema/clubs';
+import { DatabasePlayer, players } from '@/lib/db/schema/players';
+import {
   games,
-  players,
   players_to_tournaments,
   tournaments,
 } from '@/lib/db/schema/tournaments';
+import { DatabaseUser, users } from '@/lib/db/schema/users';
 import { newid } from '@/lib/utils';
 import { NewClubFormType } from '@/lib/zod/new-club-form';
 import { and, eq, ne } from 'drizzle-orm';
@@ -32,7 +33,7 @@ export const createClub = async (values: NewClubFormType) => {
     id: `${user.id}=${id}`,
     club_id: id,
     user_id: user.id,
-    status: 'admin',
+    status: 'co-owner',
   };
   try {
     await db.insert(clubs).values(newClub);

@@ -2,8 +2,8 @@
 
 import { lichess, lucia } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
-import { DatabaseUser, user_preferences, users } from '@/lib/db/schema/auth';
-import { clubs, clubs_to_users } from '@/lib/db/schema/tournaments';
+import { clubs, clubs_to_users } from '@/lib/db/schema/clubs';
+import { DatabaseUser, user_preferences, users } from '@/lib/db/schema/users';
 import { newid } from '@/lib/utils';
 import { LichessUser } from '@/types/lichess-api';
 import { ArcticFetchError, OAuth2RequestError } from 'arctic';
@@ -103,7 +103,7 @@ export async function GET(request: Request): Promise<Response> {
         id: ctuId,
         club_id: clubId,
         user_id: userId,
-        status: 'admin',
+        status: 'co-owner',
       });
       await db.insert(user_preferences).values({
         user_id: userId,

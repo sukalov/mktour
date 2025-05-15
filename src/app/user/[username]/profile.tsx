@@ -6,7 +6,7 @@ import { useUserClubs } from '@/components/hooks/query-hooks/use-user-clubs';
 import SkeletonList from '@/components/skeleton-list';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { DatabaseUser } from '@/lib/db/schema/auth';
+import { DatabaseUser } from '@/lib/db/schema/users';
 import { useQueryClient } from '@tanstack/react-query';
 import { useFormatter, useTranslations } from 'next-intl';
 import Link from 'next/link';
@@ -33,7 +33,6 @@ const Profile: FC<{ user: DatabaseUser; isOwner: boolean }> = ({
     });
 
   return (
-    // FIXME Intl
     <div className="flex w-full flex-col gap-2 p-2">
       <div className="px-2">
         {user.username} ({user.name})

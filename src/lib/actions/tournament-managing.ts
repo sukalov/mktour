@@ -3,13 +3,12 @@
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
 import { getStatusInTournament } from '@/lib/db/queries/get-status-in-tournament';
+import { clubs } from '@/lib/db/schema/clubs';
+import { DatabasePlayer, players } from '@/lib/db/schema/players';
 import {
-  DatabasePlayer,
   DatabasePlayerToTournament,
   DatabaseTournament,
-  clubs,
   games,
-  players,
   players_to_tournaments,
   tournaments,
 } from '@/lib/db/schema/tournaments';
@@ -68,7 +67,7 @@ export async function getTournamentPlayers(
     draws: each.players_to_tournaments.draws,
     losses: each.players_to_tournaments.losses,
     color_index: each.players_to_tournaments.color_index,
-    exited: each.players_to_tournaments.out,
+    is_out: each.players_to_tournaments.is_out,
     place: each.players_to_tournaments.place,
   }));
 
@@ -158,7 +157,7 @@ export async function addNewPlayer({
     draws: 0,
     color_index: 0,
     place: null,
-    out: null,
+    is_out: null,
     pairing_number: null,
   };
   await db.insert(players_to_tournaments).values(playerToTournament);
@@ -189,7 +188,7 @@ export async function addExistingPlayer({
     draws: 0,
     color_index: 0,
     place: null,
-    out: null,
+    is_out: null,
     pairing_number: null,
   };
   await db.insert(players_to_tournaments).values(playerToTournament);
