@@ -69,7 +69,7 @@ const TournamentTable: FC = ({}) => {
 
   return (
     <>
-      <Table>
+      <Table className="mb-20">
         <TableHeader>
           <TableRow>
             <TableHeadStyled className="text-center">#</TableHeadStyled>
