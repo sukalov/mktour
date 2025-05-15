@@ -33,7 +33,7 @@ export const createClub = async (values: NewClubFormType) => {
     id: `${user.id}=${id}`,
     club_id: id,
     user_id: user.id,
-    status: 'admin',
+    status: 'co-owner',
   };
   try {
     await db.insert(clubs).values(newClub);

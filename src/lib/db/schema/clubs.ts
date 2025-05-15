@@ -31,7 +31,7 @@ export const clubs_relations = relations(clubs, ({ many }) => ({
   affiliations: many(affiliations),
 }));
 
-export type StatusInClub = 'admin' | 'moderator';
+export type StatusInClub = 'admin' | 'co-owner';
 
 export type DatabaseClub = InferSelectModel<typeof clubs>;
 export type DatabaseClubsToUsers = InferSelectModel<typeof clubs_to_users>;

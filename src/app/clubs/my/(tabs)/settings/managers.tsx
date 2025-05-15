@@ -1,20 +1,21 @@
 'use client';
 
+import AddManagerDrawer from '@/app/clubs/my/(tabs)/settings/add-manager-drawer';
 import FormattedMessage from '@/components/formatted-message';
 import { useClubManagers } from '@/components/hooks/query-hooks/use-club-managers';
-import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ClubManagers } from '@/lib/actions/club-managing';
-import { UserPlus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { FC } from 'react';
 
-const ClubManagersList: FC<{ id: string }> = ({ id }) => {
-  const { data, isLoading } = useClubManagers(id);
-  // const [addingManager, setAddingManager] = useState(false);
-  const t = useTranslations('Club');
+const ClubManagersList: FC<{ clubId: string; userId: string }> = ({
+  clubId,
+  userId,
+}) => {
+  const { data, isLoading } = useClubManagers(clubId);
+  // const t = useTranslations('Club');
 
   return (
     <div className="flex flex-col sm:px-0">
@@ -28,15 +29,7 @@ const ClubManagersList: FC<{ id: string }> = ({ id }) => {
           <ul className="list-disc pl-4">{data?.map(ManagersIteratee)}</ul>
         )}
       </Card>
-      <Button
-        size="icon"
-        variant="outline"
-        onClick={console.log}
-        className="flex w-full gap-2"
-      >
-        <UserPlus />
-        {t('add manager')}
-      </Button>
+      <AddManagerDrawer clubId={clubId} userId={userId} />
     </div>
   );
 };

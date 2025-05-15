@@ -18,11 +18,11 @@ import {
 } from '@/components/ui/command';
 import { DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { DatabaseUser } from '@/lib/db/schema/auth';
+import { DatabaseClub } from '@/lib/db/schema/clubs';
+import { DatabasePlayer } from '@/lib/db/schema/players';
 import { User } from 'lucia';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { DatabaseClub } from '@/lib/db/schema/clubs';
-import { DatabasePlayer } from '@/lib/db/schema/players';
 
 export default function GlobalSearch({ user }: { user: User | null }) {
   const [open, setOpen] = React.useState(false);
@@ -31,6 +31,7 @@ export default function GlobalSearch({ user }: { user: User | null }) {
   const { data, isLoading } = useSearchQuery({
     userId: user?.id,
     query: debouncedSearchQuery,
+    filter: undefined,
   });
   const router = useRouter();
 
