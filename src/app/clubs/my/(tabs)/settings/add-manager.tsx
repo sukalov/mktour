@@ -53,16 +53,9 @@ const AddManager = ({
     users = foundUsers.data.users;
   }
 
-  //   const filteredPlayers = affiliatedUsers.data.filter(
-  //     (player: DatabasePlayer) => {
-  //       //   const regex = new RegExp(value, 'i');
-  //       if (value === '') return player;
-  //     },
-  //   );
-
   return (
     <div className="flex flex-col">
-      {users.length === 0 && value === '' && (
+      {users.length === 0 && debouncedValue === '' && (
         <p className="text-muted-foreground px-8 pt-8 text-center text-sm text-balance">
           {t('no affiliated users')}
         </p>
