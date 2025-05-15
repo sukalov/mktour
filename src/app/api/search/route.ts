@@ -1,3 +1,4 @@
+import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
 import { users } from '@/lib/db/schema/auth';
 import { clubs } from '@/lib/db/schema/clubs';
@@ -10,6 +11,7 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
+  const { user } = await validateRequest();
   const query = searchParams.get('q');
   const filter = searchParams.get('filter');
   if (!query) return new Response(JSON.stringify([]), { status: 200 });
@@ -25,7 +27,8 @@ export async function GET(req: NextRequest) {
         ),
       )
       .limit(15);
-    return new Response(JSON.stringify({ users: usersResult }), {
+    const filteredUsers = usersResult.filter((u) => u.id !== user?.id);
+    return new Response(JSON.stringify({ users: filteredUsers }), {
       status: 200,
     });
   }
@@ -60,7 +63,7 @@ export async function GET(req: NextRequest) {
 
   const data = {
     players: playersResult,
-    users: usersResult,
+    users: usersResult.filter((u) => u.id !== user?.id),
     tournaments: tournamentsResult,
     clubs: clubsResult,
   };
