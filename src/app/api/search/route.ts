@@ -11,8 +11,24 @@ export const dynamic = 'force-dynamic';
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const query = searchParams.get('q');
+  const filter = searchParams.get('filter');
   if (!query) return new Response(JSON.stringify([]), { status: 200 });
   const queryStr = `%${query}%`;
+  if (filter === 'users') {
+    const usersResult = await db
+      .select()
+      .from(users)
+      .where(
+        or(
+          sql`lower(${users.name}) like lower(${queryStr})`,
+          sql`lower(${users.username}) like lower(${queryStr})`,
+        ),
+      )
+      .limit(15);
+    return new Response(JSON.stringify({ users: usersResult }), {
+      status: 200,
+    });
+  }
   const playersDb = db
     .select()
     .from(players)

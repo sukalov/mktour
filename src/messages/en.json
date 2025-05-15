@@ -118,7 +118,13 @@
       "danger zone": "danger zone",
       "delete club": "delete club",
       "confirmation body": "all players and tournaments will be deleted. if you're completely sure, type the name of the club you are deleting",
-      "cancel": "cancel"
+      "cancel": "cancel",
+      "add manager": "add manager",
+      "search": "sesrch for mktour users",
+      "no affiliated users": "couldn't find real people related to your club. start typing to search among all mktour users",
+      "search users error": "an error happened while searching",
+      "make admin": "make admin",
+      "make co-owner": "make co-owner"
     },
     "Dashboard": {
       "no data": "no data",
@@ -137,7 +143,7 @@
   },
   "Status": {
     "admin": "admin",
-    "moderator": "moderator"
+    "co-owner": "co-owner"
   },
   "Toasts": {
     "server error": "sorry! server error happened",

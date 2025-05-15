@@ -103,7 +103,7 @@ export async function GET(request: Request): Promise<Response> {
         id: ctuId,
         club_id: clubId,
         user_id: userId,
-        status: 'admin',
+        status: 'co-owner',
       });
       await db.insert(user_preferences).values({
         user_id: userId,

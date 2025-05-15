@@ -5,9 +5,9 @@ import FormattedMessage from '@/components/formatted-message';
 import { validateRequest } from '@/lib/auth/lucia';
 import getPlayerQuery from '@/lib/db/queries/get-player-query';
 import getStatus from '@/lib/db/queries/get-status-query';
-import { DatabaseUser } from '@/lib/db/schema/users';
-import { DatabasePlayer } from '@/lib/db/schema/players';
 import { StatusInClub } from '@/lib/db/schema/clubs';
+import { DatabasePlayer } from '@/lib/db/schema/players';
+import { DatabaseUser } from '@/lib/db/schema/users';
 import { User2 } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -24,8 +24,8 @@ export default async function PlayerPage(props: PlayerPageProps) {
     : undefined;
 
   const isOwnPlayer = user && player.user_id === user.id;
-  const canEdit = status === 'admin' || isOwnPlayer;
-  const canClaim = status !== 'admin' && user && !player.user_id;
+  const canEdit = status || isOwnPlayer;
+  const canClaim = status && user && !player.user_id;
 
   return (
     <div className="mk-container flex w-full flex-col gap-2">
