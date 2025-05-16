@@ -33,7 +33,7 @@ const Desktop: FC<ClubTabProps & { club: any }> = ({
         <div>
           <h1 className="mb-2">{t('inbox')}</h1>
           <Card className="p-4">
-            <ClubInbox />
+            <ClubInbox selectedClub={selectedClub} />
           </Card>
         </div>
         <div>

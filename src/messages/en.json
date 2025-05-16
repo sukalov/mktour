@@ -139,6 +139,9 @@
       "lichess team": "lichess team",
       "createdAt": "created: {date}",
       "tournaments": "club tournaments:"
+    },
+    "Inbox": {
+      "loading": "loading..."
     }
   },
   "Status": {
