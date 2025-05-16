@@ -138,11 +138,14 @@ export const handleSocketMessage = (
       queryClient.invalidateQueries({
         queryKey: [tournamentId, 'games'],
       });
-      message.isTournamentGoing &&
+      if (message.isTournamentGoing) {
         queryClient.invalidateQueries({
           queryKey: [tournamentId, 'tournament'],
         });
-      message.isTournamentGoing && setRoundInView(message.roundNumber);
+      }
+      if (message.isTournamentGoing) {
+        setRoundInView(message.roundNumber);
+      }
       break;
     case 'error':
       toast.error(errorMessage, { id: 'wsErrorMessage' });
