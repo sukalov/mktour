@@ -30,7 +30,7 @@ const NotificationItem = ({
   affiliation: DatabaseAffiliation | null;
 }) => {
   return (
-    <div className="py-8">
+    <div className="py-8" key={notification.id}>
       {JSON.stringify({ notification, affiliation }, null, 4)}
     </div>
   );
