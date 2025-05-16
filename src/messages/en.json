@@ -75,6 +75,7 @@
     "lichess": "lichess",
     "club": "club",
     "claim": "it's me!",
+    "cancel claim": "cancel application",
     "claim confirmation": "you are gonna send application. as soon as admins confirm it, the player will be associated with your account"
   },
   "Errors": {
