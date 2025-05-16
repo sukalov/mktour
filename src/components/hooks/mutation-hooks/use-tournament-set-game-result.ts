@@ -49,7 +49,7 @@ export default function useTournamentSetGameResult(
       ) {
         const modifier = isReset ? -1 : 1;
 
-        let updatedPlayer = { ...player };
+        const updatedPlayer = { ...player };
 
         if (result === '1-0') {
           if (isWhite) {
@@ -91,13 +91,18 @@ export default function useTournamentSetGameResult(
             else if (prevResult && prevResult !== result) {
               if (player.id === whiteId) {
                 // First remove old result
-                let updated = updatePlayerStats(player, prevResult, true, true);
+                const updated = updatePlayerStats(
+                  player,
+                  prevResult,
+                  true,
+                  true,
+                );
                 // Then add new result
                 return updatePlayerStats(updated, result, true, false);
               }
               if (player.id === blackId) {
                 // First remove old result
-                let updated = updatePlayerStats(
+                const updated = updatePlayerStats(
                   player,
                   prevResult,
                   false,
