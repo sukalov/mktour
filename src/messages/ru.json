@@ -166,7 +166,8 @@
     "ws message error": "что-то не так... другие зрители турнира не увидят это действие, простите!",
     "finished": "турнир завершён!",
     "player updated": "игрок обновлён",
-    "affiliation requested": "заявка отправлена"
+    "affiliation requested": "заявка отправлена",
+    "affiliation canceled": "заявка отменена"
   },
   "EditUser": {
     "header": "настройки",
