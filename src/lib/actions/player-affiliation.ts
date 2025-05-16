@@ -12,7 +12,7 @@ import {
   players,
 } from '@/lib/db/schema/players';
 import { newid } from '@/lib/utils';
-import { and, eq } from 'drizzle-orm';
+import { and, eq, sql } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 
 export async function requestAffiliation({
@@ -138,14 +138,16 @@ export async function rejectAffiliation({
 
   return affiliation;
 }
-export async function cancelAffiliationByUser({
+export async function abortAffiliationRequest({
   userId,
   playerId,
   affiliationId,
+  playerId,
 }: {
   userId: string;
   playerId: string;
   affiliationId: string;
+  playerId: string;
 }) {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
@@ -158,7 +160,14 @@ export async function cancelAffiliationByUser({
   if (affiliation.status !== 'requested')
     throw new Error('AFFILIATION_STATUS_NOT_REQUESTED');
 
-  await db.delete(affiliations).where(eq(affiliations.id, affiliationId));
+  await Promise.all([
+    db.delete(affiliations).where(eq(affiliations.id, affiliationId)),
+    db
+      .delete(notifications)
+      .where(
+        sql`json_extract(${notifications.metadata}, '$.affiliation_id') = ${affiliationId}`,
+      ),
+  ]);
   revalidatePath(`/players/${playerId}`);
 
   return affiliation;

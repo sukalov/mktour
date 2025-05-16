@@ -51,17 +51,15 @@ const ClaimPlayer: FC<{
     return (
       <Root open={open} onOpenChange={setOpen}>
         <Trigger asChild>
-          <Button variant="ghost" className="flex gap-2 px-2">
-            {isPending ? (
-              <LoadingSpinner />
-            ) : (
-              <>
-                <Pointer />
-                <div className="text-[10px] text-nowrap">
-                  <FormattedMessage id="Player.claim" />
-                </div>
-              </>
-            )}
+          <Button
+            variant="ghost"
+            className="flex gap-2 px-2"
+            disabled={isPending}
+          >
+            {isPending ? <LoadingSpinner /> : <Pointer />}
+            <div className="text-[10px] text-nowrap">
+              <FormattedMessage id="Player.claim" />
+            </div>
           </Button>
         </Trigger>
         <Content>
