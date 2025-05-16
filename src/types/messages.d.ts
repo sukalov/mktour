@@ -5,5 +5,5 @@ type Messages = typeof en;
 if (!(ru instanceof IntlMessages)) throw new Error('RU_TRANSLATIONS_ERROR');
 
 declare global {
-  export interface IntlMessages extends Messages {}
+  export type IntlMessages = Messages;
 }
