@@ -41,8 +41,8 @@ export async function GET(
           eq(games.round_number, roundNumber),
         ),
       )
-      .leftJoin(whitePlayer, eq(games.white_id, whitePlayer.id))
-      .leftJoin(blackPlayer, eq(games.black_id, blackPlayer.id));
+      .innerJoin(whitePlayer, eq(games.white_id, whitePlayer.id))
+      .innerJoin(blackPlayer, eq(games.black_id, blackPlayer.id));
 
     const data = gamesDb.sort((a, b) => a.game_number - b.game_number);
     return new Response(JSON.stringify(data), {

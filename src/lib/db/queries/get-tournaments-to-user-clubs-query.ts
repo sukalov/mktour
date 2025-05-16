@@ -25,7 +25,7 @@ export default async function getTournamentsToUserClubsQuery({
       club: clubs,
     })
     .from(tournaments)
-    .leftJoin(clubs, eq(tournaments.club_id, clubs.id))
+    .innerJoin(clubs, eq(tournaments.club_id, clubs.id))
     .where(inArray(tournaments.club_id, clubIds));
 
   return tournamentsFromUserClubs as TournamentWithClub[];

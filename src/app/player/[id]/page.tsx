@@ -15,12 +15,12 @@ import { notFound } from 'next/navigation';
 import { FC } from 'react';
 
 export default async function PlayerPage(props: PlayerPageProps) {
-  const params = await props.params;
+  const { id } = await props.params;
   const { user } = await validateRequest();
-  const { player, club, user: playerUser } = await getPlayerQuery(params.id);
+  const playerData = await getPlayerQuery(id);
+  if (!playerData) notFound();
+  const { player, club, user: playerUser } = playerData;
   const userAffiliation = await getUserClubAffiliation(user, club.id); // NB: this won't return approved afiiliations yet
-
-  if (!player || !club) notFound();
 
   const status: StatusInClub | undefined = user
     ? await getStatus({ user, clubId: club.id })

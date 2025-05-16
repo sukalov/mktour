@@ -83,7 +83,7 @@ export async function getTournamentInfo(id: string): Promise<TournamentInfo> {
       .select()
       .from(tournaments)
       .where(eq(tournaments.id, id))
-      .leftJoin(clubs, eq(tournaments.club_id, clubs.id))
+      .innerJoin(clubs, eq(tournaments.club_id, clubs.id))
   ).at(0);
   if (!tournamentInfo) throw new Error('TOURNAMENT NOT FOUND');
   if (!tournamentInfo.club) throw new Error('ORGANIZER CLUB NOT FOUND');

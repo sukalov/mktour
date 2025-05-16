@@ -22,7 +22,7 @@ export async function GET() {
       .select()
       .from(players)
       .where(and(eq(players.club_id, selectedClub), isNotNull(players.user_id)))
-      .leftJoin(users, eq(users.id, players.user_id));
+      .innerJoin(users, eq(users.id, players.user_id));
 
     return new Response(JSON.stringify(usersAffiliated), {
       status: 200,
