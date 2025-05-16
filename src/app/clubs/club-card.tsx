@@ -33,7 +33,7 @@ const ClubCard: FC<ClubProps> = ({ club }) => {
       <p className="text-muted-foreground text-xs">
         {club.created_at &&
           t('Club.Page.createdAt', {
-            date: club.created_at!.toLocaleDateString(locale, {
+            date: club.created_at.toLocaleDateString(locale, {
               dateStyle: 'long',
             }),
           })}

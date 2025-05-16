@@ -55,7 +55,7 @@ export const InfoItem: FC<{
     {!href ? (
       <span>{value}</span>
     ) : (
-      <Link href={href!} className="mk-link hover:opacity-75">
+      <Link href={href} className="mk-link hover:opacity-75">
         {value}
       </Link>
     )}

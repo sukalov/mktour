@@ -16,13 +16,13 @@ export async function GET(
       .select()
       .from(players_to_tournaments)
       .where(eq(players_to_tournaments.tournament_id, id))
-      .leftJoin(players, eq(players.id, players_to_tournaments.player_id));
+      .innerJoin(players, eq(players.id, players_to_tournaments.player_id));
 
     const playerModels = playersDb.map((each) => ({
-      id: each.player!.id,
-      nickname: each.player!.nickname,
-      realname: each.player?.realname,
-      rating: each.player!.rating,
+      id: each.player.id,
+      nickname: each.player.nickname,
+      realname: each.player.realname,
+      rating: each.player.rating,
       wins: each.players_to_tournaments.wins,
       draws: each.players_to_tournaments.draws,
       losses: each.players_to_tournaments.losses,
