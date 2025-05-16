@@ -59,22 +59,6 @@
   }
 
   /* cyrillic */
-  /* @font-face {
-  font-family: 'Main';
-  src: url('../app/fonts/Mononoki/MononokiNerdFont-Regular.ttf') format('truetype');
-  unicode-range: U+0400-04FF, U+0500-052F, U+2DE0-2DFF, U+A640-A69F;
-  size-adjust: 115%;
-} */
-
-  /* cyrillic */
-  /* @font-face {
-  font-family: 'Main';
-  src: url('../app/fonts/PT-Mono.ottt/PT/PT/PT-Mono/pt-mono_regular.ttf') format('truetype');
-  unicode-range: U+0400-04FF, U+0500-052F, U+2DE0-2DFF, U+A640-A69F;
-  size-adjust: 105%;
-}
-  */
-  /* cyrillic */
   @font-face {
     font-family: 'Main';
     src: url('./fonts/ubuntu-mono/UbuntuMono-Regular.ttf') format('truetype');
