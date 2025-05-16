@@ -22,7 +22,9 @@ const Command = React.forwardRef<
 ));
 Command.displayName = CommandPrimitive.displayName;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CommandDialog = ({ children, shouldFilter, ...props }: any) => {
+  // FIXME any
   return (
     <Dialog {...props}>
       <DialogContent className="overflow-hidden p-0 shadow-lg max-sm:translate-y-[-50svh]">

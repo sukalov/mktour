@@ -8,7 +8,7 @@ export const useUserSelectClub = (queryClient: QueryClient) => {
     mutationKey: ['select-club'],
     gcTime: 0,
     mutationFn: editUser,
-    onError: (_err, _) => {
+    onError: () => {
       toast.error('error happened', {
         id: 'error',
         duration: 3000,

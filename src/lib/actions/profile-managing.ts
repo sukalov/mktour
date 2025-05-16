@@ -57,7 +57,7 @@ export const deleteUser = async ({ userId }: { userId: string }) => {
   }
 
   if (notSelectedClubs.length !== 0) {
-    for (let clubId in notSelectedClubs) {
+    for (const clubId in notSelectedClubs) {
       await deleteClubFunction({
         userId,
         id: notSelectedClubs[clubId],

@@ -27,7 +27,9 @@ export const useDashboardWebsocket = (
       interval: 5000,
       message: '',
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onMessage: (event: MessageEvent<any>) => {
+      // FIXME any
       if (!event.data) return;
       const message = JSON.parse(event.data);
       handleSocketMessage(

@@ -1,6 +1,6 @@
 import { MotionProps, motion } from 'framer-motion';
 
-const MenuToggle = ({ toggle }: { toggle: any }) => (
+const MenuToggle = ({ toggle }: { toggle: () => void }) => (
   <button
     onClick={toggle}
     className="text-foreground pointer-events-auto absolute top-[18px] right-4 z-30 stroke-none"

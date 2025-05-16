@@ -3,18 +3,19 @@ import ClubSettings from '@/app/clubs/my/(tabs)/settings';
 import { ClubTabProps } from '@/app/clubs/my/tabMap';
 import { InfoItem } from '@/app/tournaments/[id]/dashboard/tabs/main';
 import { Card } from '@/components/ui/card';
+import { DatabaseClub } from '@/lib/db/schema/clubs';
 import { CalendarDays, Info } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import { FC } from 'react';
 
-const Desktop: FC<ClubTabProps & { club: any }> = ({
+const Desktop: FC<ClubTabProps & { club: DatabaseClub }> = ({
   selectedClub,
   userId,
   club,
 }) => {
   const locale = useLocale();
   const t = useTranslations('Club.Dashboard');
-  const createdAt = club.data?.created_at?.toLocaleDateString([locale], {
+  const createdAt = club?.created_at?.toLocaleDateString([locale], {
     dateStyle: 'medium',
   });
 
@@ -24,8 +25,8 @@ const Desktop: FC<ClubTabProps & { club: any }> = ({
         <div>
           <h1 className="mb-2">{t('main')}</h1>
           <Card className="items-left mx-auto flex max-w-[min(640px,100%)] flex-col gap-8 p-4">
-            {club.data.description && (
-              <InfoItem icon={Info} value={club.data.description} />
+            {club.description && (
+              <InfoItem icon={Info} value={club.description} />
             )}
             <InfoItem icon={CalendarDays} value={createdAt} />
           </Card>
