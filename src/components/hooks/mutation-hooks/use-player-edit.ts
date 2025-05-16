@@ -1,9 +1,9 @@
 import { editPlayer } from '@/lib/actions/club-managing';
-import { QueryClient, useMutation } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
-export default function useEditPlayerMutation(_queryClient: QueryClient) {
+export default function useEditPlayerMutation() {
   const t = useTranslations('Toasts');
   return useMutation({
     mutationFn: editPlayer,

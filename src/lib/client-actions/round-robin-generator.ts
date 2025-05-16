@@ -37,7 +37,7 @@ export function generateRoundRobinRoundFunction({
   const poolByIdUpdated = updateChessEntitiesMatches(poolById, previousMatches);
 
   // checking the pool for liveability
-  poolById.forEach((entityPool, _) => {
+  poolById.forEach((entityPool) => {
     if (entityPool.size == 0)
       throw new EvalError(
         'Trying to generate a round without possible matches',
@@ -313,7 +313,7 @@ function generateRoundRobinPairs(
     matchedEntities.splice(secondEntityIndex, 1);
 
     // removing matched entity from all other pools
-    poolById.forEach((entityPool, _) => {
+    poolById.forEach((entityPool) => {
       entityPool.delete(firstEntity);
       entityPool.delete(secondEntity);
     });
