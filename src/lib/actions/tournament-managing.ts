@@ -216,8 +216,8 @@ export async function getTournamentGames(
     })
     .from(games)
     .where(eq(games.tournament_id, tournamentId))
-    .leftJoin(whitePlayer, eq(games.black_id, whitePlayer.id))
-    .leftJoin(blackPlayer, eq(games.white_id, blackPlayer.id));
+    .innerJoin(whitePlayer, eq(games.black_id, whitePlayer.id))
+    .innerJoin(blackPlayer, eq(games.white_id, blackPlayer.id));
 
   return gamesDb.sort((a, b) => a.game_number - b.game_number);
 }
@@ -254,8 +254,8 @@ export async function getTournamentRoundGames({
         eq(games.round_number, roundNumber),
       ),
     )
-    .leftJoin(whitePlayer, eq(games.white_id, whitePlayer.id))
-    .leftJoin(blackPlayer, eq(games.black_id, blackPlayer.id));
+    .innerJoin(whitePlayer, eq(games.white_id, whitePlayer.id))
+    .innerJoin(blackPlayer, eq(games.black_id, blackPlayer.id));
 
   return gamesDb.sort((a, b) => a.game_number - b.game_number);
 }
