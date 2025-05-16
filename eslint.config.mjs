@@ -5,7 +5,6 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import tseslint from 'typescript-eslint';
 
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const compat = new FlatCompat({
@@ -29,10 +28,10 @@ export default defineConfig([
         },
       ],
     },
-
-
   },
-  tseslint.config(
-    tseslint.configs.recommended,
-    )
+  tseslint.config(tseslint.configs.recommended, {
+    rules: {
+      '@typescript-eslint/no-empty-object-type': 'warn',
+    },
+  }),
 ]);
