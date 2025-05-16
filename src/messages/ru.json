@@ -140,6 +140,9 @@
       "lichess team": "команда в личес",
       "createdAt": "создана: {date}",
       "tournaments": "турниры клуба:"
+    },
+    "Inbox": {
+      "loading": "загрузка..."
     }
   },
   "Status": {
