@@ -5,6 +5,7 @@ import FormattedMessage from '@/components/formatted-message';
 import { validateRequest } from '@/lib/auth/lucia';
 import getPlayerQuery from '@/lib/db/queries/get-player-query';
 import getStatus from '@/lib/db/queries/get-status-query';
+import { getUserClubAffiliation } from '@/lib/db/queries/get-user-club-affiliation';
 import { StatusInClub } from '@/lib/db/schema/clubs';
 import { DatabasePlayer } from '@/lib/db/schema/players';
 import { DatabaseUser } from '@/lib/db/schema/users';
@@ -17,6 +18,8 @@ export default async function PlayerPage(props: PlayerPageProps) {
   const params = await props.params;
   const { user } = await validateRequest();
   const { player, club, user: playerUser } = await getPlayerQuery(params.id);
+  const userAffiliation = await getUserClubAffiliation(user, club.id); // NB: this won't return approved afiiliations yet
+
   if (!player || !club) notFound();
 
   const status: StatusInClub | undefined = user
@@ -25,7 +28,7 @@ export default async function PlayerPage(props: PlayerPageProps) {
 
   const isOwnPlayer = user && player.user_id === user.id;
   const canEdit = status || isOwnPlayer;
-  const canClaim = !status && user && !player.user_id;
+  const canClaim = !status && user && !player.user_id && !userAffiliation;
 
   return (
     <div className="mk-container flex w-full flex-col gap-2">
