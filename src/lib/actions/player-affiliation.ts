@@ -142,12 +142,10 @@ export async function abortAffiliationRequest({
   userId,
   playerId,
   affiliationId,
-  playerId,
 }: {
   userId: string;
   playerId: string;
   affiliationId: string;
-  playerId: string;
 }) {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');

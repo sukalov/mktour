@@ -22,7 +22,6 @@ const CancelClaimPlayer: FC<{
   clubId: string;
   affiliation: DatabaseAffiliation;
 }> = ({ userId, affiliation }) => {
-  const playerId = affiliation.player_id;
   const [open, setOpen] = useState(false);
   const { mutate, isPending } = useAffiliationAbortRequestMutation();
   const handleClick = () => {
