@@ -33,7 +33,7 @@ const AddFakerPlayer: FC<{ setOpen: (_arg: boolean) => void }> = ({
     id: newid(),
     nickname,
     realname: null,
-    club_id: tournament.data?.club?.id!,
+    club_id: tournament.data?.club?.id || '',
     user_id: null,
     rating: faker.number.int({ min: 100, max: 3000 }),
     last_seen: null,
@@ -43,7 +43,7 @@ const AddFakerPlayer: FC<{ setOpen: (_arg: boolean) => void }> = ({
     setOpen(false);
     mutate({
       player,
-      tournamentId: tournament.data?.tournament.id!,
+      tournamentId: tournament.data?.tournament.id || '',
       userId: userId!,
     });
   };
