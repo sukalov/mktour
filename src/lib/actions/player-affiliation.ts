@@ -13,6 +13,7 @@ import {
 } from '@/lib/db/schema/players';
 import { newid } from '@/lib/utils';
 import { and, eq } from 'drizzle-orm';
+import { revalidatePath } from 'next/cache';
 
 export async function requestAffiliation({
   playerId,
@@ -69,6 +70,7 @@ export async function requestAffiliation({
     db.insert(affiliations).values(newAffiliation),
     db.insert(notifications).values(newNotification),
   ]);
+  revalidatePath(`/players/${user.id}`);
 }
 
 export async function acceptAffiliation({
@@ -133,6 +135,29 @@ export async function rejectAffiliation({
       .where(eq(affiliations.id, affiliationId)),
     db.delete(notifications).where(eq(notifications.id, notificationId)),
   ]);
+
+  return affiliation;
+}
+export async function cancelAffiliationByUser({
+  userId,
+  affiliationId,
+}: {
+  userId: string;
+  affiliationId: string;
+}) {
+  const { user } = await validateRequest();
+  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
+  if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
+
+  const affiliation = await db.query.affiliations.findFirst({
+    where: eq(affiliations.id, affiliationId),
+  });
+  if (!affiliation) throw new Error('AFFILIATION_NOT_FOUND');
+  if (affiliation.status !== 'requested')
+    throw new Error('AFFILIATION_STATUS_NOT_REQUESTED');
+
+  await db.delete(affiliations).where(eq(affiliations.id, affiliationId));
+  revalidatePath(`/players/${user.id}`);
 
   return affiliation;
 }

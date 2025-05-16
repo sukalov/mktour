@@ -8,16 +8,12 @@ export const getUserClubAffiliation = async (
   clubId: string,
 ): Promise<DatabaseAffiliation | undefined> => {
   if (!user) throw new Error('USER_NOT_FOUND');
+  const res = await db
+    .select()
+    .from(affiliations)
+    .where(
+      and(eq(affiliations.club_id, clubId), eq(affiliations.user_id, user.id)),
+    );
 
-  return (
-    await db
-      .select()
-      .from(affiliations)
-      .where(
-        and(
-          eq(affiliations.club_id, clubId),
-          eq(affiliations.user_id, user.id),
-        ),
-      )
-  ).at(0);
+  return res[0];
 };

@@ -29,6 +29,7 @@ const ClaimPlayer: FC<{
   const [open, setOpen] = useState(false);
   const { mutate, isPending } = useAffiliationRequestMutation();
   const handleClick = () => {
+    setOpen(false);
     mutate({ playerId, userId, clubId });
   };
   const t = useTranslations();
@@ -37,51 +38,58 @@ const ClaimPlayer: FC<{
     userAffiliation?.status === 'requested' &&
     userAffiliation.player_id === playerId;
 
-  if (hasClaimed) return <CancelClaimPlayer userId={userId} clubId={clubId} />;
-  if (!userAffiliation)
+  if (hasClaimed)
     return (
-      <Root open={open} onOpenChange={setOpen}>
-        <Trigger asChild>
-          <Button variant="ghost" className="flex gap-2 p-2">
-            {isPending ? (
-              <LoadingSpinner />
-            ) : (
-              <>
-                <Pointer />
-                <div className="text-[10px] text-nowrap">
-                  <FormattedMessage id="Player.claim" />
-                </div>
-              </>
-            )}
-          </Button>
-        </Trigger>
-        <Content>
-          <Header>
-            <Title>
-              <FormattedMessage id="Player.claim" />
-            </Title>
-            <Description>
-              <FormattedMessage id="Player.claim confirmation" />
-            </Description>
-          </Header>
-          <Button
-            className="w-full"
-            onClick={handleClick}
-            disabled={isPending}
-            type="submit"
-          >
-            {isPending ? <LoadingSpinner /> : <Check />}
-            &nbsp;
-            {t('Common.send')}
-          </Button>
-          <Close asChild>
-            <Button className="w-full" variant="outline">
-              {t('Common.cancel')}
-            </Button>
-          </Close>
-        </Content>
-      </Root>
+      <CancelClaimPlayer
+        userId={userId}
+        clubId={clubId}
+        affiliation={userAffiliation}
+      />
     );
+
+  return (
+    <Root open={open} onOpenChange={setOpen}>
+      <Trigger asChild>
+        <Button variant="ghost" className="flex gap-2 px-2">
+          {isPending ? (
+            <LoadingSpinner />
+          ) : (
+            <>
+              <Pointer />
+              <div className="text-[10px] text-nowrap">
+                <FormattedMessage id="Player.claim" />
+              </div>
+            </>
+          )}
+        </Button>
+      </Trigger>
+      <Content>
+        <Header>
+          <Title>
+            <FormattedMessage id="Player.claim" />
+          </Title>
+          <Description>
+            <FormattedMessage id="Player.claim confirmation" />
+          </Description>
+        </Header>
+        <Button
+          className="w-full"
+          onClick={handleClick}
+          disabled={isPending}
+          type="submit"
+        >
+          {isPending ? <LoadingSpinner /> : <Check />}
+          &nbsp;
+          {t('Common.send')}
+        </Button>
+        <Close asChild>
+          <Button className="w-full" variant="outline">
+            {t('Common.cancel')}
+          </Button>
+        </Close>
+      </Content>
+    </Root>
+  );
 };
 
 export default ClaimPlayer;

@@ -2,6 +2,7 @@
 
 import { LoadingSpinner } from '@/app/loading';
 import FormattedMessage from '@/components/formatted-message';
+import useAffiliationCancelByUserMutation from '@/components/hooks/mutation-hooks/use-affiliation-cancel';
 import { Button } from '@/components/ui/button';
 import {
   Close,
@@ -11,32 +12,28 @@ import {
   Title,
   Trigger,
 } from '@/components/ui/combo-modal';
+import { DatabaseAffiliation } from '@/lib/db/schema/players';
 import { PointerOff } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useParams } from 'next/navigation';
 import { FC, useState } from 'react';
 
-const CancelClaimPlayer: FC<{ userId: string; clubId: string }> = ({
-  userId,
-  clubId,
-}) => {
-  const { id: playerId } = useParams<{ id: string }>();
+const CancelClaimPlayer: FC<{
+  userId: string;
+  clubId: string;
+  affiliation: DatabaseAffiliation;
+}> = ({ userId, affiliation }) => {
   const [open, setOpen] = useState(false);
-  const [isPending, setIsPending] = useState(false);
+  const { mutate, isPending } = useAffiliationCancelByUserMutation();
   const handleClick = () => {
     setOpen(false);
-    setIsPending(true);
-    setTimeout(() => {
-      setIsPending(false);
-    }, 2000);
-    console.log('clicked', userId, clubId, playerId);
+    mutate({ affiliationId: affiliation.id, userId });
   };
   const t = useTranslations();
 
   return (
     <Root open={open} onOpenChange={setOpen}>
       <Trigger asChild>
-        <Button variant="ghost" className="flex gap-2 p-2">
+        <Button variant="ghost" className="flex gap-2 px-2">
           {isPending ? (
             <LoadingSpinner />
           ) : (

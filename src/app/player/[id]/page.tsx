@@ -28,7 +28,7 @@ export default async function PlayerPage(props: PlayerPageProps) {
 
   const isOwnPlayer = user && player.user_id === user.id;
   const canEdit = status || isOwnPlayer;
-  const canClaim = !status && user && !player.user_id;
+  const canClaim = !status && user && !player.user_id && !userAffiliation;
 
   return (
     <div className="mk-container flex w-full flex-col gap-2">
