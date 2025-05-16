@@ -54,7 +54,6 @@
   },
   "Empty": {
     "players": "there are no players in your club yet",
-    "inbox": "claims to moderate tournaments, to link players to users and other club related notifications",
     "tournaments": "there are no tournaments in your club yet",
     "dashboard": "no data",
     "user": "user not found"
@@ -142,7 +141,8 @@
       "tournaments": "club tournaments:"
     },
     "Inbox": {
-      "loading": "loading..."
+      "loading": "loading...",
+      "empty": "claims to moderate tournaments, to link players to users and other club related notifications"
     }
   },
   "Status": {
