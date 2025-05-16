@@ -29,9 +29,5 @@ export default defineConfig([
       ],
     },
   },
-  tseslint.config(tseslint.configs.recommended, {
-    rules: {
-      '@typescript-eslint/no-empty-object-type': 'warn',
-    },
-  }),
+  tseslint.config(tseslint.configs.recommended),
 ]);
