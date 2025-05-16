@@ -124,7 +124,8 @@
       "make co-owner": "сделать совладельцем",
       "make moderator": "сделать модератором",
       "add manager": "добавить админа",
-      "make admin": "сделать админом"
+      "make admin": "сделать админом",
+      "search users error": "во время поиска что-то слетело"
     },
     "Dashboard": {
       "no data": "данные не получены",

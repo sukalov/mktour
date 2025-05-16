@@ -12,5 +12,5 @@ export default async function getUserClubs({ userId }: { userId: string }) {
     })
     .from(clubs_to_users)
     .where(eq(clubs_to_users.user_id, userId))
-    .leftJoin(clubs, eq(clubs_to_users.club_id, clubs.id));
+    .innerJoin(clubs, eq(clubs_to_users.club_id, clubs.id));
 }

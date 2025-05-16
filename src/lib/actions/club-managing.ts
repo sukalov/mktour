@@ -120,17 +120,17 @@ export const editPlayer = async ({
 
 export default async function getAllClubManagers(
   club_id: string,
-): Promise<ClubManagers[]> {
+): Promise<ClubManager[]> {
   return await db
     .select()
     .from(clubs_to_users)
     .where(eq(clubs_to_users.club_id, club_id))
-    .leftJoin(users, eq(clubs_to_users.user_id, users.id));
+    .innerJoin(users, eq(clubs_to_users.user_id, users.id));
 }
 
-export type ClubManagers = {
-  clubs_to_users: DatabaseClubsToUsers | null;
-  user: DatabaseUser | null;
+export type ClubManager = {
+  clubs_to_users: DatabaseClubsToUsers;
+  user: DatabaseUser;
 };
 
 export const deleteClubFunction = async ({

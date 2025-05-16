@@ -69,7 +69,7 @@ const SwipeHandlerProvider: FC<SwipeDetectorProps & PropsWithChildren> = ({
 };
 
 interface SwipeDetectorProps {
-  handleSwipe: (_dir: string) => void | null;
+  handleSwipe: (_dir: string) => void;
 }
 
 export default SwipeHandlerProvider;
