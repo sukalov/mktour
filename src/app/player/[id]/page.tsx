@@ -20,7 +20,7 @@ export default async function PlayerPage(props: PlayerPageProps) {
   if (!player || !club) notFound();
 
   const status: StatusInClub | undefined = user
-    ? await getStatus({ user, club })
+    ? await getStatus({ user, clubId: club.id })
     : undefined;
 
   const isOwnPlayer = user && player.user_id === user.id;
