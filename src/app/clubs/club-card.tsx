@@ -2,7 +2,7 @@
 
 import { Card, CardTitle } from '@/components/ui/card';
 import LichessLogo from '@/components/ui/lichess-logo';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FC } from 'react';
@@ -10,6 +10,7 @@ import { FC } from 'react';
 const ClubCard: FC<ClubProps> = ({ club }) => {
   const router = useRouter();
   const t = useTranslations();
+  const locale = useLocale();
 
   return (
     <Card
@@ -33,6 +34,15 @@ const ClubCard: FC<ClubProps> = ({ club }) => {
           {club.description || t('Club.Page.no description')}
         </span>
       )}
+
+      <p className="text-muted-foreground text-xs">
+        {club.created_at &&
+          t('Club.Page.createdAt', {
+            date: club.created_at.toLocaleDateString(locale, {
+              dateStyle: 'long',
+            }),
+          })}
+      </p>
     </Card>
   );
 };

@@ -29,5 +29,5 @@ export default defineConfig([
       ],
     },
   },
-  tseslint.config(tseslint.configs.recommended),
+  tseslint.config(tseslint.configs.strict),
 ]);

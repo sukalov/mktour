@@ -21,8 +21,8 @@ export interface PlayerModel {
  *
  */
 export interface GameModel extends DatabaseGame {
-  black_nickname: string | null; // players where id === games.black_id  nickname;
-  white_nickname: string | null; // players where id === games.white_id  nickname;
+  black_nickname: string; // players where id === games.black_id  nickname;
+  white_nickname: string; // players where id === games.white_id  nickname;
 }
 
 export interface TournamentInfo {
