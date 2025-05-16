@@ -15,10 +15,16 @@ export default async function MyTournaments() {
 
   const t = await getTranslations('Tournaments');
 
-  if (tournaments.length === 0) {
+  if (!tournaments.length) {
     return (
-      <p className="text-muted-foreground pt-4 text-center text-sm text-balance">
+      <p className="text-muted-foreground flex flex-col pt-4 text-center text-sm text-balance">
         {t('no tournaments')}
+        <Link
+          href={'/tournaments/create'}
+          className="bg-primary text-secondary m-4 rounded-md p-2"
+        >
+          make tournament
+        </Link>
       </p>
     );
   }

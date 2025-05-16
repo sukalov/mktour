@@ -17,18 +17,16 @@ const ClubPage: FC<ClubProps> = ({ club }) => {
 
   return (
     <div className="mk-container flex flex-col gap-2">
-      <div className="flex flex-col gap-2 px-2">
-        <ClubInfo club={club} />
-      </div>
-      <div className={`flex ${tab === 1 && 'flex-row-reverse'} px-2`}>
+      <ClubInfo club={club} />
+      <div className={`grid grid-cols-2 px-2`}>
         <span
-          className={`text-muted grow ${tab === 0 && 'text-primary underline underline-offset-2'}`}
+          className={`text-muted-foreground grow text-center ${tab === 0 && 'text-primary underline underline-offset-2'}`}
           onClick={() => setTab(0)}
         >
           <FormattedMessage id="Menu.tournaments" />
         </span>
         <span
-          className={`text-muted grow ${tab > 0 && 'text-primary underline underline-offset-2'}`}
+          className={`text-muted-foreground grow text-center ${tab > 0 && 'text-primary underline underline-offset-2'}`}
           onClick={() => setTab(1)}
         >
           <FormattedMessage id="Club.Dashboard.players" />
@@ -43,7 +41,7 @@ const ClubInfo: FC<ClubProps> = ({ club }) => {
   const t = useTranslations('Club');
   const locale = useLocale();
   return (
-    <div>
+    <div className="p-2">
       <p className="text-2xl font-bold">{club.name}</p>
       {club.lichess_team && (
         <Link
