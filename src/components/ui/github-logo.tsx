@@ -19,9 +19,9 @@ const GithubLogo: FC<LogoProps> = ({ size, theme }) => {
   );
 };
 
-type LogoProps = {
+export type LogoProps = {
   size: string;
-  theme: 'light' | 'dark';
+  theme: string;
 };
 
 export default GithubLogo;

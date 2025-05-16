@@ -37,7 +37,7 @@ const Result = ({ result }: { result: ResultModel | null }) => {
 
 interface GameProps {
   result: ResultModel | null;
-  setResult: any;
+  setResult: () => void;
   player1: string;
   player2: string;
 }
