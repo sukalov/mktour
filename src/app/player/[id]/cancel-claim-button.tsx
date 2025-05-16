@@ -26,7 +26,11 @@ const CancelClaimPlayer: FC<{
   const { mutate, isPending } = useAffiliationCancelByUserMutation();
   const handleClick = () => {
     setOpen(false);
-    mutate({ affiliationId: affiliation.id, userId });
+    mutate({
+      affiliationId: affiliation.id,
+      userId,
+      playerId: affiliation.player_id,
+    });
   };
   const t = useTranslations();
 

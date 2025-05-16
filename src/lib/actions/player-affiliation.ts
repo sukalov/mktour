@@ -70,7 +70,7 @@ export async function requestAffiliation({
     db.insert(affiliations).values(newAffiliation),
     db.insert(notifications).values(newNotification),
   ]);
-  revalidatePath(`/players/${user.id}`);
+  revalidatePath(`/players/${playerId}`);
 }
 
 export async function acceptAffiliation({
@@ -140,9 +140,11 @@ export async function rejectAffiliation({
 }
 export async function cancelAffiliationByUser({
   userId,
+  playerId,
   affiliationId,
 }: {
   userId: string;
+  playerId: string;
   affiliationId: string;
 }) {
   const { user } = await validateRequest();
@@ -157,7 +159,7 @@ export async function cancelAffiliationByUser({
     throw new Error('AFFILIATION_STATUS_NOT_REQUESTED');
 
   await db.delete(affiliations).where(eq(affiliations.id, affiliationId));
-  revalidatePath(`/players/${user.id}`);
+  revalidatePath(`/players/${playerId}`);
 
   return affiliation;
 }
