@@ -10,6 +10,6 @@ export default function useAffiliationRequestMutation() {
     onSuccess: () => {
       toast.success(t('affiliation requested'));
     },
-    onError: () => toast.error(t('server error')),
+    onError: (error) => toast.error(`${t('server error')}: ${error}`),
   });
 }
