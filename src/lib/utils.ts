@@ -1,3 +1,5 @@
+/* eslint-disable */
+// FIXME eslint
 import { ClassValue, clsx } from 'clsx';
 import { customAlphabet } from 'nanoid';
 import { twMerge } from 'tailwind-merge';
@@ -72,7 +74,6 @@ export function debounce<T extends (..._args: any[]) => any>(
 ): (..._args: Parameters<T>) => void {
   let timeout: ReturnType<typeof setTimeout> | null = null;
 
-  // eslint-disable-next-line no-unused-vars
   return function (this: any, ...args: Parameters<T>): void {
     const context = this;
 

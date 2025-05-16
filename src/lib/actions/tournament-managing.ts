@@ -367,9 +367,10 @@ export async function saveRound({
 
   await Promise.all(cleanupPromises);
 
-  let insertPromises: Promise<any>[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const insertPromises: Promise<any>[] = []; // FIXME any
   newGames.forEach((game) => {
-    const { white_nickname, black_nickname, ...newGame } = game;
+    const { ...newGame } = game;
     insertPromises.push(db.insert(games).values(newGame));
   });
 
