@@ -14,6 +14,8 @@ import { useTranslations } from 'next-intl';
 const ClubInbox = ({ selectedClub }: Pick<ClubTabProps, 'selectedClub'>) => {
   const t = useTranslations('Club.Inbox');
   const notifications = useClubNotifications(selectedClub);
+  console.log(notifications.data);
+
   if (notifications.status === 'pending') return <p>{t('loading')}</p>;
   if (notifications.status === 'error')
     return <p>{notifications.error.message}</p>;
@@ -40,7 +42,7 @@ const NotificationItem = ({
   notification: DatabaseNotification;
   affiliation: DatabaseAffiliation | null;
 }) => {
-  const user = useUser(notification.user_id);
+  const user = useUser(affiliation?.user_id || '');
 
   return (
     <Card className="mk-card" key={notification.id}>
@@ -48,26 +50,22 @@ const NotificationItem = ({
         <div>
           <p className="text-sm text-gray-600">
             {notification.notification_type === 'affiliation_request'
-              ? `Affiliation request from user ${user.data?.username}`
+              ? `Affiliation request from ${user.data?.username}`
               : 'Unknown notification type'}
           </p>
           <p className="text-xs text-gray-500">
             Created at: {new Date(notification.created_at).toLocaleString()}
           </p>
         </div>
-        <Button size={'icon'}>
-          <Check />{' '}
-        </Button>
-        <Button variant={'destructive'} size={'icon'}>
-          <X />{' '}
-        </Button>
-      </div>
-      {affiliation && (
-        <div className="mt-2 text-sm text-gray-700">
-          <p>Affiliation ID: {notification.id}</p>
-          <p>Status: {affiliation.status}</p>
+        <div className="ml-3 flex gap-1">
+          <Button size="icon" className="size-8">
+            <Check />{' '}
+          </Button>
+          <Button variant="destructive" size="icon" className="size-8">
+            <X />{' '}
+          </Button>
         </div>
-      )}
+      </div>
     </Card>
   );
 };
