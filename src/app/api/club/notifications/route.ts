@@ -1,7 +1,8 @@
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
 import { notifications } from '@/lib/db/schema/notifications';
-import { affiliations } from '@/lib/db/schema/players';
+import { affiliations, players } from '@/lib/db/schema/players';
+import { users } from '@/lib/db/schema/users';
 import { and, eq, sql } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
 
@@ -30,7 +31,9 @@ export async function GET() {
       .leftJoin(
         affiliations,
         sql`json_extract(${notifications.metadata}, '$.affiliation_id') = ${affiliations.id}`,
-      );
+      )
+      .leftJoin(users, eq(users.id, affiliations.user_id))
+      .leftJoin(players, eq(players.id, affiliations.player_id));
 
     return new Response(JSON.stringify(clubNotifications), {
       status: 200,

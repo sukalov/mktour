@@ -2,19 +2,20 @@
 
 import { ClubTabProps } from '@/app/clubs/my/tabMap';
 import Empty from '@/components/empty';
+import FormattedMessage from '@/components/formatted-message';
 import { useClubNotifications } from '@/components/hooks/query-hooks/use-club-notifications';
-import { useUser } from '@/components/hooks/query-hooks/use-user';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { DatabaseNotification } from '@/lib/db/schema/notifications';
-import { DatabaseAffiliation } from '@/lib/db/schema/players';
-import { Check, X } from 'lucide-react';
+import { DatabaseAffiliation, DatabasePlayer } from '@/lib/db/schema/players';
+import { DatabaseUser } from '@/lib/db/schema/users';
+import { Check, Pointer, UserRound, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
 
 const ClubInbox = ({ selectedClub }: Pick<ClubTabProps, 'selectedClub'>) => {
   const t = useTranslations('Club.Inbox');
   const notifications = useClubNotifications(selectedClub);
-  console.log(notifications.data);
 
   if (notifications.status === 'pending') return <p>{t('loading')}</p>;
   if (notifications.status === 'error')
@@ -33,27 +34,44 @@ export default ClubInbox;
 const NotificationItemIteratee = (data: {
   notification: DatabaseNotification;
   affiliation: DatabaseAffiliation | null;
-}) => <NotificationItem key={data.affiliation?.id} {...data} />;
+  user: DatabaseUser | null;
+  player: DatabasePlayer | null;
+}) => <NotificationItem key={data.notification?.id} {...data} />;
 
 const NotificationItem = ({
-  notification,
   affiliation,
+  notification,
+  user,
+  player,
 }: {
-  notification: DatabaseNotification;
   affiliation: DatabaseAffiliation | null;
+  notification: DatabaseNotification;
+  user: DatabaseUser | null;
+  player: DatabasePlayer | null;
 }) => {
-  const user = useUser(affiliation?.user_id || '');
-
+  if (!affiliation) return null;
   return (
-    <Card className="mk-card" key={notification.id}>
+    <Card className="mk-card flex flex-col gap-2" key={notification.id}>
+      <p className="text-muted-foreground text-xs">
+        <FormattedMessage id="Club.Inbox.affiliation" />
+      </p>
       <div className="flex items-center justify-between">
-        <div>
-          <p className="text-sm text-gray-600">
-            {notification.notification_type === 'affiliation_request'
-              ? `Affiliation request from ${user.data?.username}`
-              : 'Unknown notification type'}
-          </p>
-          <p className="text-xs text-gray-500">
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center gap-2 text-sm">
+            <div className="flex items-center gap-1">
+              <UserRound className="size-4" />
+              <Link href={`/user/${user?.username}`} className="mk-link">
+                {user?.username}
+              </Link>
+            </div>
+            <Pointer className="size-4 rotate-90" />
+            <div>
+              <Link href={`/player/${player?.id}`} className="mk-link">
+                {player?.nickname}
+              </Link>
+            </div>
+          </div>
+          <p className="text-muted-foreground text-xs">
             Created at: {new Date(notification.created_at).toLocaleString()}
           </p>
         </div>

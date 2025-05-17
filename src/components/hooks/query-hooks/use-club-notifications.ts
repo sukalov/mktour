@@ -1,5 +1,6 @@
 import { DatabaseNotification } from '@/lib/db/schema/notifications';
-import { DatabaseAffiliation } from '@/lib/db/schema/players';
+import { DatabaseAffiliation, DatabasePlayer } from '@/lib/db/schema/players';
+import { DatabaseUser } from '@/lib/db/schema/users';
 import { useQuery } from '@tanstack/react-query';
 
 export const useClubNotifications = (clubId: string) => {
@@ -9,6 +10,8 @@ export const useClubNotifications = (clubId: string) => {
       {
         notification: DatabaseNotification;
         affiliation: DatabaseAffiliation | null;
+        user: DatabaseUser | null;
+        player: DatabasePlayer | null;
       }[]
     > => {
       const response = await fetch('/api/club/notifications');
