@@ -55,11 +55,11 @@ const TournamentTable: FC = ({}) => {
   }
 
   const handleDelete = () => {
-    if (userId && status === 'organizer' && !hasStarted) {
+    if (userId && status === 'organizer' && !hasStarted && selectedPlayer) {
       removePlayers.mutate(
         {
           tournamentId: id,
-          playerId: selectedPlayer!.id,
+          playerId: selectedPlayer.id,
           userId,
         },
         { onSuccess: () => setSelectedPlayer(null) },
@@ -69,7 +69,7 @@ const TournamentTable: FC = ({}) => {
 
   return (
     <>
-      <Table>
+      <Table className="mb-20">
         <TableHeader>
           <TableRow>
             <TableHeadStyled className="text-center">#</TableHeadStyled>

@@ -4,16 +4,21 @@ import { Card, CardTitle } from '@/components/ui/card';
 import LichessLogo from '@/components/ui/lichess-logo';
 import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 
 const ClubCard: FC<ClubProps> = ({ club }) => {
-  const locale = useLocale();
+  const router = useRouter();
   const t = useTranslations();
+  const locale = useLocale();
 
   return (
-    <Card className="mk-card flex flex-col shadow-lg">
-      <CardTitle className="flex items-center gap-2 text-sm">
-        <Link href={`/clubs/${club.id}`}>{club.name}</Link>
+    <Card
+      className="mk-card flex flex-col shadow-sm"
+      onClick={() => router.push(`/clubs/${club.id}`)}
+    >
+      <div className="flex items-center gap-2">
+        <CardTitle className="text-sm">{club.name}</CardTitle>
         {club.lichess_team && (
           <Link
             href={`https://lichess.org/team/${club.lichess_team}`}
@@ -23,9 +28,9 @@ const ClubCard: FC<ClubProps> = ({ club }) => {
             <LichessLogo />
           </Link>
         )}
-      </CardTitle>
+      </div>
       {club.description && (
-        <span className="text-muted-foreground text-sm">
+        <span className="text-muted-foreground">
           {club.description || t('Club.Page.no description')}
         </span>
       )}
@@ -33,7 +38,7 @@ const ClubCard: FC<ClubProps> = ({ club }) => {
       <p className="text-muted-foreground text-xs">
         {club.created_at &&
           t('Club.Page.createdAt', {
-            date: club.created_at!.toLocaleDateString(locale, {
+            date: club.created_at.toLocaleDateString(locale, {
               dateStyle: 'long',
             }),
           })}

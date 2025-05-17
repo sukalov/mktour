@@ -160,7 +160,7 @@ describe('pure matching generation test', () => {
       matchedEntity.pairingNumber = entityIndex;
     });
     // for the initial case, the previous games are missing
-    let previousGames: GameModel[] = [];
+    const previousGames: GameModel[] = [];
 
     let currentRound = INITIAL_ONGOING_ROUND;
 

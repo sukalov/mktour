@@ -10,7 +10,7 @@ export function generateRandomRoundGames(
 ): GameModel[] {
   console.log(randomRoundProps);
   // checking if the set of layers is even, if not, making it even with a smart alg
-  let matchedEntities = players.map(convertPlayerToEntity);
+  const matchedEntities = players.map(convertPlayerToEntity);
 
   console.log(matchedEntities, players, games, roundNumber, tournamentId);
 

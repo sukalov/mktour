@@ -23,9 +23,9 @@ const TournamentItem = ({ club, tournament }: Props) => {
   });
 
   return (
-    <Link key={id} href={`/tournaments/${id}`} className="w-full">
-      <Card className="mk-card flex flex-col">
-        <CardTitle className="text-base">{title}</CardTitle>
+    <Link key={id} href={`/tournaments/${id}`}>
+      <Card className="mk-card mk-list-item flex flex-col">
+        <CardTitle className="text-sm">{title}</CardTitle>
         {club && (
           <span className="text-muted-foreground text-xs">{club.name}</span>
         )}

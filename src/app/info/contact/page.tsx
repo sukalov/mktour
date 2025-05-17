@@ -1,7 +1,7 @@
 'use client';
 
 import Center from '@/components/center';
-import GithubLogo from '@/components/ui/github-logo';
+import GithubLogo, { LogoProps } from '@/components/ui/github-logo';
 import LichessLogo from '@/components/ui/lichess-logo';
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
@@ -33,7 +33,10 @@ const LinkItem: FC<{
   );
 };
 
-const links: Record<string, { title: string; logo: FC<any>; url: string }> = {
+const links: Record<
+  string,
+  { title: string; logo: FC<LogoProps>; url: string }
+> = {
   lichess: {
     title: 'lichess',
     logo: LichessLogo,

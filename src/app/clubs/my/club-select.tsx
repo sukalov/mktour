@@ -12,15 +12,24 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 import { useQueryClient } from '@tanstack/react-query';
 import { User } from 'lucia';
+import { useTranslations } from 'next-intl';
 import { FC } from 'react';
+import { toast } from 'sonner';
 
 const ClubSelect: FC<{ user: User }> = ({ user }) => {
-  const { data: clubs } = useUserClubs(user.id);
+  const { data: clubs, status } = useUserClubs(user.id);
   const queryClient = useQueryClient();
   const clubSelection = useUserSelectClub(queryClient);
-  const placeholder = clubs?.find((club) => club.id === user.selected_club)
+  const t = useTranslations('Toasts');
+  if (status === 'error')
+    toast.error(t('server error'), {
+      id: 'error',
+      duration: 3000,
+    });
+  if (status !== 'success') return <Skeleton className="h-6 w-48" />;
+  const placeholder = clubs.find((club) => club.id === user.selected_club)
     ?.name ?? <Skeleton className="h-6 w-48" />;
-  const sortedClubs = clubs?.sort((a, b) =>
+  const sortedClubs = clubs.sort((a, b) =>
     a.id === user.selected_club ? -1 : b.id === user.selected_club ? 1 : 0,
   );
 
@@ -34,7 +43,7 @@ const ClubSelect: FC<{ user: User }> = ({ user }) => {
         })
       }
     >
-      <SelectTriggerNoOutline className="bg-background/30 w-full rounded-none px-4 backdrop-blur-md">
+      <SelectTriggerNoOutline className="bg-background/30 w-full rounded-none px-6 backdrop-blur-md">
         <SelectValue placeholder={placeholder} />
       </SelectTriggerNoOutline>
       {sortedClubs && (
@@ -48,12 +57,12 @@ const ClubSelect: FC<{ user: User }> = ({ user }) => {
 
 const SelectItemIteratee = (props: ClubSelectProps) => {
   return (
-    <SelectItem key={props.id} value={props.id!}>
-      {props.name!}
+    <SelectItem key={props.id} value={props.id}>
+      {props.name}
     </SelectItem>
   );
 };
 
-type ClubSelectProps = { id: string | null; name: string | null };
+type ClubSelectProps = { id: string; name: string };
 
 export default ClubSelect;

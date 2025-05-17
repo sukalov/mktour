@@ -2,39 +2,37 @@ import { RefObject, useEffect } from 'react';
 
 const useOutsideClick = (
   handler: () => void,
-  ref: RefObject<any>,
+  ref: RefObject<HTMLElement | null>,
   options?: HookOptions,
 ) => {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
-      const target = event.target as Element | null;
+      const { target } = event;
 
-      if (target && target.classList.contains('isolate-touch')) return;
-      if (ref.current && !ref.current.contains(event.target)) {
-        handler();
+      if (
+        target instanceof HTMLElement &&
+        (target.classList.contains('isolate-touch') ||
+          (ref.current && ref.current.contains(target)))
+      ) {
+        return;
       }
+
+      handler();
     };
 
-    document.addEventListener('mousedown', handleClickOutside, {
-      capture: options?.capture,
-    });
-    window.addEventListener(
-      options?.touch || 'touchstart',
-      handleClickOutside,
-      { capture: options?.capture },
-    );
+    const eventOptions = { capture: options?.capture };
+    const touchEvent = options?.touch || 'touchstart';
+
+    document.addEventListener('mousedown', handleClickOutside, eventOptions);
+    window.addEventListener(touchEvent, handleClickOutside, eventOptions);
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside, {
-        capture: options?.capture,
-      });
-      window.removeEventListener(
-        options?.touch || 'touchstart',
+      document.removeEventListener(
+        'mousedown',
         handleClickOutside,
-        {
-          capture: options?.capture,
-        },
+        eventOptions,
       );
+      window.removeEventListener(touchEvent, handleClickOutside, eventOptions);
     };
   }, [handler, options?.capture, options?.touch, ref]);
 };

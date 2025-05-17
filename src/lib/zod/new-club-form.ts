@@ -20,7 +20,7 @@ export const newClubFormSchema = z
       team = await validateLichessTeam(data);
       return !team;
     },
-    (_data) => {
+    () => {
       return {
         message: `LINK_TEAM_ERROR@%!!(&${team?.id}@%!!(&${team?.name}`,
         path: ['lichess_team'],

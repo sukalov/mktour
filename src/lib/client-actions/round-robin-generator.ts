@@ -32,7 +32,7 @@ export function generateRoundRobinRound({
   games = games?.filter((game) => game.round_number !== roundNumber) ?? [];
 
   // checking if the set of layers is even, if not, making it even with a smart alg
-  let matchedEntities = players.map(convertPlayerToEntity);
+  const matchedEntities = players.map(convertPlayerToEntity);
 
   console.log(matchedEntities, players, games, roundNumber, tournamentId);
 
@@ -130,7 +130,7 @@ function generateRoundRobinPairs(
     );
 
   // final mapping of the player numbers to the players together
-  for (let numberPair of pairedPlayerNumbers) {
+  for (const numberPair of pairedPlayerNumbers) {
     const entitiesPair = numberPair.map(
       (numberPair) =>
         entityByPairingNumber.get(numberPair) as ChessTournamentEntity,

@@ -54,7 +54,6 @@
   },
   "Empty": {
     "players": "there are no players in your club yet",
-    "inbox": "claims to moderate tournaments, to link players to users and other club related notifications",
     "tournaments": "there are no tournaments in your club yet",
     "dashboard": "no data",
     "user": "user not found"
@@ -75,6 +74,7 @@
     "lichess": "lichess",
     "club": "club",
     "claim": "it's me!",
+    "cancel claim": "cancel application",
     "claim confirmation": "you are gonna send application. as soon as admins confirm it, the player will be associated with your account"
   },
   "Errors": {
@@ -139,6 +139,11 @@
       "lichess team": "lichess team",
       "createdAt": "created: {date}",
       "tournaments": "club tournaments:"
+    },
+    "Inbox": {
+      "loading": "loading...",
+      "empty": "claims to moderate tournaments, to link players to users and other club related notifications",
+      "affiliation": "affiliation request"
     }
   },
   "Status": {
@@ -160,7 +165,8 @@
     "ws message error": "sorry! realtime server couldn't forward this event to other viewers",
     "finished": "tournament finished!",
     "player updated": "player updated",
-    "affiliation requested": "request sent"
+    "affiliation requested": "request sent",
+    "affiliation canceled": "request cancelled"
   },
   "EditUser": {
     "header": "settings",

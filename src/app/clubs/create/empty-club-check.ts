@@ -12,7 +12,7 @@ export const emptyClubCheck = async ({
 }): Promise<DatabaseClub | null> => {
   const userToClubs = await getUserToClubs({ user });
   const clubsList = userToClubs.map((el) => el.club) as DatabaseClub[];
-  for (let club in clubsList) {
+  for (const club in clubsList) {
     const finishedClubTournament = (
       await db
         .select()

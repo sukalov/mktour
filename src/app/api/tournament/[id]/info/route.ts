@@ -2,7 +2,6 @@ import { db } from '@/lib/db';
 import { clubs } from '@/lib/db/schema/clubs';
 import { tournaments } from '@/lib/db/schema/tournaments';
 import { eq } from 'drizzle-orm';
-
 import { NextRequest, NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
@@ -18,7 +17,7 @@ export async function GET(
         .select()
         .from(tournaments)
         .where(eq(tournaments.id, id))
-        .leftJoin(clubs, eq(tournaments.club_id, clubs.id))
+        .innerJoin(clubs, eq(tournaments.club_id, clubs.id))
     ).at(0);
     if (!tournamentInfo) throw new Error('TOURNAMENT NOT FOUND');
     if (!tournamentInfo.club) throw new Error('ORGANIZER CLUB NOT FOUND');

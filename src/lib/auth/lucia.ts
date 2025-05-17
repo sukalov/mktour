@@ -78,6 +78,6 @@ export const validateRequest = cache(
 );
 
 export const lichess = new Lichess(
-  process.env.LICHESS_CLIENT_ID!,
+  process.env.LICHESS_CLIENT_ID ?? '',
   `${BASE_URL}/login/lichess/callback`,
 );

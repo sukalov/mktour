@@ -5,6 +5,7 @@ import FormattedMessage from '@/components/formatted-message';
 import { validateRequest } from '@/lib/auth/lucia';
 import getPlayerQuery from '@/lib/db/queries/get-player-query';
 import getStatus from '@/lib/db/queries/get-status-query';
+import { getUserClubAffiliation } from '@/lib/db/queries/get-user-club-affiliation';
 import { StatusInClub } from '@/lib/db/schema/clubs';
 import { DatabasePlayer } from '@/lib/db/schema/players';
 import { DatabaseUser } from '@/lib/db/schema/users';
@@ -14,18 +15,20 @@ import { notFound } from 'next/navigation';
 import { FC } from 'react';
 
 export default async function PlayerPage(props: PlayerPageProps) {
-  const params = await props.params;
+  const { id } = await props.params;
   const { user } = await validateRequest();
-  const { player, club, user: playerUser } = await getPlayerQuery(params.id);
-  if (!player || !club) notFound();
+  const playerData = await getPlayerQuery(id);
+  if (!playerData) notFound();
+  const { player, club, user: playerUser } = playerData;
+  const userAffiliation = await getUserClubAffiliation(user, club.id); // NB: this won't return approved afiiliations yet
 
   const status: StatusInClub | undefined = user
-    ? await getStatus({ user, club })
+    ? await getStatus({ user, clubId: club.id })
     : undefined;
 
   const isOwnPlayer = user && player.user_id === user.id;
   const canEdit = status || isOwnPlayer;
-  const canClaim = status && user && !player.user_id;
+  const canClaim = !status && user && !player.user_id;
 
   return (
     <div className="mk-container flex w-full flex-col gap-2">
@@ -41,10 +44,16 @@ export default async function PlayerPage(props: PlayerPageProps) {
             {canEdit && (
               <>
                 <EditButton userId={user.id} player={player} />
-                <DeletePlayer userId={user.id} />
+                {!isOwnPlayer && <DeletePlayer userId={user.id} />}
               </>
             )}
-            {canClaim && <ClaimPlayer userId={user.id} clubId={club.id} />}
+            {canClaim && (
+              <ClaimPlayer
+                userId={user.id}
+                clubId={club.id}
+                userAffiliation={userAffiliation}
+              />
+            )}
           </div>
         )}
       </div>

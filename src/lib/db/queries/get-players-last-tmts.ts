@@ -19,7 +19,7 @@ export default async function getPlayersLastTmts(playerId: string): Promise<
     .select()
     .from(players_to_tournaments)
     .where(eq(players_to_tournaments.player_id, playerId))
-    .leftJoin(
+    .innerJoin(
       tournaments,
       eq(players_to_tournaments.tournament_id, tournaments.id),
     )

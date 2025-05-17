@@ -41,8 +41,8 @@ export async function GET(
           eq(games.round_number, roundNumber),
         ),
       )
-      .leftJoin(whitePlayer, eq(games.white_id, whitePlayer.id))
-      .leftJoin(blackPlayer, eq(games.black_id, blackPlayer.id));
+      .innerJoin(whitePlayer, eq(games.white_id, whitePlayer.id))
+      .innerJoin(blackPlayer, eq(games.black_id, blackPlayer.id));
 
     const data = gamesDb.sort((a, b) => a.game_number - b.game_number);
     return new Response(JSON.stringify(data), {
@@ -94,9 +94,10 @@ export async function POST(
 
     await Promise.all(cleanupPromises);
 
-    let insertPromises: Promise<any>[] = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const insertPromises: Promise<any>[] = []; // FIXME any
     newGames.forEach((game) => {
-      const { white_nickname, black_nickname, ...newGame } = game;
+      const { ...newGame } = game;
       insertPromises.push(db.insert(games).values(newGame));
     });
     await Promise.all(insertPromises);
