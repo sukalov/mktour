@@ -23,8 +23,11 @@ const ClubInbox = ({ selectedClub }: Pick<ClubTabProps, 'selectedClub'>) => {
   );
 };
 
-export default ClubInbox;
+const NotificationItemIteratee = (data: AffiliationNotification) => {
+  // FIXME union type
+  if (data.notification.notification_type === 'affiliation_request')
+    return <AffiliationNotificationLi key={data.notification?.id} {...data} />;
+  return null;
+};
 
-const NotificationItemIteratee = (data: AffiliationNotification) => (
-  <AffiliationNotificationLi key={data.notification?.id} {...data} />
-);
+export default ClubInbox;
