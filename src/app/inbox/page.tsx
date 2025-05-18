@@ -7,6 +7,8 @@ const Page = async () => {
   const res = await getUserNotifications();
   const groupedNotifications = groupAffiliationNotificationsByClub(res);
 
+  console.log(res);
+
   return <UserNotifications groupedNotifications={groupedNotifications} />;
 };
 
