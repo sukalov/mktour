@@ -57,7 +57,7 @@ const NotificationItem = ({
       </p>
       <div className="flex items-center justify-between">
         <div className="flex flex-col gap-1">
-          <div className="flex items-center gap-2 text-sm">
+          <div className="flex items-center gap-2">
             <div className="flex items-center gap-1">
               <UserRound className="size-4" />
               <Link href={`/user/${user?.username}`} className="mk-link">
@@ -72,7 +72,7 @@ const NotificationItem = ({
             </div>
           </div>
           <p className="text-muted-foreground text-xs">
-            Created at: {new Date(notification.created_at).toLocaleString()}
+            {new Date(notification.created_at).toLocaleString()}
           </p>
         </div>
         <div className="ml-3 flex gap-1">
