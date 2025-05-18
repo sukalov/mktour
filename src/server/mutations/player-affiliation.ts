@@ -86,7 +86,10 @@ export async function acceptAffiliation({
   const affiliation = await db.query.affiliations.findFirst({
     where: eq(affiliations.id, affiliationId),
   });
+
   if (!affiliation) throw new Error('AFFILIATION_NOT_FOUND');
+  if (affiliation.club_id !== user.selected_club)
+    throw new Error('CLUB_ID_NOT_MATCHING');
   if (affiliation.status !== 'requested')
     throw new Error('AFFILIATION_STATUS_NOT_REQUESTED');
 
@@ -119,6 +122,8 @@ export async function rejectAffiliation({
     where: eq(affiliations.id, affiliationId),
   });
   if (!affiliation) throw new Error('AFFILIATION_NOT_FOUND');
+  if (affiliation.club_id !== user.selected_club)
+    throw new Error('CLUB_ID_NOT_MATCHING');
   if (affiliation.status !== 'requested')
     throw new Error('AFFILIATION_STATUS_NOT_REQUESTED');
 
