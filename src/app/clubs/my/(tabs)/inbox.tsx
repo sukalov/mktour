@@ -14,7 +14,7 @@ const ClubInbox = ({ selectedClub }: Pick<ClubTabProps, 'selectedClub'>) => {
   if (notifications.status === 'pending') return <p>{t('loading')}</p>;
   if (notifications.status === 'error')
     return <p>{notifications.error.message}</p>;
-  if (notifications.data.length < 1)
+  if (!notifications.data.length)
     return <Empty className="p-2">{t('empty')}</Empty>;
   return (
     <div className="mk-list">
