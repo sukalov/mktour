@@ -25,7 +25,13 @@ const getUserNotifications = async (): Promise<AffiliationNotification[]> => {
   const userClubs = await getUserClubNames({ userId: user.id });
 
   return await db
-    .select()
+    .select({
+      affiliation: affiliations,
+      notification: notifications,
+      player: { nickname: players.nickname, id: players.id },
+      clubName: clubs.name,
+      user: users,
+    })
     .from(notifications)
     .where(
       inArray(
@@ -37,17 +43,17 @@ const getUserNotifications = async (): Promise<AffiliationNotification[]> => {
       affiliations,
       sql`json_extract(${notifications.metadata}, '$.affiliation_id') = ${affiliations.id}`,
     )
-    .leftJoin(users, eq(users.id, affiliations.user_id))
-    .leftJoin(players, eq(players.id, affiliations.player_id))
-    .leftJoin(clubs, eq(clubs.id, notifications.club_id));
+    .innerJoin(users, eq(users.id, affiliations.user_id))
+    .innerJoin(players, eq(players.id, affiliations.player_id))
+    .innerJoin(clubs, eq(clubs.id, notifications.club_id));
 };
 
 export type AffiliationNotification = {
   affiliation: DatabaseAffiliation | null;
   notification: DatabaseNotification;
-  user: DatabaseUser | null;
-  player: DatabasePlayer | null;
-  club?: DatabaseClub | null;
+  player: Pick<DatabasePlayer, 'nickname' | 'id'> | null;
+  clubName?: DatabaseClub['name'] | null;
+  user?: DatabaseUser | null;
 };
 
 export default getUserNotifications;
