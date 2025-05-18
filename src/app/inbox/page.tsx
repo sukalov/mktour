@@ -1,17 +1,9 @@
-'use client';
+import getUserNotifications from '@/lib/actions/get-user-notifications';
 
-import { useEffect, useState } from 'react';
+const Page = async () => {
+  const res = await getUserNotifications();
 
-const Page = () => {
-  const [inbox, setInbox] = useState(null);
-
-  useEffect(() => {
-    fetch('/api/user')
-      .then((res) => res.json())
-      .then(setInbox);
-  }, []);
-
-  return <pre>{JSON.stringify(inbox, null, 1)}</pre>;
+  return <pre>{JSON.stringify(res, null, 2)}</pre>;
 };
 
 export default Page;
