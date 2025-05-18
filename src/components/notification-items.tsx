@@ -21,27 +21,26 @@ export const AffiliationNotificationLi = ({
       </p>
       <div className="flex items-center justify-between">
         <div className="flex flex-col gap-1">
-          <div className="flex items-center gap-2 text-sm">
-            <div className="flex items-center gap-1">
+          <div className="flex flex-col justify-center gap-2">
+            <div className="flex items-center gap-2">
               <UserRound className="size-4" />
               <Link href={`/user/${user?.username}`} className="mk-link">
                 {user?.username}
               </Link>
             </div>
-            <Pointer className="size-4 rotate-90" />
-            <Link href={`/player/${player?.id}`} className="mk-link">
-              {player?.nickname}
-            </Link>
+            <div className="flex items-center gap-2">
+              <Pointer className="size-4" />
+              <Link href={`/player/${player?.id}`} className="mk-link">
+                {player?.nickname}
+              </Link>
+            </div>
           </div>
-          <p className="text-muted-foreground text-2xs">
-            {new Date(notification.created_at).toLocaleString()}
-          </p>
         </div>
-        <div className="ml-3 flex gap-1">
-          <Button size="icon" className="size-8">
+        <div className="ml-3 flex gap-2">
+          <Button>
             <Check />{' '}
           </Button>
-          <Button variant="destructive" size="icon" className="size-8">
+          <Button variant="destructive">
             <X />{' '}
           </Button>
         </div>
