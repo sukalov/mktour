@@ -7,6 +7,8 @@ const Page = async () => {
   const res = await getUserNotifications();
   const groupedNotifications = groupAffiliationNotificationsByClub(res);
 
+  console.log(res);
+
   return <UserNotifications groupedNotifications={groupedNotifications} />;
 };
 
@@ -15,10 +17,10 @@ const groupAffiliationNotificationsByClub = (
 ) => {
   const groupedNotifications = notifications.reduce(
     (acc, notification) => {
-      if (!notification.club) {
+      if (!notification.clubName) {
         return acc;
       }
-      const clubName = notification.club.name;
+      const clubName = notification.clubName;
       if (!acc[clubName]) {
         acc[clubName] = [];
       }

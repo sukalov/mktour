@@ -4,9 +4,7 @@ import { ClubTabProps } from '@/app/clubs/my/tabMap';
 import Empty from '@/components/empty';
 import { useClubNotifications } from '@/components/hooks/query-hooks/use-club-notifications';
 import { AffiliationNotificationLi } from '@/components/notification-items';
-import { DatabaseNotification } from '@/lib/db/schema/notifications';
-import { DatabaseAffiliation, DatabasePlayer } from '@/lib/db/schema/players';
-import { DatabaseUser } from '@/lib/db/schema/users';
+import { AffiliationNotification } from '@/lib/actions/get-user-notifications';
 import { useTranslations } from 'next-intl';
 
 const ClubInbox = ({ selectedClub }: Pick<ClubTabProps, 'selectedClub'>) => {
@@ -27,9 +25,6 @@ const ClubInbox = ({ selectedClub }: Pick<ClubTabProps, 'selectedClub'>) => {
 
 export default ClubInbox;
 
-const NotificationItemIteratee = (data: {
-  notification: DatabaseNotification;
-  affiliation: DatabaseAffiliation | null;
-  user: DatabaseUser | null;
-  player: DatabasePlayer | null;
-}) => <AffiliationNotificationLi key={data.notification?.id} {...data} />;
+const NotificationItemIteratee = (data: AffiliationNotification) => (
+  <AffiliationNotificationLi key={data.notification?.id} {...data} />
+);
