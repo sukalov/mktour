@@ -74,17 +74,18 @@ export async function requestAffiliation({
 }
 
 export async function acceptAffiliation({
-  userId,
+  // userId,
   affiliationId,
   notificationId,
 }: {
-  userId: string;
+  // userId: string;
   affiliationId: string;
   notificationId: string;
 }) {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
-  if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
+  // if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
+  // FIXME add check
 
   const affiliation = await db.query.affiliations.findFirst({
     where: eq(affiliations.id, affiliationId),
@@ -112,17 +113,18 @@ export async function acceptAffiliation({
 }
 
 export async function rejectAffiliation({
-  userId,
+  // userId,
   affiliationId,
   notificationId,
 }: {
-  userId: string;
+  // userId: string;
   affiliationId: string;
   notificationId: string;
 }) {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
-  if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
+  // if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
+  // FIXME add check
 
   const affiliation = await db.query.affiliations.findFirst({
     where: eq(affiliations.id, affiliationId),
