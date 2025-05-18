@@ -1,27 +1,53 @@
+import getUserClubs from '@/lib/actions/user-clubs';
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
-import { notifications } from '@/lib/db/schema/notifications';
-import { affiliations, players } from '@/lib/db/schema/players';
-import { users } from '@/lib/db/schema/users';
-import { eq, sql } from 'drizzle-orm';
+import { clubs, DatabaseClub } from '@/lib/db/schema/clubs';
+import {
+  DatabaseNotification,
+  notifications,
+} from '@/lib/db/schema/notifications';
+import {
+  affiliations,
+  DatabaseAffiliation,
+  DatabasePlayer,
+  players,
+} from '@/lib/db/schema/players';
+import { DatabaseUser, users } from '@/lib/db/schema/users';
+import { eq, inArray, sql } from 'drizzle-orm';
 
-const getUserNotifications = async () => {
+const getUserNotifications = async (): Promise<AffiliationNotification[]> => {
   const { user } = await validateRequest();
 
   if (!user) {
     throw new Error('UNAUTHORIZED_REQUEST');
   }
 
+  const userClubs = await getUserClubs({ userId: user.id });
+
   return await db
     .select()
     .from(notifications)
-    .where(eq(notifications.user_id, user.id))
+    .where(
+      inArray(
+        notifications.club_id,
+        userClubs.map((club) => club.id),
+      ),
+    )
     .leftJoin(
       affiliations,
       sql`json_extract(${notifications.metadata}, '$.affiliation_id') = ${affiliations.id}`,
     )
     .leftJoin(users, eq(users.id, affiliations.user_id))
-    .leftJoin(players, eq(players.id, affiliations.player_id));
+    .leftJoin(players, eq(players.id, affiliations.player_id))
+    .leftJoin(clubs, eq(clubs.id, notifications.club_id));
+};
+
+export type AffiliationNotification = {
+  affiliation: DatabaseAffiliation | null;
+  notification: DatabaseNotification;
+  user: DatabaseUser | null;
+  player: DatabasePlayer | null;
+  club?: DatabaseClub | null;
 };
 
 export default getUserNotifications;
