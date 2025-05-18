@@ -32,7 +32,11 @@ export const AffiliationNotificationLi = ({
   if (!user || !affiliation) return null;
 
   const variables = {
+<<<<<<< HEAD
     clubId: notification.club_id,
+=======
+    // userId
+>>>>>>> 9b0e4ef (fixme!: check for user in affiliation handler)
     affiliationId: affiliation.id,
     notificationId: notification.id,
   };
