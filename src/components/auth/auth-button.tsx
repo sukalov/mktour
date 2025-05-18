@@ -87,6 +87,10 @@ const menuItems: MenuItems = [
     title: 'edit profile',
     path: '/user/edit',
   },
+  {
+    title: 'inbox',
+    path: '/inbox',
+  },
 ];
 
 type MenuItems = {
