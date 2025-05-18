@@ -71,7 +71,7 @@ const NotificationItem = ({
               </Link>
             </div>
           </div>
-          <p className="text-muted-foreground text-xs">
+          <p className="text-muted-foreground text-2xs">
             {new Date(notification.created_at).toLocaleString()}
           </p>
         </div>
