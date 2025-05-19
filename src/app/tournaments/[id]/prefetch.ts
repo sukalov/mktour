@@ -3,17 +3,19 @@ import { QueryClient } from '@tanstack/react-query';
 
 const tournamentQueryClient = new QueryClient();
 
-const tournamentQueryPrefetch = async (id: string) => {
+const tournamentQueryPrefetch = async (tournamentId: string) => {
   await Promise.all([
     tournamentQueryClient.prefetchQuery(
-      trpc.tournament.playersIn.queryOptions(id),
+      trpc.tournament.playersIn.queryOptions({ tournamentId }),
     ),
 
     tournamentQueryClient.prefetchQuery(
-      trpc.tournament.playersOut.queryOptions(id),
+      trpc.tournament.playersOut.queryOptions({ tournamentId }),
     ),
 
-    tournamentQueryClient.prefetchQuery(trpc.tournament.info.queryOptions(id)),
+    tournamentQueryClient.prefetchQuery(
+      trpc.tournament.info.queryOptions({ tournamentId }),
+    ),
   ]);
 };
 

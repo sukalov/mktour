@@ -63,7 +63,7 @@ export default function useSaveRound(props: SaveRoundMutationProps) {
           props.setRoundInView(roundNumber - 1);
         }
         props.queryClient.setQueryData(
-          trpc.tournament.info.queryKey(tournamentId),
+          trpc.tournament.info.queryKey({ tournamentId }),
           (cache) => {
             if (!cache) return cache;
             cache.tournament.ongoing_round = roundNumber - 1;

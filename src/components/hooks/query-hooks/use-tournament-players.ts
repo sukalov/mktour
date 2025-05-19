@@ -1,7 +1,7 @@
 import { useTRPC } from '@/trpc/client';
 import { useQuery } from '@tanstack/react-query';
 
-export const useTournamentPlayers = (id: string) => {
+export const useTournamentPlayers = (tournamentId: string) => {
   const trpc = useTRPC();
-  return useQuery(trpc.tournament.playersIn.queryOptions(id));
+  return useQuery(trpc.tournament.playersIn.queryOptions({ tournamentId }));
 };

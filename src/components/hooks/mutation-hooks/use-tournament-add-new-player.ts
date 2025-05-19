@@ -26,11 +26,11 @@ export const useTournamentAddNewPlayer = (
     trpc.tournament.addNewPlayer.mutationOptions({
       onMutate: async ({ player }) => {
         await queryClient.cancelQueries({
-          queryKey: trpc.tournament.playersIn.queryKey(tournamentId),
+          queryKey: trpc.tournament.playersIn.queryKey({ tournamentId }),
         });
         const previousState: Array<DatabasePlayer> | undefined =
           queryClient.getQueryData(
-            trpc.tournament.playersIn.queryKey(tournamentId),
+            trpc.tournament.playersIn.queryKey({ tournamentId }),
           );
 
         const newPlayer: PlayerModel = {
@@ -47,7 +47,7 @@ export const useTournamentAddNewPlayer = (
         };
 
         queryClient.setQueryData(
-          trpc.tournament.playersIn.queryKey(tournamentId),
+          trpc.tournament.playersIn.queryKey({ tournamentId }),
           (cache) => cache && cache.concat(newPlayer),
         );
         return { previousState, newPlayer };
@@ -55,7 +55,7 @@ export const useTournamentAddNewPlayer = (
       onError: (_err, data, context) => {
         if (context?.previousState) {
           queryClient.setQueryData(
-            trpc.tournament.playersOut.queryKey(tournamentId),
+            trpc.tournament.playersOut.queryKey({ tournamentId }),
             context.previousState,
           );
         }
@@ -68,16 +68,16 @@ export const useTournamentAddNewPlayer = (
       },
       onSettled: () => {
         queryClient.invalidateQueries({
-          queryKey: trpc.tournament.playersIn.queryKey(tournamentId),
+          queryKey: trpc.tournament.playersIn.queryKey({ tournamentId }),
         });
       },
       onSuccess: (_err, _data, context) => {
         sendJsonMessage({ type: 'add-new-player', body: context.newPlayer });
         const playersUnshuffled = queryClient.getQueryData(
-          trpc.tournament.playersIn.queryKey(tournamentId),
+          trpc.tournament.playersIn.queryKey({ tournamentId }),
         );
         const games = queryClient.getQueryData(
-          trpc.tournament.allGames.queryKey(tournamentId),
+          trpc.tournament.allGames.queryKey({ tournamentId }),
         );
         const newGames = generateRoundRobinRoundFunction({
           players: playersUnshuffled ? shuffle(playersUnshuffled) : [],

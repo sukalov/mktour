@@ -10,8 +10,8 @@ export async function GET() {
 
   return new NextResponse(
     renderTrpcPanel(appRouter, {
-      url: '/api/trpc', // Default trpc route in nextjs
-      transformer: 'superjson', // Enabled by default with create-t3-app
+      url: '/api/trpc',
+      transformer: 'superjson',
     }),
     {
       status: 200,

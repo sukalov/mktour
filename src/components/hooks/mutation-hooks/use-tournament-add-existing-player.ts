@@ -24,13 +24,13 @@ export const useTournamentAddExistingPlayer = (
     trpc.tournament.addExistingPlayer.mutationOptions({
       onMutate: async ({ player }) => {
         await queryClient.cancelQueries({
-          queryKey: trpc.tournament.playersIn.queryKey(tournamentId),
+          queryKey: trpc.tournament.playersIn.queryKey({ tournamentId }),
         });
         await queryClient.cancelQueries({
-          queryKey: trpc.tournament.playersOut.queryKey(tournamentId),
+          queryKey: trpc.tournament.playersOut.queryKey({ tournamentId }),
         });
         const previousState = queryClient.getQueryData(
-          trpc.tournament.playersIn.queryKey(tournamentId),
+          trpc.tournament.playersIn.queryKey({ tournamentId }),
         );
 
         const newPlayer: PlayerModel = {
@@ -47,11 +47,11 @@ export const useTournamentAddExistingPlayer = (
         };
 
         queryClient.setQueryData(
-          trpc.tournament.playersIn.queryKey(tournamentId),
+          trpc.tournament.playersIn.queryKey({ tournamentId }),
           (cache) => cache && cache.concat(newPlayer),
         );
         queryClient.setQueryData(
-          trpc.tournament.playersOut.queryKey(tournamentId),
+          trpc.tournament.playersOut.queryKey({ tournamentId }),
           (cache) => cache && cache.filter((pl) => pl.id !== player.id),
         );
         return { previousState, newPlayer };
@@ -59,7 +59,7 @@ export const useTournamentAddExistingPlayer = (
       onError: (err, data, context) => {
         if (context?.previousState) {
           queryClient.setQueryData(
-            trpc.tournament.playersIn.queryKey(tournamentId),
+            trpc.tournament.playersIn.queryKey({ tournamentId }),
             context.previousState,
           );
         }
@@ -75,10 +75,10 @@ export const useTournamentAddExistingPlayer = (
           }) === 1
         ) {
           queryClient.invalidateQueries({
-            queryKey: trpc.tournament.playersIn.queryKey(tournamentId),
+            queryKey: trpc.tournament.playersIn.queryKey({ tournamentId }),
           });
           queryClient.invalidateQueries({
-            queryKey: trpc.tournament.playersOut.queryKey(tournamentId),
+            queryKey: trpc.tournament.playersOut.queryKey({ tournamentId }),
           });
         }
       },
@@ -93,10 +93,10 @@ export const useTournamentAddExistingPlayer = (
           }) === 1
         ) {
           const playersUnshuffled = queryClient.getQueryData(
-            trpc.tournament.playersIn.queryKey(tournamentId),
+            trpc.tournament.playersIn.queryKey({ tournamentId }),
           );
           const games = queryClient.getQueryData(
-            trpc.tournament.allGames.queryKey(tournamentId),
+            trpc.tournament.allGames.queryKey({ tournamentId }),
           );
           const newGames = generateRoundRobinRoundFunction({
             players: playersUnshuffled ? shuffle(playersUnshuffled) : [],

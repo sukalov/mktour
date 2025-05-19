@@ -20,57 +20,63 @@ import { eq, sql } from 'drizzle-orm';
 import { z } from 'zod';
 
 export const tournamentRouter = {
-  info: publicProcedure.input(z.string()).query(async (opts) => {
-    const { input } = opts;
-    const [tournamentInfo] = await db
-      .select()
-      .from(tournaments)
-      .where(eq(tournaments.id, input))
-      .innerJoin(clubs, eq(tournaments.club_id, clubs.id));
-    if (!tournamentInfo) throw new Error('TOURNAMENT NOT FOUND');
-    return tournamentInfo;
-  }),
-  playersIn: publicProcedure.input(z.string()).query(async (opts) => {
-    const { input } = opts;
-    const playersDb = await db
-      .select()
-      .from(players_to_tournaments)
-      .where(eq(players_to_tournaments.tournament_id, input))
-      .innerJoin(players, eq(players.id, players_to_tournaments.player_id));
+  info: publicProcedure
+    .input(z.object({ tournamentId: z.string() }))
+    .query(async (opts) => {
+      const { input } = opts;
+      const [tournamentInfo] = await db
+        .select()
+        .from(tournaments)
+        .where(eq(tournaments.id, input.tournamentId))
+        .innerJoin(clubs, eq(tournaments.club_id, clubs.id));
+      if (!tournamentInfo) throw new Error('TOURNAMENT NOT FOUND');
+      return tournamentInfo;
+    }),
+  playersIn: publicProcedure
+    .input(z.object({ tournamentId: z.string() }))
+    .query(async (opts) => {
+      const { input } = opts;
+      const playersDb = await db
+        .select()
+        .from(players_to_tournaments)
+        .where(eq(players_to_tournaments.tournament_id, input.tournamentId))
+        .innerJoin(players, eq(players.id, players_to_tournaments.player_id));
 
-    const playerModels: PlayerModel[] = playersDb.map((each) => ({
-      id: each.player.id,
-      nickname: each.player.nickname,
-      realname: each.player.realname,
-      rating: each.player.rating,
-      wins: each.players_to_tournaments.wins,
-      draws: each.players_to_tournaments.draws,
-      losses: each.players_to_tournaments.losses,
-      color_index: each.players_to_tournaments.color_index,
-      is_out: each.players_to_tournaments.is_out,
-      place: each.players_to_tournaments.place,
-    }));
+      const playerModels: PlayerModel[] = playersDb.map((each) => ({
+        id: each.player.id,
+        nickname: each.player.nickname,
+        realname: each.player.realname,
+        rating: each.player.rating,
+        wins: each.players_to_tournaments.wins,
+        draws: each.players_to_tournaments.draws,
+        losses: each.players_to_tournaments.losses,
+        color_index: each.players_to_tournaments.color_index,
+        is_out: each.players_to_tournaments.is_out,
+        place: each.players_to_tournaments.place,
+      }));
 
-    return playerModels.sort(
-      (a, b) => b.wins + b.draws / 2 - (a.wins + a.draws / 2),
-    );
-  }),
-  playersOut: publicProcedure.input(z.string()).query(async (opts) => {
-    const { input } = opts;
-    const result = (await db.all(sql`
+      return playerModels.sort(
+        (a, b) => b.wins + b.draws / 2 - (a.wins + a.draws / 2),
+      );
+    }),
+  playersOut: publicProcedure
+    .input(z.object({ tournamentId: z.string() }))
+    .query(async (opts) => {
+      const { input } = opts;
+      const result = (await db.all(sql`
       SELECT p.*
       FROM ${players} p
       LEFT JOIN ${players_to_tournaments} pt
-        ON p.id = pt.player_id AND pt.tournament_id = ${input}
+        ON p.id = pt.player_id AND pt.tournament_id = ${input.tournamentId}
       WHERE p.club_id = (
         SELECT t.club_id
         FROM ${tournaments} t
-        WHERE t.id = ${input}
+        WHERE t.id = ${input.tournamentId}
       )
       AND pt.player_id IS NULL;
     `)) as Array<DatabasePlayer>;
-    return result;
-  }),
+      return result;
+    }),
   roundGames: publicProcedure
     .input(
       z.object({
@@ -83,11 +89,13 @@ export const tournamentRouter = {
       const result = await getTournamentRoundGames(input);
       return result;
     }),
-  allGames: publicProcedure.input(z.string()).query(async (opts) => {
-    const { input: tournamentId } = opts;
-    const result = await getTournamentGames(tournamentId);
-    return result;
-  }),
+  allGames: publicProcedure
+    .input(z.object({ tournamentId: z.string() }))
+    .query(async (opts) => {
+      const { input } = opts;
+      const result = await getTournamentGames(input.tournamentId);
+      return result;
+    }),
   addExistingPlayer: protectedProcedure
     .input(
       z.object({

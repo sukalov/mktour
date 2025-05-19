@@ -26,11 +26,11 @@ export const useTournamentRemovePlayer = (
           queryKey: [tournamentId, 'players'],
         });
         const previousState = queryClient.getQueryData(
-          trpc.tournament.playersIn.queryKey(tournamentId),
+          trpc.tournament.playersIn.queryKey({ tournamentId }),
         );
 
         queryClient.setQueryData(
-          trpc.tournament.playersIn.queryKey(tournamentId),
+          trpc.tournament.playersIn.queryKey({ tournamentId }),
           (cache) => cache && cache.filter((player) => player.id !== playerId),
         );
 
@@ -39,7 +39,7 @@ export const useTournamentRemovePlayer = (
       onError: (err, { playerId }, context) => {
         if (context?.previousState) {
           queryClient.setQueryData(
-            trpc.tournament.playersIn.queryKey(tournamentId),
+            trpc.tournament.playersIn.queryKey({ tournamentId }),
             context.previousState,
           );
         }
@@ -76,10 +76,10 @@ export const useTournamentRemovePlayer = (
           }) === 1
         ) {
           queryClient.invalidateQueries({
-            queryKey: trpc.tournament.playersIn.queryKey(tournamentId),
+            queryKey: trpc.tournament.playersIn.queryKey({ tournamentId }),
           });
           queryClient.invalidateQueries({
-            queryKey: trpc.tournament.playersOut.queryKey(tournamentId),
+            queryKey: trpc.tournament.playersOut.queryKey({ tournamentId }),
           });
         }
       },
@@ -91,10 +91,10 @@ export const useTournamentRemovePlayer = (
           }) === 1
         ) {
           const playersUnshuffled = queryClient.getQueryData(
-            trpc.tournament.playersIn.queryKey(tournamentId),
+            trpc.tournament.playersIn.queryKey({ tournamentId }),
           );
           const games = queryClient.getQueryData(
-            trpc.tournament.allGames.queryKey(tournamentId),
+            trpc.tournament.allGames.queryKey({ tournamentId }),
           );
           const newGames = generateRoundRobinRoundFunction({
             players: playersUnshuffled ? shuffle(playersUnshuffled) : [],

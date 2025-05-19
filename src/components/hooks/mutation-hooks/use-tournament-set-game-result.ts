@@ -23,7 +23,7 @@ export default function useTournamentSetGameResult(
           }),
         });
         await queryClient.cancelQueries({
-          queryKey: trpc.tournament.playersIn.queryKey(tournamentId),
+          queryKey: trpc.tournament.playersIn.queryKey({ tournamentId }),
         });
       },
       onSuccess: (
@@ -63,7 +63,7 @@ export default function useTournamentSetGameResult(
         // otherwise ui flickers and adds wrong order for a moment
         // while games are updated and players are being refetched
         queryClient.setQueryData(
-          trpc.tournament.playersIn.queryKey(tournamentId),
+          trpc.tournament.playersIn.queryKey({ tournamentId }),
           (players) => {
             if (!players || !result) return players;
             return players.map((player) => {
@@ -145,7 +145,7 @@ export default function useTournamentSetGameResult(
             }),
           });
           queryClient.invalidateQueries({
-            queryKey: trpc.tournament.playersIn.queryKey(tournamentId),
+            queryKey: trpc.tournament.playersIn.queryKey({ tournamentId }),
           });
         }
         sendJsonMessage({

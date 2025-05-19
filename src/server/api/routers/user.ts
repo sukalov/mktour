@@ -12,11 +12,16 @@ export const userRouter = {
     const usersDb = await db.select().from(users);
     return usersDb;
   }),
-  userById: publicProcedure.input(z.string()).query(async (opts) => {
-    const { input } = opts;
-    const [user] = await db.select().from(users).where(eq(users.id, input));
-    return user;
-  }),
+  userById: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async (opts) => {
+      const { input } = opts;
+      const [user] = await db
+        .select()
+        .from(users)
+        .where(eq(users.id, input.id));
+      return user;
+    }),
   userAuth: publicProcedure.query(async () => {
     const { user } = await validateRequest();
     return user;
