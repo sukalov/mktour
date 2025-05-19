@@ -57,7 +57,8 @@
     "players": "there are no players in your club yet",
     "tournaments": "there are no tournaments in your club yet",
     "dashboard": "no data",
-    "user": "user not found"
+    "user": "user not found",
+    "no data": "no data"
   },
   "Profile": {
     "rating": "lichess blitz rating",

@@ -31,7 +31,7 @@ export default function NewClubForm({ teams }: NewClubFormProps) {
       name: '',
       description: '',
       created_at: undefined,
-      set_default: false,
+      set_default: true,
     },
   });
 
