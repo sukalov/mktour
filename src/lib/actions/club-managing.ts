@@ -48,7 +48,7 @@ export const createClub = async (values: NewClubFormType) => {
 
 export const getClubInfo = async (id: DatabaseClub['id']) => {
   const data = (await db.select().from(clubs).where(eq(clubs.id, id)))?.at(0);
-  if (!data) throw new Error('CLUB_NOT_FOUND');
+  if (!data) throw new Error('CLUB_NOT_FOUND'); // FIXME it gets triggered when club is deleted
   return data;
 };
 

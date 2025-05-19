@@ -1,4 +1,5 @@
 import { deleteClub } from '@/lib/actions/club-managing';
+import { useTRPC } from '@/trpc/client';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { Dispatch, SetStateAction } from 'react';
@@ -9,6 +10,7 @@ export default function useDeleteClubMutation(
   setOpen: Dispatch<SetStateAction<boolean>>,
 ) {
   const t = useTranslations('Toasts');
+  const trpc = useTRPC();
   return useMutation({
     mutationFn: deleteClub,
     onSuccess: (_error, { id, userId }) => {
@@ -16,7 +18,9 @@ export default function useDeleteClubMutation(
 
       // Handle user-related queries
       queryClient.invalidateQueries({ queryKey: [userId, 'user', 'clubs'] });
-      queryClient.invalidateQueries({ queryKey: [userId, 'user', 'profile'] });
+      queryClient.invalidateQueries({
+        queryKey: trpc.user.userAuth.queryKey(),
+      });
       toast.success('club deleted');
       setOpen(false);
     },
