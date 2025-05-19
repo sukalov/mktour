@@ -1,4 +1,4 @@
-import { DatabaseUser } from '@/lib/db/schema/auth';
+import { DatabaseUser } from '@/lib/db/schema/users';
 import { DatabaseClub } from '@/lib/db/schema/clubs';
 import { DatabasePlayer } from '@/lib/db/schema/players';
 import { DatabaseTournament } from '@/lib/db/schema/tournaments';

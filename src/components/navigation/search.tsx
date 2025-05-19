@@ -17,9 +17,9 @@ import {
   CommandShortcut,
 } from '@/components/ui/command';
 import { DialogDescription, DialogTitle } from '@/components/ui/dialog';
-import { DatabaseUser } from '@/lib/db/schema/auth';
 import { DatabaseClub } from '@/lib/db/schema/clubs';
 import { DatabasePlayer } from '@/lib/db/schema/players';
+import { DatabaseUser } from '@/lib/db/schema/users';
 import { User } from 'lucia';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';

@@ -2,10 +2,10 @@ import NavWrapper from '@/components/navigation/nav-wrapper';
 import ErrorFallback from '@/components/providers/error-boundary';
 import IntlProvider from '@/components/providers/intl-provider';
 import MediaQueryProvider from '@/components/providers/media-query-provider';
-import ReactQueryProvider from '@/components/providers/react-query-provider';
 import ThemeProvider from '@/components/providers/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
 import '@/styles/globals.css';
+import { TRPCReactProvider } from '@/trpc/client';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata, Viewport } from 'next';
@@ -38,7 +38,7 @@ async function RootLayout({ children }: PropsWithChildren) {
           >
             <IntlProvider messages={messages} locale={locale}>
               <MediaQueryProvider>
-                <ReactQueryProvider>
+                <TRPCReactProvider>
                   <NavWrapper />
                   {/* <ViewTransitions> */}
                   <div className="pt-14">{children}</div>
@@ -50,7 +50,7 @@ async function RootLayout({ children }: PropsWithChildren) {
                     src="https://unpkg.com/react-scan/dist/install-hook.global.js"
                     strategy="beforeInteractive"
                   />
-                </ReactQueryProvider>
+                </TRPCReactProvider>
               </MediaQueryProvider>
             </IntlProvider>
           </ThemeProvider>

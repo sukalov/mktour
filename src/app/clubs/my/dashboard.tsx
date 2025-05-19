@@ -12,7 +12,7 @@ import { Dispatch, FC, SetStateAction, useState } from 'react';
 
 export default function Dashboard({ userId }: { userId: string }) {
   const t = useTranslations('Club.Dashboard');
-  const { data, isLoading } = useUser(userId);
+  const { data, isLoading } = useUser();
   const [tab, setTab] = useState<ClubDashboardTab>('main');
   const ActiveTab: FC<ClubTabProps> = tabMap[tab];
   const tabs = Object.keys(tabMap) as ClubDashboardTab[];

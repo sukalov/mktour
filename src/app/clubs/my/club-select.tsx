@@ -10,13 +10,13 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
+import { DatabaseUser } from '@/lib/db/schema/users';
 import { useQueryClient } from '@tanstack/react-query';
-import { User } from 'lucia';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { toast } from 'sonner';
 
-const ClubSelect: FC<{ user: User }> = ({ user }) => {
+const ClubSelect: FC<{ user: DatabaseUser }> = ({ user }) => {
   const { data: clubs, status } = useUserClubs(user.id);
   const queryClient = useQueryClient();
   const clubSelection = useUserSelectClub(queryClient);

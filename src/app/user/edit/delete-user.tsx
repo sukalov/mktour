@@ -43,11 +43,12 @@ export default function DeleteUser({ userId }: DeleteProfileProps) {
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
                 <DialogTitle>{t('confirmation header')}</DialogTitle>
-                <DialogDescription>
+                <DialogDescription className="sr-only" />
+                <div className="text-muted-foreground text-sm">
                   <RichText>
                     {(tags) => t.rich('confirmation body', tags)}
                   </RichText>
-                </DialogDescription>
+                </div>
               </DialogHeader>
               <DeleteUserForm userId={userId} />
               <DialogClose asChild>
@@ -71,9 +72,12 @@ export default function DeleteUser({ userId }: DeleteProfileProps) {
           <DrawerContent>
             <DrawerHeader className="text-left">
               <DrawerTitle>{t('confirmation header')}</DrawerTitle>
-              <DrawerDescription>
-                {t.rich('confirmation body')}
-              </DrawerDescription>
+              <DrawerDescription className="sr-only" />
+              <div className="text-muted-foreground text-sm">
+                <RichText>
+                  {(tags) => t.rich('confirmation body', tags)}
+                </RichText>
+              </div>
             </DrawerHeader>
             <DeleteUserForm userId={userId} />
             <DrawerFooter className="pt-2">
