@@ -8,6 +8,7 @@ import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament
 import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
 import Overlay from '@/components/overlay';
 import SkeletonList from '@/components/skeleton-list';
+import { useTRPC } from '@/trpc/client';
 import { useQueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
@@ -25,6 +26,7 @@ const RoundsMobile: FC = () => {
     isError: isPlayersError,
   } = useTournamentPlayers(id);
   const t = useTranslations('Tournament.Round');
+  const trpc = useTRPC();
   const now = new Date().getTime();
   const startedAt = data?.tournament.started_at
     ? data.tournament.started_at.getTime()
@@ -47,7 +49,9 @@ const RoundsMobile: FC = () => {
   if (
     isLoading ||
     isPlayersloading ||
-    queryClient.isMutating({ mutationKey: [id, 'save-round'] }) > 1 ||
+    queryClient.isMutating({
+      mutationKey: trpc.tournament.saveRound.mutationKey(),
+    }) > 1 ||
     queryClient.isMutating({ mutationKey: [id, 'players', 'add-existing'] }) > 0
   ) {
     return (

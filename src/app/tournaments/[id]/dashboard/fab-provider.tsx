@@ -39,7 +39,6 @@ const ShuffleFab = () => {
   const queryClient = useQueryClient();
   const { sendJsonMessage } = useContext(DashboardContext);
   const { isPending, mutate } = useSaveRound({
-    tournamentId,
     queryClient,
     sendJsonMessage,
     isTournamentGoing: false,

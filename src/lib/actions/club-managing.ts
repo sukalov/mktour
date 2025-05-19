@@ -19,7 +19,6 @@ import { newid } from '@/lib/utils';
 import { NewClubFormType } from '@/lib/zod/new-club-form';
 import { and, eq, ne } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 
 export const createClub = async (values: NewClubFormType) => {
   const { user } = await validateRequest();
@@ -43,9 +42,8 @@ export const createClub = async (values: NewClubFormType) => {
       .set({ selected_club: id })
       .where(eq(users.id, user.id));
   } catch (e) {
-    throw new Error(`club has NOT been saved. ${e}`);
+    throw new Error(`CLUB_NOT_CREATED: ${e}`);
   }
-  redirect('/clubs/my');
 };
 
 export const getClubInfo = async (id: DatabaseClub['id']) => {

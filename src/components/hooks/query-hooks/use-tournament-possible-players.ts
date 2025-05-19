@@ -1,15 +1,7 @@
-import { DatabasePlayer } from '@/lib/db/schema/players';
+import { useTRPC } from '@/trpc/client';
 import { useQuery } from '@tanstack/react-query';
 
-export const useTournamentPossiblePlayers = (id: string) =>
-  useQuery({
-    queryKey: [id, 'players', 'possible'],
-    queryFn: async (): Promise<DatabasePlayer[]> => {
-      const response = await fetch(`/api/tournament/${id}/players-out`);
-      if (!response.ok) {
-        throw new Error('failed to fetch tournament players');
-      }
-      return response.json();
-    },
-    staleTime: Infinity,
-  });
+export const useTournamentPossiblePlayers = (id: string) => {
+  const trpc = useTRPC();
+  return useQuery(trpc.tournament.playersOut.queryOptions(id));
+};

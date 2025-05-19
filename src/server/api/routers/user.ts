@@ -1,7 +1,8 @@
+import selectClub from '@/lib/actions/club-select';
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
 import { users } from '@/lib/db/schema/users';
-import { publicProcedure } from '@/server/trpc';
+import { protectedProcedure, publicProcedure } from '@/server/trpc';
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
 
@@ -36,5 +37,18 @@ export const userRouter = {
       const { input } = opts;
       const user = await db.insert(users).values(input);
       return user;
+    }),
+  selectClub: protectedProcedure
+    .input(
+      z.object({
+        clubId: z.string(),
+        userId: z.string(),
+      }),
+    )
+    .mutation(async (opts) => {
+      const { input } = opts;
+      const resultSet = await selectClub(input);
+      console.log('RESULTSET', resultSet);
+      return resultSet;
     }),
 };

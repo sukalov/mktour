@@ -4,7 +4,11 @@ import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/lib/db';
 import { getStatusInTournament } from '@/lib/db/queries/get-status-in-tournament';
 import { clubs } from '@/lib/db/schema/clubs';
-import { DatabasePlayer, players } from '@/lib/db/schema/players';
+import {
+  DatabasePlayer,
+  InsertDatabasePlayer,
+  players,
+} from '@/lib/db/schema/players';
 import {
   DatabasePlayerToTournament,
   DatabaseTournament,
@@ -138,7 +142,7 @@ export async function addNewPlayer({
   userId,
 }: {
   tournamentId: string;
-  player: DatabasePlayer;
+  player: InsertDatabasePlayer;
   userId: string;
 }) {
   const { user } = await validateRequest();
@@ -170,7 +174,7 @@ export async function addExistingPlayer({
   userId,
 }: {
   tournamentId: string;
-  player: DatabasePlayer;
+  player: InsertDatabasePlayer;
   userId: string;
 }) {
   const { user } = await validateRequest();

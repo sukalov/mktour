@@ -15,7 +15,7 @@ const selectClub = async ({
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
-  await db
+  return await db
     .update(users)
     .set({ selected_club: clubId })
     .where(eq(users.id, userId));

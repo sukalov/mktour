@@ -13,7 +13,7 @@ export const newClubFormSchema = z
     description: z.string().optional(),
     created_at: z.date(),
     lichess_team: z.string().optional(),
-    set_default: z.boolean().optional(),
+    set_default: z.boolean(),
   })
   .refine(
     async (data) => {

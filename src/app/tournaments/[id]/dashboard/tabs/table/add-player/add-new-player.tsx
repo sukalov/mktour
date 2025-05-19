@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Slider } from '@/components/ui/slider';
-import { DatabasePlayer } from '@/lib/db/schema/players';
+import { DatabasePlayer, InsertDatabasePlayer } from '@/lib/db/schema/players';
 import { newid } from '@/lib/utils';
 import {
   newPlayerFormSchema,
@@ -152,7 +152,7 @@ const AddNewPlayer = ({
 };
 
 interface AddNewPlayerProps extends DrawerProps {
-  returnToNewPlayer: (_player: DatabasePlayer) => void;
+  returnToNewPlayer: (_player: InsertDatabasePlayer) => void;
   handleClose: () => void;
 }
 

@@ -30,7 +30,7 @@ export interface TournamentInfo {
   club: DatabaseClub | null;
 }
 
-export type Result = '0-1' | '1-0' | '1/2-1/2' | null;
+export type Result = '0-1' | '1-0' | '1/2-1/2';
 
 export type Format = 'swiss' | 'round robin' | 'double elimination';
 

@@ -12,7 +12,7 @@ export default async function EditUserPage() {
   if (!user) redirect('/sign-in');
   const queryClient = getQueryClient();
 
-  await queryClient.prefetchQuery(trpc.users.userAuth.queryOptions());
+  await queryClient.prefetchQuery(trpc.user.userAuth.queryOptions());
 
   const t = await getTranslations('EditUser');
   return (

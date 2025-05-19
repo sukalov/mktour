@@ -12,7 +12,8 @@ import { useRoundData } from '@/components/hooks/use-round-data';
 import SkeletonList from '@/components/skeleton-list';
 import { Button } from '@/components/ui/button';
 import { generateRoundRobinRoundFunction } from '@/lib/client-actions/round-robin-generator';
-import { GameModel, PlayerModel } from '@/types/tournaments';
+import { useTRPC } from '@/trpc/client';
+import { GameModel } from '@/types/tournaments';
 import { useQueryClient } from '@tanstack/react-query';
 import { ArrowRightIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -83,23 +84,21 @@ const NewRoundButton: FC<{ tournamentId: string; roundNumber: number }> = ({
   const { sendJsonMessage, setRoundInView } = useContext(DashboardContext);
 
   const { mutate, isPending: mutating } = useSaveRound({
-    tournamentId,
     queryClient,
     sendJsonMessage,
     isTournamentGoing: true,
     setRoundInView,
   });
+  const trpc = useTRPC();
 
   const newRound = () => {
-    const players = queryClient.getQueryData([
-      tournamentId,
-      'players',
-      'added',
-    ]) as PlayerModel[];
-    const games = queryClient.getQueryData([
-      tournamentId,
-      'games',
-    ]) as GameModel[];
+    const players = queryClient.getQueryData(
+      trpc.tournament.playersIn.queryKey(tournamentId),
+    );
+    const games = queryClient.getQueryData(
+      trpc.tournament.allGames.queryKey(tournamentId),
+    );
+    if (!players || !games) return;
     const newGames = generateRoundRobinRoundFunction({
       players,
       games,
