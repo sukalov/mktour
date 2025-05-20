@@ -4,8 +4,13 @@ import { notFound } from 'next/navigation';
 
 export default async function Page(props: ClubPageProps) {
   const params = await props.params;
-  const club = await publicCaller.club.clubById({ clubId: params.id });
-  if (!club) notFound();
+  let club;
+  try {
+    club = await publicCaller.club.info({ clubId: params.id });
+  } catch (e) {
+    console.error(e);
+    notFound();
+  }
 
   return <ClubPage club={club} />;
 }
