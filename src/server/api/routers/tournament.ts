@@ -1,3 +1,4 @@
+import { validateRequest } from '@/lib/auth/lucia';
 import {
   protectedProcedure,
   publicProcedure,
@@ -273,10 +274,8 @@ export const tournamentRouter = {
   authStatus: publicProcedure
     .input(z.object({ tournamentId: z.string() }))
     .query(async (opts) => {
-      if (!opts.ctx.user) return 'viewer';
-      return await getStatusInTournament(
-        opts.ctx.user.id,
-        opts.input.tournamentId,
-      );
+      const { user } = await validateRequest();
+      if (!user) return 'viewer';
+      return await getStatusInTournament(user.id, opts.input.tournamentId);
     }),
 };
