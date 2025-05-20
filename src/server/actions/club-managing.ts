@@ -180,5 +180,4 @@ export const deleteClubFunction = async ({
     await tx.delete(clubs_to_users).where(eq(clubs_to_users.club_id, id));
     await tx.delete(clubs).where(eq(clubs.id, id));
   });
-  console.log('CLUB DELETED', id);
 };

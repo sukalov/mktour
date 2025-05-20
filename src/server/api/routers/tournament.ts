@@ -1,11 +1,16 @@
 import {
   addExistingPlayer,
   addNewPlayer,
+  deleteTournament,
+  finishTournament,
   getTournamentGames,
   getTournamentRoundGames,
   removePlayer,
+  resetTournament,
+  resetTournamentPlayers,
   saveRound,
   setTournamentGameResult,
+  startTournament,
 } from '@/server/actions/tournament-managing';
 import { db } from '@/server/db';
 import { clubs } from '@/server/db/schema/clubs';
@@ -14,7 +19,11 @@ import {
   players_to_tournaments,
   tournaments,
 } from '@/server/db/schema/tournaments';
-import { protectedProcedure, publicProcedure } from '@/server/trpc';
+import {
+  protectedProcedure,
+  publicProcedure,
+  tournamentAdminProcedure,
+} from '@/server/trpc';
 import { PlayerModel } from '@/types/tournaments';
 import { eq, sql } from 'drizzle-orm';
 import { z } from 'zod';
@@ -59,7 +68,7 @@ export const tournamentRouter = {
         (a, b) => b.wins + b.draws / 2 - (a.wins + a.draws / 2),
       );
     }),
-  playersOut: protectedProcedure
+  playersOut: tournamentAdminProcedure
     .input(z.object({ tournamentId: z.string() }))
     .query(async (opts) => {
       const { input } = opts;
@@ -96,7 +105,7 @@ export const tournamentRouter = {
       const result = await getTournamentGames(input.tournamentId);
       return result;
     }),
-  addExistingPlayer: protectedProcedure
+  addExistingPlayer: tournamentAdminProcedure
     .input(
       z.object({
         tournamentId: z.string(),
@@ -114,7 +123,7 @@ export const tournamentRouter = {
       const { input } = opts;
       await addExistingPlayer(input);
     }),
-  addNewPlayer: protectedProcedure
+  addNewPlayer: tournamentAdminProcedure
     .input(
       z.object({
         tournamentId: z.string(),
@@ -132,7 +141,7 @@ export const tournamentRouter = {
       const { input } = opts;
       await addNewPlayer(input);
     }),
-  removePlayer: protectedProcedure
+  removePlayer: tournamentAdminProcedure
     .input(
       z.object({
         tournamentId: z.string(),
@@ -199,5 +208,61 @@ export const tournamentRouter = {
     .mutation(async (opts) => {
       const { input } = opts;
       await saveRound(input);
+    }),
+  startTournament: tournamentAdminProcedure
+    .input(
+      z.object({
+        tournamentId: z.string(),
+        started_at: z.date(),
+        rounds_number: z.number(),
+      }),
+    )
+    .mutation(async (opts) => {
+      const { input } = opts;
+      await startTournament(input);
+    }),
+  resetTournament: tournamentAdminProcedure
+    .input(
+      z.object({
+        tournamentId: z.string(),
+      }),
+    )
+    .mutation(async (opts) => {
+      const { input } = opts;
+      await resetTournament(input);
+    }),
+  resetTournamentPlayers: tournamentAdminProcedure
+    .input(
+      z.object({
+        tournamentId: z.string(),
+        userId: z.string(),
+      }),
+    )
+    .mutation(async (opts) => {
+      const { input } = opts;
+      await resetTournamentPlayers(input);
+    }),
+  finishTournament: tournamentAdminProcedure
+    .input(
+      z.object({
+        tournamentId: z.string(),
+        closed_at: z.date(),
+        userId: z.string(),
+      }),
+    )
+    .mutation(async (opts) => {
+      const { input } = opts;
+      await finishTournament(input);
+    }),
+  deleteTournament: tournamentAdminProcedure
+    .input(
+      z.object({
+        tournamentId: z.string(),
+        userId: z.string(),
+      }),
+    )
+    .mutation(async (opts) => {
+      const { input } = opts;
+      await deleteTournament(input);
     }),
 };

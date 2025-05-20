@@ -6,14 +6,13 @@ import {
   tournaments,
 } from '@/server/db/schema/tournaments';
 import { and, eq } from 'drizzle-orm';
-import type { User } from 'lucia';
 import { cache } from 'react';
 
 export type Status = 'organizer' | 'player' | 'viewer';
 
 export const getStatusInTournament = cache(
-  async (user: User | null, tournamentId: string): Promise<Status> => {
-    if (!user) return 'viewer';
+  async (userId: string | null, tournamentId: string): Promise<Status> => {
+    if (!userId) return 'viewer';
     const clubId = (
       await db
         .select({ club: tournaments.club_id })
@@ -29,13 +28,13 @@ export const getStatusInTournament = cache(
         .where(
           and(
             eq(clubs_to_users.club_id, clubId),
-            eq(clubs_to_users.user_id, user.id),
+            eq(clubs_to_users.user_id, userId),
           ),
         )
     ).at(0)?.status;
     if (dbStatus) return 'organizer';
     const player = (
-      await db.select().from(players).where(eq(players.user_id, user.id))
+      await db.select().from(players).where(eq(players.user_id, userId))
     ).at(0);
     if (!player) return 'viewer';
     const isHere = (

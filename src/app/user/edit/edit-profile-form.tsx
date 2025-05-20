@@ -30,7 +30,6 @@ export default function EditProfileForm() {
   const queryClient = useQueryClient();
   const userQuery = useUser();
   const editUserMutation = useEditUserMutation(queryClient);
-  console.log(userQuery.data);
 
   const defaultValues = {
     id: userQuery.data?.id || '',

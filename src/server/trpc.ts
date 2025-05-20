@@ -8,11 +8,13 @@
  */
 
 import { uncachedValidateRequest } from '@/lib/auth/lucia';
+import { getUserClubIds } from '@/server/actions/user-clubs';
 import { db } from '@/server/db';
+import { getStatusInTournament } from '@/server/db/queries/get-status-in-tournament';
 import { initTRPC, TRPCError } from '@trpc/server';
 import { NextRequest } from 'next/server';
 import superjson from 'superjson';
-import { ZodError } from 'zod';
+import { z, ZodError } from 'zod';
 
 /**
  * 1. CONTEXT
@@ -31,9 +33,11 @@ export const createTRPCContext = async (opts: {
   req: NextRequest;
 }) => {
   const { session, user } = await uncachedValidateRequest();
+  const clubs = user ? await getUserClubIds({ userId: user.id }) : [];
   return {
     session,
     user,
+    clubs,
     db,
     headers: opts.headers,
   };
@@ -103,6 +107,35 @@ export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
     },
   });
 });
+
+export const clubAdminProcedure = protectedProcedure
+  .input(z.object({ clubId: z.string() }))
+  .use((opts) => {
+    const isAdmin = opts.ctx.clubs.find(
+      (clubId) => clubId === opts.input.clubId,
+    );
+    if (!isAdmin) {
+      throw new TRPCError({
+        code: 'FORBIDDEN',
+      });
+    }
+    return opts.next();
+  });
+
+export const tournamentAdminProcedure = protectedProcedure
+  .input(z.object({ tournamentId: z.string() }))
+  .use(async (opts) => {
+    const status = await getStatusInTournament(
+      opts.ctx.user.id,
+      opts.input.tournamentId,
+    );
+    if (status !== 'organizer') {
+      throw new TRPCError({
+        code: 'FORBIDDEN',
+      });
+    }
+    return opts.next();
+  });
 
 export type TRPCContext = Awaited<ReturnType<typeof createTRPCContext>>;
 export type ProtectedTRPCContext = TRPCContext & {

@@ -94,13 +94,10 @@ const NewRoundButton: FC<{ tournamentId: string; roundNumber: number }> = ({
   const trpc = useTRPC();
 
   const newRound = () => {
-    console.log('clicked');
     const players = queryClient.getQueryData(
       trpc.tournament.playersIn.queryKey({ tournamentId }),
     );
     const games = tournamentGames;
-    console.log('players', players);
-    console.log('games', games);
     if (!players || !games) return;
     const newGames = generateRoundRobinRoundFunction({
       players,

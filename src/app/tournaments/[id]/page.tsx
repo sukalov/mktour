@@ -24,7 +24,9 @@ export default async function TournamentPage(props: TournamentPageProps) {
   if (!tournament) notFound();
   await tournamentQueryPrefetch(params.id);
 
-  const status = await getStatusInTournament(user, params.id);
+  const status = user
+    ? await getStatusInTournament(user.id, params.id)
+    : 'viewer';
 
   return (
     <HydrationBoundary state={dehydrate(tournamentQueryClient)}>

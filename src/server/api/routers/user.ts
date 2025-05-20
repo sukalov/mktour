@@ -1,9 +1,12 @@
 import { validateRequest } from '@/lib/auth/lucia';
 import selectClub from '@/server/actions/club-select';
+import getUserClubs from '@/server/actions/user-clubs';
 import { db } from '@/server/db';
+import { notifications } from '@/server/db/schema/notifications';
+import { affiliations, players } from '@/server/db/schema/players';
 import { users } from '@/server/db/schema/users';
 import { protectedProcedure, publicProcedure } from '@/server/trpc';
-import { eq } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 import { z } from 'zod';
 
 export const userRouter = {
@@ -53,7 +56,31 @@ export const userRouter = {
     .mutation(async (opts) => {
       const { input } = opts;
       const resultSet = await selectClub(input);
-      console.log('RESULTSET', resultSet);
       return resultSet;
+    }),
+  notifications: publicProcedure.query(async () => {
+    const { user } = await validateRequest();
+    if (!user) {
+      return [];
+    }
+    const userNotifications = await db
+      .select()
+      .from(notifications)
+      .where(eq(notifications.user_id, user.id))
+      .leftJoin(
+        affiliations,
+        sql`json_extract(${notifications.metadata}, '$.affiliation_id') = ${affiliations.id}`,
+      )
+      .leftJoin(users, eq(users.id, affiliations.user_id))
+      .leftJoin(players, eq(players.id, affiliations.player_id));
+
+    return userNotifications;
+  }),
+  userClubs: publicProcedure
+    .input(z.object({ userId: z.string() }))
+    .query(async (opts) => {
+      const { input } = opts;
+      const userClubs = await getUserClubs(input);
+      return userClubs;
     }),
 };

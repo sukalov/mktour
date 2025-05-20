@@ -1,5 +1,10 @@
-import { createClub } from '@/server/actions/club-managing';
-import { protectedProcedure } from '@/server/trpc';
+import {
+  createClub,
+  getClubInfo,
+  getClubPlayers,
+} from '@/server/actions/club-managing';
+import { getClubTournaments } from '@/server/actions/get-club-tournaments';
+import { protectedProcedure, publicProcedure } from '@/server/trpc';
 import { z } from 'zod';
 
 export const clubRouter = {
@@ -13,15 +18,24 @@ export const clubRouter = {
         set_default: z.boolean(),
       }),
     )
-    .meta({
-      openapi: {
-        method: 'POST',
-        path: '/club/create',
-      },
-    })
     .mutation(async (opts) => {
       const { input } = opts;
       const newClub = createClub(input);
       return newClub;
+    }),
+  clubById: publicProcedure
+    .input(z.object({ clubId: z.string() }))
+    .query(async (opts) => {
+      return await getClubInfo(opts.input.clubId);
+    }),
+  clubPlayers: publicProcedure
+    .input(z.object({ clubId: z.string() }))
+    .query(async (opts) => {
+      return await getClubPlayers(opts.input.clubId);
+    }),
+  clubTournaments: publicProcedure
+    .input(z.object({ clubId: z.string() }))
+    .query(async (opts) => {
+      return await getClubTournaments(opts.input.clubId);
     }),
 };
