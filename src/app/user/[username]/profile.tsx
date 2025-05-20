@@ -28,8 +28,8 @@ const Profile: FC<{ user: DatabaseUser; isOwner: boolean }> = ({
   const router = useRouter();
   const mutate = (clubId: string) =>
     clubSelection.mutate({
-      values: { selected_club: clubId },
-      id: user.id,
+      clubId,
+      userId: user.id,
     });
 
   return (

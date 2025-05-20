@@ -11,9 +11,9 @@ import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournam
 import { useTournamentRoundGames } from '@/components/hooks/query-hooks/use-tournament-round-games';
 import { useRoundData } from '@/components/hooks/use-round-data';
 import SkeletonList from '@/components/skeleton-list';
+import { useTRPC } from '@/components/trpc/client';
 import { Button } from '@/components/ui/button';
 import { generateRoundRobinRoundFunction } from '@/lib/client-actions/round-robin-generator';
-import { useTRPC } from '@/trpc/client';
 import { GameModel } from '@/types/tournaments';
 import { useQueryClient } from '@tanstack/react-query';
 import { ArrowRightIcon } from 'lucide-react';

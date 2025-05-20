@@ -59,7 +59,7 @@ export const tournamentRouter = {
         (a, b) => b.wins + b.draws / 2 - (a.wins + a.draws / 2),
       );
     }),
-  playersOut: publicProcedure
+  playersOut: protectedProcedure
     .input(z.object({ tournamentId: z.string() }))
     .query(async (opts) => {
       const { input } = opts;

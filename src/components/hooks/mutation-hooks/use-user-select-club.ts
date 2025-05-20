@@ -1,4 +1,4 @@
-import { useTRPC } from '@/trpc/client';
+import { useTRPC } from '@/components/trpc/client';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useTRPC } from '@/trpc/client';
+import { useTRPC } from '@/components/trpc/client';
 import { PlayerModel } from '@/types/tournaments';
 import { Message } from '@/types/ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';

@@ -1,4 +1,4 @@
-import { trpc } from '@/trpc/server';
+import { trpc } from '@/components/trpc/server';
 import { QueryClient } from '@tanstack/react-query';
 
 const tournamentQueryClient = new QueryClient();

@@ -8,7 +8,7 @@ import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament
 import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
 import Overlay from '@/components/overlay';
 import SkeletonList from '@/components/skeleton-list';
-import { useTRPC } from '@/trpc/client';
+import { useTRPC } from '@/components/trpc/client';
 import { useQueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
