@@ -13,12 +13,15 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Slider } from '@/components/ui/slider';
-import { DatabasePlayer, InsertDatabasePlayer } from '@/lib/db/schema/players';
 import { newid } from '@/lib/utils';
 import {
   newPlayerFormSchema,
   NewPlayerFormType,
 } from '@/lib/zod/new-player-form';
+import {
+  DatabasePlayer,
+  InsertDatabasePlayer,
+} from '@/server/db/schema/players';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { Save } from 'lucide-react';

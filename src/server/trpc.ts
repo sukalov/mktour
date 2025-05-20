@@ -8,7 +8,7 @@
  */
 
 import { uncachedValidateRequest } from '@/lib/auth/lucia';
-import { db } from '@/lib/db';
+import { db } from '@/server/db';
 import { initTRPC, TRPCError } from '@trpc/server';
 import { NextRequest } from 'next/server';
 import superjson from 'superjson';

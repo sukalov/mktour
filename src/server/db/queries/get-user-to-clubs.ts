@@ -1,6 +1,6 @@
-import { db } from '@/lib/db';
-import { UserClubsQueryProps } from '@/lib/db/queries/get-status-query';
-import { clubs, clubs_to_users } from '@/lib/db/schema/clubs';
+import { db } from '@/server/db';
+import { UserClubsQueryProps } from '@/server/db/queries/get-status-query';
+import { clubs, clubs_to_users } from '@/server/db/schema/clubs';
 import { eq } from 'drizzle-orm';
 
 export default async function getUserToClubs({

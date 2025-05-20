@@ -1,17 +1,17 @@
 'use server';
 
 import { validateRequest } from '@/lib/auth/lucia';
-import { db } from '@/lib/db';
+import { newid } from '@/lib/utils';
+import { db } from '@/server/db';
 import {
   InsertDatabaseNotification,
   notifications,
-} from '@/lib/db/schema/notifications';
+} from '@/server/db/schema/notifications';
 import {
   affiliations,
   InsertDatabaseAffiliation,
   players,
-} from '@/lib/db/schema/players';
-import { newid } from '@/lib/utils';
+} from '@/server/db/schema/players';
 import { and, eq, sql } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 

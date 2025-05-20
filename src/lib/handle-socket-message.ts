@@ -2,7 +2,7 @@
 // ws-handler
 
 import { useTRPC } from '@/components/trpc/client';
-import { DatabasePlayer } from '@/lib/db/schema/players';
+import { DatabasePlayer } from '@/server/db/schema/players';
 import { PlayerModel } from '@/types/tournaments';
 import type { Message } from '@/types/ws-events';
 import { QueryClient } from '@tanstack/react-query';

@@ -1,6 +1,6 @@
 import ClubPage from '@/app/clubs/[id]/club';
-import { db } from '@/lib/db';
-import { clubs } from '@/lib/db/schema/clubs';
+import { db } from '@/server/db';
+import { clubs } from '@/server/db/db/schema/clubs';
 import { eq } from 'drizzle-orm';
 import { notFound } from 'next/navigation';
 

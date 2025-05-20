@@ -4,9 +4,9 @@ import {
   tournamentQueryPrefetch,
 } from '@/app/tournaments/[id]/prefetch';
 import { validateRequest } from '@/lib/auth/lucia';
-import { db } from '@/lib/db';
-import { getStatusInTournament } from '@/lib/db/queries/get-status-in-tournament';
-import { tournaments } from '@/lib/db/schema/tournaments';
+import { db } from '@/server/db';
+import { getStatusInTournament } from '@/server/db/queries/get-status-in-tournament';
+import { tournaments } from '@/server/db/schema/tournaments';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import { eq } from 'drizzle-orm';
 import { cookies } from 'next/headers';

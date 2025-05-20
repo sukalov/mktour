@@ -16,8 +16,8 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { DatabaseUser } from '@/lib/db/schema/users';
 import { NewClubFormType, newClubFormSchema } from '@/lib/zod/new-club-form';
+import { DatabaseUser } from '@/server/db/schema/users';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';

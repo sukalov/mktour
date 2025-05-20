@@ -1,5 +1,5 @@
-import { db } from '@/lib/db';
-import { users } from '@/lib/db/schema/users';
+import { db } from '@/server/db';
+import { users } from '@/server/db/schema/users';
 import { eq } from 'drizzle-orm';
 
 const getUserData = async (username: string) => {

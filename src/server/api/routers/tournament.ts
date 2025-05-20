@@ -7,13 +7,13 @@ import {
   saveRound,
   setTournamentGameResult,
 } from '@/lib/actions/tournament-managing';
-import { db } from '@/lib/db';
-import { clubs } from '@/lib/db/schema/clubs';
-import { DatabasePlayer, players } from '@/lib/db/schema/players';
+import { db } from '@/server/db';
+import { clubs } from '@/server/db/schema/clubs';
+import { DatabasePlayer, players } from '@/server/db/schema/players';
 import {
   players_to_tournaments,
   tournaments,
-} from '@/lib/db/schema/tournaments';
+} from '@/server/db/schema/tournaments';
 import { protectedProcedure, publicProcedure } from '@/server/trpc';
 import { PlayerModel } from '@/types/tournaments';
 import { eq, sql } from 'drizzle-orm';

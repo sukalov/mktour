@@ -1,5 +1,8 @@
-import { DatabaseClub } from '@/lib/db/schema/clubs';
-import { DatabaseGame, DatabaseTournament } from '@/lib/db/schema/tournaments';
+import { DatabaseClub } from '@/server/db/schema/clubs';
+import {
+  DatabaseGame,
+  DatabaseTournament,
+} from '@/server/db/schema/tournaments';
 
 /**
  * combination of player general info and tournament performance, recorded in players_to_tournaments

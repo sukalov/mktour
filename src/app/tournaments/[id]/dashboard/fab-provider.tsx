@@ -7,8 +7,8 @@ import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament
 import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
 import { useTournamentRoundGames } from '@/components/hooks/query-hooks/use-tournament-round-games';
 import { generateRoundRobinRoundFunction } from '@/lib/client-actions/round-robin-generator';
-import { Status } from '@/lib/db/queries/get-status-in-tournament';
 import { shuffle } from '@/lib/utils';
+import { Status } from '@/server/db/queries/get-status-in-tournament';
 import { useQueryClient } from '@tanstack/react-query';
 import { Loader2, Shuffle } from 'lucide-react';
 import { useParams } from 'next/navigation';

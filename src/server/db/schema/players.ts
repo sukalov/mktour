@@ -1,6 +1,6 @@
-import { clubs } from '@/lib/db/schema/clubs';
-import { players_to_tournaments } from '@/lib/db/schema/tournaments';
-import { users } from '@/lib/db/schema/users';
+import { clubs } from '@/server/db/schema/clubs';
+import { players_to_tournaments } from '@/server/db/schema/tournaments';
+import { users } from '@/server/db/schema/users';
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import {
   integer,

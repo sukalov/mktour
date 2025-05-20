@@ -1,7 +1,7 @@
-import { notifications } from '@/lib/db/schema/notifications';
-import { affiliations, players } from '@/lib/db/schema/players';
-import { tournaments } from '@/lib/db/schema/tournaments';
-import { users } from '@/lib/db/schema/users';
+import { notifications } from '@/server/db/schema/notifications';
+import { affiliations, players } from '@/server/db/schema/players';
+import { tournaments } from '@/server/db/schema/tournaments';
+import { users } from '@/server/db/schema/users';
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 

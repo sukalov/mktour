@@ -1,5 +1,5 @@
-import { clubs } from '@/lib/db/schema/clubs';
-import { players } from '@/lib/db/schema/players';
+import { clubs } from '@/server/db/schema/clubs';
+import { players } from '@/server/db/schema/players';
 import { Format, Result, RoundName, TournamentType } from '@/types/tournaments';
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { int, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';

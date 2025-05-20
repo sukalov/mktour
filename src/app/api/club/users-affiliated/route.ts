@@ -1,7 +1,7 @@
 import { validateRequest } from '@/lib/auth/lucia';
-import { db } from '@/lib/db';
-import { players } from '@/lib/db/schema/players';
-import { users } from '@/lib/db/schema/users';
+import { db } from '@/server/db';
+import { players } from '@/server/db/db/schema/players';
+import { users } from '@/server/db/db/schema/users';
 import { and, eq, isNotNull } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
 

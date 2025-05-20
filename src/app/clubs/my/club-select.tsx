@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
-import { DatabaseUser } from '@/lib/db/schema/users';
+import { DatabaseUser } from '@/server/db/schema/users';
 import { useQueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';

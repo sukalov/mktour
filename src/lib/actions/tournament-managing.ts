@@ -1,23 +1,23 @@
 'use server';
 
 import { validateRequest } from '@/lib/auth/lucia';
-import { db } from '@/lib/db';
-import { getStatusInTournament } from '@/lib/db/queries/get-status-in-tournament';
-import { clubs } from '@/lib/db/schema/clubs';
+import { newid } from '@/lib/utils';
+import { NewTournamentFormType } from '@/lib/zod/new-tournament-form';
+import { db } from '@/server/db';
+import { getStatusInTournament } from '@/server/db/queries/get-status-in-tournament';
+import { clubs } from '@/server/db/schema/clubs';
 import {
   DatabasePlayer,
   InsertDatabasePlayer,
   players,
-} from '@/lib/db/schema/players';
+} from '@/server/db/schema/players';
 import {
   DatabasePlayerToTournament,
   DatabaseTournament,
   games,
   players_to_tournaments,
   tournaments,
-} from '@/lib/db/schema/tournaments';
-import { newid } from '@/lib/utils';
-import { NewTournamentFormType } from '@/lib/zod/new-tournament-form';
+} from '@/server/db/schema/tournaments';
 import {
   GameModel,
   PlayerModel,

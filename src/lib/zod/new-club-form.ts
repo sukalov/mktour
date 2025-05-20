@@ -1,5 +1,5 @@
-import { DatabaseClub } from '@/lib/db/schema/clubs';
 import { validateLichessTeam } from '@/lib/zod/new-club-validation-action';
+import { DatabaseClub } from '@/server/db/schema/clubs';
 import * as z from 'zod';
 
 let team: DatabaseClub | undefined;

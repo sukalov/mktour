@@ -1,10 +1,10 @@
-import { db } from '@/lib/db';
+import { db } from '@/server/db';
 import {
   DatabasePlayerToTournament,
   DatabaseTournament,
   players_to_tournaments,
   tournaments,
-} from '@/lib/db/schema/tournaments';
+} from '@/server/db/schema/tournaments';
 import { desc, eq } from 'drizzle-orm';
 
 // returns the last 5 tournaments a player participated in

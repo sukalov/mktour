@@ -1,5 +1,5 @@
-import { clubs } from '@/lib/db/schema/clubs';
-import { users } from '@/lib/db/schema/users';
+import { clubs } from '@/server/db/schema/clubs';
+import { users } from '@/server/db/schema/users';
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 

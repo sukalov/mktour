@@ -1,7 +1,7 @@
 'use server';
 
-import { db } from '@/lib/db';
-import { clubs, clubs_to_users } from '@/lib/db/schema/clubs';
+import { db } from '@/server/db';
+import { clubs, clubs_to_users } from '@/server/db/schema/clubs';
 import { eq } from 'drizzle-orm';
 
 export default async function getUserClubs({ userId }: { userId: string }) {

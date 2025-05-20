@@ -1,4 +1,4 @@
-import { clubs } from '@/lib/db/schema/clubs';
+import { clubs } from '@/server/db/schema/clubs';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import { int, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 

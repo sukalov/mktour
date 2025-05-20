@@ -1,9 +1,9 @@
 import { DATABASE_AUTH_TOKEN, DATABASE_URL } from '@/lib/config/urls';
-import * as schema5 from '@/lib/db/schema/clubs';
-import * as schema3 from '@/lib/db/schema/notifications';
-import * as schema4 from '@/lib/db/schema/players';
-import * as schema1 from '@/lib/db/schema/tournaments';
-import * as schema2 from '@/lib/db/schema/users';
+import * as schema5 from '@/server/db/schema/clubs';
+import * as schema3 from '@/server/db/schema/notifications';
+import * as schema4 from '@/server/db/schema/players';
+import * as schema1 from '@/server/db/schema/tournaments';
+import * as schema2 from '@/server/db/schema/users';
 import { createClient } from '@libsql/client';
 import { drizzle } from 'drizzle-orm/libsql';
 

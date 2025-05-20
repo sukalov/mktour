@@ -27,8 +27,8 @@ import {
 import { Switch } from '@/components/ui/switch';
 import TypeCard from '@/components/ui/type-card';
 import { createTournament } from '@/lib/actions/tournament-managing';
-import { DatabaseClub } from '@/lib/db/schema/clubs';
-import { DatabaseUser } from '@/lib/db/schema/users';
+import { DatabaseClub } from '@/server/db/schema/clubs';
+import { DatabaseUser } from '@/server/db/db/schema/users';
 import {
   NewTournamentFormType,
   newTournamentFormSchema,

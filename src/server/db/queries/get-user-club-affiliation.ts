@@ -1,5 +1,5 @@
-import { db } from '@/lib/db';
-import { affiliations, DatabaseAffiliation } from '@/lib/db/schema/players';
+import { db } from '@/server/db';
+import { affiliations, DatabaseAffiliation } from '@/server/db/schema/players';
 import { and, eq } from 'drizzle-orm';
 import { User } from 'lucia';
 

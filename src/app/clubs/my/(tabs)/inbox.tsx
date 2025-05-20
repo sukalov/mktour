@@ -4,9 +4,12 @@ import { ClubTabProps } from '@/app/clubs/my/tabMap';
 import Empty from '@/components/empty';
 import { useClubNotifications } from '@/components/hooks/query-hooks/use-club-notifications';
 import { AffiliationNotificationLi } from '@/components/notification-items';
-import { DatabaseNotification } from '@/lib/db/schema/notifications';
-import { DatabaseAffiliation, DatabasePlayer } from '@/lib/db/schema/players';
-import { DatabaseUser } from '@/lib/db/schema/users';
+import { DatabaseNotification } from '@/server/db/schema/notifications';
+import {
+  DatabaseAffiliation,
+  DatabasePlayer,
+} from '@/server/db/schema/players';
+import { DatabaseUser } from '@/server/db/schema/users';
 import { useTranslations } from 'next-intl';
 
 const ClubInbox = ({ selectedClub }: Pick<ClubTabProps, 'selectedClub'>) => {

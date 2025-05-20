@@ -1,7 +1,7 @@
 'use server';
 
-import { db } from '@/lib/db';
-import { tournaments } from '@/lib/db/schema/tournaments';
+import { db } from '@/server/db';
+import { tournaments } from '@/server/db/schema/tournaments';
 import { eq } from 'drizzle-orm';
 
 export const getClubTournaments = async (clubId: string) => {

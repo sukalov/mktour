@@ -11,7 +11,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { DatabasePlayer } from '@/lib/db/schema/players';
+import { DatabasePlayer } from '@/server/db/schema/players';
 import { Save } from 'lucide-react';
 import { MessageKeys, NestedKeyOf } from 'next-intl';
 import { FC } from 'react';

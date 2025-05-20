@@ -1,7 +1,7 @@
 import selectClub from '@/lib/actions/club-select';
 import { validateRequest } from '@/lib/auth/lucia';
-import { db } from '@/lib/db';
-import { users } from '@/lib/db/schema/users';
+import { db } from '@/server/db';
+import { users } from '@/server/db/schema/users';
 import { protectedProcedure, publicProcedure } from '@/server/trpc';
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';

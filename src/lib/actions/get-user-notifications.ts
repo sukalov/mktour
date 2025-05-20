@@ -1,18 +1,18 @@
 import getUserClubs from '@/lib/actions/user-clubs';
 import { validateRequest } from '@/lib/auth/lucia';
-import { db } from '@/lib/db';
-import { clubs, DatabaseClub } from '@/lib/db/schema/clubs';
+import { db } from '@/server/db';
+import { clubs, DatabaseClub } from '@/server/db/schema/clubs';
 import {
   DatabaseNotification,
   notifications,
-} from '@/lib/db/schema/notifications';
+} from '@/server/db/schema/notifications';
 import {
   affiliations,
   DatabaseAffiliation,
   DatabasePlayer,
   players,
-} from '@/lib/db/schema/players';
-import { DatabaseUser, users } from '@/lib/db/schema/users';
+} from '@/server/db/schema/players';
+import { DatabaseUser, users } from '@/server/db/schema/users';
 import { eq, inArray, sql } from 'drizzle-orm';
 
 const getUserNotifications = async (): Promise<AffiliationNotification[]> => {

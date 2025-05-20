@@ -1,22 +1,22 @@
 'use server';
 
 import { validateRequest } from '@/lib/auth/lucia';
-import { db } from '@/lib/db';
+import { newid } from '@/lib/utils';
+import { NewClubFormType } from '@/lib/zod/new-club-form';
+import { db } from '@/server/db';
 import {
   DatabaseClub,
   DatabaseClubsToUsers,
   clubs,
   clubs_to_users,
-} from '@/lib/db/schema/clubs';
-import { DatabasePlayer, players } from '@/lib/db/schema/players';
+} from '@/server/db/schema/clubs';
+import { DatabasePlayer, players } from '@/server/db/schema/players';
 import {
   games,
   players_to_tournaments,
   tournaments,
-} from '@/lib/db/schema/tournaments';
-import { DatabaseUser, users } from '@/lib/db/schema/users';
-import { newid } from '@/lib/utils';
-import { NewClubFormType } from '@/lib/zod/new-club-form';
+} from '@/server/db/schema/tournaments';
+import { DatabaseUser, users } from '@/server/db/schema/users';
 import { and, eq, ne } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 
