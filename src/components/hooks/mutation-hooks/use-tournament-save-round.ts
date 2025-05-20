@@ -1,5 +1,4 @@
 import { useTRPC } from '@/trpc/client';
-import { TournamentInfo } from '@/types/tournaments';
 import { Message } from '@/types/ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
@@ -23,8 +22,9 @@ export default function useSaveRound(props: SaveRoundMutationProps) {
         });
         if (props.isTournamentGoing) {
           props.queryClient.setQueryData(
-            trpc.tournament.pathKey(),
-            (cache: TournamentInfo) => {
+            trpc.tournament.info.queryKey({ tournamentId }),
+            (cache) => {
+              if (!cache) return cache;
               cache.tournament.ongoing_round = roundNumber;
               return cache;
             },
@@ -58,7 +58,8 @@ export default function useSaveRound(props: SaveRoundMutationProps) {
           }
         }
       },
-      onError: (_, { tournamentId, roundNumber }) => {
+      onError: (error, { tournamentId, roundNumber }) => {
+        console.error(error);
         if (props.isTournamentGoing) {
           props.setRoundInView(roundNumber - 1);
         }

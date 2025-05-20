@@ -8,7 +8,7 @@ import { useTranslations } from 'next-intl';
 import { Dispatch, SetStateAction } from 'react';
 import { toast } from 'sonner';
 
-export default function useTournamentReset(
+export default function useTournamentResetPlayers(
   tournamentId: string,
   queryClient: QueryClient,
   sendJsonMessage: (_message: Message) => void,
@@ -23,19 +23,12 @@ export default function useTournamentReset(
       queryClient.invalidateQueries({
         queryKey: trpc.tournament.pathKey(),
       });
-
       setRoundInView(1);
     },
     onError: () => {
       toast.error(t('server error'));
       queryClient.invalidateQueries({
-        queryKey: [tournamentId, 'tournament'],
-      });
-      queryClient.invalidateQueries({
-        queryKey: [tournamentId, 'games'],
-      });
-      queryClient.invalidateQueries({
-        queryKey: [tournamentId, 'players'],
+        queryKey: trpc.tournament.pathKey(),
       });
     },
   });

@@ -201,6 +201,7 @@ export async function addExistingPlayer({
 export async function getTournamentGames(
   tournamentId: string,
 ): Promise<GameModel[]> {
+  console.log({ tournamentId });
   const whitePlayer = aliasedTable(players, 'white_player');
   const blackPlayer = aliasedTable(players, 'black_player');
   const gamesDb = await db

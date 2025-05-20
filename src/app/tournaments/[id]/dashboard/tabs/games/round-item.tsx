@@ -5,6 +5,7 @@ import FinishTournamentButton from '@/app/tournaments/[id]/dashboard/finish-tour
 import GameItem from '@/app/tournaments/[id]/dashboard/tabs/games/game/game-item';
 import Center from '@/components/center';
 import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
+import { useTournamentGames } from '@/components/hooks/query-hooks/_use-tournament-games';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
 import { useTournamentRoundGames } from '@/components/hooks/query-hooks/use-tournament-round-games';
@@ -80,6 +81,7 @@ const NewRoundButton: FC<{ tournamentId: string; roundNumber: number }> = ({
   roundNumber,
 }) => {
   const t = useTranslations('Tournament.Round');
+  const { data: tournamentGames } = useTournamentGames(tournamentId);
   const queryClient = useQueryClient();
   const { sendJsonMessage, setRoundInView } = useContext(DashboardContext);
 
@@ -92,12 +94,13 @@ const NewRoundButton: FC<{ tournamentId: string; roundNumber: number }> = ({
   const trpc = useTRPC();
 
   const newRound = () => {
+    console.log('clicked');
     const players = queryClient.getQueryData(
       trpc.tournament.playersIn.queryKey({ tournamentId }),
     );
-    const games = queryClient.getQueryData(
-      trpc.tournament.allGames.queryKey({ tournamentId }),
-    );
+    const games = tournamentGames;
+    console.log('players', players);
+    console.log('games', games);
     if (!players || !games) return;
     const newGames = generateRoundRobinRoundFunction({
       players,

@@ -1,6 +1,7 @@
 'use client';
 
 import { finishTournament } from '@/lib/actions/tournament-managing';
+import { useTRPC } from '@/trpc/client';
 import { Message } from '@/types/ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
@@ -11,6 +12,7 @@ export default function useTournamentFinish(
   { tournamentId, sendJsonMessage }: SetStatusProps,
 ) {
   const t = useTranslations('Toasts');
+  const trpc = useTRPC();
   return useMutation({
     mutationFn: finishTournament,
     onSuccess: (_error, { closed_at }) => {
@@ -22,10 +24,10 @@ export default function useTournamentFinish(
         });
       }
       queryClient.invalidateQueries({
-        queryKey: [tournamentId, 'tournament'],
+        queryKey: trpc.tournament.info.queryKey({ tournamentId }),
       });
       queryClient.invalidateQueries({
-        queryKey: [tournamentId, 'players', 'added'],
+        queryKey: trpc.tournament.playersIn.queryKey({ tournamentId }),
       });
     },
     onError: (error) => {
