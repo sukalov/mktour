@@ -7,14 +7,14 @@ export const useUserSelectClub = (queryClient: QueryClient) => {
   return useMutation(
     trpc.user.selectClub.mutationOptions({
       onMutate: ({ clubId }) => {
-        queryClient.cancelQueries({ queryKey: trpc.user.userAuth.queryKey() });
+        queryClient.cancelQueries({ queryKey: trpc.user.auth.queryKey() });
 
         const previousState = queryClient.getQueryData(
-          trpc.user.userAuth.queryKey(),
+          trpc.user.auth.queryKey(),
         );
 
         queryClient.setQueryData(
-          trpc.user.userAuth.queryKey(),
+          trpc.user.auth.queryKey(),
           (cache) =>
             cache && {
               ...cache,
@@ -26,7 +26,7 @@ export const useUserSelectClub = (queryClient: QueryClient) => {
 
       onSettled: () => {
         queryClient.invalidateQueries({
-          queryKey: trpc.user.userAuth.queryKey(),
+          queryKey: trpc.user.auth.queryKey(),
         });
       },
       onError: (_error, _variables, context) => {
@@ -35,7 +35,7 @@ export const useUserSelectClub = (queryClient: QueryClient) => {
           duration: 3000,
         });
         queryClient.setQueryData(
-          trpc.user.userAuth.queryKey(),
+          trpc.user.auth.queryKey(),
           context?.previousState,
         );
       },

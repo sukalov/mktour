@@ -5,6 +5,7 @@ import {
   getClubInfo,
   getClubPlayers,
 } from '@/server/mutations/club-managing';
+import getAllClubs from '@/server/queries/get-all-clubs';
 import { getClubTournaments } from '@/server/queries/get-club-tournaments';
 import { z } from 'zod';
 
@@ -44,4 +45,7 @@ export const clubRouter = {
     .query(async (opts) => {
       return await getClubAffiliatedUsers(opts.input.clubId);
     }),
+  all: publicProcedure.query(async () => {
+    return await getAllClubs();
+  }),
 };

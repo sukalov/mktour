@@ -19,7 +19,7 @@ export default function useDeleteClubMutation(
       // Handle user-related queries
       queryClient.invalidateQueries({ queryKey: [userId, 'user', 'clubs'] });
       queryClient.invalidateQueries({
-        queryKey: trpc.user.userAuth.queryKey(),
+        queryKey: trpc.user.auth.queryKey(),
       });
       toast.success('club deleted');
       setOpen(false);

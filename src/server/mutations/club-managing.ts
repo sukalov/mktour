@@ -183,9 +183,11 @@ export const deleteClubFunction = async ({
 };
 
 export const getClubAffiliatedUsers = async (clubId: string) => {
-  return await db
-    .select()
-    .from(players)
-    .where(eq(players.club_id, clubId))
-    .innerJoin(users, eq(players.user_id, users.id));
+  return (
+    await db
+      .select()
+      .from(players)
+      .where(eq(players.club_id, clubId))
+      .innerJoin(users, eq(players.user_id, users.id))
+  ).map((el) => el.user);
 };

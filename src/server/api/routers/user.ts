@@ -5,17 +5,18 @@ import { notifications } from '@/server/db/schema/notifications';
 import { affiliations, players } from '@/server/db/schema/players';
 import { users } from '@/server/db/schema/users';
 import selectClub from '@/server/mutations/club-select';
+import { deleteUser } from '@/server/mutations/profile-managing';
+import getUserData from '@/server/queries/get-user-data';
 import getUserClubs from '@/server/queries/user-clubs';
 import { eq, sql } from 'drizzle-orm';
 import { z } from 'zod';
 
 export const userRouter = {
-  userList: publicProcedure.query(async () => {
-    // Retrieve users from a datasource, this is an imaginary database
+  all: publicProcedure.query(async () => {
     const usersDb = await db.select().from(users);
     return usersDb;
   }),
-  userById: publicProcedure
+  infoById: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(async (opts) => {
       const { input } = opts;
@@ -25,11 +26,17 @@ export const userRouter = {
         .where(eq(users.id, input.id));
       return user;
     }),
-  userAuth: publicProcedure.query(async () => {
+  infoByUsername: publicProcedure
+    .input(z.object({ username: z.string() }))
+    .query(async (opts) => {
+      const { input } = opts;
+      return await getUserData(input.username);
+    }),
+  auth: publicProcedure.query(async () => {
     const { user } = await validateRequest();
     return user;
   }),
-  userCreate: publicProcedure
+  create: publicProcedure
     .input(
       z.object({
         id: z.string(),
@@ -76,11 +83,21 @@ export const userRouter = {
 
     return userNotifications;
   }),
-  userClubs: publicProcedure
+  clubs: publicProcedure
     .input(z.object({ userId: z.string() }))
     .query(async (opts) => {
       const { input } = opts;
       const userClubs = await getUserClubs(input);
       return userClubs;
+    }),
+  delete: protectedProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+      }),
+    )
+    .mutation(async (opts) => {
+      const { input } = opts;
+      await deleteUser(input);
     }),
 };

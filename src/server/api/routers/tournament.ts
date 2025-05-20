@@ -24,11 +24,15 @@ import {
   setTournamentGameResult,
   startTournament,
 } from '@/server/mutations/tournament-managing';
+import getAllTournaments from '@/server/queries/get-all-tournaments';
 import { PlayerModel } from '@/types/tournaments';
 import { eq, sql } from 'drizzle-orm';
 import { z } from 'zod';
 
 export const tournamentRouter = {
+  all: publicProcedure.query(async () => {
+    return await getAllTournaments();
+  }),
   info: publicProcedure
     .input(z.object({ tournamentId: z.string() }))
     .query(async (opts) => {
