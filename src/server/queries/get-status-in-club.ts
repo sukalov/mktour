@@ -1,10 +1,11 @@
 import { db } from '@/server/db';
 import { clubs_to_users } from '@/server/db/schema/clubs';
 import { and, eq } from 'drizzle-orm';
-import { User } from 'lucia';
 
-export default async function getStatus({ user, clubId }: UserClubsQueryProps) {
-  if (!user) return undefined;
+export default async function getStatusInClub({
+  userId,
+  clubId,
+}: UserClubsQueryProps) {
   return (
     (
       await db
@@ -12,7 +13,7 @@ export default async function getStatus({ user, clubId }: UserClubsQueryProps) {
         .from(clubs_to_users)
         .where(
           and(
-            eq(clubs_to_users.user_id, user.id),
+            eq(clubs_to_users.user_id, userId),
             eq(clubs_to_users.club_id, clubId),
           ),
         )
@@ -21,6 +22,6 @@ export default async function getStatus({ user, clubId }: UserClubsQueryProps) {
 }
 
 export type UserClubsQueryProps = {
-  user?: User | null;
+  userId: string;
   clubId: string;
 };

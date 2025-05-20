@@ -5,7 +5,7 @@ import { clubs, clubs_to_users } from '@/server/db/schema/clubs';
 import { eq } from 'drizzle-orm';
 import { cache } from 'react';
 
-export default async function getUserClubs({ userId }: { userId: string }) {
+export async function getUserClubNames({ userId }: { userId: string }) {
   return await db
     .select({
       id: clubs.id,
@@ -14,6 +14,16 @@ export default async function getUserClubs({ userId }: { userId: string }) {
     .from(clubs_to_users)
     .where(eq(clubs_to_users.user_id, userId))
     .innerJoin(clubs, eq(clubs_to_users.club_id, clubs.id));
+}
+
+export async function getUserClubs({ userId }: { userId: string }) {
+  return (
+    await db
+      .select()
+      .from(clubs_to_users)
+      .where(eq(clubs_to_users.user_id, userId))
+      .innerJoin(clubs, eq(clubs_to_users.club_id, clubs.id))
+  ).map((el) => el.club);
 }
 
 export async function uncachedGetUserClubIds({ userId }: { userId: string }) {

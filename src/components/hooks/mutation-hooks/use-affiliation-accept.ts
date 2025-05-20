@@ -1,4 +1,4 @@
-import { acceptAffiliation } from '@/server/mutations/player-affiliation';
+import { useTRPC } from '@/components/trpc/client';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
@@ -9,13 +9,15 @@ export default function useAffiliationAcceptMutation({
   queryClient: QueryClient;
 }) {
   const t = useTranslations('Toasts');
-  return useMutation({
-    mutationFn: acceptAffiliation,
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({
-        queryKey: [data.club_id, 'club', 'notifications'],
-      });
-    },
-    onError: () => toast.error(t('server error')),
-  });
+  const trpc = useTRPC();
+  return useMutation(
+    trpc.player.affiliation.accept.mutationOptions({
+      onSuccess: (_data, { clubId }) => {
+        queryClient.invalidateQueries({
+          queryKey: trpc.club.notifications.queryKey({ clubId }),
+        });
+      },
+      onError: () => toast.error(t('server error')),
+    }),
+  );
 }

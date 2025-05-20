@@ -25,6 +25,7 @@ import {
   startTournament,
 } from '@/server/mutations/tournament-managing';
 import getAllTournaments from '@/server/queries/get-all-tournaments';
+import { getStatusInTournament } from '@/server/queries/get-status-in-tournament';
 import { PlayerModel } from '@/types/tournaments';
 import { eq, sql } from 'drizzle-orm';
 import { z } from 'zod';
@@ -268,5 +269,14 @@ export const tournamentRouter = {
     .mutation(async (opts) => {
       const { input } = opts;
       await deleteTournament(input);
+    }),
+  authStatus: publicProcedure
+    .input(z.object({ tournamentId: z.string() }))
+    .query(async (opts) => {
+      if (!opts.ctx.user) return 'viewer';
+      return await getStatusInTournament(
+        opts.ctx.user.id,
+        opts.input.tournamentId,
+      );
     }),
 };

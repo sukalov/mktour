@@ -30,7 +30,7 @@ export interface GameModel extends DatabaseGame {
 
 export interface TournamentInfo {
   tournament: DatabaseTournament;
-  club: DatabaseClub | null;
+  club: DatabaseClub;
 }
 
 export type Result = '0-1' | '1-0' | '1/2-1/2';

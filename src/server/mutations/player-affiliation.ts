@@ -74,17 +74,14 @@ export async function requestAffiliation({
 }
 
 export async function acceptAffiliation({
-  userId,
   affiliationId,
   notificationId,
 }: {
-  userId: string;
   affiliationId: string;
   notificationId: string;
 }) {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
-  if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
 
   const affiliation = await db.query.affiliations.findFirst({
     where: eq(affiliations.id, affiliationId),
@@ -109,17 +106,14 @@ export async function acceptAffiliation({
 }
 
 export async function rejectAffiliation({
-  userId,
   affiliationId,
   notificationId,
 }: {
-  userId: string;
   affiliationId: string;
   notificationId: string;
 }) {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
-  if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
 
   const affiliation = await db.query.affiliations.findFirst({
     where: eq(affiliations.id, affiliationId),

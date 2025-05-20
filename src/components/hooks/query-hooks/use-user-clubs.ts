@@ -1,10 +1,7 @@
-import getUserClubs from '@/server/queries/user-clubs';
+import { useTRPC } from '@/components/trpc/client';
 import { useQuery } from '@tanstack/react-query';
 
 export const useUserClubs = (userId: string) => {
-  return useQuery({
-    queryKey: [userId, 'user', 'clubs', 'all-user-clubs'],
-    queryFn: () => getUserClubs({ userId }),
-    staleTime: 30 * 1000 * 60,
-  });
+  const trpc = useTRPC();
+  return useQuery(trpc.user.clubs.queryOptions({ userId }));
 };

@@ -9,8 +9,8 @@
 
 import { uncachedValidateRequest } from '@/lib/auth/lucia';
 import { db } from '@/server/db';
-import { getUserClubIds } from '@/server/queries/user-clubs';
 import { getStatusInTournament } from '@/server/queries/get-status-in-tournament';
+import { getUserClubIds } from '@/server/queries/get-user-clubs';
 import { initTRPC, TRPCError } from '@trpc/server';
 import { NextRequest } from 'next/server';
 import superjson from 'superjson';

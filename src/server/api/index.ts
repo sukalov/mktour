@@ -5,7 +5,7 @@ import { tournamentRouter } from '@/server/api/routers/tournament';
 import { userRouter } from '@/server/api/routers/user';
 import { createTRPCRouter } from '@/server/api/trpc';
 import { db } from '@/server/db';
-import { getUserClubIds } from '@/server/queries/user-clubs';
+import { getUserClubIds } from '@/server/queries/get-user-clubs';
 
 export const appRouter = createTRPCRouter({
   user: userRouter,

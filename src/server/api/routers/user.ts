@@ -6,8 +6,11 @@ import { affiliations, players } from '@/server/db/schema/players';
 import { users } from '@/server/db/schema/users';
 import selectClub from '@/server/mutations/club-select';
 import { deleteUser } from '@/server/mutations/profile-managing';
+import {
+  getUserClubNames,
+  getUserClubs,
+} from '@/server/queries/get-user-clubs';
 import getUserData from '@/server/queries/get-user-data';
-import getUserClubs from '@/server/queries/user-clubs';
 import { eq, sql } from 'drizzle-orm';
 import { z } from 'zod';
 
@@ -16,7 +19,7 @@ export const userRouter = {
     const usersDb = await db.select().from(users);
     return usersDb;
   }),
-  infoById: publicProcedure
+  info: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(async (opts) => {
       const { input } = opts;
@@ -87,7 +90,7 @@ export const userRouter = {
     .input(z.object({ userId: z.string() }))
     .query(async (opts) => {
       const { input } = opts;
-      const userClubs = await getUserClubs(input);
+      const userClubs = await getUserClubNames(input);
       return userClubs;
     }),
   delete: protectedProcedure
@@ -100,4 +103,7 @@ export const userRouter = {
       const { input } = opts;
       await deleteUser(input);
     }),
+  authClubs: protectedProcedure.query(async (opts) => {
+    return await getUserClubs({ userId: opts.ctx.user.id });
+  }),
 };

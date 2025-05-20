@@ -1,12 +1,19 @@
-import { protectedProcedure, publicProcedure } from '@/server/api/trpc';
 import {
+  clubAdminProcedure,
+  protectedProcedure,
+  publicProcedure,
+} from '@/server/api/trpc';
+import getAllClubManagers, {
   createClub,
   getClubAffiliatedUsers,
   getClubInfo,
   getClubPlayers,
 } from '@/server/mutations/club-managing';
 import getAllClubs from '@/server/queries/get-all-clubs';
+import getClubNotifications from '@/server/queries/get-club-notifications';
 import { getClubTournaments } from '@/server/queries/get-club-tournaments';
+import getStatusInClub from '@/server/queries/get-status-in-club';
+import { getUserClubAffiliation } from '@/server/queries/get-user-club-affiliation';
 import { z } from 'zod';
 
 export const clubRouter = {
@@ -25,7 +32,7 @@ export const clubRouter = {
       const newClub = createClub(input);
       return newClub;
     }),
-  clubById: publicProcedure
+  info: publicProcedure
     .input(z.object({ clubId: z.string() }))
     .query(async (opts) => {
       return await getClubInfo(opts.input.clubId);
@@ -45,7 +52,31 @@ export const clubRouter = {
     .query(async (opts) => {
       return await getClubAffiliatedUsers(opts.input.clubId);
     }),
+  authAffiliation: protectedProcedure
+    .input(z.object({ clubId: z.string() }))
+    .query(async (opts) => {
+      return await getUserClubAffiliation(opts.ctx.user, opts.input.clubId);
+    }),
+  authStatus: publicProcedure
+    .input(z.object({ clubId: z.string() }))
+    .query(async (opts) => {
+      if (!opts.ctx.user) return undefined;
+      return await getStatusInClub({
+        userId: opts.ctx.user.id,
+        clubId: opts.input.clubId,
+      });
+    }),
   all: publicProcedure.query(async () => {
     return await getAllClubs();
   }),
+  managers: publicProcedure
+    .input(z.object({ clubId: z.string() }))
+    .query(async (opts) => {
+      return await getAllClubManagers(opts.input.clubId);
+    }),
+  notifications: clubAdminProcedure
+    .input(z.object({ clubId: z.string() }))
+    .query(async (opts) => {
+      return await getClubNotifications(opts.input.clubId);
+    }),
 };

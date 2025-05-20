@@ -1,28 +1,7 @@
-import { DatabaseNotification } from '@/server/db/schema/notifications';
-import {
-  DatabaseAffiliation,
-  DatabasePlayer,
-} from '@/server/db/schema/players';
-import { DatabaseUser } from '@/server/db/schema/users';
+import { useTRPC } from '@/components/trpc/client';
 import { useQuery } from '@tanstack/react-query';
 
 export const useClubNotifications = (clubId: string) => {
-  return useQuery({
-    queryKey: [clubId, 'club', 'notifications'],
-    queryFn: async (): Promise<
-      {
-        notification: DatabaseNotification;
-        affiliation: DatabaseAffiliation | null;
-        user: DatabaseUser | null;
-        player: DatabasePlayer | null;
-      }[]
-    > => {
-      const response = await fetch('/api/club/notifications');
-      if (!response.ok) {
-        throw new Error('failed to fetch notifications');
-      }
-      return response.json();
-    },
-    staleTime: 1000 * 60 * 60,
-  });
+  const trpc = useTRPC();
+  return useQuery(trpc.club.notifications.queryOptions({ clubId }));
 };

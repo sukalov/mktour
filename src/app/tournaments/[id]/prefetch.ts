@@ -1,7 +1,6 @@
-import { trpc } from '@/components/trpc/server';
-import { QueryClient } from '@tanstack/react-query';
+import { getQueryClient, trpc } from '@/components/trpc/server';
 
-const tournamentQueryClient = new QueryClient();
+const tournamentQueryClient = getQueryClient();
 
 const tournamentQueryPrefetch = async (tournamentId: string) => {
   await Promise.all([

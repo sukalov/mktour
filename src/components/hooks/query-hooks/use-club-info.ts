@@ -1,10 +1,7 @@
-import { getClubInfo } from '@/server/mutations/club-managing';
+import { useTRPC } from '@/components/trpc/client';
 import { useQuery } from '@tanstack/react-query';
 
-export const useClubInfo = (id: string) => {
-  return useQuery({
-    queryKey: [id, 'club', 'info'],
-    queryFn: () => getClubInfo(id),
-    staleTime: 1000 * 60 * 60,
-  });
+export const useClubInfo = (clubId: string) => {
+  const trpc = useTRPC();
+  return useQuery(trpc.club.info.queryOptions({ clubId }));
 };

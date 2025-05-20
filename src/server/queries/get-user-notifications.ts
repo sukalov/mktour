@@ -12,7 +12,7 @@ import {
   players,
 } from '@/server/db/schema/players';
 import { DatabaseUser, users } from '@/server/db/schema/users';
-import getUserClubs from '@/server/queries/user-clubs';
+import { getUserClubNames } from '@/server/queries/get-user-clubs';
 import { eq, inArray, sql } from 'drizzle-orm';
 
 const getUserNotifications = async (): Promise<AffiliationNotification[]> => {
@@ -22,7 +22,7 @@ const getUserNotifications = async (): Promise<AffiliationNotification[]> => {
     throw new Error('UNAUTHORIZED_REQUEST');
   }
 
-  const userClubs = await getUserClubs({ userId: user.id });
+  const userClubs = await getUserClubNames({ userId: user.id });
 
   return await db
     .select()
