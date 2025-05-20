@@ -1,7 +1,7 @@
 import NewTournamentForm from '@/app/tournaments/create/new-tournament-form';
 import { validateRequest } from '@/lib/auth/lucia';
 import getUserToClubs from '@/server/db/queries/get-user-to-clubs';
-import { DatabaseClub } from '@/server/db/db/schema/clubs';
+import { DatabaseClub } from '@/server/db/schema/clubs';
 import { redirect } from 'next/navigation';
 
 export default async function NewTournament() {

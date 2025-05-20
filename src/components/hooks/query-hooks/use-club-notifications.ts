@@ -2,8 +2,8 @@ import { DatabaseNotification } from '@/server/db/schema/notifications';
 import {
   DatabaseAffiliation,
   DatabasePlayer,
-} from '@/server/db/db/schema/players';
-import { DatabaseUser } from '@/server/db/db/schema/users';
+} from '@/server/db/schema/players';
+import { DatabaseUser } from '@/server/db/schema/users';
 import { useQuery } from '@tanstack/react-query';
 
 export const useClubNotifications = (clubId: string) => {

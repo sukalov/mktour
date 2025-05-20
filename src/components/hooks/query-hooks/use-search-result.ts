@@ -1,7 +1,7 @@
+import { DatabaseClub } from '@/server/db/schema/clubs';
+import { DatabasePlayer } from '@/server/db/schema/players';
+import { DatabaseTournament } from '@/server/db/schema/tournaments';
 import { DatabaseUser } from '@/server/db/schema/users';
-import { DatabaseClub } from '@/server/db/db/schema/clubs';
-import { DatabasePlayer } from '@/server/db/db/schema/players';
-import { DatabaseTournament } from '@/server/db/db/schema/tournaments';
 import { useQuery } from '@tanstack/react-query';
 
 export const useSearchQuery = <

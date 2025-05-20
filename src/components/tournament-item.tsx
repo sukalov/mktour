@@ -1,6 +1,6 @@
 import { Card, CardDescription, CardTitle } from '@/components/ui/card';
 import { DatabaseClub } from '@/server/db/schema/clubs';
-import { DatabaseTournament } from '@/server/db/db/schema/tournaments';
+import { DatabaseTournament } from '@/server/db/schema/tournaments';
 import { Dot } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';

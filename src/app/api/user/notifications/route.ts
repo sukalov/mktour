@@ -1,8 +1,8 @@
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/server/db';
-import { notifications } from '@/server/db/db/schema/notifications';
-import { affiliations, players } from '@/server/db/db/schema/players';
-import { users } from '@/server/db/db/schema/users';
+import { notifications } from '@/server/db/schema/notifications';
+import { affiliations, players } from '@/server/db/schema/players';
+import { users } from '@/server/db/schema/users';
 import { eq, sql } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
 

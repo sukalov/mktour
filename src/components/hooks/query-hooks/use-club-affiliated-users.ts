@@ -1,5 +1,5 @@
 import { DatabasePlayer } from '@/server/db/schema/players';
-import { DatabaseUser } from '@/server/db/db/schema/users';
+import { DatabaseUser } from '@/server/db/schema/users';
 import { useQuery } from '@tanstack/react-query';
 
 export const useClubAffiliatedUsers = (clubId: string) =>

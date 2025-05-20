@@ -18,8 +18,8 @@ import {
 } from '@/components/ui/command';
 import { DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { DatabaseClub } from '@/server/db/schema/clubs';
-import { DatabasePlayer } from '@/server/db/db/schema/players';
-import { DatabaseUser } from '@/server/db/db/schema/users';
+import { DatabasePlayer } from '@/server/db/schema/players';
+import { DatabaseUser } from '@/server/db/schema/users';
 import { User } from 'lucia';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
