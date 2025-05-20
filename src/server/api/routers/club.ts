@@ -4,7 +4,7 @@ import {
   getClubPlayers,
 } from '@/server/actions/club-managing';
 import { getClubTournaments } from '@/server/actions/get-club-tournaments';
-import { protectedProcedure, publicProcedure } from '@/server/trpc';
+import { protectedProcedure, publicProcedure } from '@/server/api/trpc';
 import { z } from 'zod';
 
 export const clubRouter = {

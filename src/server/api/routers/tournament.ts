@@ -12,6 +12,11 @@ import {
   setTournamentGameResult,
   startTournament,
 } from '@/server/actions/tournament-managing';
+import {
+  protectedProcedure,
+  publicProcedure,
+  tournamentAdminProcedure,
+} from '@/server/api/trpc';
 import { db } from '@/server/db';
 import { clubs } from '@/server/db/schema/clubs';
 import { DatabasePlayer, players } from '@/server/db/schema/players';
@@ -19,11 +24,6 @@ import {
   players_to_tournaments,
   tournaments,
 } from '@/server/db/schema/tournaments';
-import {
-  protectedProcedure,
-  publicProcedure,
-  tournamentAdminProcedure,
-} from '@/server/trpc';
 import { PlayerModel } from '@/types/tournaments';
 import { eq, sql } from 'drizzle-orm';
 import { z } from 'zod';

@@ -1,5 +1,5 @@
 import getPlayersLastTmts from '@/server/db/queries/get-players-last-tmts';
-import { publicProcedure } from '@/server/trpc';
+import { publicProcedure } from '@/server/api/trpc';
 import { z } from 'zod';
 
 export const playerRouter = {

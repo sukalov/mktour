@@ -1,6 +1,6 @@
 'use client';
 // ^-- to make sure we can mount the Provider from a server component
-import type { AppRouter } from '@/server';
+import type { AppRouter } from '@/server/api';
 import type { QueryClient } from '@tanstack/react-query';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';

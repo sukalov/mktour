@@ -5,7 +5,7 @@ import { db } from '@/server/db';
 import { notifications } from '@/server/db/schema/notifications';
 import { affiliations, players } from '@/server/db/schema/players';
 import { users } from '@/server/db/schema/users';
-import { protectedProcedure, publicProcedure } from '@/server/trpc';
+import { protectedProcedure, publicProcedure } from '@/server/api/trpc';
 import { eq, sql } from 'drizzle-orm';
 import { z } from 'zod';
 

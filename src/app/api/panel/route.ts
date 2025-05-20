@@ -1,4 +1,4 @@
-import { appRouter } from '@/server';
+import { appRouter } from '@/server/api';
 import { NextResponse } from 'next/server';
 
 export async function GET() {

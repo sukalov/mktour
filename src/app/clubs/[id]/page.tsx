@@ -1,5 +1,5 @@
 import ClubPage from '@/app/clubs/[id]/club';
-import { publicCaller } from '@/server';
+import { publicCaller } from '@/server/api';
 import { notFound } from 'next/navigation';
 
 export default async function Page(props: ClubPageProps) {

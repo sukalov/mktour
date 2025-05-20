@@ -1,8 +1,8 @@
 import 'server-only'; // <-- ensure this file cannot be imported from the client
 
 import { makeQueryClient } from '@/components/trpc/query-client';
-import { appRouter } from '@/server';
-import { createTRPCContext } from '@/server/trpc';
+import { appRouter } from '@/server/api';
+import { createTRPCContext } from '@/server/api/trpc';
 import { createTRPCClient } from '@trpc/client';
 import { createTRPCOptionsProxy } from '@trpc/tanstack-react-query';
 import { NextRequest } from 'next/server';
