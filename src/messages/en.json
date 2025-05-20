@@ -57,7 +57,8 @@
     "players": "there are no players in your club yet",
     "tournaments": "there are no tournaments in your club yet",
     "dashboard": "no data",
-    "user": "user not found"
+    "user": "user not found",
+    "no data": "no data"
   },
   "Profile": {
     "rating": "lichess blitz rating",
@@ -107,7 +108,8 @@
     "ForwardToEmpty": {
       "message": "it seems that you have a club with no finished tournaments: <b>{club}</b>. you can just edit it!",
       "button text": "go to"
-    }
+    },
+    "club not created": "sorry! some error happened. the club wasn't created"
   },
   "Club": {
     "managers list": "managers list:",

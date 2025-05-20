@@ -1,10 +1,7 @@
-import { getUser } from '@/lib/auth/utils';
+import { useTRPC } from '@/components/trpc/client';
 import { useQuery } from '@tanstack/react-query';
 
-export const useUser = (userId: string) => {
-  return useQuery({
-    queryKey: [userId, 'user', 'profile'],
-    queryFn: () => getUser(),
-    staleTime: Infinity,
-  });
+export const useUser = () => {
+  const trpc = useTRPC();
+  return useQuery(trpc.user.auth.queryOptions());
 };

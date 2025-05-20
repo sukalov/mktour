@@ -1,7 +1,7 @@
 import UserNotifications from '@/app/inbox/notifications';
 import getUserNotifications, {
   AffiliationNotification,
-} from '@/lib/actions/get-user-notifications';
+} from '@/server/queries/get-user-notifications';
 
 const Page = async () => {
   const res = await getUserNotifications();

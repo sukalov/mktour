@@ -10,13 +10,13 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
+import { DatabaseUser } from '@/server/db/schema/users';
 import { useQueryClient } from '@tanstack/react-query';
-import { User } from 'lucia';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 import { toast } from 'sonner';
 
-const ClubSelect: FC<{ user: User }> = ({ user }) => {
+const ClubSelect: FC<{ user: DatabaseUser }> = ({ user }) => {
   const { data: clubs, status } = useUserClubs(user.id);
   const queryClient = useQueryClient();
   const clubSelection = useUserSelectClub(queryClient);
@@ -38,8 +38,8 @@ const ClubSelect: FC<{ user: User }> = ({ user }) => {
       value={user.selected_club}
       onValueChange={(value) =>
         clubSelection.mutate({
-          values: { selected_club: value },
-          id: user.id,
+          clubId: value,
+          userId: user.id,
         })
       }
     >

@@ -6,7 +6,7 @@ import { useUserClubs } from '@/components/hooks/query-hooks/use-user-clubs';
 import SkeletonList from '@/components/skeleton-list';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { DatabaseUser } from '@/lib/db/schema/users';
+import { DatabaseUser } from '@/server/db/schema/users';
 import { useQueryClient } from '@tanstack/react-query';
 import { useFormatter, useTranslations } from 'next-intl';
 import Link from 'next/link';
@@ -28,8 +28,8 @@ const Profile: FC<{ user: DatabaseUser; isOwner: boolean }> = ({
   const router = useRouter();
   const mutate = (clubId: string) =>
     clubSelection.mutate({
-      values: { selected_club: clubId },
-      id: user.id,
+      clubId,
+      userId: user.id,
     });
 
   return (

@@ -1,34 +1,23 @@
-import {
-  getTournamentGames,
-  getTournamentInfo,
-  getTournamentPlayers,
-  getTournamentPossiblePlayers,
-} from '@/lib/actions/tournament-managing';
-import { QueryClient } from '@tanstack/react-query';
+import { getQueryClient, trpc } from '@/components/trpc/server';
 
-const tournamentQueryClient = new QueryClient();
+const tournamentQueryClient = getQueryClient();
 
-const tournamentQueryPrefetch = async (id: string) => {
+const tournamentQueryPrefetch = async (tournamentId: string) => {
   await Promise.all([
-    tournamentQueryClient.prefetchQuery({
-      queryKey: [id, 'games'],
-      queryFn: () => getTournamentGames(id),
-    }),
+    tournamentQueryClient.prefetchQuery(
+      trpc.tournament.playersIn.queryOptions({ tournamentId }),
+    ),
 
-    tournamentQueryClient.prefetchQuery({
-      queryKey: [id, 'players', 'added'],
-      queryFn: () => getTournamentPlayers(id),
-    }),
+    tournamentQueryClient.prefetchQuery(
+      trpc.tournament.playersOut.queryOptions({ tournamentId }),
+    ),
 
-    tournamentQueryClient.prefetchQuery({
-      queryKey: [id, 'players', 'possible'],
-      queryFn: () => getTournamentPossiblePlayers(id),
-    }),
-
-    tournamentQueryClient.prefetchQuery({
-      queryKey: [id, 'tournament'],
-      queryFn: () => getTournamentInfo(id),
-    }),
+    tournamentQueryClient.prefetchQuery(
+      trpc.tournament.info.queryOptions({ tournamentId }),
+    ),
+    tournamentQueryClient.prefetchQuery(
+      trpc.tournament.allGames.queryOptions({ tournamentId }),
+    ),
   ]);
 };
 

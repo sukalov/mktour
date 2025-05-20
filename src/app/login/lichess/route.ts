@@ -6,7 +6,6 @@ import { cookies } from 'next/headers';
 import { NextRequest } from 'next/server';
 
 export async function GET(request: NextRequest): Promise<Response> {
-  console.log(request.nextUrl.searchParams);
   const from = request.nextUrl.searchParams.get('from');
   const state = generateState();
   const codeVerifier = generateCodeVerifier();

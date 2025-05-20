@@ -4,7 +4,7 @@ import AddNewPlayer from '@/app/tournaments/[id]/dashboard/tabs/table/add-player
 import AddPlayer from '@/app/tournaments/[id]/dashboard/tabs/table/add-player/add-player';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { Button } from '@/components/ui/button';
-import { DatabasePlayer } from '@/lib/db/schema/players';
+import { InsertDatabasePlayer } from '@/server/db/schema/players';
 import { ArrowLeft, Plus, UserPlus, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
@@ -46,7 +46,7 @@ const AddPlayerDrawer = () => {
     }
   };
 
-  const returnToNewPlayer = (player: DatabasePlayer) => {
+  const returnToNewPlayer = (player: InsertDatabasePlayer) => {
     setOpen(true);
     setAddingNewPlayer(true);
     setValue(player.nickname);

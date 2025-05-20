@@ -5,7 +5,7 @@ import Empty from '@/components/empty';
 import { useClubInfo } from '@/components/hooks/query-hooks/use-club-info';
 import { MediaQueryContext } from '@/components/providers/media-query-context';
 import { Skeleton } from '@/components/ui/skeleton';
-import { DatabaseClub } from '@/lib/db/schema/clubs';
+import { DatabaseClub } from '@/server/db/schema/clubs';
 import { FC, useContext } from 'react';
 
 const ClubMain: FC<ClubTabProps> = ({ selectedClub, userId }) => {

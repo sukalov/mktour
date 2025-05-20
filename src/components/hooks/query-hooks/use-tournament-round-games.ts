@@ -1,4 +1,4 @@
-import { GameModel } from '@/types/tournaments';
+import { useTRPC } from '@/components/trpc/client';
 import { useQuery } from '@tanstack/react-query';
 
 export const useTournamentRoundGames = ({
@@ -7,17 +7,12 @@ export const useTournamentRoundGames = ({
 }: {
   tournamentId: string;
   roundNumber: number;
-}) =>
-  useQuery({
-    queryKey: [tournamentId, 'games', { roundNumber }],
-    queryFn: async (): Promise<GameModel[]> => {
-      const response = await fetch(
-        `/api/tournament/${tournamentId}/round/${roundNumber}`,
-      );
-      if (!response.ok) {
-        throw new Error(`failed to fetch round-${roundNumber} games`);
-      }
-      return response.json();
-    },
-    staleTime: Infinity,
-  });
+}) => {
+  const trpc = useTRPC();
+  return useQuery(
+    trpc.tournament.roundGames.queryOptions({
+      tournamentId,
+      roundNumber,
+    }),
+  );
+};

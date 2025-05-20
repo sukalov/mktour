@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
-import { DatabaseUser } from '@/lib/db/schema/users';
+import { DatabaseUser } from '@/server/db/schema/users';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';

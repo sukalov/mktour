@@ -1,10 +1,10 @@
 import TournamentItemIteratee from '@/components/tournament-item';
-import getAllTournamentsQuery from '@/lib/db/queries/get-all-tournaments-query';
+import { publicCaller } from '@/server/api';
 
 export const revalidate = 0;
 
 export default async function Tournaments() {
-  const allTournaments = await getAllTournamentsQuery();
+  const allTournaments = await publicCaller.tournament.all();
 
   return (
     <main className="mk-container mk-list">

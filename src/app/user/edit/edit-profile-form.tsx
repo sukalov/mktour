@@ -26,14 +26,14 @@ import { Save } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 
-export default function EditProfileForm({ userId }: { userId: string }) {
+export default function EditProfileForm() {
   const queryClient = useQueryClient();
-  const userQuery = useUser(userId);
+  const userQuery = useUser();
   const editUserMutation = useEditUserMutation(queryClient);
 
   const defaultValues = {
-    id: userQuery.data?.id ?? '',
-    name: userQuery.data?.name ?? undefined,
+    id: userQuery.data?.id || '',
+    name: userQuery.data?.name || '',
   };
 
   const form = useForm<EditProfileFormType>({

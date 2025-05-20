@@ -3,7 +3,8 @@
 import ClubDescription from '@/app/clubs/create/description';
 import { TeamSelector } from '@/app/clubs/create/team-selector';
 import { turboPascal } from '@/app/fonts';
-import { LoadingElement } from '@/app/tournaments/[id]/dashboard/tabs/main';
+import { LoadingSpinner } from '@/app/loading';
+import { useClubCreate } from '@/components/hooks/query-hooks/use-club-create';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -15,12 +16,11 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { createClub } from '@/lib/actions/club-managing';
-import { DatabaseUser } from '@/lib/db/schema/users';
 import { NewClubFormType, newClubFormSchema } from '@/lib/zod/new-club-form';
+import { DatabaseUser } from '@/server/db/schema/users';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
-import * as React from 'react';
+import { useRouter } from 'next/navigation';
 import { UseFormReturn, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -31,28 +31,32 @@ export default function NewClubForm({ teams }: NewClubFormProps) {
       name: '',
       description: '',
       created_at: undefined,
-      set_default: false,
+      set_default: true,
     },
   });
 
   const t = useTranslations('NewClubForm');
-
-  const onSubmit = async (data: NewClubFormType) => {
-    setIsSubmitting(true);
-
-    try {
-      await createClub({ ...data, created_at: new Date() });
-    } catch (err) {
-      if ((err as Error).message !== 'NEXT_REDIRECT') {
-        console.log(err);
-        toast.error(t('club not saved'));
-      }
-    } finally {
-      setIsSubmitting(false);
-    }
+  const { mutate, isPending } = useClubCreate();
+  const router = useRouter();
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const data = form.getValues();
+    mutate(
+      {
+        ...data,
+        created_at: new Date(),
+      },
+      {
+        onSuccess: () => {
+          router.push('/clubs/my');
+        },
+        onError: (e) => {
+          console.error(e);
+          toast.error(t('club not created'));
+        },
+      },
+    );
   };
-
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   return (
     <Form {...form}>
@@ -64,7 +68,7 @@ export default function NewClubForm({ teams }: NewClubFormProps) {
       <Card className="mx-auto max-w-[min(600px,98%)] border-none shadow-none sm:border-solid sm:shadow-2xs">
         <CardContent className="p-4 pt-2 sm:p-8">
           <form
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={handleSubmit}
             className="flex flex-col gap-8"
             name="new-tournament-form"
           >
@@ -83,10 +87,10 @@ export default function NewClubForm({ teams }: NewClubFormProps) {
             />
             <ClubDescription form={form} />
             <TeamSelector teams={teams} form={form} />
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? (
+            <Button type="submit" className="w-full" disabled={isPending}>
+              {isPending ? (
                 <>
-                  <LoadingElement />
+                  <LoadingSpinner />
                   &nbsp;
                   {t('making')}
                 </>
@@ -116,5 +120,5 @@ export type NewClubForm = UseFormReturn<{
   description?: string | undefined;
   created_at: Date;
   lichess_team?: string | undefined;
-  set_default?: boolean | undefined;
+  set_default: boolean;
 }>;
