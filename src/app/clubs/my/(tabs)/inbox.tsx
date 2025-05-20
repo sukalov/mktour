@@ -4,7 +4,7 @@ import { ClubTabProps } from '@/app/clubs/my/tabMap';
 import Empty from '@/components/empty';
 import { useClubNotifications } from '@/components/hooks/query-hooks/use-club-notifications';
 import { AffiliationNotificationLi } from '@/components/notification-items';
-import { AffiliationNotification } from '@/lib/actions/get-user-notifications';
+import { AffiliationNotification } from '@/server/queries/get-user-notifications';
 import { useTranslations } from 'next-intl';
 
 const ClubInbox = ({ selectedClub }: Pick<ClubTabProps, 'selectedClub'>) => {

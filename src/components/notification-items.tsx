@@ -6,7 +6,7 @@ import useAffiliationAcceptMutation from '@/components/hooks/mutation-hooks/use-
 import useAffiliationRejectMutation from '@/components/hooks/mutation-hooks/use-affiliation-reject';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { AffiliationNotification } from '@/lib/actions/get-user-notifications';
+import { AffiliationNotification } from '@/server/queries/get-user-notifications';
 import { useQueryClient } from '@tanstack/react-query';
 import { Check, Pointer, UserRound, X } from 'lucide-react';
 import Link from 'next/link';
@@ -32,7 +32,7 @@ export const AffiliationNotificationLi = ({
   if (!user || !affiliation) return null;
 
   const variables = {
-    // userId
+    clubId: notification.club_id,
     affiliationId: affiliation.id,
     notificationId: notification.id,
   };
