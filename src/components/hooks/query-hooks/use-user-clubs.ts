@@ -1,4 +1,4 @@
-import getUserClubs from '@/server/actions/user-clubs';
+import getUserClubs from '@/server/queries/user-clubs';
 import { useQuery } from '@tanstack/react-query';
 
 export const useUserClubs = (userId: string) => {

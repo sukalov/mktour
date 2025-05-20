@@ -1,7 +1,6 @@
 'use server';
 
 import { validateRequest } from '@/lib/auth/lucia';
-import { deleteClubFunction } from '@/server/actions/club-managing';
 import { db } from '@/server/db';
 import { clubs, clubs_to_users } from '@/server/db/schema/clubs';
 import { players } from '@/server/db/schema/players';
@@ -16,6 +15,7 @@ import {
   user_preferences,
   users,
 } from '@/server/db/schema/users';
+import { deleteClubFunction } from '@/server/mutations/club-managing';
 import { eq, sql } from 'drizzle-orm';
 
 export const editUser = async ({ id, values }: UpdateDatabaseUser) => {

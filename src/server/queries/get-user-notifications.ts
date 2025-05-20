@@ -1,5 +1,4 @@
 import { validateRequest } from '@/lib/auth/lucia';
-import getUserClubs from '@/server/actions/user-clubs';
 import { db } from '@/server/db';
 import { clubs, DatabaseClub } from '@/server/db/schema/clubs';
 import {
@@ -13,6 +12,7 @@ import {
   players,
 } from '@/server/db/schema/players';
 import { DatabaseUser, users } from '@/server/db/schema/users';
+import getUserClubs from '@/server/queries/user-clubs';
 import { eq, inArray, sql } from 'drizzle-orm';
 
 const getUserNotifications = async (): Promise<AffiliationNotification[]> => {

@@ -3,5 +3,5 @@ import { useQuery } from '@tanstack/react-query';
 
 export const useClubPlayers = (clubId: string) => {
   const trpc = useTRPC();
-  return useQuery(trpc.club.clubPlayers.queryOptions({ clubId }));
+  return useQuery(trpc.club.players.queryOptions({ clubId }));
 };

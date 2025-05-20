@@ -1,7 +1,7 @@
 import { getUser } from '@/lib/auth/utils';
-import { getClubInfo, getClubPlayers } from '@/server/actions/club-managing';
-import { getClubTournaments } from '@/server/actions/get-club-tournaments';
-import getUserClubs from '@/server/actions/user-clubs';
+import { getClubInfo, getClubPlayers } from '@/server/mutations/club-managing';
+import { getClubTournaments } from '@/server/queries/get-club-tournaments';
+import getUserClubs from '@/server/queries/user-clubs';
 import { QueryClient } from '@tanstack/react-query';
 
 const clubQueryClient = new QueryClient();

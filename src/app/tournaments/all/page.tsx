@@ -1,5 +1,5 @@
 import TournamentItemIteratee from '@/components/tournament-item';
-import getAllTournamentsQuery from '@/server/db/queries/get-all-tournaments-query';
+import getAllTournamentsQuery from '@/server/queries/get-all-tournaments-query';
 
 export const revalidate = 0;
 

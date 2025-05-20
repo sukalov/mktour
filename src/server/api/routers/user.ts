@@ -1,11 +1,11 @@
 import { validateRequest } from '@/lib/auth/lucia';
-import selectClub from '@/server/actions/club-select';
-import getUserClubs from '@/server/actions/user-clubs';
+import { protectedProcedure, publicProcedure } from '@/server/api/trpc';
 import { db } from '@/server/db';
 import { notifications } from '@/server/db/schema/notifications';
 import { affiliations, players } from '@/server/db/schema/players';
 import { users } from '@/server/db/schema/users';
-import { protectedProcedure, publicProcedure } from '@/server/api/trpc';
+import selectClub from '@/server/mutations/club-select';
+import getUserClubs from '@/server/queries/user-clubs';
 import { eq, sql } from 'drizzle-orm';
 import { z } from 'zod';
 

@@ -3,7 +3,7 @@ import DeleteTournamentButton from '@/app/tournaments/[id]/dashboard/tabs/main/d
 import ResetTournamentPButton from '@/app/tournaments/[id]/dashboard/tabs/main/reset-players-button';
 import ResetTournamentButton from '@/app/tournaments/[id]/dashboard/tabs/main/reset-tournament-button';
 import StartTournamentButton from '@/app/tournaments/[id]/dashboard/tabs/main/start-tournament-button';
-import { Status } from '@/server/db/queries/get-status-in-tournament';
+import { Status } from '@/server/queries/get-status-in-tournament';
 import { TournamentInfo } from '@/types/tournaments';
 import { FC } from 'react';
 

@@ -3,7 +3,7 @@
 import FormattedMessage from '@/components/formatted-message';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { AffiliationNotification } from '@/server/actions/get-user-notifications';
+import { AffiliationNotification } from '@/server/queries/get-user-notifications';
 import { Check, Pointer, UserRound, X } from 'lucide-react';
 import Link from 'next/link';
 

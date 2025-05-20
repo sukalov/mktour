@@ -1,6 +1,6 @@
 'use client';
 
-import { deleteTournament } from '@/server/actions/tournament-managing';
+import { deleteTournament } from '@/server/mutations/tournament-managing';
 import { Message } from '@/types/ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';

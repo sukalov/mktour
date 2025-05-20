@@ -1,5 +1,5 @@
 import { useTRPC } from '@/components/trpc/client';
-import { deleteClub } from '@/server/actions/club-managing';
+import { deleteClub } from '@/server/mutations/club-managing';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { Dispatch, SetStateAction } from 'react';

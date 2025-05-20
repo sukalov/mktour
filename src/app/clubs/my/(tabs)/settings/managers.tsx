@@ -5,7 +5,7 @@ import FormattedMessage from '@/components/formatted-message';
 import { useClubManagers } from '@/components/hooks/query-hooks/use-club-managers';
 import { Card } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ClubManager } from '@/server/actions/club-managing';
+import { ClubManager } from '@/server/mutations/club-managing';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { FC } from 'react';

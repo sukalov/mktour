@@ -4,7 +4,6 @@ import { validateRequest } from '@/lib/auth/lucia';
 import { newid } from '@/lib/utils';
 import { NewTournamentFormType } from '@/lib/zod/new-tournament-form';
 import { db } from '@/server/db';
-import { getStatusInTournament } from '@/server/db/queries/get-status-in-tournament';
 import { clubs } from '@/server/db/schema/clubs';
 import {
   DatabasePlayer,
@@ -18,6 +17,7 @@ import {
   players_to_tournaments,
   tournaments,
 } from '@/server/db/schema/tournaments';
+import { getStatusInTournament } from '@/server/queries/get-status-in-tournament';
 import {
   GameModel,
   PlayerModel,

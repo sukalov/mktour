@@ -1,7 +1,7 @@
 'use client';
 
 import { AffiliationNotificationLi } from '@/components/notification-items';
-import { AffiliationNotification } from '@/server/actions/get-user-notifications';
+import { AffiliationNotification } from '@/server/queries/get-user-notifications';
 import { FC } from 'react';
 
 const UserNotifications: FC<{

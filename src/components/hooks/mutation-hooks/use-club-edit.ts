@@ -1,4 +1,4 @@
-import { editClub } from '@/server/actions/club-managing';
+import { editClub } from '@/server/mutations/club-managing';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 

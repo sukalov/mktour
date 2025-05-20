@@ -181,3 +181,11 @@ export const deleteClubFunction = async ({
     await tx.delete(clubs).where(eq(clubs.id, id));
   });
 };
+
+export const getClubAffiliatedUsers = async (clubId: string) => {
+  return await db
+    .select()
+    .from(players)
+    .where(eq(players.club_id, clubId))
+    .innerJoin(users, eq(players.user_id, users.id));
+};

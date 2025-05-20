@@ -30,9 +30,9 @@ import {
   NewTournamentFormType,
   newTournamentFormSchema,
 } from '@/lib/zod/new-tournament-form';
-import { createTournament } from '@/server/actions/tournament-managing';
 import { DatabaseClub } from '@/server/db/schema/clubs';
 import { DatabaseUser } from '@/server/db/schema/users';
+import { createTournament } from '@/server/mutations/tournament-managing';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PlusIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';

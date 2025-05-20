@@ -1,10 +1,11 @@
+import { protectedProcedure, publicProcedure } from '@/server/api/trpc';
 import {
   createClub,
+  getClubAffiliatedUsers,
   getClubInfo,
   getClubPlayers,
-} from '@/server/actions/club-managing';
-import { getClubTournaments } from '@/server/actions/get-club-tournaments';
-import { protectedProcedure, publicProcedure } from '@/server/api/trpc';
+} from '@/server/mutations/club-managing';
+import { getClubTournaments } from '@/server/queries/get-club-tournaments';
 import { z } from 'zod';
 
 export const clubRouter = {
@@ -28,14 +29,19 @@ export const clubRouter = {
     .query(async (opts) => {
       return await getClubInfo(opts.input.clubId);
     }),
-  clubPlayers: publicProcedure
+  players: publicProcedure
     .input(z.object({ clubId: z.string() }))
     .query(async (opts) => {
       return await getClubPlayers(opts.input.clubId);
     }),
-  clubTournaments: publicProcedure
+  tournaments: publicProcedure
     .input(z.object({ clubId: z.string() }))
     .query(async (opts) => {
       return await getClubTournaments(opts.input.clubId);
+    }),
+  affiliatedUsers: publicProcedure
+    .input(z.object({ clubId: z.string() }))
+    .query(async (opts) => {
+      return await getClubAffiliatedUsers(opts.input.clubId);
     }),
 };

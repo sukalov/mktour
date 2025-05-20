@@ -1,4 +1,16 @@
 import {
+  protectedProcedure,
+  publicProcedure,
+  tournamentAdminProcedure,
+} from '@/server/api/trpc';
+import { db } from '@/server/db';
+import { clubs } from '@/server/db/schema/clubs';
+import { DatabasePlayer, players } from '@/server/db/schema/players';
+import {
+  players_to_tournaments,
+  tournaments,
+} from '@/server/db/schema/tournaments';
+import {
   addExistingPlayer,
   addNewPlayer,
   deleteTournament,
@@ -11,19 +23,7 @@ import {
   saveRound,
   setTournamentGameResult,
   startTournament,
-} from '@/server/actions/tournament-managing';
-import {
-  protectedProcedure,
-  publicProcedure,
-  tournamentAdminProcedure,
-} from '@/server/api/trpc';
-import { db } from '@/server/db';
-import { clubs } from '@/server/db/schema/clubs';
-import { DatabasePlayer, players } from '@/server/db/schema/players';
-import {
-  players_to_tournaments,
-  tournaments,
-} from '@/server/db/schema/tournaments';
+} from '@/server/mutations/tournament-managing';
 import { PlayerModel } from '@/types/tournaments';
 import { eq, sql } from 'drizzle-orm';
 import { z } from 'zod';
