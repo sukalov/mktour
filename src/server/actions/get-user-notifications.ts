@@ -1,5 +1,5 @@
-import getUserClubs from '@/server/actions/user-clubs';
 import { validateRequest } from '@/lib/auth/lucia';
+import getUserClubs from '@/server/actions/user-clubs';
 import { db } from '@/server/db';
 import { clubs, DatabaseClub } from '@/server/db/schema/clubs';
 import {

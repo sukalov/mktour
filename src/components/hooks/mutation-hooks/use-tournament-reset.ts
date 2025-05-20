@@ -1,7 +1,7 @@
 'use client';
 
 import { useTRPC } from '@/components/trpc/client';
-import { resetTournament } from '@/lib/actions/tournament-managing';
+import { resetTournament } from '@/server/actions/tournament-managing';
 import { Message } from '@/types/ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';

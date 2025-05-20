@@ -1,7 +1,7 @@
 'use server';
 
-import { deleteClubFunction } from '@/server/actions/club-managing';
 import { validateRequest } from '@/lib/auth/lucia';
+import { deleteClubFunction } from '@/server/actions/club-managing';
 import { db } from '@/server/db';
 import { clubs, clubs_to_users } from '@/server/db/schema/clubs';
 import { players } from '@/server/db/schema/players';

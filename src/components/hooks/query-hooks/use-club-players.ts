@@ -1,4 +1,4 @@
-import { getClubPlayers } from '@/lib/actions/club-managing';
+import { getClubPlayers } from '@/server/actions/club-managing';
 import { useQuery } from '@tanstack/react-query';
 
 export const useClubPlayers = (id: string) => {

@@ -1,5 +1,5 @@
-import selectClub from '@/lib/actions/club-select';
 import { validateRequest } from '@/lib/auth/lucia';
+import selectClub from '@/server/actions/club-select';
 import { db } from '@/server/db';
 import { users } from '@/server/db/schema/users';
 import { protectedProcedure, publicProcedure } from '@/server/trpc';

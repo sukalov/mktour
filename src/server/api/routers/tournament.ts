@@ -6,7 +6,7 @@ import {
   removePlayer,
   saveRound,
   setTournamentGameResult,
-} from '@/lib/actions/tournament-managing';
+} from '@/server/actions/tournament-managing';
 import { db } from '@/server/db';
 import { clubs } from '@/server/db/schema/clubs';
 import { DatabasePlayer, players } from '@/server/db/schema/players';

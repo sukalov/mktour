@@ -1,4 +1,4 @@
-import { deletePlayer } from '@/lib/actions/club-managing';
+import { deletePlayer } from '@/server/actions/club-managing';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 

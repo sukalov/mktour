@@ -1,5 +1,5 @@
 import { useTRPC } from '@/components/trpc/client';
-import { deleteUser } from '@/lib/actions/profile-managing';
+import { deleteUser } from '@/server/actions/profile-managing';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';

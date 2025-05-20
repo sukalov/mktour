@@ -1,4 +1,4 @@
-import { createClub } from '@/lib/actions/club-managing';
+import { createClub } from '@/server/actions/club-managing';
 import { protectedProcedure } from '@/server/trpc';
 import { z } from 'zod';
 

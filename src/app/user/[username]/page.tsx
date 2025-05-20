@@ -1,7 +1,7 @@
 import Profile from '@/app/user/[username]/profile';
 import Empty from '@/components/empty';
-import getUserData from '@/lib/actions/get-user-data';
 import { validateRequest } from '@/lib/auth/lucia';
+import getUserData from '@/server/actions/get-user-data';
 import { getTranslations } from 'next-intl/server';
 import { redirect } from 'next/navigation';
 

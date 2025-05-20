@@ -1,4 +1,4 @@
-import { rejectAffiliation } from '@/lib/actions/player-affiliation';
+import { rejectAffiliation } from '@/server/actions/player-affiliation';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';

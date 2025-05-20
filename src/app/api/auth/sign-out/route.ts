@@ -1,4 +1,4 @@
-import { logout } from '@/lib/actions/logout';
+import { logout } from '@/server/actions/logout';
 
 export const POST = async () => {
   await logout();

@@ -26,11 +26,11 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import TypeCard from '@/components/ui/type-card';
-import { createTournament } from '@/lib/actions/tournament-managing';
 import {
   NewTournamentFormType,
   newTournamentFormSchema,
 } from '@/lib/zod/new-tournament-form';
+import { createTournament } from '@/server/actions/tournament-managing';
 import { DatabaseClub } from '@/server/db/schema/clubs';
 import { DatabaseUser } from '@/server/db/schema/users';
 import { zodResolver } from '@hookform/resolvers/zod';
