@@ -20,11 +20,11 @@ export default async function TournamentPage(props: TournamentPageProps) {
     tournament = await publicCaller.tournament.info({
       tournamentId: params.id,
     });
+    tournamentQueryPrefetch(params.id);
   } catch (e) {
-    console.error(e);
+    console.log(e);
     notFound();
   }
-  await tournamentQueryPrefetch(params.id);
 
   const status = await publicCaller.tournament.authStatus({
     tournamentId: params.id,
