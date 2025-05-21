@@ -68,7 +68,7 @@ export const userRouter = {
       const resultSet = await selectClub(input);
       return resultSet;
     }),
-  notifications: publicProcedure.query(async () => {
+  authNotifications: publicProcedure.query(async () => {
     const { user } = await validateRequest();
     if (!user) {
       return [];

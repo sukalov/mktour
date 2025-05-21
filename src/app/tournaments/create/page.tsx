@@ -1,10 +1,9 @@
 import NewTournamentForm from '@/app/tournaments/create/new-tournament-form';
-import { validateRequest } from '@/lib/auth/lucia';
 import { publicCaller } from '@/server/api';
 import { redirect } from 'next/navigation';
 
 export default async function NewTournament() {
-  const { user } = await validateRequest();
+  const user = await publicCaller.user.auth();
   if (!user) redirect('/sign-in?from=/tournaments/create');
   const userClubs = await publicCaller.user.authClubs();
 

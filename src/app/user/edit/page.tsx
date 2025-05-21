@@ -2,13 +2,12 @@ import { turboPascal } from '@/app/fonts';
 import DeleteUser from '@/app/user/edit/delete-user';
 import EditProfileForm from '@/app/user/edit/edit-profile-form';
 import { getQueryClient, trpc } from '@/components/trpc/server';
-import { validateRequest } from '@/lib/auth/lucia';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { getTranslations } from 'next-intl/server';
 import { redirect } from 'next/navigation';
 
 export default async function EditUserPage() {
-  const { user } = await validateRequest();
+  const user = await publicCaller.user.auth();
   if (!user) redirect('/sign-in');
   const queryClient = getQueryClient();
 

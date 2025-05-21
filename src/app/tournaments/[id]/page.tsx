@@ -3,10 +3,9 @@ import {
   tournamentQueryClient,
   tournamentQueryPrefetch,
 } from '@/app/tournaments/[id]/prefetch';
-import { validateRequest } from '@/lib/auth/lucia';
 import { publicCaller } from '@/server/api';
 import { TournamentInfo } from '@/types/tournaments';
-import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
 
@@ -15,7 +14,7 @@ export const revalidate = 0;
 export default async function TournamentPage(props: TournamentPageProps) {
   const params = await props.params;
   const session = (await cookies()).get('auth_session')?.value ?? '';
-  const { user } = await validateRequest();
+  const user = await publicCaller.user.auth();
   let tournament: TournamentInfo;
   try {
     tournament = await publicCaller.tournament.info({

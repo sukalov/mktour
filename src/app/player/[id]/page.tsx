@@ -2,7 +2,6 @@ import ClaimPlayer from '@/app/player/[id]/claim-button';
 import DeletePlayer from '@/app/player/[id]/delete-button';
 import EditButton from '@/app/player/[id]/edit-button';
 import FormattedMessage from '@/components/formatted-message';
-import { validateRequest } from '@/lib/auth/lucia';
 import { publicCaller } from '@/server/api';
 import { DatabasePlayer } from '@/server/db/schema/players';
 import { DatabaseUser } from '@/server/db/schema/users';
@@ -13,7 +12,7 @@ import { FC } from 'react';
 
 export default async function PlayerPage(props: PlayerPageProps) {
   const { id } = await props.params;
-  const { user } = await validateRequest();
+  const user = await publicCaller.user.auth();
   const playerData = await publicCaller.player.info({ playerId: id });
   if (!playerData) notFound();
   const { player, club, user: playerUser } = playerData;

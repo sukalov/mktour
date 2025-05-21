@@ -1,11 +1,11 @@
 import Dashboard from '@/app/clubs/my/dashboard';
 import { clubQueryPrefetch } from '@/app/clubs/my/prefetch';
 import { HydrateClient } from '@/components/trpc/server';
-import { validateRequest } from '@/lib/auth/lucia';
+import { publicCaller } from '@/server/api';
 import { redirect } from 'next/navigation';
 
 export default async function ClubInfo() {
-  const { user } = await validateRequest();
+  const user = await publicCaller.user.auth();
   if (!user) redirect('/clubs/all/');
   clubQueryPrefetch(user.selected_club);
 
