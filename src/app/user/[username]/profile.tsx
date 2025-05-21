@@ -17,7 +17,7 @@ const Profile: FC<{ user: DatabaseUser; isOwner: boolean }> = ({
   user,
   isOwner,
 }) => {
-  const { data, isPending } = useAuthClubs(user?.id);
+  const { data, isPending } = useAuthClubs();
   const queryClient = useQueryClient();
   const clubSelection = useUserSelectClub(queryClient);
   const format = useFormatter();

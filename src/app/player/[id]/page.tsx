@@ -41,7 +41,9 @@ export default async function PlayerPage(props: PlayerPageProps) {
             {canEdit && (
               <>
                 <EditButton userId={user.id} player={player} />
-                {!isOwnPlayer && <DeletePlayer userId={user.id} />}
+                {!isOwnPlayer && (
+                  <DeletePlayer userId={user.id} clubId={club.id} />
+                )}
               </>
             )}
             {canClaim && (
