@@ -4,7 +4,7 @@ import { ClubTabProps } from '@/app/clubs/my/tabMap';
 import Empty from '@/components/empty';
 import { useClubNotifications } from '@/components/hooks/query-hooks/use-club-notifications';
 import { AffiliationNotificationLi } from '@/components/notification-items';
-import { AffiliationNotification } from '@/server/queries/get-user-notifications';
+import { ClubNotification } from '@/server/queries/get-club-notifications';
 import { useTranslations } from 'next-intl';
 
 const ClubInbox = ({ selectedClub }: Pick<ClubTabProps, 'selectedClub'>) => {
@@ -23,8 +23,7 @@ const ClubInbox = ({ selectedClub }: Pick<ClubTabProps, 'selectedClub'>) => {
   );
 };
 
-const NotificationItemIteratee = (data: AffiliationNotification) => {
-  // FIXME union type
+const NotificationItemIteratee = (data: ClubNotification) => {
   if (data.notification.notification_type === 'affiliation_request')
     return <AffiliationNotificationLi key={data.notification?.id} {...data} />;
   return null;

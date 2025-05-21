@@ -1,22 +1,30 @@
 'use client';
 
-import { AffiliationNotificationLi } from '@/components/notification-items';
-import { AffiliationNotification } from '@/server/queries/get-user-notifications';
-import { FC } from 'react';
+import { UserNotification } from '@/server/queries/get-user-notifications';
+import { FC, use } from 'react';
 
 const UserNotifications: FC<{
-  groupedNotifications: Record<string, AffiliationNotification[]>;
-}> = ({ groupedNotifications }) => {
+  notificationsPromise: Promise<UserNotification[]>;
+}> = ({ notificationsPromise }) => {
+  const notifications = use(notificationsPromise);
+  if (!notifications) return null;
   return (
     <div className="mk-container">
-      {Object.entries(groupedNotifications).map(([club, notifactions]) => (
-        <div key={club} className="mk-list">
-          <p className="pl-3">{club}:</p>
-          {notifactions.map(AffiliationNotificationLi)}
-        </div>
-      ))}
+      {notifications.map(NotificationItemIteratee)}
     </div>
   );
+};
+
+const NotificationItemIteratee = (data: UserNotification) => {
+  if (data.type === 'affiliation_approved')
+    return (
+      <div className="py-4" key={data.notification.id}>
+        <p>
+          approved affiliation with {data.player.nickname} in {data.club.name}
+        </p>
+      </div>
+    );
+  return null;
 };
 
 export default UserNotifications;

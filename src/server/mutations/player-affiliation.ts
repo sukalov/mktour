@@ -4,8 +4,10 @@ import { validateRequest } from '@/lib/auth/lucia';
 import { newid } from '@/lib/utils';
 import { db } from '@/server/db';
 import {
-  InsertDatabaseNotification,
-  notifications,
+  club_notifications,
+  InsertDatabaseClubNotification,
+  InsertDatabaseUserNotification,
+  user_notifications,
 } from '@/server/db/schema/notifications';
 import {
   affiliations,
@@ -55,37 +57,31 @@ export async function requestAffiliation({
     updated_at: created_at,
   };
 
-  const newNotification: InsertDatabaseNotification = {
+  const newNotification: InsertDatabaseClubNotification = {
     id: newid(),
-    user_id: userId,
     club_id: clubId,
-    for_whom: 'club',
     notification_type: 'affiliation_request',
     is_seen: false,
     created_at,
-    metadata: { affiliation_id: newAffiliation.id },
+    metadata: { affiliation_id: newAffiliation.id, user_id: userId },
   };
 
   await Promise.all([
     db.insert(affiliations).values(newAffiliation),
-    db.insert(notifications).values(newNotification),
+    db.insert(club_notifications).values(newNotification),
   ]);
   revalidatePath(`/players/${playerId}`);
 }
 
 export async function acceptAffiliation({
-  // userId,
   affiliationId,
   notificationId,
 }: {
-  // userId: string;
   affiliationId: string;
   notificationId: string;
 }) {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
-  // if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
-  // FIXME add check
 
   const affiliation = await db.query.affiliations.findFirst({
     where: eq(affiliations.id, affiliationId),
@@ -96,6 +92,15 @@ export async function acceptAffiliation({
     throw new Error('CLUB_ID_NOT_MATCHING');
   if (affiliation.status !== 'requested')
     throw new Error('AFFILIATION_STATUS_NOT_REQUESTED');
+
+  const newNotification: InsertDatabaseUserNotification = {
+    id: newid(),
+    user_id: affiliation.user_id,
+    notification_type: 'affiliation_approved',
+    is_seen: false,
+    created_at: new Date(),
+    metadata: { club_id: affiliation.club_id, affiliation_id: affiliationId },
+  };
 
   await Promise.all([
     db
@@ -106,25 +111,24 @@ export async function acceptAffiliation({
       .update(players)
       .set({ user_id: affiliation.user_id })
       .where(eq(players.id, affiliation.player_id)),
-    db.delete(notifications).where(eq(notifications.id, notificationId)),
+    db
+      .delete(club_notifications)
+      .where(eq(club_notifications.id, notificationId)),
+    db.insert(user_notifications).values(newNotification),
   ]);
 
   return affiliation;
 }
 
 export async function rejectAffiliation({
-  // userId,
   affiliationId,
   notificationId,
 }: {
-  // userId: string;
   affiliationId: string;
   notificationId: string;
 }) {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
-  // if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
-  // FIXME add check
 
   const affiliation = await db.query.affiliations.findFirst({
     where: eq(affiliations.id, affiliationId),
@@ -135,12 +139,24 @@ export async function rejectAffiliation({
   if (affiliation.status !== 'requested')
     throw new Error('AFFILIATION_STATUS_NOT_REQUESTED');
 
+  const newNotification: InsertDatabaseUserNotification = {
+    id: newid(),
+    user_id: affiliation.user_id,
+    notification_type: 'affiliation_rejected',
+    is_seen: false,
+    created_at: new Date(),
+    metadata: { club_id: affiliation.club_id, affiliation_id: affiliationId },
+  };
+
   await Promise.all([
     db
       .update(affiliations)
       .set({ status: 'cancelled_by_club', updated_at: new Date() })
       .where(eq(affiliations.id, affiliationId)),
-    db.delete(notifications).where(eq(notifications.id, notificationId)),
+    db
+      .delete(club_notifications)
+      .where(eq(club_notifications.id, notificationId)),
+    db.insert(user_notifications).values(newNotification),
   ]);
 
   return affiliation;
@@ -168,9 +184,9 @@ export async function abortAffiliationRequest({
   await Promise.all([
     db.delete(affiliations).where(eq(affiliations.id, affiliationId)),
     db
-      .delete(notifications)
+      .delete(club_notifications)
       .where(
-        sql`json_extract(${notifications.metadata}, '$.affiliation_id') = ${affiliationId}`,
+        sql`json_extract(${club_notifications.metadata}, '$.affiliation_id') = ${affiliationId}`,
       ),
   ]);
   revalidatePath(`/players/${playerId}`);

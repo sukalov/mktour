@@ -3,7 +3,8 @@
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/server/db';
 import { clubs, clubs_to_users } from '@/server/db/schema/clubs';
-import { players } from '@/server/db/schema/players';
+import { user_notifications } from '@/server/db/schema/notifications';
+import { affiliations, players } from '@/server/db/schema/players';
 import {
   games,
   players_to_tournaments,
@@ -95,6 +96,21 @@ export const deleteUser = async ({ userId }: { userId: string }) => {
       await tx.delete(players).where(eq(players.club_id, clubId));
       await tx.delete(tournaments).where(eq(tournaments.club_id, clubId));
     }
+
+    // Set players.user_id to null where it references the user being deleted
+    await tx
+      .update(players)
+      .set({ user_id: null })
+      .where(eq(players.user_id, userId));
+
+    // Delete user notifications
+    await tx
+      .delete(user_notifications)
+      .where(eq(user_notifications.user_id, userId));
+
+    // Delete affiliations
+    await tx.delete(affiliations).where(eq(affiliations.user_id, userId));
+
     await tx.delete(clubs_to_users).where(eq(clubs_to_users.user_id, userId));
     await tx
       .delete(user_preferences)

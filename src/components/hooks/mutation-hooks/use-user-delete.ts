@@ -12,7 +12,7 @@ export default function useDeleteUserMutation(queryClient: QueryClient) {
         toast.success(t('user deleted'));
         queryClient.invalidateQueries({ queryKey: trpc.user.pathKey() });
       },
-      onError: () => toast.error(t('server error')),
+      onError: (e) => toast.error(t('server error') + ': ' + e),
     }),
   );
 }

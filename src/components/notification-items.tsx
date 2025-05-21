@@ -6,7 +6,7 @@ import useAffiliationAcceptMutation from '@/components/hooks/mutation-hooks/use-
 import useAffiliationRejectMutation from '@/components/hooks/mutation-hooks/use-affiliation-reject';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { AffiliationNotification } from '@/server/queries/get-user-notifications';
+import { ClubNotification } from '@/server/queries/get-club-notifications';
 import { useQueryClient } from '@tanstack/react-query';
 import { Check, Pointer, UserRound, X } from 'lucide-react';
 import Link from 'next/link';
@@ -16,7 +16,7 @@ export const AffiliationNotificationLi = ({
   notification,
   player,
   user,
-}: AffiliationNotification) => {
+}: ClubNotification) => {
   const queryClient = useQueryClient();
   const { mutate: acceptAffiliation, isPending: pendingAccept } =
     useAffiliationAcceptMutation({
