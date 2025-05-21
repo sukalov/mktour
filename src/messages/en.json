@@ -169,7 +169,8 @@
     "finished": "tournament finished!",
     "player updated": "player updated",
     "affiliation requested": "request sent",
-    "affiliation canceled": "request cancelled"
+    "affiliation canceled": "request cancelled",
+    "player deleted": "player deleted"
   },
   "EditUser": {
     "header": "settings",

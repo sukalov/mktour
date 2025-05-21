@@ -3,6 +3,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from '@/server/api/trpc';
+import { deletePlayer, editPlayer } from '@/server/mutations/club-managing';
 import {
   abortAffiliationRequest,
   acceptAffiliation,
@@ -78,4 +79,32 @@ export const playerRouter = {
         await abortAffiliationRequest(input);
       }),
   },
+  delete: clubAdminProcedure
+    .input(
+      z.object({
+        clubId: z.string(),
+        playerId: z.string(),
+        userId: z.string(),
+      }),
+    )
+    .mutation(async (opts) => {
+      const { input } = opts;
+      await deletePlayer(input);
+    }),
+  edit: clubAdminProcedure
+    .input(
+      z.object({
+        clubId: z.string(),
+        values: z.object({
+          id: z.string(),
+          nickname: z.string(),
+          realname: z.string().nullable(),
+          rating: z.number(),
+        }),
+      }),
+    )
+    .mutation(async (opts) => {
+      const { input } = opts;
+      await editPlayer(input);
+    }),
 };

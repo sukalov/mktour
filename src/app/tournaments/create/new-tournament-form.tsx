@@ -122,11 +122,13 @@ export default function NewTournamentForm({
                       }}
                     >
                       <SelectGroup>
-                        {clubs.map((club: DatabaseClub) => (
-                          <SelectItem key={club.id} value={club.id}>
-                            {club.name}
-                          </SelectItem>
-                        ))}
+                        {clubs.map(
+                          (club: Pick<DatabaseClub, 'id' | 'name'>) => (
+                            <SelectItem key={club.id} value={club.id}>
+                              {club.name}
+                            </SelectItem>
+                          ),
+                        )}
                         <SelectGroup>
                           <Link
                             href="/clubs/create"
@@ -255,6 +257,6 @@ export default function NewTournamentForm({
 }
 
 interface NewTournamentFormProps {
-  clubs: Array<DatabaseClub>;
+  clubs: Array<Pick<DatabaseClub, 'id' | 'name'>>;
   user: DatabaseUser;
 }

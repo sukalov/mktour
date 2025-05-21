@@ -5,6 +5,8 @@ import {
 } from '@/server/api/trpc';
 import getAllClubManagers, {
   createClub,
+  deleteClub,
+  editClub,
   getClubAffiliatedUsers,
   getClubInfo,
   getClubPlayers,
@@ -78,5 +80,33 @@ export const clubRouter = {
     .input(z.object({ clubId: z.string() }))
     .query(async (opts) => {
       return await getClubNotifications(opts.input.clubId);
+    }),
+  delete: clubAdminProcedure
+    .input(
+      z.object({
+        clubId: z.string(),
+        userId: z.string(),
+        userDeletion: z.boolean(),
+      }),
+    )
+    .mutation(async (opts) => {
+      const { input } = opts;
+      await deleteClub(input);
+    }),
+  edit: clubAdminProcedure
+    .input(
+      z.object({
+        clubId: z.string(),
+        userId: z.string(),
+        values: z.object({
+          name: z.string().optional(),
+          description: z.string().optional().nullable(),
+          lichess_team: z.string().optional().nullable(),
+        }),
+      }),
+    )
+    .mutation(async (opts) => {
+      const { input } = opts;
+      await editClub(input);
     }),
 };

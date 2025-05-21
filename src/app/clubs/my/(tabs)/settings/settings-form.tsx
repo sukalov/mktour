@@ -64,7 +64,7 @@ const ClubSettingsForm: FC<ClubTabProps> = ({ selectedClub, userId }) => {
           <form
             onSubmit={form.handleSubmit((data) =>
               clubSettingsMutation.mutate({
-                id: data.id,
+                clubId: data.id,
                 userId,
                 values: data,
               }),

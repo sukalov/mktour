@@ -5,7 +5,7 @@ import { notifications } from '@/server/db/schema/notifications';
 import { affiliations, players } from '@/server/db/schema/players';
 import { users } from '@/server/db/schema/users';
 import selectClub from '@/server/mutations/club-select';
-import { deleteUser } from '@/server/mutations/profile-managing';
+import { deleteUser, editUser } from '@/server/mutations/profile-managing';
 import {
   getUserClubNames,
   getUserClubs,
@@ -103,7 +103,23 @@ export const userRouter = {
       const { input } = opts;
       await deleteUser(input);
     }),
-  authClubs: protectedProcedure.query(async (opts) => {
-    return await getUserClubs({ userId: opts.ctx.user.id });
+  edit: protectedProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        values: z.object({
+          name: z.string().optional(),
+          username: z.string().optional(),
+        }),
+      }),
+    )
+    .mutation(async (opts) => {
+      const { input } = opts;
+      await editUser(input);
+    }),
+  authClubs: protectedProcedure.query(async () => {
+    const { user } = await validateRequest();
+    if (!user) return [];
+    return await getUserClubs({ userId: user.id });
   }),
 };

@@ -1,7 +1,7 @@
 'use client';
 
 import { useUserSelectClub } from '@/components/hooks/mutation-hooks/use-user-select-club';
-import { useUserClubs } from '@/components/hooks/query-hooks/use-user-clubs';
+import { useAuthClubs } from '@/components/hooks/query-hooks/use-user-clubs';
 import {
   Select,
   SelectContent,
@@ -17,7 +17,7 @@ import { FC } from 'react';
 import { toast } from 'sonner';
 
 const ClubSelect: FC<{ user: DatabaseUser }> = ({ user }) => {
-  const { data: clubs, status } = useUserClubs(user.id);
+  const { data: clubs, status } = useAuthClubs();
   const queryClient = useQueryClient();
   const clubSelection = useUserSelectClub(queryClient);
   const t = useTranslations('Toasts');

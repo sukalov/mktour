@@ -2,7 +2,7 @@
 
 import FormattedMessage from '@/components/formatted-message';
 import { useUserSelectClub } from '@/components/hooks/mutation-hooks/use-user-select-club';
-import { useUserClubs } from '@/components/hooks/query-hooks/use-user-clubs';
+import { useAuthClubs } from '@/components/hooks/query-hooks/use-user-clubs';
 import SkeletonList from '@/components/skeleton-list';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -17,7 +17,7 @@ const Profile: FC<{ user: DatabaseUser; isOwner: boolean }> = ({
   user,
   isOwner,
 }) => {
-  const { data, isPending } = useUserClubs(user?.id);
+  const { data, isPending } = useAuthClubs(user?.id);
   const queryClient = useQueryClient();
   const clubSelection = useUserSelectClub(queryClient);
   const format = useFormatter();

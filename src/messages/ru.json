@@ -171,7 +171,8 @@
     "finished": "турнир завершён!",
     "player updated": "игрок обновлён",
     "affiliation requested": "заявка отправлена",
-    "affiliation canceled": "заявка отменена"
+    "affiliation canceled": "заявка отменена",
+    "player deleted": "игрок удалён"
   },
   "EditUser": {
     "header": "настройки",

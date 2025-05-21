@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 export default async function NewTournament() {
   const user = await publicCaller.user.auth();
   if (!user) redirect('/sign-in?from=/tournaments/create');
-  const userClubs = await publicCaller.user.authClubs();
+  const userClubs = await publicCaller.user.clubs({ userId: user.id });
 
   if (!user) redirect('/sign-in'); // Not sure if needed
 

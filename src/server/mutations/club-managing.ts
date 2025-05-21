@@ -17,6 +17,7 @@ import {
   tournaments,
 } from '@/server/db/schema/tournaments';
 import { DatabaseUser, users } from '@/server/db/schema/users';
+import getStatusInClub from '@/server/queries/get-status-in-club';
 import { and, eq, ne } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 
@@ -56,62 +57,80 @@ export const getClubPlayers = async (id: DatabasePlayer['club_id']) => {
   return await db.select().from(players).where(eq(players.club_id, id));
 };
 
-export const editClub = async ({ id, userId, values }: UpdateDatabaseClub) => {
+export const editClub = async ({ clubId, userId, values }: ClubEditProps) => {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
-  await db.update(clubs).set(values).where(eq(clubs.id, id));
+  await db.update(clubs).set(values).where(eq(clubs.id, clubId));
 };
 
-type UpdateDatabaseClub = {
-  id: string;
+type ClubEditProps = {
+  clubId: string;
   userId: string;
   values: Partial<DatabaseClub>;
 };
 
 type ClubDeleteProps = {
-  id: string;
+  clubId: string;
   userId: string;
   userDeletion: boolean;
 };
 
 export const deleteClub = async ({
-  id,
+  clubId,
   userId,
   userDeletion = false,
 }: ClubDeleteProps) => {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
-  await deleteClubFunction({ id, userId, userDeletion });
+  await deleteClubFunction({ clubId, userId, userDeletion });
 };
 
 // FIXME
 export const deletePlayer = async ({
-  userId,
   playerId,
+  clubId,
 }: {
   playerId: string;
-  userId: string;
+  clubId: string;
 }) => {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
-  if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
+  const [playerClub] = await db
+    .select({ club_id: players.club_id })
+    .from(players)
+    .where(eq(players.id, playerId));
+  if (playerClub.club_id !== clubId) throw new Error('CLUB_ID_NOT_MATCHING');
+  const status = await getStatusInClub({
+    userId: user.id,
+    clubId: playerClub.club_id,
+  });
+  if (!status) throw new Error('NOT_ADMIN');
   await db.transaction(async (tx) => {
     await tx.delete(players).where(eq(players.id, playerId));
   });
 };
 
 export const editPlayer = async ({
-  userId,
+  clubId,
   values,
 }: {
-  userId: string;
+  clubId: string;
   values: Pick<DatabasePlayer, 'id' | 'nickname' | 'realname' | 'rating'>;
 }) => {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
-  if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
+  const [playerClub] = await db
+    .select({ club_id: players.club_id })
+    .from(players)
+    .where(eq(players.id, values.id));
+  if (playerClub.club_id !== clubId) throw new Error('CLUB_ID_NOT_MATCHING');
+  const status = await getStatusInClub({
+    userId: user.id,
+    clubId: playerClub.club_id,
+  });
+  if (!status) throw new Error('NOT_ADMIN');
   await db.update(players).set(values).where(eq(players.id, values.id));
   revalidatePath(`/player/${values.id}`);
 };
@@ -132,7 +151,7 @@ export type ClubManager = {
 };
 
 export const deleteClubFunction = async ({
-  id,
+  clubId,
   userId,
   userDeletion = false,
 }: ClubDeleteProps) => {
@@ -140,7 +159,10 @@ export const deleteClubFunction = async ({
     .select()
     .from(clubs_to_users)
     .where(
-      and(eq(clubs_to_users.user_id, userId), ne(clubs_to_users.club_id, id)),
+      and(
+        eq(clubs_to_users.user_id, userId),
+        ne(clubs_to_users.club_id, clubId),
+      ),
     )
     .limit(1);
 
@@ -161,7 +183,7 @@ export const deleteClubFunction = async ({
           tx
             .select({ id: tournaments.id })
             .from(tournaments)
-            .where(eq(tournaments.club_id, id)),
+            .where(eq(tournaments.club_id, clubId)),
         ),
       );
     await tx
@@ -172,13 +194,13 @@ export const deleteClubFunction = async ({
           tx
             .select({ id: tournaments.id })
             .from(tournaments)
-            .where(eq(tournaments.club_id, id)),
+            .where(eq(tournaments.club_id, clubId)),
         ),
       );
-    await tx.delete(players).where(eq(players.club_id, id));
-    await tx.delete(tournaments).where(eq(tournaments.club_id, id));
-    await tx.delete(clubs_to_users).where(eq(clubs_to_users.club_id, id));
-    await tx.delete(clubs).where(eq(clubs.id, id));
+    await tx.delete(players).where(eq(players.club_id, clubId));
+    await tx.delete(tournaments).where(eq(tournaments.club_id, clubId));
+    await tx.delete(clubs_to_users).where(eq(clubs_to_users.club_id, clubId));
+    await tx.delete(clubs).where(eq(clubs.id, clubId));
   });
 };
 

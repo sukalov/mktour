@@ -1,18 +1,21 @@
-import { deletePlayer } from '@/server/mutations/club-managing';
+import { useTRPC } from '@/components/trpc/client';
 import { QueryClient, useMutation } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
 // FIXME
 export default function useDeletePlayerMutation(queryClient: QueryClient) {
-  return useMutation({
-    mutationFn: deletePlayer,
-    onSuccess: (_error, id) => {
-      toast.success('player deleted'); // FIXME intl
-      queryClient.removeQueries({ queryKey: [id, 'club', 'players'] });
-      queryClient.invalidateQueries({
-        queryKey: [id, 'club', 'players'],
-      });
-    },
-    onError: () => toast.error('sorry! server error happened'),
-  });
+  const trpc = useTRPC();
+  const t = useTranslations('Toasts');
+  return useMutation(
+    trpc.player.delete.mutationOptions({
+      onSuccess: (_error, { clubId }) => {
+        toast.success(t('player deleted'));
+        queryClient.invalidateQueries({
+          queryKey: trpc.club.players.queryKey({ clubId }),
+        });
+      },
+      onError: () => toast.error('sorry! server error happened'),
+    }),
+  );
 }

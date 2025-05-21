@@ -18,11 +18,11 @@ import {
 import { deleteClubFunction } from '@/server/mutations/club-managing';
 import { eq, sql } from 'drizzle-orm';
 
-export const editUser = async ({ id, values }: UpdateDatabaseUser) => {
+export const editUser = async ({ userId, values }: EditUserProps) => {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
-  if (user.id !== id) throw new Error('USER_NOT_MATCHING');
-  await db.update(users).set(values).where(eq(users.id, id));
+  if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
+  await db.update(users).set(values).where(eq(users.id, userId));
 };
 
 export const deleteUser = async ({ userId }: { userId: string }) => {
@@ -106,7 +106,7 @@ export const deleteUser = async ({ userId }: { userId: string }) => {
   });
 };
 
-type UpdateDatabaseUser = {
-  id: string;
+type EditUserProps = {
+  userId: string;
   values: Partial<DatabaseUser>;
 };

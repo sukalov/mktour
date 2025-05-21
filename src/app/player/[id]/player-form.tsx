@@ -18,9 +18,9 @@ import { FC } from 'react';
 import { ControllerRenderProps, useForm, UseFormReturn } from 'react-hook-form';
 
 const EditPlayerForm: FC<{
-  userId: string;
+  clubId: string;
   player: EditPlayerFormValues;
-}> = ({ player: { id, nickname, realname, rating }, userId }) => {
+}> = ({ player: { id, nickname, realname, rating }, clubId }) => {
   const editPlayerMutation = useEditPlayerMutation();
   const form = useForm<EditPlayerFormValues>({
     defaultValues: {
@@ -32,7 +32,7 @@ const EditPlayerForm: FC<{
   });
 
   const onSubmit = (values: EditPlayerFormValues) => {
-    editPlayerMutation.mutate({ userId, values });
+    editPlayerMutation.mutate({ clubId, values });
   };
 
   return (

@@ -215,7 +215,7 @@ export const tournamentRouter = {
       const { input } = opts;
       await saveRound(input);
     }),
-  startTournament: tournamentAdminProcedure
+  start: tournamentAdminProcedure
     .input(
       z.object({
         tournamentId: z.string(),
@@ -227,7 +227,7 @@ export const tournamentRouter = {
       const { input } = opts;
       await startTournament(input);
     }),
-  resetTournament: tournamentAdminProcedure
+  reset: tournamentAdminProcedure
     .input(
       z.object({
         tournamentId: z.string(),
@@ -237,34 +237,31 @@ export const tournamentRouter = {
       const { input } = opts;
       await resetTournament(input);
     }),
-  resetTournamentPlayers: tournamentAdminProcedure
+  resetPlayers: tournamentAdminProcedure
     .input(
       z.object({
         tournamentId: z.string(),
-        userId: z.string(),
       }),
     )
     .mutation(async (opts) => {
       const { input } = opts;
       await resetTournamentPlayers(input);
     }),
-  finishTournament: tournamentAdminProcedure
+  finish: tournamentAdminProcedure
     .input(
       z.object({
         tournamentId: z.string(),
         closed_at: z.date(),
-        userId: z.string(),
       }),
     )
     .mutation(async (opts) => {
       const { input } = opts;
       await finishTournament(input);
     }),
-  deleteTournament: tournamentAdminProcedure
+  delete: tournamentAdminProcedure
     .input(
       z.object({
         tournamentId: z.string(),
-        userId: z.string(),
       }),
     )
     .mutation(async (opts) => {

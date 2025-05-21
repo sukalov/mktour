@@ -17,7 +17,6 @@ import { FC } from 'react';
 
 const ActionButton: FC<{ userId: string; player: DatabasePlayer }> = ({
   player,
-  userId,
 }) => {
   return (
     <Root>
@@ -33,7 +32,7 @@ const ActionButton: FC<{ userId: string; player: DatabasePlayer }> = ({
           </Title>
           <Description hidden />
         </Header>
-        <EditPlayerForm {...{ player, userId }} />
+        <EditPlayerForm {...{ player, clubId: player.club_id }} />
       </Content>
     </Root>
   );

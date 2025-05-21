@@ -1,7 +1,6 @@
 'use client';
 
 import { useTRPC } from '@/components/trpc/client';
-import { resetTournamentPlayers } from '@/server/mutations/tournament-managing';
 import { Message } from '@/types/ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
@@ -16,20 +15,21 @@ export default function useTournamentResetPlayers(
 ) {
   const t = useTranslations('Toasts');
   const trpc = useTRPC();
-  return useMutation({
-    mutationFn: resetTournamentPlayers,
-    onSuccess: () => {
-      sendJsonMessage({ type: 'reset-tournament' });
-      queryClient.invalidateQueries({
-        queryKey: trpc.tournament.pathKey(),
-      });
-      setRoundInView(1);
-    },
-    onError: () => {
-      toast.error(t('server error'));
-      queryClient.invalidateQueries({
-        queryKey: trpc.tournament.pathKey(),
-      });
-    },
-  });
+  return useMutation(
+    trpc.tournament.resetPlayers.mutationOptions({
+      onSuccess: () => {
+        sendJsonMessage({ type: 'reset-tournament' });
+        queryClient.invalidateQueries({
+          queryKey: trpc.tournament.pathKey(),
+        });
+        setRoundInView(1);
+      },
+      onError: () => {
+        toast.error(t('server error'));
+        queryClient.invalidateQueries({
+          queryKey: trpc.tournament.pathKey(),
+        });
+      },
+    }),
+  );
 }

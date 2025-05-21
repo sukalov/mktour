@@ -1,7 +1,6 @@
 'use client';
 
 import { useTRPC } from '@/components/trpc/client';
-import { startTournament } from '@/server/mutations/tournament-managing';
 import { Message } from '@/types/ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
@@ -13,26 +12,27 @@ export default function useTournamentStart(
 ) {
   const t = useTranslations('Toasts');
   const trpc = useTRPC();
-  return useMutation({
-    mutationFn: startTournament,
-    onSuccess: (_error, { started_at, rounds_number }) => {
-      if (started_at) {
-        toast.success(t('started'));
-        sendJsonMessage({
-          type: 'start-tournament',
-          started_at,
-          rounds_number,
+  return useMutation(
+    trpc.tournament.start.mutationOptions({
+      onSuccess: (_error, { started_at, rounds_number }) => {
+        if (started_at) {
+          toast.success(t('started'));
+          sendJsonMessage({
+            type: 'start-tournament',
+            started_at,
+            rounds_number,
+          });
+        }
+        queryClient.invalidateQueries({
+          queryKey: trpc.tournament.pathKey(),
         });
-      }
-      queryClient.invalidateQueries({
-        queryKey: trpc.tournament.pathKey(),
-      });
-    },
-    onError: (error) => {
-      toast.error(t('server error'));
-      console.log(error);
-    },
-  });
+      },
+      onError: (error) => {
+        toast.error(t('server error'));
+        console.log(error);
+      },
+    }),
+  );
 }
 
 type SetStatusProps = {
