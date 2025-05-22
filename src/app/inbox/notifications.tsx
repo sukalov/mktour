@@ -1,5 +1,6 @@
 'use client';
 
+import Empty from '@/components/empty';
 import { UserNotification } from '@/server/queries/get-user-notifications';
 import { FC, use } from 'react';
 
@@ -7,7 +8,8 @@ const UserNotifications: FC<{
   notificationsPromise: Promise<UserNotification[]>;
 }> = ({ notificationsPromise }) => {
   const notifications = use(notificationsPromise);
-  if (!notifications) return null;
+
+  if (!notifications.length) return <Empty messageId="inbox" />;
   return (
     <div className="mk-container">
       {notifications.map(NotificationItemIteratee)}
