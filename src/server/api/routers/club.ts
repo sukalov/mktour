@@ -1,3 +1,4 @@
+import { validateRequest } from '@/lib/auth/lucia';
 import {
   clubAdminProcedure,
   protectedProcedure,
@@ -62,9 +63,10 @@ export const clubRouter = {
   authStatus: publicProcedure
     .input(z.object({ clubId: z.string() }))
     .query(async (opts) => {
-      if (!opts.ctx.user) return undefined;
+      const { user } = await validateRequest();
+      if (!user) return undefined;
       return await getStatusInClub({
-        userId: opts.ctx.user.id,
+        userId: user.id,
         clubId: opts.input.clubId,
       });
     }),

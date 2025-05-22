@@ -6,24 +6,36 @@ import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 export type SenderType = 'user' | 'club';
 export type UserNotificationType =
   | 'affiliation_approved' // Club approves request
-  | 'affiliation_rejected'; // Club rejects request
-//   | 'affiliation_cancelled' // User cancels their pending request
-//   | 'affiliation_removed' // Club removes an existing affiliation
-//   | 'tournament_won'
+  | 'affiliation_rejected' // Club rejects request
+  //   | 'affiliation_cancelled' // User cancels their pending request
+  //   | 'affiliation_removed' // Club removes an existing affiliation
+  | 'tournament_won';
 //   | 'manual_affiliation_added' // e.g., Admin manually links user/player
 //   | 'role_change_request' // e.g., User requests admin role
 //   | 'role_change_approved'
 //   | 'role_change_rejected';
-export type UserNotificationMetadata = {
-  club_id: string;
-  affiliation_id: string;
-};
+export type UserNotificationMetadata<
+  T extends UserNotificationType = UserNotificationType,
+> = T extends 'affiliation_approved' | 'affiliation_rejected'
+  ? {
+      club_id: string;
+      affiliation_id: string;
+    }
+  : T extends 'tournament_won'
+    ? {
+        tournament_id: string;
+      }
+    : never;
 
 export type ClubNotificationType = 'affiliation_request'; // User requests to join club (creates pending affiliation)
-export type ClubNotificationMetadata = {
-  user_id: string;
-  affiliation_id: string;
-};
+export type ClubNotificationMetadata<
+  T extends ClubNotificationType = ClubNotificationType,
+> = T extends 'affiliation_request'
+  ? {
+      user_id: string;
+      affiliation_id: string;
+    }
+  : never;
 
 // all notifications are stored in one table
 // each notifiation is an interaction between a club and a user

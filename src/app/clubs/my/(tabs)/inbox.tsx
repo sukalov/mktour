@@ -24,8 +24,8 @@ const ClubInbox = ({ selectedClub }: Pick<ClubTabProps, 'selectedClub'>) => {
 };
 
 const NotificationItemIteratee = (data: ClubNotification) => {
-  if (data.notification.notification_type === 'affiliation_request')
-    return <AffiliationNotificationLi key={data.notification?.id} {...data} />;
+  if (data.type === 'affiliation_request')
+    return <AffiliationNotificationLi key={data.notification.id} {...data} />;
   return null;
 };
 

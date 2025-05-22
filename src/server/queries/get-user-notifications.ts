@@ -21,7 +21,7 @@ const getUserNotifications = async (): Promise<UserNotification[]> => {
     throw new Error('UNAUTHORIZED_REQUEST');
   }
 
-  return await db
+  return (await db
     .select({
       type: user_notifications.notification_type,
       affiliation: affiliations,
@@ -37,7 +37,10 @@ const getUserNotifications = async (): Promise<UserNotification[]> => {
     )
     .innerJoin(users, eq(users.id, affiliations.user_id))
     .innerJoin(players, eq(players.id, affiliations.player_id))
-    .innerJoin(clubs, eq(clubs.id, affiliations.club_id));
+    .innerJoin(
+      clubs,
+      eq(clubs.id, affiliations.club_id),
+    )) as UserNotification[]; // FIXME (some day we will write good type-safe code)
 };
 
 export type UserNotification =
@@ -50,6 +53,13 @@ export type UserNotification =
     }
   | {
       type: 'affiliation_rejected';
+      notification: DatabaseUserNotification;
+      affiliation: DatabaseAffiliation;
+      player: Pick<DatabasePlayer, 'nickname' | 'id'>;
+      club: DatabaseClub;
+    }
+  | {
+      type: 'tournament_won';
       notification: DatabaseUserNotification;
     };
 

@@ -6,7 +6,13 @@ import { eq, sql } from 'drizzle-orm';
 
 export default async function getClubNotifications(clubId: string) {
   return await db
-    .select()
+    .select({
+      type: club_notifications.notification_type,
+      notification: club_notifications,
+      affiliation: affiliations,
+      user: users,
+      player: players,
+    })
     .from(club_notifications)
     .where(eq(club_notifications.club_id, clubId))
     .leftJoin(

@@ -16,15 +16,27 @@ const UserNotifications: FC<{
 };
 
 const NotificationItemIteratee = (data: UserNotification) => {
-  if (data.type === 'affiliation_approved')
-    return (
-      <div className="py-4" key={data.notification.id}>
-        <p>
-          approved affiliation with {data.player.nickname} in {data.club.name}
-        </p>
-      </div>
-    );
-  return null;
+  switch (data.type) {
+    case 'affiliation_approved':
+      return (
+        <div className="py-4" key={data.notification.id}>
+          <p>
+            approved affiliation with {data.player.nickname} in {data.club.name}
+          </p>
+        </div>
+      );
+    case 'affiliation_rejected':
+      return (
+        <div className="py-4" key={data.notification.id}>
+          <p>
+            rejected affiliation request with {data.player.nickname} in{' '}
+            {data.club.name}
+          </p>
+        </div>
+      );
+    default:
+      return null;
+  }
 };
 
 export default UserNotifications;

@@ -15,5 +15,5 @@ export const getUserClubAffiliation = async (
       and(eq(affiliations.club_id, clubId), eq(affiliations.user_id, user.id)),
     );
 
-  return res[0];
+  return res[0] ?? undefined;
 };
