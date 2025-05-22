@@ -173,6 +173,8 @@
     "player updated": "игрок обновлён",
     "affiliation requested": "заявка отправлена",
     "affiliation canceled": "заявка отменена",
+    "affiliation approved": "заявка одобрена",
+    "affiliation denied": "заявка отклонена",
     "player deleted": "игрок удалён"
   },
   "EditUser": {
@@ -320,5 +322,15 @@
     "search placeholder": "что ищем?",
     "not found": "ничего не найдено",
     "search dialog title": "поиск по всему сайту"
+  },
+  "Notifications": {
+    "User": {
+      "affiliation approved": "аффиляция одобрена",
+      "affiliation rejected": "аффиляция отклонена",
+      "tournament won": "вы выиграли турнир!"
+    },
+    "Club": {
+      "affiliation requested": "заявка отправлена"
+    }
   }
 }

@@ -318,5 +318,15 @@
     "search dialog description": "here you can find any club, tournament or mktour user",
     "search placeholder": "whate are you looking for?",
     "not found": "nothing found"
+  },
+  "Notifications": {
+    "User": {
+      "affiliation approved": "affiliated",
+      "affiliation rejected": "affiliation rejected",
+      "tournament won": "you won the tournament!"
+    },
+    "Club": {
+      "affiliation requested": "request sent"
+    }
   }
 }
