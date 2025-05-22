@@ -9,9 +9,7 @@ const Mobile: FC<NavMenuProps> = ({ user }) => {
     <div className="flex">
       <GlobalSearch user={user} />
       {user && <AuthButton user={user} />}
-      <div className="w-8">
-        <Menu user={user} />
-      </div>
+      <Menu user={user} />
     </div>
   );
 };
