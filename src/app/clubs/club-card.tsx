@@ -2,12 +2,13 @@
 
 import { Card, CardTitle } from '@/components/ui/card';
 import LichessLogo from '@/components/ui/lichess-logo';
+import { DatabaseClub } from '@/server/db/schema/clubs';
 import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 
-const ClubCard: FC<ClubProps> = ({ club }) => {
+const ClubCard: FC<{ club: DatabaseClub }> = ({ club }) => {
   const router = useRouter();
   const t = useTranslations();
   const locale = useLocale();
@@ -45,16 +46,6 @@ const ClubCard: FC<ClubProps> = ({ club }) => {
       </p>
     </Card>
   );
-};
-
-export type ClubProps = {
-  club: {
-    name: string;
-    description: string | null;
-    id: string;
-    created_at: Date | null;
-    lichess_team: string | null;
-  };
 };
 
 export default ClubCard;

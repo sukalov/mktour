@@ -1,16 +1,19 @@
 'use client';
 
-import { ClubProps } from '@/app/clubs/club-card';
 import ClubPlayersList from '@/app/clubs/my/(tabs)/players';
 import ClubDashboardTournaments from '@/app/clubs/my/(tabs)/tournaments';
 import FormattedMessage from '@/components/formatted-message';
 import LichessLogo from '@/components/ui/lichess-logo';
+import { DatabaseClub } from '@/server/db/schema/clubs';
 import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { FC, useState } from 'react';
+import { FC, use, useState } from 'react';
 
-const ClubPage: FC<ClubProps> = ({ club }) => {
+const ClubPage: FC<{ clubPromise: Promise<DatabaseClub> }> = ({
+  clubPromise,
+}) => {
   const [tab, setTab] = useState(0);
+  const club = use(clubPromise);
   const props = { selectedClub: club.id, userId: '' };
   const Component: FC<typeof props> =
     tab > 0 ? ClubPlayersList : ClubDashboardTournaments;
@@ -37,7 +40,7 @@ const ClubPage: FC<ClubProps> = ({ club }) => {
   );
 };
 
-const ClubInfo: FC<ClubProps> = ({ club }) => {
+const ClubInfo: FC<{ club: DatabaseClub }> = ({ club }) => {
   const t = useTranslations('Club');
   const locale = useLocale();
   return (
