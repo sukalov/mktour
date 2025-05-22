@@ -1,5 +1,3 @@
-'use client';
-
 import ClubCard from '@/app/clubs/club-card';
 import { DatabaseClub } from '@/server/db/schema/clubs';
 import { FC } from 'react';
