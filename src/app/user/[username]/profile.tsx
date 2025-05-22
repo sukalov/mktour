@@ -8,7 +8,6 @@ import { Card } from '@/components/ui/card';
 import { DatabaseUser } from '@/server/db/schema/users';
 import { useFormatter, useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 
 const Profile: FC<{ user: DatabaseUser; isOwner: boolean }> = ({
@@ -21,7 +20,6 @@ const Profile: FC<{ user: DatabaseUser; isOwner: boolean }> = ({
     ? format.dateTime(user.created_at, { dateStyle: 'long' })
     : null;
   const t = useTranslations('Profile');
-  const router = useRouter();
 
   return (
     <div className="flex w-full flex-col gap-2 p-2">
@@ -44,13 +42,11 @@ const Profile: FC<{ user: DatabaseUser; isOwner: boolean }> = ({
         )}
       </Card>
       {isOwner && (
-        <Button
-          onClick={() => router.push('/user/edit')}
-          variant="outline"
-          className="w-full"
-        >
-          <FormattedMessage id="Common.edit" />
-        </Button>
+        <Link href="/user/edit">
+          <Button variant="outline" className="w-full">
+            <FormattedMessage id="Common.edit" />
+          </Button>
+        </Link>
       )}
       <ClubList clubs={data} isPending={isPending} />
     </div>
