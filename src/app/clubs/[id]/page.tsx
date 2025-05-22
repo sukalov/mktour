@@ -1,17 +1,18 @@
 import ClubPage from '@/app/clubs/[id]/club';
-import Loading from '@/app/loading';
 import { publicCaller } from '@/server/api';
-import { Suspense } from 'react';
+import { unstable_noStore } from 'next/cache';
+import { notFound } from 'next/navigation';
 
 export default async function Page(props: ClubPageProps) {
   const params = await props.params;
-  const clubPromise = publicCaller.club.info({ clubId: params.id });
-
-  return (
-    <Suspense fallback={<Loading />}>
-      <ClubPage clubPromise={clubPromise} />
-    </Suspense>
-  );
+  unstable_noStore();
+  try {
+    const club = await publicCaller.club.info({ clubId: params.id });
+    return <ClubPage club={club} />;
+  } catch (e) {
+    console.log(e);
+    notFound();
+  }
 }
 
 export interface ClubPageProps {
