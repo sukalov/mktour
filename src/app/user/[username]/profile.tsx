@@ -1,13 +1,11 @@
 'use client';
 
 import FormattedMessage from '@/components/formatted-message';
-import { useUserSelectClub } from '@/components/hooks/mutation-hooks/use-user-select-club';
 import { useUserClubs } from '@/components/hooks/query-hooks/use-user-clubs';
 import SkeletonList from '@/components/skeleton-list';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { DatabaseUser } from '@/lib/db/schema/users';
-import { useQueryClient } from '@tanstack/react-query';
+import { DatabaseUser } from '@/server/db/schema/users';
 import { useFormatter, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -17,20 +15,13 @@ const Profile: FC<{ user: DatabaseUser; isOwner: boolean }> = ({
   user,
   isOwner,
 }) => {
-  const { data, isPending } = useUserClubs(user?.id);
-  const queryClient = useQueryClient();
-  const clubSelection = useUserSelectClub(queryClient);
+  const { data, isPending } = useUserClubs(user.id);
   const format = useFormatter();
   const preparedCreatedAt = user.created_at
     ? format.dateTime(user.created_at, { dateStyle: 'long' })
     : null;
   const t = useTranslations('Profile');
   const router = useRouter();
-  const mutate = (clubId: string) =>
-    clubSelection.mutate({
-      values: { selected_club: clubId },
-      id: user.id,
-    });
 
   return (
     <div className="flex w-full flex-col gap-2 p-2">
@@ -61,12 +52,12 @@ const Profile: FC<{ user: DatabaseUser; isOwner: boolean }> = ({
           <FormattedMessage id="Common.edit" />
         </Button>
       )}
-      <ClubList clubs={data} isPending={isPending} mutate={mutate} />
+      <ClubList clubs={data} isPending={isPending} />
     </div>
   );
 };
 
-const ClubList: FC<ClubListProps> = ({ clubs, isPending, mutate }) => {
+const ClubList: FC<ClubListProps> = ({ clubs, isPending }) => {
   const t = useTranslations('Profile');
   if (!clubs && isPending) return <SkeletonList />;
   if (!clubs) return null;
@@ -79,10 +70,7 @@ const ClubList: FC<ClubListProps> = ({ clubs, isPending, mutate }) => {
       <ul className="flex flex-col gap-2">
         {clubs.map((club) => (
           <li key={club.id}>
-            <Link
-              href={`/clubs/my`}
-              onClick={() => club.id && mutate(club.id)} // FIXME maybe find a better way
-            >
+            <Link href={`/clubs/${club.id}`}>
               <Card className="min-h-8 p-4">{club.name}</Card>
             </Link>
           </li>
@@ -95,12 +83,11 @@ const ClubList: FC<ClubListProps> = ({ clubs, isPending, mutate }) => {
 type ClubListProps = {
   clubs:
     | {
-        id: string | null;
-        name: string | null;
+        id: string;
+        name: string;
       }[]
     | undefined;
   isPending: boolean;
-  mutate: (_arg: string) => void;
 };
 
 export default Profile;

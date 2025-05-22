@@ -30,7 +30,7 @@ export default function DeleteUserForm({
   userId,
 }: DeleteProfileFormProps) {
   const queryClient = useQueryClient();
-  const { data, isFetching } = useUser(userId);
+  const { data, isFetching } = useUser();
   const { mutate, isPending } = useDeleteUserMutation(queryClient);
   const form = useForm<DeleteUserFormType>({
     resolver: zodResolver(deleteUserFormSchema),

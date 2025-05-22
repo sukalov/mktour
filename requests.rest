@@ -1,45 +1,8 @@
 ###
 GET https://lichess.org/api/account
 Content-Type: application/json
-Authorization: Bearer lip_D8TJFPK1r8qd9m7sXmxI
+Authorization: Bearer {BEARER_TOKEN}
 
 ###
 GET https://lichess.org/api/player/autocomplete?term=yatskov
 Authorization: Bearer {BEARER_TOKEN}
-
-
-
-###
-POST http://localhost:3000/clubs/my
-Content-Type: application/json
-accept: text/x-component
-accept-encoding: gzip, deflate, br, zstd
-accept-language: en,en-US;q=0.9,ru;q=0.8
-connection: keep-alive
-content-length: 82
-content-type: text/plain;charset=UTF-8
-cookie: _ga=GA1.1.402010182.1716066699; lichess_oauth_state=QZmWPkQc_QhWeguvM0zd4L_wDb51ZJtTrgSPb-4Wa-4; lichess_oauth_code_validation=p1R244IjVbQQwf0NJPekSXFmO0Z84l1yUmrEb3eFTpE; token=lio_ZWquXrjczxfWxGSAGV8DXWx1c3Hn2Csk; auth_session=at2w4i25k7jtfx6zmu5op523qmxtsdme6lry3ngy; NEXT_LOCALE=en
-host: localhost:3000
-next-action: 85068ca603daaee03a3759d660cba749e4e53f1c
-next-router-state-tree: %5B%22%22%2C%7B%22children%22%3A%5B%22club%22%2C%7B%22children%22%3A%5B%22dashboard%22%2C%7B%22children%22%3A%5B%22__PAGE__%22%2C%7B%7D%2C%22%2Fclub%2Fdashboard%22%2C%22refresh%22%5D%7D%5D%7D%5D%7D%2Cnull%2Cnull%2Ctrue%5D
-origin: http://localhost:3000
-referer: http://localhost:3000/clubs/my
-sec-ch-ua: "Not)A;Brand";v="99", "Google Chrome";v="127", "Chromium";v="127"
-sec-ch-ua-mobile: ?0
-sec-ch-ua-platform: "macOS"
-sec-fetch-dest: empty
-sec-fetch-mode: cors
-sec-fetch-site: same-origin
-user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36
-
-[{
-	"id": "D9bLna0n", 
-	"userId": "vaORG1wV", 
-	"values": 
-	{
-		"name": "ANATOLA ВЗЛОМАЛИ",
-		"description": "",
-		"lichess_team": "",
-		"id": "D9bLna0n"
-	}
-}]

@@ -11,13 +11,12 @@ import {
   Title,
   Trigger,
 } from '@/components/ui/combo-modal';
-import { DatabasePlayer } from '@/lib/db/schema/players';
+import { DatabasePlayer } from '@/server/db/schema/players';
 import { Pencil } from 'lucide-react';
 import { FC } from 'react';
 
 const ActionButton: FC<{ userId: string; player: DatabasePlayer }> = ({
   player,
-  userId,
 }) => {
   return (
     <Root>
@@ -33,7 +32,7 @@ const ActionButton: FC<{ userId: string; player: DatabasePlayer }> = ({
           </Title>
           <Description hidden />
         </Header>
-        <EditPlayerForm {...{ player, userId }} />
+        <EditPlayerForm {...{ player, clubId: player.club_id }} />
       </Content>
     </Root>
   );

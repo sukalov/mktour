@@ -1,12 +1,12 @@
 import { emptyClubCheck } from '@/app/clubs/create/empty-club-check';
 import ForwardToEmpryClub from '@/app/clubs/create/forward-to-empty-club';
 import NewClubForm, { TeamSlice } from '@/app/clubs/create/new-club-form';
-import { validateRequest } from '@/lib/auth/lucia';
+import { publicCaller } from '@/server/api';
 import { Team } from '@/types/lichess-api';
 import { redirect } from 'next/navigation';
 
 export default async function CreateClubPage() {
-  const { user } = await validateRequest();
+  const user = await publicCaller.user.auth();
   if (!user) redirect('/sign-in');
   const club = await emptyClubCheck({ user });
   let teams: Array<TeamSlice> = [];

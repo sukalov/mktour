@@ -12,6 +12,5 @@ export default getRequestConfig(async () => {
   };
 });
 
-const locales = ['en', 'ru'] as const;
-export type Locale = (typeof locales)[number];
+export type Locale = 'en' | 'ru';
 export const defaultLocale: Locale = 'en';

@@ -1,4 +1,4 @@
-import { Status } from '@/lib/db/queries/get-status-in-tournament';
+import { Status } from '@/server/queries/get-status-in-tournament';
 import { Message } from '@/types/ws-events';
 import { createContext, Dispatch, SetStateAction } from 'react';
 

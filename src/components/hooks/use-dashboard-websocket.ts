@@ -1,5 +1,7 @@
+import { useTRPC } from '@/components/trpc/client';
 import { SOCKET_URL } from '@/lib/config/urls';
 import { handleSocketMessage } from '@/lib/handle-socket-message';
+import { Message } from '@/types/ws-events';
 import { QueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { Dispatch, SetStateAction } from 'react';
@@ -13,6 +15,7 @@ export const useDashboardWebsocket = (
   setRoundInView: Dispatch<SetStateAction<number>>,
 ) => {
   const t = useTranslations('Toasts');
+  const trpc = useTRPC();
   const protocols = session !== '' ? session : 'guest';
   return useWebSocket(`${SOCKET_URL}/${id}`, {
     protocols,
@@ -27,15 +30,17 @@ export const useDashboardWebsocket = (
       interval: 5000,
       message: '',
     },
-    onMessage: (event: MessageEvent<any>) => {
+
+    onMessage: (event: MessageEvent<string>) => {
       if (!event.data) return;
-      const message = JSON.parse(event.data);
+      const message: Message = JSON.parse(event.data);
       handleSocketMessage(
         message,
         queryClient,
         id,
         t('ws message error'),
         setRoundInView,
+        trpc,
       );
     },
     onError: () => {

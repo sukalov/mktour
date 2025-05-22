@@ -11,19 +11,18 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { DatabasePlayer } from '@/lib/db/schema/players';
-import { useQueryClient } from '@tanstack/react-query';
+import { DatabasePlayer } from '@/server/db/schema/players';
 import { Save } from 'lucide-react';
+import { MessageKeys, NestedKeyOf } from 'next-intl';
 import { FC } from 'react';
 import { ControllerRenderProps, useForm, UseFormReturn } from 'react-hook-form';
 
 const EditPlayerForm: FC<{
-  userId: string;
-  player: Pick<DatabasePlayer, 'id' | 'nickname' | 'realname' | 'rating'>;
-}> = ({ player: { id, nickname, realname, rating }, userId }) => {
-  const queryClient = useQueryClient();
-  const editPlayerMutation = useEditPlayerMutation(queryClient);
-  const form = useForm({
+  clubId: string;
+  player: EditPlayerFormValues;
+}> = ({ player: { id, nickname, realname, rating }, clubId }) => {
+  const editPlayerMutation = useEditPlayerMutation();
+  const form = useForm<EditPlayerFormValues>({
     defaultValues: {
       id,
       nickname,
@@ -32,10 +31,8 @@ const EditPlayerForm: FC<{
     },
   });
 
-  const onSubmit = (
-    values: Pick<DatabasePlayer, 'id' | 'nickname' | 'realname' | 'rating'>,
-  ) => {
-    editPlayerMutation.mutate({ userId, values });
+  const onSubmit = (values: EditPlayerFormValues) => {
+    editPlayerMutation.mutate({ clubId, values });
   };
 
   return (
@@ -66,13 +63,25 @@ const Field: FC<FieldProps> = ({ name, CustomInput, form, placeholder }) => (
     render={({ field }) => (
       <FormItem>
         <FormLabel className="text-muted-foreground pl-3 font-light">
-          <FormattedMessage id={`Player.${name}` as any /*FIXME any*/} />
+          {/* FIXME this is dirty as hell: */}
+          <FormattedMessage
+            id={
+              `Player.${name}` as MessageKeys<
+                IntlMessages,
+                NestedKeyOf<IntlMessages>
+              >
+            }
+          />
         </FormLabel>
         <FormControl>
           {CustomInput ? (
             <CustomInput {...field} />
           ) : (
-            <Input placeholder={placeholder} {...field} />
+            <Input
+              placeholder={placeholder}
+              {...field}
+              value={field.value ?? ''}
+            />
           )}
         </FormControl>
         <FormMessage />
@@ -81,10 +90,17 @@ const Field: FC<FieldProps> = ({ name, CustomInput, form, placeholder }) => (
   />
 );
 
+type EditPlayerFormValues = Pick<
+  DatabasePlayer,
+  'id' | 'nickname' | 'realname' | 'rating'
+>;
+
 type FieldProps = {
-  name: string;
-  CustomInput?: FC<ControllerRenderProps<any, any>>;
-  form: UseFormReturn<any>;
+  name: keyof EditPlayerFormValues;
+  CustomInput?: FC<
+    ControllerRenderProps<EditPlayerFormValues, keyof EditPlayerFormValues>
+  >;
+  form: UseFormReturn<EditPlayerFormValues>;
   placeholder?: string | undefined;
 };
 

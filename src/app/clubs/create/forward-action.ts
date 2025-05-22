@@ -1,6 +1,6 @@
 'use server';
 
-import selectClub from '@/lib/actions/club-select';
+import selectClub from '@/server/mutations/club-select';
 import { redirect } from 'next/navigation';
 
 export const forwardAction = async ({

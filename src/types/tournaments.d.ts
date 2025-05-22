@@ -1,5 +1,8 @@
-import { DatabaseClub } from '@/lib/db/schema/clubs';
-import { DatabaseGame, DatabaseTournament } from '@/lib/db/schema/tournaments';
+import { DatabaseClub } from '@/server/db/schema/clubs';
+import {
+  DatabaseGame,
+  DatabaseTournament,
+} from '@/server/db/schema/tournaments';
 
 /**
  * combination of player general info and tournament performance, recorded in players_to_tournaments
@@ -21,42 +24,24 @@ export interface PlayerModel {
  *
  */
 export interface GameModel extends DatabaseGame {
-  black_nickname: string | null; // players where id === games.black_id  nickname;
-  white_nickname: string | null; // players where id === games.white_id  nickname;
+  black_nickname: string; // players where id === games.black_id  nickname;
+  white_nickname: string; // players where id === games.white_id  nickname;
 }
 
-// export interface TournamentModel { // FIXME this seems out-dated or misleading
-//   id: string; //tournaments.id
-//   date: string; // tournaments.date
-//   title: string; // tournaments.title
-//   type: TournamentType | undefined; // tournaments.type
-//   format: Format | undefined; // tournaments.format
-//   organizer: {
-//     id: string; // club.id
-//     name: string; // club.name
-//   };
-//   status: TournamentStatus | undefined; // created according to started_at and closed_at
-//   rounds_number: number | null; // tournamnets.rounds_number
-//   ongoing_round: number;
-//   games: Array<GameModel>; // games where tournament.id === id
-//   players: Array<PlayerModel>; // players_to_tournaments where tournament.id === id
-//   possiblePlayers: Array<DatabasePlayerSlice>; // players of organizer club except already added
-// }
-
-interface TournamentInfo {
+export interface TournamentInfo {
   tournament: DatabaseTournament;
-  club: DatabaseClub | null;
+  club: DatabaseClub;
 }
 
-type Result = '0-1' | '1-0' | '1/2-1/2' | null;
+export type Result = '0-1' | '1-0' | '1/2-1/2';
 
-type Format = 'swiss' | 'round robin' | 'double elimination';
+export type Format = 'swiss' | 'round robin' | 'double elimination';
 
-type TournamentType = 'solo' | 'doubles' | 'team';
+export type TournamentType = 'solo' | 'doubles' | 'team';
 
-type TournamentStatus = 'not started' | 'ongoing' | 'finished';
+export type TournamentStatus = 'not started' | 'ongoing' | 'finished';
 
-type RoundName =
+export type RoundName =
   | 'final'
   | 'match_for_third'
   | 'semifinal'

@@ -1,24 +1,30 @@
 import TournamentItemIteratee from '@/components/tournament-item';
-import { validateRequest } from '@/lib/auth/lucia';
+import { publicCaller } from '@/server/api';
 import getTournamentsToUserClubsQuery, {
   TournamentWithClub,
-} from '@/lib/db/queries/get-tournaments-to-user-clubs-query';
+} from '@/server/queries/get-tournaments-to-user-clubs-query';
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { FC } from 'react';
 
 export default async function MyTournaments() {
-  const { user } = await validateRequest();
+  const user = await publicCaller.user.auth();
   if (!user) redirect('/sign-in');
   const tournaments = await getTournamentsToUserClubsQuery({ user });
 
   const t = await getTranslations('Tournaments');
 
-  if (tournaments.length === 0) {
+  if (!tournaments.length) {
     return (
-      <p className="text-muted-foreground pt-4 text-center text-sm text-balance">
+      <p className="text-muted-foreground flex flex-col pt-4 text-center text-sm text-balance">
         {t('no tournaments')}
+        <Link
+          href={'/tournaments/create'}
+          className="bg-primary text-secondary m-4 rounded-md p-2"
+        >
+          make tournament
+        </Link>
       </p>
     );
   }

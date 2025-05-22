@@ -43,8 +43,8 @@ const GameItem: FC<GameProps> = ({
     if (selected && hasStarted && !mutation.isPending) {
       mutation.mutate({
         gameId: id,
-        whiteId: playerLeft.white_id!,
-        blackId: playerRight.black_id!,
+        whiteId: playerLeft.white_id,
+        blackId: playerRight.black_id,
         result: newResult,
         prevResult: result,
         tournamentId,
@@ -82,7 +82,7 @@ const GameItem: FC<GameProps> = ({
       }`}
       initial={{ scale: 1, y: 0 }}
       animate={selected ? { scale: 1.05, y: -10 } : { scale: 1, y: 0 }}
-      transition={{ type: 'spring', bounce: 0.5 }}
+      transition={{ type: 'spring', bounce: 0.4 }}
       onClick={() => setSelectedGameId(!selected ? id : null)}
     >
       <Card
@@ -117,8 +117,8 @@ const GameItem: FC<GameProps> = ({
 type GameProps = {
   id: string;
   result: ResultModel | null;
-  playerLeft: Record<'white_id' | 'white_nickname', string | null>;
-  playerRight: Record<'black_id' | 'black_nickname', string | null>;
+  playerLeft: Record<'white_id' | 'white_nickname', string>;
+  playerRight: Record<'black_id' | 'black_nickname', string>;
   roundNumber: number;
 };
 

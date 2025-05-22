@@ -1,34 +1,19 @@
-import { getClubInfo, getClubPlayers } from '@/lib/actions/club-managing';
-import { getClubTournaments } from '@/lib/actions/get-club-tournaments';
-import getUserClubs from '@/lib/actions/user-clubs';
-import { getUser } from '@/lib/auth/utils';
-import { QueryClient } from '@tanstack/react-query';
+import { prefetch, trpc } from '@/components/trpc/server';
 
-const clubQueryClient = new QueryClient();
-
-const clubQueryPrefetch = async (userId: string, selectedClubId: string) => {
-  await Promise.all([
-    clubQueryClient.prefetchQuery({
-      queryKey: [userId, 'user', 'profile'],
-      queryFn: getUser,
+const clubQueryPrefetch = (selectedClubId: string) => {
+  prefetch(trpc.user.auth.queryOptions());
+  prefetch(trpc.user.authClubs.queryOptions());
+  prefetch(trpc.club.info.queryOptions({ clubId: selectedClubId }));
+  prefetch(
+    trpc.club.players.queryOptions({
+      clubId: selectedClubId,
     }),
-    clubQueryClient.prefetchQuery({
-      queryKey: [userId, 'user', 'clubs', 'all-user-clubs'],
-      queryFn: () => getUserClubs({ userId }),
+  );
+  prefetch(
+    trpc.club.tournaments.queryOptions({
+      clubId: selectedClubId,
     }),
-    clubQueryClient.prefetchQuery({
-      queryKey: [selectedClubId, 'club', 'info'],
-      queryFn: () => getClubInfo(selectedClubId),
-    }),
-    clubQueryClient.prefetchQuery({
-      queryKey: [selectedClubId, 'club', 'players'],
-      queryFn: () => getClubPlayers(selectedClubId),
-    }),
-    clubQueryClient.prefetchQuery({
-      queryKey: [selectedClubId, 'club', 'tournaments'],
-      queryFn: () => getClubTournaments(selectedClubId),
-    }),
-  ]);
+  );
 };
 
-export { clubQueryClient, clubQueryPrefetch };
+export { clubQueryPrefetch };

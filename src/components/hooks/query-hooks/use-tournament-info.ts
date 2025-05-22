@@ -1,9 +1,7 @@
-import { getTournamentInfo } from '@/lib/actions/tournament-managing';
+import { useTRPC } from '@/components/trpc/client';
 import { useQuery } from '@tanstack/react-query';
 
-export const useTournamentInfo = (tournamentId: string) =>
-  useQuery({
-    queryKey: [tournamentId, 'tournament'],
-    queryFn: () => getTournamentInfo(tournamentId),
-    staleTime: Infinity,
-  });
+export const useTournamentInfo = (tournamentId: string) => {
+  const trpc = useTRPC();
+  return useQuery(trpc.tournament.info.queryOptions({ tournamentId }));
+};

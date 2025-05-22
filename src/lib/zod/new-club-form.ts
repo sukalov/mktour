@@ -1,5 +1,5 @@
-import { DatabaseClub } from '@/lib/db/schema/clubs';
 import { validateLichessTeam } from '@/lib/zod/new-club-validation-action';
+import { DatabaseClub } from '@/server/db/schema/clubs';
 import * as z from 'zod';
 
 let team: DatabaseClub | undefined;
@@ -13,14 +13,14 @@ export const newClubFormSchema = z
     description: z.string().optional(),
     created_at: z.date(),
     lichess_team: z.string().optional(),
-    set_default: z.boolean().optional(),
+    set_default: z.boolean(),
   })
   .refine(
     async (data) => {
       team = await validateLichessTeam(data);
       return !team;
     },
-    (_data) => {
+    () => {
       return {
         message: `LINK_TEAM_ERROR@%!!(&${team?.id}@%!!(&${team?.name}`,
         path: ['lichess_team'],

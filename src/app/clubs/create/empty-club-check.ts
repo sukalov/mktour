@@ -1,7 +1,7 @@
-import { db } from '@/lib/db';
-import getUserToClubs from '@/lib/db/queries/get-user-to-clubs';
-import { DatabaseClub } from '@/lib/db/schema/clubs';
-import { tournaments } from '@/lib/db/schema/tournaments';
+import { db } from '@/server/db';
+import { DatabaseClub } from '@/server/db/schema/clubs';
+import { tournaments } from '@/server/db/schema/tournaments';
+import { getUserClubs } from '@/server/queries/get-user-clubs';
 import { and, eq, isNotNull } from 'drizzle-orm';
 import { User } from 'lucia';
 
@@ -10,9 +10,8 @@ export const emptyClubCheck = async ({
 }: {
   user: User;
 }): Promise<DatabaseClub | null> => {
-  const userToClubs = await getUserToClubs({ user });
-  const clubsList = userToClubs.map((el) => el.club) as DatabaseClub[];
-  for (let club in clubsList) {
+  const clubsList = await getUserClubs({ userId: user.id });
+  for (const club in clubsList) {
     const finishedClubTournament = (
       await db
         .select()

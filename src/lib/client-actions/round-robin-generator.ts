@@ -37,7 +37,7 @@ export function generateRoundRobinRoundFunction({
   const poolByIdUpdated = updateChessEntitiesMatches(poolById, previousMatches);
 
   // checking the pool for liveability
-  poolById.forEach((entityPool, _) => {
+  poolById.forEach((entityPool) => {
     if (entityPool.size == 0)
       throw new EvalError(
         'Trying to generate a round without possible matches',
@@ -177,8 +177,6 @@ function convertGameToEntitiesMatch(
 ): NumberedEntitiesPair {
   const whitePlayer = players.find((person) => person.id === game.white_id);
   const blackPlayer = players.find((person) => person.id === game.black_id);
-  console.log({ game, players, whitePlayer });
-  console.log({ game, players, blackPlayer });
   if (!whitePlayer || !blackPlayer)
     throw new Error('the set of games seems to not match the set of players');
 
@@ -313,7 +311,7 @@ function generateRoundRobinPairs(
     matchedEntities.splice(secondEntityIndex, 1);
 
     // removing matched entity from all other pools
-    poolById.forEach((entityPool, _) => {
+    poolById.forEach((entityPool) => {
       entityPool.delete(firstEntity);
       entityPool.delete(secondEntity);
     });

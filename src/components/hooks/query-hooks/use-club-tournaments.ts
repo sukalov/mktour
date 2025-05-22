@@ -1,10 +1,7 @@
-import { getClubTournaments } from '@/lib/actions/get-club-tournaments';
+import { useTRPC } from '@/components/trpc/client';
 import { useQuery } from '@tanstack/react-query';
 
-export const useClubTournaments = (id: string) => {
-  return useQuery({
-    queryKey: [id, 'club', 'tournaments'],
-    queryFn: () => getClubTournaments(id),
-    staleTime: 1000 * 60 * 60,
-  });
+export const useClubTournaments = (clubId: string) => {
+  const trpc = useTRPC();
+  return useQuery(trpc.club.tournaments.queryOptions({ clubId }));
 };

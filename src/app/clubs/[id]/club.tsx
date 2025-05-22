@@ -1,15 +1,15 @@
 'use client';
 
-import { ClubProps } from '@/app/clubs/club-card';
 import ClubPlayersList from '@/app/clubs/my/(tabs)/players';
 import ClubDashboardTournaments from '@/app/clubs/my/(tabs)/tournaments';
 import FormattedMessage from '@/components/formatted-message';
 import LichessLogo from '@/components/ui/lichess-logo';
+import { DatabaseClub } from '@/server/db/schema/clubs';
 import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { FC, useState } from 'react';
 
-const ClubPage: FC<ClubProps> = ({ club }) => {
+const ClubPage: FC<{ club: DatabaseClub }> = ({ club }) => {
   const [tab, setTab] = useState(0);
   const props = { selectedClub: club.id, userId: '' };
   const Component: FC<typeof props> =
@@ -17,18 +17,16 @@ const ClubPage: FC<ClubProps> = ({ club }) => {
 
   return (
     <div className="mk-container flex flex-col gap-2">
-      <div className="flex flex-col gap-2 px-2">
-        <ClubInfo club={club} />
-      </div>
-      <div className={`flex ${tab === 1 && 'flex-row-reverse'} px-2`}>
+      <ClubInfo club={club} />
+      <div className={`grid grid-cols-2 px-2`}>
         <span
-          className={`text-muted grow ${tab === 0 && 'text-primary underline underline-offset-2'}`}
+          className={`text-muted-foreground grow text-center ${tab === 0 && 'text-primary underline underline-offset-2'}`}
           onClick={() => setTab(0)}
         >
           <FormattedMessage id="Menu.tournaments" />
         </span>
         <span
-          className={`text-muted grow ${tab > 0 && 'text-primary underline underline-offset-2'}`}
+          className={`text-muted-foreground grow text-center ${tab > 0 && 'text-primary underline underline-offset-2'}`}
           onClick={() => setTab(1)}
         >
           <FormattedMessage id="Club.Dashboard.players" />
@@ -39,11 +37,11 @@ const ClubPage: FC<ClubProps> = ({ club }) => {
   );
 };
 
-const ClubInfo: FC<ClubProps> = ({ club }) => {
+const ClubInfo: FC<{ club: DatabaseClub }> = ({ club }) => {
   const t = useTranslations('Club');
   const locale = useLocale();
   return (
-    <div>
+    <div className="p-2">
       <p className="text-2xl font-bold">{club.name}</p>
       {club.lichess_team && (
         <Link
@@ -63,7 +61,7 @@ const ClubInfo: FC<ClubProps> = ({ club }) => {
       <p className="text-muted-foreground text-xs">
         {club.created_at &&
           t('Page.createdAt', {
-            date: club.created_at!.toLocaleDateString(locale, {
+            date: club.created_at.toLocaleDateString(locale, {
               dateStyle: 'long',
             }),
           })}

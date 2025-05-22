@@ -8,7 +8,7 @@ import {
 import FabProvider from '@/app/tournaments/[id]/dashboard/fab-provider';
 import TabsContainer from '@/app/tournaments/[id]/dashboard/tabs-container';
 import { useDashboardWebsocket } from '@/components/hooks/use-dashboard-websocket';
-import { Status } from '@/lib/db/queries/get-status-in-tournament';
+import { Status } from '@/server/queries/get-status-in-tournament';
 import { useQueryClient } from '@tanstack/react-query';
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 
