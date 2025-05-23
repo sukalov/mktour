@@ -2,14 +2,14 @@
 
 ```typescript
 type AuthContextType = {
-  user: User | null
+  user: User | null;
   userClubs: {
-    [club_id: string]: StatusInClub  // "admin" | "co-owner"
-  },
-  affiliatedPlayers: [
-    [club_id: string]: string // player-id
-  ]
-}
+    [club_id: string]: StatusInClub; // "admin" | "co-owner"
+  };
+  affiliatedPlayers: {
+    [club_id: string]: string; // player-id
+  };
+};
 ```
 
 ### заметки
