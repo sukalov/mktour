@@ -1,5 +1,6 @@
 import { useClubAddManagerMutation } from '@/components/hooks/mutation-hooks/use-club-add-manager';
 import { useClubAffiliatedUsers } from '@/components/hooks/query-hooks/use-club-affiliated-users';
+import { useClubManagers } from '@/components/hooks/query-hooks/use-club-managers';
 import { useSearchQuery } from '@/components/hooks/query-hooks/use-search-result';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -31,6 +32,7 @@ const AddManager = ({
     query: debouncedValue,
     filter: 'users',
   });
+  const managers = useClubManagers(clubId);
 
   const { mutate, isPending } = useClubAddManagerMutation();
 
@@ -65,42 +67,52 @@ const AddManager = ({
         <Table>
           <TableBody>
             {users?.map((user) => (
-              <TableRow key={user.id} className="p-0">
-                {promotingUser && promotingUser.id === user.id ? (
-                  <TableCell className="grid grid-cols-3 gap-1.5 p-1.5">
-                    <Button
-                      disabled={isPending}
-                      onClick={() =>
-                        mutate({ clubId, userId: user.id, status: 'admin' })
-                      }
-                    >
-                      {t('make admin')}
-                    </Button>
-                    <Button
-                      disabled={isPending}
-                      variant="destructive"
-                      onClick={() =>
-                        mutate({ clubId, userId: user.id, status: 'co-owner' })
-                      }
-                    >
-                      {t('make co-owner')}
-                    </Button>
-                    <Button
-                      disabled={isPending}
-                      variant="secondary"
-                      onClick={() => setPromotingUser(undefined)}
-                    >
-                      {t('cancel')}
-                    </Button>
-                  </TableCell>
-                ) : (
-                  <TableCell onClick={() => setPromotingUser(user)}>
-                    <p className="line-clamp-2 break-all">
-                      {user.username}
-                    </p>{' '}
-                  </TableCell>
+              <>
+                {!managers.data?.some(
+                  (manager) => manager.user.id === user.id,
+                ) && (
+                  <TableRow key={user.id} className="p-0">
+                    {promotingUser && promotingUser.id === user.id ? (
+                      <TableCell className="grid grid-cols-3 gap-1.5 p-1.5">
+                        <Button
+                          disabled={isPending}
+                          onClick={() =>
+                            mutate({ clubId, userId: user.id, status: 'admin' })
+                          }
+                        >
+                          {t('make admin')}
+                        </Button>
+                        <Button
+                          disabled={isPending}
+                          variant="destructive"
+                          onClick={() =>
+                            mutate({
+                              clubId,
+                              userId: user.id,
+                              status: 'co-owner',
+                            })
+                          }
+                        >
+                          {t('make co-owner')}
+                        </Button>
+                        <Button
+                          disabled={isPending}
+                          variant="secondary"
+                          onClick={() => setPromotingUser(undefined)}
+                        >
+                          {t('cancel')}
+                        </Button>
+                      </TableCell>
+                    ) : (
+                      <TableCell onClick={() => setPromotingUser(user)}>
+                        <p className="line-clamp-2 break-all">
+                          {user.username}
+                        </p>{' '}
+                      </TableCell>
+                    )}
+                  </TableRow>
                 )}
-              </TableRow>
+              </>
             ))}
           </TableBody>
         </Table>
