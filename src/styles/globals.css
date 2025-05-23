@@ -172,7 +172,7 @@ button {
 @utility mk-list {
   display: flex;
   flex-direction: column;
-  gap: calc(var(--spacing) * 2);
+  gap: var(--spacing-mk);
 }
 
 @utility mk-link {
