@@ -5,6 +5,7 @@ import {
   publicProcedure,
 } from '@/server/api/trpc';
 import getAllClubManagers, {
+  addClubManager,
   createClub,
   deleteClub,
   editClub,
@@ -73,11 +74,25 @@ export const clubRouter = {
   all: publicProcedure.query(async () => {
     return await getAllClubs();
   }),
-  managers: publicProcedure
-    .input(z.object({ clubId: z.string() }))
-    .query(async (opts) => {
-      return await getAllClubManagers(opts.input.clubId);
-    }),
+  managers: {
+    all: publicProcedure
+      .input(z.object({ clubId: z.string() }))
+      .query(async (opts) => {
+        return await getAllClubManagers(opts.input.clubId);
+      }),
+    add: clubAdminProcedure
+      .input(
+        z.object({
+          clubId: z.string(),
+          userId: z.string(),
+          status: z.enum(['co-owner', 'admin']),
+        }),
+      )
+      .mutation(async (opts) => {
+        const { input } = opts;
+        await addClubManager(input);
+      }),
+  },
   notifications: clubAdminProcedure
     .input(z.object({ clubId: z.string() }))
     .query(async (opts) => {

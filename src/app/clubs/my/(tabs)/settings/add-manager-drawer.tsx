@@ -57,7 +57,7 @@ const AddManagerDrawer = ({
         <Drawer.Overlay className="fixed inset-0 top-0 z-50 bg-black/80" />
         <Drawer.Content
           onInteractOutside={() => handleChange(false)}
-          className="fixed top-0 right-0 bottom-0 left-[5rem] z-50 flex flex-col outline-hidden"
+          className="fixed top-0 right-0 bottom-0 z-50 flex w-11/12 max-w-sm flex-col outline-hidden"
         >
           <Drawer.Title />
           <Drawer.Description />
@@ -68,15 +68,16 @@ const AddManagerDrawer = ({
                 <div className="flex flex-row items-center justify-center gap-3">
                   <SearchIcon />
                   <Input
+                    autoFocus
                     className="drop-shadow-md"
                     id="user-search"
                     placeholder={t('search')}
                     onChange={(e) => setValue(e.target.value)}
+                    value={value}
                   />
                 </div>
                 <AddManager
                   debouncedValue={debouncedValue}
-                  setValue={setValue}
                   handleClose={() => handleChange(false)}
                   clubId={clubId}
                   userId={userId}

@@ -1,3 +1,4 @@
+import { useClubAddManagerMutation } from '@/components/hooks/mutation-hooks/use-club-add-manager';
 import { useClubAffiliatedUsers } from '@/components/hooks/query-hooks/use-club-affiliated-users';
 import { useSearchQuery } from '@/components/hooks/query-hooks/use-search-result';
 import { Button } from '@/components/ui/button';
@@ -14,13 +15,11 @@ const AddManager = ({
   handleClose,
   clubId,
   debouncedValue,
-  setValue,
   userId,
 }: {
   handleClose: () => void;
   clubId: string;
   debouncedValue: string;
-  setValue: (_arg: string) => void;
   userId: string;
 }) => {
   const [promotingUser, setPromotingUser] = useState<DatabaseUser | undefined>(
@@ -32,6 +31,8 @@ const AddManager = ({
     query: debouncedValue,
     filter: 'users',
   });
+
+  const { mutate, isPending } = useClubAddManagerMutation();
 
   const t = useTranslations('Club.Settings');
   useHotkeys('escape', () => handleClose, { enableOnFormTags: true });
@@ -64,18 +65,28 @@ const AddManager = ({
         <Table>
           <TableBody>
             {users?.map((user) => (
-              <TableRow
-                key={user.id}
-                onClick={() => {
-                  setValue('');
-                }}
-                className="p-0"
-              >
+              <TableRow key={user.id} className="p-0">
                 {promotingUser && promotingUser.id === user.id ? (
                   <TableCell className="grid grid-cols-3 gap-1.5 p-1.5">
-                    <Button>{t('make admin')}</Button>
-                    <Button variant="destructive">{t('make co-owner')}</Button>
                     <Button
+                      disabled={isPending}
+                      onClick={() =>
+                        mutate({ clubId, userId: user.id, status: 'admin' })
+                      }
+                    >
+                      {t('make admin')}
+                    </Button>
+                    <Button
+                      disabled={isPending}
+                      variant="destructive"
+                      onClick={() =>
+                        mutate({ clubId, userId: user.id, status: 'co-owner' })
+                      }
+                    >
+                      {t('make co-owner')}
+                    </Button>
+                    <Button
+                      disabled={isPending}
                       variant="secondary"
                       onClick={() => setPromotingUser(undefined)}
                     >
