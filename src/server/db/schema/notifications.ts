@@ -24,6 +24,7 @@ export type UserNotificationMetadata<
   : T extends 'tournament_won'
     ? {
         tournament_id: string;
+        name: string;
       }
     : never;
 
