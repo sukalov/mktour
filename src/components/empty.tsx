@@ -13,7 +13,7 @@ const Empty: FC<
 
   return (
     <div
-      className={`text-muted-foreground flex w-full justify-center p-4 text-sm ${className}`}
+      className={`text-muted-foreground mk-container flex w-full justify-center text-sm ${className}`}
     >
       <p>{children ? children : t(messageId ?? 'no data')}</p>
     </div>
