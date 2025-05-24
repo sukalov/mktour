@@ -25,11 +25,11 @@ export default function Dashboard({ userId }: { userId: string }) {
     <SwipeHandlerProvider
       handleSwipe={(dir) => handleSwipe(dir, indexOfTab, tabs, setTab)}
     >
-      <div className="fixed top-14 z-10 w-full">
+      <div className="fixed top-14 w-full">
         <ClubDashboardTabList activeTab={tab} setTab={setTab} />
         <ClubSelect user={data} />
       </div>
-      <div className="mk-container relative h-full pt-20">
+      <div className="mk-container pt-20">
         <ActiveTab selectedClub={data.selected_club} userId={userId} />
       </div>
     </SwipeHandlerProvider>
