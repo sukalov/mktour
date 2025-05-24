@@ -1,20 +1,17 @@
 import {
   ChessTournamentEntity,
+  constructEntityByPairingNumber,
   convertPlayerToEntity,
   EntitiesPair,
   getColouredPair,
   getGameToInsert,
   getNumberedPair,
+  makeNumberPairs,
   RoundProps,
 } from '@/lib/client-actions/common-generator';
 import { GameModel } from '@/types/tournaments';
 
 const INITIAL_ROUND_NUMBER = 1;
-
-type EntitiesNumberPair = [number, number];
-
-// in round robin all teh props are mandatory
-type RoundRobinRoundProps = Required<RoundProps>;
 
 /**
  * This function purposefully generates the bracket round for the round robin tournament. It gets the
@@ -28,13 +25,11 @@ export function generateRoundRobinRound({
   games,
   roundNumber,
   tournamentId,
-}: RoundRobinRoundProps): GameModel[] {
+}: RoundProps): GameModel[] {
   games = games?.filter((game) => game.round_number !== roundNumber) ?? [];
 
   // checking if the set of layers is even, if not, making it even with a smart alg
   const matchedEntities = players.map(convertPlayerToEntity);
-
-  console.log(matchedEntities, players, games, roundNumber, tournamentId);
 
   // generating set of base matches
   const entitiesMatchingsGenerated = generateRoundRobinPairs(
@@ -75,13 +70,7 @@ function generateRoundRobinPairs(
   const generatedPairs: EntitiesPair[] = [];
 
   // creating a helper map, which is returning entity by its pairing number
-
-  const entityByPairingNumber = new Map<number, ChessTournamentEntity>();
-
-  matchedEntities.forEach((chessEntity) => {
-    const pairingNumber = chessEntity.pairingNumber;
-    entityByPairingNumber.set(pairingNumber, chessEntity);
-  });
+  const entityByPairingNumber = constructEntityByPairingNumber(matchedEntities);
 
   // this is used, if the length of players is odd, marking the non-matched player
   // it is not in if block for simplifying the work for the typescript (otherwise we would need to check the thing twice)
@@ -110,18 +99,8 @@ function generateRoundRobinPairs(
   // adding the first player, which is always fixed
   pairingNumbersFlat.unshift(constantPairingNumber);
 
-  // splitting the array, and matching the reverse of the second part with the first part, making a proper circle
-  const numberOfPairs = Math.ceil(pairingNumbersFlat.length / 2);
-  const firstPlayers = pairingNumbersFlat.slice(0, numberOfPairs);
-  const secondPlayers = pairingNumbersFlat.slice(numberOfPairs);
-  secondPlayers.reverse();
-
-  // converting those two arrays to the list of playre matching number pairs
-  let pairedPlayerNumbers = firstPlayers.map((firstPlayer, pairNumber) => {
-    const secondPlayer = secondPlayers[pairNumber];
-    const generatedNumberPair: EntitiesNumberPair = [firstPlayer, secondPlayer];
-    return generatedNumberPair;
-  });
+  // generating pair of player numbers in a cyclic fashion
+  let pairedPlayerNumbers = makeNumberPairs(pairingNumbersFlat, true);
 
   // again, if the array is odd, we remove the pair with the dummy index inside
   if (matchedEntities.length % 2 !== 0)

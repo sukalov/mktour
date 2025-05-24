@@ -1,5 +1,7 @@
 import { newid } from '@/lib/utils';
 import { GameModel, PlayerModel } from '@/types/tournaments';
+
+// default set of round properties, may be changed internally
 export interface RoundProps {
   /**
    * Current round players
@@ -9,7 +11,7 @@ export interface RoundProps {
   /**
    * Previously played games, not all round generators require those
    */
-  games?: GameModel[];
+  games: GameModel[];
 
   /**
    * Current round played
@@ -22,6 +24,10 @@ export interface RoundProps {
   tournamentId: string;
 }
 
+// a special type for the number pairs, to enforce the two-foldness of the array
+type NumberPair = [number, number];
+
+// classical shape of a round-generating function
 export type RoundGenerator = (roundProps: RoundProps) => GameModel[];
 
 /**
@@ -168,4 +174,55 @@ export function getColouredPair(
   const colouredPair: ColouredEntitiesPair = { whiteEntity, blackEntity };
 
   return colouredPair;
+}
+
+/**
+ * This function takes a list of numbers, splits it in two halves and then creates a list of lists (where latter represent pairs)
+ * @param pairSubstrate flat array like object, which consists of the objects which should be translated to pairs
+ * @param isCycle this flag optionally reverses the second half, making it a cycle-like pair creation. By default it is matrix like.
+ * @returns a list of pairs
+ */
+export function makeNumberPairs(
+  pairSubstrate: number[],
+  isCycle = false,
+): NumberPair[] {
+  // checking if the array is splittable
+  if (pairSubstrate.length % 2 != 0)
+    throw Error('THIS FUNCTION SUPPORTS ONLY EVENLY SIZED ARRAYS');
+
+  // splitting the array to two halves
+  const separationIdx = Math.ceil(pairSubstrate.length / 2);
+  const firstElements = pairSubstrate.slice(0, separationIdx);
+  const secondElements = pairSubstrate.slice(separationIdx);
+
+  // this optionally makes it cycle-like (0 element will be paired with the N-th)
+  if (isCycle) secondElements.reverse();
+
+  // converting those two arrays to the list of pairs
+  const pairList = firstElements.map((firstElement, pairNumber) => {
+    const secondElement = secondElements[pairNumber];
+    const generatedNumberPair: NumberPair = [firstElement, secondElement];
+    return generatedNumberPair;
+  });
+
+  return pairList;
+}
+
+/**
+ * This is a helper function, which creates a hashmap for the number - entity relations
+ * @param matchedEntities a list-like of entities to match
+ * @returns a map-like object of entities linked to their respective pair numbers
+ */
+export function constructEntityByPairingNumber(
+  matchedEntities: ChessTournamentEntity[],
+) {
+  const entityByPairingNumber = new Map<number, ChessTournamentEntity>();
+
+  // filling the map iterating through entities
+  matchedEntities.forEach((chessEntity) => {
+    const pairingNumber = chessEntity.pairingNumber;
+    entityByPairingNumber.set(pairingNumber, chessEntity);
+  });
+
+  return entityByPairingNumber;
 }
