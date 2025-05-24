@@ -13,7 +13,7 @@ export default function ClubSettings({ selectedClub, userId }: ClubTabProps) {
   const t = useTranslations('Club.Dashboard');
   const { mutate, isPending } = useClubLeaveMutation();
   return (
-    <section className="divide-ring mx-auto flex max-w-[min(640px,100%)] flex-col gap-4">
+    <section className="divide-ring mx-auto flex max-w-[min(640px,100%)] flex-col gap-12 p-2">
       <ClubSettingsForm selectedClub={selectedClub} userId={userId} />
       <ClubManagersList clubId={selectedClub} userId={userId} />
       <div className="flex flex-col gap-2 sm:px-0">
