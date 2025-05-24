@@ -12,6 +12,7 @@ import getAllClubManagers, {
   getClubAffiliatedUsers,
   getClubInfo,
   getClubPlayers,
+  leaveClub,
 } from '@/server/mutations/club-managing';
 import getAllClubs from '@/server/queries/get-all-clubs';
 import getClubNotifications from '@/server/queries/get-club-notifications';
@@ -125,5 +126,19 @@ export const clubRouter = {
     .mutation(async (opts) => {
       const { input } = opts;
       await editClub(input);
+    }),
+  leave: clubAdminProcedure
+    .input(
+      z.object({
+        clubId: z.string(),
+      }),
+    )
+    .mutation(async (opts) => {
+      if (opts.ctx.clubs.length === 1) throw new Error('CANT_LEAVE_ONLY_CLUB');
+      await leaveClub(opts.input.clubId);
+      const updatedClubs = opts.ctx.clubs.filter(
+        (id) => id !== opts.input.clubId,
+      );
+      return { clubs: updatedClubs };
     }),
 };

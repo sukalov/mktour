@@ -166,9 +166,13 @@ export const deleteClubFunction = async ({
       and(
         eq(clubs_to_users.user_id, userId),
         ne(clubs_to_users.club_id, clubId),
+        eq(clubs_to_users.status, 'co-owner'),
       ),
     )
     .limit(1);
+
+  const userStatus = await getStatusInClub({ userId, clubId });
+  if (userStatus !== 'co-owner') throw new Error('UNAUTHORIZED');
 
   if (otherClubs.length === 0 && !userDeletion) throw new Error('ZERO_CLUBS');
   if (!userDeletion) {
@@ -264,4 +268,38 @@ export const addClubManager = async ({
     db.insert(clubs_to_users).values(newRelation),
     db.insert(user_notifications).values(userNotification),
   ]);
+};
+
+export const leaveClub = async (clubId: string) => {
+  const { user } = await validateRequest();
+  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
+  const otherClubId = (
+    await db
+      .select({ club_id: clubs_to_users.club_id })
+      .from(clubs_to_users)
+      .where(
+        and(
+          eq(clubs_to_users.user_id, user.id),
+          ne(clubs_to_users.club_id, clubId),
+          eq(clubs_to_users.status, 'co-owner'),
+        ),
+      )
+      .limit(1)
+  ).at(0)?.club_id;
+  if (!otherClubId) throw new Error('NO_OTHER_CLUB_CO_OWNER');
+
+  await db.transaction(async (tx) => {
+    await tx
+      .update(users)
+      .set({ selected_club: otherClubId })
+      .where(eq(users.id, user.id));
+    await tx
+      .delete(clubs_to_users)
+      .where(
+        and(
+          eq(clubs_to_users.club_id, clubId),
+          eq(clubs_to_users.user_id, user.id),
+        ),
+      );
+  });
 };
