@@ -10,8 +10,8 @@ const SkeletonList: FC<{ length?: number; height?: number }> = ({
 
   return (
     <div className="mk-list relative h-full max-h-[60dvh] overflow-hidden">
-      <div className="from-background absolute inset-0 z-10 w-full bg-linear-to-t" />
-      <div className="flex flex-col gap-2">
+      <div className="from-background absolute inset-0 w-full bg-linear-to-t" />
+      <div className="-z-10 flex flex-col gap-2">
         {list.map((_, i) => (
           <Skeleton key={i} className={`${h} w-full`} />
         ))}
