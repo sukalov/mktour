@@ -26,7 +26,7 @@ const UserNotifications: FC<{
 };
 
 const NotificationItemIteratee = (data: UserNotification) => {
-  return <UserNotificationLi {...data} />;
+  return <UserNotificationLi key={data.notification.id} {...data} />;
 };
 
 const mockApproveNotification: UserNotification = {
