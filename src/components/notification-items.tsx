@@ -7,9 +7,11 @@ import useAffiliationRejectMutation from '@/components/hooks/mutation-hooks/use-
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ClubNotification } from '@/server/queries/get-club-notifications';
+import { UserNotification } from '@/server/queries/get-user-notifications';
 import { useQueryClient } from '@tanstack/react-query';
-import { Check, Pointer, UserRound, X } from 'lucide-react';
+import { Check, LucideIcon, Medal, Pointer, UserRound, X } from 'lucide-react';
 import Link from 'next/link';
+import { FC } from 'react';
 
 export const AffiliationNotificationLi = ({
   affiliation,
@@ -80,4 +82,66 @@ export const AffiliationNotificationLi = ({
       </div>
     </Card>
   );
+};
+
+export const UserNotificationLi: FC<UserNotification> = (props) => {
+  const { type, notification } = props;
+  const { messageId, Icon } = useUserNotificationItem(type);
+
+  return (
+    <Card key={notification.id} className="mk-card">
+      <p className="text-muted-foreground flex items-center gap-2 text-xs">
+        <Icon size={16} />
+        <FormattedMessage id={`Notifications.User.${messageId}`} />
+      </p>
+      <NotificationContent {...props} />
+    </Card>
+  );
+};
+
+const NotificationContent: FC<UserNotification> = (notification) => {
+  if (notification.type === 'tournament_won')
+    return <TournamentNotification {...notification} />;
+
+  const { player, club } = notification;
+
+  return (
+    <div className="flex items-center gap-2 text-sm">
+      <Link href={`/player/${player?.id}`} className="mk-link">
+        {player?.nickname}
+      </Link>
+      from
+      <Link href={`/clubs/${club?.id}`} className="mk-link">
+        {club?.name}
+      </Link>
+    </div>
+  );
+};
+
+const TournamentNotification: FC<UserNotification> = ({ notification }) => {
+  if (notification.metadata && 'name' in notification.metadata) {
+    return <div>{notification.metadata.name}</div>;
+  }
+};
+
+const useUserNotificationItem = (type: UserNotification['type']) => {
+  const messageId = messageIdMap[type];
+  const Icon: LucideIcon = iconMap[type];
+
+  return { messageId, Icon };
+};
+
+const messageIdMap: Record<
+  UserNotification['type'],
+  keyof IntlMessages['Notifications']['User']
+> = {
+  affiliation_approved: 'affiliation approved',
+  affiliation_rejected: 'affiliation rejected',
+  tournament_won: 'tournament won',
+};
+
+const iconMap: Record<UserNotification['type'], LucideIcon> = {
+  affiliation_approved: Check,
+  affiliation_rejected: X,
+  tournament_won: Medal,
 };
