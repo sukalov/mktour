@@ -33,7 +33,7 @@ export type UserNotificationMetadata<
         }
       : never;
 
-export type ClubNotificationType = 'affiliation_request'; // User requests to join club (creates pending affiliation)
+export type ClubNotificationType = 'affiliation_request' | 'manager_left'; // User requests to join club (creates pending affiliation)
 export type ClubNotificationMetadata<
   T extends ClubNotificationType = ClubNotificationType,
 > = T extends 'affiliation_request'
@@ -41,7 +41,9 @@ export type ClubNotificationMetadata<
       user_id: string;
       affiliation_id: string;
     }
-  : never;
+  : T extends 'manager_left'
+    ? { userId: string }
+    : never; // TODO not yet implemented in "leave club" mutation
 
 // all notifications are stored in one table
 // each notifiation is an interaction between a club and a user
