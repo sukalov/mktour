@@ -226,3 +226,21 @@ export function constructEntityByPairingNumber(
 
   return entityByPairingNumber;
 }
+
+/**
+ * This function gets length of the entities array, and generates the array of pairing numbers, representing those entities
+ * @param entitiesNumber
+ * @returns
+ */
+export function generatePairingNumbers(entitiesNumber: number) {
+  // generating an initial number array, a flat collection of numbers from 0 to n-1 (where n is number of players)
+  const initialPairingEmpty = Array(entitiesNumber);
+  const pairingNumbersFlat = Array.from(initialPairingEmpty.keys());
+
+  // adding the dummy index if odd player count
+  if (dummyIndex) {
+    pairingNumbersFlat.push(dummyIndex);
+  }
+
+  return pairingNumbersFlat;
+}

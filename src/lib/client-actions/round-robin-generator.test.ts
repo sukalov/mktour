@@ -1,11 +1,10 @@
 import { describe, expect, mock, test } from 'bun:test';
 
-import {
-  generateRoundRobinRound,
-  RoundRobinRoundProps,
-} from '@/lib/client-actions/round-robin-generator';
+import { RoundProps } from '@/lib/client-actions/common-generator';
+import { generateRoundRobinRound } from '@/lib/client-actions/round-robin-generator';
 import { DatabaseUser } from '@/lib/db/schema/auth';
-import { DatabaseClub, DatabaseTournament } from '@/lib/db/schema/tournaments';
+import { DatabaseClub } from '@/lib/db/schema/clubs';
+import { DatabaseTournament } from '@/lib/db/schema/tournaments';
 import { newid } from '@/lib/utils';
 import { GameModel, PlayerModel, Result } from '@/types/tournaments';
 import { faker } from '@faker-js/faker';
@@ -124,7 +123,7 @@ const generatePlayerModel = mock(() => {
     color_index: INITIAL_COLOUR_INDEX,
     realname: randomUser.name,
     rating: randomUser.rating,
-    exited: DEFAULT_IS_EXITED,
+    is_out: DEFAULT_IS_EXITED,
     place: DEFAULT_PLACE,
     pairingNumber: null,
   };
@@ -170,7 +169,7 @@ describe('pure matching generation test', () => {
 
     while (previousGames.length < gameCount) {
       // generating round info formed
-      const nextRoundRobinProps: RoundRobinRoundProps = {
+      const nextRoundRobinProps: RoundProps = {
         players: randomPlayers,
         games: previousGames,
         roundNumber: currentRound,

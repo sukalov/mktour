@@ -3,6 +3,7 @@ import {
   constructEntityByPairingNumber,
   convertPlayerToEntity,
   EntitiesPair,
+  generatePairingNumbers,
   getColouredPair,
   getGameToInsert,
   getNumberedPair,
@@ -72,16 +73,17 @@ function generateRoundRobinPairs(
   // creating a helper map, which is returning entity by its pairing number
   const entityByPairingNumber = constructEntityByPairingNumber(matchedEntities);
 
-  // this is used, if the length of players is odd, marking the non-matched player
-  // it is not in if block for simplifying the work for the typescript (otherwise we would need to check the thing twice)
-  const dummyIndex = matchedEntities.length;
+  // constructing dummy index, which is null if the array of entities is even, and is equal to length otehrwise
+  let dummyIndex = null;
+  if (matchedEntities.length % 2 !== 0) dummyIndex = matchedEntities.length;
 
-  // generating an initial number array, a flat collection of numbers from 0 to n-1 (where n is number of players)
-  const initialPairingEmpty = Array(matchedEntities.length);
-  const pairingNumbersFlat = Array.from(initialPairingEmpty.keys());
+  // generating a list of pairing numbers, with an  optional dummy index inside
+  const pairingNumbersFlat = generatePairingNumbers(matchedEntities.length);
 
-  // adding the dummy index if odd player count
-  if (matchedEntities.length % 2 !== 0) pairingNumbersFlat.push(dummyIndex);
+  // adding the dummy index if it exists
+  if (dummyIndex) {
+    pairingNumbersFlat.push(dummyIndex);
+  }
 
   // starting shifting process (cycling the circle of players, having one number fixed)
   const constantPairingNumber = pairingNumbersFlat.shift() as number;
@@ -103,7 +105,7 @@ function generateRoundRobinPairs(
   let pairedPlayerNumbers = makeNumberPairs(pairingNumbersFlat, true);
 
   // again, if the array is odd, we remove the pair with the dummy index inside
-  if (matchedEntities.length % 2 !== 0)
+  if (dummyIndex)
     pairedPlayerNumbers = pairedPlayerNumbers.filter(
       (numberPair) => !numberPair.includes(dummyIndex),
     );
