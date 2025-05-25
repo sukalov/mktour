@@ -1,7 +1,7 @@
 'use client';
 
 import { useTRPC } from '@/components/trpc/client';
-import { Message } from '@/types/ws-events';
+import { DashboardMessage } from '@/types/ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { Dispatch, SetStateAction } from 'react';
@@ -10,7 +10,7 @@ import { toast } from 'sonner';
 export default function useTournamentResetPlayers(
   tournamentId: string,
   queryClient: QueryClient,
-  sendJsonMessage: (_message: Message) => void,
+  sendJsonMessage: (_message: DashboardMessage) => void,
   setRoundInView: Dispatch<SetStateAction<number>>,
 ) {
   const t = useTranslations('Toasts');

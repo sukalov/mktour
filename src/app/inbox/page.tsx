@@ -1,12 +1,12 @@
 import UserNotifications from '@/app/inbox/notifications';
-import { makeProtectedCaller } from '@/server/api';
+import { getQueryClient, trpc } from '@/components/trpc/server';
 
 const Page = async () => {
-  const protectedCaller = await makeProtectedCaller();
-  const notifications = protectedCaller.user.authNotifications();
-  // const groupedNotifications = groupAffiliationNotificationsByClub(notificatioins);
-
-  return <UserNotifications notificationsPromise={notifications} />;
+  const queryClient = getQueryClient();
+  queryClient.prefetchQuery({
+    queryKey: trpc.user.authNotifications.queryKey(),
+  });
+  return <UserNotifications />;
 };
 
 // const groupAffiliationNotificationsByClub = (

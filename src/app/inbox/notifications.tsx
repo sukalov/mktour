@@ -1,12 +1,15 @@
 'use client';
 
+import { useTRPC } from '@/components/trpc/client';
 import { UserNotification } from '@/server/queries/get-user-notifications';
-import { FC, use } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { FC } from 'react';
 
-const UserNotifications: FC<{
-  notificationsPromise: Promise<UserNotification[]>;
-}> = ({ notificationsPromise }) => {
-  const notifications = use(notificationsPromise);
+const UserNotifications: FC = () => {
+  const trpc = useTRPC();
+  const { data: notifications } = useQuery(
+    trpc.user.authNotifications.queryOptions(),
+  );
   if (!notifications) return null;
   return (
     <div className="mk-container">
