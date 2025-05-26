@@ -1,5 +1,4 @@
 import NavWrapper from '@/components/navigation/nav-wrapper';
-import AuthContextProvider from '@/components/providers/auth-context-provider';
 import ErrorFallback from '@/components/providers/error-boundary';
 import IntlProvider from '@/components/providers/intl-provider';
 import MediaQueryProvider from '@/components/providers/media-query-provider';
@@ -44,12 +43,12 @@ async function RootLayout({ children }: PropsWithChildren) {
             <IntlProvider messages={messages} locale={locale}>
               <MediaQueryProvider>
                 <TRPCReactProvider>
-                  <AuthContextProvider>
-                    <GlobalWSProviderWrapper session={encryptedSession}>
-                      <NavWrapper />
-                      <div className="pt-14">{children}</div>
-                    </GlobalWSProviderWrapper>
-                  </AuthContextProvider>
+                  {/* <AuthContextProvider> */}
+                  <GlobalWSProviderWrapper session={encryptedSession}>
+                    <NavWrapper />
+                    <div className="pt-14">{children}</div>
+                  </GlobalWSProviderWrapper>
+                  {/* </AuthContextProvider> */}
                   <Analytics />
                   <SpeedInsights />
                   <Toaster richColors />
