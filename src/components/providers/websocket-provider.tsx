@@ -45,3 +45,10 @@ export const GlobalWebSocketProvider = ({
     </GlobalWebSocketContext.Provider>
   );
 };
+
+export const GlobalWSProviderWrapper = (
+  props: GlobalWebSocketProviderProps,
+) => {
+  if (!props.session) return props.children;
+  return <GlobalWebSocketProvider {...props} />;
+};
