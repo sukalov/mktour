@@ -68,8 +68,8 @@ export const AffiliationNotificationLi = ({
                   {user?.username}
                 </Link>
               </div>
-              <div className="flex items-center gap-2 pl-2">
-                <CornerDownRightIcon className="size-4" />
+              <div className="flex items-center">
+                <CornerDownRightIcon className="mx-2 size-4" />
                 <Link href={`/player/${player?.id}`} className="mk-link">
                   {player?.nickname}
                 </Link>
