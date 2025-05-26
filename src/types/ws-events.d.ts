@@ -1,6 +1,6 @@
 import { PlayerModel, Result } from '@/types/tournaments';
 
-type Message =
+type DashboardMessage =
   | { type: 'add-existing-player'; body: PlayerModel }
   | { type: 'add-new-player'; body: PlayerModel }
   | { type: 'remove-player'; id: string } // onError add-exidsting-player
@@ -24,5 +24,17 @@ type Message =
 
 type ErrorMessage = {
   type: 'error';
-  data: Message;
+  message: string;
 };
+
+type GlobalErrorMessage = {
+  recipientId: string;
+  type: 'error';
+  message: string;
+};
+
+// recipientId = userId
+type GlobalMessage =
+  | { type: 'user_notification'; recipientId: string }
+  | { type: 'removed_from_club'; clubId: string; recipientId: string }
+  | GlobalErrorMessage;

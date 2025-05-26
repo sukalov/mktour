@@ -3,17 +3,18 @@
 import Empty from '@/components/empty';
 import { UserNotificationLi } from '@/components/notification-items';
 import { UserNotification } from '@/server/queries/get-user-notifications';
-import { FC } from 'react';
 
-const UserNotifications: FC<{
-  notificationsPromise: Promise<UserNotification[]>;
-}> = ({}) => {
-  // const notifications = use(notificationsPromise);
+const UserNotifications = () => {
+  // const trpc = useTRPC();
+  // const { data: notifications } = useQuery(
+  //   trpc.user.authNotifications.queryOptions(),
+  // );
 
   // FIXME mock data
   const notifications = [
     mockApproveNotification,
     mockRejectNotification,
+    mockMngrNotification,
     mockTnmtNotification,
   ];
 
@@ -28,39 +29,42 @@ const UserNotifications: FC<{
 const NotificationItemIteratee = (data: UserNotification) => {
   return <UserNotificationLi key={data.notification.id} {...data} />;
 };
-
 const mockApproveNotification: UserNotification = {
   notification: {
     id: crypto.randomUUID(),
     created_at: new Date(),
-    user_id: 'user1',
+    user_id: crypto.randomUUID(),
     notification_type: 'affiliation_approved',
     is_seen: false,
     metadata: {
-      club_id: 'club1',
-      affiliation_id: 'affiliation1',
+      club_id: crypto.randomUUID(),
+      affiliation_id: crypto.randomUUID(),
     },
   },
   affiliation: {
     id: crypto.randomUUID(),
     created_at: new Date(),
-    user_id: '',
-    club_id: '',
-    player_id: '',
+    user_id: crypto.randomUUID(),
+    club_id: crypto.randomUUID(),
+    player_id: crypto.randomUUID(),
     status: 'requested',
     updated_at: new Date(),
   },
   type: 'affiliation_approved',
   player: {
-    id: 'player1',
+    id: crypto.randomUUID(),
     nickname: 'PlayerOne',
   },
   club: {
-    id: 'club1',
+    id: crypto.randomUUID(),
     name: 'Chess Club',
     created_at: new Date(),
     description: '',
     lichess_team: '',
+  },
+  metadata: {
+    club_id: crypto.randomUUID(),
+    affiliation_id: crypto.randomUUID(),
   },
 };
 
@@ -68,34 +72,38 @@ const mockRejectNotification: UserNotification = {
   notification: {
     id: crypto.randomUUID(),
     created_at: new Date(),
-    user_id: 'user1',
+    user_id: crypto.randomUUID(),
     notification_type: 'affiliation_rejected',
     is_seen: false,
     metadata: {
-      club_id: 'club1',
-      affiliation_id: 'affiliation1',
+      club_id: crypto.randomUUID(),
+      affiliation_id: crypto.randomUUID(),
     },
   },
   affiliation: {
     id: crypto.randomUUID(),
     created_at: new Date(),
-    user_id: '',
-    club_id: '',
-    player_id: '',
+    user_id: crypto.randomUUID(),
+    club_id: crypto.randomUUID(),
+    player_id: crypto.randomUUID(),
     status: 'requested',
     updated_at: new Date(),
   },
   type: 'affiliation_rejected',
   player: {
-    id: 'player1',
+    id: crypto.randomUUID(),
     nickname: 'PlayerTwo',
   },
   club: {
-    id: 'club1',
+    id: crypto.randomUUID(),
     name: 'Chess Club',
     created_at: new Date(),
     description: '',
     lichess_team: '',
+  },
+  metadata: {
+    club_id: crypto.randomUUID(),
+    affiliation_id: crypto.randomUUID(),
   },
 };
 
@@ -103,15 +111,46 @@ const mockTnmtNotification: UserNotification = {
   notification: {
     id: crypto.randomUUID(),
     created_at: new Date(),
-    user_id: 'user1',
+    user_id: crypto.randomUUID(),
     notification_type: 'tournament_won',
     is_seen: true,
     metadata: {
-      tournament_id: 'tournament1',
+      tournament_id: crypto.randomUUID(),
       name: 'tournamentName',
     },
   },
+  metadata: {
+    name: 'tournamentName',
+    tournament_id: crypto.randomUUID(),
+  },
   type: 'tournament_won',
+};
+
+const mockMngrNotification: UserNotification = {
+  notification: {
+    id: crypto.randomUUID(),
+    created_at: new Date(),
+    user_id: crypto.randomUUID(),
+    notification_type: 'became_club_manager',
+    is_seen: true,
+    metadata: {
+      club_id: crypto.randomUUID(),
+      role: 'co-owner',
+    },
+  },
+  metadata: {
+    club_id: crypto.randomUUID(),
+    role: 'co-owner',
+  },
+  type: 'became_club_manager',
+  club: {
+    id: crypto.randomUUID(),
+    name: 'Chess Club',
+    created_at: new Date(),
+    description: '',
+    lichess_team: '',
+  },
+  role: 'co-owner',
 };
 
 export default UserNotifications;

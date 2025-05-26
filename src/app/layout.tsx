@@ -3,8 +3,10 @@ import ErrorFallback from '@/components/providers/error-boundary';
 import IntlProvider from '@/components/providers/intl-provider';
 import MediaQueryProvider from '@/components/providers/media-query-provider';
 import ThemeProvider from '@/components/providers/theme-provider';
+import { GlobalWebSocketProvider } from '@/components/providers/websocket-provider';
 import { TRPCReactProvider } from '@/components/trpc/client';
 import { Toaster } from '@/components/ui/sonner';
+import { getEncryptedAuthSession } from '@/lib/get-encrypted-auth-session';
 import '@/styles/globals.css';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
@@ -20,6 +22,8 @@ export const experimental_ppr = true;
 async function RootLayout({ children }: PropsWithChildren) {
   const locale = await getLocale();
   const messages = await getMessages();
+  const encryptedSession = await getEncryptedAuthSession();
+
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className="small-scrollbar">
@@ -39,10 +43,17 @@ async function RootLayout({ children }: PropsWithChildren) {
             <IntlProvider messages={messages} locale={locale}>
               <MediaQueryProvider>
                 <TRPCReactProvider>
-                  <NavWrapper />
-                  {/* <ViewTransitions> */}
-                  <div className="pt-14">{children}</div>
-                  {/* </ViewTransitions> */}
+                  {encryptedSession ? (
+                    <GlobalWebSocketProvider session={encryptedSession}>
+                      <NavWrapper />
+                      <div className="pt-14">{children}</div>
+                    </GlobalWebSocketProvider>
+                  ) : (
+                    <>
+                      <NavWrapper />
+                      <div className="pt-14">{children}</div>
+                    </>
+                  )}
                   <Analytics />
                   <SpeedInsights />
                   <Toaster richColors />

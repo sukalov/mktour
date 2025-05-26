@@ -15,6 +15,7 @@ import {
   GitPullRequestCreateArrow,
   LucideIcon,
   Medal,
+  ShieldUser,
   X,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -121,6 +122,8 @@ const NotificationCard: FC<
 );
 
 const NotificationContent: FC<UserNotification> = (notification) => {
+  if (notification.type === 'became_club_manager')
+    return <ManagerNotification {...notification} />;
   if (notification.type === 'tournament_won')
     return <TournamentNotification {...notification} />;
 
@@ -139,10 +142,19 @@ const NotificationContent: FC<UserNotification> = (notification) => {
   );
 };
 
+const ManagerNotification: FC<UserNotification> = (notification) => {
+  if (notification.type === 'became_club_manager')
+    return <div>{notification.club.name}</div>;
+};
+
 const TournamentNotification: FC<UserNotification> = ({ notification }) => {
-  if (notification.metadata && 'name' in notification.metadata) {
+  if (
+    notification.notification_type === 'tournament_won' &&
+    notification.metadata &&
+    'name' in notification?.metadata
+  )
+    // FIXME wtf
     return <div>{notification.metadata.name}</div>;
-  }
 };
 
 const useUserNotificationItem = (type: UserNotification['type']) => {
@@ -158,11 +170,13 @@ const messageIdMap: Record<
 > = {
   affiliation_approved: 'affiliation approved',
   affiliation_rejected: 'affiliation rejected',
+  became_club_manager: 'became club manager',
   tournament_won: 'tournament won',
 };
 
 const iconMap: Record<UserNotification['type'], LucideIcon> = {
   affiliation_approved: Check,
   affiliation_rejected: X,
+  became_club_manager: ShieldUser,
   tournament_won: Medal,
 };

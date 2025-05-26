@@ -12,7 +12,7 @@ import {
   players,
 } from '@/server/db/schema/players';
 import { users } from '@/server/db/schema/users';
-import { eq, sql } from 'drizzle-orm';
+import { desc, eq, or, sql } from 'drizzle-orm';
 
 const getUserNotifications = async (): Promise<UserNotification[]> => {
   const { user } = await validateRequest();
@@ -26,6 +26,7 @@ const getUserNotifications = async (): Promise<UserNotification[]> => {
       type: user_notifications.notification_type,
       affiliation: affiliations,
       notification: user_notifications,
+      metadata: user_notifications.metadata,
       player: { nickname: players.nickname, id: players.id },
       club: clubs,
     })
@@ -35,12 +36,19 @@ const getUserNotifications = async (): Promise<UserNotification[]> => {
       affiliations,
       sql`json_extract(${user_notifications.metadata}, '$.affiliation_id') = ${affiliations.id}`,
     )
-    .innerJoin(users, eq(users.id, affiliations.user_id))
-    .innerJoin(players, eq(players.id, affiliations.player_id))
-    .innerJoin(
+    .leftJoin(users, eq(users.id, affiliations.user_id))
+    .leftJoin(players, eq(players.id, affiliations.player_id))
+    .leftJoin(
       clubs,
-      eq(clubs.id, affiliations.club_id),
-    )) as UserNotification[]; // FIXME (some day we will write good type-safe code)
+      or(
+        eq(clubs.id, affiliations.club_id),
+        eq(
+          clubs.id,
+          sql`json_extract(${user_notifications.metadata}, '$.club_id')`,
+        ),
+      ),
+    )
+    .orderBy(desc(user_notifications.created_at))) as UserNotification[]; // FIXME (some day we will write good type-safe code)
 };
 
 export type UserNotification =
@@ -50,6 +58,10 @@ export type UserNotification =
       affiliation: DatabaseAffiliation;
       player: Pick<DatabasePlayer, 'nickname' | 'id'>;
       club: DatabaseClub;
+      metadata: {
+        club_id: string;
+        affiliation_id: string;
+      };
     }
   | {
       type: 'affiliation_rejected';
@@ -57,10 +69,28 @@ export type UserNotification =
       affiliation: DatabaseAffiliation;
       player: Pick<DatabasePlayer, 'nickname' | 'id'>;
       club: DatabaseClub;
+      metadata: {
+        club_id: string;
+        affiliation_id: string;
+      };
+    }
+  | {
+      type: 'became_club_manager';
+      notification: DatabaseUserNotification;
+      club: DatabaseClub;
+      role: 'co-owner' | 'admin';
+      metadata: {
+        club_id: string;
+        role: 'co-owner' | 'admin';
+      };
     }
   | {
       type: 'tournament_won';
       notification: DatabaseUserNotification;
+      metadata: {
+        name: string;
+        tournament_id: string;
+      };
     };
 
 export default getUserNotifications;

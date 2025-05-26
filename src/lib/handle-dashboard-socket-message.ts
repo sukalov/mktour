@@ -4,13 +4,13 @@
 import { useTRPC } from '@/components/trpc/client';
 import { DatabasePlayer } from '@/server/db/schema/players';
 import { PlayerModel } from '@/types/tournaments';
-import type { Message } from '@/types/ws-events';
+import type { DashboardMessage } from '@/types/ws-events';
 import { QueryClient } from '@tanstack/react-query';
 import { Dispatch, SetStateAction } from 'react';
 import { toast } from 'sonner';
 
 export const handleSocketMessage = (
-  message: Message,
+  message: DashboardMessage,
   queryClient: QueryClient,
   tournamentId: string,
   errorMessage: string,

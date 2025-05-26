@@ -138,7 +138,9 @@
       "players": "игроки",
       "tournaments": "турниры",
       "inbox": "сообщения",
-      "settings": "настройки"
+      "settings": "настройки",
+      "danger zone": "зона необратимых действий",
+      "leave club": "покинуть клуб"
     },
     "Page": {
       "no description": "без описания",
@@ -327,6 +329,7 @@
     "User": {
       "affiliation approved": "аффиляция одобрена",
       "affiliation rejected": "аффиляция отклонена",
+      "became club manager": "вас сделали админом клуба",
       "tournament won": "вы выиграли турнир!"
     },
     "Club": {

@@ -28,8 +28,6 @@ export default async function PlayerPage(props: PlayerPageProps) {
     publicCaller.club.authStatus({ clubId: club.id }),
   ]);
 
-  console.log({ userAffiliation, status });
-
   const isOwnPlayer = user && player.user_id === user.id;
   const canEdit = status || isOwnPlayer;
   const canClaim = !status && user && !player.user_id;

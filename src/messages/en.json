@@ -136,7 +136,9 @@
       "players": "players",
       "tournaments": "tournaments",
       "inbox": "inbox",
-      "settings": "settings"
+      "settings": "settings",
+      "danger zone": "danger zone",
+      "leave club": "leave club"
     },
     "Page": {
       "no description": "no description",
@@ -323,6 +325,7 @@
     "User": {
       "affiliation approved": "affiliated",
       "affiliation rejected": "affiliation rejected",
+      "became club manager": "you became club manager",
       "tournament won": "you won the tournament!"
     },
     "Club": {

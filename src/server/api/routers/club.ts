@@ -5,12 +5,14 @@ import {
   publicProcedure,
 } from '@/server/api/trpc';
 import getAllClubManagers, {
+  addClubManager,
   createClub,
   deleteClub,
   editClub,
   getClubAffiliatedUsers,
   getClubInfo,
   getClubPlayers,
+  leaveClub,
 } from '@/server/mutations/club-managing';
 import getAllClubs from '@/server/queries/get-all-clubs';
 import getClubNotifications from '@/server/queries/get-club-notifications';
@@ -73,11 +75,25 @@ export const clubRouter = {
   all: publicProcedure.query(async () => {
     return await getAllClubs();
   }),
-  managers: publicProcedure
-    .input(z.object({ clubId: z.string() }))
-    .query(async (opts) => {
-      return await getAllClubManagers(opts.input.clubId);
-    }),
+  managers: {
+    all: publicProcedure
+      .input(z.object({ clubId: z.string() }))
+      .query(async (opts) => {
+        return await getAllClubManagers(opts.input.clubId);
+      }),
+    add: clubAdminProcedure
+      .input(
+        z.object({
+          clubId: z.string(),
+          userId: z.string(),
+          status: z.enum(['co-owner', 'admin']),
+        }),
+      )
+      .mutation(async (opts) => {
+        const { input } = opts;
+        await addClubManager(input);
+      }),
+  },
   notifications: clubAdminProcedure
     .input(z.object({ clubId: z.string() }))
     .query(async (opts) => {
@@ -110,5 +126,19 @@ export const clubRouter = {
     .mutation(async (opts) => {
       const { input } = opts;
       await editClub(input);
+    }),
+  leave: clubAdminProcedure
+    .input(
+      z.object({
+        clubId: z.string(),
+      }),
+    )
+    .mutation(async (opts) => {
+      if (opts.ctx.clubs.length === 1) throw new Error('CANT_LEAVE_ONLY_CLUB');
+      await leaveClub(opts.input.clubId);
+      const updatedClubs = opts.ctx.clubs.filter(
+        (id) => id !== opts.input.clubId,
+      );
+      return { clubs: updatedClubs };
     }),
 };

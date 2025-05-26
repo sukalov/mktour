@@ -10,6 +10,10 @@ import {
   clubs,
   clubs_to_users,
 } from '@/server/db/schema/clubs';
+import {
+  InsertDatabaseUserNotification,
+  user_notifications,
+} from '@/server/db/schema/notifications';
 import { DatabasePlayer, players } from '@/server/db/schema/players';
 import {
   games,
@@ -162,9 +166,13 @@ export const deleteClubFunction = async ({
       and(
         eq(clubs_to_users.user_id, userId),
         ne(clubs_to_users.club_id, clubId),
+        eq(clubs_to_users.status, 'co-owner'),
       ),
     )
     .limit(1);
+
+  const userStatus = await getStatusInClub({ userId, clubId });
+  if (userStatus !== 'co-owner') throw new Error('UNAUTHORIZED');
 
   if (otherClubs.length === 0 && !userDeletion) throw new Error('ZERO_CLUBS');
   if (!userDeletion) {
@@ -212,4 +220,86 @@ export const getClubAffiliatedUsers = async (clubId: string) => {
       .where(eq(players.club_id, clubId))
       .innerJoin(users, eq(players.user_id, users.id))
   ).map((el) => el.user);
+};
+
+export const addClubManager = async ({
+  clubId,
+  userId,
+  status,
+}: {
+  clubId: string;
+  userId: string;
+  status: 'co-owner' | 'admin';
+}) => {
+  const { user } = await validateRequest();
+  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
+  const authorStatus = await getStatusInClub({
+    userId: user.id,
+    clubId,
+  });
+  if (authorStatus === 'admin' && status === 'co-owner')
+    throw new Error('NOT_AUTHORIZED');
+  const existingRelation = await db
+    .select()
+    .from(clubs_to_users)
+    .where(
+      and(
+        eq(clubs_to_users.club_id, clubId),
+        eq(clubs_to_users.user_id, userId),
+      ),
+    );
+  if (existingRelation.length > 0) throw new Error('RELATION_EXISTS');
+  const newRelation: DatabaseClubsToUsers = {
+    id: `${clubId}=${userId}`,
+    club_id: clubId,
+    user_id: userId,
+    status,
+  };
+
+  const userNotification: InsertDatabaseUserNotification = {
+    id: newid(),
+    user_id: userId,
+    notification_type: 'became_club_manager',
+    is_seen: false,
+    created_at: new Date(),
+    metadata: { club_id: clubId, role: status },
+  };
+  await Promise.all([
+    db.insert(clubs_to_users).values(newRelation),
+    db.insert(user_notifications).values(userNotification),
+  ]);
+};
+
+export const leaveClub = async (clubId: string) => {
+  const { user } = await validateRequest();
+  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
+  const otherClubId = (
+    await db
+      .select({ club_id: clubs_to_users.club_id })
+      .from(clubs_to_users)
+      .where(
+        and(
+          eq(clubs_to_users.user_id, user.id),
+          ne(clubs_to_users.club_id, clubId),
+          eq(clubs_to_users.status, 'co-owner'),
+        ),
+      )
+      .limit(1)
+  ).at(0)?.club_id;
+  if (!otherClubId) throw new Error('NO_OTHER_CLUB_CO_OWNER');
+
+  await db.transaction(async (tx) => {
+    await tx
+      .update(users)
+      .set({ selected_club: otherClubId })
+      .where(eq(users.id, user.id));
+    await tx
+      .delete(clubs_to_users)
+      .where(
+        and(
+          eq(clubs_to_users.club_id, clubId),
+          eq(clubs_to_users.user_id, user.id),
+        ),
+      );
+  });
 };

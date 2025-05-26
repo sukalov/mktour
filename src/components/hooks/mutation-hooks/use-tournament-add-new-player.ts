@@ -7,7 +7,7 @@ import {
   InsertDatabasePlayer,
 } from '@/server/db/schema/players';
 import { PlayerModel } from '@/types/tournaments';
-import { Message } from '@/types/ws-events';
+import { DashboardMessage } from '@/types/ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
@@ -15,7 +15,7 @@ import { toast } from 'sonner';
 export const useTournamentAddNewPlayer = (
   tournamentId: string,
   queryClient: QueryClient,
-  sendJsonMessage: (_message: Message) => void,
+  sendJsonMessage: (_message: DashboardMessage) => void,
   returnToNewPlayer: (_player: InsertDatabasePlayer) => void,
 ) => {
   const t = useTranslations('Errors');

@@ -2,7 +2,7 @@ import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-
 import { useTRPC } from '@/components/trpc/client';
 import { generateRoundRobinRoundFunction } from '@/lib/client-actions/round-robin-generator';
 import { shuffle } from '@/lib/utils';
-import { Message } from '@/types/ws-events';
+import { DashboardMessage } from '@/types/ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
@@ -10,7 +10,7 @@ import { toast } from 'sonner';
 export const useTournamentRemovePlayer = (
   tournamentId: string,
   queryClient: QueryClient,
-  sendJsonMessage: (_message: Message) => void,
+  sendJsonMessage: (_message: DashboardMessage) => void,
 ) => {
   const t = useTranslations('Errors');
   const saveRound = useSaveRound({
