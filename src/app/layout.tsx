@@ -43,17 +43,10 @@ async function RootLayout({ children }: PropsWithChildren) {
             <IntlProvider messages={messages} locale={locale}>
               <MediaQueryProvider>
                 <TRPCReactProvider>
-                  {encryptedSession ? (
-                    <GlobalWebSocketProvider session={encryptedSession}>
-                      <NavWrapper />
-                      <div className="pt-14">{children}</div>
-                    </GlobalWebSocketProvider>
-                  ) : (
-                    <>
-                      <NavWrapper />
-                      <div className="pt-14">{children}</div>
-                    </>
-                  )}
+                  <GlobalWebSocketProvider session={encryptedSession}>
+                    <NavWrapper />
+                    <div className="pt-14">{children}</div>
+                  </GlobalWebSocketProvider>
                   <Analytics />
                   <SpeedInsights />
                   <Toaster richColors />

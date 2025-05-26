@@ -21,7 +21,7 @@ export const useGlobalWebSocketContext = () =>
 
 interface GlobalWebSocketProviderProps {
   children: ReactNode;
-  session: string;
+  session: string | undefined;
 }
 
 export const GlobalWebSocketProvider = ({
@@ -30,6 +30,8 @@ export const GlobalWebSocketProvider = ({
 }: GlobalWebSocketProviderProps) => {
   const { sendJsonMessage, lastJsonMessage, readyState } =
     useGlobalWebsocket(session);
+
+  if (!session) return children;
 
   return (
     <GlobalWebSocketContext.Provider
