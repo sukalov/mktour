@@ -10,14 +10,14 @@ import useWebSocket from 'react-use-websocket';
 import { toast } from 'sonner';
 
 export const useDashboardWebsocket = (
-  session: string,
+  session: string | undefined,
   id: string,
   queryClient: QueryClient,
   setRoundInView: Dispatch<SetStateAction<number>>,
 ) => {
   const t = useTranslations('Toasts');
   const trpc = useTRPC();
-  const protocols = session !== '' ? session : 'guest';
+  const protocols = session ? session : 'guest';
   return useWebSocket(`${SOCKET_URL}/tournament/${id}`, {
     protocols,
     onOpen: () => {

@@ -43,17 +43,24 @@ async function RootLayout({ children }: PropsWithChildren) {
             <IntlProvider messages={messages} locale={locale}>
               <MediaQueryProvider>
                 <TRPCReactProvider>
-                  <GlobalWebSocketProvider session={encryptedSession}>
-                    <NavWrapper />
-                    <div className="pt-14">{children}</div>
-                    <Analytics />
-                    <SpeedInsights />
-                    <Toaster richColors />
-                    <Script
-                      src="https://unpkg.com/react-scan/dist/install-hook.global.js"
-                      strategy="beforeInteractive"
-                    />
-                  </GlobalWebSocketProvider>
+                  {encryptedSession ? (
+                    <GlobalWebSocketProvider session={encryptedSession}>
+                      <NavWrapper />
+                      <div className="pt-14">{children}</div>
+                    </GlobalWebSocketProvider>
+                  ) : (
+                    <>
+                      <NavWrapper />
+                      <div className="pt-14">{children}</div>
+                    </>
+                  )}
+                  <Analytics />
+                  <SpeedInsights />
+                  <Toaster richColors />
+                  <Script
+                    src="https://unpkg.com/react-scan/dist/install-hook.global.js"
+                    strategy="beforeInteractive"
+                  />
                 </TRPCReactProvider>
               </MediaQueryProvider>
             </IntlProvider>

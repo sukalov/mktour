@@ -72,7 +72,7 @@ export type TabType = {
 };
 
 interface TournamentPageContentProps {
-  session: string;
+  session: string | undefined;
   id: string;
   status: Status;
   userId: string | undefined;

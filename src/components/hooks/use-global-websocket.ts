@@ -11,6 +11,7 @@ export const useGlobalWebsocket = (encryptedAuthSession: string) => {
   const t = useTranslations('Toasts');
   const queryClient = useQueryClient();
   const trpc = useTRPC();
+  console.log('useGlobalWebsocket', encryptedAuthSession);
   return useWebSocket<GlobalMessage>(`${SOCKET_URL}/global`, {
     protocols: encryptedAuthSession !== '' ? encryptedAuthSession : 'guest',
     shouldReconnect: () => true,
