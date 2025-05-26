@@ -9,7 +9,14 @@ import { Card } from '@/components/ui/card';
 import { ClubNotification } from '@/server/queries/get-club-notifications';
 import { UserNotification } from '@/server/queries/get-user-notifications';
 import { useQueryClient } from '@tanstack/react-query';
-import { Check, LucideIcon, Medal, Pointer, UserRound, X } from 'lucide-react';
+import {
+  Check,
+  CornerDownRightIcon,
+  GitPullRequestCreateArrow,
+  LucideIcon,
+  Medal,
+  X,
+} from 'lucide-react';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -45,25 +52,28 @@ export const AffiliationNotificationLi = ({
   };
 
   if (!affiliation) return null;
+
   return (
     <Card className="mk-card flex flex-col gap-2" key={notification.id}>
-      <p className="text-muted-foreground text-xs">
+      <p className="text-muted-foreground flex items-center gap-1 text-xs">
+        <GitPullRequestCreateArrow className="size-4" />
         <FormattedMessage id="Club.Inbox.affiliation" />
       </p>
       <div className="flex items-center justify-between">
-        <div className="flex flex-col gap-1">
-          <div className="flex flex-col justify-center gap-2">
-            <div className="flex items-center gap-2">
-              <UserRound className="size-4" />
-              <Link href={`/user/${user?.username}`} className="mk-link">
-                {user?.username}
-              </Link>
-            </div>
-            <div className="flex items-center gap-2">
-              <Pointer className="size-4" />
-              <Link href={`/player/${player?.id}`} className="mk-link">
-                {player?.nickname}
-              </Link>
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 text-sm">
+            <div className="flex flex-col justify-center gap-2">
+              <div className="flex items-center gap-2">
+                <Link href={`/user/${user?.username}`} className="mk-link">
+                  {user?.username}
+                </Link>
+              </div>
+              <div className="flex items-center gap-2 pl-2">
+                <CornerDownRightIcon className="size-4" />
+                <Link href={`/player/${player?.id}`} className="mk-link">
+                  {player?.nickname}
+                </Link>
+              </div>
             </div>
           </div>
         </div>
