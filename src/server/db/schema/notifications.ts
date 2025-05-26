@@ -9,7 +9,8 @@ export type UserNotificationType =
   | 'affiliation_rejected' // Club rejects request
   //   | 'affiliation_cancelled' // User cancels their pending request
   //   | 'affiliation_removed' // Club removes an existing affiliation
-  | 'tournament_won';
+  | 'tournament_won'
+  | 'became_club_manager';
 //   | 'manual_affiliation_added' // e.g., Admin manually links user/player
 //   | 'role_change_request' // e.g., User requests admin role
 //   | 'role_change_approved'
@@ -25,9 +26,14 @@ export type UserNotificationMetadata<
     ? {
         tournament_id: string;
       }
-    : never;
+    : T extends 'became_club_manager'
+      ? {
+          club_id: string;
+          role: 'co-owner' | 'admin';
+        }
+      : never;
 
-export type ClubNotificationType = 'affiliation_request'; // User requests to join club (creates pending affiliation)
+export type ClubNotificationType = 'affiliation_request' | 'manager_left'; // User requests to join club (creates pending affiliation)
 export type ClubNotificationMetadata<
   T extends ClubNotificationType = ClubNotificationType,
 > = T extends 'affiliation_request'
@@ -35,7 +41,9 @@ export type ClubNotificationMetadata<
       user_id: string;
       affiliation_id: string;
     }
-  : never;
+  : T extends 'manager_left'
+    ? { userId: string }
+    : never; // TODO not yet implemented in "leave club" mutation
 
 // all notifications are stored in one table
 // each notifiation is an interaction between a club and a user

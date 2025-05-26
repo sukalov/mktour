@@ -1,5 +1,5 @@
 import { useTRPC } from '@/components/trpc/client';
-import { Message } from '@/types/ws-events';
+import { DashboardMessage } from '@/types/ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { Dispatch, SetStateAction } from 'react';
@@ -85,12 +85,12 @@ export default function useSaveRound(props: SaveRoundMutationProps) {
 type SaveRoundMutationProps =
   | {
       queryClient: QueryClient;
-      sendJsonMessage: (_message: Message) => void;
+      sendJsonMessage: (_message: DashboardMessage) => void;
       isTournamentGoing: true;
       setRoundInView: Dispatch<SetStateAction<number>>;
     }
   | {
       queryClient: QueryClient;
-      sendJsonMessage: (_message: Message) => void;
+      sendJsonMessage: (_message: DashboardMessage) => void;
       isTournamentGoing: false;
     };

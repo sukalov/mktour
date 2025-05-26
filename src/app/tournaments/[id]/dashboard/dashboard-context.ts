@@ -1,5 +1,5 @@
 import { Status } from '@/server/queries/get-status-in-tournament';
-import { Message } from '@/types/ws-events';
+import { DashboardMessage } from '@/types/ws-events';
 import { createContext, Dispatch, SetStateAction } from 'react';
 
 export const DashboardContext = createContext<DashboardContextType>({
@@ -15,7 +15,7 @@ export const DashboardContext = createContext<DashboardContextType>({
 
 export type DashboardContextType = {
   currentTab: 'main' | 'table' | 'games';
-  sendJsonMessage: (_jsonMessage: Message, _keep?: boolean) => void;
+  sendJsonMessage: (_jsonMessage: DashboardMessage, _keep?: boolean) => void;
   status: Status;
   userId: string | undefined;
   selectedGameId: string | null;

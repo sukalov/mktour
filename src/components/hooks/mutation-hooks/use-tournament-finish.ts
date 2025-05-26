@@ -1,7 +1,7 @@
 'use client';
 
 import { useTRPC } from '@/components/trpc/client';
-import { Message } from '@/types/ws-events';
+import { DashboardMessage } from '@/types/ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
@@ -39,5 +39,5 @@ export default function useTournamentFinish(
 
 type SetStatusProps = {
   tournamentId: string | undefined;
-  sendJsonMessage: (_message: Message) => void;
+  sendJsonMessage: (_message: DashboardMessage) => void;
 };

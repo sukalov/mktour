@@ -2,11 +2,14 @@
 - **/docs** - internal descriptive files on project
 - **/public** - static assets (`.png`, `.ico`...)
 - **/src** - source code of the app
-  - **/app** - ONLY next.js reserved files
-  - **/lib** — FUNCTIONS
-    - **/actions** - ts files marked with 'use server'
-    - **/helpers** - ts files not marked with 'use server'
-  - **/components** — ALL files returning `.tsx` except reserved by next.js routing
+  - **/app** - next.js reserved files + non-reusable components of dedicated pages
+  - **/components** reusable `.tsx` files
     - **/hooks** - react client functions (filenames start with `use-`)
-  - **/styles** - (`.css` only)
+  - **/lib** — functional code (that can be used in either server or client code)
+  - **/server** - server only part of the app. all communication with this part goes through trpc
+    - **/api** - tRPC setup. routers list all availible procedures
+    - **/db** - database setup and schema declarations
+    - **/mutations** - all db calls modifying info
+    - **/queries** - all db calls receiving info
+  - **/styles** - (`.css` + fonts)
   - **/types** - (`.d.ts` only)

@@ -3,17 +3,17 @@ import {
   tournamentQueryClient,
   tournamentQueryPrefetch,
 } from '@/app/tournaments/[id]/prefetch';
+import { getEncryptedAuthSession } from '@/lib/get-encrypted-auth-session';
 import { publicCaller } from '@/server/api';
 import { TournamentInfo } from '@/types/tournaments';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
-import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
 
 export const revalidate = 0;
 
 export default async function TournamentPage(props: TournamentPageProps) {
   const params = await props.params;
-  const session = (await cookies()).get('auth_session')?.value ?? '';
+  const session = await getEncryptedAuthSession();
   const user = await publicCaller.user.auth();
   let tournament: TournamentInfo;
   try {
