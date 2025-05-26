@@ -18,7 +18,7 @@ import {
   X,
 } from 'lucide-react';
 import Link from 'next/link';
-import { FC } from 'react';
+import { FC, HTMLAttributes, PropsWithChildren } from 'react';
 
 export const AffiliationNotificationLi = ({
   affiliation,
@@ -54,8 +54,8 @@ export const AffiliationNotificationLi = ({
   if (!affiliation) return null;
 
   return (
-    <Card className="mk-card flex flex-col gap-2" key={notification.id}>
-      <p className="text-muted-foreground flex items-center gap-1 text-xs">
+    <NotificationCard key={notification.id} is_seen={notification.is_seen}>
+      <p className="text-muted-foreground flex items-center gap-2 text-xs">
         <GitPullRequestCreateArrow className="size-4" />
         <FormattedMessage id="Club.Inbox.affiliation" />
       </p>
@@ -90,7 +90,7 @@ export const AffiliationNotificationLi = ({
           </div>
         )}
       </div>
-    </Card>
+    </NotificationCard>
   );
 };
 
@@ -99,15 +99,26 @@ export const UserNotificationLi: FC<UserNotification> = (props) => {
   const { messageId, Icon } = useUserNotificationItem(type);
 
   return (
-    <Card key={notification.id} className="mk-card">
+    <NotificationCard key={notification.id} is_seen={notification.is_seen}>
       <p className="text-muted-foreground flex items-center gap-2 text-xs">
         <Icon size={16} />
         <FormattedMessage id={`Notifications.User.${messageId}`} />
       </p>
       <NotificationContent {...props} />
-    </Card>
+    </NotificationCard>
   );
 };
+
+const NotificationCard: FC<
+  PropsWithChildren & {
+    is_seen: boolean;
+    className?: HTMLAttributes<HTMLDivElement>['className'];
+  }
+> = ({ is_seen, className, children }) => (
+  <Card className={`mk-card ${is_seen && 'opacity-70'} ${className}`}>
+    {children}
+  </Card>
+);
 
 const NotificationContent: FC<UserNotification> = (notification) => {
   if (notification.type === 'tournament_won')

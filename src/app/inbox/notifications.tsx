@@ -31,7 +31,7 @@ const NotificationItemIteratee = (data: UserNotification) => {
 
 const mockApproveNotification: UserNotification = {
   notification: {
-    id: '1',
+    id: crypto.randomUUID(),
     created_at: new Date(),
     user_id: 'user1',
     notification_type: 'affiliation_approved',
@@ -42,7 +42,7 @@ const mockApproveNotification: UserNotification = {
     },
   },
   affiliation: {
-    id: '',
+    id: crypto.randomUUID(),
     created_at: new Date(),
     user_id: '',
     club_id: '',
@@ -66,7 +66,7 @@ const mockApproveNotification: UserNotification = {
 
 const mockRejectNotification: UserNotification = {
   notification: {
-    id: '1',
+    id: crypto.randomUUID(),
     created_at: new Date(),
     user_id: 'user1',
     notification_type: 'affiliation_rejected',
@@ -77,7 +77,7 @@ const mockRejectNotification: UserNotification = {
     },
   },
   affiliation: {
-    id: '',
+    id: crypto.randomUUID(),
     created_at: new Date(),
     user_id: '',
     club_id: '',
@@ -101,11 +101,11 @@ const mockRejectNotification: UserNotification = {
 
 const mockTnmtNotification: UserNotification = {
   notification: {
-    id: '1',
+    id: crypto.randomUUID(),
     created_at: new Date(),
     user_id: 'user1',
     notification_type: 'tournament_won',
-    is_seen: false,
+    is_seen: true,
     metadata: {
       tournament_id: 'tournament1',
       name: 'tournamentName',
