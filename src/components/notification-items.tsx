@@ -55,7 +55,11 @@ export const AffiliationNotificationLi = ({
   if (!affiliation) return null;
 
   return (
-    <NotificationCard key={notification.id} is_seen={notification.is_seen}>
+    <NotificationCard
+      key={notification.id}
+      is_seen={notification.is_seen}
+      className="flex flex-col gap-2"
+    >
       <p className="text-muted-foreground flex items-center gap-2 text-xs">
         <GitPullRequestCreateArrow className="size-4" />
         <FormattedMessage id="Club.Inbox.affiliation" />
@@ -149,11 +153,11 @@ const ManagerNotification: FC<UserNotification> = (notification) => {
 
 const TournamentNotification: FC<UserNotification> = ({ notification }) => {
   if (
+    // FIXME wtf
     notification.notification_type === 'tournament_won' &&
     notification.metadata &&
     'name' in notification?.metadata
   )
-    // FIXME wtf
     return <div>{notification.metadata.name}</div>;
 };
 
