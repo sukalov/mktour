@@ -33,7 +33,7 @@ export const createTRPCContext = async (opts: {
   req: NextRequest;
 }) => {
   const { session, user } = await uncachedValidateRequest();
-  const clubs = user ? await getUserClubIds({ userId: user.id }) : [];
+  const clubs = user ? await getUserClubIds({ userId: user.id }) : {};
   return {
     session,
     user,
@@ -110,7 +110,7 @@ export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
 export const clubAdminProcedure = protectedProcedure
   .input(z.object({ clubId: z.string() }))
   .use((opts) => {
-    const isAdmin = opts.ctx.clubs.find(
+    const isAdmin = Object.keys(opts.ctx.clubs).find(
       (clubId) => clubId === opts.input.clubId,
     );
     if (!isAdmin) {
