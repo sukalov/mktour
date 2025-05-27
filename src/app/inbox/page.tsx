@@ -34,7 +34,9 @@ const Page = async () => {
     <>
       <UserNotifications />
       {`validateRequest took ${endTime1 - startTime1}ms`}
+      <br />
       {`uncachedValidateRequest took ${endTime2 - startTime2}ms`}
+      <br />
       {`reactCachedValidateRequest took ${endTime3 - startTime3}ms`}
     </>
   );
