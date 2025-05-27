@@ -9,8 +9,6 @@ import { TournamentInfo } from '@/types/tournaments';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { notFound } from 'next/navigation';
 
-export const revalidate = 0;
-
 export default async function TournamentPage(props: TournamentPageProps) {
   const params = await props.params;
   const session = await getEncryptedAuthSession();

@@ -13,19 +13,42 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata, Viewport } from 'next';
 import { getLocale, getMessages } from 'next-intl/server';
 import Script from 'next/script';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Monitoring } from 'react-scan/monitoring/next';
 
-export const experimental_ppr = true;
-
-async function RootLayout({ children }: PropsWithChildren) {
+async function LayoutContent({ children }: PropsWithChildren) {
   const locale = await getLocale();
   const messages = await getMessages();
   const encryptedSession = await getEncryptedAuthSession();
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <IntlProvider messages={messages} locale={locale}>
+      {encryptedSession ? (
+        <GlobalWebSocketProvider session={encryptedSession}>
+          <NavWrapper />
+          <div className="pt-14">{children}</div>
+        </GlobalWebSocketProvider>
+      ) : (
+        <>
+          <NavWrapper />
+          <div className="pt-14">{children}</div>
+        </>
+      )}
+      <Analytics />
+      <SpeedInsights />
+      <Toaster richColors />
+      <Script
+        src="https://unpkg.com/react-scan/dist/install-hook.global.js"
+        strategy="beforeInteractive"
+      />
+    </IntlProvider>
+  );
+}
+
+export default function RootLayout({ children }: PropsWithChildren) {
+  return (
+    <html suppressHydrationWarning>
       <body className="small-scrollbar">
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Monitoring
@@ -40,30 +63,13 @@ async function RootLayout({ children }: PropsWithChildren) {
             enableSystem
             disableTransitionOnChange
           >
-            <IntlProvider messages={messages} locale={locale}>
-              <MediaQueryProvider>
-                <TRPCReactProvider>
-                  {encryptedSession ? (
-                    <GlobalWebSocketProvider session={encryptedSession}>
-                      <NavWrapper />
-                      <div className="pt-14">{children}</div>
-                    </GlobalWebSocketProvider>
-                  ) : (
-                    <>
-                      <NavWrapper />
-                      <div className="pt-14">{children}</div>
-                    </>
-                  )}
-                  <Analytics />
-                  <SpeedInsights />
-                  <Toaster richColors />
-                  <Script
-                    src="https://unpkg.com/react-scan/dist/install-hook.global.js"
-                    strategy="beforeInteractive"
-                  />
-                </TRPCReactProvider>
-              </MediaQueryProvider>
-            </IntlProvider>
+            <MediaQueryProvider>
+              <TRPCReactProvider>
+                <Suspense fallback={<p>loading...</p>}>
+                  <LayoutContent>{children}</LayoutContent>
+                </Suspense>
+              </TRPCReactProvider>
+            </MediaQueryProvider>
           </ThemeProvider>
         </ErrorBoundary>
       </body>
@@ -220,5 +226,3 @@ export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false,
 };
-
-export default RootLayout;

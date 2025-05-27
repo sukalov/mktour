@@ -1,6 +1,7 @@
 import NewTournamentForm from '@/app/tournaments/create/new-tournament-form';
 import { publicCaller } from '@/server/api';
 import { redirect } from 'next/navigation';
+import { Suspense } from 'react';
 
 export default async function NewTournament() {
   const user = await publicCaller.user.auth();
@@ -10,8 +11,10 @@ export default async function NewTournament() {
   if (!user) redirect('/sign-in'); // Not sure if needed
 
   return (
-    <div className="w-full">
-      <NewTournamentForm clubs={userClubs} user={user} />
-    </div>
+    <Suspense fallback={<p>loading make tournament page...</p>}>
+      <div className="w-full">
+        <NewTournamentForm clubs={userClubs} user={user} />
+      </div>
+    </Suspense>
   );
 }

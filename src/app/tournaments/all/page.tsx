@@ -1,8 +1,6 @@
 import TournamentItemIteratee from '@/components/tournament-item';
 import { publicCaller } from '@/server/api';
 
-export const revalidate = 0;
-
 export default async function Tournaments() {
   const allTournaments = await publicCaller.tournament.all();
 
