@@ -11,8 +11,8 @@ const bundleAnalyzer = withBundleAnalyzer({
 const nextConfig = {
   experimental: {
     reactCompiler: true,
-    ppr: 'incremental',
     useCache: true,
+    dynamicIO: true,
   },
   logging: {
     fetches: {
