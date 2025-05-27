@@ -3,7 +3,7 @@ import ErrorFallback from '@/components/providers/error-boundary';
 import IntlProvider from '@/components/providers/intl-provider';
 import MediaQueryProvider from '@/components/providers/media-query-provider';
 import ThemeProvider from '@/components/providers/theme-provider';
-import { GlobalWebSocketProvider } from '@/components/providers/websocket-provider';
+import { GlobalWSProviderWrapper } from '@/components/providers/websocket-provider';
 import { TRPCReactProvider } from '@/components/trpc/client';
 import { Toaster } from '@/components/ui/sonner';
 import { getEncryptedAuthSession } from '@/lib/get-encrypted-auth-session';
@@ -24,17 +24,10 @@ async function LayoutContent({ children }: PropsWithChildren) {
 
   return (
     <IntlProvider messages={messages} locale={locale}>
-      {encryptedSession ? (
-        <GlobalWebSocketProvider session={encryptedSession}>
-          <NavWrapper />
-          <div className="pt-14">{children}</div>
-        </GlobalWebSocketProvider>
-      ) : (
-        <>
-          <NavWrapper />
-          <div className="pt-14">{children}</div>
-        </>
-      )}
+      <GlobalWSProviderWrapper session={encryptedSession}>
+        <NavWrapper />
+        <div className="pt-14">{children}</div>
+      </GlobalWSProviderWrapper>
       <Analytics />
       <SpeedInsights />
       <Toaster richColors />
