@@ -24,7 +24,7 @@ export const publicCaller = appRouter.createCaller({
 
 export const makeProtectedCaller = async () => {
   const { session, user } = await validateRequest();
-  const clubs = user ? await getUserClubIds({ userId: user.id }) : [];
+  const clubs = user ? await getUserClubIds({ userId: user.id }) : {};
   return appRouter.createCaller({
     session,
     user,
