@@ -26,6 +26,7 @@ export async function getUserClubs({ userId }: { userId: string }) {
   ).map((el) => el.club);
 }
 
+// returns object of clubs { [club_id]: StatusInClub }
 export async function uncachedGetUserClubIds({ userId }: { userId: string }) {
   return (
     await db
@@ -45,4 +46,5 @@ export async function uncachedGetUserClubIds({ userId }: { userId: string }) {
   );
 }
 
+// returns object of clubs { [club_id]: StatusInClub }
 export const getUserClubIds = cache(uncachedGetUserClubIds);

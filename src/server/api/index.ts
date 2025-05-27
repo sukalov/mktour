@@ -17,7 +17,7 @@ export const appRouter = createTRPCRouter({
 export const publicCaller = appRouter.createCaller({
   session: null,
   user: null,
-  clubs: [],
+  clubs: {},
   db,
   headers: new Headers(),
 });
