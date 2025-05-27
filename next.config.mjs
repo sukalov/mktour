@@ -12,6 +12,7 @@ const nextConfig = {
   experimental: {
     reactCompiler: true,
     ppr: 'incremental',
+    useCache: true,
   },
   logging: {
     fetches: {

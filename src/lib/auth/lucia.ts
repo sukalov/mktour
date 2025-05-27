@@ -5,6 +5,7 @@ import type { DatabaseUser } from '@/server/db/schema/users';
 import { Lichess } from 'arctic';
 import type { Session, User } from 'lucia';
 import { Lucia } from 'lucia';
+import { cacheLife } from 'next/dist/server/use-cache/cache-life';
 import { cookies } from 'next/headers';
 import { cache } from 'react';
 
@@ -75,7 +76,56 @@ export const uncachedValidateRequest = async (): Promise<
   return result;
 };
 
-export const validateRequest = cache(uncachedValidateRequest);
+export const reactCachedValidateRequest = cache(uncachedValidateRequest);
+
+export const validateRequest = cache(async () => {
+  const cooks = await cookies();
+  const sessionId = cooks.get(lucia.sessionCookieName)?.value ?? null;
+  if (!sessionId) {
+    return {
+      user: null,
+      session: null,
+    };
+  }
+
+  let result;
+  do {
+    try {
+      result = await cachedValidateSession(sessionId);
+    } catch (e) {
+      console.log(e);
+    }
+  } while (!result);
+  // next.js throws when you attempt to set cookie when rendering page
+  try {
+    if (result.session && result.session.fresh) {
+      const sessionCookie = lucia.createSessionCookie(result.session.id);
+      cooks.set(
+        sessionCookie.name,
+        sessionCookie.value,
+        sessionCookie.attributes,
+      );
+    }
+    if (!result.session) {
+      const sessionCookie = lucia.createBlankSessionCookie();
+      cooks.set(
+        sessionCookie.name,
+        sessionCookie.value,
+        sessionCookie.attributes,
+      );
+    }
+  } catch {}
+  return result;
+});
+
+const cachedValidateSession = async (sessionId: string) => {
+  'use cache';
+  cacheLife({
+    stale: 1000 * 60 * 60,
+    revalidate: 1000 * 60 * 60,
+  });
+  return await lucia.validateSession(sessionId);
+};
 
 export const lichess = new Lichess(
   process.env.LICHESS_CLIENT_ID ?? '',

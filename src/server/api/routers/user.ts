@@ -8,7 +8,10 @@ import {
   getUserClubNames,
   getUserClubs,
 } from '@/server/queries/get-user-clubs';
-import getUserData from '@/server/queries/get-user-data';
+import {
+  getUserData,
+  getUserInfoByUsername,
+} from '@/server/queries/get-user-data';
 import getUserNotifications from '@/server/queries/get-user-notifications';
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
@@ -32,7 +35,7 @@ export const userRouter = {
     .input(z.object({ username: z.string() }))
     .query(async (opts) => {
       const { input } = opts;
-      return await getUserData(input.username);
+      return await getUserInfoByUsername(input.username);
     }),
   auth: publicProcedure.query(async () => {
     const { user } = await validateRequest();
@@ -110,5 +113,9 @@ export const userRouter = {
     const { user } = await validateRequest();
     if (!user) return [];
     return await getUserClubs({ userId: user.id });
+  }),
+  authContext: publicProcedure.query(async (opts) => {
+    if (!opts.ctx.user) return null;
+    return await getUserData(opts.ctx.user.id);
   }),
 };
