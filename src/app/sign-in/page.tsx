@@ -16,7 +16,13 @@ const PageContent = async (props: { searchParams: Promise<string> }) => {
 
 const Page = async (props: { searchParams: Promise<string> }) => {
   return (
-    <Suspense fallback={<p>loading...</p>}>
+    <Suspense
+      fallback={
+        <main className="mx-auto my-4 flex h-[calc(100svh-3.5rem)] w-full max-w-lg flex-auto items-center justify-center p-10">
+          <SignInWithLichessButton className="p-10 py-16" />
+        </main>
+      }
+    >
       <PageContent {...props} />
     </Suspense>
   );
