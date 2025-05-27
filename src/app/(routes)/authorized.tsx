@@ -2,14 +2,15 @@ import MakeTournamentButton from '@/components/button-make-tournament';
 import TeamJoinToaster from '@/components/team-join-toaster';
 import '@/styles/cursor.css';
 import { cookies } from 'next/headers';
+import { Suspense } from 'react';
 
 export default async function Authorized() {
-  'use cache';
-
   return (
     <div className="flex min-h-[calc(100svh-3.5rem)] w-full flex-auto items-center justify-center p-4">
       <MakeTournamentButton />
-      <TeamJoinToasterServer />
+      <Suspense fallback={<p>loading toaster</p>}>
+        <TeamJoinToasterServer />
+      </Suspense>
     </div>
   );
 }
