@@ -134,9 +134,10 @@ export const clubRouter = {
       }),
     )
     .mutation(async (opts) => {
-      if (opts.ctx.clubs.length === 1) throw new Error('CANT_LEAVE_ONLY_CLUB');
+      if (Object.keys(opts.ctx.clubs).length === 1)
+        throw new Error('CANT_LEAVE_ONLY_CLUB');
       await leaveClub(opts.input.clubId);
-      const updatedClubs = opts.ctx.clubs.filter(
+      const updatedClubs = Object.keys(opts.ctx.clubs).filter(
         (id) => id !== opts.input.clubId,
       );
       return { clubs: updatedClubs };
