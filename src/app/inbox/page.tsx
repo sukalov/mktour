@@ -30,7 +30,14 @@ const Page = async () => {
   const endTime3 = Date.now();
   console.log(`reactCachedValidateRequest took ${endTime3 - startTime3}ms`);
 
-  return <UserNotifications />;
+  return (
+    <>
+      <UserNotifications />
+      {`validateRequest took ${endTime1 - startTime1}ms`}
+      {`uncachedValidateRequest took ${endTime2 - startTime2}ms`}
+      {`reactCachedValidateRequest took ${endTime3 - startTime3}ms`}
+    </>
+  );
 };
 
 // const groupAffiliationNotificationsByClub = (
