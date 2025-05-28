@@ -21,6 +21,7 @@ const ClubSelect: FC<{ user: DatabaseUser }> = ({ user }) => {
   const queryClient = useQueryClient();
   const clubSelection = useUserSelectClub(queryClient);
   const t = useTranslations('Toasts');
+
   if (status === 'error')
     toast.error(t('server error'), {
       id: 'error',

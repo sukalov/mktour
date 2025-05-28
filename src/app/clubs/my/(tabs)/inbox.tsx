@@ -1,20 +1,21 @@
 'use client';
 
-import { ClubTabProps } from '@/app/clubs/my/tabMap';
+import {
+  ClubDashboardContext,
+  ClubDashboardContextType,
+} from '@/app/clubs/my/dashboard-context-club';
 import Empty from '@/components/empty';
-import { useClubNotifications } from '@/components/hooks/query-hooks/use-club-notifications';
 import { AffiliationNotificationLi } from '@/components/notification-items';
 import SkeletonList from '@/components/skeleton-list';
 import { ClubNotification } from '@/server/queries/get-club-notifications';
 import { useTranslations } from 'next-intl';
+import { useContext } from 'react';
 
-const MOCK = true;
-
-const ClubInbox = ({ selectedClub }: Pick<ClubTabProps, 'selectedClub'>) => {
+const ClubInbox = () => {
   const t = useTranslations('Club.Inbox');
-  const notificationsDb = useClubNotifications(selectedClub);
-  const notifications = MOCK ? mockClubNotifications : notificationsDb;
+  const notifications = useContext(ClubDashboardContext);
 
+  if (!notifications) return null;
   if (notifications.status === 'pending') return <SkeletonList />;
   if (notifications.status === 'error')
     return <p>{notifications.error.message}</p>;
@@ -32,13 +33,8 @@ const NotificationItemIteratee = (data: ClubNotification) => {
   return null;
 };
 
-export const mockClubNotifications: {
-  error: undefined;
-  status: 'success';
-  data: ClubNotification[];
-} = {
-  error: undefined,
-  status: 'success',
+// @ts-expect-error-mock-data
+export const mockClubNotifications: ClubDashboardContextType = {
   data: [
     {
       notification: {

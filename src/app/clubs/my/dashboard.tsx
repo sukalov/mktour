@@ -1,14 +1,19 @@
 'use client';
 
+import { mockClubNotifications } from '@/app/clubs/my/(tabs)/inbox';
 import ClubSelect from '@/app/clubs/my/club-select';
+import { ClubDashboardContext } from '@/app/clubs/my/dashboard-context-club';
 import ClubDashboardTabList from '@/app/clubs/my/dashboard-tab-list';
 import { ClubDashboardTab, ClubTabProps, tabMap } from '@/app/clubs/my/tabMap';
 import Loading from '@/app/loading';
 import Empty from '@/components/empty';
+import { useClubNotifications } from '@/components/hooks/query-hooks/use-club-notifications';
 import { useUser } from '@/components/hooks/query-hooks/use-user';
 import SwipeHandlerProvider from '@/components/swipe-handler-provider';
 import { useTranslations } from 'next-intl';
 import { Dispatch, FC, SetStateAction, useState } from 'react';
+
+const MOCK = true;
 
 export default function Dashboard({ userId }: { userId: string }) {
   const t = useTranslations('Club.Dashboard');
@@ -17,6 +22,9 @@ export default function Dashboard({ userId }: { userId: string }) {
   const ActiveTab: FC<ClubTabProps> = tabMap[tab];
   const tabs = Object.keys(tabMap) as ClubDashboardTab[];
   const indexOfTab = tabs.indexOf(tab);
+  const notificationsDb = useClubNotifications(data?.selected_club || '');
+
+  const notifications = MOCK ? mockClubNotifications : notificationsDb;
 
   if (!data && isLoading) return <Loading />;
   if (!data) return <Empty>{t('no data')}</Empty>;
@@ -25,13 +33,15 @@ export default function Dashboard({ userId }: { userId: string }) {
     <SwipeHandlerProvider
       handleSwipe={(dir) => handleSwipe(dir, indexOfTab, tabs, setTab)}
     >
-      <div className="fixed top-14 w-full">
-        <ClubDashboardTabList activeTab={tab} setTab={setTab} />
-        <ClubSelect user={data} />
-      </div>
-      <div className="mk-container pt-20">
-        <ActiveTab selectedClub={data.selected_club} userId={userId} />
-      </div>
+      <ClubDashboardContext.Provider value={notifications}>
+        <div className="fixed top-14 w-full">
+          <ClubDashboardTabList activeTab={tab} setTab={setTab} />
+          <ClubSelect user={data} />
+        </div>
+        <div className="mk-container pt-20">
+          <ActiveTab selectedClub={data.selected_club} userId={userId} />
+        </div>
+      </ClubDashboardContext.Provider>
     </SwipeHandlerProvider>
   );
 }
