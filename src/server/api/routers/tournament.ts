@@ -33,7 +33,6 @@ import { z } from 'zod';
 
 export const tournamentRouter = {
   all: publicProcedure.query(async () => {
-    'use cache';
     return await getAllTournaments();
   }),
   info: publicProcedure

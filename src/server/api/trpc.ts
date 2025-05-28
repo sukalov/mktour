@@ -7,7 +7,7 @@
  * need to use are documented accordingly near the end.
  */
 
-import { uncachedValidateRequest } from '@/lib/auth/lucia';
+import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/server/db';
 import { getStatusInTournament } from '@/server/queries/get-status-in-tournament';
 import { getUserClubIds } from '@/server/queries/get-user-clubs';
@@ -32,12 +32,7 @@ export const createTRPCContext = async (opts: {
   headers: Headers;
   req: NextRequest;
 }) => {
-  const { session, user } = await uncachedValidateRequest();
-  const clubs = user ? await getUserClubIds({ userId: user.id }) : {};
   return {
-    session,
-    user,
-    clubs,
     db,
     headers: opts.headers,
   };
@@ -95,22 +90,24 @@ export const publicProcedure = t.procedure;
  *
  * @see https://trpc.io/docs/procedures
  */
-export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
-  if (!ctx.session || !ctx.user) {
+export const protectedProcedure = t.procedure.use(async ({ next }) => {
+  const { session, user } = await validateRequest();
+  if (!session || !user) {
     throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
   return next({
     ctx: {
-      session: { ...ctx.session },
-      user: { ...ctx.user },
+      session,
+      user,
     },
   });
 });
 
 export const clubAdminProcedure = protectedProcedure
   .input(z.object({ clubId: z.string() }))
-  .use((opts) => {
-    const isAdmin = Object.keys(opts.ctx.clubs).find(
+  .use(async (opts) => {
+    const clubs = await getUserClubIds({ userId: opts.ctx.user.id });
+    const isAdmin = Object.keys(clubs).find(
       (clubId) => clubId === opts.input.clubId,
     );
     if (!isAdmin) {
@@ -118,7 +115,11 @@ export const clubAdminProcedure = protectedProcedure
         code: 'FORBIDDEN',
       });
     }
-    return opts.next();
+    return opts.next({
+      ctx: {
+        clubs,
+      },
+    });
   });
 
 export const tournamentAdminProcedure = protectedProcedure
@@ -137,7 +138,3 @@ export const tournamentAdminProcedure = protectedProcedure
   });
 
 export type TRPCContext = Awaited<ReturnType<typeof createTRPCContext>>;
-export type ProtectedTRPCContext = TRPCContext & {
-  user: NonNullable<TRPCContext['user']>;
-  session: NonNullable<TRPCContext['session']>;
-};

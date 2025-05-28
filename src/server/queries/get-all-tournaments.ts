@@ -4,6 +4,7 @@ import { tournaments } from '@/server/db/schema/tournaments';
 import { eq } from 'drizzle-orm';
 
 export default async function getAllTournaments() {
+  'use cache';
   const allTournaments = await db
     .select()
     .from(tournaments)
