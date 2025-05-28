@@ -31,8 +31,6 @@ export const GlobalWebSocketProvider = ({
   const { sendJsonMessage, lastJsonMessage, readyState } =
     useGlobalWebsocket(session);
 
-  if (!session) return children;
-
   return (
     <GlobalWebSocketContext.Provider
       value={{
