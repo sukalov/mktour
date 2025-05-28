@@ -9,9 +9,11 @@
 
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/server/db';
+import { StatusInClub } from '@/server/db/schema/clubs';
 import { getStatusInTournament } from '@/server/queries/get-status-in-tournament';
 import { getUserClubIds } from '@/server/queries/get-user-clubs';
 import { initTRPC, TRPCError } from '@trpc/server';
+import { Session, User } from 'lucia';
 import { NextRequest } from 'next/server';
 import superjson from 'superjson';
 import { z, ZodError } from 'zod';
@@ -32,7 +34,14 @@ export const createTRPCContext = async (opts: {
   headers: Headers;
   req: NextRequest;
 }) => {
+  let session: Session | undefined;
+  let user: User | undefined;
+  let clubs: { [club_id: string]: StatusInClub } | undefined;
+
   return {
+    session,
+    user,
+    clubs,
     db,
     headers: opts.headers,
   };
