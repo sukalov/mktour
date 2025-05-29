@@ -47,6 +47,7 @@ export const useTournamentAddNewPlayer = (
           color_index: 0,
           place: null,
           is_out: null,
+          pairingNumber: null,
         };
 
         queryClient.setQueryData(

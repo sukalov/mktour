@@ -12,7 +12,7 @@ export interface PlayerModel {
   id: string;
   nickname: string; // players.nickname
   realname: string | null;
-  rating: number | null;
+  rating: number;
   wins: number;
   draws: number;
   losses: number;
