@@ -8,9 +8,17 @@ import { DatabaseUser } from '@/server/db/schema/users';
 import { User2 } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { FC } from 'react';
+import { FC, Suspense } from 'react';
 
 export default async function PlayerPage(props: PlayerPageProps) {
+  return (
+    <Suspense fallback={<p>loading player page...</p>}>
+      <PlayerPageContent {...props} />
+    </Suspense>
+  );
+}
+
+async function PlayerPageContent(props: PlayerPageProps) {
   const { id } = await props.params;
   const [user, playerData] = await Promise.all([
     publicCaller.user.auth(),

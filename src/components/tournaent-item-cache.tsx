@@ -1,0 +1,57 @@
+'use cache';
+
+import { Card, CardDescription, CardTitle } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import { publicCaller } from '@/server/api';
+import { DatabaseClub } from '@/server/db/schema/clubs';
+import { DatabaseTournament } from '@/server/db/schema/tournaments';
+import { Dot } from 'lucide-react';
+import Link from 'next/link';
+
+const TournamentItemCache = ({ club, tournament }: Props) => {
+  const { id, title } = tournament;
+  const details = [0, 1, 2];
+
+  const description = details.map((detail, i) => {
+    const separator = i !== details.length - 1 && <Dot className="inline" />;
+    return (
+      <span key={i} className="flex items-center">
+        <Skeleton className="h-4 w-16" />
+        {separator}
+      </span>
+    );
+  });
+
+  return (
+    <Link key={id} href={`/tournaments/${id}`}>
+      <Card className="mk-card mk-list-item flex flex-col">
+        <CardTitle className="text-sm">{title}</CardTitle>
+        {club && (
+          <span className="text-muted-foreground text-xs">{club.name}</span>
+        )}
+        <CardDescription className="flex text-xs">
+          {description}
+        </CardDescription>
+      </Card>
+    </Link>
+  );
+};
+
+const TournamentItemCacheIteratee = ({ club, tournament }: Props) => (
+  <TournamentItemCache tournament={tournament} club={club} />
+);
+
+type Props = { tournament: DatabaseTournament; club?: DatabaseClub };
+
+export default async function TournamentsAllCache() {
+  const allTournaments = await publicCaller.tournament.all();
+
+  return (
+    <main className="mk-container mk-list">
+      <div className="text-4xl text-red-600">CACHE</div>
+      {allTournaments.map((props) => (
+        <TournamentItemCacheIteratee key={props.tournament.id} {...props} />
+      ))}
+    </main>
+  );
+}

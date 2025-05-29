@@ -1,3 +1,4 @@
+import TournamentsAllCache from '@/components/tournaent-item-cache';
 import TournamentItemIteratee from '@/components/tournament-item';
 import { publicCaller } from '@/server/api';
 
@@ -8,7 +9,7 @@ export default async function Tournaments() {
 
   return (
     <main className="mk-container mk-list">
-      <Suspense fallback={<p>loading all tournaments...</p>}>
+      <Suspense fallback={<TournamentsAllCache />}>
         {allTournaments.map((props) => (
           <TournamentItemIteratee key={props.tournament.id} {...props} />
         ))}
