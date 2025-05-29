@@ -48,7 +48,6 @@ export default async function TournamentsAllCache() {
 
   return (
     <main className="mk-container mk-list">
-      <div className="text-4xl text-red-600">CACHE</div>
       {allTournaments.map((props) => (
         <TournamentItemCacheIteratee key={props.tournament.id} {...props} />
       ))}
