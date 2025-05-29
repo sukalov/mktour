@@ -1,9 +1,9 @@
-import { validateRequest } from '@/lib/auth/lucia';
-import { db } from '@/lib/db';
-import { users } from '@/lib/db/schema/auth';
-import { clubs } from '@/lib/db/schema/clubs';
-import { players } from '@/lib/db/schema/players';
-import { tournaments } from '@/lib/db/schema/tournaments';
+import { publicCaller } from '@/server/api';
+import { db } from '@/server/db';
+import { clubs } from '@/server/db/schema/clubs';
+import { players } from '@/server/db/schema/players';
+import { tournaments } from '@/server/db/schema/tournaments';
+import { users } from '@/server/db/schema/users';
 import { or, sql } from 'drizzle-orm';
 import { NextRequest } from 'next/server';
 
@@ -11,7 +11,7 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const { user } = await validateRequest();
+  const user = await publicCaller.user.auth();
   const query = searchParams.get('q');
   const filter = searchParams.get('filter');
   if (!query) return new Response(JSON.stringify([]), { status: 200 });

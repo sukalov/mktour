@@ -1,42 +1,41 @@
 'use client';
 
-import { startTournament } from '@/lib/actions/tournament-managing';
-import { Message } from '@/types/ws-events';
+import { useTRPC } from '@/components/trpc/client';
+import { DashboardMessage } from '@/types/ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
 export default function useTournamentStart(
   queryClient: QueryClient,
-  { tournamentId, sendJsonMessage }: SetStatusProps,
+  { sendJsonMessage }: SetStatusProps,
 ) {
   const t = useTranslations('Toasts');
-
-  // TODO: add pairing number inferring
-  return useMutation({
-    mutationFn: startTournament,
-    onSuccess: (_error, { started_at, rounds_number }) => {
-      if (started_at) {
-        toast.success(t('started'));
-        sendJsonMessage({
-          type: 'start-tournament',
-          started_at,
-          rounds_number,
+  const trpc = useTRPC();
+  return useMutation(
+    trpc.tournament.start.mutationOptions({
+      onSuccess: (_error, { started_at, rounds_number }) => {
+        if (started_at) {
+          toast.success(t('started'));
+          sendJsonMessage({
+            type: 'start-tournament',
+            started_at,
+            rounds_number,
+          });
+        }
+        queryClient.invalidateQueries({
+          queryKey: trpc.tournament.pathKey(),
         });
-      }
-      queryClient.invalidateQueries({
-        queryKey: [tournamentId, 'tournament'],
-      });
-      console.log(queryClient.getQueryData([tournamentId, 'games']));
-    },
-    onError: (error) => {
-      toast.error(t('server error'));
-      console.log(error);
-    },
-  });
+      },
+      onError: (error) => {
+        toast.error(t('server error'));
+        console.log(error);
+      },
+    }),
+  );
 }
 
 type SetStatusProps = {
   tournamentId: string | undefined;
-  sendJsonMessage: (_message: Message) => void;
+  sendJsonMessage: (_message: DashboardMessage) => void;
 };

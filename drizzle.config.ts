@@ -2,8 +2,8 @@ import { DATABASE_AUTH_TOKEN, DATABASE_URL } from '@/lib/config/non-next-urls';
 import { Config, defineConfig } from 'drizzle-kit';
 
 export default defineConfig({
-  schema: './src/lib/db/schema',
-  out: './src/lib/db/migrations',
+  schema: './src/server/db/schema',
+  out: './src/server/db/migrations',
   dialect: 'turso',
   dbCredentials: {
     url: DATABASE_URL,

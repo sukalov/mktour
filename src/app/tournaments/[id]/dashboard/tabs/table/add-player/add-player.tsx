@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
-import { DatabasePlayer } from '@/lib/db/schema/players';
+import { DatabasePlayer } from '@/server/db/schema/players';
 import { useQueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
@@ -90,7 +90,7 @@ const AddPlayer = ({ value, setValue, handleClose }: DrawerProps) => {
                     return;
                   }
                   setValue('');
-                  mutate({ player, userId });
+                  mutate({ tournamentId: id, player, userId });
                 }}
                 className="p-0"
               >

@@ -2,8 +2,8 @@ import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-con
 import { useTournamentAddNewPlayer } from '@/components/hooks/mutation-hooks/use-tournament-add-new-player';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { Button } from '@/components/ui/button';
-import { DatabasePlayer } from '@/lib/db/schema/players';
 import { newid } from '@/lib/utils';
+import { DatabasePlayer } from '@/server/db/schema/players';
 import { faker } from '@faker-js/faker';
 import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';

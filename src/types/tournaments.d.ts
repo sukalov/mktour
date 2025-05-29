@@ -1,5 +1,8 @@
-import { DatabaseClub } from '@/lib/db/schema/clubs';
-import { DatabaseGame, DatabaseTournament } from '@/lib/db/schema/tournaments';
+import { DatabaseClub } from '@/server/db/schema/clubs';
+import {
+  DatabaseGame,
+  DatabaseTournament,
+} from '@/server/db/schema/tournaments';
 
 /**
  * combination of player general info and tournament performance, recorded in players_to_tournaments
@@ -28,10 +31,10 @@ export interface GameModel extends DatabaseGame {
 
 export interface TournamentInfo {
   tournament: DatabaseTournament;
-  club: DatabaseClub | null;
+  club: DatabaseClub;
 }
 
-export type Result = '0-1' | '1-0' | '1/2-1/2' | null;
+export type Result = '0-1' | '1-0' | '1/2-1/2';
 
 export type Format = 'swiss' | 'round robin' | 'double elimination';
 

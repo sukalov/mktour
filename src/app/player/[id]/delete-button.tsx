@@ -18,11 +18,14 @@ import { useTranslations } from 'next-intl';
 import { redirect, useParams } from 'next/navigation';
 import { FC, useState } from 'react';
 
-const DeletePlayer: FC<{ userId: string }> = ({ userId }) => {
+const DeletePlayer: FC<{ clubId: string; userId: string }> = ({
+  clubId,
+  userId,
+}) => {
   const { id: playerId } = useParams<{ id: string }>();
   const queryClient = useQueryClient();
   const { mutate, isPending, isSuccess } = useDeletePlayerMutation(queryClient);
-  const handleClick = () => mutate({ playerId, userId });
+  const handleClick = () => mutate({ playerId, clubId, userId });
   const [open, setOpen] = useState(false);
   const t = useTranslations();
 

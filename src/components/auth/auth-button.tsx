@@ -8,13 +8,12 @@ import { User } from 'lucia';
 import { User2 } from 'lucide-react';
 import { MessageKeys, useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import { FC, PropsWithChildren } from 'react';
 import { Button } from '../ui/button';
 import LichessLogo from '../ui/lichess-logo';
 
 export default function AuthButton({ user }: AuthButtonProps) {
-  const router = useRouter();
   const t = useTranslations('Menu');
 
   const handleSignOut = async () => {
@@ -24,7 +23,7 @@ export default function AuthButton({ user }: AuthButtonProps) {
     });
 
     if (response.status === 0) {
-      return router.refresh();
+      redirect('/sign-in');
     }
   };
 
@@ -52,13 +51,11 @@ export default function AuthButton({ user }: AuthButtonProps) {
         </DropdownMenuTrigger>
         <DropdownMenuContent className="-translate-x-2 translate-y-1">
           {menuItems.map((item) => (
-            <StyledItem
-              key={item.title}
-              className="w-full"
-              onClick={() => router.push(item.path)}
-            >
-              {t(`Subs.${item.title}`)}
-            </StyledItem>
+            <Link href={item.path} key={item.title}>
+              <StyledItem className="w-full">
+                {t(`Subs.${item.title}`)}
+              </StyledItem>
+            </Link>
           ))}
           <StyledItem onClick={handleSignOut}>{t('Profile.logout')}</StyledItem>
         </DropdownMenuContent>
@@ -86,6 +83,10 @@ const menuItems: MenuItems = [
   {
     title: 'edit profile',
     path: '/user/edit',
+  },
+  {
+    title: 'inbox',
+    path: '/inbox',
   },
 ];
 

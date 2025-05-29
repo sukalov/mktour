@@ -5,7 +5,7 @@ import Empty from '@/components/empty';
 import { useClubPlayers } from '@/components/hooks/query-hooks/use-club-players';
 import SkeletonList from '@/components/skeleton-list';
 import { Card } from '@/components/ui/card';
-import { DatabasePlayer } from '@/lib/db/schema/players';
+import { DatabasePlayer } from '@/server/db/schema/players';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { FC } from 'react';
@@ -16,7 +16,7 @@ const ClubPlayersList: FC<ClubTabProps> = ({ selectedClub }) => {
 
   if (players.status === 'pending' || players.status === 'error')
     return <SkeletonList length={4} />;
-  if (players.data?.length < 1)
+  if (players.data.length < 1)
     return <Empty className="justify-start">{t('players')}</Empty>;
 
   return <div className="mk-list">{players.data.map(PlayerItemIteratee)}</div>;

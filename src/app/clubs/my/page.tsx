@@ -1,17 +1,17 @@
 import Dashboard from '@/app/clubs/my/dashboard';
-import { clubQueryClient, clubQueryPrefetch } from '@/app/clubs/my/prefetch';
-import { validateRequest } from '@/lib/auth/lucia';
-import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import { clubQueryPrefetch } from '@/app/clubs/my/prefetch';
+import { HydrateClient } from '@/components/trpc/server';
+import { publicCaller } from '@/server/api';
 import { redirect } from 'next/navigation';
 
 export default async function ClubInfo() {
-  const { user } = await validateRequest();
+  const user = await publicCaller.user.auth();
   if (!user) redirect('/clubs/all/');
-  await clubQueryPrefetch(user.id, user.selected_club);
+  clubQueryPrefetch(user.selected_club);
 
   return (
-    <HydrationBoundary state={dehydrate(clubQueryClient)}>
+    <HydrateClient>
       <Dashboard userId={user.id} />
-    </HydrationBoundary>
+    </HydrateClient>
   );
 }

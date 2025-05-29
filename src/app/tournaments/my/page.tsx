@@ -1,15 +1,15 @@
 import TournamentItemIteratee from '@/components/tournament-item';
-import { validateRequest } from '@/lib/auth/lucia';
+import { publicCaller } from '@/server/api';
 import getTournamentsToUserClubsQuery, {
   TournamentWithClub,
-} from '@/lib/db/queries/get-tournaments-to-user-clubs-query';
+} from '@/server/queries/get-tournaments-to-user-clubs-query';
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { FC } from 'react';
 
 export default async function MyTournaments() {
-  const { user } = await validateRequest();
+  const user = await publicCaller.user.auth();
   if (!user) redirect('/sign-in');
   const tournaments = await getTournamentsToUserClubsQuery({ user });
 

@@ -1,5 +1,8 @@
+import { useTRPC } from '@/components/trpc/client';
 import { SOCKET_URL } from '@/lib/config/urls';
-import { handleSocketMessage } from '@/lib/handle-socket-message';
+import { handleSocketMessage } from '@/lib/handle-dashboard-socket-message';
+
+import { DashboardMessage } from '@/types/ws-events';
 import { QueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { Dispatch, SetStateAction } from 'react';
@@ -7,14 +10,15 @@ import useWebSocket from 'react-use-websocket';
 import { toast } from 'sonner';
 
 export const useDashboardWebsocket = (
-  session: string,
+  session: string | undefined,
   id: string,
   queryClient: QueryClient,
   setRoundInView: Dispatch<SetStateAction<number>>,
 ) => {
   const t = useTranslations('Toasts');
-  const protocols = session !== '' ? session : 'guest';
-  return useWebSocket(`${SOCKET_URL}/${id}`, {
+  const trpc = useTRPC();
+  const protocols = session ? session : 'guest';
+  return useWebSocket(`${SOCKET_URL}/tournament/${id}`, {
     protocols,
     onOpen: () => {
       setTimeout(() => toast.dismiss('wsError'));
@@ -27,17 +31,17 @@ export const useDashboardWebsocket = (
       interval: 5000,
       message: '',
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onMessage: (event: MessageEvent<any>) => {
-      // FIXME any
+
+    onMessage: (event: MessageEvent<string>) => {
       if (!event.data) return;
-      const message = JSON.parse(event.data);
+      const message: DashboardMessage = JSON.parse(event.data);
       handleSocketMessage(
         message,
         queryClient,
         id,
         t('ws message error'),
         setRoundInView,
+        trpc,
       );
     },
     onError: () => {

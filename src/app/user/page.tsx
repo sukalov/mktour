@@ -1,8 +1,8 @@
-import { validateRequest } from '@/lib/auth/lucia';
+import { publicCaller } from '@/server/api';
 import { redirect } from 'next/navigation';
 
 const UserPage = async () => {
-  const { user } = await validateRequest();
+  const user = await publicCaller.user.auth();
   if (!user) redirect('/sign-in');
   redirect(`/user/${user.username}`);
 };

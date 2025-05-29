@@ -11,16 +11,16 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { DatabasePlayer } from '@/lib/db/schema/players';
+import { DatabasePlayer } from '@/server/db/schema/players';
 import { Save } from 'lucide-react';
 import { MessageKeys, NestedKeyOf } from 'next-intl';
 import { FC } from 'react';
 import { ControllerRenderProps, useForm, UseFormReturn } from 'react-hook-form';
 
 const EditPlayerForm: FC<{
-  userId: string;
+  clubId: string;
   player: EditPlayerFormValues;
-}> = ({ player: { id, nickname, realname, rating }, userId }) => {
+}> = ({ player: { id, nickname, realname, rating }, clubId }) => {
   const editPlayerMutation = useEditPlayerMutation();
   const form = useForm<EditPlayerFormValues>({
     defaultValues: {
@@ -32,7 +32,7 @@ const EditPlayerForm: FC<{
   });
 
   const onSubmit = (values: EditPlayerFormValues) => {
-    editPlayerMutation.mutate({ userId, values });
+    editPlayerMutation.mutate({ clubId, values });
   };
 
   return (

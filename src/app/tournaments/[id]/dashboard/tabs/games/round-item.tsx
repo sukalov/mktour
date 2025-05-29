@@ -5,14 +5,16 @@ import FinishTournamentButton from '@/app/tournaments/[id]/dashboard/finish-tour
 import GameItem from '@/app/tournaments/[id]/dashboard/tabs/games/game/game-item';
 import Center from '@/components/center';
 import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
+import { useTournamentGames } from '@/components/hooks/query-hooks/_use-tournament-games';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
 import { useTournamentRoundGames } from '@/components/hooks/query-hooks/use-tournament-round-games';
 import { useRoundData } from '@/components/hooks/use-round-data';
 import SkeletonList from '@/components/skeleton-list';
+import { useTRPC } from '@/components/trpc/client';
 import { Button } from '@/components/ui/button';
 import { generateRoundRobinRound } from '@/lib/client-actions/round-robin-generator';
-import { GameModel, PlayerModel } from '@/types/tournaments';
+import { GameModel } from '@/types/tournaments';
 import { useQueryClient } from '@tanstack/react-query';
 import { ArrowRightIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -79,27 +81,24 @@ const NewRoundButton: FC<{ tournamentId: string; roundNumber: number }> = ({
   roundNumber,
 }) => {
   const t = useTranslations('Tournament.Round');
+  const { data: tournamentGames } = useTournamentGames(tournamentId);
   const queryClient = useQueryClient();
   const { sendJsonMessage, setRoundInView } = useContext(DashboardContext);
 
   const { mutate, isPending: mutating } = useSaveRound({
-    tournamentId,
     queryClient,
     sendJsonMessage,
     isTournamentGoing: true,
     setRoundInView,
   });
+  const trpc = useTRPC();
 
   const newRound = () => {
-    const players = queryClient.getQueryData([
-      tournamentId,
-      'players',
-      'added',
-    ]) as PlayerModel[];
-    const games = queryClient.getQueryData([
-      tournamentId,
-      'games',
-    ]) as GameModel[];
+    const players = queryClient.getQueryData(
+      trpc.tournament.playersIn.queryKey({ tournamentId }),
+    );
+    const games = tournamentGames;
+    if (!players || !games) return;
     const newGames = generateRoundRobinRound({
       players,
       games,

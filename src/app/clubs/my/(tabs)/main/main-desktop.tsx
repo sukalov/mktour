@@ -3,7 +3,7 @@ import ClubSettings from '@/app/clubs/my/(tabs)/settings';
 import { ClubTabProps } from '@/app/clubs/my/tabMap';
 import { InfoItem } from '@/app/tournaments/[id]/dashboard/tabs/main';
 import { Card } from '@/components/ui/card';
-import { DatabaseClub } from '@/lib/db/schema/clubs';
+import { DatabaseClub } from '@/server/db/schema/clubs';
 import { CalendarDays, Info } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import { FC } from 'react';

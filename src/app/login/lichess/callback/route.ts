@@ -1,10 +1,14 @@
 'use server';
 
 import { lichess, lucia } from '@/lib/auth/lucia';
-import { db } from '@/lib/db';
-import { clubs, clubs_to_users } from '@/lib/db/schema/clubs';
-import { DatabaseUser, user_preferences, users } from '@/lib/db/schema/users';
 import { newid } from '@/lib/utils';
+import { db } from '@/server/db';
+import { clubs, clubs_to_users } from '@/server/db/schema/clubs';
+import {
+  DatabaseUser,
+  user_preferences,
+  users,
+} from '@/server/db/schema/users';
 import { LichessUser } from '@/types/lichess-api';
 import { ArcticFetchError, OAuth2RequestError } from 'arctic';
 import { eq } from 'drizzle-orm';

@@ -1,7 +1,7 @@
 'use client';
 
-import { deleteTournament } from '@/lib/actions/tournament-managing';
-import { Message } from '@/types/ws-events';
+import { useTRPC } from '@/components/trpc/client';
+import { DashboardMessage } from '@/types/ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
@@ -10,34 +10,34 @@ import { toast } from 'sonner';
 export default function useTournamentDelete(
   tournamentId: string,
   queryClient: QueryClient,
-  sendJsonMessage: (_message: Message) => void,
+  sendJsonMessage: (_message: DashboardMessage) => void,
 ) {
   const t = useTranslations('Toasts');
   const router = useRouter();
-  return useMutation({
-    mutationFn: () => deleteTournament({ tournamentId }),
-    onSuccess: () => {
-      sendJsonMessage({ type: 'delete-tournament' });
-      router.push('/tournaments/my');
-      router.refresh();
-      queryClient.cancelQueries({
-        queryKey: [tournamentId, 'tournament'],
-      });
-    },
-    onError: (error) => {
-      if ((error as Error).message !== 'NEXT_REDIRECT') {
-        console.error('SERVER_ERROR', error);
-        toast.error(t('server error'));
-        queryClient.invalidateQueries({
-          queryKey: [tournamentId, 'tournament'],
+  const trpc = useTRPC();
+  return useMutation(
+    trpc.tournament.delete.mutationOptions({
+      onSuccess: () => {
+        sendJsonMessage({ type: 'delete-tournament' });
+        router.push('/tournaments/my');
+        router.refresh();
+        queryClient.cancelQueries({
+          queryKey: trpc.tournament.pathKey(),
         });
-        queryClient.invalidateQueries({
-          queryKey: [tournamentId, 'games'],
-        });
-        queryClient.invalidateQueries({
-          queryKey: [tournamentId, 'players'],
-        });
-      }
-    },
-  });
+      },
+      onError: (error) => {
+        if (error.message !== 'NEXT_REDIRECT') {
+          console.error('SERVER_ERROR', error);
+          toast.error(t('server error'));
+          queryClient.invalidateQueries({
+            queryKey: trpc.tournament.pathKey(),
+          });
+        } else {
+          console.log('NEXT_REDIRECT going oon');
+          router.push('/tournaments/my');
+          router.refresh();
+        }
+      },
+    }),
+  );
 }

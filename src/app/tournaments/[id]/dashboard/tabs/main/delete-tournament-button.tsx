@@ -47,7 +47,7 @@ export default function DeleteTournamentButton() {
         <Button
           variant={'destructive'}
           className="w-full"
-          onClick={() => mutate()}
+          onClick={() => mutate({ tournamentId })}
           disabled={isPending}
         >
           {isPending ? <LoadingSpinner /> : <CircleX />}

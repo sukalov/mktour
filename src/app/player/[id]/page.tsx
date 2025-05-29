@@ -2,13 +2,9 @@ import ClaimPlayer from '@/app/player/[id]/claim-button';
 import DeletePlayer from '@/app/player/[id]/delete-button';
 import EditButton from '@/app/player/[id]/edit-button';
 import FormattedMessage from '@/components/formatted-message';
-import { validateRequest } from '@/lib/auth/lucia';
-import getPlayerQuery from '@/lib/db/queries/get-player-query';
-import getStatus from '@/lib/db/queries/get-status-query';
-import { getUserClubAffiliation } from '@/lib/db/queries/get-user-club-affiliation';
-import { StatusInClub } from '@/lib/db/schema/clubs';
-import { DatabasePlayer } from '@/lib/db/schema/players';
-import { DatabaseUser } from '@/lib/db/schema/users';
+import { makeProtectedCaller, publicCaller } from '@/server/api';
+import { DatabasePlayer } from '@/server/db/schema/players';
+import { DatabaseUser } from '@/server/db/schema/users';
 import { User2 } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -16,15 +12,21 @@ import { FC } from 'react';
 
 export default async function PlayerPage(props: PlayerPageProps) {
   const { id } = await props.params;
-  const { user } = await validateRequest();
-  const playerData = await getPlayerQuery(id);
+  const [user, playerData] = await Promise.all([
+    publicCaller.user.auth(),
+    publicCaller.player.info({ playerId: id }),
+  ]);
   if (!playerData) notFound();
   const { player, club, user: playerUser } = playerData;
-  const userAffiliation = await getUserClubAffiliation(user, club.id); // NB: this won't return approved afiiliations yet
-
-  const status: StatusInClub | undefined = user
-    ? await getStatus({ user, clubId: club.id })
-    : undefined;
+  const protectedCaller = await makeProtectedCaller();
+  const [userAffiliation, status] = await Promise.all([
+    user
+      ? protectedCaller.club.authAffiliation({
+          clubId: club.id,
+        })
+      : undefined,
+    publicCaller.club.authStatus({ clubId: club.id }),
+  ]);
 
   const isOwnPlayer = user && player.user_id === user.id;
   const canEdit = status || isOwnPlayer;
@@ -44,7 +46,9 @@ export default async function PlayerPage(props: PlayerPageProps) {
             {canEdit && (
               <>
                 <EditButton userId={user.id} player={player} />
-                {!isOwnPlayer && <DeletePlayer userId={user.id} />}
+                {!isOwnPlayer && (
+                  <DeletePlayer userId={user.id} clubId={club.id} />
+                )}
               </>
             )}
             {canClaim && (

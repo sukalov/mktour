@@ -1,7 +1,7 @@
 'use server';
 
-import { db } from '@/lib/db';
-import { players } from '@/lib/db/schema/players';
+import { db } from '@/server/db';
+import { players } from '@/server/db/schema/players';
 import { sql } from 'drizzle-orm';
 
 export async function validateNewPlayer({ name }: { name: string }) {

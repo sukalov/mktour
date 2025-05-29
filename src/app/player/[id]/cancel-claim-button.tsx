@@ -12,7 +12,7 @@ import {
   Title,
   Trigger,
 } from '@/components/ui/combo-modal';
-import { DatabaseAffiliation } from '@/lib/db/schema/players';
+import { DatabaseAffiliation } from '@/server/db/schema/players';
 import { PointerOff } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { FC, useState } from 'react';
