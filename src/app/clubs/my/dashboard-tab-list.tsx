@@ -1,7 +1,7 @@
 'use client';
 
-import { ClubDashboardContext } from '@/app/clubs/my/dashboard-context-club';
 import { ClubDashboardTab, tabMap } from '@/app/clubs/my/tabMap';
+import { useClubNotifications } from '@/components/hooks/query-hooks/use-club-notifications';
 import {
   CLUB_DASHBOARD_NAVBAR_ITEMS,
   SubNavbarItem,
@@ -13,15 +13,16 @@ import { useTranslations } from 'next-intl';
 import { FC, useContext } from 'react';
 
 const ClubDashboardTabList: FC<{
+  selectedClub: string;
   setTab: (_arg: ClubDashboardTab) => void;
   activeTab: ClubDashboardTab;
-}> = ({ setTab, activeTab }) => {
+}> = ({ selectedClub, setTab, activeTab }) => {
   const t = useTranslations('Club.Dashboard');
   const { isMobile } = useContext(MediaQueryContext);
   const preparedTabs = (Object.keys(tabMap) as ClubDashboardTab[]).filter(
     (tab) => isMobile || ['main', 'players', 'tournaments'].includes(tab),
   );
-  const notifications = useContext(ClubDashboardContext);
+  const notifications = useClubNotifications(selectedClub);
   const hasNewNotifications = Boolean(
     notifications?.data?.some(({ notification }) => !notification.is_seen),
   );

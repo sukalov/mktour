@@ -1,19 +1,19 @@
 'use client';
 
-import {
-  ClubDashboardContext,
-  ClubDashboardContextType,
-} from '@/app/clubs/my/dashboard-context-club';
 import Empty from '@/components/empty';
+import {
+  ClubNotificationsResult,
+  useClubNotifications,
+} from '@/components/hooks/query-hooks/use-club-notifications';
 import { AffiliationNotificationLi } from '@/components/notification-items';
 import SkeletonList from '@/components/skeleton-list';
 import { ClubNotification } from '@/server/queries/get-club-notifications';
 import { useTranslations } from 'next-intl';
-import { useContext } from 'react';
+import { FC } from 'react';
 
-const ClubInbox = () => {
+const ClubInbox: FC<{ selectedClub: string }> = ({ selectedClub }) => {
   const t = useTranslations('Club.Inbox');
-  const notifications = useContext(ClubDashboardContext);
+  const notifications = useClubNotifications(selectedClub);
 
   if (!notifications) return null;
   if (notifications.status === 'pending') return <SkeletonList />;
@@ -34,7 +34,7 @@ const NotificationItemIteratee = (data: ClubNotification) => {
 };
 
 // @ts-expect-error-mock-data
-export const mockClubNotifications: ClubDashboardContextType = {
+export const mockClubNotifications: ClubNotificationsResult = {
   data: [
     {
       notification: {
