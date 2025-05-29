@@ -1,17 +1,18 @@
 import {
-  ChessTournamentEntity,
   convertPlayerToEntity,
-  EntitiesPair,
+  generateRoundPairs,
   getColouredPair,
   getGameToInsert,
   getNumberedPair,
   RoundProps,
 } from '@/lib/client-actions/common-generator';
+import { shuffle } from '@/lib/utils';
 import { GameModel } from '@/types/tournaments';
 
 /**
  * This function generates random round by shuffling players and assembling them to pairs.
  * The only round function to operate on non-paired number players.
+ * #TODO: remove, and unify the generation routines in the commons
  */
 export function generateRandomRoundGames(
   randomRoundProps: RoundProps,
@@ -20,7 +21,12 @@ export function generateRandomRoundGames(
   const matchedEntities = randomRoundProps.players.map(convertPlayerToEntity);
 
   // generating set of base matches
-  const entitiesMatchingsGenerated = generateRandomRoundPairs(matchedEntities);
+  const entitiesMatchingsGenerated = generateRoundPairs(
+    matchedEntities,
+    randomRoundProps.roundNumber,
+    generateRandomPairs,
+  );
+
   // colouring the set of the matcthes
   const colouredMatches = entitiesMatchingsGenerated.map(getColouredPair);
 
@@ -32,6 +38,7 @@ export function generateRandomRoundGames(
       getNumberedPair(colouredMatch, coulouredMatchIndex, currentOffset),
   );
 
+  // matching the games to the game models
   const gamesToInsert: GameModel[] = numberedMatches.map((numberedMatch) =>
     getGameToInsert(
       numberedMatch,
@@ -43,9 +50,13 @@ export function generateRandomRoundGames(
   return gamesToInsert;
 }
 
-function generateRandomRoundPairs(
-  matchedEntities: ChessTournamentEntity[],
-): EntitiesPair[] {
-  console.log(matchedEntities);
-  throw Error('THIS FUNCTIONALITY IS NOT IMPLEMENTED!');
+/**
+ * This function essentially provides a random pairing layout
+ * @param pairingNumbersFlat  a listlike with the pairing number
+ * @returns
+ */
+function generateRandomPairs(pairingNumbersFlat: number[]) {
+  // creating an essentially random pairing order
+  const randomPairingNumbers = shuffle(pairingNumbersFlat);
+  return randomPairingNumbers;
 }

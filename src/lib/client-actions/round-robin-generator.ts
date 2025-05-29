@@ -1,9 +1,6 @@
 import {
-  ChessTournamentEntity,
-  constructEntityByPairingNumber,
   convertPlayerToEntity,
-  EntitiesPair,
-  generatePairingNumbers,
+  generateRoundPairs,
   getColouredPair,
   getGameToInsert,
   getNumberedPair,
@@ -20,7 +17,6 @@ const INITIAL_ROUND_NUMBER = 1;
  * By using that information, it returns the new games list, which are then published to the respective
  * ws.
  */
-
 export function generateRoundRobinRound({
   players,
   games,
@@ -33,9 +29,10 @@ export function generateRoundRobinRound({
   const matchedEntities = players.map(convertPlayerToEntity);
 
   // generating set of base matches
-  const entitiesMatchingsGenerated = generateRoundRobinPairs(
+  const entitiesMatchingsGenerated = generateRoundPairs(
     matchedEntities,
     roundNumber,
+    generatePairsCycle,
   );
   // colouring the set of the matcthes
   const colouredMatches = entitiesMatchingsGenerated.map(getColouredPair);
@@ -55,38 +52,20 @@ export function generateRoundRobinRound({
   return gamesToInsert;
 }
 
-/**
- * This function takes an entities pool and constructs a next round of games, by the circle method
- *
- * @param matchedEntities a list like of all the players, converted to the entities already
- * @param roundNumber for correct analysis of the current circle shift, we pass a round number parpmeter
- *
- *
- */
-function generateRoundRobinPairs(
-  matchedEntities: ChessTournamentEntity[],
-  roundNumber: number,
+// #TODO: add function signature
+function generatePairsCycle(
+  pairingNumbersFlat: number[],
+  roundNumber: number | undefined,
 ) {
-  // an empty array for a future generated pair
-  const generatedPairs: EntitiesPair[] = [];
-
-  // creating a helper map, which is returning entity by its pairing number
-  const entityByPairingNumber = constructEntityByPairingNumber(matchedEntities);
-
-  // constructing dummy index, which is null if the array of entities is even, and is equal to length otehrwise
-  let dummyIndex = null;
-  if (matchedEntities.length % 2 !== 0) dummyIndex = matchedEntities.length;
-
-  // generating a list of pairing numbers, with an  optional dummy index inside
-  const pairingNumbersFlat = generatePairingNumbers(matchedEntities.length);
-
-  // adding the dummy index if it exists
-  if (dummyIndex) {
-    pairingNumbersFlat.push(dummyIndex);
-  }
+  // the artifact of the generator functions compatiblity
+  if (typeof roundNumber === 'undefined')
+    throw new Error("THE ROUND NUMBER WASN'T PASSED");
 
   // starting shifting process (cycling the circle of players, having one number fixed)
-  const constantPairingNumber = pairingNumbersFlat.shift() as number;
+  const constantPairingNumber = pairingNumbersFlat.shift();
+
+  if (typeof constantPairingNumber === 'undefined')
+    throw new Error('THE PAIRING NUMBER ARRAY HAS EXHAUSTED, UNEXPECTED!'); // #TODO: create a custom error for that.
 
   // cycling process, where you just rotate the array
   for (
@@ -94,29 +73,17 @@ function generateRoundRobinPairs(
     cycleNumber < roundNumber;
     cycleNumber++
   ) {
-    const lastPairingNumber = pairingNumbersFlat.shift() as number;
-    pairingNumbersFlat.push(lastPairingNumber);
+    const lastPairingNumber = pairingNumbersFlat.shift();
+    if (lastPairingNumber) pairingNumbersFlat.push(lastPairingNumber);
+    else
+      throw new Error('THE PAIRING NUMBER ARRAY HAS EXHAUSTED, UNEXEPECTED!');
   }
 
   // adding the first player, which is always fixed
   pairingNumbersFlat.unshift(constantPairingNumber);
 
   // generating pair of player numbers in a cyclic fashion
-  let pairedPlayerNumbers = makeNumberPairs(pairingNumbersFlat, true);
+  const pairedPlayerNumbers = makeNumberPairs(pairingNumbersFlat, true);
 
-  // again, if the array is odd, we remove the pair with the dummy index inside
-  if (dummyIndex)
-    pairedPlayerNumbers = pairedPlayerNumbers.filter(
-      (numberPair) => !numberPair.includes(dummyIndex),
-    );
-
-  // final mapping of the player numbers to the players together
-  for (const numberPair of pairedPlayerNumbers) {
-    const entitiesPair = numberPair.map(
-      (numberPair) =>
-        entityByPairingNumber.get(numberPair) as ChessTournamentEntity,
-    ) as EntitiesPair;
-    generatedPairs.push(entitiesPair);
-  }
-  return generatedPairs;
+  return pairedPlayerNumbers;
 }

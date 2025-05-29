@@ -30,6 +30,12 @@ type NumberPair = [number, number];
 // classical shape of a round-generating function
 export type RoundGenerator = (roundProps: RoundProps) => GameModel[];
 
+// type of function which generates a set of pairs from initial pairing number list, and the current round info (optional)
+export type PairsGenerator = (
+  pairingNumbers: number[],
+  roundNumber?: number,
+) => NumberPair[];
+
 /**
  * The type representing entities we are matching inside our algorithms
  * */
@@ -237,10 +243,56 @@ export function generatePairingNumbers(entitiesNumber: number) {
   const initialPairingEmpty = Array(entitiesNumber);
   const pairingNumbersFlat = Array.from(initialPairingEmpty.keys());
 
-  // adding the dummy index if odd player count
+  return pairingNumbersFlat;
+}
+
+/**
+ * This function takes an entities pool and constructs a next round of games, by any chosen method
+ *
+ * @param matchedEntities a list like of all the players, converted to the entities already
+ * @param roundNumber for correct analysis of the current circle shift, we pass a round number parpmeter
+ *
+ *
+ */
+export function generateRoundPairs(
+  matchedEntities: ChessTournamentEntity[],
+  roundNumber: number,
+  generatePairs: PairsGenerator,
+) {
+  // an empty array for a future generated pair
+  const generatedPairs: EntitiesPair[] = [];
+
+  // creating a helper map, which is returning entity by its pairing number
+  const entityByPairingNumber = constructEntityByPairingNumber(matchedEntities);
+
+  // constructing dummy index, which is null if the array of entities is even, and is equal to length otehrwise
+  let dummyIndex = null;
+  if (matchedEntities.length % 2 !== 0) dummyIndex = matchedEntities.length;
+
+  // generating a list of pairing numbers, with an  optional dummy index inside
+  const pairingNumbersFlat = generatePairingNumbers(matchedEntities.length);
+
+  // adding the dummy index if it exists
   if (dummyIndex) {
     pairingNumbersFlat.push(dummyIndex);
   }
 
-  return pairingNumbersFlat;
+  // actual pair forming process
+  let pairedPlayerNumbers = generatePairs(pairingNumbersFlat, roundNumber);
+
+  // again, if the array is odd, we remove the pair with the dummy index inside
+  if (dummyIndex)
+    pairedPlayerNumbers = pairedPlayerNumbers.filter(
+      (numberPair) => !numberPair.includes(dummyIndex),
+    );
+
+  // final mapping of the player numbers to the players together
+  for (const numberPair of pairedPlayerNumbers) {
+    const entitiesPair = numberPair.map(
+      (numberPair) =>
+        entityByPairingNumber.get(numberPair) as ChessTournamentEntity,
+    ) as EntitiesPair;
+    generatedPairs.push(entitiesPair);
+  }
+  return generatedPairs;
 }
