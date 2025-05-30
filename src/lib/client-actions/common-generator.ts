@@ -25,7 +25,7 @@ export interface RoundProps {
 }
 
 // a special type for the number pairs, to enforce the two-foldness of the array
-type NumberPair = [number, number];
+export type NumberPair = [number, number];
 
 // classical shape of a round-generating function
 export type RoundGenerator = (roundProps: RoundProps) => GameModel[];
@@ -74,17 +74,18 @@ export type EntitiesPair = [ChessTournamentEntity, ChessTournamentEntity];
  * This simple converter is taking a joined player info and transforms it to a matched entity
  * @param playerModel a joined representation of player
  */
-export function convertPlayerToEntity(playerModel: PlayerModel) {
-  if (playerModel.pairingNumber === null)
-    throw new TypeError(
-      'No pairing happened to the player model; SOMETHING WENT WRONG',
-    );
+export function convertPlayerToEntity(playerModel: PlayerModel, index: number) {
+  // if (playerModel.pairingNumber === null)
+  //   throw new TypeError(
+  //     'No pairing happened to the player model; SOMETHING WENT WRONG',
+  //   );
+  if (playerModel.pairingNumber === null) playerModel.pairingNumber = index;
+
   const tournamentEntity: ChessTournamentEntity = {
     entityId: playerModel.id,
     entityNickname: playerModel.nickname,
     colourIndex: playerModel.color_index,
-    entityRating: playerModel.rating ?? 0, // If the player rating is null, we just use zero as a complement
-    // Now we sum all the revious results to get the count of games
+    entityRating: playerModel.rating,
     gamesPlayed: playerModel.draws + playerModel.wins + playerModel.losses,
     pairingNumber: playerModel.pairingNumber,
   };

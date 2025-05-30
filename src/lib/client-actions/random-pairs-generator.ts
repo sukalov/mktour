@@ -4,8 +4,9 @@ import {
   getColouredPair,
   getGameToInsert,
   getNumberedPair,
+  NumberPair,
   RoundProps,
-} from '@/lib/client-actions/common-generator';
+} from './common-generator';
 import { shuffle } from '@/lib/utils';
 import { GameModel } from '@/types/tournaments';
 
@@ -55,8 +56,11 @@ export function generateRandomRoundGames(
  * @param pairingNumbersFlat  a listlike with the pairing number
  * @returns
  */
-function generateRandomPairs(pairingNumbersFlat: number[]) {
+function generateRandomPairs(pairingNumbersFlat: number[]): NumberPair[] {
   // creating an essentially random pairing order
   const randomPairingNumbers = shuffle(pairingNumbersFlat);
-  return randomPairingNumbers;
+  return Array.from(
+    { length: Math.floor(randomPairingNumbers.length / 2) },
+    (_, i) => [randomPairingNumbers[i * 2], randomPairingNumbers[i * 2 + 1]],
+  ) as NumberPair[];
 }
