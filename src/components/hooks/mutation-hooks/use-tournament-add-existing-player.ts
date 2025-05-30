@@ -1,7 +1,6 @@
 import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
 import { useTRPC } from '@/components/trpc/client';
-import { generateRoundRobinRound } from '@/lib/client-actions/round-robin-generator';
-import { shuffle } from '@/lib/utils';
+import { generateRandomRoundGames } from '@/lib/client-actions/random-pairs-generator';
 import { PlayerModel } from '@/types/tournaments';
 import { DashboardMessage } from '@/types/ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
@@ -93,15 +92,17 @@ export const useTournamentAddExistingPlayer = (
             mutationKey: trpc.tournament.addExistingPlayer.mutationKey(),
           }) === 1
         ) {
-          const playersUnshuffled = queryClient.getQueryData(
+          const players = queryClient.getQueryData(
             trpc.tournament.playersIn.queryKey({ tournamentId }),
           );
-          const games = queryClient.getQueryData(
-            trpc.tournament.allGames.queryKey({ tournamentId }),
-          );
-          const newGames = generateRoundRobinRound({
-            players: playersUnshuffled ? shuffle(playersUnshuffled) : [],
-            games: games ?? [],
+          const newGames = generateRandomRoundGames({
+            players: players
+              ? players?.map((player, i) => ({
+                  ...player,
+                  pairingNumber: i,
+                }))
+              : [],
+            games: [],
             roundNumber: 1,
             tournamentId,
           });
