@@ -6,7 +6,7 @@ import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
 import { useTournamentRoundGames } from '@/components/hooks/query-hooks/use-tournament-round-games';
-import { generateRoundRobinRoundFunction } from '@/lib/client-actions/round-robin-generator';
+import { generateRoundRobinRound } from '@/lib/client-actions/round-robin-generator';
 import { shuffle } from '@/lib/utils';
 import { Status } from '@/server/queries/get-status-in-tournament';
 import { useQueryClient } from '@tanstack/react-query';
@@ -49,7 +49,7 @@ const ShuffleFab = () => {
   if (players.data && players.data.length < 3) return <AddPlayerDrawer />;
 
   const handleClick = () => {
-    const newGames = generateRoundRobinRoundFunction({
+    const newGames = generateRoundRobinRound({
       players: shuffle(players.data),
       games: games.data,
       roundNumber: 1,

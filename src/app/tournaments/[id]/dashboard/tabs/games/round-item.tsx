@@ -13,7 +13,7 @@ import { useRoundData } from '@/components/hooks/use-round-data';
 import SkeletonList from '@/components/skeleton-list';
 import { useTRPC } from '@/components/trpc/client';
 import { Button } from '@/components/ui/button';
-import { generateRoundRobinRoundFunction } from '@/lib/client-actions/round-robin-generator';
+import { generateRoundRobinRound } from '@/lib/client-actions/round-robin-generator';
 import { GameModel } from '@/types/tournaments';
 import { useQueryClient } from '@tanstack/react-query';
 import { ArrowRightIcon } from 'lucide-react';
@@ -99,7 +99,7 @@ const NewRoundButton: FC<{ tournamentId: string; roundNumber: number }> = ({
     );
     const games = tournamentGames;
     if (!players || !games) return;
-    const newGames = generateRoundRobinRoundFunction({
+    const newGames = generateRoundRobinRound({
       players,
       games,
       roundNumber: roundNumber + 1,

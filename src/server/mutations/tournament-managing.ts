@@ -62,7 +62,7 @@ export async function getTournamentPlayers(
     .where(eq(players_to_tournaments.tournament_id, id))
     .innerJoin(players, eq(players.id, players_to_tournaments.player_id));
 
-  const playerModels = playersDb.map((each) => ({
+  const playerModels: PlayerModel[] = playersDb.map((each) => ({
     id: each.player.id,
     nickname: each.player.nickname,
     realname: each.player.realname,
@@ -73,6 +73,7 @@ export async function getTournamentPlayers(
     color_index: each.players_to_tournaments.color_index,
     is_out: each.players_to_tournaments.is_out,
     place: each.players_to_tournaments.place,
+    pairingNumber: each.players_to_tournaments.pairing_number,
   }));
 
   return playerModels.sort(
