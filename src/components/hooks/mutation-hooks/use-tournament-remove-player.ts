@@ -1,6 +1,6 @@
 import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
 import { useTRPC } from '@/components/trpc/client';
-import { generateRandomRoundGames } from '@/lib/client-actions/random-pairs-generator';
+import { generateRoundRobinRound } from '@/lib/client-actions/round-robin-generator';
 import { shuffle } from '@/lib/utils';
 import { DashboardMessage } from '@/types/ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
@@ -93,12 +93,12 @@ export const useTournamentRemovePlayer = (
           const playersUnshuffled = queryClient.getQueryData(
             trpc.tournament.playersIn.queryKey({ tournamentId }),
           );
-          // const games = queryClient.getQueryData(
-          //   trpc.tournament.allGames.queryKey({ tournamentId }),
-          // );
-          const newGames = generateRandomRoundGames({
+          const games = queryClient.getQueryData(
+            trpc.tournament.allGames.queryKey({ tournamentId }),
+          );
+          const newGames = generateRoundRobinRound({
             players: playersUnshuffled ? shuffle(playersUnshuffled) : [],
-            games: [],
+            games: games ?? [],
             roundNumber: 1,
             tournamentId,
           });
