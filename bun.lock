@@ -81,7 +81,7 @@
         "@faker-js/faker": "^9.8.0",
         "@tailwindcss/postcss": "^4.1.7",
         "@tanstack/react-query-devtools": "^5.77.1",
-        "@types/bun": "^1.2.1",
+        "@types/bun": "^1.2.15",
         "@types/node": "^22.15.21",
         "@types/react": "^19.1.5",
         "@types/react-dom": "^19.1.5",

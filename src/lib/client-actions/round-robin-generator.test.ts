@@ -2,10 +2,10 @@ import { describe, expect, mock, test } from 'bun:test';
 
 import { RoundProps } from '@/lib/client-actions/common-generator';
 import { generateRoundRobinRound } from '@/lib/client-actions/round-robin-generator';
-import { DatabaseUser } from '@/lib/db/schema/auth';
-import { DatabaseClub } from '@/lib/db/schema/clubs';
-import { DatabaseTournament } from '@/lib/db/schema/tournaments';
 import { newid } from '@/lib/utils';
+import { DatabaseClub } from '@/server/db/schema/clubs';
+import { DatabaseTournament } from '@/server/db/schema/tournaments';
+import { DatabaseUser } from '@/server/db/schema/users';
 import { GameModel, PlayerModel, Result } from '@/types/tournaments';
 import { faker } from '@faker-js/faker';
 import assert from 'assert';
@@ -28,11 +28,11 @@ const RATING_FAKEOPTS = {
   max: 3000,
 };
 
-const generateDatabasePlayer = mock<() => DatabaseUser>(() => {
+const generateDatabaseUser = mock<() => DatabaseUser>(() => {
   const randomId = newid();
   const randomNickname = faker.internet.username();
   const randomRealName = faker.person.fullName();
-  const randomRating = faker.number.float(RATING_FAKEOPTS);
+  const randomRating = faker.number.int(RATING_FAKEOPTS);
   const randomEmail = faker.internet.email();
   const randomClubName = faker.company.name();
   const randomCreationDate = faker.date.anytime();
@@ -112,7 +112,7 @@ const fillRandomResult = mock(
   },
 );
 const generatePlayerModel = mock(() => {
-  const randomUser = generateDatabasePlayer();
+  const randomUser = generateDatabaseUser();
 
   const randomPlayer: PlayerModel = {
     id: randomUser.id,
@@ -122,7 +122,7 @@ const generatePlayerModel = mock(() => {
     losses: INITIAL_LOSSES,
     color_index: INITIAL_COLOUR_INDEX,
     realname: randomUser.name,
-    rating: randomUser.rating,
+    rating: randomUser.rating ?? 0,
     is_out: DEFAULT_IS_EXITED,
     place: DEFAULT_PLACE,
     pairingNumber: null,
