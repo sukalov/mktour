@@ -74,12 +74,9 @@ export type EntitiesPair = [ChessTournamentEntity, ChessTournamentEntity];
  * This simple converter is taking a joined player info and transforms it to a matched entity
  * @param playerModel a joined representation of player
  */
-export function convertPlayerToEntity(playerModel: PlayerModel, index: number) {
-  // if (playerModel.pairingNumber === null)
-  //   throw new TypeError(
-  //     'No pairing happened to the player model; SOMETHING WENT WRONG',
-  //   );
-  if (playerModel.pairingNumber === null) playerModel.pairingNumber = index;
+export function convertPlayerToEntity(playerModel: PlayerModel) {
+  if (playerModel.pairingNumber === null)
+    throw new TypeError('PAIRING_NUMBER_IS_NULL');
 
   const tournamentEntity: ChessTournamentEntity = {
     entityId: playerModel.id,
