@@ -68,6 +68,7 @@ export const tournamentRouter = {
         color_index: each.players_to_tournaments.color_index,
         is_out: each.players_to_tournaments.is_out,
         place: each.players_to_tournaments.place,
+        pairingNumber: each.players_to_tournaments.pairing_number,
       }));
 
       return playerModels.sort(

@@ -1,7 +1,6 @@
 import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
 import { useTRPC } from '@/components/trpc/client';
-import { generateRoundRobinRoundFunction } from '@/lib/client-actions/round-robin-generator';
-import { shuffle } from '@/lib/utils';
+import { generateRandomRoundGames } from '@/lib/client-actions/random-pairs-generator';
 import {
   DatabasePlayer,
   InsertDatabasePlayer,
@@ -47,6 +46,7 @@ export const useTournamentAddNewPlayer = (
           color_index: 0,
           place: null,
           is_out: null,
+          pairingNumber: null,
         };
 
         queryClient.setQueryData(
@@ -76,15 +76,17 @@ export const useTournamentAddNewPlayer = (
       },
       onSuccess: (_err, _data, context) => {
         sendJsonMessage({ type: 'add-new-player', body: context.newPlayer });
-        const playersUnshuffled = queryClient.getQueryData(
+        const players = queryClient.getQueryData(
           trpc.tournament.playersIn.queryKey({ tournamentId }),
         );
-        const games = queryClient.getQueryData(
-          trpc.tournament.allGames.queryKey({ tournamentId }),
-        );
-        const newGames = generateRoundRobinRoundFunction({
-          players: playersUnshuffled ? shuffle(playersUnshuffled) : [],
-          games: games ?? [],
+        const newGames = generateRandomRoundGames({
+          players: players
+            ? players.map((player, i) => ({
+                ...player,
+                pairingNumber: i,
+              }))
+            : [],
+          games: [],
           roundNumber: 1,
           tournamentId,
         });

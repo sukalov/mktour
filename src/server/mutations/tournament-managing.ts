@@ -24,7 +24,16 @@ import {
   Result,
   TournamentInfo,
 } from '@/types/tournaments';
-import { aliasedTable, and, eq, isNotNull, isNull, ne, sql } from 'drizzle-orm';
+import {
+  aliasedTable,
+  and,
+  eq,
+  isNotNull,
+  isNull,
+  ne,
+  notInArray,
+  sql,
+} from 'drizzle-orm';
 import { permanentRedirect } from 'next/navigation';
 
 export const createTournament = async (
@@ -62,7 +71,7 @@ export async function getTournamentPlayers(
     .where(eq(players_to_tournaments.tournament_id, id))
     .innerJoin(players, eq(players.id, players_to_tournaments.player_id));
 
-  const playerModels = playersDb.map((each) => ({
+  const playerModels: PlayerModel[] = playersDb.map((each) => ({
     id: each.player.id,
     nickname: each.player.nickname,
     realname: each.player.realname,
@@ -73,6 +82,7 @@ export async function getTournamentPlayers(
     color_index: each.players_to_tournaments.color_index,
     is_out: each.players_to_tournaments.is_out,
     place: each.players_to_tournaments.place,
+    pairingNumber: each.players_to_tournaments.pairing_number,
   }));
 
   return playerModels.sort(
@@ -394,8 +404,9 @@ export async function startTournament({
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   const status = await getStatusInTournament(user.id, tournamentId);
   if (status === 'viewer') throw new Error('NOT_ADMIN');
-  if (started_at)
-    await db
+
+  await Promise.all([
+    db
       .update(tournaments)
       .set({ started_at, rounds_number })
       .where(
@@ -403,7 +414,9 @@ export async function startTournament({
       )
       .then((value) => {
         if (!value.rowsAffected) throw new Error('TOURNAMENT_ALREADY_GOING');
-      });
+      }),
+    updatePairingNumbers(tournamentId),
+  ]);
 }
 
 export async function resetTournament({
@@ -941,4 +954,48 @@ export async function resetTournamentPlayers({
   await db
     .delete(players_to_tournaments)
     .where(eq(players_to_tournaments.tournament_id, tournamentId));
+}
+
+async function updatePairingNumbers(tournamentId: string) {
+  const games = await getTournamentGames(tournamentId);
+  if (games.length === 0) throw new Error('NO_GAMES_TO_START');
+  const playerIds = games.reduce((acc, game) => {
+    if (game.result) throw new Error('RESULTS_PRESENT_BEFORE_TMT_START');
+    if (game.round_number !== 1)
+      throw new Error('ROUND_NOT_FIRST_BEFORE_START');
+    acc.unshift(game.white_id);
+    acc.push(game.black_id);
+    return acc;
+  }, [] as string[]);
+
+  const oddPlayerId = await db
+    .select({ player_id: players_to_tournaments.player_id })
+    .from(players_to_tournaments)
+    .where(
+      and(
+        eq(players_to_tournaments.tournament_id, tournamentId),
+        notInArray(players_to_tournaments.player_id, playerIds),
+      ),
+    );
+  if (oddPlayerId.length === 1) {
+    playerIds.splice(
+      Math.floor(playerIds.length / 2),
+      0,
+      oddPlayerId[0].player_id,
+    );
+  }
+
+  const promises = playerIds.map((playerId, i) => {
+    return db
+      .update(players_to_tournaments)
+      .set({ pairing_number: i })
+      .where(
+        and(
+          eq(players_to_tournaments.tournament_id, tournamentId),
+          eq(players_to_tournaments.player_id, playerId),
+        ),
+      );
+  });
+
+  await Promise.all(promises);
 }

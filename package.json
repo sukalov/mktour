@@ -101,6 +101,7 @@
     "@faker-js/faker": "^9.8.0",
     "@tailwindcss/postcss": "^4.1.7",
     "@tanstack/react-query-devtools": "^5.77.1",
+    "@types/bun": "^1.2.15",
     "@types/node": "^22.15.21",
     "@types/react": "^19.1.5",
     "@types/react-dom": "^19.1.5",
@@ -125,5 +126,12 @@
     "src/components/ui/**/*.ts",
     "src/components/ui/**/*.tsx",
     "src/types/**/*.ts"
+  ],
+  "trustedDependencies": [
+    "@tailwindcss/oxide",
+    "@vercel/speed-insights",
+    "esbuild",
+    "sharp",
+    "unrs-resolver"
   ]
 }
