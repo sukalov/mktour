@@ -963,7 +963,7 @@ async function updatePairingNumbers(tournamentId: string) {
     if (game.result) throw new Error('RESULTS_PRESENT_BEFORE_TMT_START');
     if (game.round_number !== 1)
       throw new Error('ROUND_NOT_FIRST_BEFORE_START');
-    acc.push(game.white_id);
+    acc.unshift(game.white_id);
     acc.push(game.black_id);
     return acc;
   }, [] as string[]);
@@ -977,10 +977,15 @@ async function updatePairingNumbers(tournamentId: string) {
         notInArray(players_to_tournaments.player_id, playerIds),
       ),
     );
+  if (oddPlayerId.length === 1) {
+    playerIds.splice(
+      Math.floor(playerIds.length / 2),
+      0,
+      oddPlayerId[0].player_id,
+    );
+  }
 
-  let pairingNumberIterator = 0;
   const promises = playerIds.map((playerId, i) => {
-    pairingNumberIterator = i;
     return db
       .update(players_to_tournaments)
       .set({ pairing_number: i })
@@ -992,18 +997,5 @@ async function updatePairingNumbers(tournamentId: string) {
       );
   });
 
-  if (oddPlayerId.length === 1) {
-    promises.push(
-      db
-        .update(players_to_tournaments)
-        .set({ pairing_number: pairingNumberIterator + 1 })
-        .where(
-          and(
-            eq(players_to_tournaments.tournament_id, tournamentId),
-            eq(players_to_tournaments.player_id, oddPlayerId[0].player_id),
-          ),
-        ),
-    );
-  }
   await Promise.all(promises);
 }
