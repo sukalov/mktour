@@ -1,5 +1,4 @@
-'use client';
-
+import { ClubDashboardTab } from '@/app/clubs/my/tabMap';
 import { Flag, Home, LucideIcon, Mail, Settings, Users } from 'lucide-react';
 
 export const CLUB_DASHBOARD_NAVBAR_ITEMS: SubNavbarItem[] = [
@@ -31,7 +30,7 @@ export const CLUB_DASHBOARD_NAVBAR_ITEMS: SubNavbarItem[] = [
 ];
 
 interface SubNavbarItem {
-  title: string;
+  title: ClubDashboardTab;
   path: string;
   logo?: LucideIcon;
   userOnly?: boolean;

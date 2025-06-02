@@ -1,3 +1,5 @@
+'use client';
+
 import Desktop from '@/app/clubs/my/(tabs)/main/main-desktop';
 import Mobile from '@/app/clubs/my/(tabs)/main/main-mobile';
 import { ClubTabProps } from '@/app/clubs/my/tabMap';
