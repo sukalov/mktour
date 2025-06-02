@@ -278,7 +278,8 @@
     }
   },
   "Tournaments": {
-    "no tournaments": "у вас пока нет никаких турниров"
+    "no tournaments": "у вас пока нет никаких турниров",
+    "make tournament": "сделать турнир"
   },
   "MakeTournament": {
     "making": "делаем...",
@@ -320,6 +321,20 @@
     "search dialog description": "здесь можно найти любой клуб, турнир или пользователя мктура",
     "search placeholder": "что ищем?",
     "not found": "ничего не найдено",
-    "search dialog title": "поиск по всему сайту"
+    "search dialog title": "поиск по всему сайту",
+    "make tournament": "сделать турнир",
+    "club dashboard": "управление клубами",
+    "edit profile": "редактировать профиль",
+    "actions": "действия",
+    "users": "пользователи",
+    "clubs": "клубы",
+    "tournaments": "турниры",
+    "players": "игроки",
+    "sign out": "выйти",
+    "inbox": "сообщения",
+    "lichess team": "найти нас на личесе",
+    "my clubs": "мои клубы",
+    "my tournaments": "мои турниры",
+    "new club": "новый клуб"
   }
 }
