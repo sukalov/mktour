@@ -47,10 +47,10 @@ export default async function TournamentsAllCache() {
   const allTournaments = await publicCaller.tournament.all();
 
   return (
-    <main className="mk-container mk-list">
+    <>
       {allTournaments.map((props) => (
         <TournamentItemCacheIteratee key={props.tournament.id} {...props} />
       ))}
-    </main>
+    </>
   );
 }

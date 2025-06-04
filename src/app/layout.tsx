@@ -65,7 +65,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
           >
             <MediaQueryProvider>
               <TRPCReactProvider>
-                <Suspense fallback={<p>loading...</p>}>
+                <Suspense fallback={children}>
                   <LayoutContent>{children}</LayoutContent>
                 </Suspense>
               </TRPCReactProvider>

@@ -1,3 +1,4 @@
+import Loading from '@/app/loading';
 import ClaimPlayer from '@/app/player/[id]/claim-button';
 import DeletePlayer from '@/app/player/[id]/delete-button';
 import EditButton from '@/app/player/[id]/edit-button';
@@ -12,7 +13,7 @@ import { FC, Suspense } from 'react';
 
 export default async function PlayerPage(props: PlayerPageProps) {
   return (
-    <Suspense fallback={<p>loading player page...</p>}>
+    <Suspense fallback={<Loading />}>
       <PlayerPageContent {...props} />
     </Suspense>
   );
@@ -20,6 +21,7 @@ export default async function PlayerPage(props: PlayerPageProps) {
 
 async function PlayerPageContent(props: PlayerPageProps) {
   const { id } = await props.params;
+
   const [user, playerData] = await Promise.all([
     publicCaller.user.auth(),
     publicCaller.player.info({ playerId: id }),
