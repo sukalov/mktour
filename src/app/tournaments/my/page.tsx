@@ -29,7 +29,7 @@ export default async function MyTournaments() {
   }
 
   return (
-    <main className="mk-container">
+    <main className="mk-container gap-mk flex flex-col">
       <TournamentGroups props={tournaments} />
     </main>
   );
@@ -41,8 +41,8 @@ const TournamentGroups: FC<{ props: TournamentWithClub[] }> = ({ props }) => {
   return Object.entries(groupedTournaments).map(
     ([clubId, { clubName, tournaments }]) => {
       return (
-        <div className="mk-list" key={clubId}>
-          <Link href={`/clubs/${clubId}`} className="pl-4">
+        <div className="mk-list gap-1" key={clubId}>
+          <Link href={`/clubs/${clubId}`} className="pl-mk">
             <h2 className="text-muted-foreground">{clubName}</h2>
           </Link>
           {tournaments.map(({ tournament }) => (

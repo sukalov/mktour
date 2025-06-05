@@ -10,7 +10,9 @@ import { useRef } from 'react';
 import useWebSocket from 'react-use-websocket';
 import { toast } from 'sonner';
 
-export const useGlobalWebsocket = (encryptedAuthSession: string) => {
+export const useGlobalWebsocket = (
+  encryptedAuthSession: string | undefined,
+) => {
   const t = useTranslations('Toasts');
   const queryClient = useQueryClient();
   const trpc = useTRPC();

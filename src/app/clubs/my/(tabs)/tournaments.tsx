@@ -12,7 +12,7 @@ const ClubDashboardTournaments: FC<ClubTabProps> = ({ selectedClub }) => {
   const { data, isLoading, isError, failureReason } =
     useClubTournaments(selectedClub);
 
-  if (isLoading) return <SkeletonList length={4} height={16} />;
+  if (isLoading) return <SkeletonList length={10} height={16} />;
   if (!data || !data.length)
     return (
       <Empty className="mk-container">

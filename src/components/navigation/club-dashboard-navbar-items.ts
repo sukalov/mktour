@@ -1,36 +1,29 @@
-import { ClubDashboardTab } from '@/app/clubs/my/tabMap';
 import { Flag, Home, LucideIcon, Mail, Settings, Users } from 'lucide-react';
 
-export const CLUB_DASHBOARD_NAVBAR_ITEMS: SubNavbarItem[] = [
-  {
-    title: 'main',
+export const CLUB_DASHBOARD_NAVBAR_ITEMS: Record<string, SubNavbarItem> = {
+  main: {
     path: '',
     logo: Home,
   },
-  {
-    title: 'players',
+  players: {
     path: 'players',
     logo: Users,
   },
-  {
-    title: 'tournaments',
+  tournaments: {
     path: 'tournaments',
     logo: Flag,
   },
-  {
-    title: 'inbox',
+  inbox: {
     path: 'inbox',
     logo: Mail,
   },
-  {
-    title: 'settings',
+  settings: {
     path: 'settings',
     logo: Settings,
   },
-];
+};
 
 interface SubNavbarItem {
-  title: ClubDashboardTab;
   path: string;
   logo?: LucideIcon;
   userOnly?: boolean;

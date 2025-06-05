@@ -21,14 +21,15 @@ const ClubSelect: FC<{ user: DatabaseUser }> = ({ user }) => {
   const queryClient = useQueryClient();
   const clubSelection = useUserSelectClub(queryClient);
   const t = useTranslations('Toasts');
+
   if (status === 'error')
     toast.error(t('server error'), {
       id: 'error',
       duration: 3000,
     });
-  if (status !== 'success') return <Skeleton className="h-6 w-48" />;
+  if (status !== 'success') return <SelectSkeleton />;
   const placeholder = clubs.find((club) => club.id === user.selected_club)
-    ?.name ?? <Skeleton className="h-6 w-48" />;
+    ?.name ?? <SelectSkeleton />;
   const sortedClubs = clubs.sort((a, b) =>
     a.id === user.selected_club ? -1 : b.id === user.selected_club ? 1 : 0,
   );
@@ -62,6 +63,11 @@ const SelectItemIteratee = (props: ClubSelectProps) => {
     </SelectItem>
   );
 };
+const SelectSkeleton = () => (
+  <div className="h-8 w-full px-5 pt-3 pb-1">
+    <Skeleton className="h-full w-full" />
+  </div>
+);
 
 type ClubSelectProps = { id: string; name: string };
 

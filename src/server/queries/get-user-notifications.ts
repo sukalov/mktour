@@ -88,6 +88,7 @@ export type UserNotification =
       type: 'tournament_won';
       notification: DatabaseUserNotification;
       metadata: {
+        name: string;
         tournament_id: string;
       };
     };

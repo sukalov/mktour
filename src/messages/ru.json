@@ -58,7 +58,8 @@
     "dashboard": "данные не получены",
     "tournaments": "здесь будут турниры твоего клуба",
     "user": "пользователь не найден",
-    "no data": "нет данных"
+    "no data": "нет данных",
+    "inbox": "нет уведомлений"
   },
   "Profile": {
     "edit": "редактировать",
@@ -174,6 +175,8 @@
     "player updated": "игрок обновлён",
     "affiliation requested": "заявка отправлена",
     "affiliation canceled": "заявка отменена",
+    "affiliation approved": "заявка одобрена",
+    "affiliation denied": "заявка отклонена",
     "player deleted": "игрок удалён",
     "player has tournaments": "простите! нельзя удалять игрока, который участвовал в турнире. для этого придётся удалить турнир тоже"
   },
@@ -337,5 +340,16 @@
     "my clubs": "мои клубы",
     "my tournaments": "мои турниры",
     "new club": "новый клуб"
+  },
+  "Notifications": {
+    "User": {
+      "affiliation approved": "аффиляция одобрена",
+      "affiliation rejected": "аффиляция отклонена",
+      "became club manager": "вас сделали админом клуба",
+      "tournament won": "вы выиграли турнир!"
+    },
+    "Club": {
+      "affiliation requested": "заявка отправлена"
+    }
   }
 }

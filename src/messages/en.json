@@ -58,7 +58,8 @@
     "tournaments": "there are no tournaments in your club yet",
     "dashboard": "no data",
     "user": "user not found",
-    "no data": "no data"
+    "no data": "no data",
+    "inbox": "no notifications"
   },
   "Profile": {
     "rating": "lichess blitz rating",
@@ -335,5 +336,16 @@
     "my clubs": "my clubs",
     "my tournaments": "my tournaments",
     "new club": "new club"
+  },
+  "Notifications": {
+    "User": {
+      "affiliation approved": "affiliated",
+      "affiliation rejected": "affiliation rejected",
+      "became club manager": "you became club manager",
+      "tournament won": "you won the tournament!"
+    },
+    "Club": {
+      "affiliation requested": "request sent"
+    }
   }
 }

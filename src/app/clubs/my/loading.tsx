@@ -24,12 +24,9 @@ const ClubDashboardTabList: FC = () => {
       className="z-40 w-full rounded-none transition-all duration-500"
     >
       <TabsList className="no-scrollbar w-full justify-around overflow-scroll rounded-none md:justify-start">
-        {CLUB_DASHBOARD_NAVBAR_ITEMS.map((tab) => (
-          <TabsTrigger key={tab.title} className="w-full" value={tab.title}>
-            <Logo
-              tab={tab.title}
-              activeTab={CLUB_DASHBOARD_NAVBAR_ITEMS[0].title}
-            />
+        {Object.entries(CLUB_DASHBOARD_NAVBAR_ITEMS).map(([title]) => (
+          <TabsTrigger key={title} className="w-full" value={title}>
+            <Logo tab={title} activeTab={title as ClubDashboardTab} />
           </TabsTrigger>
         ))}
       </TabsList>
@@ -41,11 +38,13 @@ const Logo: FC<{ tab: ReactNode; activeTab: ClubDashboardTab }> = ({
   tab,
   activeTab,
 }) => {
-  const item = CLUB_DASHBOARD_NAVBAR_ITEMS.find((item) => item.title === tab);
+  const item = Object.entries(CLUB_DASHBOARD_NAVBAR_ITEMS).find(
+    (item) => item[0] === tab,
+  );
   const isActive = tab === activeTab;
-  if (!item || !item.logo) return tab;
+  if (!item || !item[1].logo) return tab;
 
-  const Icon: LucideIcon = item.logo;
+  const Icon: LucideIcon = item[1].logo;
 
   return <Icon size={18} strokeWidth={isActive ? 2.5 : 2} />;
 };

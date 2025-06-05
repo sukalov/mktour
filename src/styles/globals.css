@@ -149,10 +149,14 @@ button {
   -webkit-tap-highlight-color: transparent;
 }
 
+@theme {
+  --spacing-mk: calc(var(--spacing) * 3);
+}
+
 @utility mk-container {
   height: 100%;
   width: 100%;
-  padding: calc(var(--spacing) * 3);
+  padding: var(--spacing-mk);
   padding-bottom: calc(var(--spacing) * 20);
 }
 
@@ -160,7 +164,7 @@ button {
   cursor: pointer;
   padding: calc(var(--spacing) * 3);
   @media screen and (min-width: 768px) {
-    padding: calc(var(--spacing) * 4);
+    padding: var(--spacing-mk);
     width: calc(var(--spacing) * 100);
   }
 }
@@ -168,7 +172,7 @@ button {
 @utility mk-list {
   display: flex;
   flex-direction: column;
-  gap: calc(var(--spacing) * 2);
+  gap: var(--spacing-mk);
 }
 
 @utility mk-link {
