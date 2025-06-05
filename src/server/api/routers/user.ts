@@ -1,4 +1,5 @@
 import { validateRequest } from '@/lib/auth/lucia';
+import { getEncryptedAuthSession } from '@/lib/get-encrypted-auth-session';
 import { protectedProcedure, publicProcedure } from '@/server/api/trpc';
 import { db } from '@/server/db';
 import { users } from '@/server/db/schema/users';
@@ -40,6 +41,9 @@ export const userRouter = {
   auth: publicProcedure.query(async () => {
     const { user } = await validateRequest();
     return user;
+  }),
+  encryptedSession: publicProcedure.query(async () => {
+    return await getEncryptedAuthSession();
   }),
   create: publicProcedure
     .input(
