@@ -174,7 +174,8 @@
     "player updated": "игрок обновлён",
     "affiliation requested": "заявка отправлена",
     "affiliation canceled": "заявка отменена",
-    "player deleted": "игрок удалён"
+    "player deleted": "игрок удалён",
+    "player has tournaments": "простите! нельзя удалять игрока, который участвовал в турнире. для этого придётся удалить турнир тоже"
   },
   "EditUser": {
     "header": "настройки",
