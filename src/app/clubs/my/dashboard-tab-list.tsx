@@ -2,10 +2,7 @@
 
 import { ClubDashboardTab, tabMap } from '@/app/clubs/my/tabMap';
 import { useClubNotifications } from '@/components/hooks/query-hooks/use-club-notifications';
-import {
-  CLUB_DASHBOARD_NAVBAR_ITEMS,
-  SubNavbarItem,
-} from '@/components/navigation/club-dashboard-navbar-items';
+import { CLUB_DASHBOARD_NAVBAR_ITEMS } from '@/components/navigation/club-dashboard-navbar-items';
 import { MediaQueryContext } from '@/components/providers/media-query-context';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LucideIcon } from 'lucide-react';
@@ -58,7 +55,7 @@ const Logo: FC<{
   activeTab: ClubDashboardTab;
   hasNewNotifications: boolean;
 }> = ({ tab, activeTab, hasNewNotifications }) => {
-  const item: SubNavbarItem = CLUB_DASHBOARD_NAVBAR_ITEMS[tab];
+  const item = CLUB_DASHBOARD_NAVBAR_ITEMS[tab];
   const isActive = tab === activeTab;
   if (!item || !item.logo) return tab;
 

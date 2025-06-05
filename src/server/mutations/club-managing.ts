@@ -111,6 +111,16 @@ export const deletePlayer = async ({
     clubId: playerClub.club_id,
   });
   if (!status) throw new Error('NOT_ADMIN');
+  const [playerTournament] = await db
+    .select({ tournament_id: players_to_tournaments.tournament_id })
+    .from(players_to_tournaments)
+    .where(eq(players_to_tournaments.player_id, playerId))
+    .limit(1);
+
+  if (playerTournament) {
+    throw new Error('PLAYER_HAS_TOURNAMENTS');
+  }
+
   await db.transaction(async (tx) => {
     await tx.delete(players).where(eq(players.id, playerId));
   });

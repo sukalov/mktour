@@ -15,7 +15,10 @@ export default function useDeletePlayerMutation(queryClient: QueryClient) {
           queryKey: trpc.club.players.queryKey({ clubId }),
         });
       },
-      onError: () => toast.error('sorry! server error happened'),
+      onError: (error) =>
+        error.message === 'PLAYER_HAS_TOURNAMENTS'
+          ? toast.error(t('player has tournaments'))
+          : toast.error('sorry! server error happened: ' + error.message),
     }),
   );
 }

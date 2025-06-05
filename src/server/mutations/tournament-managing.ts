@@ -978,11 +978,7 @@ async function updatePairingNumbers(tournamentId: string) {
       ),
     );
   if (oddPlayerId.length === 1) {
-    playerIds.splice(
-      Math.floor(playerIds.length / 2),
-      0,
-      oddPlayerId[0].player_id,
-    );
+    playerIds.unshift(oddPlayerId[0].player_id);
   }
 
   const promises = playerIds.map((playerId, i) => {

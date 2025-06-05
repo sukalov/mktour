@@ -1,5 +1,6 @@
 import Authorized from '@/app/(routes)/authorized';
 import Unauthorized from '@/app/(routes)/unauthorized';
+import Loading from '@/app/loading';
 import { publicCaller } from '@/server/api';
 
 import '@/styles/cursor.css';
@@ -17,7 +18,7 @@ async function HomeContent() {
 
 export default function HomePage() {
   return (
-    <Suspense fallback={<p>loading...</p>}>
+    <Suspense fallback={<Loading />}>
       <HomeContent />
     </Suspense>
   );

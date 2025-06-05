@@ -11,9 +11,8 @@ import { FC } from 'react';
 export default async function MyTournaments() {
   const user = await publicCaller.user.auth();
   if (!user) redirect('/sign-in');
-  const tournaments = await getTournamentsToUserClubsQuery({ user });
-
   const t = await getTranslations('Tournaments');
+  const tournaments = await getTournamentsToUserClubsQuery({ user });
 
   if (!tournaments.length) {
     return (
@@ -23,7 +22,7 @@ export default async function MyTournaments() {
           href={'/tournaments/create'}
           className="bg-primary text-secondary m-4 rounded-md p-2"
         >
-          make tournament
+          {t('make tournament')}
         </Link>
       </p>
     );

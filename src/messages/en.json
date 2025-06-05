@@ -173,7 +173,8 @@
     "player updated": "player updated",
     "affiliation requested": "request sent",
     "affiliation canceled": "request cancelled",
-    "player deleted": "player deleted"
+    "player deleted": "player deleted",
+    "player has tournaments": "sorry! the player, who is added to a tournament, cannot be deleted. otherwise you have to delete that tournament too"
   },
   "EditUser": {
     "header": "settings",
@@ -277,7 +278,8 @@
     }
   },
   "Tournaments": {
-    "no tournaments": "you don't have any tournaments yet"
+    "no tournaments": "you don't have any tournaments yet",
+    "make tournament": "make tournament"
   },
   "MakeTournament": {
     "making": "making...",
@@ -319,7 +321,21 @@
     "search dialog title": "global search menu",
     "search dialog description": "here you can find any club, tournament or mktour user",
     "search placeholder": "whate are you looking for?",
-    "not found": "nothing found"
+    "not found": "nothing found",
+    "make tournament": "make tournament",
+    "club dashboard": "club dashboard",
+    "edit profile": "edit profile",
+    "actions": "actions",
+    "users": "users",
+    "clubs": "clubs",
+    "tournaments": "tournaments",
+    "players": "players",
+    "sign out": "sign out",
+    "inbox": "inbox",
+    "lichess team": "find us at lichess",
+    "my clubs": "my clubs",
+    "my tournaments": "my tournaments",
+    "new club": "new club"
   },
   "Notifications": {
     "User": {
