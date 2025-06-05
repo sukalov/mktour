@@ -61,7 +61,7 @@ const ClubInfo: FC<{
         <p className="px-mk text-2xl font-bold">{club.name}</p>
         {user && statusInClub && (
           <Button className="px-mk h-full max-sm:w-full" variant="outline">
-            <Link
+            <Link // FIXME this has lag in changing selected club
               className="gap-mk flex h-full w-full items-center text-left"
               prefetch={false}
               onNavigate={() => {
