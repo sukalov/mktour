@@ -1,6 +1,11 @@
 import { clubs } from '@/server/db/schema/clubs';
 import { players } from '@/server/db/schema/players';
-import { Format, Result, RoundName, TournamentType } from '@/types/tournaments';
+import {
+  TournamentFormat,
+  Result,
+  RoundName,
+  TournamentType,
+} from '@/types/tournaments';
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { int, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
@@ -9,7 +14,7 @@ export const tournaments = sqliteTable('tournament', {
   title: text('name')
     .$default(() => 'chess tournament')
     .notNull(),
-  format: text('format').$type<Format>().notNull(),
+  format: text('format').$type<TournamentFormat>().notNull(),
   type: text('type').$type<TournamentType>().notNull(),
   date: text('date').notNull(),
   created_at: integer('created_at', { mode: 'timestamp' }).notNull(),

@@ -27,7 +27,7 @@ import {
 } from '@/server/mutations/tournament-managing';
 import getAllTournaments from '@/server/queries/get-all-tournaments';
 import { getStatusInTournament } from '@/server/queries/get-status-in-tournament';
-import { PlayerModel } from '@/types/tournaments';
+import { PlayerModel, TournamentFormat } from '@/types/tournaments';
 import { eq, sql } from 'drizzle-orm';
 import { z } from 'zod';
 
@@ -221,7 +221,8 @@ export const tournamentRouter = {
       z.object({
         tournamentId: z.string(),
         started_at: z.date(),
-        rounds_number: z.number(),
+        format: z.custom<TournamentFormat>(),
+        rounds_number: z.number().nullable(),
       }),
     )
     .mutation(async (opts) => {

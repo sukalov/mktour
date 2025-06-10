@@ -1,5 +1,6 @@
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import useTournamentStart from '@/components/hooks/mutation-hooks/use-tournament-start';
+import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
 import { Button } from '@/components/ui/button';
 import { useQueryClient } from '@tanstack/react-query';
@@ -10,11 +11,12 @@ import { useContext } from 'react';
 
 export default function StartTournamentButton() {
   const queryClient = useQueryClient();
-  const { id: tournamentId } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string }>();
+  const { data } = useTournamentInfo(id);
   const { sendJsonMessage } = useContext(DashboardContext);
-  const { data: players } = useTournamentPlayers(tournamentId);
+  const { data: players } = useTournamentPlayers(id);
   const startTournamentMutation = useTournamentStart(queryClient, {
-    tournamentId,
+    id,
     sendJsonMessage,
   });
   const t = useTranslations('Tournament.Main');
@@ -23,12 +25,17 @@ export default function StartTournamentButton() {
     if (!players) {
       throw new Error('NO_PLAYERS_DATA');
     }
-    const rounds_number =
-      players.length % 2 == 0 ? players.length - 1 : players.length;
+    if (!data) {
+      throw new Error('NO_TOURNAMENT_DATA');
+    }
+    if (players.length < 2) {
+      throw new Error('NOT_ENOUGH_PLAYERS');
+    }
     startTournamentMutation.mutate({
       started_at: new Date(),
-      tournamentId,
-      rounds_number,
+      tournamentId: data.tournament.id,
+      format: data.tournament.format,
+      rounds_number: data.tournament.rounds_number,
     });
   };
 
