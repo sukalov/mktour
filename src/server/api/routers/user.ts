@@ -1,4 +1,5 @@
 import { validateRequest } from '@/lib/auth/lucia';
+import { CACHE_TAGS } from '@/lib/cache-tags';
 import { getEncryptedAuthSession } from '@/lib/get-encrypted-auth-session';
 import { protectedProcedure, publicProcedure } from '@/server/api/trpc';
 import { db } from '@/server/db';
@@ -15,6 +16,7 @@ import {
 } from '@/server/queries/get-user-data';
 import getUserNotifications from '@/server/queries/get-user-notifications';
 import { eq } from 'drizzle-orm';
+import { revalidateTag } from 'next/cache';
 import { z } from 'zod';
 
 export const userRouter = {
@@ -72,6 +74,7 @@ export const userRouter = {
     .mutation(async (opts) => {
       const { input } = opts;
       const resultSet = await selectClub(input);
+      revalidateTag(CACHE_TAGS.AUTH);
       return resultSet;
     }),
   authNotifications: publicProcedure.query(async () => {

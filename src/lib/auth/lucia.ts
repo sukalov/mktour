@@ -1,3 +1,4 @@
+import { CACHE_TAGS } from '@/lib/cache-tags';
 import { BASE_URL } from '@/lib/config/urls';
 import { adapter } from '@/server/db/lucia-adapter';
 
@@ -5,7 +6,10 @@ import type { DatabaseUser } from '@/server/db/schema/users';
 import { Lichess } from 'arctic';
 import type { Session, User } from 'lucia';
 import { Lucia } from 'lucia';
-import { cacheLife } from 'next/dist/server/use-cache/cache-life';
+import {
+  unstable_cacheLife as cacheLife,
+  unstable_cacheTag as cacheTag,
+} from 'next/cache';
 import { cookies } from 'next/headers';
 import { cache } from 'react';
 
@@ -124,6 +128,7 @@ const cachedValidateSession = async (sessionId: string) => {
     stale: 1000 * 60 * 60,
     revalidate: 1000 * 60 * 60,
   });
+  cacheTag(CACHE_TAGS.AUTH);
   return await lucia.validateSession(sessionId);
 };
 
