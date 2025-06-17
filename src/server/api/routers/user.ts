@@ -115,6 +115,7 @@ export const userRouter = {
     .mutation(async (opts) => {
       const { input } = opts;
       await editUser(input);
+      revalidateTag(CACHE_TAGS.AUTH);
     }),
   authClubs: protectedProcedure.query(async () => {
     const { user } = await validateRequest();
