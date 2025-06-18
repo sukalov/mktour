@@ -22,6 +22,7 @@ import {
   GameModel,
   PlayerModel,
   Result,
+  TournamentFormat,
   TournamentInfo,
 } from '@/types/tournaments';
 import {
@@ -394,21 +395,24 @@ export async function saveRound({
 export async function startTournament({
   tournamentId,
   started_at,
+  format,
   rounds_number,
-}: {
+}: Pick<DatabaseTournament, 'format' | 'rounds_number' | 'started_at'> & {
   tournamentId: string;
-  started_at: Date;
-  rounds_number: number;
 }) {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   const status = await getStatusInTournament(user.id, tournamentId);
   if (status === 'viewer') throw new Error('NOT_ADMIN');
 
+  const roundsNumber = !rounds_number
+    ? await getRoundsNumber(tournamentId, format)
+    : rounds_number;
+
   await Promise.all([
     db
       .update(tournaments)
-      .set({ started_at, rounds_number })
+      .set({ started_at, rounds_number: roundsNumber })
       .where(
         and(eq(tournaments.id, tournamentId), isNull(tournaments.started_at)),
       )
@@ -994,4 +998,14 @@ async function updatePairingNumbers(tournamentId: string) {
   });
 
   await Promise.all(promises);
+}
+
+async function getRoundsNumber(
+  tournamentId: string,
+  tournamentFormat: TournamentFormat,
+) {
+  if (tournamentFormat === 'round robin') {
+    const players = await getTournamentPlayers(tournamentId);
+    return Math.ceil(players.length / 2);
+  }
 }

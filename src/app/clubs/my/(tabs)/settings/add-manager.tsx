@@ -66,54 +66,59 @@ const AddManager = ({
       <ScrollArea className="rounded-2 h-[calc(100dvh-6rem)] w-full rounded-b-md">
         <Table>
           <TableBody>
-            {users?.map((user) => (
-              <>
-                {!managers.data?.some(
-                  (manager) => manager.user.id === user.id,
-                ) && (
-                  <TableRow key={user.id} className="p-0">
-                    {promotingUser && promotingUser.id === user.id ? (
-                      <TableCell className="grid grid-cols-3 gap-1.5 p-1.5">
-                        <Button
-                          disabled={isPending}
-                          onClick={() =>
-                            mutate({ clubId, userId: user.id, status: 'admin' })
-                          }
-                        >
-                          {t('make admin')}
-                        </Button>
-                        <Button
-                          disabled={isPending}
-                          variant="destructive"
-                          onClick={() =>
-                            mutate({
-                              clubId,
-                              userId: user.id,
-                              status: 'co-owner',
-                            })
-                          }
-                        >
-                          {t('make co-owner')}
-                        </Button>
-                        <Button
-                          disabled={isPending}
-                          variant="secondary"
-                          onClick={() => setPromotingUser(undefined)}
-                        >
-                          {t('cancel')}
-                        </Button>
-                      </TableCell>
-                    ) : (
-                      <TableCell onClick={() => setPromotingUser(user)}>
-                        <p className="line-clamp-2 break-all">
-                          {user.username}
-                        </p>{' '}
-                      </TableCell>
-                    )}
-                  </TableRow>
-                )}
-              </>
-            ))}
+            {users
+              ?.filter(
+                (user) =>
+                  !managers.data?.some(
+                    (manager) => manager.user.id === user.id,
+                  ),
+              )
+              .map((user) => (
+                <TableRow key={user.id} className="p-0">
+                  {promotingUser && promotingUser.id === user.id ? (
+                    <TableCell className="grid grid-cols-3 gap-1.5 p-1.5">
+                      <Button
+                        disabled={isPending}
+                        onClick={() =>
+                          mutate({
+                            clubId,
+                            userId: user.id,
+                            status: 'admin',
+                          })
+                        }
+                      >
+                        {t('make admin')}
+                      </Button>
+                      <Button
+                        disabled={isPending}
+                        variant="destructive"
+                        onClick={() =>
+                          mutate({
+                            clubId,
+                            userId: user.id,
+                            status: 'co-owner',
+                          })
+                        }
+                      >
+                        {t('make co-owner')}
+                      </Button>
+                      <Button
+                        disabled={isPending}
+                        variant="secondary"
+                        onClick={() => setPromotingUser(undefined)}
+                      >
+                        {t('cancel')}
+                      </Button>
+                    </TableCell>
+                  ) : (
+                    <TableCell onClick={() => setPromotingUser(user)}>
+                      <p className="line-clamp-2 break-all">
+                        {user.username}
+                      </p>{' '}
+                    </TableCell>
+                  )}
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
         <div className="h-24 w-full grow" />

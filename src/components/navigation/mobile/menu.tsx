@@ -5,7 +5,7 @@ import MenuToggle from '@/components/navigation/mobile/menu-toggle';
 import ModeToggler from '@/components/navigation/mode-toggler';
 import { NAVMENU_ITEMS } from '@/components/navigation/nav-menu-items';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { motion, useCycle } from 'framer-motion';
+import { motion, StyleTransitions, useCycle, Variants } from 'framer-motion';
 import { User } from 'lucia';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
@@ -42,14 +42,14 @@ const Menu: FC<{ user: User | null }> = ({ user }) => {
   );
 
   const sidebar = useMemo(
-    () => ({
+    (): Variants => ({
       open: (height = 1000) => ({
         clipPath: `circle(${height * 2 + 200}px at 100% 0)`,
         transition: {
           type: 'spring',
           stiffness: 20,
           restDelta: 2,
-        },
+        } as StyleTransitions,
       }),
       closed: {
         clipPath: 'circle(0px at 100% 0)',
@@ -57,7 +57,7 @@ const Menu: FC<{ user: User | null }> = ({ user }) => {
           type: 'spring',
           stiffness: 400,
           damping: 40,
-        },
+        } as StyleTransitions,
       },
     }),
     [],

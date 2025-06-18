@@ -10,7 +10,7 @@ type DashboardMessage =
       result: Result;
       roundNumber: number;
     }
-  | { type: 'start-tournament'; started_at: Date; rounds_number: number }
+  | { type: 'start-tournament'; started_at: Date }
   | { type: 'reset-tournament' }
   | {
       type: 'new-round';

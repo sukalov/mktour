@@ -8,19 +8,18 @@ import { toast } from 'sonner';
 
 export default function useTournamentStart(
   queryClient: QueryClient,
-  { sendJsonMessage }: SetStatusProps,
+  { sendJsonMessage }: TournamentHookProps,
 ) {
   const t = useTranslations('Toasts');
   const trpc = useTRPC();
   return useMutation(
     trpc.tournament.start.mutationOptions({
-      onSuccess: (_error, { started_at, rounds_number }) => {
+      onSuccess: (_error, { started_at }) => {
         if (started_at) {
           toast.success(t('started'));
           sendJsonMessage({
             type: 'start-tournament',
             started_at,
-            rounds_number,
           });
         }
         queryClient.invalidateQueries({
@@ -35,7 +34,7 @@ export default function useTournamentStart(
   );
 }
 
-type SetStatusProps = {
-  tournamentId: string | undefined;
+type TournamentHookProps = {
+  id: string | undefined;
   sendJsonMessage: (_message: DashboardMessage) => void;
 };
