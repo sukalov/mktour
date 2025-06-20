@@ -38,6 +38,7 @@ export const clubRouter = {
       const { input } = opts;
       const newClub = await createClub(input);
       revalidateTag(CACHE_TAGS.AUTH);
+      revalidateTag(CACHE_TAGS.ALL_CLUBS);
       revalidateTag(`${CACHE_TAGS.USER_CLUBS}:${opts.ctx.user.id}`);
       return newClub;
     }),
@@ -115,6 +116,7 @@ export const clubRouter = {
     .mutation(async (opts) => {
       const { input } = opts;
       await deleteClub(input);
+      revalidateTag(CACHE_TAGS.ALL_CLUBS);
       revalidateTag(CACHE_TAGS.AUTH);
       revalidateTag(`${CACHE_TAGS.USER_CLUBS}:${opts.ctx.user.id}`);
     }),
@@ -133,6 +135,7 @@ export const clubRouter = {
     .mutation(async (opts) => {
       const { input } = opts;
       await editClub(input);
+      revalidateTag(CACHE_TAGS.ALL_CLUBS);
     }),
   leave: clubAdminProcedure
     .input(

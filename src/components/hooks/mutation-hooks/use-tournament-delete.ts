@@ -8,7 +8,6 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 export default function useTournamentDelete(
-  tournamentId: string,
   queryClient: QueryClient,
   sendJsonMessage: (_message: DashboardMessage) => void,
 ) {
