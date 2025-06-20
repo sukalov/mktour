@@ -21,6 +21,7 @@
     "localdb:studio": "OFFLINE=true drizzle-kit studio",
     "localdb:check": "OFFLINE=true drizzle-kit check",
     "knip": "knip-bun",
+    "generate-erd": "bun run src/lib/generate-erd.ts",
     "prepare": "husky"
   },
   "dependencies": {
@@ -105,6 +106,7 @@
     "@types/node": "^24.0.3",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
+    "drizzle-erd": "^0.0.1-alpha.11",
     "drizzle-kit": "0.31.1",
     "eslint": "^9.29.0",
     "eslint-config-next": "^15.3.3",
