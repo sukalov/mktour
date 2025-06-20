@@ -4,7 +4,7 @@ import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { TRPCClientErrorLike } from '@trpc/client';
 import { inferRouterOutputs } from '@trpc/server';
 
-const MOCK = true;
+const MOCK = false;
 
 export const useClubNotifications = (
   clubId: string,

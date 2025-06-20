@@ -5,16 +5,21 @@ import { newid } from '@/lib/utils';
 import { NewClubFormType } from '@/lib/zod/new-club-form';
 import { db } from '@/server/db';
 import {
-  DatabaseClub,
-  DatabaseClubsToUsers,
   clubs,
   clubs_to_users,
+  DatabaseClub,
+  DatabaseClubsToUsers,
 } from '@/server/db/schema/clubs';
 import {
+  club_notifications,
   InsertDatabaseUserNotification,
   user_notifications,
 } from '@/server/db/schema/notifications';
-import { DatabasePlayer, players } from '@/server/db/schema/players';
+import {
+  affiliations,
+  DatabasePlayer,
+  players,
+} from '@/server/db/schema/players';
 import {
   games,
   players_to_tournaments,
@@ -167,7 +172,7 @@ export type ClubManager = {
 export const deleteClubFunction = async ({
   clubId,
   userId,
-  userDeletion = false,
+  userDeletion = false, // true when function is invoked while deleting the user - single owner of a club
 }: ClubDeleteProps) => {
   const otherClubs = await db
     .select()
@@ -191,33 +196,42 @@ export const deleteClubFunction = async ({
       .set({ selected_club: otherClubs[0].club_id })
       .where(eq(users.id, userId));
   }
-
   await db.transaction(async (tx) => {
-    await tx
-      .delete(games)
-      .where(
-        eq(
-          games.tournament_id,
-          tx
-            .select({ id: tournaments.id })
-            .from(tournaments)
-            .where(eq(tournaments.club_id, clubId)),
+    await Promise.all([
+      tx
+        .delete(games)
+        .where(
+          eq(
+            games.tournament_id,
+            tx
+              .select({ id: tournaments.id })
+              .from(tournaments)
+              .where(eq(tournaments.club_id, clubId)),
+          ),
         ),
-      );
-    await tx
-      .delete(players_to_tournaments)
-      .where(
-        eq(
-          players_to_tournaments.tournament_id,
-          tx
-            .select({ id: tournaments.id })
-            .from(tournaments)
-            .where(eq(tournaments.club_id, clubId)),
+      tx
+        .delete(players_to_tournaments)
+        .where(
+          eq(
+            players_to_tournaments.tournament_id,
+            tx
+              .select({ id: tournaments.id })
+              .from(tournaments)
+              .where(eq(tournaments.club_id, clubId)),
+          ),
         ),
-      );
-    await tx.delete(players).where(eq(players.club_id, clubId));
-    await tx.delete(tournaments).where(eq(tournaments.club_id, clubId));
-    await tx.delete(clubs_to_users).where(eq(clubs_to_users.club_id, clubId));
+    ]);
+
+    await Promise.all([
+      tx.delete(affiliations).where(eq(affiliations.club_id, clubId)),
+      tx
+        .delete(club_notifications)
+        .where(eq(club_notifications.club_id, clubId)),
+      tx.delete(players).where(eq(players.club_id, clubId)),
+      tx.delete(tournaments).where(eq(tournaments.club_id, clubId)),
+      tx.delete(clubs_to_users).where(eq(clubs_to_users.club_id, clubId)),
+    ]);
+
     await tx.delete(clubs).where(eq(clubs.id, clubId));
   });
 };
