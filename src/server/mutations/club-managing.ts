@@ -196,44 +196,38 @@ export const deleteClubFunction = async ({
       .set({ selected_club: otherClubs[0].club_id })
       .where(eq(users.id, userId));
   }
-  await db.transaction(async (tx) => {
-    await Promise.all([
-      tx
-        .delete(games)
-        .where(
-          eq(
-            games.tournament_id,
-            tx
-              .select({ id: tournaments.id })
-              .from(tournaments)
-              .where(eq(tournaments.club_id, clubId)),
-          ),
+  await db.batch([
+    db
+      .delete(games)
+      .where(
+        eq(
+          games.tournament_id,
+          db
+            .select({ id: tournaments.id })
+            .from(tournaments)
+            .where(eq(tournaments.club_id, clubId)),
         ),
-      tx
-        .delete(players_to_tournaments)
-        .where(
-          eq(
-            players_to_tournaments.tournament_id,
-            tx
-              .select({ id: tournaments.id })
-              .from(tournaments)
-              .where(eq(tournaments.club_id, clubId)),
-          ),
+      ),
+    db
+      .delete(players_to_tournaments)
+      .where(
+        eq(
+          players_to_tournaments.tournament_id,
+          db
+            .select({ id: tournaments.id })
+            .from(tournaments)
+            .where(eq(tournaments.club_id, clubId)),
         ),
-    ]);
+      ),
 
-    await Promise.all([
-      tx.delete(affiliations).where(eq(affiliations.club_id, clubId)),
-      tx
-        .delete(club_notifications)
-        .where(eq(club_notifications.club_id, clubId)),
-      tx.delete(players).where(eq(players.club_id, clubId)),
-      tx.delete(tournaments).where(eq(tournaments.club_id, clubId)),
-      tx.delete(clubs_to_users).where(eq(clubs_to_users.club_id, clubId)),
-    ]);
+    db.delete(affiliations).where(eq(affiliations.club_id, clubId)),
+    db.delete(club_notifications).where(eq(club_notifications.club_id, clubId)),
+    db.delete(players).where(eq(players.club_id, clubId)),
+    db.delete(tournaments).where(eq(tournaments.club_id, clubId)),
+    db.delete(clubs_to_users).where(eq(clubs_to_users.club_id, clubId)),
 
-    await tx.delete(clubs).where(eq(clubs.id, clubId));
-  });
+    db.delete(clubs).where(eq(clubs.id, clubId)),
+  ]);
 };
 
 export const getClubAffiliatedUsers = async (clubId: string) => {
