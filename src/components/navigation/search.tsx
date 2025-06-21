@@ -49,7 +49,7 @@ export default function GlobalSearch({ user }: { user: User | null }) {
     },
     {
       title: t('club dashboard'),
-      shortcut: '⌘C',
+      shortcut: '⌘L',
       href: '/clubs/my',
     },
     {
@@ -94,7 +94,7 @@ export default function GlobalSearch({ user }: { user: User | null }) {
         setOpen(false);
         router.push('/tournaments/create');
       }
-      if (e.key === 'c' && (e.metaKey || e.ctrlKey)) {
+      if (e.key === 'l' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         setOpen(false);
         router.push('/clubs/my');

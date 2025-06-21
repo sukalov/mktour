@@ -2,10 +2,12 @@
 
 import { Card, CardDescription, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { CACHE_TAGS } from '@/lib/cache-tags';
 import { publicCaller } from '@/server/api';
 import { DatabaseClub } from '@/server/db/schema/clubs';
 import { DatabaseTournament } from '@/server/db/schema/tournaments';
 import { Dot } from 'lucide-react';
+import { unstable_cacheTag as cacheTag } from 'next/cache';
 import Link from 'next/link';
 
 const TournamentItemCache = ({ club, tournament }: Props) => {
@@ -45,6 +47,7 @@ type Props = { tournament: DatabaseTournament; club?: DatabaseClub };
 
 export default async function TournamentsAllCache() {
   const allTournaments = await publicCaller.tournament.all();
+  cacheTag(CACHE_TAGS.ALL_TOURNAMENTS);
 
   return (
     <>

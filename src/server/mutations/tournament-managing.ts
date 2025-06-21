@@ -1,6 +1,7 @@
 'use server';
 
 import { validateRequest } from '@/lib/auth/lucia';
+import { CACHE_TAGS } from '@/lib/cache-tags';
 import { newid } from '@/lib/utils';
 import { NewTournamentFormType } from '@/lib/zod/new-tournament-form';
 import { db } from '@/server/db';
@@ -35,6 +36,7 @@ import {
   notInArray,
   sql,
 } from 'drizzle-orm';
+import { revalidateTag } from 'next/cache';
 import { permanentRedirect } from 'next/navigation';
 
 export const createTournament = async (
@@ -59,6 +61,7 @@ export const createTournament = async (
   } catch (e) {
     throw new Error(`tournament has NOT been saved, ${e}`);
   }
+  revalidateTag(CACHE_TAGS.ALL_TOURNAMENTS);
   permanentRedirect(`/tournaments/${newTournamentID}`);
 };
 

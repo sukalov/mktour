@@ -1,4 +1,5 @@
 import { validateRequest } from '@/lib/auth/lucia';
+import { CACHE_TAGS } from '@/lib/cache-tags';
 import {
   protectedProcedure,
   publicProcedure,
@@ -29,6 +30,7 @@ import getAllTournaments from '@/server/queries/get-all-tournaments';
 import { getStatusInTournament } from '@/server/queries/get-status-in-tournament';
 import { PlayerModel, TournamentFormat } from '@/types/tournaments';
 import { eq, sql } from 'drizzle-orm';
+import { revalidateTag } from 'next/cache';
 import { z } from 'zod';
 
 export const tournamentRouter = {
@@ -269,6 +271,7 @@ export const tournamentRouter = {
     .mutation(async (opts) => {
       const { input } = opts;
       await deleteTournament(input);
+      revalidateTag(CACHE_TAGS.ALL_TOURNAMENTS);
     }),
   authStatus: publicProcedure
     .input(z.object({ tournamentId: z.string() }))

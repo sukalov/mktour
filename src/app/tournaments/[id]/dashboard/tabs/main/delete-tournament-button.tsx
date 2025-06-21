@@ -24,7 +24,6 @@ export default function DeleteTournamentButton() {
   const queryClient = useQueryClient();
   const { sendJsonMessage } = useContext(DashboardContext);
   const { mutate, isPending } = useTournamentDelete(
-    tournamentId,
     queryClient,
     sendJsonMessage,
   );

@@ -24,7 +24,6 @@ export async function GET(request: NextRequest): Promise<Response> {
     cooks.set('auth_from', from, {
       path: '/',
       secure: process.env.NODE_ENV === 'production',
-      httpOnly: true,
       sameSite: 'lax',
     });
   }
