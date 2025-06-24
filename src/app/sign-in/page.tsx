@@ -18,7 +18,7 @@ const PageContent = async (props: { searchParams: Promise<SearchParams> }) => {
   );
 };
 
-const Page = async (props: { searchParams: Promise<string> }) => {
+const Page = async (props: { searchParams: Promise<SearchParams> }) => {
   return (
     <Suspense
       fallback={
