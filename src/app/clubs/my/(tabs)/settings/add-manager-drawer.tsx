@@ -1,5 +1,6 @@
 import AddManager from '@/app/clubs/my/(tabs)/settings/add-manager';
-import Fab from '@/app/tournaments/[id]/dashboard/fab';
+import Fab from '@/components/fab';
+
 import { useDebounce } from '@/components/hooks/use-debounce';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';

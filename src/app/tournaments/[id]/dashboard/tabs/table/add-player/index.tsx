@@ -1,7 +1,7 @@
-import Fab from '@/app/tournaments/[id]/dashboard/fab';
 import AddFakerPlayer from '@/app/tournaments/[id]/dashboard/tabs/table/add-player/add-fake-player';
 import AddNewPlayer from '@/app/tournaments/[id]/dashboard/tabs/table/add-player/add-new-player';
 import AddPlayer from '@/app/tournaments/[id]/dashboard/tabs/table/add-player/add-player';
+import Fab from '@/components/fab';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { Button } from '@/components/ui/button';
 import { InsertDatabasePlayer } from '@/server/db/schema/players';
