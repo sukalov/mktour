@@ -1,7 +1,7 @@
 import { TabType } from '@/app/tournaments/[id]/dashboard';
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
-import Fab from '@/app/tournaments/[id]/dashboard/fab';
 import AddPlayerDrawer from '@/app/tournaments/[id]/dashboard/tabs/table/add-player';
+import Fab from '@/components/fab';
 import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
