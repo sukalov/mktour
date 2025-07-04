@@ -9,7 +9,7 @@ import { InsertDatabasePlayer } from '@/server/db/schema/players';
 import { ArrowLeft, Plus, UserPlus, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 
 const AddPlayerDrawer = () => {
@@ -52,14 +52,6 @@ const AddPlayerDrawer = () => {
     setValue(player.nickname);
   };
 
-  useEffect(() => {
-    // NB this is to disable buggy fruquent open/close state change
-    setIsAnimating(true);
-    const timer = setTimeout(() => setIsAnimating(false), 500);
-
-    return () => clearTimeout(timer);
-  }, [open]);
-
   const { data: tournamentInfo } = useTournamentInfo(tournamentId);
   if (!tournamentInfo || tournamentInfo.tournament.started_at) return null;
 
@@ -70,8 +62,11 @@ const AddPlayerDrawer = () => {
         onClick={() => handleChange(!open)}
         icon={open ? X : UserPlus}
       />
-      ;
-      <SideDrawer open={open} setOpen={handleChange}>
+      <SideDrawer
+        open={open}
+        setOpen={handleChange}
+        setIsAnimating={setIsAnimating}
+      >
         <div className="flex flex-col gap-3">
           <Button
             className="flex w-full gap-2"
