@@ -1,12 +1,24 @@
-import { FC, PropsWithChildren } from 'react';
+'use client';
+
+import { FC, PropsWithChildren, useEffect } from 'react';
 import { Drawer } from 'vaul';
 
-type DrawerProps = PropsWithChildren & {
-  open: boolean;
-  setOpen: (arg: boolean) => void;
-};
+const SideDrawer: FC<DrawerProps> = ({
+  open,
+  setOpen,
+  setIsAnimating,
+  children,
+}) => {
+  useEffect(() => {
+    // NB this HOOK is to disable buggy fruquent open/close state change
+    if (!setIsAnimating) return;
 
-const SideDrawer: FC<DrawerProps> = ({ open, setOpen, children }) => {
+    setIsAnimating(true);
+    const timer = setTimeout(() => setIsAnimating(false), 500);
+
+    return () => clearTimeout(timer);
+  }, [open, setIsAnimating]);
+
   return (
     <Drawer.Root
       direction="right"
@@ -22,13 +34,19 @@ const SideDrawer: FC<DrawerProps> = ({ open, setOpen, children }) => {
         >
           <Drawer.Title />
           <Drawer.Description />
-          <div className="border-secondary bg-background flex h-[100dvh] flex-1 flex-col gap-3 rounded-l-[15px] border p-4">
-            <div className="w-full">{children}</div>
+          <div className="border-secondary bg-background flex h-[100dvh] w-full flex-1 flex-col gap-3 rounded-l-[15px] border p-4">
+            {children}
           </div>
         </Drawer.Content>
       </Drawer.Portal>
     </Drawer.Root>
   );
+};
+
+type DrawerProps = PropsWithChildren & {
+  open: boolean;
+  setOpen: (arg: boolean) => void;
+  setIsAnimating?: (arg: boolean) => void;
 };
 
 export default SideDrawer;
