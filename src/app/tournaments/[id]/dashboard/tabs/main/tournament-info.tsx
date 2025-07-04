@@ -62,7 +62,7 @@ const TournamentInfoList = () => {
         href={`/clubs/${data.club?.id}`}
       />
       <InfoItem icon={UserRound} value={t(`Types.${data.tournament.type}`)} />
-      <InfoItem icon={Dices} value={t(data.tournament.format)} />
+      <InfoItem icon={Dices} value={data.tournament.format} format={true} />
       <InfoItem icon={CalendarDays} value={decapitalizedWeekday} />
       {/* {formattedStartedAt && (
         <InfoItem

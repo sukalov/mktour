@@ -25,6 +25,7 @@ import {
   saveRound,
   setTournamentGameResult,
   startTournament,
+  updateSwissRoundsNumber,
 } from '@/server/mutations/tournament-managing';
 import getAllTournaments from '@/server/queries/get-all-tournaments';
 import { getStatusInTournament } from '@/server/queries/get-status-in-tournament';
@@ -279,5 +280,16 @@ export const tournamentRouter = {
       const { user } = await validateRequest();
       if (!user) return 'viewer';
       return await getStatusInTournament(user.id, opts.input.tournamentId);
+    }),
+  updateSwissRoundsNumber: tournamentAdminProcedure
+    .input(
+      z.object({
+        tournamentId: z.string(),
+        roundsNumber: z.number(),
+      }),
+    )
+    .mutation(async (opts) => {
+      const { input } = opts;
+      await updateSwissRoundsNumber(input);
     }),
 };
