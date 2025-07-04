@@ -1,4 +1,3 @@
-import { TabType } from '@/app/tournaments/[id]/dashboard';
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import AddPlayerDrawer from '@/app/tournaments/[id]/dashboard/tabs/table/add-player';
 import Fab from '@/components/fab';
@@ -7,26 +6,10 @@ import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament
 import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
 import { useTournamentRoundGames } from '@/components/hooks/query-hooks/use-tournament-round-games';
 import { generateRandomRoundGames } from '@/lib/client-actions/random-pairs-generator';
-import { Status } from '@/server/queries/get-status-in-tournament';
 import { useQueryClient } from '@tanstack/react-query';
 import { Loader2, Shuffle } from 'lucide-react';
 import { useParams } from 'next/navigation';
-import { FC, useContext } from 'react';
-
-const FabProvider: FC<FabProviderProps> = ({
-  status,
-  currentTab,
-  scrolling,
-}) => {
-  if (status !== 'organizer') return null;
-  return (
-    <div
-      className={`${scrolling && 'opacity-50'} transition-all duration-300 ease-linear`}
-    >
-      {fabTabMap[currentTab]}
-    </div>
-  );
-};
+import { useContext } from 'react';
 
 const ShuffleFab = () => {
   const { id: tournamentId } = useParams<{ id: string }>();
@@ -69,16 +52,4 @@ const ShuffleFab = () => {
   );
 };
 
-const fabTabMap = {
-  main: <AddPlayerDrawer />,
-  table: <AddPlayerDrawer />,
-  games: <ShuffleFab />,
-};
-
-type FabProviderProps = {
-  status: Status;
-  currentTab: TabType['title'];
-  scrolling: boolean;
-};
-
-export default FabProvider;
+export default ShuffleFab;

@@ -9,10 +9,10 @@ import {
 import {
   Dispatch,
   FC,
+  RefObject,
   SetStateAction,
   useCallback,
   useEffect,
-  useRef,
   useState,
 } from 'react';
 import { RemoveScroll } from 'react-remove-scroll';
@@ -20,7 +20,7 @@ import { RemoveScroll } from 'react-remove-scroll';
 const CarouselContainer: FC<CarouselProps> = ({
   currentTab,
   setCurrentTab,
-  setScrolling,
+  viewportRef: ref,
 }) => {
   const [api, setApi] = useState<CarouselApi>();
   const indexOfTab = tabs.findIndex((tab) => tab.title === currentTab);
@@ -41,11 +41,7 @@ const CarouselContainer: FC<CarouselProps> = ({
     <Carousel setApi={setApi} opts={{ loop: false }}>
       <CarouselContent>
         {tabs.map((tab) => (
-          <CarouselIteratee
-            key={tab.title}
-            setScrolling={setScrolling}
-            currentTab={currentTab}
-          >
+          <CarouselIteratee ref={ref} key={tab.title} currentTab={currentTab}>
             {tab.component}
           </CarouselIteratee>
         ))}
@@ -55,44 +51,21 @@ const CarouselContainer: FC<CarouselProps> = ({
 };
 
 const CarouselIteratee: FC<{
+  ref: RefObject<HTMLDivElement | null>;
   children: FC;
-  setScrolling: Dispatch<SetStateAction<boolean>>;
   currentTab: string;
-}> = ({ children: Component, setScrolling, currentTab }) => {
-  const viewportRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // NB: this hook controls FAB opacity when scrolling
-    let timeoutId: NodeJS.Timeout;
-    const viewportRefCopy = viewportRef.current;
-
-    const handleScroll = () => {
-      setScrolling(true);
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        setScrolling(false);
-      }, 300);
-    };
-
-    viewportRefCopy?.addEventListener('scroll', handleScroll);
-
-    return () => {
-      viewportRefCopy?.removeEventListener('scroll', handleScroll);
-      clearTimeout(timeoutId);
-    };
-  }, [setScrolling]);
-
+}> = ({ children: Component, currentTab, ref }) => {
   useEffect(() => {
     if (currentTab) {
-      viewportRef.current?.scrollTo({ top: 0 });
+      ref.current?.scrollTo({ top: 0 });
     }
-  }, [currentTab]);
+  }, [currentTab, ref]);
 
   return (
     <CarouselItem>
       <RemoveScroll
         noIsolation
-        ref={viewportRef}
+        ref={ref}
         className="h-dvh overflow-scroll pb-20"
       >
         <Component />
@@ -104,7 +77,7 @@ const CarouselIteratee: FC<{
 type CarouselProps = {
   currentTab: DashboardContextType['currentTab'];
   setCurrentTab: Dispatch<SetStateAction<DashboardContextType['currentTab']>>;
-  setScrolling: Dispatch<SetStateAction<boolean>>;
+  viewportRef: RefObject<HTMLDivElement | null>;
 };
 
 export default CarouselContainer;
