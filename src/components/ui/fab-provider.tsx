@@ -9,7 +9,7 @@ const FabProvider: FC<FabProviderProps> = ({
   if (status !== 'organizer') return null;
   return (
     <div
-      className={`${scrolling && 'opacity-50'} transition-all duration-300 ease-linear`}
+      className={`${scrolling && 'opacity-50'} fixed z-60 transition-all duration-300 ease-linear`}
     >
       {fabContent}
     </div>
