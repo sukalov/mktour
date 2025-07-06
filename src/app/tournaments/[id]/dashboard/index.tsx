@@ -12,7 +12,7 @@ import { useDashboardWebsocket } from '@/components/hooks/use-dashboard-websocke
 import FabProvider from '@/components/ui/fab-provider';
 import { Status } from '@/server/queries/get-status-in-tournament';
 import { useQueryClient } from '@tanstack/react-query';
-import { Dispatch, FC, SetStateAction, useRef, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 
 const Dashboard: FC<TournamentPageContentProps> = ({
   userId,
@@ -33,7 +33,7 @@ const Dashboard: FC<TournamentPageContentProps> = ({
   );
   const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
   const fabContent = fabTabMap[currentTab];
-  const ref = useRef<HTMLDivElement>(null);
+  const [scrolling, setScrolling] = useState(false);
 
   return (
     <DashboardContext.Provider
@@ -50,11 +50,15 @@ const Dashboard: FC<TournamentPageContentProps> = ({
     >
       <TabsContainer currentTab={currentTab} setCurrentTab={setCurrentTab} />
       <CarouselContainer
-        viewportRef={ref}
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
+        setScrolling={setScrolling}
       />
-      <FabProvider status={status} fabContent={fabContent} viewportRef={ref} />
+      <FabProvider
+        status={status}
+        fabContent={fabContent}
+        scrolling={scrolling}
+      />
     </DashboardContext.Provider>
   );
 };

@@ -9,10 +9,10 @@ import {
 import {
   Dispatch,
   FC,
-  RefObject,
   SetStateAction,
   useCallback,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 import { RemoveScroll } from 'react-remove-scroll';
@@ -20,7 +20,7 @@ import { RemoveScroll } from 'react-remove-scroll';
 const CarouselContainer: FC<CarouselProps> = ({
   currentTab,
   setCurrentTab,
-  viewportRef: ref,
+  setScrolling,
 }) => {
   const [api, setApi] = useState<CarouselApi>();
   const indexOfTab = tabs.findIndex((tab) => tab.title === currentTab);
@@ -41,7 +41,11 @@ const CarouselContainer: FC<CarouselProps> = ({
     <Carousel setApi={setApi} opts={{ loop: false }}>
       <CarouselContent>
         {tabs.map((tab) => (
-          <CarouselIteratee ref={ref} key={tab.title} currentTab={currentTab}>
+          <CarouselIteratee
+            setScrolling={setScrolling}
+            key={tab.title}
+            currentTab={currentTab}
+          >
             {tab.component}
           </CarouselIteratee>
         ))}
@@ -51,15 +55,37 @@ const CarouselContainer: FC<CarouselProps> = ({
 };
 
 const CarouselIteratee: FC<{
-  ref: RefObject<HTMLDivElement | null>;
   children: FC;
   currentTab: string;
-}> = ({ children: Component, currentTab, ref }) => {
+  setScrolling?: Dispatch<SetStateAction<boolean>>;
+}> = ({ children: Component, currentTab, setScrolling }) => {
+  const ref = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (currentTab) {
       ref.current?.scrollTo({ top: 0 });
     }
   }, [currentTab, ref]);
+
+  useEffect(() => {
+    if (!setScrolling) return;
+
+    let timeoutId: NodeJS.Timeout;
+    const node = ref.current;
+
+    const handleScroll = () => {
+      setScrolling(true);
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => setScrolling(false), 300);
+    };
+
+    node?.addEventListener('scroll', handleScroll);
+
+    return () => {
+      node?.removeEventListener('scroll', handleScroll);
+      clearTimeout(timeoutId);
+    };
+  }, [setScrolling]);
 
   return (
     <CarouselItem>
@@ -77,7 +103,7 @@ const CarouselIteratee: FC<{
 type CarouselProps = {
   currentTab: DashboardContextType['currentTab'];
   setCurrentTab: Dispatch<SetStateAction<DashboardContextType['currentTab']>>;
-  viewportRef: RefObject<HTMLDivElement | null>;
+  setScrolling: Dispatch<SetStateAction<boolean>>;
 };
 
 export default CarouselContainer;

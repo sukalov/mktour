@@ -1,33 +1,11 @@
 import { Status } from '@/server/queries/get-status-in-tournament';
-import { FC, ReactNode, RefObject, useEffect, useState } from 'react';
+import { FC, PropsWithChildren, ReactNode } from 'react';
 
 const FabProvider: FC<FabProviderProps> = ({
   status,
   fabContent,
-  viewportRef: ref,
+  scrolling,
 }) => {
-  const [scrolling, setScrolling] = useState(false);
-  const element = ref?.current || window;
-
-  console.log(element);
-
-  useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
-
-    const handleScroll = () => {
-      setScrolling(true);
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => setScrolling(false), 300);
-    };
-
-    element?.addEventListener('scroll', handleScroll);
-
-    return () => {
-      element?.removeEventListener('scroll', handleScroll);
-      clearTimeout(timeoutId);
-    };
-  }, [element]);
-
   if (status !== 'organizer') return null;
   return (
     <div
@@ -38,10 +16,10 @@ const FabProvider: FC<FabProviderProps> = ({
   );
 };
 
-type FabProviderProps = {
+type FabProviderProps = PropsWithChildren & {
   status: Status;
   fabContent: ReactNode;
-  viewportRef?: RefObject<HTMLDivElement | null>;
+  scrolling?: boolean;
 };
 
 export default FabProvider;
