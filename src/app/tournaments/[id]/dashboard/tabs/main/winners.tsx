@@ -46,11 +46,6 @@ const MedalGroup: FC<{ place: string; players: PlayerModel[] }> = ({
   );
 };
 
-// const PlayersIteratee = ({ id, place, nickname }: PlayerModel) => {
-//   if (!place) return null;
-//   return <Link href={`/player/${id}`}> {nickname}</Link>;
-// };
-
 export const Medal: FC<{ className: string }> = ({ className }) => (
   <div className={`aspect-square rounded-full ${className}`} />
 );
