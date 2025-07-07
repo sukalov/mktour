@@ -45,8 +45,10 @@ export default function Dashboard({ userId }: { userId: string }) {
         <ClubSelect user={data} />
       </div>
       <div className="fixed h-full w-full">
-        <div ref={ref} className="p-mk relative overflow-scroll pt-20 pb-20">
-          <ActiveTab userId={userId} selectedClub={data.selected_club} />
+        <div ref={ref} className="mk-container relative overflow-scroll pt-20">
+          <div className="pb-20">
+            <ActiveTab userId={userId} selectedClub={data.selected_club} />
+          </div>
         </div>
       </div>
     </SwipeHandlerProvider>
