@@ -1,5 +1,6 @@
 import { DashboardContextType } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import tabs from '@/app/tournaments/[id]/dashboard/tabs';
+import useScrollableContainer from '@/components/hooks/use-scrollable-container';
 import {
   Carousel,
   CarouselApi,
@@ -12,7 +13,6 @@ import {
   SetStateAction,
   useCallback,
   useEffect,
-  useRef,
   useState,
 } from 'react';
 import { RemoveScroll } from 'react-remove-scroll';
@@ -59,33 +59,13 @@ const CarouselIteratee: FC<{
   currentTab: string;
   setScrolling?: Dispatch<SetStateAction<boolean>>;
 }> = ({ children: Component, currentTab, setScrolling }) => {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useScrollableContainer({ setScrolling });
 
   useEffect(() => {
     if (currentTab) {
       ref.current?.scrollTo({ top: 0 });
     }
   }, [currentTab, ref]);
-
-  useEffect(() => {
-    if (!setScrolling) return;
-
-    let timeoutId: NodeJS.Timeout;
-    const node = ref.current;
-
-    const handleScroll = () => {
-      setScrolling(true);
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => setScrolling(false), 300);
-    };
-
-    node?.addEventListener('scroll', handleScroll);
-
-    return () => {
-      node?.removeEventListener('scroll', handleScroll);
-      clearTimeout(timeoutId);
-    };
-  }, [setScrolling]);
 
   return (
     <CarouselItem>
