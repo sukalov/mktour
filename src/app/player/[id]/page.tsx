@@ -21,7 +21,6 @@ export default async function PlayerPage(props: PlayerPageProps) {
 
 async function PlayerPageContent(props: PlayerPageProps) {
   const { id } = await props.params;
-
   const [user, playerData] = await Promise.all([
     publicCaller.user.auth(),
     publicCaller.player.info({ playerId: id }),
@@ -56,9 +55,7 @@ async function PlayerPageContent(props: PlayerPageProps) {
             {canEdit && (
               <>
                 <EditButton userId={user.id} player={player} />
-                {!isOwnPlayer && (
-                  <DeletePlayer userId={user.id} clubId={club.id} />
-                )}
+                {status && <DeletePlayer userId={user.id} clubId={club.id} />}
               </>
             )}
             {canClaim && (
