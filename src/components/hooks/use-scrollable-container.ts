@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
-const useScrollableContainer = () => {
-  const [scrolling, setScrolling] = useState(false);
+const useScrollableContainer = ({
+  setScrolling,
+}: UseScrollableContainerProps) => {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -25,7 +26,11 @@ const useScrollableContainer = () => {
     };
   }, [setScrolling]);
 
-  return { ref, scrolling, setScrolling };
+  return ref;
+};
+
+type UseScrollableContainerProps = {
+  setScrolling?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default useScrollableContainer;
