@@ -222,7 +222,9 @@
         "team": "team"
       },
       "started at": "started at",
-      "ended at": "ended at"
+      "ended at": "ended at",
+      "number of rounds": "rounds",
+      "save": "save"
     },
     "Results": {
       "1-0": "1 - 0",

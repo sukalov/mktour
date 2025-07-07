@@ -93,3 +93,10 @@ export function debounce<T extends (..._args: any[]) => any>(
     if (callNow) func.apply(context, args);
   };
 }
+
+export function getSwissMinRoundsNumber(players: number): number {
+  if (players < 2) return 0;
+  if (players === 2) return 1;
+  if (players < 7) Math.floor(Math.log2(players - 1)) + 2;
+  return Math.floor(Math.log2(players - 1)) + 3;
+}

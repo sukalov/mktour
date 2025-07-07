@@ -24,7 +24,6 @@ export default function ResetTournamentPButton() {
   const queryClient = useQueryClient();
   const { sendJsonMessage, setRoundInView } = useContext(DashboardContext);
   const { mutate, isPending } = useTournamentResetPlayers(
-    tournamentId,
     queryClient,
     sendJsonMessage,
     setRoundInView,

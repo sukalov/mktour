@@ -5,8 +5,10 @@ import ActionButtons from '@/app/tournaments/[id]/dashboard/tabs/main/action-but
 import TournamentInfoList from '@/app/tournaments/[id]/dashboard/tabs/main/tournament-info';
 import Center from '@/components/center';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
+import SwissRoundsNumber from '@/components/swiss-rounds-number';
 import { Card } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { FC, useContext } from 'react';
@@ -25,7 +27,6 @@ const Main = () => {
         {data.tournament.title}
       </div>
       <TournamentInfoList />
-      {/* here is place to chose number of rounds in swiss */}
       <ActionButtons status={status} tournament={data.tournament} />
     </div>
   );
@@ -49,17 +50,29 @@ export const InfoItem: FC<{
   icon: FC<{ className?: string }>;
   value: string | number | null | undefined;
   href?: string;
-}> = ({ icon: Icon, value, href }) => (
-  <div className="flex gap-2">
-    <Icon className="text-muted-foreground" />
-    {!href ? (
-      <span>{value}</span>
-    ) : (
-      <Link href={href} className="mk-link hover:opacity-75">
-        {value}
-      </Link>
-    )}
-  </div>
-);
+  format?: boolean;
+}> = ({ icon: Icon, value, href, format }) => {
+  const t = useTranslations('Tournament.Main');
+  return (
+    <div className="flex gap-2">
+      <Icon className="text-muted-foreground" />
+      {!href ? (
+        format ? (
+          value === 'swiss' ? (
+            <SwissRoundsNumber />
+          ) : (
+            <span>{t(String(value))}</span>
+          )
+        ) : (
+          <span>{value}</span>
+        )
+      ) : (
+        <Link href={href} className="mk-link hover:opacity-75">
+          {value}
+        </Link>
+      )}
+    </div>
+  );
+};
 
 export default Main;

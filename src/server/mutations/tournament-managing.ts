@@ -1012,3 +1012,16 @@ async function getRoundsNumber(
     return Math.ceil(players.length / 2);
   }
 }
+
+export async function updateSwissRoundsNumber({
+  tournamentId,
+  roundsNumber,
+}: {
+  tournamentId: string;
+  roundsNumber: number;
+}) {
+  await db
+    .update(tournaments)
+    .set({ rounds_number: roundsNumber })
+    .where(eq(tournaments.id, tournamentId));
+}
