@@ -25,7 +25,7 @@ export type ClubDashboardTab =
 
 export type ClubTabProps = {
   selectedClub: string;
-  userId: string | undefined;
+  userId: string;
   statusInClub?: StatusInClub;
   isInView?: boolean;
 };

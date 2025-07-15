@@ -17,7 +17,7 @@ import { FC, useState } from 'react';
 const ClubPage: FC<{
   club: DatabaseClub;
   statusInClub: StatusInClub | undefined;
-  userId: string | undefined;
+  userId: string;
 }> = ({ club, statusInClub, userId }) => {
   const [tab, setTab] = useState(0);
 
