@@ -44,6 +44,8 @@ const TournamentTable: FC = ({}) => {
   );
   const hasStarted = !!tournament.data?.tournament.started_at;
   const hasEnded = !!tournament.data?.tournament.closed_at;
+  const stats =
+    tournament.data?.tournament.format === 'swiss' ? STATS_WITH_BERGER : STATS;
 
   if (players.isLoading) return <TableLoading />;
   if (players.isError) {
@@ -67,8 +69,6 @@ const TournamentTable: FC = ({}) => {
     }
   };
 
-  console.log(players.data);
-
   return (
     <>
       <Table className="mb-20">
@@ -78,7 +78,7 @@ const TournamentTable: FC = ({}) => {
             <TableHeadStyled>
               {t('name column', { number: players.data?.length ?? 0 })}
             </TableHeadStyled>
-            <TableStatsHeads />
+            <TableStatsHeads stats={stats} />
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -94,10 +94,11 @@ const TournamentTable: FC = ({}) => {
                   {player.nickname}
                 </Status>
               </TableCellStyled>
+              {/* FIXME this should be stats not STATS */}
               {STATS.map((stat: (typeof STATS)[number]) => (
                 <Stat key={stat}>{player[stat]}</Stat>
               ))}
-              {/* FIXME: this should be iterated with STATS.map(...) above, given that berger score comes from the PlayerModel */}
+              {/* FIXME: this should be iterated with stats.map(...) above, given that berger score comes from the PlayerModel */}
               {tournament.data?.tournament.format === 'swiss' && (
                 <Stat>{mockBergerScore(player)}</Stat> // FIXME mock data
               )}
@@ -118,7 +119,7 @@ const TournamentTable: FC = ({}) => {
   );
 };
 
-const TableStatsHeads = () => {
+const TableStatsHeads: FC<{ stats: string[] }> = ({ stats }) => {
   const { isMobile } = useContext(MediaQueryContext);
   const t = useTranslations(
     `Tournament.Table.Stats.${isMobile ? 'short' : 'full'}`,
@@ -126,7 +127,7 @@ const TableStatsHeads = () => {
 
   return (
     <>
-      {STATS.map((stat) => (
+      {stats.map((stat) => (
         <TableHeadStyled key={stat} className="text-center">
           {t(stat)}
         </TableHeadStyled>
@@ -145,7 +146,7 @@ const TableLoading = () => {
           <TableRow>
             <TableHeadStyled className="text-center">#</TableHeadStyled>
             <TableHeadStyled>{t('name column', { number: 0 })}</TableHeadStyled>
-            <TableStatsHeads />
+            <TableStatsHeads stats={STATS} />
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -233,5 +234,6 @@ function mockBergerScore(player: PlayerModel): number {
 }
 
 const STATS: (keyof Partial<PlayerModel>)[] = ['wins', 'draws', 'losses'];
+const STATS_WITH_BERGER = [...STATS, 'berger'];
 
 export default TournamentTable;
