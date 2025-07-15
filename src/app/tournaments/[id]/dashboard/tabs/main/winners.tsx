@@ -11,7 +11,7 @@ const Winners: FC<TournamentInfo> = ({ tournament }) => {
 
   if (!winners || !tournament.closed_at) return null;
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-4">
       {Object.entries(winners).map(([place, players]) => (
         <MedalGroup key={place} place={place} players={players} />
       ))}
