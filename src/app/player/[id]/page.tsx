@@ -2,7 +2,9 @@ import Loading from '@/app/loading';
 import ClaimPlayer from '@/app/player/[id]/claim-button';
 import DeletePlayer from '@/app/player/[id]/delete-button';
 import EditButton from '@/app/player/[id]/edit-button';
+import LastTournaments from '@/app/player/[id]/last-tournaments';
 import FormattedMessage from '@/components/formatted-message';
+import { Card } from '@/components/ui/card';
 import { makeProtectedCaller, publicCaller } from '@/server/api';
 import { DatabasePlayer } from '@/server/db/schema/players';
 import { DatabaseUser } from '@/server/db/schema/users';
@@ -36,14 +38,20 @@ async function PlayerPageContent(props: PlayerPageProps) {
       : undefined,
     publicCaller.club.authStatus({ clubId: club.id }),
   ]);
+  const playerLastTournaments =
+    await publicCaller.player.playersLastTournaments({
+      playerId: player.id,
+    });
 
   const isOwnPlayer = user && player.user_id === user.id;
   const canEdit = status || isOwnPlayer;
   const canClaim = !status && user && !player.user_id;
 
+  console.log(playerLastTournaments);
+
   return (
     <div className="mk-container flex w-full flex-col gap-2">
-      <div className="flex w-full items-center justify-between border-b-2 pb-2 pl-2">
+      <div className="pl-mk flex w-full items-center justify-between">
         <div className="flex flex-col">
           <span className="truncate text-2xl font-semibold text-wrap">
             {player.nickname}
@@ -68,8 +76,12 @@ async function PlayerPageContent(props: PlayerPageProps) {
           </div>
         )}
       </div>
-      <div className="flex flex-col gap-2 pl-2 text-sm">
-        <FullName player={player} user={playerUser} />
+      <Card className="mk-card flex flex-col gap-2 text-sm">
+        <span>
+          <FormattedMessage id="Player.realname" />
+          {': '}
+          <FullName player={player} user={playerUser} />
+        </span>
         <span>
           <FormattedMessage id="Player.rating" />
           {': '}
@@ -95,7 +107,8 @@ async function PlayerPageContent(props: PlayerPageProps) {
             </Link>
           </p>
         )}
-      </div>
+      </Card>
+      <LastTournaments tournaments={playerLastTournaments} />
     </div>
   );
 }
