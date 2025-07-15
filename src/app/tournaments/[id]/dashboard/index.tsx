@@ -1,6 +1,5 @@
 'use client';
 
-import AddPlayerDrawer from '@/app/clubs/my/add-new-player';
 import CarouselContainer from '@/app/tournaments/[id]/dashboard/carousel-container';
 import {
   DashboardContext,
@@ -8,6 +7,7 @@ import {
 } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import ShuffleFab from '@/app/tournaments/[id]/dashboard/shuffle-fab';
 import TabsContainer from '@/app/tournaments/[id]/dashboard/tabs-container';
+import AddPlayerDrawer from '@/app/tournaments/[id]/dashboard/tabs/table/add-player';
 import { useDashboardWebsocket } from '@/components/hooks/use-dashboard-websocket';
 import FabProvider from '@/components/ui/fab-provider';
 import { Status } from '@/server/queries/get-status-in-tournament';
