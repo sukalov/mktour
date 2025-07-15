@@ -48,9 +48,17 @@ export const clubRouter = {
       return await getClubInfo(opts.input.clubId);
     }),
   players: publicProcedure
-    .input(z.object({ clubId: z.string() }))
+    .input(
+      z.object({
+        clubId: z.string(),
+        cursor: z.string().nullish(),
+        limit: z.number().min(1).max(100).optional(),
+      }),
+    )
     .query(async (opts) => {
-      return await getClubPlayers(opts.input.clubId);
+      const cursor = opts.input.cursor;
+      const limit = opts.input.limit ?? 20;
+      return await getClubPlayers(opts.input.clubId, limit, cursor);
     }),
   tournaments: publicProcedure
     .input(z.object({ clubId: z.string() }))
