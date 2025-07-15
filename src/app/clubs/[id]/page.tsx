@@ -17,7 +17,7 @@ export default async function Page(props: ClubPageProps) {
   if (!club) notFound();
   return (
     <Suspense fallback={<p>loading...</p>}>
-      <ClubPage club={club} statusInClub={statusInClub} />
+      <ClubPage club={club} statusInClub={statusInClub} userId={user?.id} />
     </Suspense>
   );
 }

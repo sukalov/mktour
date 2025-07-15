@@ -1,7 +1,7 @@
 'use client';
 
-import ClubPlayersList from '@/app/clubs/my/(tabs)/players';
-import ClubDashboardTournaments from '@/app/clubs/my/(tabs)/tournaments';
+import ClubPlayersList from '@/app/clubs/players';
+import ClubDashboardTournaments from '@/app/clubs/tournaments';
 import FormattedMessage from '@/components/formatted-message';
 import { useUserSelectClub } from '@/components/hooks/mutation-hooks/use-user-select-club';
 import { useUser } from '@/components/hooks/query-hooks/use-user';
@@ -17,11 +17,12 @@ import { FC, useState } from 'react';
 const ClubPage: FC<{
   club: DatabaseClub;
   statusInClub: StatusInClub | undefined;
-}> = ({ club, statusInClub }) => {
+  userId: string | undefined;
+}> = ({ club, statusInClub, userId }) => {
   const [tab, setTab] = useState(0);
-  const props = { selectedClub: club.id, userId: '' };
-  const Component: FC<typeof props> =
-    tab > 0 ? ClubPlayersList : ClubDashboardTournaments;
+
+  const props = { selectedClub: club.id, userId, statusInClub };
+  const Component: FC<typeof props> = tabArray[tab];
 
   return (
     <div className="mk-container flex flex-col gap-2">
@@ -105,5 +106,7 @@ const ClubInfo: FC<{
     </div>
   );
 };
+
+const tabArray = [ClubDashboardTournaments, ClubPlayersList];
 
 export default ClubPage;

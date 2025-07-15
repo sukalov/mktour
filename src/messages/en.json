@@ -54,8 +54,8 @@
     }
   },
   "Empty": {
-    "players": "there are no players in your club yet",
-    "tournaments": "there are no tournaments in your club yet",
+    "players": "there are no players in this club yet",
+    "tournaments": "there are no tournaments in this club yet",
     "dashboard": "no data",
     "user": "user not found",
     "no data": "no data",
