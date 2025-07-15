@@ -255,12 +255,14 @@
         "full": {
           "wins": "выигрыши",
           "draws": "ничьи",
-          "losses": "проигрыши"
+          "losses": "проигрыши",
+          "berger": "бергер"
         },
         "short": {
           "wins": "в",
           "draws": "н",
-          "losses": "п"
+          "losses": "п",
+          "berger": "т-б"
         }
       },
       "Player": {

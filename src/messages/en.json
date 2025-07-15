@@ -251,12 +251,14 @@
         "full": {
           "wins": "wins",
           "draws": "draws",
-          "losses": "losses"
+          "losses": "losses",
+          "berger": "berger"
         },
         "short": {
           "wins": "w",
           "draws": "d",
-          "losses": "l"
+          "losses": "l",
+          "berger": "t-b"
         }
       },
       "Player": {

@@ -67,6 +67,8 @@ const TournamentTable: FC = ({}) => {
     }
   };
 
+  console.log(players.data);
+
   return (
     <>
       <Table className="mb-20">
@@ -92,9 +94,13 @@ const TournamentTable: FC = ({}) => {
                   {player.nickname}
                 </Status>
               </TableCellStyled>
-              <Stat>{player.wins}</Stat>
-              <Stat>{player.draws}</Stat>
-              <Stat>{player.losses}</Stat>
+              {STATS.map((stat: (typeof STATS)[number]) => (
+                <Stat key={stat}>{player[stat]}</Stat>
+              ))}
+              {/* FIXME: this should be iterated with STATS.map(...) above, given that berger score comes from the PlayerModel */}
+              {tournament.data?.tournament.format === 'swiss' && (
+                <Stat>{mockBergerScore(player)}</Stat> // FIXME mock data
+              )}
             </TableRow>
           ))}
         </TableBody>
@@ -114,14 +120,13 @@ const TournamentTable: FC = ({}) => {
 
 const TableStatsHeads = () => {
   const { isMobile } = useContext(MediaQueryContext);
-  const stats: Stats[] = ['wins', 'draws', 'losses'];
   const t = useTranslations(
     `Tournament.Table.Stats.${isMobile ? 'short' : 'full'}`,
   );
 
   return (
     <>
-      {stats.map((stat) => (
+      {STATS.map((stat) => (
         <TableHeadStyled key={stat} className="text-center">
           {t(stat)}
         </TableHeadStyled>
@@ -214,6 +219,19 @@ const Stat: FC<PropsWithChildren> = ({ children }) => (
   </TableCellStyled>
 );
 
-type Stats = 'wins' | 'draws' | 'losses';
+/**
+ * Mock Berger tiebreak calculation.
+ * Berger is typically sum of defeated opponents' scores + half of drawn opponents' scores.
+ * Here, we just mock it as: wins * 3 + draws * 1 + losses * 0.5
+ */
+function mockBergerScore(player: PlayerModel): number {
+  return (
+    (player.wins ?? 0) * 3 +
+    (player.draws ?? 0) * 1 +
+    (player.losses ?? 0) * 0.5
+  );
+}
+
+const STATS: (keyof Partial<PlayerModel>)[] = ['wins', 'draws', 'losses'];
 
 export default TournamentTable;
