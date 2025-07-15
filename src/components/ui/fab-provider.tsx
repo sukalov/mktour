@@ -1,6 +1,5 @@
 import { Status } from '@/server/queries/get-status-in-tournament';
 import { FC, PropsWithChildren, ReactNode } from 'react';
-import { createPortal } from 'react-dom';
 
 const FabProvider: FC<FabProviderProps> = ({
   status,
@@ -8,13 +7,13 @@ const FabProvider: FC<FabProviderProps> = ({
   scrolling,
 }) => {
   if (status !== 'organizer') return null;
-  return createPortal(
+
+  return (
     <div
-      className={`${scrolling && 'opacity-50'} transition-all duration-300 ease-linear`}
+      className={`${scrolling && 'opacity-50'} fixed z-10 transition-all duration-300 ease-linear`}
     >
       {fabContent}
-    </div>,
-    document.body,
+    </div>
   );
 };
 

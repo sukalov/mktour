@@ -58,6 +58,7 @@ const AddPlayerDrawer = () => {
   return (
     <>
       <Fab
+        container={open || isAnimating ? document.body : undefined}
         className={`${(open || isAnimating) && 'z-60'}`}
         onClick={() => handleChange(!open)}
         icon={open ? X : UserPlus}
