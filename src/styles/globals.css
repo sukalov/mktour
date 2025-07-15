@@ -151,6 +151,7 @@ button {
 
 @theme {
   --spacing-mk: calc(var(--spacing) * 3);
+  --spacing-mk-card-height: calc(var(--spacing-mk) * 4);
 }
 
 @utility mk-container {
