@@ -39,11 +39,11 @@ const CancelClaimPlayer: FC<{
       <Trigger asChild>
         <Button
           variant="ghost"
-          className="flex gap-2 px-2"
+          className="flex max-w-min gap-2 px-2 sm:max-w-full"
           disabled={isPending}
         >
           {isPending ? <LoadingSpinner /> : <PointerOff />}
-          <div className="text-[10px] text-nowrap">
+          <div className="text-left text-[10px]">
             <FormattedMessage id="Player.cancel claim" />
           </div>
         </Button>
