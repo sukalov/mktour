@@ -3,7 +3,7 @@
 import { ClubTabProps } from '@/app/clubs/my/tabMap';
 import Empty from '@/components/empty';
 import { useClubPlayers } from '@/components/hooks/query-hooks/use-club-players';
-import useOnSeen from '@/components/hooks/use-on-seen';
+import useOnReach from '@/components/hooks/use-on-reach';
 import SkeletonList from '@/components/skeleton-list';
 import { Card } from '@/components/ui/card';
 import { DatabasePlayer } from '@/server/db/schema/players';
@@ -14,7 +14,7 @@ import { FC } from 'react';
 const ClubPlayersList: FC<ClubTabProps> = ({ selectedClub }) => {
   const { fetchNextPage, ...players } = useClubPlayers(selectedClub);
   const t = useTranslations('Empty');
-  const SeenTrigger = useOnSeen(() => {
+  const ReachTrigger = useOnReach(() => {
     if (players.hasNextPage && !players.isFetchingNextPage) {
       fetchNextPage();
     }
@@ -30,7 +30,7 @@ const ClubPlayersList: FC<ClubTabProps> = ({ selectedClub }) => {
     <div className="mk-list">
       <div className="mk-list">{playersData.map(PlayerItemIteratee)}</div>
       <div>
-        <SeenTrigger />
+        <ReachTrigger />
         {players.isFetchingNextPage && (
           <SkeletonList length={2} className="h-mk-card-height" />
         )}

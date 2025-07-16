@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-const useOnSeen = (handler: () => void) => {
+const useOnReach = (handler: () => void) => {
   const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -23,14 +23,14 @@ const useOnSeen = (handler: () => void) => {
     };
   }, [handler]);
 
-  const SeenTrigger = () => (
+  const ReachTrigger = () => (
     <div
       ref={ref}
       className="h-0 w-full -translate-y-[calc(var(--spacing-mk-card-height)+calc((var(--spacing-mk)*2)))]"
     />
   );
 
-  return SeenTrigger;
+  return ReachTrigger;
 };
 
-export default useOnSeen;
+export default useOnReach;
