@@ -75,11 +75,7 @@ async function PlayerPageContent(props: PlayerPageProps) {
         )}
       </div>
       <Card className="mk-card flex flex-col gap-2 text-sm">
-        <span>
-          <FormattedMessage id="Player.realname" />
-          {': '}
-          <FullName player={player} user={playerUser} />
-        </span>
+        <FullName player={player} user={playerUser} />
         <span>
           <FormattedMessage id="Player.rating" />
           {': '}
@@ -116,7 +112,13 @@ const FullName: FC<{ player: DatabasePlayer; user: DatabaseUser | null }> = ({
   user,
 }) => {
   if (!player.realname && !user?.name) return null;
-  return <span className="font-semibold">{user?.name || player.realname}</span>;
+  return (
+    <div>
+      <FormattedMessage id="Player.realname" />
+      {': '}
+      <span className="font-semibold">{user?.name || player.realname}</span>
+    </div>
+  );
 };
 
 const UserLink: FC<{ user: DatabaseUser | null }> = ({ user }) => {
