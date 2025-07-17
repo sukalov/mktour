@@ -75,10 +75,10 @@ export const clubRouter = {
       return await getUserClubAffiliation(opts.ctx.user, opts.input.clubId);
     }),
   authStatus: publicProcedure
-    .input(z.object({ clubId: z.string() }))
+    .input(z.object({ clubId: z.string(), userId: z.string() }))
     .query(async (opts) => {
       return await getStatusInClub({
-        userId: opts.ctx.user?.id || '',
+        userId: opts.input.userId,
         clubId: opts.input.clubId,
       });
     }),

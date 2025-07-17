@@ -28,7 +28,10 @@ async function PlayerPageContent(props: PlayerPageProps) {
   ]);
   if (!playerData) notFound();
   const { player, club, user: playerUser } = playerData;
-  const status = await publicCaller.club.authStatus({ clubId: club.id });
+  const status = await publicCaller.club.authStatus({
+    clubId: club.id,
+    userId: user?.id || '',
+  });
   const playerLastTournaments =
     await publicCaller.player.playersLastTournaments({
       playerId: player.id,
