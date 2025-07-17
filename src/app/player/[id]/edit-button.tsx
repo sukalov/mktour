@@ -24,7 +24,7 @@ const EditButton: FC<{
   return (
     <Root>
       <Trigger asChild>
-        <Button variant="ghost" size="icon" className="aspect-square">
+        <Button variant="ghost" size="icon" className="h-9 w-9">
           <Pencil />
         </Button>
       </Trigger>
