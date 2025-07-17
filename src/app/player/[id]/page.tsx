@@ -1,6 +1,5 @@
 import Loading from '@/app/loading';
 import ClaimPlayer from '@/app/player/[id]/claim-button';
-import DeletePlayer from '@/app/player/[id]/delete-button';
 import EditButton from '@/app/player/[id]/edit-button';
 import LastTournaments from '@/app/player/[id]/last-tournaments';
 import FormattedMessage from '@/components/formatted-message';
@@ -43,7 +42,7 @@ async function PlayerPageContent(props: PlayerPageProps) {
     <div className="mk-container flex w-full flex-col gap-2">
       <div className="pl-mk flex w-full items-center justify-between">
         <div className="flex flex-col">
-          <span className="truncate text-2xl font-semibold text-wrap">
+          <span className="truncate text-3xl font-semibold text-wrap">
             {player.nickname}
           </span>
           <UserLink user={playerUser} />
@@ -51,10 +50,7 @@ async function PlayerPageContent(props: PlayerPageProps) {
         {user && (
           <div className="text-muted-foreground flex self-end">
             {canEdit && (
-              <>
-                <EditButton userId={user.id} player={player} />
-                {status && <DeletePlayer userId={user.id} clubId={club.id} />}
-              </>
+              <EditButton userId={user.id} player={player} status={status} />
             )}
             {canClaim && <ClaimPlayer userId={user.id} clubId={club.id} />}
           </div>
