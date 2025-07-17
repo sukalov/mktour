@@ -99,6 +99,11 @@
     --ring: 24 5.4% 63.9%;
 
     --radius: 0.5rem;
+
+    --spacing-ratio: 1;
+    @media screen and (min-width: 768px) {
+      --spacing-ratio: 1.5;
+    }
   }
 
   .dark {
@@ -150,7 +155,7 @@ button {
 }
 
 @theme {
-  --spacing-mk: calc(var(--spacing) * 2);
+  --spacing-mk: calc(var(--spacing) * 2 * var(--spacing-ratio));
   --spacing-mk-card-height: calc(var(--spacing-mk) * 4);
 }
 
@@ -163,9 +168,8 @@ button {
 
 @utility mk-card {
   cursor: pointer;
-  padding: calc(var(--spacing) * 3);
+  padding: var(--spacing-mk);
   @media screen and (min-width: 768px) {
-    padding: var(--spacing-mk);
     width: calc(var(--spacing) * 100);
   }
 }
