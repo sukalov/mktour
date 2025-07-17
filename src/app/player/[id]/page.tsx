@@ -47,8 +47,6 @@ async function PlayerPageContent(props: PlayerPageProps) {
   const canEdit = status || isOwnPlayer;
   const canClaim = !status && user && !player.user_id;
 
-  console.log(playerLastTournaments);
-
   return (
     <div className="mk-container flex w-full flex-col gap-2">
       <div className="pl-mk flex w-full items-center justify-between">

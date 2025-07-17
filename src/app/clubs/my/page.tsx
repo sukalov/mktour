@@ -9,8 +9,6 @@ export default async function ClubInfo() {
   if (!user) redirect('/clubs/all/');
   clubQueryPrefetch(user.selected_club);
 
-  console.log(user.selected_club);
-
   return (
     <HydrateClient>
       <Dashboard userId={user.id} />
