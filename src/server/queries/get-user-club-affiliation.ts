@@ -6,12 +6,12 @@ import { User } from 'lucia';
 export async function getUserClubAffiliation(
   user: User | null,
   clubId: string,
-): Promise<DatabaseAffiliation | undefined> {
+): Promise<DatabaseAffiliation[]> {
   if (!user) {
     throw new Error('USER_NOT_FOUND');
   }
 
-  const [affiliation] = await db
+  const affiliation = await db
     .select()
     .from(affiliations)
     .where(
