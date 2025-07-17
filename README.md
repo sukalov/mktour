@@ -1,4 +1,4 @@
-<img src='/public/app-icon.png' width=300/>
+<img src='/public/readme.png' width=300/>
 
 # ♟️ chess club & tournament manager
 
