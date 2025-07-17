@@ -79,7 +79,7 @@ const ClubInfo: FC<{
           </Button>
         )}
       </div>
-      <div className="px-3">
+      <div className="px-mk">
         {club.lichess_team && (
           <Link
             href={`https://lichess.org/team/${club.lichess_team}`}
