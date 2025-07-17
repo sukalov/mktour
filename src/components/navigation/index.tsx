@@ -19,7 +19,7 @@ const Navigation: FC<NavMenuProps> = ({ user }) => {
   const currentUser = mounted ? user : null;
 
   return (
-    <nav className="bg-background p-mk fixed z-50 flex h-14 w-full items-center justify-between border-b">
+    <nav className="bg-background p-mk-2 fixed z-50 flex h-14 w-full items-center justify-between border-b">
       <MktourNavbar />
       {showMobile ? (
         <Mobile user={currentUser} />
