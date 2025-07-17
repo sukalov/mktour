@@ -3,13 +3,14 @@
 import { ClubTabProps } from '@/app/clubs/my/tabMap';
 import ClubPlayersList from '@/app/clubs/players';
 import ClubDashboardTournaments from '@/app/clubs/tournaments';
-import FormattedMessage from '@/components/formatted-message';
+import FormattedMessage, {
+  IntlMessageId,
+} from '@/components/formatted-message';
 import { useUserSelectClub } from '@/components/hooks/mutation-hooks/use-user-select-club';
 import { useUser } from '@/components/hooks/query-hooks/use-user';
 import { Button } from '@/components/ui/button';
 import LichessLogo from '@/components/ui/lichess-logo';
 import { DatabaseClub, StatusInClub } from '@/server/db/schema/clubs';
-import { IntlMessageId } from '@/types/messages';
 import { useQueryClient } from '@tanstack/react-query';
 import { Home } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
