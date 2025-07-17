@@ -1,12 +1,12 @@
 import { db } from '@/server/db';
-import { clubs_to_users } from '@/server/db/schema/clubs';
+import { clubs_to_users, StatusInClub } from '@/server/db/schema/clubs';
 import { and, eq } from 'drizzle-orm';
 import { cache } from 'react';
 
 export async function uncachedGetStatusInClub({
   userId,
   clubId,
-}: UserClubsQueryProps) {
+}: UserClubsQueryProps): Promise<StatusInClub | undefined> {
   return (
     await db
       .select()

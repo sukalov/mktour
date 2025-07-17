@@ -1,4 +1,3 @@
-import { validateRequest } from '@/lib/auth/lucia';
 import { CACHE_TAGS } from '@/lib/cache-tags';
 import {
   clubAdminProcedure,
@@ -78,10 +77,8 @@ export const clubRouter = {
   authStatus: publicProcedure
     .input(z.object({ clubId: z.string() }))
     .query(async (opts) => {
-      const { user } = await validateRequest();
-      if (!user) return undefined;
       return await getStatusInClub({
-        userId: user.id,
+        userId: opts.ctx.user?.id || '',
         clubId: opts.input.clubId,
       });
     }),

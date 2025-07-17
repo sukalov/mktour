@@ -5,7 +5,7 @@ import EditButton from '@/app/player/[id]/edit-button';
 import LastTournaments from '@/app/player/[id]/last-tournaments';
 import FormattedMessage from '@/components/formatted-message';
 import { Card } from '@/components/ui/card';
-import { makeProtectedCaller, publicCaller } from '@/server/api';
+import { publicCaller } from '@/server/api';
 import { DatabasePlayer } from '@/server/db/schema/players';
 import { DatabaseUser } from '@/server/db/schema/users';
 import { User2 } from 'lucide-react';
@@ -29,15 +29,7 @@ async function PlayerPageContent(props: PlayerPageProps) {
   ]);
   if (!playerData) notFound();
   const { player, club, user: playerUser } = playerData;
-  const protectedCaller = await makeProtectedCaller();
-  const [userAffiliation, status] = await Promise.all([
-    user
-      ? protectedCaller.club.authAffiliation({
-          clubId: club.id,
-        })
-      : undefined,
-    publicCaller.club.authStatus({ clubId: club.id }),
-  ]);
+  const status = await publicCaller.club.authStatus({ clubId: club.id });
   const playerLastTournaments =
     await publicCaller.player.playersLastTournaments({
       playerId: player.id,
@@ -64,13 +56,7 @@ async function PlayerPageContent(props: PlayerPageProps) {
                 {status && <DeletePlayer userId={user.id} clubId={club.id} />}
               </>
             )}
-            {canClaim && (
-              <ClaimPlayer
-                userId={user.id}
-                clubId={club.id}
-                userAffiliation={userAffiliation}
-              />
-            )}
+            {canClaim && <ClaimPlayer userId={user.id} clubId={club.id} />}
           </div>
         )}
       </div>
