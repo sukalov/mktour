@@ -1,6 +1,7 @@
 'use client';
 
 import { LoadingSpinner } from '@/app/loading';
+import { ClaimActionButton } from '@/app/player/[id]/claim-button';
 import FormattedMessage from '@/components/formatted-message';
 import useAffiliationAbortRequestMutation from '@/components/hooks/mutation-hooks/use-affiliation-abort-request';
 import { Button } from '@/components/ui/button';
@@ -37,16 +38,11 @@ const CancelClaimPlayer: FC<{
   return (
     <Root open={open} onOpenChange={setOpen}>
       <Trigger asChild>
-        <Button
-          variant="ghost"
-          className="flex max-w-min gap-2 px-2 sm:max-w-full"
+        <ClaimActionButton
           disabled={isPending}
-        >
-          {isPending ? <LoadingSpinner /> : <PointerOff />}
-          <div className="text-left text-[10px]">
-            <FormattedMessage id="Player.cancel claim" />
-          </div>
-        </Button>
+          icon={isPending ? LoadingSpinner : PointerOff}
+          messageId="Player.cancel claim"
+        />
       </Trigger>
       <Content>
         <Header>

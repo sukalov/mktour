@@ -2,10 +2,12 @@
 
 import { LoadingSpinner } from '@/app/loading';
 import CancelClaimPlayer from '@/app/player/[id]/cancel-claim-button';
-import FormattedMessage from '@/components/formatted-message';
+import FormattedMessage, {
+  IntlMessageId,
+} from '@/components/formatted-message';
 import useAffiliationRequestMutation from '@/components/hooks/mutation-hooks/use-affiliation-request';
 import useUserClubAffiliations from '@/components/hooks/query-hooks/use-user-affiliations';
-import { Button } from '@/components/ui/button';
+import { Button, ButtonProps } from '@/components/ui/button';
 import {
   Close,
   Content,
@@ -53,16 +55,11 @@ const ClaimPlayer: FC<{
     return (
       <Root open={open} onOpenChange={setOpen}>
         <Trigger asChild>
-          <Button
-            variant="ghost"
-            className="flex gap-2 px-2"
+          <ClaimActionButton
             disabled={isPending}
-          >
-            {isPending ? <LoadingSpinner /> : <Pointer />}
-            <div className="text-[10px] text-nowrap">
-              <FormattedMessage id="Player.claim" />
-            </div>
-          </Button>
+            icon={isPending ? LoadingSpinner : Pointer}
+            messageId="Player.claim"
+          />
         </Trigger>
         <Content>
           <Header>
@@ -92,5 +89,29 @@ const ClaimPlayer: FC<{
       </Root>
     );
 };
+
+export const ClaimActionButton: FC<ClaimActionButtonProps> = ({
+  messageId,
+  icon: Icon,
+  disabled,
+  ...props
+}) => (
+  <Button
+    variant="ghost"
+    className="flex max-w-min gap-2 px-2 sm:max-w-full"
+    disabled={disabled}
+    {...props}
+  >
+    <Icon />
+    <div className="text-left text-[10px]">
+      <FormattedMessage id={messageId} />
+    </div>
+  </Button>
+);
+
+type ClaimActionButtonProps = {
+  messageId: IntlMessageId;
+  icon: FC;
+} & ButtonProps;
 
 export default ClaimPlayer;
