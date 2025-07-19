@@ -1,5 +1,6 @@
 'use client';
 
+import ClubManagersList from '@/app/clubs/my/(tabs)/settings/managers';
 import { ClubTabProps } from '@/app/clubs/my/tabMap';
 import { LoadingSpinner } from '@/app/loading';
 import useEditClubMutation from '@/components/hooks/mutation-hooks/use-club-edit';
@@ -22,10 +23,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { Save } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { FC } from 'react';
+import { FC, PropsWithChildren } from 'react';
 import { useForm } from 'react-hook-form';
 
-const ClubSettingsForm: FC<ClubTabProps> = ({ selectedClub, userId }) => {
+const ClubSettingsForm: FC<ClubTabProps & PropsWithChildren> = ({
+  selectedClub,
+  userId,
+  children,
+}) => {
   const queryClient = useQueryClient();
   const { data, isFetching } = useClubInfo(selectedClub);
   const defaultValues = {
@@ -57,6 +62,7 @@ const ClubSettingsForm: FC<ClubTabProps> = ({ selectedClub, userId }) => {
   const t = useTranslations('Club.Settings');
 
   if (!data && isFetching) return <SkeletonList length={1} />;
+  if (!data && children) return children;
   return (
     <Form {...form}>
       <Card className="border-none shadow-none sm:shadow-2xs">
@@ -90,6 +96,7 @@ const ClubSettingsForm: FC<ClubTabProps> = ({ selectedClub, userId }) => {
             )}
           />
           <FormField control={form.control} name="id" render={() => <></>} />
+          <ClubManagersList clubId={selectedClub} userId={userId} />
           <Button
             disabled={
               shallowEqual(form.getValues(), defaultValues) ||
