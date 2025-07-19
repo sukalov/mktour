@@ -114,7 +114,7 @@
     "club not created": "sorry! some error happened. the club wasn't created"
   },
   "Club": {
-    "managers list": "managers list:",
+    "managers list": "managers:",
     "add manager": "add new manager",
     "dashboard": "club dashboard",
     "Settings": {
