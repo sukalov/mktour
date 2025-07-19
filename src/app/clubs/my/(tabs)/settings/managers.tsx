@@ -3,7 +3,6 @@
 import AddManagerDrawer from '@/app/clubs/my/(tabs)/settings/add-manager-drawer';
 import FormattedMessage from '@/components/formatted-message';
 import { useClubManagers } from '@/components/hooks/query-hooks/use-club-managers';
-import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ClubManager } from '@/server/mutations/club-managing';
 import { useTranslations } from 'next-intl';
@@ -21,19 +20,19 @@ const ClubManagersList: FC<{ clubId: string; userId: string }> = ({
   if (status === 'error') toast.error(t('search users error'));
 
   return (
-    <div className="flex flex-col gap-2 sm:px-0">
-      <div className="pl-4 font-bold">
+    <div className="flex flex-col gap-2">
+      <div className="text-mk-sm pl-4">
         <FormattedMessage id="Club.managers list" />
       </div>
-      <Card className="border-none shadow-none sm:border-solid sm:shadow-2xs">
-        <CardContent className="max-sm:p-0 sm:py-8">
-          {status !== 'success' ? (
-            <Skeleton className="h-12 w-full" />
-          ) : (
-            <ul className="list-disc pl-4">{data.map(ManagersIteratee)}</ul>
-          )}
-        </CardContent>
-      </Card>
+      <div>
+        {status !== 'success' ? (
+          <Skeleton className="h-12 w-full" />
+        ) : (
+          <ul className="text-mk-sm list-disc pl-4">
+            {data.map(ManagersIteratee)}
+          </ul>
+        )}
+      </div>
       <AddManagerDrawer clubId={clubId} userId={userId} />
     </div>
   );

@@ -60,13 +60,13 @@ export const AffiliationNotificationLi = ({
       is_seen={notification.is_seen}
       className="flex flex-col gap-2"
     >
-      <p className="text-muted-foreground flex items-center gap-2 text-xs">
+      <p className="text-muted-foreground text-2xs flex items-center gap-2">
         <GitPullRequestCreateArrow className="size-4" />
         <FormattedMessage id="Club.Inbox.affiliation" />
       </p>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between text-xs">
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-2 text-sm">
+          <div className="flex items-center gap-2">
             <div className="flex flex-col justify-center gap-2">
               <div className="flex items-center gap-2">
                 <Link href={`/user/${user?.username}`} className="mk-link">
@@ -104,8 +104,12 @@ export const UserNotificationLi: FC<UserNotification> = (props) => {
   const { messageId, Icon } = useUserNotificationItem(type);
 
   return (
-    <NotificationCard key={notification.id} is_seen={notification.is_seen}>
-      <p className="text-muted-foreground flex items-center gap-2 text-xs">
+    <NotificationCard
+      className="flex flex-col gap-1"
+      key={notification.id}
+      is_seen={notification.is_seen}
+    >
+      <p className="text-muted-foreground text-2xs flex items-center gap-1">
         <Icon size={16} />
         <FormattedMessage id={`Notifications.User.${messageId}`} />
       </p>
@@ -134,7 +138,7 @@ const NotificationContent: FC<UserNotification> = (notification) => {
   const { player, club } = notification;
 
   return (
-    <div className="flex items-center gap-2 text-sm">
+    <div className="flex items-center gap-2 text-xs">
       <Link href={`/player/${player?.id}`} className="mk-link">
         {player?.nickname}
       </Link>

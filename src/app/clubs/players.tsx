@@ -56,7 +56,7 @@ const PlayerItem: FC<{ player: DatabasePlayer }> = ({ player }) => {
     <Link href={`/player/${id}`}>
       <Card
         key={id}
-        className="mk-card flex items-center justify-between truncate text-sm"
+        className="mk-card flex items-center justify-between truncate text-xs"
       >
         <span>{nickname}</span>
         <div className="text-muted-foreground">{rating}</div>
