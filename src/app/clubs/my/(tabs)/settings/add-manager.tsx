@@ -79,7 +79,7 @@ const AddManager = ({
                   className="flex flex-col gap-2 rounded-md p-0"
                 >
                   <TableCell
-                    className={`relative flex h-full cursor-pointer flex-col`}
+                    className={`relative flex max-h-min cursor-pointer flex-col`}
                     onClick={() =>
                       setPromotingUser(
                         promotingUser?.id === user.id ? undefined : user,
@@ -88,45 +88,48 @@ const AddManager = ({
                   >
                     <p className="line-clamp-2 break-all">{user.username}</p>
                     <div
-                      className={`${promotingUser?.id === user.id ? 'max-h-32 pt-2' : 'max-h-0'} flex w-full flex-wrap gap-2 overflow-hidden transition-all duration-300 ease-in-out`}
+                      className={`${promotingUser?.id === user.id ? `max-h-300` : 'max-h-0'} overflow-hidden transition-all duration-300 ease-in-out`}
                     >
-                      <ActionButton
-                        disabled={isPending}
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          mutate({
-                            clubId,
-                            userId: user.id,
-                            status: 'admin',
-                          });
-                        }}
-                      >
-                        {t('make admin')}
-                      </ActionButton>
-                      <ActionButton
-                        disabled={isPending}
-                        variant="destructive"
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          mutate({
-                            clubId,
-                            userId: user.id,
-                            status: 'co-owner',
-                          });
-                        }}
-                      >
-                        {t('make co-owner')}
-                      </ActionButton>
-                      <ActionButton
-                        disabled={isPending}
-                        variant="outline"
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          setPromotingUser(undefined);
-                        }}
-                      >
-                        {t('cancel')}
-                      </ActionButton>
+                      <div className="h-2 w-full" />
+                      <div className="flex flex-wrap gap-2">
+                        <ActionButton
+                          disabled={isPending}
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            mutate({
+                              clubId,
+                              userId: user.id,
+                              status: 'admin',
+                            });
+                          }}
+                        >
+                          {t('make admin')}
+                        </ActionButton>
+                        <ActionButton
+                          disabled={isPending}
+                          variant="destructive"
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            mutate({
+                              clubId,
+                              userId: user.id,
+                              status: 'co-owner',
+                            });
+                          }}
+                        >
+                          {t('make co-owner')}
+                        </ActionButton>
+                        <ActionButton
+                          disabled={isPending}
+                          variant="outline"
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            setPromotingUser(undefined);
+                          }}
+                        >
+                          {t('cancel')}
+                        </ActionButton>
+                      </div>
                     </div>
                   </TableCell>
                 </TableRow>
