@@ -60,11 +60,11 @@ export const AffiliationNotificationLi = ({
       is_seen={notification.is_seen}
       className="flex flex-col gap-2"
     >
-      <p className="text-muted-foreground text-2xs flex items-center gap-2">
+      <p className="text-muted-foreground text-mk-2xs flex items-center gap-2">
         <GitPullRequestCreateArrow className="size-4" />
         <FormattedMessage id="Club.Inbox.affiliation" />
       </p>
-      <div className="flex items-center justify-between text-xs">
+      <div className="text-mk-xs flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-2">
             <div className="flex flex-col justify-center gap-2">
@@ -109,7 +109,7 @@ export const UserNotificationLi: FC<UserNotification> = (props) => {
       key={notification.id}
       is_seen={notification.is_seen}
     >
-      <p className="text-muted-foreground text-2xs flex items-center gap-1">
+      <p className="text-muted-foreground text-mk-2xs flex items-center gap-1">
         <Icon size={16} />
         <FormattedMessage id={`Notifications.User.${messageId}`} />
       </p>
