@@ -59,7 +59,7 @@ const AddManager = ({
   return (
     <div className="flex flex-col">
       {users.length === 0 && debouncedValue === '' && (
-        <p className="text-muted-foreground px-8 pt-8 text-center text-sm text-balance">
+        <p className="text-muted-foreground p-4 text-center text-sm text-balance">
           {t('no affiliated users')}
         </p>
       )}
