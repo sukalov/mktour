@@ -32,6 +32,7 @@ const AddManagerDrawer = ({
   return (
     <>
       <Button
+        type="button"
         size="icon"
         variant="outline"
         onClick={() => handleChange(true)}

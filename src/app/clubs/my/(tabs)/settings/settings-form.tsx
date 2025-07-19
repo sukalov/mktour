@@ -98,6 +98,7 @@ const ClubSettingsForm: FC<ClubTabProps & PropsWithChildren> = ({
           <FormField control={form.control} name="id" render={() => <></>} />
           <ClubManagersList clubId={selectedClub} userId={userId} />
           <Button
+            type="submit"
             disabled={
               shallowEqual(form.getValues(), defaultValues) ||
               clubSettingsMutation.isPending ||
