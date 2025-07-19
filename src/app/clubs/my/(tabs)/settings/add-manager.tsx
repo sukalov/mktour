@@ -2,13 +2,13 @@ import { useClubAddManagerMutation } from '@/components/hooks/mutation-hooks/use
 import { useClubAffiliatedUsers } from '@/components/hooks/query-hooks/use-club-affiliated-users';
 import { useClubManagers } from '@/components/hooks/query-hooks/use-club-managers';
 import { useSearchQuery } from '@/components/hooks/query-hooks/use-search-result';
-import { Button } from '@/components/ui/button';
+import { Button, ButtonProps } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 import { DatabaseUser } from '@/server/db/schema/users';
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
+import { FC, PropsWithChildren, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { toast } from 'sonner';
 
@@ -74,49 +74,58 @@ const AddManager = ({
                   ),
               )
               .map((user) => (
-                <TableRow key={user.id} className="p-0">
-                  {promotingUser && promotingUser.id === user.id ? (
-                    <TableCell className="grid grid-cols-3 gap-1.5 p-1.5">
-                      <Button
+                <TableRow key={user.id} className="flex flex-col gap-2 p-0">
+                  <TableCell
+                    className={`relative flex h-full cursor-pointer flex-col gap-2`}
+                    onClick={() =>
+                      setPromotingUser(
+                        promotingUser?.id === user.id ? undefined : user,
+                      )
+                    }
+                  >
+                    <p className="line-clamp-2 break-all">{user.username}</p>
+                    <div
+                      className={`${promotingUser?.id === user.id ? 'max-h-32' : 'max-h-0'} flex w-full flex-wrap gap-2 overflow-hidden transition-all duration-300 ease-out`}
+                    >
+                      <ActionButton
                         disabled={isPending}
-                        onClick={() =>
+                        onClick={(event) => {
+                          event.stopPropagation();
                           mutate({
                             clubId,
                             userId: user.id,
                             status: 'admin',
-                          })
-                        }
+                          });
+                        }}
                       >
                         {t('make admin')}
-                      </Button>
-                      <Button
+                      </ActionButton>
+                      <ActionButton
                         disabled={isPending}
                         variant="destructive"
-                        onClick={() =>
+                        onClick={(event) => {
+                          event.stopPropagation();
                           mutate({
                             clubId,
                             userId: user.id,
                             status: 'co-owner',
-                          })
-                        }
+                          });
+                        }}
                       >
                         {t('make co-owner')}
-                      </Button>
-                      <Button
+                      </ActionButton>
+                      <ActionButton
                         disabled={isPending}
-                        variant="secondary"
-                        onClick={() => setPromotingUser(undefined)}
+                        variant="outline"
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          setPromotingUser(undefined);
+                        }}
                       >
                         {t('cancel')}
-                      </Button>
-                    </TableCell>
-                  ) : (
-                    <TableCell onClick={() => setPromotingUser(user)}>
-                      <p className="line-clamp-2 break-all">
-                        {user.username}
-                      </p>{' '}
-                    </TableCell>
-                  )}
+                      </ActionButton>
+                    </div>
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>
@@ -126,5 +135,14 @@ const AddManager = ({
     </div>
   );
 };
+
+const ActionButton: FC<ButtonProps & PropsWithChildren> = ({
+  children,
+  ...props
+}) => (
+  <Button className="min-w-30 flex-1" size="sm" {...props}>
+    <div className="text-mk-xs">{children}</div>
+  </Button>
+);
 
 export default AddManager;
