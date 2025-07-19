@@ -23,7 +23,7 @@ const Main = () => {
 
   return (
     <div className="mk-container">
-      <div className="truncate border-b-2 p-2 pt-0 text-3xl font-bold whitespace-break-spaces">
+      <div className="p-mk truncate border-b-2 pt-0 text-2xl font-bold whitespace-break-spaces">
         {data.tournament.title}
       </div>
       <TournamentInfoList />
@@ -54,8 +54,8 @@ export const InfoItem: FC<{
 }> = ({ icon: Icon, value, href, format }) => {
   const t = useTranslations('Tournament.Main');
   return (
-    <div className="flex gap-2">
-      <Icon className="text-muted-foreground" />
+    <div className="text-mk-sm flex gap-1">
+      <Icon className="text-muted-foreground my-auto size-4" />
       {!href ? (
         format ? (
           value === 'swiss' ? (
