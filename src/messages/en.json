@@ -130,7 +130,8 @@
       "no affiliated users": "couldn't find users related to your club. start typing to search among all mktour users",
       "search users error": "an error happened while searching",
       "make admin": "make admin",
-      "make co-owner": "make co-owner"
+      "make co-owner": "make co-owner",
+      "delete manager": "delete manager"
     },
     "Dashboard": {
       "no data": "no data",

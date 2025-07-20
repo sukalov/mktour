@@ -132,7 +132,8 @@
       "make moderator": "сделать модератором",
       "add manager": "добавить админа",
       "make admin": "сделать админом",
-      "search users error": "во время поиска что-то слетело"
+      "search users error": "во время поиска что-то слетело",
+      "delete manager": "удалить админа"
     },
     "Dashboard": {
       "no data": "данные не получены",

@@ -54,7 +54,7 @@ export const InfoItem: FC<{
 }> = ({ icon: Icon, value, href, format }) => {
   const t = useTranslations('Tournament.Main');
   return (
-    <div className="text-mk-sm flex gap-1">
+    <div className="text-mk-sm flex gap-2">
       <Icon className="text-muted-foreground my-auto size-4" />
       {!href ? (
         format ? (
