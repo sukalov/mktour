@@ -1,6 +1,5 @@
 import { LoadingSpinner } from '@/app/loading';
 import Fab from '@/components/fab';
-import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { useUser } from '@/components/hooks/query-hooks/use-user';
 import { Button } from '@/components/ui/button';
 import {
@@ -20,7 +19,6 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Save, UserPlus, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useParams } from 'next/navigation';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useHotkeys } from 'react-hotkeys-hook';
@@ -29,9 +27,6 @@ const AddPlayerDrawer = () => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
   const [isAnimating, setIsAnimating] = useState(false);
-  const { id: tournamentId } = useParams<{ id: string }>();
-  const tournament = useTournamentInfo(tournamentId);
-  const hasFinished = tournament.data?.tournament.closed_at;
 
   useHotkeys(
     'shift+equal',
@@ -57,7 +52,6 @@ const AddPlayerDrawer = () => {
     }
   };
 
-  if (hasFinished) return null;
   return (
     <>
       <Fab
