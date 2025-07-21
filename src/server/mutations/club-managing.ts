@@ -75,7 +75,7 @@ export const getClubPlayers = async (
     .select()
     .from(players)
     .where(and(...conditions))
-    .orderBy(players.id) // pagination direction
+    .orderBy(players.last_seen, players.id)
     .limit(limit + 1);
 
   let nextCursor: string | null = null;
