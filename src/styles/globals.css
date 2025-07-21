@@ -170,8 +170,9 @@ button {
 
 @utility mk-card {
   cursor: pointer;
-  padding: calc(var(--spacing-mk) * 1.5) var(--spacing-mk);
+  padding: var(--spacing-mk);
   @media screen and (min-width: 768px) {
+    padding: var(--spacing-mk);
     width: calc(var(--spacing) * 100);
   }
 }

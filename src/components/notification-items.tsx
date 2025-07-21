@@ -67,17 +67,13 @@ export const AffiliationNotificationLi = ({
       <div className="flex items-center justify-between text-sm">
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-2">
-            <div className="flex flex-col justify-center gap-2">
+            <div className="flex flex-col justify-center">
               <div className="flex items-center gap-2">
-                <Link href={`/user/${user?.username}`} className="mk-link">
-                  {user?.username}
-                </Link>
+                <Link href={`/user/${user?.username}`}>{user?.username}</Link>
               </div>
               <div className="flex items-center">
-                <CornerDownRightIcon className="mx-2 size-4" />
-                <Link href={`/player/${player?.id}`} className="mk-link">
-                  {player?.nickname}
-                </Link>
+                <CornerDownRightIcon className="text-muted-foreground mx-2 size-4" />
+                <Link href={`/player/${player?.id}`}>{player?.nickname}</Link>
               </div>
             </div>
           </div>
