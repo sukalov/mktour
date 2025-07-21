@@ -11,17 +11,20 @@ import {
   Title,
   Trigger,
 } from '@/components/ui/combo-modal';
+import { StatusInClub } from '@/server/db/schema/clubs';
 import { DatabasePlayer } from '@/server/db/schema/players';
 import { Pencil } from 'lucide-react';
 import { FC } from 'react';
 
-const ActionButton: FC<{ userId: string; player: DatabasePlayer }> = ({
-  player,
-}) => {
+const EditButton: FC<{
+  userId: string;
+  player: DatabasePlayer;
+  status: StatusInClub | undefined;
+}> = ({ userId, player, status }) => {
   return (
     <Root>
       <Trigger asChild>
-        <Button variant="ghost" size="icon" className="aspect-square">
+        <Button variant="ghost" size="icon" className="h-9 w-9">
           <Pencil />
         </Button>
       </Trigger>
@@ -32,10 +35,12 @@ const ActionButton: FC<{ userId: string; player: DatabasePlayer }> = ({
           </Title>
           <Description hidden />
         </Header>
-        <EditPlayerForm {...{ player, clubId: player.club_id }} />
+        <EditPlayerForm
+          {...{ player, clubId: player.club_id, userId, status }}
+        />
       </Content>
     </Root>
   );
 };
 
-export default ActionButton;
+export default EditButton;

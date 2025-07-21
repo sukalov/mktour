@@ -8,7 +8,10 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { FC } from 'react';
 
-const ClubDashboardTournaments: FC<ClubTabProps> = ({ selectedClub }) => {
+const ClubDashboardTournaments: FC<ClubTabProps> = ({
+  selectedClub,
+  statusInClub,
+}) => {
   const { data, isLoading, isError, failureReason } =
     useClubTournaments(selectedClub);
 
@@ -17,7 +20,7 @@ const ClubDashboardTournaments: FC<ClubTabProps> = ({ selectedClub }) => {
     return (
       <Empty className="mk-container">
         <FormattedMessage id="Empty.tournaments" />
-        <MakeTournament />
+        {statusInClub && <MakeTournament />}
       </Empty>
     );
   if (isError) return <p className="w-full">{failureReason?.message}</p>;

@@ -27,7 +27,7 @@ import {
 } from '@/server/db/schema/tournaments';
 import { DatabaseUser, users } from '@/server/db/schema/users';
 import getStatusInClub from '@/server/queries/get-status-in-club';
-import { and, eq, ne } from 'drizzle-orm';
+import { and, eq, gt, ne } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 
 export const createClub = async (values: NewClubFormType) => {
@@ -62,8 +62,32 @@ export const getClubInfo = async (id: DatabaseClub['id']) => {
   return data;
 };
 
-export const getClubPlayers = async (id: DatabasePlayer['club_id']) => {
-  return await db.select().from(players).where(eq(players.club_id, id));
+export const getClubPlayers = async (
+  clubId: DatabasePlayer['club_id'],
+  limit: number,
+  cursor?: string | null,
+): Promise<{ players: DatabasePlayer[]; nextCursor: string | null }> => {
+  const conditions = [eq(players.club_id, clubId)];
+  if (cursor) {
+    conditions.push(gt(players.id, cursor));
+  }
+  const result = await db
+    .select()
+    .from(players)
+    .where(and(...conditions))
+    .orderBy(players.last_seen, players.id)
+    .limit(limit + 1);
+
+  let nextCursor: string | null = null;
+  if (result.length > limit) {
+    const next = result.pop(); // remove the extra item
+    nextCursor = next ? next.id : null;
+  }
+
+  return {
+    players: result,
+    nextCursor,
+  };
 };
 
 export const editClub = async ({ clubId, userId, values }: ClubEditProps) => {

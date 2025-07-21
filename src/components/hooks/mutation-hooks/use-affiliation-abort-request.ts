@@ -1,15 +1,20 @@
 import { useTRPC } from '@/components/trpc/client';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
-export default function useAffiliationAbortRequestMutation() {
+export default function useAffiliationAbortRequestMutation(clubId: string) {
   const t = useTranslations('Toasts');
   const trpc = useTRPC();
+  const client = useQueryClient();
+
   return useMutation(
     trpc.player.affiliation.abortRequest.mutationOptions({
       onSuccess: () => {
         toast.success(t('affiliation canceled'));
+        client.invalidateQueries({
+          queryKey: trpc.club.authAffiliation.queryKey({ clubId }),
+        });
       },
       onError: (error) => toast.error(`${t('server error')}: ${error}`),
     }),

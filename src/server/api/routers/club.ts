@@ -1,4 +1,3 @@
-import { validateRequest } from '@/lib/auth/lucia';
 import { CACHE_TAGS } from '@/lib/cache-tags';
 import {
   clubAdminProcedure,
@@ -48,9 +47,17 @@ export const clubRouter = {
       return await getClubInfo(opts.input.clubId);
     }),
   players: publicProcedure
-    .input(z.object({ clubId: z.string() }))
+    .input(
+      z.object({
+        clubId: z.string(),
+        cursor: z.string().nullish(),
+        limit: z.number().min(1).max(100).optional(),
+      }),
+    )
     .query(async (opts) => {
-      return await getClubPlayers(opts.input.clubId);
+      const cursor = opts.input.cursor;
+      const limit = opts.input.limit ?? 20;
+      return await getClubPlayers(opts.input.clubId, limit, cursor);
     }),
   tournaments: publicProcedure
     .input(z.object({ clubId: z.string() }))
@@ -68,12 +75,10 @@ export const clubRouter = {
       return await getUserClubAffiliation(opts.ctx.user, opts.input.clubId);
     }),
   authStatus: publicProcedure
-    .input(z.object({ clubId: z.string() }))
+    .input(z.object({ clubId: z.string(), userId: z.string() }))
     .query(async (opts) => {
-      const { user } = await validateRequest();
-      if (!user) return undefined;
       return await getStatusInClub({
-        userId: user.id,
+        userId: opts.input.userId,
         clubId: opts.input.clubId,
       });
     }),

@@ -1,5 +1,4 @@
 import ClubDelete from '@/app/clubs/my/(tabs)/settings/delete-club';
-import ClubManagersList from '@/app/clubs/my/(tabs)/settings/managers';
 import ClubSettingsForm from '@/app/clubs/my/(tabs)/settings/settings-form';
 import { ClubTabProps } from '@/app/clubs/my/tabMap';
 import { LoadingSpinner } from '@/app/loading';
@@ -12,12 +11,10 @@ import { useTranslations } from 'next-intl';
 export default function ClubSettings({ selectedClub, userId }: ClubTabProps) {
   const t = useTranslations('Club.Dashboard');
   const { mutate, isPending } = useClubLeaveMutation();
+
   return (
     <section className="divide-ring p-mk top-20 right-0 left-0 flex min-h-[calc(100dvh-136px)] w-full max-w-[min(640px,100%)] flex-col justify-between pt-0 max-sm:absolute">
-      <div>
-        <ClubSettingsForm selectedClub={selectedClub} userId={userId} />
-        <ClubManagersList clubId={selectedClub} userId={userId} />
-      </div>
+      <ClubSettingsForm selectedClub={selectedClub} userId={userId} />
       <div className="flex h-full grow flex-col justify-end gap-2 sm:px-0">
         <div className="pl-4 font-bold">{t('danger zone')}</div>
         <Card className="border-none shadow-none sm:border-solid sm:shadow-2xs">

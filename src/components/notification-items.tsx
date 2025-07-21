@@ -64,20 +64,16 @@ export const AffiliationNotificationLi = ({
         <GitPullRequestCreateArrow className="size-4" />
         <FormattedMessage id="Club.Inbox.affiliation" />
       </p>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between text-sm">
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-2 text-sm">
-            <div className="flex flex-col justify-center gap-2">
+          <div className="flex items-center gap-2">
+            <div className="flex flex-col justify-center">
               <div className="flex items-center gap-2">
-                <Link href={`/user/${user?.username}`} className="mk-link">
-                  {user?.username}
-                </Link>
+                <Link href={`/user/${user?.username}`}>{user?.username}</Link>
               </div>
               <div className="flex items-center">
-                <CornerDownRightIcon className="mx-2 size-4" />
-                <Link href={`/player/${player?.id}`} className="mk-link">
-                  {player?.nickname}
-                </Link>
+                <CornerDownRightIcon className="text-muted-foreground mx-2 size-4" />
+                <Link href={`/player/${player?.id}`}>{player?.nickname}</Link>
               </div>
             </div>
           </div>
@@ -104,8 +100,12 @@ export const UserNotificationLi: FC<UserNotification> = (props) => {
   const { messageId, Icon } = useUserNotificationItem(type);
 
   return (
-    <NotificationCard key={notification.id} is_seen={notification.is_seen}>
-      <p className="text-muted-foreground flex items-center gap-2 text-xs">
+    <NotificationCard
+      className="flex flex-col gap-1"
+      key={notification.id}
+      is_seen={notification.is_seen}
+    >
+      <p className="text-muted-foreground flex items-center gap-1 text-xs">
         <Icon size={16} />
         <FormattedMessage id={`Notifications.User.${messageId}`} />
       </p>
@@ -134,7 +134,7 @@ const NotificationContent: FC<UserNotification> = (notification) => {
   const { player, club } = notification;
 
   return (
-    <div className="flex items-center gap-2 text-sm">
+    <div className="flex items-center gap-2 text-xs">
       <Link href={`/player/${player?.id}`} className="mk-link">
         {player?.nickname}
       </Link>
