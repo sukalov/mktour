@@ -99,12 +99,6 @@
     --ring: 24 5.4% 63.9%;
 
     --radius: 0.5rem;
-
-    --spacing-ratio: 1;
-
-    @media screen and (min-width: 768px) {
-      --spacing-ratio: 1.5;
-    }
   }
 
   .dark {
@@ -156,7 +150,7 @@ button {
 }
 
 @theme {
-  --spacing-mk: calc(var(--spacing) * 3 * var(--spacing-ratio));
+  --spacing-mk: calc(var(--spacing) * 3);
   --spacing-mk-2: calc(var(--spacing-mk) * 2);
   --spacing-mk-card-height: calc(var(--spacing-mk) * 4);
 }
