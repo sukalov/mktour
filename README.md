@@ -13,4 +13,4 @@
 - 📊 real-time results and standings
 - 🔐 authentication with lichess.org
 - 📱 PWA support for mobile use
-- ⚡ optimized performance with bun, , nextjs, react compiler, and react 19
+- ⚡ optimized performance with bun, nextjs, react compiler, and react 19
