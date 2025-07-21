@@ -16,14 +16,12 @@ export default function ClubSettings({ selectedClub, userId }: ClubTabProps) {
     <section className="divide-ring p-mk top-20 right-0 left-0 flex min-h-[calc(100dvh-136px)] w-full max-w-[min(640px,100%)] flex-col justify-between pt-0 max-sm:absolute">
       <ClubSettingsForm selectedClub={selectedClub} userId={userId} />
       <div className="flex h-full grow flex-col justify-end gap-2 sm:px-0">
-        <div className="text-destructive pl-4 font-bold">
-          {t('danger zone')}
-        </div>
+        <div className="pl-4 font-bold">{t('danger zone')}</div>
         <Card className="border-none shadow-none sm:border-solid sm:shadow-2xs">
           <CardContent className="flex flex-col gap-2 max-sm:p-0 sm:py-8">
             <Button
-              variant="outline"
-              className="border-destructive text-destructive w-full"
+              variant="destructive"
+              className="w-full"
               onClick={() => mutate({ clubId: selectedClub })}
               disabled={isPending}
             >

@@ -33,8 +33,8 @@ export default function ClubDelete({ id, userId }: ClubDeleteProps) {
     <ComboModal.Root open={open} onOpenChange={setOpen}>
       <ComboModal.Trigger asChild>
         <Button
-          variant="outline"
-          className="border-destructive text-destructive w-full"
+          variant="destructive"
+          className="w-full"
           disabled={mutating !== 0}
         >
           {deleting !== 0 ? <LoadingSpinner /> : <Trash2 />}
