@@ -156,7 +156,7 @@ button {
 }
 
 @theme {
-  --spacing-mk: calc(var(--spacing) * 2 * var(--spacing-ratio));
+  --spacing-mk: calc(var(--spacing) * 3 * var(--spacing-ratio));
   --spacing-mk-2: calc(var(--spacing-mk) * 2);
   --spacing-mk-card-height: calc(var(--spacing-mk) * 4);
 }
