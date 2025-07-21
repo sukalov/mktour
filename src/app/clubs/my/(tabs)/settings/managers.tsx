@@ -1,7 +1,9 @@
 'use client';
 
 import AddManagerDrawer from '@/app/clubs/my/(tabs)/settings/add-manager-drawer';
+import { LoadingSpinner } from '@/app/loading';
 import FormattedMessage from '@/components/formatted-message';
+import useDeleteClubManagerMutation from '@/components/hooks/mutation-hooks/use-club-delete-manager';
 import { useClubManagers } from '@/components/hooks/query-hooks/use-club-managers';
 import { Button } from '@/components/ui/button';
 import {
@@ -14,12 +16,11 @@ import {
   Trigger,
 } from '@/components/ui/combo-modal';
 import { Skeleton } from '@/components/ui/skeleton';
-import { StatusInClub } from '@/server/db/schema/clubs';
 import { ClubManager } from '@/server/mutations/club-managing';
-import { User2 } from 'lucide-react';
+import { Trash2, User2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { FC } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { toast } from 'sonner';
 
 const ClubManagersList: FC<{ clubId: string; userId: string }> = ({
@@ -76,15 +77,15 @@ const ManagerItem: FC<{
   user: ClubManager | undefined;
 }> = ({ manager, user }) => {
   const t = useTranslations('Status');
+  const [open, setOpen] = useState(false);
 
   const canDelete =
     user &&
-    manager.clubs_to_users.user_id !== user.user.id &&
-    statusHierarchy.indexOf(user.clubs_to_users.status) <
-      statusHierarchy.indexOf(manager.clubs_to_users.status);
+    user.clubs_to_users.status === 'co-owner' &&
+    manager.clubs_to_users.status === 'admin';
 
   return (
-    <Root key={manager.user.id}>
+    <Root key={manager.user.id} open={open} onOpenChange={setOpen}>
       <Trigger type="button">
         {manager.user.username}
         &nbsp;
@@ -103,7 +104,13 @@ const ManagerItem: FC<{
             <FormattedMessage id="Tournament.Table.Player.profile" />
           </Link>
         </Button>
-        {canDelete && <DeleteManagerButton />}
+        {canDelete && (
+          <DeleteManagerButton
+            clubId={user.clubs_to_users.club_id}
+            userId={manager.user.id}
+            setOpen={setOpen}
+          />
+        )}
         <Close asChild>
           <Button className="w-full" variant="outline">
             <FormattedMessage id="Common.close" />
@@ -114,11 +121,17 @@ const ManagerItem: FC<{
   );
 };
 
-const DeleteManagerButton = () => {
+const DeleteManagerButton: FC<{
+  clubId: string;
+  userId: string;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+}> = ({ clubId, userId, setOpen }) => {
+  const { mutate, isPending } = useDeleteClubManagerMutation();
   return (
     <Root>
       <Trigger asChild>
-        <Button variant="destructive">
+        <Button variant="destructive" className="flex gap-2">
+          <Trash2 />
           <FormattedMessage id="Club.Settings.delete manager" />
         </Button>
       </Trigger>
@@ -128,7 +141,16 @@ const DeleteManagerButton = () => {
             <FormattedMessage id="Common.confirm" />
           </Title>
         </Header>
-        <Button variant="destructive" onClick={console.log}>
+        <Button
+          variant="destructive"
+          className="flex gap-2"
+          onClick={() => {
+            mutate({ clubId, userId });
+            setOpen(false);
+          }}
+          disabled={isPending}
+        >
+          {isPending ? <LoadingSpinner /> : <Trash2 />}
           <FormattedMessage id="Common.delete" />
         </Button>
         <Close asChild>
@@ -140,8 +162,5 @@ const DeleteManagerButton = () => {
     </Root>
   );
 };
-
-// NB this should probably have its numerical representation on server:
-const statusHierarchy: StatusInClub[] = ['co-owner', 'admin'];
 
 export default ClubManagersList;

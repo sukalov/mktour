@@ -312,6 +312,35 @@ export const addClubManager = async ({
   ]);
 };
 
+export const deleteClubManager = async ({
+  clubId,
+  userId,
+}: {
+  clubId: string;
+  userId: string;
+}) => {
+  const { user } = await validateRequest();
+  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
+  const authorStatus = await getStatusInClub({
+    userId: user.id,
+    clubId,
+  });
+  const targetStatus = await getStatusInClub({
+    userId,
+    clubId,
+  });
+  if (targetStatus === 'co-owner') throw new Error('NOT_AUTHORIZED');
+  if (authorStatus !== 'co-owner') throw new Error('NOT_AUTHORIZED');
+  await db
+    .delete(clubs_to_users)
+    .where(
+      and(
+        eq(clubs_to_users.club_id, clubId),
+        eq(clubs_to_users.user_id, userId),
+      ),
+    );
+};
+
 export const leaveClub = async (clubId: string) => {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
