@@ -147,7 +147,7 @@ const ActionButton: FC<ButtonProps & PropsWithChildren> = ({
   ...props
 }) => (
   <Button className="min-w-30 flex-1" size="sm" {...props}>
-    <div className="text-mk-xs">{children}</div>
+    <div className="text-xs">{children}</div>
   </Button>
 );
 

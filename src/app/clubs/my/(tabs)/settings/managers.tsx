@@ -36,14 +36,14 @@ const ClubManagersList: FC<{ clubId: string; userId: string }> = ({
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="text-mk-sm pl-4">
+      <div className="pl-4 text-sm">
         <FormattedMessage id="Club.managers list" />
       </div>
       <div>
         {status !== 'success' ? (
           <Skeleton className="h-12 w-full" />
         ) : (
-          <ul className="text-mk-sm list-disc pl-4">
+          <ul className="list-disc pl-4 text-sm">
             {data.map((manager) => (
               <ManagersIteratee
                 key={manager.user.id}

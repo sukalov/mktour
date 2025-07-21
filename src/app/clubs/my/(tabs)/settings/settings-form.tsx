@@ -82,7 +82,7 @@ const ClubSettingsForm: FC<ClubTabProps & PropsWithChildren> = ({
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-mk-sm pl-4">{t('name')}</FormLabel>
+                <FormLabel className="pl-4">{t('name')}</FormLabel>
                 <FormControl>
                   <Input
                     {...field}

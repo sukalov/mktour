@@ -8,7 +8,7 @@ import { DatabaseClub } from '@/server/db/schema/clubs';
 import { ArrowRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-export default function ForwardToEmpryClub({
+export default function ForwardToEmptyClub({
   club,
   userId,
 }: {
@@ -18,7 +18,7 @@ export default function ForwardToEmpryClub({
   const t = useTranslations('NewClubForm.ForwardToEmpty');
   return (
     <div className="p-4 py-2">
-      <Card className="text-mk-sm mx-auto flex max-w-[min(600px,98%)] flex-col gap-4 border-none shadow-none sm:border-solid sm:p-8 sm:shadow-2xs">
+      <Card className="mx-auto flex max-w-[min(600px,98%)] flex-col gap-4 border-none text-sm shadow-none sm:border-solid sm:p-8 sm:shadow-2xs">
         <RichText>
           {(tags) =>
             t.rich('message', {

@@ -100,13 +100,10 @@
 
     --radius: 0.5rem;
 
-    --text-base: 16px;
     --spacing-ratio: 1;
-    --text-enlarger: 0px;
 
     @media screen and (min-width: 768px) {
       --spacing-ratio: 1.5;
-      --text-enlarger: 2px;
     }
   }
 
@@ -162,10 +159,6 @@ button {
   --spacing-mk: calc(var(--spacing) * 2 * var(--spacing-ratio));
   --spacing-mk-2: calc(var(--spacing-mk) * 2);
   --spacing-mk-card-height: calc(var(--spacing-mk) * 4);
-  --text-mk: calc(var(--text-base) + var(--text-enlarger));
-  --text-mk-sm: calc((var(--text-base)) - 2px + var(--text-enlarger));
-  --text-mk-xs: calc((var(--text-base)) - 4px + var(--text-enlarger));
-  --text-mk-2xs: calc((var(--text-base)) - 6px + var(--text-enlarger));
 }
 
 @utility mk-container {
@@ -177,7 +170,7 @@ button {
 
 @utility mk-card {
   cursor: pointer;
-  padding: var(--spacing-mk);
+  padding: calc(var(--spacing-mk) * 1.5) var(--spacing-mk);
   @media screen and (min-width: 768px) {
     width: calc(var(--spacing) * 100);
   }
