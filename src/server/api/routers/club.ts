@@ -8,6 +8,7 @@ import getAllClubManagers, {
   addClubManager,
   createClub,
   deleteClub,
+  deleteClubManager,
   editClub,
   getClubAffiliatedUsers,
   getClubInfo,
@@ -102,6 +103,18 @@ export const clubRouter = {
       .mutation(async (opts) => {
         const { input } = opts;
         await addClubManager(input);
+        revalidateTag(`${CACHE_TAGS.USER_CLUBS}:${input.userId}`);
+      }),
+    delete: clubAdminProcedure
+      .input(
+        z.object({
+          clubId: z.string(),
+          userId: z.string(),
+        }),
+      )
+      .mutation(async (opts) => {
+        const { input } = opts;
+        await deleteClubManager(input);
         revalidateTag(`${CACHE_TAGS.USER_CLUBS}:${input.userId}`);
       }),
   },
