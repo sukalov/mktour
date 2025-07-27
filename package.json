@@ -64,7 +64,7 @@
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.23.9",
     "lucia": "^3.2.2",
-    "lucide-react": "^0.525.0",
+    "lucide-react": "^0.526.0",
     "nanoid": "^5.1.5",
     "next": "^15.4.2-canary.18",
     "next-intl": "^4.3.4",
@@ -94,7 +94,7 @@
     "trpc-ui": "^1.0.15",
     "typescript-eslint": "^8.38.0",
     "vaul": "^1.1.2",
-    "zod": "^3.25.76"
+    "zod": "^4.0.10"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
