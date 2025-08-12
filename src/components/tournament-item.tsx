@@ -33,7 +33,7 @@ const TournamentItem = ({ club, tournament }: Props) => {
         {club && (
           <span className="text-muted-foreground text-2xs">{club.name}</span>
         )}
-        <div className="text-muted-foreground flex text-xs">{description}</div>
+        <div className="text-muted-foreground text-2xs flex">{description}</div>
       </Card>
     </Link>
   );
