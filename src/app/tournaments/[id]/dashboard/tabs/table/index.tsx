@@ -75,7 +75,7 @@ const TournamentTable: FC = ({}) => {
         <TableHeader>
           <TableRow>
             <TableHeadStyled className="text-center">#</TableHeadStyled>
-            <TableHeadStyled className="p-0">
+            <TableHeadStyled className="w-full p-0">
               {t.rich('name column', {
                 count: players.data?.length ?? 0,
                 small: (chunks) =>
