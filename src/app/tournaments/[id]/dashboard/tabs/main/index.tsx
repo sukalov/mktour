@@ -22,8 +22,8 @@ const Main = () => {
   if (!data) return <Center>no data</Center>;
 
   return (
-    <div className="mk-container">
-      <div className="p-mk truncate border-b pt-0 text-xl font-bold whitespace-break-spaces">
+    <div className="mk-container pt-2">
+      <div className="p-mk truncate border-b pt-0 pb-2 text-xl font-bold whitespace-break-spaces">
         {data.tournament.title}
       </div>
       <TournamentInfoList />
