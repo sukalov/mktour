@@ -53,7 +53,7 @@ export default function SwissRoundsNumber() {
         onChange={(e) => setValue(Number(e.target.value))}
         name="rounds_number"
       />
-      <Label className="" htmlFor="rounds_number">
+      <Label className="text-base" htmlFor="rounds_number">
         {t('number of rounds')}
       </Label>
       <div className="grow" />

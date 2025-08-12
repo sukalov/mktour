@@ -252,7 +252,7 @@
     "Table": {
       "added players error": "простите! не получилось загрузить игроков",
       "loading": "идёт загрузка...",
-      "name column": "имя ({number} игроков)",
+      "name column": "имя <small>({count} {count, plural, one {игрок} few {игрока} many {игроков} other {игроков}})</small>",
       "Stats": {
         "full": {
           "wins": "выигрыши",
