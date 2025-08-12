@@ -29,11 +29,11 @@ const TournamentItem = ({ club, tournament }: Props) => {
   return (
     <Link key={id} href={`/tournaments/${id}`}>
       <Card className="mk-card flex flex-col">
-        <CardTitle className="text-sm">{title}</CardTitle>
+        <CardTitle className="text-base">{title}</CardTitle>
         {club && (
-          <span className="text-muted-foreground text-2xs">{club.name}</span>
+          <span className="text-muted-foreground text-xs">{club.name}</span>
         )}
-        <div className="text-muted-foreground text-2xs flex">{description}</div>
+        <div className="text-muted-foreground flex text-xs">{description}</div>
       </Card>
     </Link>
   );
