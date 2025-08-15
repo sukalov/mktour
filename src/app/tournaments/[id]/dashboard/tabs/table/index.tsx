@@ -70,8 +70,8 @@ const TournamentTable: FC = ({}) => {
   };
 
   return (
-    <>
-      <Table className="mb-20">
+    <div className="mb-20 sm:m-auto sm:max-w-1/2">
+      <Table className="pt-0">
         <TableHeader>
           <TableRow>
             <TableHeadStyled className="text-center">#</TableHeadStyled>
@@ -119,7 +119,7 @@ const TournamentTable: FC = ({}) => {
           hasEnded={hasEnded}
         />
       )}
-    </>
+    </div>
   );
 };
 

@@ -79,7 +79,7 @@ const GameItem: FC<GameProps> = ({
       <motion.div
         key={id}
         ref={ref}
-        className={`${disabled && 'pointer-events-none'} cursor-pointer rounded-lg shadow-md md:w-fit ${
+        className={`${disabled && 'pointer-events-none'} cursor-pointer rounded-lg shadow-md ${
           selected ? 'z-50' : 'z-0'
         }`}
         initial={{ scale: 1, y: 0 }}
@@ -89,7 +89,7 @@ const GameItem: FC<GameProps> = ({
         onClick={() => setSelectedGameId(!selected ? id : null)}
       >
         <Card
-          className={`grid ${muted && 'opacity-50'} h-16 w-full grid-cols-3 items-center gap-2 border p-2 text-sm transition-all select-none ${!selected && 'pointer-events-none'} md:max-w-72`}
+          className={`grid ${muted && 'opacity-50'} h-16 w-full grid-cols-3 items-center gap-2 border p-2 text-sm transition-all select-none ${!selected && 'pointer-events-none'}`}
         >
           <Player
             isWinner={result === '1-0'}
