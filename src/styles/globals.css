@@ -160,6 +160,11 @@ button {
   width: 100%;
   padding: var(--spacing-mk);
   padding-bottom: calc(var(--spacing) * 20);
+  @media screen and (min-width: 768px) {
+    width: 50%;
+    margin: auto;
+    padding: var(--spacing-mk-2);
+  }
 }
 
 @utility mk-card {
@@ -175,6 +180,9 @@ button {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-mk);
+  @media screen and (min-width: 768px) {
+    gap: var(--spacing-mk-2);
+  }
 }
 
 @utility mk-link {
