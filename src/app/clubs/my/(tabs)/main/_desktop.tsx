@@ -21,7 +21,7 @@ const Desktop: FC<ClubTabProps & { club: DatabaseClub }> = ({
 
   return (
     <div>
-      <div className="grid h-full w-full grid-cols-1 gap-8 p-2 pt-2">
+      <div className="grid h-full w-full grid-cols-1 gap-8">
         <div>
           <BlockTitle>{t('main')}</BlockTitle>
           <Card className="items-left flex max-w-[min(640px,100%)] flex-col gap-8 p-4">

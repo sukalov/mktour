@@ -6,6 +6,7 @@ import Result, {
 import useTournamentSetGameResult from '@/components/hooks/mutation-hooks/use-tournament-set-game-result';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import useOutsideClick from '@/components/hooks/use-outside-click';
+import PortalWrapper from '@/components/portal-wrapper';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Result as ResultModel } from '@/types/tournaments';
@@ -74,43 +75,46 @@ const GameItem: FC<GameProps> = ({
   }, ref);
 
   return (
-    <motion.div
-      key={id}
-      ref={ref}
-      className={`${disabled && 'pointer-events-none'} cursor-pointer rounded-lg shadow-md md:w-fit ${
-        selected ? 'z-50' : 'z-0'
-      }`}
-      initial={{ scale: 1, y: 0 }}
-      animate={selected ? { scale: 1.05, y: -10 } : { scale: 1, y: 0 }}
-      transition={{ type: 'spring', bounce: 0.4 }}
-      onClick={() => setSelectedGameId(!selected ? id : null)}
-    >
-      <Card
-        className={`grid ${muted && 'opacity-50'} h-16 w-full grid-cols-3 items-center gap-2 border p-2 text-sm transition-all select-none ${!selected && 'pointer-events-none'} md:max-w-72`}
+    <PortalWrapper portalled={selected}>
+      <motion.div
+        key={id}
+        ref={ref}
+        className={`${disabled && 'pointer-events-none'} cursor-pointer rounded-lg shadow-md ${
+          selected ? 'z-50' : 'z-0'
+        }`}
+        initial={{ scale: 1, y: 0 }}
+        exit={{ scale: 1, y: 0 }}
+        animate={selected ? { scale: 1.05, y: -10 } : { scale: 1, y: 0 }}
+        transition={{ type: 'spring', bounce: 0.4 }}
+        onClick={() => setSelectedGameId(!selected ? id : null)}
       >
-        <Player
-          isWinner={result === '1-0'}
-          handleMutate={() => handleMutate('1-0')}
-          selected={selected}
-          nickname={playerLeft.white_nickname}
-          position={{ justify: 'justify-self-start', text: 'text-left' }}
-        />
-        <Button
-          variant="ghost"
-          onClick={() => handleMutate('1/2-1/2')}
-          className={`mx-4 flex h-full w-full min-w-16 grow gap-2 justify-self-center rounded-sm p-1 px-2 select-none ${selected && draw && 'mk-link'}`}
+        <Card
+          className={`grid ${muted && 'opacity-50'} h-16 w-full grid-cols-3 items-center gap-2 border p-2 text-sm transition-all select-none ${!selected && 'pointer-events-none'}`}
         >
-          <Result {...resultProps} />
-        </Button>
-        <Player
-          isWinner={result === '0-1'}
-          handleMutate={() => handleMutate('0-1')}
-          selected={selected}
-          nickname={playerRight.black_nickname}
-          position={{ justify: 'justify-self-end', text: 'text-right' }}
-        />
-      </Card>
-    </motion.div>
+          <Player
+            isWinner={result === '1-0'}
+            handleMutate={() => handleMutate('1-0')}
+            selected={selected}
+            nickname={playerLeft.white_nickname}
+            position={{ justify: 'justify-self-start', text: 'text-left' }}
+          />
+          <Button
+            variant="ghost"
+            onClick={() => handleMutate('1/2-1/2')}
+            className={`mx-4 flex h-full w-full min-w-16 grow gap-2 justify-self-center rounded-sm p-1 px-2 select-none ${selected && draw && 'mk-link'}`}
+          >
+            <Result {...resultProps} />
+          </Button>
+          <Player
+            isWinner={result === '0-1'}
+            handleMutate={() => handleMutate('0-1')}
+            selected={selected}
+            nickname={playerRight.black_nickname}
+            position={{ justify: 'justify-self-end', text: 'text-right' }}
+          />
+        </Card>
+      </motion.div>
+    </PortalWrapper>
   );
 };
 

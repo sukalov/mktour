@@ -64,7 +64,7 @@ const ClubInfo: FC<{
         {user && statusInClub && (
           <Button className="px-mk h-full" variant="outline">
             <Link // FIXME this has lag in changing selected club
-              className="gap-mk flex h-full w-full items-center text-left"
+              className="gap-mk flex h-full w-full items-center justify-center text-left"
               prefetch={false}
               onNavigate={() => {
                 mutate({

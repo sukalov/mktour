@@ -65,7 +65,7 @@ const ClubSettingsForm: FC<ClubTabProps & PropsWithChildren> = ({
   if (!data && children) return children;
   return (
     <Form {...form}>
-      <Card className="border-none shadow-none sm:shadow-2xs">
+      <Card className="border-none p-0 shadow-none sm:shadow-2xs">
         <form
           onSubmit={form.handleSubmit((data) =>
             clubSettingsMutation.mutate({

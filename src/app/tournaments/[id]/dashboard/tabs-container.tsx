@@ -27,7 +27,7 @@ const TabsContainer: FC<TabProps> = ({ currentTab, setCurrentTab }) => {
       <Overlay open={!!selectedGameId} />
       <TabsList
         ref={tabRef}
-        className={`no-scrollbar h-full w-full justify-around overflow-scroll rounded-none md:justify-evenly`}
+        className={`no-scrollbar px-mk h-full w-full justify-around overflow-scroll rounded-none md:justify-evenly`}
       >
         {tabs.map((tab) => (
           <div key={tab.title}>
