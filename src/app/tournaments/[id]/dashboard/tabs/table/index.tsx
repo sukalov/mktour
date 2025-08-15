@@ -70,7 +70,7 @@ const TournamentTable: FC = ({}) => {
   };
 
   return (
-    <div className="mb-20 sm:m-auto sm:max-w-1/2">
+    <div className="mb-20 md:m-auto md:max-w-1/2">
       <Table className="pt-0">
         <TableHeader>
           <TableRow>

@@ -29,7 +29,7 @@ export default async function MyTournaments() {
   }
 
   return (
-    <main className="mk-container gap-mk flex flex-col">
+    <main className="mk-container mk-list">
       <TournamentGroups props={tournaments} />
     </main>
   );
