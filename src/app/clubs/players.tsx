@@ -56,10 +56,10 @@ const PlayerItem: FC<{ player: DatabasePlayer }> = ({ player }) => {
     <Link href={`/player/${id}`}>
       <Card
         key={id}
-        className="mk-card flex items-center justify-between truncate text-sm"
+        className="mk-card flex items-center justify-between truncate"
       >
-        <span>{nickname}</span>
-        <div className="text-muted-foreground">{rating}</div>
+        <span className="text-sm">{nickname}</span>
+        <div className="text-muted-foreground text-xs">{rating}</div>
       </Card>
     </Link>
   );

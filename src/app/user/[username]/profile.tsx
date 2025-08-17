@@ -23,10 +23,10 @@ const Profile: FC<{ user: DatabaseUser; isOwner: boolean }> = ({
 
   return (
     <div className="flex w-full flex-col gap-2 p-2">
-      <div className="px-2">
+      <div className="px-2 text-sm">
         {user.username} ({user.name})
       </div>
-      <Card className="text-muted-foreground flex flex-col gap-2 p-4 break-words">
+      <Card className="text-muted-foreground p-mk flex flex-col gap-2 text-sm break-words">
         <span>
           {t('rating')}: {user.rating}
         </span>
@@ -60,14 +60,14 @@ const ClubList: FC<ClubListProps> = ({ clubs, isPending }) => {
 
   return (
     <>
-      <div className="px-2">
+      <div className="px-2 text-sm">
         <span>{t('clubs')}</span>
       </div>
       <ul className="flex flex-col gap-2">
         {clubs.map((club) => (
           <li key={club.id}>
             <Link href={`/clubs/${club.id}`}>
-              <Card className="min-h-8 p-4">{club.name}</Card>
+              <Card className="p-mk min-h-8 text-sm">{club.name}</Card>
             </Link>
           </li>
         ))}

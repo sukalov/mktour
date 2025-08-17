@@ -1,4 +1,3 @@
-import { validateRequest } from '@/lib/auth/lucia';
 import { CACHE_TAGS } from '@/lib/cache-tags';
 import {
   clubAdminProcedure,
@@ -9,6 +8,7 @@ import getAllClubManagers, {
   addClubManager,
   createClub,
   deleteClub,
+  deleteClubManager,
   editClub,
   getClubAffiliatedUsers,
   getClubInfo,
@@ -76,12 +76,10 @@ export const clubRouter = {
       return await getUserClubAffiliation(opts.ctx.user, opts.input.clubId);
     }),
   authStatus: publicProcedure
-    .input(z.object({ clubId: z.string() }))
+    .input(z.object({ clubId: z.string(), userId: z.string() }))
     .query(async (opts) => {
-      const { user } = await validateRequest();
-      if (!user) return undefined;
       return await getStatusInClub({
-        userId: user.id,
+        userId: opts.input.userId,
         clubId: opts.input.clubId,
       });
     }),
@@ -105,6 +103,18 @@ export const clubRouter = {
       .mutation(async (opts) => {
         const { input } = opts;
         await addClubManager(input);
+        revalidateTag(`${CACHE_TAGS.USER_CLUBS}:${input.userId}`);
+      }),
+    delete: clubAdminProcedure
+      .input(
+        z.object({
+          clubId: z.string(),
+          userId: z.string(),
+        }),
+      )
+      .mutation(async (opts) => {
+        const { input } = opts;
+        await deleteClubManager(input);
         revalidateTag(`${CACHE_TAGS.USER_CLUBS}:${input.userId}`);
       }),
   },

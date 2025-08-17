@@ -42,7 +42,7 @@ const TournamentGroups: FC<{ props: TournamentWithClub[] }> = ({ props }) => {
     ([clubId, { clubName, tournaments }]) => {
       return (
         <div className="mk-list gap-1" key={clubId}>
-          <Link href={`/clubs/${clubId}`} className="pl-mk">
+          <Link href={`/clubs/${clubId}`} className="pl-mk text-sm">
             <h2 className="text-muted-foreground">{clubName}</h2>
           </Link>
           {tournaments.map(({ tournament }) => (

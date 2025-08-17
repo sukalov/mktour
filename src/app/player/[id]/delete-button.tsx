@@ -1,6 +1,7 @@
 'use client';
 
 import { LoadingSpinner } from '@/app/loading';
+import FormattedMessage from '@/components/formatted-message';
 import useDeletePlayerMutation from '@/components/hooks/mutation-hooks/use-player-delete';
 import { Button } from '@/components/ui/button';
 import {
@@ -34,8 +35,14 @@ const DeletePlayer: FC<{ clubId: string; userId: string }> = ({
   return (
     <Root open={open} onOpenChange={setOpen}>
       <Trigger asChild>
-        <Button disabled={isPending} size="icon" variant="ghost">
+        <Button
+          disabled={isPending}
+          // size="sm"
+          variant="destructive"
+          className="gap-mk flex w-full"
+        >
           {isPending ? <LoadingSpinner /> : <Trash2Icon />}
+          <FormattedMessage id="Player.delete" />
         </Button>
       </Trigger>
       <Content>

@@ -1,4 +1,5 @@
 import { LoadingSpinner } from '@/app/loading';
+import DeletePlayer from '@/app/player/[id]/delete-button';
 import FormattedMessage from '@/components/formatted-message';
 import useEditPlayerMutation from '@/components/hooks/mutation-hooks/use-player-edit';
 import { Button } from '@/components/ui/button';
@@ -11,6 +12,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { StatusInClub } from '@/server/db/schema/clubs';
 import { DatabasePlayer } from '@/server/db/schema/players';
 import { Save } from 'lucide-react';
 import { MessageKeys, NestedKeyOf } from 'next-intl';
@@ -18,9 +20,16 @@ import { FC } from 'react';
 import { ControllerRenderProps, useForm, UseFormReturn } from 'react-hook-form';
 
 const EditPlayerForm: FC<{
+  userId: string;
   clubId: string;
   player: EditPlayerFormValues;
-}> = ({ player: { id, nickname, realname, rating }, clubId }) => {
+  status: StatusInClub | undefined;
+}> = ({
+  player: { id, nickname, realname, rating },
+  clubId,
+  userId,
+  status,
+}) => {
   const editPlayerMutation = useEditPlayerMutation();
   const form = useForm<EditPlayerFormValues>({
     defaultValues: {
@@ -40,7 +49,7 @@ const EditPlayerForm: FC<{
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <Field name="nickname" placeholder={nickname} form={form} />
         <Field name="realname" placeholder={realname || ''} form={form} />
-        <div className="mt-4 flex w-full justify-end">
+        <div className="gap-mk-2 mt-mk-2 flex flex-col">
           <Button
             type="submit"
             className="w-full md:w-fit"
@@ -50,6 +59,7 @@ const EditPlayerForm: FC<{
             &nbsp;
             <FormattedMessage id="Common.save" />
           </Button>
+          {status && <DeletePlayer clubId={clubId} userId={userId} />}
         </div>
       </form>
     </Form>

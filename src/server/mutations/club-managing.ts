@@ -75,7 +75,7 @@ export const getClubPlayers = async (
     .select()
     .from(players)
     .where(and(...conditions))
-    .orderBy(players.id) // pagination direction
+    .orderBy(players.last_seen, players.id)
     .limit(limit + 1);
 
   let nextCursor: string | null = null;
@@ -310,6 +310,35 @@ export const addClubManager = async ({
     db.insert(clubs_to_users).values(newRelation),
     db.insert(user_notifications).values(userNotification),
   ]);
+};
+
+export const deleteClubManager = async ({
+  clubId,
+  userId,
+}: {
+  clubId: string;
+  userId: string;
+}) => {
+  const { user } = await validateRequest();
+  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
+  const authorStatus = await getStatusInClub({
+    userId: user.id,
+    clubId,
+  });
+  const targetStatus = await getStatusInClub({
+    userId,
+    clubId,
+  });
+  if (targetStatus === 'co-owner') throw new Error('NOT_AUTHORIZED');
+  if (authorStatus !== 'co-owner') throw new Error('NOT_AUTHORIZED');
+  await db
+    .delete(clubs_to_users)
+    .where(
+      and(
+        eq(clubs_to_users.club_id, clubId),
+        eq(clubs_to_users.user_id, userId),
+      ),
+    );
 };
 
 export const leaveClub = async (clubId: string) => {

@@ -2,9 +2,10 @@
 
 import ClubInbox from '@/app/clubs/my/(tabs)/inbox';
 import ClubMain from '@/app/clubs/my/(tabs)/main';
-import ClubPlayersList from '@/app/clubs/my/(tabs)/players';
 import ClubSettings from '@/app/clubs/my/(tabs)/settings';
-import ClubDashboardTournaments from '@/app/clubs/my/(tabs)/tournaments';
+import ClubPlayersList from '@/app/clubs/players';
+import ClubDashboardTournaments from '@/app/clubs/tournaments';
+import { StatusInClub } from '@/server/db/schema/clubs';
 import { FC } from 'react';
 
 export const tabMap: Record<ClubDashboardTab, FC<ClubTabProps>> = {
@@ -25,5 +26,6 @@ export type ClubDashboardTab =
 export type ClubTabProps = {
   selectedClub: string;
   userId: string;
+  statusInClub?: StatusInClub;
   isInView?: boolean;
 };

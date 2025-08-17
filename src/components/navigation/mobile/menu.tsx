@@ -106,21 +106,13 @@ const Menu: FC<{ user: User | null }> = ({ user }) => {
                 <MenuItem className="bg-muted-foreground my-3 h-px w-full" />
               </div>
             ))}
-            <MenuItem>
+            <MenuItem className="ml-3 text-2xl">
               {!user ? (
-                <Link
-                  className="ml-2 text-2xl"
-                  href="/login/lichess"
-                  onClick={() => toggleOpen()}
-                >
+                <Link href="/login/lichess" onClick={() => toggleOpen()}>
                   {t('Profile.sign in')}
                 </Link>
               ) : (
-                <button
-                  className="ml-2 flex text-2xl"
-                  name="log out"
-                  onClick={handleSignOut}
-                >
+                <button name="log out" onClick={handleSignOut}>
                   {t('Profile.logout')}
                 </button>
               )}

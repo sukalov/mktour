@@ -1,8 +1,11 @@
 'use client';
 
-import ClubPlayersList from '@/app/clubs/my/(tabs)/players';
-import ClubDashboardTournaments from '@/app/clubs/my/(tabs)/tournaments';
-import FormattedMessage from '@/components/formatted-message';
+import { ClubTabProps } from '@/app/clubs/my/tabMap';
+import ClubPlayersList from '@/app/clubs/players';
+import ClubDashboardTournaments from '@/app/clubs/tournaments';
+import FormattedMessage, {
+  IntlMessageId,
+} from '@/components/formatted-message';
 import { useUserSelectClub } from '@/components/hooks/mutation-hooks/use-user-select-club';
 import { useUser } from '@/components/hooks/query-hooks/use-user';
 import { Button } from '@/components/ui/button';
@@ -17,28 +20,27 @@ import { FC, useState } from 'react';
 const ClubPage: FC<{
   club: DatabaseClub;
   statusInClub: StatusInClub | undefined;
-}> = ({ club, statusInClub }) => {
+  userId: string;
+}> = ({ club, statusInClub, userId }) => {
   const [tab, setTab] = useState(0);
-  const props = { selectedClub: club.id, userId: '' };
-  const Component: FC<typeof props> =
-    tab > 0 ? ClubPlayersList : ClubDashboardTournaments;
+  const props = { selectedClub: club.id, userId, statusInClub };
+  const Component: FC<typeof props> = tabArray[tab].component;
 
   return (
     <div className="mk-container flex flex-col gap-2">
       <ClubInfo club={club} statusInClub={statusInClub} />
-      <div className={`grid grid-cols-2 px-2`}>
-        <span
-          className={`text-muted-foreground grow text-center ${tab === 0 && 'text-primary underline underline-offset-2'}`}
-          onClick={() => setTab(0)}
-        >
-          <FormattedMessage id="Menu.tournaments" />
-        </span>
-        <span
-          className={`text-muted-foreground grow text-center ${tab > 0 && 'text-primary underline underline-offset-2'}`}
-          onClick={() => setTab(1)}
-        >
-          <FormattedMessage id="Club.Dashboard.players" />
-        </span>
+      <div className="grid grid-cols-2 px-2">
+        {tabArray.map(({ id }, i) => (
+          <span
+            key={id}
+            className={`text-muted-foreground grow cursor-pointer text-center ${
+              tab === i && 'text-primary underline underline-offset-2'
+            }`}
+            onClick={() => setTab(i)}
+          >
+            <FormattedMessage id={id} />
+          </span>
+        ))}
       </div>
       <Component {...props} />
     </div>
@@ -78,7 +80,7 @@ const ClubInfo: FC<{
           </Button>
         )}
       </div>
-      <div className="px-3">
+      <div className="px-mk">
         {club.lichess_team && (
           <Link
             href={`https://lichess.org/team/${club.lichess_team}`}
@@ -104,6 +106,22 @@ const ClubInfo: FC<{
       </div>
     </div>
   );
+};
+
+const tabArray: Tab[] = [
+  {
+    id: 'Menu.tournaments',
+    component: ClubDashboardTournaments,
+  },
+  {
+    id: 'Club.Dashboard.players',
+    component: ClubPlayersList,
+  },
+];
+
+type Tab = {
+  id: IntlMessageId;
+  component: FC<ClubTabProps>;
 };
 
 export default ClubPage;
