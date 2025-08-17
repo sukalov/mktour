@@ -1,14 +1,15 @@
+import { shuffle } from '@/lib/utils';
+import { GameModel } from '@/types/tournaments';
 import {
   convertPlayerToEntity,
   generateRoundPairs,
   getColouredPair,
   getGameToInsert,
   getNumberedPair,
+  makeNumberPairs,
   NumberPair,
   RoundProps,
 } from './common-generator';
-import { shuffle } from '@/lib/utils';
-import { GameModel } from '@/types/tournaments';
 
 /**
  * This function generates random round by shuffling players and assembling them to pairs.
@@ -59,8 +60,9 @@ export function generateRandomRoundGames(
 function generateRandomPairs(pairingNumbersFlat: number[]): NumberPair[] {
   // creating an essentially random pairing order
   const randomPairingNumbers = shuffle(pairingNumbersFlat);
-  return Array.from(
-    { length: Math.floor(randomPairingNumbers.length / 2) },
-    (_, i) => [randomPairingNumbers[i * 2], randomPairingNumbers[i * 2 + 1]],
-  ) as NumberPair[];
+
+  // generating pair of player numbers by splitting in two halves in matrix-like fashion
+  const pairedPlayerNumbers = makeNumberPairs(randomPairingNumbers, false);
+
+  return pairedPlayerNumbers;
 }
