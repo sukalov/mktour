@@ -44,11 +44,15 @@ const ClubSelect: FC<{ user: DatabaseUser }> = ({ user }) => {
         })
       }
     >
-      <SelectTriggerNoOutline className="bg-background/30 py-mk md:py-mk-2 px-mk-2 w-full rounded-none backdrop-blur-md">
+      <SelectTriggerNoOutline className="bg-background/30 py-mk md:py-mk-2 px-mk-2 w-full rounded-none backdrop-blur-md md:px-[25%]">
         <SelectValue placeholder={placeholder} />
       </SelectTriggerNoOutline>
       {sortedClubs && (
-        <SelectContent position="popper" collisionPadding={0} className="-mt-1">
+        <SelectContent
+          position="popper"
+          collisionPadding={0}
+          className="-mt-1 md:max-w-1/2"
+        >
           {sortedClubs.map(SelectItemIteratee)}
         </SelectContent>
       )}

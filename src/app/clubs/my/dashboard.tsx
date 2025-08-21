@@ -42,9 +42,7 @@ export default function Dashboard({ userId }: { userId: string }) {
           activeTab={tab}
           setTab={setTab}
         />
-        <div className="md:m-auto md:max-w-1/2">
-          <ClubSelect user={data} />
-        </div>
+        <ClubSelect user={data} />
       </div>
       <div className="fixed h-full w-full">
         <div ref={ref} className="mk-container relative overflow-scroll pt-20">
