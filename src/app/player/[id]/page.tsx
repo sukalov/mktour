@@ -96,7 +96,7 @@ const FullName: FC<{ player: DatabasePlayer; user: DatabaseUser | null }> = ({
   player,
   user,
 }) => {
-  if (!player.realname && !user?.name) return null;
+  if (!player.realname || !user?.name) return null;
   return (
     <div>
       <FormattedMessage id="Player.realname" />
