@@ -1,11 +1,11 @@
 import Loading from '@/app/loading';
 import ClaimPlayer from '@/app/player/[id]/claim-button';
 import EditButton from '@/app/player/[id]/edit-button';
+import FullName from '@/app/player/[id]/fullname';
 import LastTournaments from '@/app/player/[id]/last-tournaments';
 import FormattedMessage from '@/components/formatted-message';
 import { Card } from '@/components/ui/card';
 import { publicCaller } from '@/server/api';
-import { DatabasePlayer } from '@/server/db/schema/players';
 import { DatabaseUser } from '@/server/db/schema/users';
 import { User2 } from 'lucide-react';
 import Link from 'next/link';
@@ -91,20 +91,6 @@ async function PlayerPageContent(props: PlayerPageProps) {
     </div>
   );
 }
-
-const FullName: FC<{ player: DatabasePlayer; user: DatabaseUser | null }> = ({
-  player,
-  user,
-}) => {
-  if (!player.realname || !user?.name) return null;
-  return (
-    <div>
-      <FormattedMessage id="Player.realname" />
-      {': '}
-      <span className="font-semibold">{user?.name || player.realname}</span>
-    </div>
-  );
-};
 
 const UserLink: FC<{ user: DatabaseUser | null }> = ({ user }) => {
   if (!user) return null;
