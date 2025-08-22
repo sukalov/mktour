@@ -16,9 +16,10 @@ const ClubDashboardTabList: FC<{
 }> = ({ selectedClub, setTab, activeTab }) => {
   const t = useTranslations('Club.Dashboard');
   const { isMobile } = useContext(MediaQueryContext);
-  const preparedTabs = (Object.keys(tabMap) as ClubDashboardTab[]).filter(
-    (tab) => isMobile || ['main', 'players', 'tournaments'].includes(tab),
-  );
+  const preparedTabs = Object.keys(tabMap) as ClubDashboardTab[];
+  // const preparedTabs = (Object.keys(tabMap) as ClubDashboardTab[]).filter(
+  //   (tab) => isMobile || ['main', 'players', 'tournaments'].includes(tab),
+  // );
   const notifications = useClubNotifications(selectedClub);
   const hasNewNotifications = Boolean(
     notifications?.data?.some(({ notification }) => !notification.is_seen),

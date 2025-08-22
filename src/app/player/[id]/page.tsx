@@ -45,7 +45,7 @@ async function PlayerPageContent(props: PlayerPageProps) {
     <div className="mk-container flex w-full flex-col gap-2">
       <div className="pl-mk flex w-full items-center justify-between">
         <div className="flex flex-col">
-          <span className="truncate text-3xl font-semibold text-wrap">
+          <span className="truncate text-xl font-semibold text-wrap">
             {player.nickname}
           </span>
           <UserLink user={playerUser} />
