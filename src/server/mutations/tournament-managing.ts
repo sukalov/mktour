@@ -1009,7 +1009,7 @@ async function getRoundsNumber(
 ) {
   if (tournamentFormat === 'round robin') {
     const players = await getTournamentPlayers(tournamentId);
-    return Math.ceil(players.length / 2);
+    return players.length - 1;
   }
 }
 
