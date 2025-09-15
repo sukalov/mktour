@@ -2,7 +2,7 @@
   "name": "mktour",
   "version": "0.1.0-pre-alpha",
   "private": true,
-  "packageManager": "bun@1.2.18",
+  "packageManager": "bun@1.2.21",
   "scripts": {
     "dev": "bunx --bun next dev --turbo",
     "dev:local": "OFFLINE=true bunx --bun next dev --turbo",
@@ -64,7 +64,7 @@
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.23.12",
     "lucia": "^3.2.2",
-    "lucide-react": "^0.525.0",
+    "lucide-react": "^0.544.0",
     "nanoid": "^5.1.5",
     "next": "^15.6.0-canary.6",
     "next-intl": "^4.3.8",
@@ -94,7 +94,7 @@
     "trpc-ui": "^1.0.15",
     "typescript-eslint": "^8.43.0",
     "vaul": "^1.1.2",
-    "zod": "^3.25.76"
+    "zod": "^4.1.8"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
@@ -115,7 +115,7 @@
     "knip": "^5.63.1",
     "next-compose-plugins": "^2.2.1",
     "tailwindcss": "^4.1.13",
-    "tsx": "4.20.3",
+    "tsx": "4.20.5",
     "typescript": "^5.9.2"
   },
   "vsc-organize-imports": {
