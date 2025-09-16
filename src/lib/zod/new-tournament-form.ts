@@ -3,11 +3,11 @@ import * as z from 'zod';
 
 export const newTournamentFormSchema = z.object({
   title: z
-    .string({ required_error: 'hard naming' })
-    .min(1, { message: 'hard naming' })
-    .min(3, { message: 'short tournament name' }),
+    .string({ error: 'hard naming' })
+    .min(1, { error: 'hard naming' })
+    .min(3, { error: 'short tournament name' }),
   date: z.date().min(new Date(new Date().setDate(new Date().getDate() - 1)), {
-    message: 'time travel',
+    error: 'time travel',
   }),
   format: z.custom<TournamentFormat>(),
   type: z.custom<TournamentType>(),

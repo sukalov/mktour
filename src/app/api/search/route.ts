@@ -7,7 +7,7 @@ import { users } from '@/server/db/schema/users';
 import { or, sql } from 'drizzle-orm';
 import { NextRequest } from 'next/server';
 
-export const dynamic = 'force-dynamic';
+// export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -30,6 +30,9 @@ export async function GET(req: NextRequest) {
     const filteredUsers = usersResult.filter((u) => u.id !== user?.id);
     return new Response(JSON.stringify({ users: filteredUsers }), {
       status: 200,
+      headers: {
+        Cache: 'no-store',
+      },
     });
   }
   const playersDb = db
@@ -67,5 +70,10 @@ export async function GET(req: NextRequest) {
     tournaments: tournamentsResult,
     clubs: clubsResult,
   };
-  return new Response(JSON.stringify(data), { status: 200 });
+  return new Response(JSON.stringify(data), {
+    status: 200,
+    headers: {
+      Cache: 'no-store',
+    },
+  });
 }

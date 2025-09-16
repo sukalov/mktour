@@ -12,7 +12,7 @@ const nextConfig = {
   experimental: {
     reactCompiler: true,
     useCache: true,
-    dynamicIO: true,
+    cacheComponents: true,
   },
   logging: {
     fetches: {
