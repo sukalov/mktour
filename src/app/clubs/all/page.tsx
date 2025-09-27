@@ -6,7 +6,7 @@ export default async function ClubSettings() {
   const clubs = await publicCaller.club.all();
 
   return (
-    <Center className="mk-list">
+    <Center className="mk-list mk-container">
       <ClubsIteratee clubs={clubs} />
     </Center>
   );

@@ -7,10 +7,10 @@ export const newPlayerFormSchema = z
     rating: z
       .number()
       .min(0, {
-        message: 'min rating',
+        error: 'min rating',
       })
       .max(3000, {
-        message: 'max rating',
+        error: 'max rating',
       }),
     club_id: z.string(),
   })
@@ -18,7 +18,7 @@ export const newPlayerFormSchema = z
     async (data) => {
       return await validateNewPlayer(data);
     },
-    { message: 'player exists error', path: ['name'] },
+    { error: 'player exists error', path: ['name'] },
   );
 
 export type NewPlayerFormType = z.infer<typeof newPlayerFormSchema>;

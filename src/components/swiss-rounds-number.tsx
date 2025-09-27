@@ -47,16 +47,24 @@ export default function SwissRoundsNumber() {
     >
       <span>{t('swiss')}</span>
       <Input
-        className="w-14"
+        className="max-h-1/2 w-14"
         placeholder={minValue ? minValue.toString() : undefined}
         value={value ? value.toString() : ''}
         onChange={(e) => setValue(Number(e.target.value))}
         name="rounds_number"
       />
-      <Label className="" htmlFor="rounds_number">
+      <Label className="text-base" htmlFor="rounds_number">
         {t('number of rounds')}
       </Label>
-      {isInputChaged && <Button disabled={isPending}>{t('save')}</Button>}
+      <div className="grow" />
+      {isInputChaged && (
+        <Button
+          className="max-h-1/2 justify-self-end"
+          disabled={isPending || !value}
+        >
+          {t('save')}
+        </Button>
+      )}
     </form>
   );
 }

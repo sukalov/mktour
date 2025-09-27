@@ -248,7 +248,7 @@
     "Table": {
       "added players error": "sorry! couldn't get added players from the server",
       "loading": "loading...",
-      "name column": "name ({number} players)",
+      "name column": "name <small>({count} {count, plural, one {player} other {players}})</small>",
       "Stats": {
         "full": {
           "wins": "wins",

@@ -438,7 +438,12 @@ export async function resetTournament({
   const queries = [
     db
       .update(tournaments)
-      .set({ started_at: null, ongoing_round: 1, closed_at: null })
+      .set({
+        started_at: null,
+        ongoing_round: 1,
+        closed_at: null,
+        rounds_number: null,
+      })
       .where(
         and(
           eq(tournaments.id, tournamentId),
@@ -1007,9 +1012,14 @@ async function getRoundsNumber(
   tournamentId: string,
   tournamentFormat: TournamentFormat,
 ) {
+  console.log({ tournamentFormat });
   if (tournamentFormat === 'round robin') {
     const players = await getTournamentPlayers(tournamentId);
-    return Math.ceil(players.length / 2);
+    console.log(
+      { players, rounds: players.length - 1 },
+      'tournament is round robin',
+    );
+    return players.length - 1;
   }
 }
 

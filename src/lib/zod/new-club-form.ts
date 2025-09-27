@@ -6,10 +6,10 @@ let team: DatabaseClub | undefined;
 export const newClubFormSchema = z
   .object({
     name: z
-      .string({ required_error: 'hard naming' })
-      .min(1, { message: 'hard naming' })
-      .min(3, { message: 'short club name' })
-      .max(100, { message: 'long club name' }),
+      .string()
+      .min(1, { error: 'hard naming' })
+      .min(3, { error: 'short club name' })
+      .max(100, { error: 'long club name' }),
     description: z.string().optional(),
     created_at: z.date(),
     lichess_team: z.string().optional(),
@@ -20,11 +20,9 @@ export const newClubFormSchema = z
       team = await validateLichessTeam(data);
       return !team;
     },
-    () => {
-      return {
-        message: `LINK_TEAM_ERROR@%!!(&${team?.id}@%!!(&${team?.name}`,
-        path: ['lichess_team'],
-      };
+    {
+      error: `LINK_TEAM_ERROR@%!!(&${team?.id}@%!!(&${team?.name}`,
+      path: ['lichess_team'],
     },
   );
 

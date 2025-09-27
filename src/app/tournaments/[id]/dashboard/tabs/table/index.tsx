@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/table';
 import { PlayerModel } from '@/types/tournaments';
 import { useQueryClient } from '@tanstack/react-query';
-import { UserRoundX } from 'lucide-react';
+import { Scale, UserRoundX } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { FC, PropsWithChildren, useContext, useState } from 'react';
@@ -70,13 +70,17 @@ const TournamentTable: FC = ({}) => {
   };
 
   return (
-    <>
-      <Table className="mb-20">
+    <div className="mb-20 md:m-auto md:max-w-1/2">
+      <Table className="pt-0">
         <TableHeader>
           <TableRow>
             <TableHeadStyled className="text-center">#</TableHeadStyled>
-            <TableHeadStyled>
-              {t('name column', { number: players.data?.length ?? 0 })}
+            <TableHeadStyled className="w-full p-0">
+              {t.rich('name column', {
+                count: players.data?.length ?? 0,
+                small: (chunks) =>
+                  !!players.data?.length && <small>{chunks}</small>,
+              })}
             </TableHeadStyled>
             <TableStatsHeads stats={stats} />
           </TableRow>
@@ -115,11 +119,13 @@ const TournamentTable: FC = ({}) => {
           hasEnded={hasEnded}
         />
       )}
-    </>
+    </div>
   );
 };
 
-const TableStatsHeads: FC<{ stats: string[] }> = ({ stats }) => {
+const TableStatsHeads: FC<{ stats: typeof STATS_WITH_BERGER }> = ({
+  stats,
+}) => {
   const { isMobile } = useContext(MediaQueryContext);
   const t = useTranslations(
     `Tournament.Table.Stats.${isMobile ? 'short' : 'full'}`,
@@ -129,7 +135,11 @@ const TableStatsHeads: FC<{ stats: string[] }> = ({ stats }) => {
     <>
       {stats.map((stat) => (
         <TableHeadStyled key={stat} className="text-center">
-          {t(stat)}
+          {stat === 'berger' ? (
+            <Scale className="m-auto size-[14px]" />
+          ) : (
+            t(stat)
+          )}
         </TableHeadStyled>
       ))}
     </>
@@ -144,8 +154,10 @@ const TableLoading = () => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHeadStyled className="text-center">#</TableHeadStyled>
-            <TableHeadStyled>{t('name column', { number: 0 })}</TableHeadStyled>
+            <TableHeadStyled className="p-mk text-center">#</TableHeadStyled>
+            <TableHeadStyled className="p-0">
+              {t('name column', { number: 0 })}
+            </TableHeadStyled>
             <TableStatsHeads stats={STATS} />
           </TableRow>
         </TableHeader>
@@ -212,7 +224,7 @@ const TableCellStyled: FC<PropsWithChildren & { className?: string }> = ({
 const TableHeadStyled: FC<PropsWithChildren & { className?: string }> = ({
   children,
   className,
-}) => <TableHead className={`h-11 p-0 ${className}`}>{children}</TableHead>;
+}) => <TableHead className={`h-11 ${className}`}>{children}</TableHead>;
 
 const Stat: FC<PropsWithChildren> = ({ children }) => (
   <TableCellStyled className="min-w-8 text-center font-medium">
