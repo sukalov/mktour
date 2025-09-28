@@ -75,12 +75,12 @@ export const getClubPlayers = async (
     .select()
     .from(players)
     .where(and(...conditions))
-    .orderBy(players.last_seen, players.id)
+    .orderBy(players.id, players.nickname)
     .limit(limit + 1);
 
   let nextCursor: string | null = null;
   if (result.length > limit) {
-    const next = result.pop(); // remove the extra item
+    const next = result.at(-1); // remove the extra item
     nextCursor = next ? next.id : null;
   }
 
