@@ -10,7 +10,6 @@ const bundleAnalyzer = withBundleAnalyzer({
 
 const nextConfig = {
   experimental: {
-    reactCompiler: false,
     useCache: true,
     cacheComponents: true,
   },
