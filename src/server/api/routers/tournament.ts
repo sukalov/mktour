@@ -272,7 +272,7 @@ export const tournamentRouter = {
     .mutation(async (opts) => {
       const { input } = opts;
       await deleteTournament(input);
-      revalidateTag(CACHE_TAGS.ALL_TOURNAMENTS);
+      revalidateTag(CACHE_TAGS.ALL_TOURNAMENTS, 'max');
     }),
   authStatus: publicProcedure
     .input(z.object({ tournamentId: z.string() }))

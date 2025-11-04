@@ -37,9 +37,9 @@ export const clubRouter = {
     .mutation(async (opts) => {
       const { input } = opts;
       const newClub = await createClub(input);
-      revalidateTag(CACHE_TAGS.AUTH);
-      revalidateTag(CACHE_TAGS.ALL_CLUBS);
-      revalidateTag(`${CACHE_TAGS.USER_CLUBS}:${opts.ctx.user.id}`);
+      revalidateTag(CACHE_TAGS.AUTH, 'max');
+      revalidateTag(CACHE_TAGS.ALL_CLUBS, 'max');
+      revalidateTag(`${CACHE_TAGS.USER_CLUBS}:${opts.ctx.user.id}`, 'max');
       return newClub;
     }),
   info: publicProcedure
@@ -103,7 +103,7 @@ export const clubRouter = {
       .mutation(async (opts) => {
         const { input } = opts;
         await addClubManager(input);
-        revalidateTag(`${CACHE_TAGS.USER_CLUBS}:${input.userId}`);
+        revalidateTag(`${CACHE_TAGS.USER_CLUBS}:${input.userId}`, 'max');
       }),
     delete: clubAdminProcedure
       .input(
@@ -115,7 +115,7 @@ export const clubRouter = {
       .mutation(async (opts) => {
         const { input } = opts;
         await deleteClubManager(input);
-        revalidateTag(`${CACHE_TAGS.USER_CLUBS}:${input.userId}`);
+        revalidateTag(`${CACHE_TAGS.USER_CLUBS}:${input.userId}`, 'max');
       }),
   },
   notifications: clubAdminProcedure
@@ -134,9 +134,9 @@ export const clubRouter = {
     .mutation(async (opts) => {
       const { input } = opts;
       await deleteClub(input);
-      revalidateTag(CACHE_TAGS.ALL_CLUBS);
-      revalidateTag(CACHE_TAGS.AUTH);
-      revalidateTag(`${CACHE_TAGS.USER_CLUBS}:${opts.ctx.user.id}`);
+      revalidateTag(CACHE_TAGS.ALL_CLUBS, 'max');
+      revalidateTag(CACHE_TAGS.AUTH, 'max');
+      revalidateTag(`${CACHE_TAGS.USER_CLUBS}:${opts.ctx.user.id}`, 'max');
     }),
   edit: clubAdminProcedure
     .input(
@@ -153,7 +153,7 @@ export const clubRouter = {
     .mutation(async (opts) => {
       const { input } = opts;
       await editClub(input);
-      revalidateTag(CACHE_TAGS.ALL_CLUBS);
+      revalidateTag(CACHE_TAGS.ALL_CLUBS, 'max');
     }),
   leave: clubAdminProcedure
     .input(
@@ -165,8 +165,8 @@ export const clubRouter = {
       if (Object.keys(opts.ctx.clubs).length === 1)
         throw new Error('CANT_LEAVE_ONLY_CLUB');
       await leaveClub(opts.input.clubId);
-      revalidateTag(CACHE_TAGS.AUTH);
-      revalidateTag(`${CACHE_TAGS.USER_CLUBS}:${opts.ctx.user.id}`);
+      revalidateTag(CACHE_TAGS.AUTH, 'max');
+      revalidateTag(`${CACHE_TAGS.USER_CLUBS}:${opts.ctx.user.id}`, 'max');
       const updatedClubs = Object.keys(opts.ctx.clubs).filter(
         (id) => id !== opts.input.clubId,
       );

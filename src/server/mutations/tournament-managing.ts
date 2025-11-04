@@ -61,7 +61,7 @@ export const createTournament = async (
   } catch (e) {
     throw new Error(`tournament has NOT been saved, ${e}`);
   }
-  revalidateTag(CACHE_TAGS.ALL_TOURNAMENTS);
+  revalidateTag(CACHE_TAGS.ALL_TOURNAMENTS, 'max');
   permanentRedirect(`/tournaments/${newTournamentID}`);
 };
 
