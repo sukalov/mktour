@@ -23,14 +23,7 @@ const useOnReach = (handler: () => void) => {
     };
   }, [handler]);
 
-  const ReachTrigger = () => (
-    <div
-      ref={ref}
-      className="h-0 w-full -translate-y-[calc(var(--spacing-mk-card-height)+calc((var(--spacing-mk)*2)))]"
-    />
-  );
-
-  return ReachTrigger;
+  return ref;
 };
 
 export default useOnReach;

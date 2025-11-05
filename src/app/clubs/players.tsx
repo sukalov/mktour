@@ -14,7 +14,7 @@ import { FC } from 'react';
 const ClubPlayersList: FC<ClubTabProps> = ({ selectedClub }) => {
   const { fetchNextPage, ...players } = useClubPlayers(selectedClub);
   const t = useTranslations('Empty');
-  const ReachTrigger = useOnReach(() => {
+  const triggerRef = useOnReach(() => {
     if (players.hasNextPage && !players.isFetchingNextPage) {
       fetchNextPage();
     }
@@ -30,7 +30,10 @@ const ClubPlayersList: FC<ClubTabProps> = ({ selectedClub }) => {
     <div className="mk-list">
       <div className="mk-list">{playersData.map(PlayerItemIteratee)}</div>
       <div>
-        <ReachTrigger />
+        <div
+          ref={triggerRef}
+          className="h-0 w-full -translate-y-[calc(var(--spacing-mk-card-height)+calc((var(--spacing-mk)*2)))]"
+        />
         {players.isFetchingNextPage && (
           <SkeletonList length={2} className="h-mk-card-height" />
         )}
