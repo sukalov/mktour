@@ -16,14 +16,7 @@ import {
 import { PlayerModel } from '@/types/tournaments';
 import { UserRound } from 'lucide-react';
 import Link from 'next/link';
-import {
-  Dispatch,
-  FC,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import { Dispatch, FC, SetStateAction, useContext, useState } from 'react';
 
 const PlayerDrawer: FC<{
   player: PlayerModel;
@@ -34,8 +27,6 @@ const PlayerDrawer: FC<{
 }> = ({ player, setSelectedPlayer, hasEnded, hasStarted, handleDelete }) => {
   const [open, setOpen] = useState(!!player);
   const { status } = useContext(DashboardContext);
-
-  useEffect(() => setOpen(!!player), [player]);
 
   return (
     <Root
@@ -49,7 +40,12 @@ const PlayerDrawer: FC<{
           <Title>{player?.nickname}</Title>
           <Description hidden />
         </Header>
-        <Button className="flex w-full gap-2" size="lg" asChild>
+        <Button
+          className="flex w-full gap-2"
+          size="lg"
+          onClick={() => setTimeout(() => setSelectedPlayer(null), 500)}
+          asChild
+        >
           <Link href={`/player/${player?.id}`}>
             <UserRound />
             <FormattedMessage id="Tournament.Table.Player.profile" />
