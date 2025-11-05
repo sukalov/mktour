@@ -34,14 +34,14 @@ const ClubDashboardTournaments: FC<ClubTabProps> = ({
 };
 
 const MakeTournament = () => (
-  <Link
-    href="/tournaments/create"
-    className="mt-4 flex items-center justify-center"
-  >
-    <Button size="lg" variant="default">
+  <Button size="lg" variant="default" asChild>
+    <Link
+      href="/tournaments/create"
+      className="mt-4 flex items-center justify-center"
+    >
       <FormattedMessage id="Home.make tournament" />
-    </Button>
-  </Link>
+    </Link>
+  </Button>
 );
 
 export default ClubDashboardTournaments;

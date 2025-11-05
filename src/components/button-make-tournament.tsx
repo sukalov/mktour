@@ -6,15 +6,16 @@ import Link from 'next/link';
 export default async function MakeTournamentButton() {
   const t = await getTranslations();
   return (
-    <Link href="/tournaments/create" className="m-auto w-full">
-      <Button
-        className="m-auto flex h-28 min-h-28 w-full max-w-[28rem] flex-col gap-2 font-bold"
-        variant="default"
-      >
+    <Button
+      className="m-auto flex h-28 min-h-28 w-full max-w-md flex-col gap-2 font-bold"
+      variant="default"
+      asChild
+    >
+      <Link href="/tournaments/create" className="m-auto w-full">
         <span className="text-2xl font-light min-[320px]:text-3xl">
           {t('Home.make tournament')}
         </span>
-      </Button>
-    </Link>
+      </Link>
+    </Button>
   );
 }

@@ -49,12 +49,12 @@ const PlayerDrawer: FC<{
           <Title>{player?.nickname}</Title>
           <Description hidden />
         </Header>
-        <Link href={`/player/${player?.id}`}>
-          <Button className="flex w-full gap-2" size="lg">
+        <Button className="flex w-full gap-2" size="lg" asChild>
+          <Link href={`/player/${player?.id}`}>
             <UserRound />
             <FormattedMessage id="Tournament.Table.Player.profile" />
-          </Button>
-        </Link>
+          </Link>
+        </Button>
         {status === 'organizer' && (
           <DestructiveButton
             hasEnded={hasEnded}

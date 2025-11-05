@@ -62,7 +62,7 @@ const ClubInfo: FC<{
       <div className="flex w-full flex-col items-start justify-between gap-2 sm:flex-row sm:items-center">
         <p className="px-mk text-2xl font-bold">{club.name}</p>
         {user && statusInClub && (
-          <Button className="px-mk h-full" variant="outline">
+          <Button className="px-mk h-full" variant="outline" asChild>
             <Link // FIXME this has lag in changing selected club
               className="gap-mk flex h-full w-full items-center justify-center text-left"
               prefetch={false}

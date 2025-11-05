@@ -42,11 +42,11 @@ const Profile: FC<{ user: DatabaseUser; isOwner: boolean }> = ({
         )}
       </Card>
       {isOwner && (
-        <Link href="/user/edit">
-          <Button variant="outline" className="w-full">
+        <Button variant="outline" className="w-full" asChild>
+          <Link href="/user/edit">
             <FormattedMessage id="Common.edit" />
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       )}
       <ClubList clubs={data} isPending={isPending} />
     </div>
