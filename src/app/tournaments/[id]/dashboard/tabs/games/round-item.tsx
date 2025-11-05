@@ -56,19 +56,15 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
     status === 'organizer' &&
     round.length > 0;
 
-  const ActionButton = () => {
-    if (renderNewRoundButton)
-      return (
-        <NewRoundButton tournamentId={tournamentId} roundNumber={roundNumber} />
-      );
-    if (renderFinishButton)
-      return <FinishTournamentButton lastRoundNumber={rounds_number} />;
-    return null;
-  };
-
   return (
     <div className="mk-list mk-container px-mk pt-2">
-      <ActionButton />
+      <ActionButton
+        renderNewRoundButton={renderNewRoundButton}
+        roundNumber={roundNumber}
+        rounds_number={rounds_number}
+        tournamentId={tournamentId}
+        renderFinishButton={renderFinishButton}
+      />
       {sortedRound.map((game, index) => {
         return <GamesIteratee key={index} {...game} />;
       })}
@@ -115,6 +111,29 @@ const NewRoundButton: FC<{ tournamentId: string; roundNumber: number }> = ({
       {t('new round button')}
     </Button>
   );
+};
+
+const ActionButton = ({
+  renderNewRoundButton,
+  roundNumber,
+  rounds_number,
+  tournamentId,
+  renderFinishButton,
+}: {
+  renderNewRoundButton: boolean;
+  roundNumber: number;
+  rounds_number: number | null;
+  tournamentId: string;
+  renderFinishButton: boolean;
+}) => {
+  if (!rounds_number) return <p>error: rounds_number is null</p>;
+  if (renderNewRoundButton)
+    return (
+      <NewRoundButton tournamentId={tournamentId} roundNumber={roundNumber} />
+    );
+  if (renderFinishButton)
+    return <FinishTournamentButton lastRoundNumber={rounds_number} />;
+  return null;
 };
 
 const GamesIteratee = ({
