@@ -126,7 +126,7 @@ const ActionButton = ({
   tournamentId: string;
   renderFinishButton: boolean;
 }) => {
-  if (!rounds_number) return <p>error: rounds_number is null</p>;
+  if (!rounds_number) return null;
   if (renderNewRoundButton)
     return (
       <NewRoundButton tournamentId={tournamentId} roundNumber={roundNumber} />
