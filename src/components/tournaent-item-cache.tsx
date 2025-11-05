@@ -7,7 +7,7 @@ import { publicCaller } from '@/server/api';
 import { DatabaseClub } from '@/server/db/schema/clubs';
 import { DatabaseTournament } from '@/server/db/schema/tournaments';
 import { Dot } from 'lucide-react';
-import { unstable_cacheTag as cacheTag } from 'next/cache';
+import { cacheTag } from 'next/cache';
 import Link from 'next/link';
 
 const TournamentItemCache = ({ club, tournament }: Props) => {

@@ -4,10 +4,7 @@ import { CACHE_TAGS } from '@/lib/cache-tags';
 import { db } from '@/server/db';
 import { clubs, clubs_to_users, StatusInClub } from '@/server/db/schema/clubs';
 import { eq } from 'drizzle-orm';
-import {
-  unstable_cacheLife as cacheLife,
-  unstable_cacheTag as cacheTag,
-} from 'next/cache';
+import { cacheLife, cacheTag } from 'next/cache';
 import { cache } from 'react';
 
 export async function getUserClubNames({ userId }: { userId: string }) {

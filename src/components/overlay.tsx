@@ -1,3 +1,5 @@
+'use client';
+
 import { AnimatePresence, motion } from 'framer-motion';
 import { FC } from 'react';
 import { createPortal } from 'react-dom';

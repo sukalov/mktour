@@ -9,9 +9,9 @@ const bundleAnalyzer = withBundleAnalyzer({
 });
 
 const nextConfig = {
+  cacheComponents: true,
   experimental: {
     useCache: true,
-    cacheComponents: true,
   },
   logging: {
     fetches: {

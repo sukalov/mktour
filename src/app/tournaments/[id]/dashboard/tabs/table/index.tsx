@@ -156,7 +156,10 @@ const TableLoading = () => {
           <TableRow>
             <TableHeadStyled className="p-mk text-center">#</TableHeadStyled>
             <TableHeadStyled className="p-0">
-              {t('name column', { number: 0 })}
+              {t.rich('name column', {
+                count: 0,
+                small: (chunks) => <small>{chunks}</small>,
+              })}
             </TableHeadStyled>
             <TableStatsHeads stats={STATS} />
           </TableRow>

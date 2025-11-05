@@ -5,10 +5,7 @@ import { users } from '@/server/db/schema/users';
 import { getUserClubIds } from '@/server/queries/get-user-clubs';
 import { eq } from 'drizzle-orm';
 import { User } from 'lucia';
-import {
-  unstable_cacheLife as cacheLife,
-  unstable_cacheTag as cacheTag,
-} from 'next/cache';
+import { cacheLife, cacheTag } from 'next/cache';
 
 export const getUserInfo = async (username: string) => {
   const user = await db

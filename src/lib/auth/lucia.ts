@@ -6,10 +6,7 @@ import type { DatabaseUser } from '@/server/db/schema/users';
 import { Lichess } from 'arctic';
 import type { Session, User } from 'lucia';
 import { Lucia } from 'lucia';
-import {
-  unstable_cacheLife as cacheLife,
-  unstable_cacheTag as cacheTag,
-} from 'next/cache';
+import { cacheLife, cacheTag } from 'next/cache';
 import { cookies } from 'next/headers';
 import { cache } from 'react';
 
