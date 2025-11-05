@@ -114,7 +114,7 @@
     "club not created": "sorry! some error happened. the club wasn't created"
   },
   "Club": {
-    "managers list": "managers:",
+    "managers list": "managers",
     "add manager": "add new manager",
     "dashboard": "club dashboard",
     "Settings": {
@@ -131,7 +131,8 @@
       "search users error": "an error happened while searching",
       "make admin": "make admin",
       "make co-owner": "make co-owner",
-      "delete manager": "delete manager"
+      "delete manager": "delete manager",
+      "delete": "delete"
     },
     "Dashboard": {
       "no data": "no data",

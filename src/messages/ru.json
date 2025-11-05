@@ -115,7 +115,7 @@
     "club not created": "простите! случилась какая-то ошибка. клуб не создан"
   },
   "Club": {
-    "managers list": "админы:",
+    "managers list": "админы",
     "add manager": "добавить админа",
     "dashboard": "управление клубом",
     "Settings": {
@@ -133,7 +133,8 @@
       "add manager": "добавить админа",
       "make admin": "сделать админом",
       "search users error": "во время поиска что-то слетело",
-      "delete manager": "удалить админа"
+      "delete manager": "удалить админа",
+      "delete": "удалить"
     },
     "Dashboard": {
       "no data": "данные не получены",

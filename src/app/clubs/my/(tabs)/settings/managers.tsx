@@ -6,21 +6,30 @@ import FormattedMessage from '@/components/formatted-message';
 import useDeleteClubManagerMutation from '@/components/hooks/mutation-hooks/use-club-delete-manager';
 import { useClubManagers } from '@/components/hooks/query-hooks/use-club-managers';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import {
   Close,
   Content,
-  Description,
   Header,
   Root,
   Title,
   Trigger,
 } from '@/components/ui/combo-modal';
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemGroup,
+  ItemSeparator,
+  ItemTitle,
+} from '@/components/ui/item';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ClubManager } from '@/server/mutations/club-managing';
 import { Trash2, User2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import Link from 'next/link';
-import { Dispatch, FC, SetStateAction, useState } from 'react';
+import * as React from 'react';
+import { FC } from 'react';
 import { toast } from 'sonner';
 
 const ClubManagersList: FC<{ clubId: string; userId: string }> = ({
@@ -36,103 +45,88 @@ const ClubManagersList: FC<{ clubId: string; userId: string }> = ({
   if (status === 'error') toast.error(t('search users error'));
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="pl-4 text-sm">
+    <>
+      <h2 className="pl-4 text-sm">
         <FormattedMessage id="Club.managers list" />
-      </div>
-      <div>
-        {status !== 'success' ? (
-          <Skeleton className="h-12 w-full" />
-        ) : (
-          <ul className="list-disc pl-4 text-sm">
-            {data.map((manager) => (
-              <ManagersIteratee
-                key={manager.user.id}
-                manager={manager}
-                user={user}
-              />
-            ))}
-          </ul>
-        )}
-      </div>
-      <AddManagerDrawer clubId={clubId} userId={userId} />
-    </div>
+      </h2>
+      <Card>
+        <CardContent>
+          <div className="flex w-full flex-col gap-2">
+            <ItemGroup>
+              {!data ? (
+                <Skeleton className="my-4 h-16 w-full" />
+              ) : (
+                <>
+                  {data.map((manager, index) => (
+                    <ManagerItem
+                      key={manager.user.username}
+                      manager={manager}
+                      index={index}
+                      length={data.length}
+                      user={user}
+                    />
+                  ))}
+                </>
+              )}
+            </ItemGroup>
+
+            <AddManagerDrawer clubId={clubId} userId={userId} />
+          </div>
+        </CardContent>
+      </Card>
+    </>
   );
 };
 
-const ManagersIteratee = ({
-  manager,
-  user,
-}: {
-  manager: ClubManager;
-  user: ClubManager | undefined;
-}) => (
-  <li className="not-last:pb-2">
-    <ManagerItem manager={manager} user={user} />
-  </li>
-);
-
 const ManagerItem: FC<{
   manager: ClubManager;
+  index: number;
+  length: number;
   user: ClubManager | undefined;
-}> = ({ manager, user }) => {
-  const t = useTranslations('Status');
-  const [open, setOpen] = useState(false);
-
+}> = ({ manager, index, length, user }) => {
   const canDelete =
-    user &&
-    user.clubs_to_users.status === 'co-owner' &&
-    manager.clubs_to_users.status === 'admin';
+    user?.clubs_to_users.status === 'co-owner' &&
+    manager.user.id !== user.user.id;
 
   return (
-    <Root key={manager.user.id} open={open} onOpenChange={setOpen}>
-      <Trigger type="button">
-        {manager.user.username}
-        &nbsp;
-        <span className="text-muted-foreground">
-          {t(manager.clubs_to_users.status)}
-        </span>
-      </Trigger>
-      <Content>
-        <Header>
-          <Title>{manager.user.username}</Title>
-          <Description>{t(manager.clubs_to_users.status)}</Description>
-        </Header>
-        <Button>
-          <Link href={`/user/${manager.user.username}`} className="flex gap-2">
-            <User2 />
-            <FormattedMessage id="Tournament.Table.Player.profile" />
-          </Link>
-        </Button>
-        {canDelete && (
-          <DeleteManagerButton
-            clubId={user.clubs_to_users.club_id}
-            userId={manager.user.id}
-            setOpen={setOpen}
-          />
-        )}
-        <Close asChild>
-          <Button className="w-full" variant="outline">
-            <FormattedMessage id="Common.close" />
+    <React.Fragment key={manager.user.username}>
+      <Item>
+        <ItemContent className="gap-1">
+          <ItemTitle>{manager.user.username}</ItemTitle>
+          <ItemDescription>{manager.clubs_to_users.status}</ItemDescription>
+        </ItemContent>
+        <ItemActions>
+          <Button variant="outline" size="sm" asChild>
+            <a href={`/user/${manager.user.username}`}>
+              <User2 />
+              &nbsp;
+              <FormattedMessage id="Tournament.Table.Player.profile" />
+            </a>
           </Button>
-        </Close>
-      </Content>
-    </Root>
+          {canDelete && (
+            <DeleteManagerButton
+              clubId={user.clubs_to_users.club_id}
+              userId={manager.user.id}
+            />
+          )}
+        </ItemActions>
+      </Item>
+      {index !== length - 1 && <ItemSeparator />}
+    </React.Fragment>
   );
 };
 
 const DeleteManagerButton: FC<{
   clubId: string;
   userId: string;
-  setOpen: Dispatch<SetStateAction<boolean>>;
-}> = ({ clubId, userId, setOpen }) => {
+}> = ({ clubId, userId }) => {
   const { mutate, isPending } = useDeleteClubManagerMutation();
   return (
     <Root>
       <Trigger asChild>
-        <Button variant="destructive" className="flex gap-2">
+        <Button variant="destructive" className="flex gap-2" size="sm">
           <Trash2 />
-          <FormattedMessage id="Club.Settings.delete manager" />
+          <FormattedMessage id="Club.Settings.delete" />
         </Button>
       </Trigger>
       <Content>
@@ -146,7 +140,6 @@ const DeleteManagerButton: FC<{
           className="flex gap-2"
           onClick={() => {
             mutate({ clubId, userId });
-            setOpen(false);
           }}
           disabled={isPending}
         >
