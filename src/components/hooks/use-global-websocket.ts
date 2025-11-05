@@ -6,7 +6,7 @@ import { handleGlobalSocketMessage } from '@/lib/handle-global-socket-messages';
 import { GlobalMessage } from '@/types/ws-events';
 import { useQueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
-import { useRef } from 'react';
+import { useCallback } from 'react';
 import useWebSocket from 'react-use-websocket';
 import { toast } from 'sonner';
 
@@ -17,31 +17,21 @@ export const useGlobalWebsocket = (
   const queryClient = useQueryClient();
   const trpc = useTRPC();
 
-  const stableOnMessage = useRef((event: MessageEvent<string>) => {
-    if (!event.data) return;
-    const message: GlobalMessage = JSON.parse(event.data);
-    handleGlobalSocketMessage(message, queryClient, trpc);
-  });
+  const stableOnMessage = useCallback(
+    (event: MessageEvent<string>) => {
+      if (!event.data) return;
+      const message: GlobalMessage = JSON.parse(event.data);
+      handleGlobalSocketMessage(message, queryClient, trpc);
+    },
+    [queryClient, trpc],
+  );
 
-  stableOnMessage.current = (event: MessageEvent<string>) => {
-    if (!event.data) return;
-    const message: GlobalMessage = JSON.parse(event.data);
-    handleGlobalSocketMessage(message, queryClient, trpc);
-  };
-
-  const stableOnReconnectStop = useRef(() => {
+  const stableOnReconnectStop = useCallback(() => {
     setTimeout(() => toast.dismiss('wsError'));
     toast.error(t('ws error'), {
       id: 'wsError',
     });
-  });
-
-  stableOnReconnectStop.current = () => {
-    setTimeout(() => toast.dismiss('wsError'));
-    toast.error(t('ws error'), {
-      id: 'wsError',
-    });
-  };
+  }, [t]);
 
   return useWebSocket<GlobalMessage>(`${SOCKET_URL}/global`, {
     protocols: encryptedAuthSession !== '' ? encryptedAuthSession : 'guest',
@@ -50,8 +40,8 @@ export const useGlobalWebsocket = (
       interval: 5000,
       message: '',
     },
-    onMessage: stableOnMessage.current,
+    onMessage: stableOnMessage,
     reconnectInterval: 3000,
-    onReconnectStop: stableOnReconnectStop.current,
+    onReconnectStop: stableOnReconnectStop,
   });
 };
