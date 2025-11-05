@@ -9,7 +9,7 @@ import { getSwissMinRoundsNumber } from '@/lib/utils';
 import { useQueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 
 export default function SwissRoundsNumber() {
   const { id: tournamentId } = useParams<{ id: string }>();
@@ -17,7 +17,6 @@ export default function SwissRoundsNumber() {
   const { data: players } = useTournamentPlayers(tournamentId);
   const t = useTranslations('Tournament.Main');
   const [value, setValue] = useState(data?.tournament.rounds_number);
-  const [minValue, setMinValue] = useState(data?.tournament.rounds_number);
   const queryClient = useQueryClient();
   const { sendJsonMessage } = useContext(DashboardContext);
   const { mutate, isPending } = useSaveRoundsNumberMutation(
@@ -25,10 +24,9 @@ export default function SwissRoundsNumber() {
     sendJsonMessage,
   );
 
-  useEffect(() => {
-    if (data?.tournament.rounds_number || !players) return;
-    setMinValue(getSwissMinRoundsNumber(players.length));
-  }, [data?.tournament.rounds_number, players]);
+  const minValue =
+    data?.tournament.rounds_number ||
+    (players ? getSwissMinRoundsNumber(players.length) : undefined);
 
   const isInputChaged =
     (value !== 0 || data?.tournament.rounds_number) &&

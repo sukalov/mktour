@@ -10,7 +10,7 @@ import { User } from 'lucia';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { FC, RefObject, useEffect, useMemo, useRef } from 'react';
+import { FC, RefObject, useEffect, useMemo, useRef, useState } from 'react';
 
 const Menu: FC<{ user: User | null }> = ({ user }) => {
   const containerRef = useRef(null);
@@ -134,16 +134,18 @@ export const selected =
   'py-1 px-3 -ml-0 bg-primary text-primary-foreground w-fit rounded-sm';
 
 const useDimensions = (ref: RefObject<HTMLElement | null>) => {
-  const dimensions = useRef({ width: 0, height: 0 });
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
     if (ref.current) {
-      dimensions.current.width = ref.current.offsetWidth;
-      dimensions.current.height = ref.current.offsetHeight;
+      setDimensions({
+        width: ref.current.offsetWidth,
+        height: ref.current.offsetHeight,
+      });
     }
   }, [ref]);
 
-  return dimensions.current;
+  return dimensions;
 };
 
 export default Menu;
