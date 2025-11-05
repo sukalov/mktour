@@ -16,7 +16,14 @@ import {
 import { PlayerModel } from '@/types/tournaments';
 import { UserRound } from 'lucide-react';
 import Link from 'next/link';
-import { FC, useContext, useEffect, useState } from 'react';
+import {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
 const PlayerDrawer: FC<{
   player: PlayerModel;
@@ -27,14 +34,6 @@ const PlayerDrawer: FC<{
 }> = ({ player, setSelectedPlayer, hasEnded, hasStarted, handleDelete }) => {
   const [open, setOpen] = useState(!!player);
   const { status } = useContext(DashboardContext);
-
-  const DestructiveButton = () => {
-    if (hasEnded) return null;
-    // prettier-ignore
-    return hasStarted 
-      ? <WithdrawButtonWithConfirmation selectedPlayer={player} />
-      : <DeleteButton handleDelete={() => { setOpen(false); handleDelete() }} />;
-  };
 
   useEffect(() => setOpen(!!player), [player]);
 
@@ -56,7 +55,15 @@ const PlayerDrawer: FC<{
             <FormattedMessage id="Tournament.Table.Player.profile" />
           </Button>
         </Link>
-        {status === 'organizer' && <DestructiveButton />}
+        {status === 'organizer' && (
+          <DestructiveButton
+            hasEnded={hasEnded}
+            hasStarted={hasStarted}
+            player={player}
+            handleDelete={handleDelete}
+            setOpen={setOpen}
+          />
+        )}
         <Close asChild>
           <Button size="lg" variant="outline">
             <FormattedMessage id="Common.close" />
@@ -65,6 +72,26 @@ const PlayerDrawer: FC<{
       </Content>
     </Root>
   );
+};
+
+const DestructiveButton = ({
+  hasEnded,
+  hasStarted,
+  player,
+  handleDelete,
+  setOpen,
+}: {
+  hasEnded: boolean;
+  hasStarted: boolean;
+  player: PlayerModel;
+  handleDelete: () => void;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+}) => {
+  if (hasEnded) return null;
+  // prettier-ignore
+  return hasStarted 
+      ? <WithdrawButtonWithConfirmation selectedPlayer={player} />
+      : <DeleteButton handleDelete={() => { setOpen(false); handleDelete() }} />;
 };
 
 export default PlayerDrawer;
