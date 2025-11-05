@@ -48,7 +48,11 @@ const ClubSelect: FC<{ user: DatabaseUser }> = ({ user }) => {
         <SelectValue placeholder={placeholder} />
       </SelectTriggerNoOutline>
       {sortedClubs && (
-        <SelectContent position="item-aligned" collisionPadding={0}>
+        <SelectContent
+          position="item-aligned"
+          collisionPadding={0}
+          className="-translate-x-3 md:translate-0"
+        >
           {sortedClubs.map(SelectItemIteratee)}
         </SelectContent>
       )}
