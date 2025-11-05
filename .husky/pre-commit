@@ -1,9 +1,9 @@
 # Format only staged files and add them back to the staging area
 FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep -E '\.(js|jsx|ts|tsx|json|css|scss|md|yaml|yml)$' || true)
 if [ -n "$FILES" ]; then
-  bun run prettier $FILES --write
+  bun prettier $FILES --write
   git add $FILES
 fi
 
 # Run linting on all files
-# bun run lint
+bun lint
