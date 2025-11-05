@@ -97,10 +97,11 @@ const ManagerItem: FC<{
         </ItemContent>
         <ItemActions>
           <Button variant="outline" size="sm" asChild>
-            <a href={`/user/${manager.user.username}`}>
+            <a href={`/user/${manager.user.username}`} className="flex gap-2">
               <User2 />
-              &nbsp;
-              <FormattedMessage id="Tournament.Table.Player.profile" />
+              <div className="hidden sm:block">
+                <FormattedMessage id="Tournament.Table.Player.profile" />
+              </div>
             </a>
           </Button>
           {canDelete && (
@@ -126,7 +127,9 @@ const DeleteManagerButton: FC<{
       <Trigger asChild>
         <Button variant="destructive" className="flex gap-2" size="sm">
           <Trash2 />
-          <FormattedMessage id="Club.Settings.delete" />
+          <div className="hidden sm:block">
+            <FormattedMessage id="Club.Settings.delete" />
+          </div>
         </Button>
       </Trigger>
       <Content>
