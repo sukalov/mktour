@@ -135,11 +135,7 @@ const TableStatsHeads: FC<{ stats: typeof STATS_WITH_BERGER }> = ({
     <>
       {stats.map((stat) => (
         <TableHeadStyled key={stat} className="text-center">
-          {stat === 'berger' ? (
-            <Scale className="m-auto size-[14px]" />
-          ) : (
-            t(stat)
-          )}
+          {stat === 'berger' ? <Scale className="m-auto size-3.5" /> : t(stat)}
         </TableHeadStyled>
       ))}
     </>

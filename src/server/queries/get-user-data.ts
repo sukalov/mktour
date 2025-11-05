@@ -7,7 +7,7 @@ import { eq } from 'drizzle-orm';
 import { User } from 'lucia';
 import { cacheLife, cacheTag } from 'next/cache';
 
-export const getUserInfo = async (username: string) => {
+const getUserInfo = async (username: string) => {
   const user = await db
     .select()
     .from(users)

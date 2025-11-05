@@ -12,6 +12,7 @@ const nextConfig = {
   cacheComponents: true,
   experimental: {
     useCache: true,
+    turbopackFileSystemCacheForDev: true,
   },
   logging: {
     fetches: {

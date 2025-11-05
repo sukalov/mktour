@@ -146,4 +146,4 @@ export const tournamentAdminProcedure = protectedProcedure
     return opts.next();
   });
 
-export type TRPCContext = Awaited<ReturnType<typeof createTRPCContext>>;
+// export type TRPCContext = Awaited<ReturnType<typeof createTRPCContext>>;

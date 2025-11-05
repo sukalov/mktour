@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import SideDrawer from '@/components/ui/side-drawer';
 import { SearchIcon, UserPlus, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 
 const AddManagerDrawer = ({
   clubId,
@@ -72,12 +72,6 @@ const AddManagerDrawer = ({
       </SideDrawer>
     </>
   );
-};
-
-export type DrawerProps = {
-  value: string;
-  handleClose: () => void;
-  setValue: Dispatch<SetStateAction<string>>;
 };
 
 export default AddManagerDrawer;

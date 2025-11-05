@@ -28,10 +28,10 @@ export interface RoundProps {
 export type NumberPair = [number, number];
 
 // classical shape of a round-generating function
-export type RoundGenerator = (roundProps: RoundProps) => GameModel[];
+// type RoundGenerator = (roundProps: RoundProps) => GameModel[];
 
 // type of function which generates a set of pairs from initial pairing number list, and the current round info (optional)
-export type PairsGenerator = (
+type PairsGenerator = (
   pairingNumbers: number[],
   roundNumber?: number,
 ) => NumberPair[];
@@ -39,7 +39,7 @@ export type PairsGenerator = (
 /**
  * The type representing entities we are matching inside our algorithms
  * */
-export interface ChessTournamentEntity {
+interface ChessTournamentEntity {
   entityId: string;
   colourIndex: number;
   entityRating: number;
@@ -68,7 +68,7 @@ type OnlyChild<Child, Parent> = Omit<Child, keyof Parent>;
 /**
  * First generated type of a round is just a pair of two entities
  */
-export type EntitiesPair = [ChessTournamentEntity, ChessTournamentEntity];
+type EntitiesPair = [ChessTournamentEntity, ChessTournamentEntity];
 
 /**
  * This simple converter is taking a joined player info and transforms it to a matched entity

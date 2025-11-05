@@ -24,7 +24,7 @@ const getStatusInClub = cache(uncachedGetStatusInClub);
 
 export default getStatusInClub;
 
-export type UserClubsQueryProps = {
+type UserClubsQueryProps = {
   userId: string;
   clubId: string;
 };
