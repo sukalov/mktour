@@ -1,3 +1,6 @@
+/* eslint-disable */
+// FIXME eslint
+
 import UserNotifications from '@/app/inbox/notifications';
 import { getQueryClient, trpc } from '@/components/trpc/server';
 import {

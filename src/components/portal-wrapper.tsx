@@ -39,7 +39,7 @@ const PortalWrapper: FC<PortalWrapperProps> = ({
   useLayoutEffect(() => {
     if (portalled) {
       updateCoords();
-      setShouldPortal(true);
+      queueMicrotask(() => setShouldPortal(true));
     } else {
       const timeout = setTimeout(() => setShouldPortal(false), exitDuration);
       return () => clearTimeout(timeout);
