@@ -39,7 +39,7 @@ const SelectTriggerNoOutline = React.forwardRef<
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
-      'bg-background placeholder:text-muted-foreground flex h-10 w-full items-center justify-between rounded-md px-3 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1',
+      'bg-background placeholder:text-muted-foreground border-box focus:ring-ring flex h-10 w-full items-center justify-between rounded-md px-3 py-2 text-sm focus:ring-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1',
       className,
     )}
     {...props}
