@@ -26,6 +26,7 @@ const AddFakerPlayer: FC<{ setOpen: (_arg: boolean) => void }> = ({
   );
 
   const nickname =
+    // eslint-disable-next-line
     Math.round(Math.random()) > 0
       ? faker.internet.username()
       : faker.person.fullName();
