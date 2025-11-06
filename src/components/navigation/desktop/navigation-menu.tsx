@@ -20,7 +20,7 @@ export default function NavigationMenuContainer() {
   const t = useTranslations('Menu');
 
   return (
-    <NavigationMenu>
+    <NavigationMenu className="pr-1">
       <NavigationMenuList>
         {NAVMENU_ITEMS.map((tab) => {
           return (

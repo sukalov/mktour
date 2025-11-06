@@ -116,8 +116,8 @@ export default function GlobalSearch({ user }: { user: User | null }) {
         className="flex flex-row items-center justify-center gap-1 p-3 text-sm"
         onClick={() => setOpen((prev) => !prev)}
       >
-        <Search className="size-5" />
-        <kbd className="bg-muted text-muted-foreground pointer-events-none hidden h-6 items-center gap-1 rounded border px-1.5 font-mono text-[10px] font-medium opacity-100 select-none lg:inline-flex">
+        <Search />
+        <kbd className="bg-muted text-muted-foreground pointer-events-none hidden items-center gap-1 rounded border px-1.5 font-mono text-[10px] font-medium opacity-100 select-none lg:inline-flex">
           <span className="text-xs">⌘</span>K
         </kbd>
       </Button>

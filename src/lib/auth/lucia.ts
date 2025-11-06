@@ -47,34 +47,36 @@ export const uncachedValidateRequest = async (): Promise<
     };
   }
 
-  let result;
-  do {
-    try {
-      result = await lucia.validateSession(sessionId);
-    } catch (e) {
-      console.log(e);
-    }
-  } while (!result);
-  // next.js throws when you attempt to set cookie when rendering page
   try {
-    if (result.session && result.session.fresh) {
-      const sessionCookie = lucia.createSessionCookie(result.session.id);
-      cooks.set(
-        sessionCookie.name,
-        sessionCookie.value,
-        sessionCookie.attributes,
-      );
-    }
-    if (!result.session) {
-      const sessionCookie = lucia.createBlankSessionCookie();
-      cooks.set(
-        sessionCookie.name,
-        sessionCookie.value,
-        sessionCookie.attributes,
-      );
-    }
-  } catch {}
-  return result;
+    const result = await lucia.validateSession(sessionId);
+
+    // next.js throws when you attempt to set cookie when rendering page
+    try {
+      if (result.session && result.session.fresh) {
+        const sessionCookie = lucia.createSessionCookie(result.session.id);
+        cooks.set(
+          sessionCookie.name,
+          sessionCookie.value,
+          sessionCookie.attributes,
+        );
+      }
+      if (!result.session) {
+        const sessionCookie = lucia.createBlankSessionCookie();
+        cooks.set(
+          sessionCookie.name,
+          sessionCookie.value,
+          sessionCookie.attributes,
+        );
+      }
+    } catch {}
+    return result;
+  } catch (e) {
+    console.error('session validation failed:', e);
+    return {
+      user: null,
+      session: null,
+    };
+  }
 };
 
 export const reactCachedValidateRequest = cache(uncachedValidateRequest);
@@ -89,34 +91,36 @@ export const validateRequest = cache(async () => {
     };
   }
 
-  let result;
-  do {
-    try {
-      result = await cachedValidateSession(sessionId);
-    } catch (e) {
-      console.log(e);
-    }
-  } while (!result);
-  // next.js throws when you attempt to set cookie when rendering page
   try {
-    if (result.session && result.session.fresh) {
-      const sessionCookie = lucia.createSessionCookie(result.session.id);
-      cooks.set(
-        sessionCookie.name,
-        sessionCookie.value,
-        sessionCookie.attributes,
-      );
-    }
-    if (!result.session) {
-      const sessionCookie = lucia.createBlankSessionCookie();
-      cooks.set(
-        sessionCookie.name,
-        sessionCookie.value,
-        sessionCookie.attributes,
-      );
-    }
-  } catch {}
-  return result;
+    const result = await cachedValidateSession(sessionId);
+
+    // next.js throws when you attempt to set cookie when rendering page
+    try {
+      if (result.session && result.session.fresh) {
+        const sessionCookie = lucia.createSessionCookie(result.session.id);
+        cooks.set(
+          sessionCookie.name,
+          sessionCookie.value,
+          sessionCookie.attributes,
+        );
+      }
+      if (!result.session) {
+        const sessionCookie = lucia.createBlankSessionCookie();
+        cooks.set(
+          sessionCookie.name,
+          sessionCookie.value,
+          sessionCookie.attributes,
+        );
+      }
+    } catch {}
+    return result;
+  } catch (e) {
+    console.error('Cached session validation failed:', e);
+    return {
+      user: null,
+      session: null,
+    };
+  }
 });
 
 const cachedValidateSession = async (sessionId: string) => {

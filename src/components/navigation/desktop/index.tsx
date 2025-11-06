@@ -8,7 +8,7 @@ import { FC } from 'react';
 
 const Desktop: FC<NavMenuProps> = ({ user }) => {
   return (
-    <div className="flex w-full justify-end">
+    <div className="flex w-full items-center justify-end align-middle">
       <NavigationMenuContainer />
       <GlobalSearch user={user} />
       <div className="flex items-center">

@@ -76,72 +76,6 @@
 }
 
 @layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 20 14.3% 4.1%;
-
-    --muted: 60 4.8% 95.9%;
-    --muted-foreground: 25 5.3% 44.7%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 20 14.3% 4.1%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 20 14.3% 4.1%;
-
-    --border: 20 5.9% 90%;
-    --input: 20 5.9% 90%;
-
-    --primary: 24 9.8% 10%;
-    --primary-foreground: 60 9.1% 97.8%;
-
-    --secondary: 60 4.8% 95.9%;
-    --secondary-foreground: 24 9.8% 10%;
-
-    --accent: 60 4.8% 95.9%;
-    --accent-foreground: 24 9.8% 10%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 60 9.1% 97.8%;
-
-    --ring: 24 5.4% 63.9%;
-
-    --radius: 0.5rem;
-  }
-
-  .dark {
-    --background: 20 14.3% 4.1%;
-    --foreground: 60 9.1% 97.8%;
-
-    --muted: 12 6.5% 15.1%;
-    --muted-foreground: 24 5.4% 63.9%;
-
-    --popover: 20 14.3% 4.1%;
-    --popover-foreground: 60 9.1% 97.8%;
-
-    --card: 20 14.3% 4.1%;
-    --card-foreground: 60 9.1% 97.8%;
-
-    --border: 12 6.5% 15.1%;
-    --input: 12 6.5% 15.1%;
-
-    --primary: 60 9.1% 97.8%;
-    --primary-foreground: 24 9.8% 10%;
-
-    --secondary: 12 6.5% 15.1%;
-    --secondary-foreground: 60 9.1% 97.8%;
-
-    --accent: 12 6.5% 15.1%;
-    --accent-foreground: 60 9.1% 97.8%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 85.7% 97.3%;
-
-    --ring: 12 6.5% 15.1%;
-  }
-}
-
-@layer base {
   * {
     @apply border-border;
   }
@@ -158,7 +92,7 @@ button {
 }
 
 @theme {
-  --spacing-mk: calc(var(--spacing) * 3);
+  --spacing-mk: calc(var(--spacing) * 1.5);
   --spacing-mk-2: calc(var(--spacing-mk) * 2);
   --spacing-mk-card-height: calc(var(--spacing-mk) * 4);
 }
@@ -168,6 +102,7 @@ button {
   width: 100%;
   padding: var(--spacing-mk);
   padding-bottom: calc(var(--spacing) * 20);
+
   @media screen and (min-width: 768px) {
     width: 66.6%;
     max-width: 768px;
@@ -179,6 +114,7 @@ button {
 @utility mk-card {
   cursor: pointer;
   padding: var(--spacing-mk);
+
   @media screen and (min-width: 768px) {
     padding: var(--spacing-mk-2);
     width: 100%;
@@ -190,6 +126,7 @@ button {
   flex-direction: column;
   gap: var(--spacing-mk);
   padding-bottom: 10dvh;
+
   @media screen and (min-width: 768px) {
     gap: var(--spacing-mk-2);
   }
@@ -209,9 +146,11 @@ button {
 @utility text-2xs {
   font-size: 10px;
 }
+
 @utility text-3xs {
   font-size: 8px;
 }
+
 /*
   ---break---
 */
@@ -252,6 +191,7 @@ button {
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 }
+
 /*
   ---break---
 */
@@ -289,6 +229,7 @@ button {
   --sidebar-border: oklch(0.923 0.003 48.717);
   --sidebar-ring: oklch(0.709 0.01 56.259);
 }
+
 /*
   ---break---
 */
@@ -325,6 +266,7 @@ button {
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.553 0.013 58.071);
 }
+
 /*
   ---break---
 */
@@ -332,6 +274,7 @@ button {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
