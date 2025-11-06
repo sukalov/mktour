@@ -15,7 +15,11 @@ const LocaleSwitcher = () => {
 
   return (
     <Button variant="ghost" size="icon" onClick={handleClickLocale}>
-      {pending ? <LoadingSpinner /> : <span>{locale}</span>}
+      {pending ? (
+        <LoadingSpinner />
+      ) : (
+        <span>{locale === 'en' ? 'en' : 'рус'}</span>
+      )}
     </Button>
   );
 };
