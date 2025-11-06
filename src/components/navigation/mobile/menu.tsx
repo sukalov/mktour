@@ -82,7 +82,6 @@ const Menu: FC<{ user: User | null }> = ({ user }) => {
           <ScrollArea
             className="offset-4 grid h-[92svh] w-full gap-2 px-8 pt-8 pb-4"
             type="auto"
-            noScrollbar
           >
             {NAVMENU_ITEMS.map((item, idx) => (
               <div key={idx}>

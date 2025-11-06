@@ -7,7 +7,7 @@ import FormattedMessage, {
 } from '@/components/formatted-message';
 import useAffiliationRequestMutation from '@/components/hooks/mutation-hooks/use-affiliation-request';
 import useUserClubAffiliations from '@/components/hooks/query-hooks/use-user-affiliations';
-import { Button, ButtonProps } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
   Close,
   Content,
@@ -113,6 +113,6 @@ export const ClaimActionButton: FC<ClaimActionButtonProps> = ({
 type ClaimActionButtonProps = {
   messageId: IntlMessageId;
   icon: FC;
-} & ButtonProps;
+} & React.ComponentProps<'button'>;
 
 export default ClaimPlayer;

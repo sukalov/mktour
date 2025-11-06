@@ -6,7 +6,7 @@ import {
   Select,
   SelectContent,
   SelectItem,
-  SelectTriggerNoOutline,
+  SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -44,9 +44,9 @@ const ClubSelect: FC<{ user: DatabaseUser }> = ({ user }) => {
         })
       }
     >
-      <SelectTriggerNoOutline className="bg-background/30 md:py-mk-2 px-mk-2 w-full max-w-2xl py-0 backdrop-blur-md md:mx-auto">
+      <SelectTrigger className="bg-background placeholder:text-muted-foreground border-box focus:ring-ring md:py-mk-2 flex h-10 w-full max-w-2xl items-center justify-between rounded-md border-0 px-3 text-sm shadow-none backdrop-blur-md focus:ring-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:mx-auto">
         <SelectValue placeholder={placeholder} />
-      </SelectTriggerNoOutline>
+      </SelectTrigger>
       {sortedClubs && (
         <SelectContent
           position="item-aligned"

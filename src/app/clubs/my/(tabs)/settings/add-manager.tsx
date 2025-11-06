@@ -2,11 +2,12 @@ import { useClubAddManagerMutation } from '@/components/hooks/mutation-hooks/use
 import { useClubAffiliatedUsers } from '@/components/hooks/query-hooks/use-club-affiliated-users';
 import { useClubManagers } from '@/components/hooks/query-hooks/use-club-managers';
 import { useSearchQuery } from '@/components/hooks/query-hooks/use-search-result';
-import { Button, ButtonProps } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 import { DatabaseUser } from '@/server/db/schema/users';
+import { VariantProps } from 'class-variance-authority';
 import { useTranslations } from 'next-intl';
 import { FC, PropsWithChildren, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
@@ -150,5 +151,10 @@ const ActionButton: FC<ButtonProps & PropsWithChildren> = ({
     <div className="text-xs">{children}</div>
   </Button>
 );
+
+type ButtonProps = React.ComponentProps<'button'> &
+  VariantProps<typeof buttonVariants> & {
+    asChild?: boolean;
+  };
 
 export default AddManager;

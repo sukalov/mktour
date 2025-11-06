@@ -121,11 +121,7 @@ export default function GlobalSearch({ user }: { user: User | null }) {
           <span className="text-xs">⌘</span>K
         </kbd>
       </Button>
-      <CommandDialog
-        open={open}
-        onOpenChange={setOpen}
-        shouldFilter={isLoading ? false : true}
-      >
+      <CommandDialog open={open} onOpenChange={setOpen}>
         <DialogTitle className="sr-only">
           {t('search dialog title')}
         </DialogTitle>{' '}
@@ -133,7 +129,7 @@ export default function GlobalSearch({ user }: { user: User | null }) {
           {t('search dialog description')}
         </DialogDescription>
         <div
-          className="border-b-0.5 flex items-center px-3"
+          className="border-b-0.5 small-scrollbar flex items-center px-3"
           cmdk-input-wrapper=""
         >
           <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
@@ -146,7 +142,7 @@ export default function GlobalSearch({ user }: { user: User | null }) {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        <CommandList>
+        <CommandList className="small-scrollbar">
           {isLoading ? (
             <div className="grid grid-cols-1 gap-2 p-2">
               <Skeleton className="h-12 w-full" />

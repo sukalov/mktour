@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, ButtonProps } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { Loader2, LucideIcon } from 'lucide-react';
 import { FC, MouseEventHandler, PropsWithChildren } from 'react';
 import { createPortal } from 'react-dom';
@@ -40,7 +40,7 @@ type FabProps = {
   icon: LucideIcon;
   disabled?: boolean;
   container?: HTMLElement | null;
-  className?: ButtonProps['className'];
+  className?: React.ComponentProps<'button'>['className'];
 };
 
 export default Fab;

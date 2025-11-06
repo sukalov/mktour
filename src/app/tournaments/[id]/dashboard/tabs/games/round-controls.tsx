@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Dispatch, FC, SetStateAction } from 'react';
@@ -54,7 +54,7 @@ const RoundControls: FC<RoundControlProps> = ({
   );
 };
 
-const buttonProps: ButtonProps = {
+const buttonProps: React.ComponentProps<typeof Button> = {
   variant: 'ghost',
   size: 'sm',
   className: 'w-full',
