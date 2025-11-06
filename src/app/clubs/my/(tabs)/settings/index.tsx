@@ -13,7 +13,7 @@ export default function ClubSettings({ selectedClub, userId }: ClubTabProps) {
   const { mutate, isPending } = useClubLeaveMutation();
 
   return (
-    <section className="md:no-scrollbar max-md:p-mk gap-mk top-20 right-0 left-0 m-auto flex w-full max-w-[min(640px,100%)] flex-col justify-between p-0 pb-16 max-md:pb-16 max-sm:absolute">
+    <section className="md:no-scrollbar max-md:p-mk gap-mk-2 top-20 right-0 left-0 m-auto flex w-full max-w-[min(640px,100%)] flex-col justify-between p-0 pb-16 max-md:pb-16 max-sm:absolute">
       <ClubSettingsForm selectedClub={selectedClub} userId={userId} />
       <div className="flex flex-col gap-2">
         <label htmlFor="danger-zone">
