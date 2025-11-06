@@ -34,6 +34,7 @@ export const useUserSelectClub = (queryClient: QueryClient) => {
           id: 'error',
           duration: 3000,
         });
+        console.log(context);
         queryClient.setQueryData(
           trpc.user.auth.queryKey(),
           context?.previousState,

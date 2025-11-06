@@ -7,7 +7,6 @@ import useEditClubMutation from '@/components/hooks/mutation-hooks/use-club-edit
 import { useClubInfo } from '@/components/hooks/query-hooks/use-club-info';
 import SkeletonList from '@/components/skeleton-list';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -65,52 +64,50 @@ const ClubSettingsForm: FC<ClubTabProps & PropsWithChildren> = ({
   if (!data && children) return children;
   return (
     <Form {...form}>
-      <Card className="h-full grow border-none p-0 shadow-none">
-        <form
-          onSubmit={form.handleSubmit((data) =>
-            clubSettingsMutation.mutate({
-              clubId: data.id,
-              userId,
-              values: data,
-            }),
+      <form
+        onSubmit={form.handleSubmit((data) =>
+          clubSettingsMutation.mutate({
+            clubId: data.id,
+            userId,
+            values: data,
+          }),
+        )}
+        className="flex flex-col gap-2"
+        name="edit-club-form"
+      >
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="pl-4">{t('name')}</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  disabled={isFetching}
+                  autoComplete="off"
+                  className="px-4"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
           )}
-          className="flex flex-col gap-2"
-          name="edit-club-form"
+        />
+        <FormField control={form.control} name="id" render={() => <></>} />
+        <Button
+          type="submit"
+          disabled={
+            shallowEqual(form.getValues(), defaultValues) ||
+            clubSettingsMutation.isPending ||
+            isFetching
+          }
+          className="w-full"
         >
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="pl-4">{t('name')}</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    disabled={isFetching}
-                    autoComplete="off"
-                    className="px-4"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField control={form.control} name="id" render={() => <></>} />
-          <ClubManagersList clubId={selectedClub} userId={userId} />
-          <Button
-            type="submit"
-            disabled={
-              shallowEqual(form.getValues(), defaultValues) ||
-              clubSettingsMutation.isPending ||
-              isFetching
-            }
-            className="w-full"
-          >
-            {clubSettingsMutation.isPending ? <LoadingSpinner /> : <Save />}
-            &nbsp;{t('save')}
-          </Button>
-        </form>
-      </Card>
+          {clubSettingsMutation.isPending ? <LoadingSpinner /> : <Save />}
+          &nbsp;{t('save')}
+        </Button>
+      </form>
+      <ClubManagersList clubId={selectedClub} userId={userId} />
     </Form>
   );
 };
