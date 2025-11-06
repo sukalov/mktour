@@ -1,14 +1,18 @@
+'use client';
+
 import { turboPascal } from '@/app/fonts';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 
 export default function MktourNavbar() {
+  const t = useTranslations('Menu');
   return (
-    <Link href="/">
+    <Link href="/" className="group">
       <h1
         className={`${turboPascal.className} m-auto text-2xl font-bold select-none`}
       >
-        <span className="group">
-          mktour
+        <span>
+          {t('mktour')}
           <span className="group-hover:animate-logo-pulse">_</span>
         </span>
       </h1>

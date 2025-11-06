@@ -51,7 +51,8 @@
         "all tournaments": "explore events made with mktour",
         "make tournament": "well, let's go!"
       }
-    }
+    },
+    "mktour": "mktour"
   },
   "Empty": {
     "players": "there are no players in this club yet",

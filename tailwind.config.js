@@ -1,7 +1,4 @@
-const plugin = require('tailwindcss/plugin');
-
 /** @type {import('tailwindcss').Config} */
-
 module.exports = {
   darkMode: ['class'],
   content: [
@@ -10,41 +7,34 @@ module.exports = {
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
   ],
+  theme: {
+    extend: {
+      keyframes: {
+        'accordion-down': {
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
+        },
+        'accordion-up': {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' },
+        },
+        'logo-pulse': {
+          '0%, 49%': { opacity: '0' },
+          '50%, 100%': { opacity: '1' },
+        },
+      },
+      animation: {
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out',
+        'logo-pulse': 'logo-pulse 1s infinite',
+      },
+    },
+  },
   plugins: [
     require('tailwindcss-animate'),
     function ({ addVariant }) {
       addVariant('child', '& > *');
       addVariant('child-hover', '& > *:hover');
     },
-    plugin(function ({ addUtilities }) {
-      addUtilities({
-        '.no-scrollbar::-webkit-scrollbar': {
-          display: 'none',
-        },
-        '.no-scrollbar': {
-          '-ms-overflow-style': 'none',
-          'scrollbar-width': 'none',
-        },
-        '.small-scrollbar': {
-          'scrollbar-width': '4px',
-          'scrollbar-color': 'var(--muted) transparent',
-          '-ms-overflow-style': 'none',
-        },
-        '.small-scrollbar::-webkit-scrollbar': {
-          width: '4px',
-          'background-color': 'transparent',
-        },
-        '.small-scrollbar::-webkit-scrollbar-thumb': {
-          background: 'var(--muted)',
-          'border-radius': '3px',
-          'z-index': '20',
-        },
-        '.small-scrollbar::-webkit-scrollbar-track': {
-          'background-clip': 'content-box',
-          'margin-bottom': '10px',
-          'margin-top': '10px',
-        },
-      });
-    }),
   ],
 };
