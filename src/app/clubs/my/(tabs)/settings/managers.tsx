@@ -45,7 +45,7 @@ const ClubManagersList: FC<{ clubId: string; userId: string }> = ({
   if (status === 'error') toast.error(t('search users error'));
 
   return (
-    <div className="gap-mk-2 flex flex-col">
+    <div className="gap-mk flex flex-col">
       <h2 className="pl-4 text-sm">
         <FormattedMessage id="Club.managers list" />
       </h2>
@@ -86,7 +86,8 @@ const ManagerItem: FC<{
 }> = ({ manager, index, length, user }) => {
   const canDelete =
     user?.clubs_to_users.status === 'co-owner' &&
-    manager.user.id !== user.user.id;
+    manager.user.id !== user.user.id &&
+    manager.clubs_to_users.status === 'admin';
 
   return (
     <React.Fragment key={manager.user.username}>

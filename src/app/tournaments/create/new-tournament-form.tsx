@@ -39,7 +39,6 @@ import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
 
 export default function NewTournamentForm({
   clubs,
@@ -67,17 +66,10 @@ export default function NewTournamentForm({
         {t('making')}
       </Button>,
     );
-    try {
-      await createTournament({
-        ...data,
-        date: data.date.toISOString().slice(0, 10),
-      });
-    } catch (e) {
-      if ((e as Error).message !== 'NEXT_REDIRECT') {
-        console.log('SERVER_ERROR', e);
-        toast.error(t('server error'));
-      }
-    }
+    await createTournament({
+      ...data,
+      date: data.date.toISOString().slice(0, 10),
+    });
   };
 
   const [submitButton, setSubmitButton] = React.useState(

@@ -18,8 +18,9 @@ const ClubDashboardTournaments: FC<ClubTabProps> = ({
   if (isLoading) return <SkeletonList length={10} height={16} />;
   if (!data || !data.length)
     return (
-      <Empty className="mk-container">
+      <Empty className="mk-container text-center text-balance">
         <FormattedMessage id="Empty.tournaments" />
+        <br />
         {statusInClub && <MakeTournament />}
       </Empty>
     );

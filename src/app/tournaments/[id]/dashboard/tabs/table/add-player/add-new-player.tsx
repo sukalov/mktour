@@ -131,7 +131,6 @@ const AddNewPlayer = ({
             </FormItem>
           )}
         />
-        <FormMessage />
         <Button
           type="submit"
           className="w-full"

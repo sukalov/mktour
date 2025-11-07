@@ -162,7 +162,6 @@ const AddNewPlayer = ({ value, setValue }: DrawerProps) => {
             </FormItem>
           )}
         />
-        <FormMessage />
         <Button
           type="submit"
           className="w-full"

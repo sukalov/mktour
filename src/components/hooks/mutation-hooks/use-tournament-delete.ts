@@ -5,11 +5,13 @@ import { DashboardMessage } from '@/types/ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
+import { Dispatch, SetStateAction } from 'react';
 import { toast } from 'sonner';
 
 export default function useTournamentDelete(
   queryClient: QueryClient,
   sendJsonMessage: (_message: DashboardMessage) => void,
+  setOpen: Dispatch<SetStateAction<boolean>>,
 ) {
   const t = useTranslations('Toasts');
   const router = useRouter();
@@ -17,6 +19,7 @@ export default function useTournamentDelete(
   return useMutation(
     trpc.tournament.delete.mutationOptions({
       onSuccess: () => {
+        setOpen(false);
         sendJsonMessage({ type: 'delete-tournament' });
         router.push('/tournaments/my');
         router.refresh();

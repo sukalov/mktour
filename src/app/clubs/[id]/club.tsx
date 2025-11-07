@@ -59,12 +59,26 @@ const ClubInfo: FC<{
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex w-full flex-col items-start justify-between gap-2 sm:flex-row sm:items-center">
-        <p className="px-mk text-2xl font-bold">{club.name}</p>
+      <div className="flex w-full flex-row items-start justify-between gap-2 sm:items-center">
+        <div className="flex flex-row items-center gap-2">
+          <p className="px-mk text-2xl font-bold">{club.name}</p>
+          {club.lichess_team && (
+            <Link
+              href={`https://lichess.org/team/${club.lichess_team}`}
+              target="_blank"
+            >
+              <LichessLogo className="size-4" />
+            </Link>
+          )}
+        </div>
         {user && statusInClub && (
-          <Button className="px-mk h-full" variant="outline" asChild>
+          <Button
+            className="gap-mk flex h-full items-center justify-center text-left"
+            variant="outline"
+            asChild
+          >
             <Link // FIXME this has lag in changing selected club
-              className="gap-mk flex h-full w-full items-center justify-center text-left"
+              className="flex gap-2"
               prefetch={false}
               onNavigate={() => {
                 mutate({
@@ -75,21 +89,12 @@ const ClubInfo: FC<{
               href="/clubs/my"
             >
               <Home />
-              {t('dashboard')}
+              <p className="hidden sm:block">{t('dashboard')}</p>
             </Link>
           </Button>
         )}
       </div>
       <div className="px-mk">
-        {club.lichess_team && (
-          <Link
-            href={`https://lichess.org/team/${club.lichess_team}`}
-            target="_blank"
-            className="size-4"
-          >
-            <LichessLogo />
-          </Link>
-        )}
         {club.description && (
           <span className="text-muted-foreground text-sm">
             {club.description || t('Page.no description')}

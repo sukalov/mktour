@@ -69,11 +69,7 @@ const CarouselIteratee: FC<{
 
   return (
     <CarouselItem>
-      <RemoveScroll
-        noIsolation
-        ref={ref}
-        className="h-dvh overflow-scroll pb-20"
-      >
+      <RemoveScroll noIsolation ref={ref} className="overflow-scroll pb-20">
         <Component />
       </RemoveScroll>
     </CarouselItem>

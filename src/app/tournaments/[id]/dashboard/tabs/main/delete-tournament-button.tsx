@@ -23,11 +23,12 @@ export default function DeleteTournamentButton() {
   const { id: tournamentId } = useParams<{ id: string }>();
   const queryClient = useQueryClient();
   const { sendJsonMessage } = useContext(DashboardContext);
+  const [open, setOpen] = useState(false);
   const { mutate, isPending } = useTournamentDelete(
     queryClient,
     sendJsonMessage,
+    setOpen,
   );
-  const [open, setOpen] = useState(false);
   const t = useTranslations('Tournament.Main');
 
   return (
@@ -41,12 +42,16 @@ export default function DeleteTournamentButton() {
       <Content>
         <Header>
           <Title>{t('Delete.confirmation header')}</Title>
-          <Description>{t.rich('Delete.confirmation body')}</Description>
+          <Description className="text-balance">
+            {t.rich('Delete.confirmation body')}
+          </Description>
         </Header>
         <Button
           variant={'destructive'}
           className="w-full"
-          onClick={() => mutate({ tournamentId })}
+          onClick={() => {
+            mutate({ tournamentId });
+          }}
           disabled={isPending}
         >
           {isPending ? <LoadingSpinner /> : <CircleX />}

@@ -1,8 +1,8 @@
 'use client';
 
-import * as React from 'react';
 import * as LabelPrimitive from '@radix-ui/react-label';
 import { Slot } from '@radix-ui/react-slot';
+import * as React from 'react';
 import {
   Controller,
   FormProvider,
@@ -12,8 +12,9 @@ import {
   type FieldValues,
 } from 'react-hook-form';
 
-import { cn } from '@/lib/utils';
 import { Label } from '@/components/ui/label';
+import { cn } from '@/lib/utils';
+import { useTranslations } from 'next-intl';
 
 const Form = FormProvider;
 
@@ -150,6 +151,7 @@ const FormMessage = React.forwardRef<
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, children, ...props }, ref) => {
   const { error, formMessageId } = useFormField();
+  const t = useTranslations('Errors'); // FIXME MODIFIED SHADCN
   const body = error ? String(error?.message ?? '') : children;
 
   if (!body) {
@@ -163,19 +165,19 @@ const FormMessage = React.forwardRef<
       className={cn('text-destructive text-[0.8rem] font-medium', className)}
       {...props}
     >
-      {body}
+      {t(String(body))}
     </p>
   );
 });
 FormMessage.displayName = 'FormMessage';
 
 export {
-  useFormField,
   Form,
-  FormItem,
-  FormLabel,
   FormControl,
   FormDescription,
-  FormMessage,
   FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  useFormField,
 };

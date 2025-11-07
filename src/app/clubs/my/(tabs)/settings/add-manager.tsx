@@ -35,7 +35,9 @@ const AddManager = ({
   });
   const managers = useClubManagers(clubId);
 
-  const { mutate, isPending } = useClubAddManagerMutation();
+  const { mutate, isPending } = useClubAddManagerMutation({
+    onSuccess: () => handleClose(),
+  });
 
   const t = useTranslations('Club.Settings');
   useHotkeys('escape', () => handleClose, { enableOnFormTags: true });

@@ -48,11 +48,11 @@ const EditPlayerForm: FC<{
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="gap-mk-2 flex flex-col"
+        className="gap-mk pb-mk flex flex-col"
       >
         <Field name="nickname" placeholder={nickname} form={form} />
         <Field name="realname" placeholder={realname || ''} form={form} />
-        <div className="gap-mk-2 mt-mk-2 flex flex-col">
+        <div className="gap-mk mt-mk flex flex-col">
           <Button
             type="submit"
             className="w-full"

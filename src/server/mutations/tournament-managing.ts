@@ -56,11 +56,8 @@ export const createTournament = async (
     rounds_number: null,
     ongoing_round: 1,
   };
-  try {
-    await db.insert(tournaments).values(newTournament);
-  } catch (e) {
-    throw new Error(`tournament has NOT been saved, ${e}`);
-  }
+
+  await db.insert(tournaments).values(newTournament);
   revalidateTag(CACHE_TAGS.ALL_TOURNAMENTS, 'max');
   permanentRedirect(`/tournaments/${newTournamentID}`);
 };
@@ -955,7 +952,6 @@ export async function deleteTournament({
   ];
   await Promise.all(queries);
   await db.delete(tournaments).where(eq(tournaments.id, tournamentId));
-  permanentRedirect('/tournaments/my');
 }
 
 export async function resetTournamentPlayers({

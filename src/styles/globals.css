@@ -59,6 +59,7 @@ button {
   49% {
     opacity: 0;
   }
+
   50%,
   100% {
     opacity: 1;
@@ -66,8 +67,9 @@ button {
 }
 
 @theme {
-  --spacing-mk: calc(var(--spacing) * 1.5);
+  --spacing-mk: calc(var(--spacing) * 2);
   --spacing-mk-2: calc(var(--spacing-mk) * 2);
+  --spacing-mk-3: calc(var(--spacing-mk) * 3);
   --spacing-mk-card-height: calc(var(--spacing-mk) * 4);
 }
 
@@ -87,7 +89,7 @@ button {
 
 @utility mk-card {
   cursor: pointer;
-  padding: var(--spacing-mk);
+  padding: var(--spacing-mk-2);
 
   @media screen and (min-width: 768px) {
     padding: var(--spacing-mk-2);

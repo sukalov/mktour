@@ -41,7 +41,7 @@ const TournamentGroups: FC<{ props: TournamentWithClub[] }> = ({ props }) => {
   return Object.entries(groupedTournaments).map(
     ([clubId, { clubName, tournaments }]) => {
       return (
-        <div className="mk-list gap-1 pb-0" key={clubId}>
+        <div className="mk-list pb-0" key={clubId}>
           <Link href={`/clubs/${clubId}`} className="pl-mk text-sm">
             <h2 className="text-muted-foreground">{clubName}</h2>
           </Link>

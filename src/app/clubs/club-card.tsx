@@ -15,13 +15,9 @@ const ClubCard: FC<{ club: DatabaseClub }> = async ({ club }) => {
         <div className="flex items-center gap-2">
           <CardTitle className="text-base">{club.name}</CardTitle>
           {club.lichess_team && (
-            <Link
-              href={`https://lichess.org/team/${club.lichess_team}`}
-              target="_blank"
-              className="size-4"
-            >
+            <div className="size-4">
               <LichessLogo />
-            </Link>
+            </div>
           )}
         </div>
         {club.description && (

@@ -65,8 +65,8 @@ export default function NewClubForm({ teams }: NewClubFormProps) {
       >
         {t('new club')}
       </h2>
-      <Card className="mx-auto max-w-[min(600px,98%)] border-none shadow-none sm:border-solid sm:shadow-2xs">
-        <CardContent className="p-4 pt-2 sm:p-8">
+      <Card className="bg-background sm:bg-card mx-auto max-w-[min(600px,98%)] border-none shadow-none sm:border-solid sm:shadow-2xs">
+        <CardContent className="p-mk sm:p-mk-2 pt-2">
           <form
             onSubmit={handleSubmit}
             className="flex flex-col gap-8"
