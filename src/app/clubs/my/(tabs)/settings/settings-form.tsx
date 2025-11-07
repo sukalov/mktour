@@ -66,7 +66,7 @@ const ClubSettingsForm: FC<ClubTabProps & PropsWithChildren> = ({
     <div className="gap-mk-2 flex flex-col">
       <h2 className="pl-4 text-sm">{t('club settings')}</h2>
       <Form {...form}>
-        <Card className="bg-background sm:bg-card border-none sm:border sm:shadow-2xs">
+        <Card className="bg-background sm:bg-card border-none shadow-none sm:border-solid sm:shadow">
           <CardContent className="p-0 sm:p-6">
             <form
               onSubmit={form.handleSubmit((data) =>
