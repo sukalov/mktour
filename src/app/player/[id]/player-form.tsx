@@ -46,17 +46,19 @@ const EditPlayerForm: FC<{
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="gap-mk-2 flex flex-col"
+      >
         <Field name="nickname" placeholder={nickname} form={form} />
         <Field name="realname" placeholder={realname || ''} form={form} />
         <div className="gap-mk-2 mt-mk-2 flex flex-col">
           <Button
             type="submit"
-            className="w-full md:w-fit"
+            className="w-full"
             disabled={editPlayerMutation.isPending}
           >
             {editPlayerMutation.isPending ? <LoadingSpinner /> : <Save />}
-            &nbsp;
             <FormattedMessage id="Common.save" />
           </Button>
           {status && <DeletePlayer clubId={clubId} userId={userId} />}

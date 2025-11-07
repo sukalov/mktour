@@ -1,7 +1,6 @@
 'use client';
 
 import EditPlayerForm from '@/app/player/[id]/player-form';
-import FormattedMessage from '@/components/formatted-message';
 import { Button } from '@/components/ui/button';
 import {
   Content,
@@ -31,7 +30,7 @@ const EditButton: FC<{
       <Content>
         <Header>
           <Title className="pl-3">
-            <FormattedMessage id="Common.edit" />
+            {/* <FormattedMessage id="Common.edit" /> */}
           </Title>
           <Description hidden />
         </Header>
