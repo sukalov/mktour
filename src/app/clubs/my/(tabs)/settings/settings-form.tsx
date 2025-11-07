@@ -1,12 +1,12 @@
 'use client';
 
-import ClubManagersList from '@/app/clubs/my/(tabs)/settings/managers';
 import { ClubTabProps } from '@/app/clubs/my/tabMap';
 import { LoadingSpinner } from '@/app/loading';
 import useEditClubMutation from '@/components/hooks/mutation-hooks/use-club-edit';
 import { useClubInfo } from '@/components/hooks/query-hooks/use-club-info';
 import SkeletonList from '@/components/skeleton-list';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -63,52 +63,62 @@ const ClubSettingsForm: FC<ClubTabProps & PropsWithChildren> = ({
   if (!data && isFetching) return <SkeletonList length={1} />;
   if (!data && children) return children;
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit((data) =>
-          clubSettingsMutation.mutate({
-            clubId: data.id,
-            userId,
-            values: data,
-          }),
-        )}
-        className="flex flex-col gap-2"
-        name="edit-club-form"
-      >
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="pl-4">{t('name')}</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  disabled={isFetching}
-                  autoComplete="off"
-                  className="px-4"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField control={form.control} name="id" render={() => <></>} />
-        <Button
-          type="submit"
-          disabled={
-            shallowEqual(form.getValues(), defaultValues) ||
-            clubSettingsMutation.isPending ||
-            isFetching
-          }
-          className="w-full"
-        >
-          {clubSettingsMutation.isPending ? <LoadingSpinner /> : <Save />}
-          &nbsp;{t('save')}
-        </Button>
-      </form>
-      <ClubManagersList clubId={selectedClub} userId={userId} />
-    </Form>
+    <div className="gap-mk-2 flex flex-col">
+      <h2 className="pl-4 text-sm">{t('club settings')}</h2>
+      <Form {...form}>
+        <Card className="bg-background sm:bg-secondary border-none sm:border sm:shadow-2xs">
+          <CardContent className="p-0 sm:p-6">
+            <form
+              onSubmit={form.handleSubmit((data) =>
+                clubSettingsMutation.mutate({
+                  clubId: data.id,
+                  userId,
+                  values: data,
+                }),
+              )}
+              className="flex flex-col gap-2"
+              name="edit-club-form"
+            >
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="pl-4">{t('name')}</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        disabled={isFetching}
+                        autoComplete="off"
+                        className="px-4"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="id"
+                render={() => <></>}
+              />
+              <Button
+                type="submit"
+                disabled={
+                  shallowEqual(form.getValues(), defaultValues) ||
+                  clubSettingsMutation.isPending ||
+                  isFetching
+                }
+                className="w-full"
+              >
+                {clubSettingsMutation.isPending ? <LoadingSpinner /> : <Save />}
+                &nbsp;{t('save')}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </Form>
+    </div>
   );
 };
 

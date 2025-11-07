@@ -1,4 +1,5 @@
 import ClubDelete from '@/app/clubs/my/(tabs)/settings/delete-club';
+import ClubManagersList from '@/app/clubs/my/(tabs)/settings/managers';
 import ClubSettingsForm from '@/app/clubs/my/(tabs)/settings/settings-form';
 import { ClubTabProps } from '@/app/clubs/my/tabMap';
 import { LoadingSpinner } from '@/app/loading';
@@ -13,8 +14,9 @@ export default function ClubSettings({ selectedClub, userId }: ClubTabProps) {
   const { mutate, isPending } = useClubLeaveMutation();
 
   return (
-    <section className="md:no-scrollbar max-md:p-mk gap-mk-2 top-20 right-0 left-0 m-auto flex w-full max-w-[min(640px,100%)] flex-col justify-between p-0 pb-16 max-md:pb-16 max-sm:absolute">
+    <section className="md:no-scrollbar max-md:p-mk top-20 right-0 left-0 m-auto flex w-full max-w-[min(640px,100%)] flex-col justify-between gap-6 p-0 pb-16 max-md:pb-16 max-sm:absolute">
       <ClubSettingsForm selectedClub={selectedClub} userId={userId} />
+      <ClubManagersList clubId={selectedClub} userId={userId} />
       <div className="flex flex-col gap-2">
         <label htmlFor="danger-zone">
           <h2 className="pl-4 text-sm">{t('danger zone')}</h2>

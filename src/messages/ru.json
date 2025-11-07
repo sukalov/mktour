@@ -135,7 +135,8 @@
       "make admin": "сделать админом",
       "search users error": "во время поиска что-то слетело",
       "delete manager": "удалить админа",
-      "delete": "удалить"
+      "delete": "удалить",
+      "club settings": "общие настройки"
     },
     "Dashboard": {
       "no data": "данные не получены",

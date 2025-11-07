@@ -45,12 +45,12 @@ const ClubManagersList: FC<{ clubId: string; userId: string }> = ({
   if (status === 'error') toast.error(t('search users error'));
 
   return (
-    <>
+    <div className="gap-mk-2 flex flex-col">
       <h2 className="pl-4 text-sm">
         <FormattedMessage id="Club.managers list" />
       </h2>
-      <Card>
-        <CardContent>
+      <Card className="bg-background sm:bg-secondary border-none px-0 sm:border">
+        <CardContent className="p-0 sm:p-6">
           <div className="flex w-full flex-col gap-2">
             <ItemGroup>
               {!data ? (
@@ -74,7 +74,7 @@ const ClubManagersList: FC<{ clubId: string; userId: string }> = ({
           </div>
         </CardContent>
       </Card>
-    </>
+    </div>
   );
 };
 
