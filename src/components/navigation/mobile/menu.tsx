@@ -75,7 +75,7 @@ const Menu: FC<{ user: User | null }> = ({ user }) => {
         ref={containerRef}
       >
         <motion.div
-          className="bg-secondary absolute inset-0 right-0 w-full"
+          className="bg-card absolute inset-0 right-0 w-full"
           variants={sidebar}
         />
         <motion.ul variants={variants}>

@@ -49,7 +49,7 @@ const ClubManagersList: FC<{ clubId: string; userId: string }> = ({
       <h2 className="pl-4 text-sm">
         <FormattedMessage id="Club.managers list" />
       </h2>
-      <Card className="bg-background sm:bg-secondary border-none px-0 sm:border">
+      <Card className="bg-background sm:bg-card border-none px-0 sm:border">
         <CardContent className="p-0 sm:p-6">
           <div className="flex w-full flex-col gap-2">
             <ItemGroup>

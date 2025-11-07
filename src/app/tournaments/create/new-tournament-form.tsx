@@ -93,7 +93,7 @@ export default function NewTournamentForm({
       >
         {t('new tournament')}
       </h2>
-      <Card className="bg-background sm:bg-secondary mx-auto max-w-[min(600px,98%)] border-none shadow-none sm:border-solid sm:shadow-2xs">
+      <Card className="bg-background sm:bg-card mx-auto max-w-[min(600px,98%)] border-none shadow-none sm:border-solid sm:shadow-2xs">
         <CardContent className="p-4 sm:p-8">
           <form
             onSubmit={form.handleSubmit(onSubmit)}
