@@ -2,8 +2,9 @@
 
 import DeleteUserForm from '@/app/user/edit/delete-user-form';
 import RichText from '@/components/rich-text';
+import HalfCard from '@/components/ui-custom/half-card';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { CardContent } from '@/components/ui/card';
 import {
   Dialog,
   DialogClose,
@@ -33,62 +34,66 @@ export default function DeleteUser({ userId }: DeleteProfileProps) {
   const t = useTranslations('EditUser');
   if (isDesktop) {
     return (
-      <Card className="w-full border-none shadow-none md:border-solid md:shadow-2xs">
-        <CardHeader>{t('danger zone')}</CardHeader>
-        <CardContent className="flex flex-col gap-4">
-          <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
+      <>
+        <h2 className="pl-4">{t('danger zone')}</h2>
+        <HalfCard className="w-full">
+          <CardContent className="p-mk flex flex-col gap-4 sm:p-8">
+            <Dialog open={open} onOpenChange={setOpen}>
+              <DialogTrigger asChild>
+                <Button variant="destructive">{t('delete profile')}</Button>
+              </DialogTrigger>
+              <DialogContent className="p-mk sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>{t('confirmation header')}</DialogTitle>
+                  <DialogDescription className="sr-only" />
+                  <div className="text-muted-foreground text-sm">
+                    <RichText>
+                      {(tags) => t.rich('confirmation body', tags)}
+                    </RichText>
+                  </div>
+                </DialogHeader>
+                <DeleteUserForm userId={userId} />
+                <DialogClose asChild>
+                  <Button variant="outline">{t('cancel')}</Button>
+                </DialogClose>
+              </DialogContent>
+            </Dialog>
+          </CardContent>
+        </HalfCard>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <h2 className="pl-4">{t('danger zone')}</h2>
+      <HalfCard className="w-full">
+        <CardContent className="p-mk-2 flex flex-col gap-4 sm:p-8">
+          <Drawer open={open} onOpenChange={setOpen}>
+            <DrawerTrigger asChild>
               <Button variant="destructive">{t('delete profile')}</Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>{t('confirmation header')}</DialogTitle>
-                <DialogDescription className="sr-only" />
+            </DrawerTrigger>
+            <DrawerContent>
+              <DrawerHeader className="text-left">
+                <DrawerTitle>{t('confirmation header')}</DrawerTitle>
+                <DrawerDescription className="sr-only" />
                 <div className="text-muted-foreground text-sm">
                   <RichText>
                     {(tags) => t.rich('confirmation body', tags)}
                   </RichText>
                 </div>
-              </DialogHeader>
+              </DrawerHeader>
               <DeleteUserForm userId={userId} />
-              <DialogClose asChild>
-                <Button variant="outline">{t('cancel')}</Button>
-              </DialogClose>
-            </DialogContent>
-          </Dialog>
+              <DrawerFooter className="pt-2">
+                <DrawerClose asChild>
+                  <Button variant="outline">{t('cancel')}</Button>
+                </DrawerClose>
+              </DrawerFooter>
+            </DrawerContent>
+          </Drawer>
         </CardContent>
-      </Card>
-    );
-  }
-
-  return (
-    <Card className="w-full border-none shadow-none sm:border-solid sm:shadow-2xs">
-      <CardHeader>{t('danger zone')}</CardHeader>
-      <CardContent className="flex flex-col gap-4">
-        <Drawer open={open} onOpenChange={setOpen}>
-          <DrawerTrigger asChild>
-            <Button variant="destructive">{t('delete profile')}</Button>
-          </DrawerTrigger>
-          <DrawerContent>
-            <DrawerHeader className="text-left">
-              <DrawerTitle>{t('confirmation header')}</DrawerTitle>
-              <DrawerDescription className="sr-only" />
-              <div className="text-muted-foreground text-sm">
-                <RichText>
-                  {(tags) => t.rich('confirmation body', tags)}
-                </RichText>
-              </div>
-            </DrawerHeader>
-            <DeleteUserForm userId={userId} />
-            <DrawerFooter className="pt-2">
-              <DrawerClose asChild>
-                <Button variant="outline">{t('cancel')}</Button>
-              </DrawerClose>
-            </DrawerFooter>
-          </DrawerContent>
-        </Drawer>
-      </CardContent>
-    </Card>
+      </HalfCard>
+    </>
   );
 }
 

@@ -3,8 +3,9 @@
 import { LoadingSpinner } from '@/app/loading';
 import useEditUserMutation from '@/components/hooks/mutation-hooks/use-user-edit';
 import { useUser } from '@/components/hooks/query-hooks/use-user';
+import HalfCard from '@/components/ui-custom/half-card';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { CardContent } from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -46,7 +47,7 @@ export default function EditProfileForm() {
 
   return (
     <Form {...form}>
-      <Card className="w-full border-none shadow-none sm:border-solid sm:shadow-2xs">
+      <HalfCard className="w-full">
         <CardContent className="p-4 sm:p-8">
           <form
             onSubmit={form.handleSubmit((data) =>
@@ -84,7 +85,7 @@ export default function EditProfileForm() {
             </Button>
           </form>
         </CardContent>
-      </Card>
+      </HalfCard>
     </Form>
   );
 }
