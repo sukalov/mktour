@@ -9,10 +9,6 @@ const tournamentQueryPrefetch = async (tournamentId: string) => {
     ),
 
     tournamentQueryClient.prefetchQuery(
-      trpc.tournament.playersOut.queryOptions({ tournamentId }),
-    ),
-
-    tournamentQueryClient.prefetchQuery(
       trpc.tournament.info.queryOptions({ tournamentId }),
     ),
     tournamentQueryClient.prefetchQuery(
