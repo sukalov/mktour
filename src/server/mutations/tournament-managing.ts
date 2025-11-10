@@ -1,7 +1,6 @@
 'use server';
 
 import { validateRequest } from '@/lib/auth/lucia';
-import { CACHE_TAGS } from '@/lib/cache-tags';
 import { newid } from '@/lib/utils';
 import { NewTournamentFormType } from '@/lib/zod/new-tournament-form';
 import { db } from '@/server/db';
@@ -36,8 +35,6 @@ import {
   notInArray,
   sql,
 } from 'drizzle-orm';
-import { revalidateTag } from 'next/cache';
-import { permanentRedirect } from 'next/navigation';
 
 export const createTournament = async (
   values: Omit<NewTournamentFormType, 'date'> & {
@@ -58,8 +55,7 @@ export const createTournament = async (
   };
 
   await db.insert(tournaments).values(newTournament);
-  revalidateTag(CACHE_TAGS.ALL_TOURNAMENTS, 'max');
-  permanentRedirect(`/tournaments/${newTournamentID}`);
+  return { id: newTournamentID };
 };
 
 // moved to API endpoint

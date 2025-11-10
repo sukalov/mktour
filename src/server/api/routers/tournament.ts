@@ -15,6 +15,7 @@ import {
 import {
   addExistingPlayer,
   addNewPlayer,
+  createTournament,
   deleteTournament,
   finishTournament,
   getTournamentGames,
@@ -35,6 +36,24 @@ import { revalidateTag } from 'next/cache';
 import { z } from 'zod';
 
 export const tournamentRouter = {
+  create: protectedProcedure
+    .input(
+      z.object({
+        title: z.string(),
+        date: z.string(),
+        format: z.custom<TournamentFormat>(),
+        type: z.custom<'solo' | 'doubles' | 'team'>(),
+        timestamp: z.number(),
+        club_id: z.string(),
+        rated: z.boolean(),
+      }),
+    )
+    .mutation(async (opts) => {
+      const { input } = opts;
+      const result = await createTournament(input);
+      revalidateTag(CACHE_TAGS.ALL_TOURNAMENTS, 'max');
+      return result;
+    }),
   all: publicProcedure.query(async () => {
     return await getAllTournaments();
   }),

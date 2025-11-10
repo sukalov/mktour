@@ -22,9 +22,9 @@ export const useDashboardWebsocket = (
     protocols,
     onOpen: () => {
       setTimeout(() => toast.dismiss('wsError'));
-      toast.success(t('ws success'), {
-        id: 'wsSuccess',
-      });
+      // toast.success(t('ws success'), {
+      //   id: 'wsSuccess',
+      // });
     },
     shouldReconnect: () => true,
     heartbeat: {
