@@ -1,3 +1,4 @@
+import Loading from '@/app/tournaments/create/loading-form';
 import NewTournamentForm from '@/app/tournaments/create/new-tournament-form';
 import { publicCaller } from '@/server/api';
 import { redirect } from 'next/navigation';
@@ -9,7 +10,7 @@ export default async function NewTournament() {
   const userClubs = await publicCaller.user.clubs({ userId: user.id });
 
   return (
-    <Suspense fallback={'loading...'}>
+    <Suspense fallback={<Loading />}>
       <NewTournamentForm clubs={userClubs} user={user} />
     </Suspense>
   );
