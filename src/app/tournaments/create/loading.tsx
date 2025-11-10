@@ -16,18 +16,15 @@ import { Switch } from '@/components/ui/switch';
 import TypeCard from '@/components/ui/type-card';
 import { cn } from '@/lib/utils';
 import { CalendarIcon, PlusIcon } from 'lucide-react';
-import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 
-export default function NewTournamentFormLoading() {
-  const t = useTranslations('MakeTournament');
-
+export default async function NewTournamentFormLoading() {
   return (
     <div className="w-full">
       <h2
         className={`m-2 text-center text-4xl font-bold ${turboPascal.className}`}
       >
-        {t('new tournament')}
+        <Skeleton className="h-10 w-1/2" />
       </h2>
       <Card className="bg-background sm:bg-card mx-auto max-w-[min(600px,98%)] border-none shadow-none sm:border-solid sm:shadow-2xs">
         <CardContent className="p-4 sm:p-8">
@@ -52,7 +49,8 @@ export default function NewTournamentFormLoading() {
                           variant="ghost"
                           className="text-muted-foreground flex h-[30px] w-full flex-row justify-end gap-2 pl-7 font-extrabold"
                         >
-                          <PlusIcon fontStyle="bold" /> {t('new club')}
+                          <PlusIcon fontStyle="bold" />{' '}
+                          <Skeleton className="h-4 w-16" />
                         </Button>
                       </Link>
                     </SelectGroup>
@@ -62,7 +60,9 @@ export default function NewTournamentFormLoading() {
             </div>
 
             <div className="space-y-2">
-              <Label>{t('name')}</Label>
+              <Label>
+                <Skeleton className="h-4 w-16" />
+              </Label>
               <Input autoComplete="off" disabled />
             </div>
             <div>
@@ -104,17 +104,17 @@ export default function NewTournamentFormLoading() {
             <div className="flex items-center space-x-2">
               <div className="peer flex items-center space-x-2">
                 <Label htmlFor="rated" className="text-muted-foreground">
-                  {t('rated')}
+                  <Skeleton className="h-4 w-16" />
                 </Label>
                 <Switch id="rated" disabled />
               </div>
               <p className="text-muted-foreground hidden text-sm peer-hover:block">
                 <span className="text-xs">*</span>
-                {t('comming soon')}
+                <Skeleton className="h-4 w-32" />
               </p>
             </div>
             <Button disabled className="w-full">
-              {t('make tournament')}
+              <Skeleton className="h-10 w-full" />
             </Button>
           </div>
         </CardContent>
