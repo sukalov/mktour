@@ -18,13 +18,13 @@ import { cn } from '@/lib/utils';
 import { CalendarIcon, PlusIcon } from 'lucide-react';
 import Link from 'next/link';
 
-export default async function NewTournamentFormLoading() {
+export default function Loading() {
   return (
     <div className="w-full">
       <h2
-        className={`m-2 text-center text-4xl font-bold ${turboPascal.className}`}
+        className={`m-2 w-full text-center text-4xl font-bold ${turboPascal.className}`}
       >
-        <Skeleton className="h-10 w-1/2" />
+        <Skeleton className="mx-auto h-10 w-48" />
       </h2>
       <Card className="bg-background sm:bg-card mx-auto max-w-[min(600px,98%)] border-none shadow-none sm:border-solid sm:shadow-2xs">
         <CardContent className="p-4 sm:p-8">
