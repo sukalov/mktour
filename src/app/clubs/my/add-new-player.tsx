@@ -1,4 +1,4 @@
-import { LoadingSpinner } from '@/app/loading';
+import { LoadingSpinner } from '@/app/temp/loading';
 import Fab from '@/components/fab';
 import { useUser } from '@/components/hooks/query-hooks/use-user';
 import { Button } from '@/components/ui/button';

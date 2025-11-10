@@ -1,6 +1,6 @@
 'use client';
 
-import { LoadingSpinner } from '@/app/loading';
+import { LoadingSpinner } from '@/app/temp/loading';
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import useTournamentDelete from '@/components/hooks/mutation-hooks/use-tournament-delete';
 import { Button } from '@/components/ui/button';

@@ -1,4 +1,4 @@
-import Loading from '@/app/loading';
+import Loading from '@/app/temp/loading';
 import NavWrapper from '@/components/navigation/nav-wrapper';
 import ErrorFallback from '@/components/providers/error-boundary';
 import IntlProvider from '@/components/providers/intl-provider';

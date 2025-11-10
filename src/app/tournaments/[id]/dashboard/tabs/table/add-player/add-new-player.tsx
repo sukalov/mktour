@@ -1,4 +1,4 @@
-import { LoadingSpinner } from '@/app/loading';
+import { LoadingSpinner } from '@/app/temp/loading';
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import { DrawerProps } from '@/app/tournaments/[id]/dashboard/tabs/table/add-player';
 import { useTournamentAddNewPlayer } from '@/components/hooks/mutation-hooks/use-tournament-add-new-player';

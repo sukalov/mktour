@@ -1,6 +1,6 @@
 import Authorized from '@/app/(routes)/authorized';
 import Unauthorized from '@/app/(routes)/unauthorized';
-import Loading from '@/app/loading';
+import Loading from '@/app/temp/loading';
 import { publicCaller } from '@/server/api';
 
 import '@/styles/cursor.css';

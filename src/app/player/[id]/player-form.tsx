@@ -1,5 +1,5 @@
-import { LoadingSpinner } from '@/app/loading';
 import DeletePlayer from '@/app/player/[id]/delete-button';
+import { LoadingSpinner } from '@/app/temp/loading';
 import FormattedMessage from '@/components/formatted-message';
 import useEditPlayerMutation from '@/components/hooks/mutation-hooks/use-player-edit';
 import { Button } from '@/components/ui/button';
