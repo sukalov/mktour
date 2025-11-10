@@ -1,6 +1,6 @@
 'use client';
 
-import { LoadingSpinner } from '@/app/temp/loading';
+import { LoadingSpinner } from '@/app/loading';
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import useTournamentResetPlayers from '@/components/hooks/mutation-hooks/use-tournament-reset-players';
 import { Button } from '@/components/ui/button';

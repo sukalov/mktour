@@ -1,6 +1,6 @@
 'use client';
 
-import { LoadingSpinner } from '@/app/temp/loading';
+import { LoadingSpinner } from '@/app/loading';
 import FormattedMessage from '@/components/formatted-message';
 import useDeletePlayerMutation from '@/components/hooks/mutation-hooks/use-player-delete';
 import { Button } from '@/components/ui/button';

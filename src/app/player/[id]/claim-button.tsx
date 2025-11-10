@@ -1,7 +1,7 @@
 'use client';
 
+import { LoadingSpinner } from '@/app/loading';
 import CancelClaimPlayer from '@/app/player/[id]/cancel-claim-button';
-import { LoadingSpinner } from '@/app/temp/loading';
 import FormattedMessage, {
   IntlMessageId,
 } from '@/components/formatted-message';

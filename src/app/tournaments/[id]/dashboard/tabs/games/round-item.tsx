@@ -1,5 +1,5 @@
 'use client';
-import { LoadingSpinner } from '@/app/temp/loading';
+import { LoadingSpinner } from '@/app/loading';
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import FinishTournamentButton from '@/app/tournaments/[id]/dashboard/finish-tournament-button';
 import GameItem from '@/app/tournaments/[id]/dashboard/tabs/games/game/game-item';

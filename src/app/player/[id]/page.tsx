@@ -1,8 +1,8 @@
+import Loading from '@/app/loading';
 import ClaimPlayer from '@/app/player/[id]/claim-button';
 import EditButton from '@/app/player/[id]/edit-button';
 import FullName from '@/app/player/[id]/fullname';
 import LastTournaments from '@/app/player/[id]/last-tournaments';
-import Loading from '@/app/temp/loading';
 import FormattedMessage from '@/components/formatted-message';
 import { Card } from '@/components/ui/card';
 import { publicCaller } from '@/server/api';

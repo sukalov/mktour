@@ -1,7 +1,7 @@
 'use client';
 
+import { LoadingSpinner } from '@/app/loading';
 import { ClaimActionButton } from '@/app/player/[id]/claim-button';
-import { LoadingSpinner } from '@/app/temp/loading';
 import FormattedMessage from '@/components/formatted-message';
 import useAffiliationAbortRequestMutation from '@/components/hooks/mutation-hooks/use-affiliation-abort-request';
 import { Button } from '@/components/ui/button';

@@ -1,7 +1,7 @@
 'use client';
 
 import { turboPascal } from '@/app/fonts';
-import { LoadingSpinner } from '@/app/temp/loading';
+import { LoadingSpinner } from '@/app/loading';
 import FormDatePicker from '@/app/tournaments/create/form-date-picker';
 import { useTournamentCreate } from '@/components/hooks/mutation-hooks/use-tournament-create';
 import { Button } from '@/components/ui/button';

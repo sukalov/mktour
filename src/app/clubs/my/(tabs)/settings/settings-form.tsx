@@ -1,7 +1,7 @@
 'use client';
 
 import { ClubTabProps } from '@/app/clubs/my/tabMap';
-import { LoadingSpinner } from '@/app/temp/loading';
+import { LoadingSpinner } from '@/app/loading';
 import useEditClubMutation from '@/components/hooks/mutation-hooks/use-club-edit';
 import { useClubInfo } from '@/components/hooks/query-hooks/use-club-info';
 import SkeletonList from '@/components/skeleton-list';

@@ -1,7 +1,7 @@
 'use client';
 
 import DeleteConfirmationForm from '@/app/clubs/my/(tabs)/settings/delete-form';
-import { LoadingSpinner } from '@/app/temp/loading';
+import { LoadingSpinner } from '@/app/loading';
 import { useClubManagers } from '@/components/hooks/query-hooks/use-club-managers';
 import { useTRPC } from '@/components/trpc/client';
 import { Button } from '@/components/ui/button';

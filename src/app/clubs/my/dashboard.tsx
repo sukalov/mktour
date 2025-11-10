@@ -4,7 +4,7 @@ import AddPlayerDrawer from '@/app/clubs/my/add-new-player';
 import ClubSelect from '@/app/clubs/my/club-select';
 import ClubDashboardTabList from '@/app/clubs/my/dashboard-tab-list';
 import { ClubDashboardTab, ClubTabProps, tabMap } from '@/app/clubs/my/tabMap';
-import Loading from '@/app/temp/loading';
+import Loading from '@/app/loading';
 import Empty from '@/components/empty';
 import { useUser } from '@/components/hooks/query-hooks/use-user';
 import useScrollableContainer from '@/components/hooks/use-scrollable-container';

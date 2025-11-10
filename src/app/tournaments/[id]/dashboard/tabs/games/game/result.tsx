@@ -1,4 +1,4 @@
-import { LoadingSpinner } from '@/app/temp/loading';
+import { LoadingSpinner } from '@/app/loading';
 import { Card } from '@/components/ui/card';
 import { Result as ResultModel } from '@/types/tournaments';
 import { useTranslations } from 'next-intl';

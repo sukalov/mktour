@@ -2,7 +2,7 @@ import ClubDelete from '@/app/clubs/my/(tabs)/settings/delete-club';
 import ClubManagersList from '@/app/clubs/my/(tabs)/settings/managers';
 import ClubSettingsForm from '@/app/clubs/my/(tabs)/settings/settings-form';
 import { ClubTabProps } from '@/app/clubs/my/tabMap';
-import { LoadingSpinner } from '@/app/temp/loading';
+import { LoadingSpinner } from '@/app/loading';
 import { useClubLeaveMutation } from '@/components/hooks/mutation-hooks/use-club-leave';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';

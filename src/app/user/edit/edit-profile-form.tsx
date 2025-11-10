@@ -1,6 +1,6 @@
 'use client';
 
-import { LoadingSpinner } from '@/app/temp/loading';
+import { LoadingSpinner } from '@/app/loading';
 import useEditUserMutation from '@/components/hooks/mutation-hooks/use-user-edit';
 import { useUser } from '@/components/hooks/query-hooks/use-user';
 import HalfCard from '@/components/ui-custom/half-card';

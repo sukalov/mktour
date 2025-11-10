@@ -3,7 +3,7 @@
 import ClubDescription from '@/app/clubs/create/description';
 import { TeamSelector } from '@/app/clubs/create/team-selector';
 import { turboPascal } from '@/app/fonts';
-import { LoadingSpinner } from '@/app/temp/loading';
+import { LoadingSpinner } from '@/app/loading';
 import { useClubCreate } from '@/components/hooks/query-hooks/use-club-create';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';

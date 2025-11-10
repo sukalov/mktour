@@ -1,7 +1,7 @@
 'use client';
 
 import AddManagerDrawer from '@/app/clubs/my/(tabs)/settings/add-manager-drawer';
-import { LoadingSpinner } from '@/app/temp/loading';
+import { LoadingSpinner } from '@/app/loading';
 import FormattedMessage from '@/components/formatted-message';
 import useDeleteClubManagerMutation from '@/components/hooks/mutation-hooks/use-club-delete-manager';
 import { useClubManagers } from '@/components/hooks/query-hooks/use-club-managers';
