@@ -38,7 +38,7 @@ import { PlusIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState, useTransition } from 'react';
+import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -46,11 +46,10 @@ export default function NewTournamentForm({
   clubs,
   user,
 }: NewTournamentFormProps) {
-  const [defaultClub] = useState('');
   const form = useForm<NewTournamentFormType>({
     resolver: zodResolver(newTournamentFormSchema),
     defaultValues: {
-      title: defaultClub,
+      title: undefined,
       format: undefined,
       date: new Date(),
       timestamp: 0,
