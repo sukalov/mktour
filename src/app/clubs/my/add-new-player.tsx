@@ -1,6 +1,6 @@
 import { LoadingSpinner } from '@/app/loading';
 import Fab from '@/components/fab';
-import { useClubAddPlayerMutation } from '@/components/hooks/mutation-hooks/use-club-add-player';
+import { usePlayerAddMutation } from '@/components/hooks/mutation-hooks/use-player-add';
 import { useUser } from '@/components/hooks/query-hooks/use-user';
 import { Button } from '@/components/ui/button';
 import {
@@ -75,7 +75,7 @@ const AddPlayerDrawer = () => {
 const AddNewPlayer = ({}: DrawerProps) => {
   const user = useUser();
   const queryClient = useQueryClient();
-  const { mutate } = useClubAddPlayerMutation(queryClient);
+  const { mutate } = usePlayerAddMutation(queryClient);
   const t = useTranslations('Tournament.AddPlayer');
 
   const form = useForm<NewPlayerFormType>({

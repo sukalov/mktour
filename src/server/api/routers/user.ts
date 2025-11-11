@@ -1,4 +1,4 @@
-import { uncachedValidateRequest, validateRequest } from '@/lib/auth/lucia';
+import { validateRequest } from '@/lib/auth/lucia';
 import { CACHE_TAGS } from '@/lib/cache-tags';
 import { getEncryptedAuthSession } from '@/lib/get-encrypted-auth-session';
 import { protectedProcedure, publicProcedure } from '@/server/api/trpc';
@@ -41,7 +41,7 @@ export const userRouter = {
       return await getUserInfoByUsername(input.username);
     }),
   auth: publicProcedure.query(async () => {
-    const { user } = await uncachedValidateRequest();
+    const { user } = await validateRequest();
     return user;
   }),
   encryptedSession: publicProcedure.query(async () => {

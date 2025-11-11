@@ -2,7 +2,7 @@ import { useTRPC } from '@/components/trpc/client';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-export const useClubAddPlayerMutation = (queryClient: QueryClient) => {
+export const usePlayerAddMutation = (queryClient: QueryClient) => {
   const trpc = useTRPC();
   return useMutation(
     trpc.club.players.create.mutationOptions({
@@ -13,7 +13,8 @@ export const useClubAddPlayerMutation = (queryClient: QueryClient) => {
           }),
         });
       },
-      onError: () => toast.error('sorry! server error happened'),
+      onError: (error) =>
+        toast.error('sorry! server error happened: ' + error.message),
     }),
   );
 };

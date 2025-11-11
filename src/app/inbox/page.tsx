@@ -4,8 +4,8 @@
 import UserNotifications from '@/app/inbox/notifications';
 import { getQueryClient, trpc } from '@/components/trpc/server';
 import {
+  cachedValidateRequest,
   reactCachedValidateRequest,
-  uncachedValidateRequest,
   validateRequest,
 } from '@/lib/auth/lucia';
 import { connection } from 'next/server';
@@ -22,13 +22,7 @@ const InboxPage = async () => {
   const startTime1 = performance.now();
   await validateRequest();
   const endTime1 = performance.now();
-  console.log(`validateRequest took ${endTime1 - startTime1}ms`);
-
-  // Measure uncachedValidateRequest
-  const startTime2 = performance.now();
-  await uncachedValidateRequest();
-  const endTime2 = performance.now();
-  console.log(`uncachedValidateRequest took ${endTime2 - startTime2}ms`);
+  console.log(`validateRequest (NO CACHE) took${endTime1 - startTime1}ms`);
 
   // Measure reactCachedValidateRequest
   const startTime3 = performance.now();
@@ -36,14 +30,18 @@ const InboxPage = async () => {
   const endTime3 = performance.now();
   console.log(`reactCachedValidateRequest took ${endTime3 - startTime3}ms`);
 
+  const startTime2 = performance.now();
+  await cachedValidateRequest();
+  const endTime2 = performance.now();
+  console.log(`cachedValidateRequest took ${endTime2 - startTime2}ms`);
   return (
     <>
       <UserNotifications />
       {`validateRequest took ${endTime1 - startTime1}ms`}
       <br />
-      {`uncachedValidateRequest took ${endTime2 - startTime2}ms`}
-      <br />
       {`reactCachedValidateRequest took ${endTime3 - startTime3}ms`}
+      <br />
+      {`cachedValidateRequest took ${endTime2 - startTime2}ms`}
     </>
   );
 };

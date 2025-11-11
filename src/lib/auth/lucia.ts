@@ -35,7 +35,7 @@ declare module 'lucia' {
   }
 }
 
-export const uncachedValidateRequest = async (): Promise<
+export const validateRequest = async (): Promise<
   { user: User; session: Session } | { user: null; session: null }
 > => {
   const cooks = await cookies();
@@ -79,9 +79,9 @@ export const uncachedValidateRequest = async (): Promise<
   }
 };
 
-export const reactCachedValidateRequest = cache(uncachedValidateRequest);
+export const reactCachedValidateRequest = cache(validateRequest);
 
-export const validateRequest = cache(async () => {
+export const cachedValidateRequest = cache(async () => {
   const cooks = await cookies();
   const sessionId = cooks.get(lucia.sessionCookieName)?.value ?? null;
   if (!sessionId) {
