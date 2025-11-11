@@ -9,7 +9,7 @@ import ShuffleFab from '@/app/tournaments/[id]/dashboard/shuffle-fab';
 import TabsContainer from '@/app/tournaments/[id]/dashboard/tabs-container';
 import AddPlayerDrawer from '@/app/tournaments/[id]/dashboard/tabs/table/add-player';
 import { useDashboardWebsocket } from '@/components/hooks/use-dashboard-websocket';
-import FabProvider from '@/components/ui/fab-provider';
+import FabProvider from '@/components/ui-custom/fab-provider';
 import { Status } from '@/server/queries/get-status-in-tournament';
 import { useQueryClient } from '@tanstack/react-query';
 import { Dispatch, FC, SetStateAction, useState } from 'react';

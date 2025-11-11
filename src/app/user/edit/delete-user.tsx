@@ -2,9 +2,6 @@
 
 import DeleteUserForm from '@/app/user/edit/delete-user-form';
 import RichText from '@/components/rich-text';
-import HalfCard from '@/components/ui-custom/half-card';
-import { Button } from '@/components/ui/button';
-import { CardContent } from '@/components/ui/card';
 import ComboModal, {
   Close,
   Content,
@@ -12,7 +9,10 @@ import ComboModal, {
   Header,
   Title,
   Trigger,
-} from '@/components/ui/combo-modal';
+} from '@/components/ui-custom/combo-modal';
+import HalfCard from '@/components/ui-custom/half-card';
+import { Button } from '@/components/ui/button';
+import { CardContent } from '@/components/ui/card';
 import { useTranslations } from 'next-intl';
 import * as React from 'react';
 

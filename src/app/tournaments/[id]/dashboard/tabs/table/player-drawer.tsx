@@ -4,7 +4,6 @@ import {
   WithdrawButtonWithConfirmation,
 } from '@/app/tournaments/[id]/dashboard/tabs/table/destructive-buttons';
 import FormattedMessage from '@/components/formatted-message';
-import { Button } from '@/components/ui/button';
 import {
   Close,
   Content,
@@ -12,7 +11,8 @@ import {
   Header,
   Root,
   Title,
-} from '@/components/ui/combo-modal';
+} from '@/components/ui-custom/combo-modal';
+import { Button } from '@/components/ui/button';
 import { PlayerModel } from '@/types/tournaments';
 import { UserRound } from 'lucide-react';
 import Link from 'next/link';

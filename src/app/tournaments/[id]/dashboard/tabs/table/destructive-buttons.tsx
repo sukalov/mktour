@@ -1,5 +1,4 @@
 import FormattedMessage from '@/components/formatted-message';
-import { Button } from '@/components/ui/button';
 import {
   Close,
   Content,
@@ -8,7 +7,8 @@ import {
   Root,
   Title,
   Trigger,
-} from '@/components/ui/combo-modal';
+} from '@/components/ui-custom/combo-modal';
+import { Button } from '@/components/ui/button';
 import { PlayerModel } from '@/types/tournaments';
 import { LogOut, Trash2 } from 'lucide-react';
 import { FC } from 'react';

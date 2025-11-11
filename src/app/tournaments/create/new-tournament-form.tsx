@@ -4,6 +4,7 @@ import { turboPascal } from '@/app/fonts';
 import { LoadingSpinner } from '@/app/loading';
 import FormDatePicker from '@/app/tournaments/create/form-date-picker';
 import { useTournamentCreate } from '@/components/hooks/mutation-hooks/use-tournament-create';
+import TypeCard from '@/components/ui-custom/type-card';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -26,7 +27,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-import TypeCard from '@/components/ui/type-card';
 import {
   NewTournamentFormType,
   newTournamentFormSchema,

@@ -2,9 +2,9 @@ import AddManager from '@/app/clubs/my/(tabs)/settings/add-manager';
 import Fab from '@/components/fab';
 
 import { useDebounce } from '@/components/hooks/use-debounce';
+import SideDrawer from '@/components/ui-custom/side-drawer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import SideDrawer from '@/components/ui/side-drawer';
 import { SearchIcon, UserPlus, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';

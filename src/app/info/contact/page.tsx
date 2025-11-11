@@ -2,7 +2,7 @@
 
 import Center from '@/components/center';
 import LichessSVG from '@/components/icons/lichess-svg';
-import GithubLogo, { LogoProps } from '@/components/ui/github-logo';
+import GithubLogo, { LogoProps } from '@/components/ui-custom/github-logo';
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { FC } from 'react';

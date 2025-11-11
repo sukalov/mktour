@@ -1,4 +1,5 @@
 import { turboPascal } from '@/app/fonts';
+import TypeCard from '@/components/ui-custom/type-card';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -13,7 +14,6 @@ import {
 } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Switch } from '@/components/ui/switch';
-import TypeCard from '@/components/ui/type-card';
 import { cn } from '@/lib/utils';
 import { CalendarIcon, PlusIcon } from 'lucide-react';
 import Link from 'next/link';

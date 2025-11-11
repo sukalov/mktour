@@ -1,5 +1,5 @@
+import LichessLogo from '@/components/ui-custom/lichess-logo';
 import { Card, CardTitle } from '@/components/ui/card';
-import LichessLogo from '@/components/ui/lichess-logo';
 import { DatabaseClub } from '@/server/db/schema/clubs';
 import { getLocale, getTranslations } from 'next-intl/server';
 import Link from 'next/link';

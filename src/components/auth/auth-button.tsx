@@ -10,8 +10,8 @@ import { MessageKeys, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { FC, PropsWithChildren } from 'react';
+import LichessLogo from '../ui-custom/lichess-logo';
 import { Button } from '../ui/button';
-import LichessLogo from '../ui/lichess-logo';
 
 export default function AuthButton({ user }: AuthButtonProps) {
   const t = useTranslations('Menu');

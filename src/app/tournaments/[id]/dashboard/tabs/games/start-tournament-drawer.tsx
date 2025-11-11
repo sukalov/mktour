@@ -3,7 +3,6 @@
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import StartTournamentButton from '@/app/tournaments/[id]/dashboard/tabs/main/start-tournament-button';
 import FormattedMessage from '@/components/formatted-message';
-import { Button } from '@/components/ui/button';
 import {
   Close,
   Content,
@@ -11,7 +10,8 @@ import {
   Header,
   Root,
   Title,
-} from '@/components/ui/combo-modal';
+} from '@/components/ui-custom/combo-modal';
+import { Button } from '@/components/ui/button';
 import { FC, useContext } from 'react';
 
 const StartTournamentDrawer: FC<{

@@ -3,7 +3,6 @@
 import { LoadingSpinner } from '@/app/loading';
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import useTournamentDelete from '@/components/hooks/mutation-hooks/use-tournament-delete';
-import { Button } from '@/components/ui/button';
 import {
   Close,
   Content,
@@ -12,7 +11,8 @@ import {
   Root,
   Title,
   Trigger,
-} from '@/components/ui/combo-modal';
+} from '@/components/ui-custom/combo-modal';
+import { Button } from '@/components/ui/button';
 import { useQueryClient } from '@tanstack/react-query';
 import { CircleX } from 'lucide-react';
 import { useTranslations } from 'next-intl';

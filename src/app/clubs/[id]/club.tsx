@@ -8,8 +8,8 @@ import FormattedMessage, {
 } from '@/components/formatted-message';
 import { useUserSelectClub } from '@/components/hooks/mutation-hooks/use-user-select-club';
 import { useUser } from '@/components/hooks/query-hooks/use-user';
+import LichessLogo from '@/components/ui-custom/lichess-logo';
 import { Button } from '@/components/ui/button';
-import LichessLogo from '@/components/ui/lichess-logo';
 import { DatabaseClub, StatusInClub } from '@/server/db/schema/clubs';
 import { useQueryClient } from '@tanstack/react-query';
 import { Home } from 'lucide-react';

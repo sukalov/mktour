@@ -1,5 +1,5 @@
+import LichessLogo from '@/components/ui-custom/lichess-logo';
 import { Button } from '@/components/ui/button';
-import LichessLogo from '@/components/ui/lichess-logo';
 import { cn } from '@/lib/utils';
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';

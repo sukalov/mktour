@@ -1,6 +1,6 @@
 import { Label } from '@/components/ui/label';
 import { RadioGroupItem } from '@/components/ui/radio-group';
-import TypeIcon from '@/components/ui/type-icon';
+import TypeIcon from '@/components/ui-custom/type-icon';
 import { useTranslations } from 'next-intl';
 
 type TypeCardProps = {

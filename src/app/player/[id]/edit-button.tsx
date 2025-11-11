@@ -1,7 +1,6 @@
 'use client';
 
 import EditPlayerForm from '@/app/player/[id]/player-form';
-import { Button } from '@/components/ui/button';
 import {
   Content,
   Description,
@@ -9,7 +8,8 @@ import {
   Root,
   Title,
   Trigger,
-} from '@/components/ui/combo-modal';
+} from '@/components/ui-custom/combo-modal';
+import { Button } from '@/components/ui/button';
 import { StatusInClub } from '@/server/db/schema/clubs';
 import { DatabasePlayer } from '@/server/db/schema/players';
 import { Pencil } from 'lucide-react';

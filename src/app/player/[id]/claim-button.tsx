@@ -7,7 +7,6 @@ import FormattedMessage, {
 } from '@/components/formatted-message';
 import useAffiliationRequestMutation from '@/components/hooks/mutation-hooks/use-affiliation-request';
 import useUserClubAffiliations from '@/components/hooks/query-hooks/use-user-affiliations';
-import { Button } from '@/components/ui/button';
 import {
   Close,
   Content,
@@ -16,7 +15,8 @@ import {
   Root,
   Title,
   Trigger,
-} from '@/components/ui/combo-modal';
+} from '@/components/ui-custom/combo-modal';
+import { Button } from '@/components/ui/button';
 import { Check, Pointer } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';

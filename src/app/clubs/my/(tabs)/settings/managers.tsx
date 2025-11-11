@@ -5,8 +5,6 @@ import { LoadingSpinner } from '@/app/loading';
 import FormattedMessage from '@/components/formatted-message';
 import useDeleteClubManagerMutation from '@/components/hooks/mutation-hooks/use-club-delete-manager';
 import { useClubManagers } from '@/components/hooks/query-hooks/use-club-managers';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import {
   Close,
   Content,
@@ -14,7 +12,9 @@ import {
   Root,
   Title,
   Trigger,
-} from '@/components/ui/combo-modal';
+} from '@/components/ui-custom/combo-modal';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import {
   Item,
   ItemActions,

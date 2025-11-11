@@ -4,7 +4,6 @@ import { LoadingSpinner } from '@/app/loading';
 import { ClaimActionButton } from '@/app/player/[id]/claim-button';
 import FormattedMessage from '@/components/formatted-message';
 import useAffiliationAbortRequestMutation from '@/components/hooks/mutation-hooks/use-affiliation-abort-request';
-import { Button } from '@/components/ui/button';
 import {
   Close,
   Content,
@@ -12,7 +11,8 @@ import {
   Root,
   Title,
   Trigger,
-} from '@/components/ui/combo-modal';
+} from '@/components/ui-custom/combo-modal';
+import { Button } from '@/components/ui/button';
 import { DatabaseAffiliation } from '@/server/db/schema/players';
 import { PointerOff } from 'lucide-react';
 import { useTranslations } from 'next-intl';

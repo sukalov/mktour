@@ -3,7 +3,7 @@
 import Desktop from '@/components/navigation/desktop';
 import Mobile from '@/components/navigation/mobile';
 import { MediaQueryContext } from '@/components/providers/media-query-context';
-import MktourNavbar from '@/components/ui/mktour-logo-navbar';
+import MktourNavbar from '@/components/ui-custom/mktour-logo-navbar';
 import { User } from 'lucia';
 import { FC, useContext, useEffect, useState } from 'react';
 

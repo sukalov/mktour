@@ -3,8 +3,8 @@ import AddNewPlayer from '@/app/tournaments/[id]/dashboard/tabs/table/add-player
 import AddPlayer from '@/app/tournaments/[id]/dashboard/tabs/table/add-player/add-player';
 import Fab from '@/components/fab';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
+import SideDrawer from '@/components/ui-custom/side-drawer';
 import { Button } from '@/components/ui/button';
-import SideDrawer from '@/components/ui/side-drawer';
 import { InsertDatabasePlayer } from '@/server/db/schema/players';
 import { ArrowLeft, Plus, UserPlus, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
