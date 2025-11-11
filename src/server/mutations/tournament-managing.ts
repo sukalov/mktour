@@ -14,6 +14,7 @@ import {
   DatabasePlayerToTournament,
   DatabaseTournament,
   games,
+  InsertDatabaseTournament,
   players_to_tournaments,
   tournaments,
 } from '@/server/db/schema/tournaments';
@@ -44,7 +45,7 @@ export const createTournament = async (
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   const newTournamentID = newid();
-  const newTournament: DatabaseTournament = {
+  const newTournament: InsertDatabaseTournament = {
     ...values,
     id: newTournamentID,
     created_at: new Date(),

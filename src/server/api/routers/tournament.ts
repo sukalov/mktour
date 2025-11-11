@@ -1,5 +1,6 @@
 import { validateRequest } from '@/lib/auth/lucia';
 import { CACHE_TAGS } from '@/lib/cache-tags';
+import { newTournamentFormSchemaConfig } from '@/lib/zod/new-tournament-form';
 import {
   protectedProcedure,
   publicProcedure,
@@ -37,17 +38,7 @@ import { z } from 'zod';
 
 export const tournamentRouter = {
   create: protectedProcedure
-    .input(
-      z.object({
-        title: z.string(),
-        date: z.string(),
-        format: z.custom<TournamentFormat>(),
-        type: z.custom<'solo' | 'doubles' | 'team'>(),
-        timestamp: z.number(),
-        club_id: z.string(),
-        rated: z.boolean(),
-      }),
-    )
+    .input(z.object({ ...newTournamentFormSchemaConfig, date: z.string() }))
     .mutation(async (opts) => {
       const { input } = opts;
       const result = await createTournament(input);
