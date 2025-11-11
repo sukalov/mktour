@@ -18,6 +18,7 @@ import {
 import {
   affiliations,
   DatabasePlayer,
+  InsertDatabasePlayer,
   players,
 } from '@/server/db/schema/players';
 import {
@@ -118,6 +119,25 @@ export const deleteClub = async ({
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
   await deleteClubFunction({ clubId, userId, userDeletion });
+};
+
+export const createPlayer = async ({
+  player,
+}: {
+  player: InsertDatabasePlayer;
+}) => {
+  const { user } = await validateRequest();
+  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
+  const status = await getStatusInClub({
+    userId: user.id,
+    clubId: player.club_id,
+  });
+  if (!status) throw new Error('NOT_ADMIN');
+  try {
+    await db.insert(players).values(player);
+  } catch (e) {
+    throw new Error(`PLAYER_NOT_CREATED: ${e}`);
+  }
 };
 
 // FIXME

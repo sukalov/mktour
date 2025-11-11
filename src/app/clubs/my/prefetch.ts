@@ -5,7 +5,7 @@ const clubQueryPrefetch = (selectedClubId: string) => {
   prefetch(trpc.user.authClubs.queryOptions());
   prefetch(trpc.club.info.queryOptions({ clubId: selectedClubId }));
   prefetch(
-    trpc.club.players.queryOptions({
+    trpc.club.players.infinite.queryOptions({
       clubId: selectedClubId,
     }),
   );

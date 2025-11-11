@@ -1,4 +1,5 @@
 import { CACHE_TAGS } from '@/lib/cache-tags';
+import { playerSchema } from '@/lib/zod/new-player-form';
 import {
   clubAdminProcedure,
   protectedProcedure,
@@ -7,6 +8,7 @@ import {
 import getAllClubManagers, {
   addClubManager,
   createClub,
+  createPlayer,
   deleteClub,
   deleteClubManager,
   editClub,
@@ -47,19 +49,27 @@ export const clubRouter = {
     .query(async (opts) => {
       return await getClubInfo(opts.input.clubId);
     }),
-  players: publicProcedure
-    .input(
-      z.object({
-        clubId: z.string(),
-        cursor: z.string().nullish(),
-        limit: z.number().min(1).max(100).optional(),
+  players: {
+    infinite: publicProcedure
+      .input(
+        z.object({
+          clubId: z.string(),
+          cursor: z.string().nullish(),
+          limit: z.number().min(1).max(100).optional(),
+        }),
+      )
+      .query(async (opts) => {
+        const cursor = opts.input.cursor;
+        const limit = opts.input.limit ?? 20;
+        return await getClubPlayers(opts.input.clubId, limit, cursor);
       }),
-    )
-    .query(async (opts) => {
-      const cursor = opts.input.cursor;
-      const limit = opts.input.limit ?? 20;
-      return await getClubPlayers(opts.input.clubId, limit, cursor);
-    }),
+    create: clubAdminProcedure
+      .input(z.object(playerSchema))
+      .mutation(async (opts) => {
+        const { input: player } = opts;
+        await createPlayer({ player });
+      }),
+  },
   tournaments: publicProcedure
     .input(z.object({ clubId: z.string() }))
     .query(async (opts) => {

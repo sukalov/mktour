@@ -1,5 +1,6 @@
 import { LoadingSpinner } from '@/app/loading';
 import Fab from '@/components/fab';
+import { useClubAddPlayerMutation } from '@/components/hooks/mutation-hooks/use-club-add-player';
 import { useUser } from '@/components/hooks/query-hooks/use-user';
 import { Button } from '@/components/ui/button';
 import {
@@ -12,20 +13,21 @@ import {
 import { Input } from '@/components/ui/input';
 import SideDrawer from '@/components/ui/side-drawer';
 import { Slider } from '@/components/ui/slider';
+import { newid } from '@/lib/utils';
 import {
   newPlayerFormSchema,
   NewPlayerFormType,
 } from '@/lib/zod/new-player-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
 import { Save, UserPlus, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useHotkeys } from 'react-hotkeys-hook';
 
 const AddPlayerDrawer = () => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState('');
   const [isAnimating, setIsAnimating] = useState(false);
 
   useHotkeys(
@@ -48,7 +50,6 @@ const AddPlayerDrawer = () => {
   const handleChange = (state: boolean) => {
     if (!isAnimating) {
       setOpen(state);
-      setValue('');
     }
   };
 
@@ -65,61 +66,46 @@ const AddPlayerDrawer = () => {
         setOpen={handleChange}
         setIsAnimating={setIsAnimating}
       >
-        <AddNewPlayer value={value} setValue={setValue} />
+        <AddNewPlayer setOpen={setOpen} />
       </SideDrawer>
     </>
   );
 };
 
-const AddNewPlayer = ({ value, setValue }: DrawerProps) => {
-  // const { id } = useParams<{ id: string }>();
+const AddNewPlayer = ({}: DrawerProps) => {
   const user = useUser();
-  // const { mutate } = { mutate: () => console.log() };
+  const queryClient = useQueryClient();
+  const { mutate } = useClubAddPlayerMutation(queryClient);
   const t = useTranslations('Tournament.AddPlayer');
-  // useHotkeys('escape', handleClose, { enableOnFormTags: true });
 
   const form = useForm<NewPlayerFormType>({
     resolver: zodResolver(newPlayerFormSchema),
     defaultValues: {
-      name: value,
+      id: newid(),
+      nickname: '',
       rating: 1500,
       club_id: user.data?.selected_club,
     },
     reValidateMode: 'onSubmit',
   });
 
-  const name = form.getValues('name');
-
-  useEffect(() => {
-    setValue(name);
-  }, [name, setValue]);
-
-  // function onSubmit(data: NewPlayerFormType) {
-  //   if (!userId) {
-  //     console.log('not found user id in context');
-  //     return;
-  //   }
-  //   const newPlayer: DatabasePlayer = {
-  //     id: newid(),
-  //     club_id: data.club_id,
-  //     nickname: data.name,
-  //     realname: data.name,
-  //     rating: data.rating,
-  //     user_id: null,
-  //     last_seen: 0,
-  //   };
-  //   mutate({ tournamentId: id, player: newPlayer, userId });
-  //   handleClose();
-  // }
+  function onSubmit(data: NewPlayerFormType) {
+    mutate(
+      { ...data, clubId: data.club_id },
+      {
+        onSuccess: () => {
+          form.reset();
+          form.setValue('id', newid());
+        },
+      },
+    );
+  }
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(console.log)}
-        className="h-svh space-y-8"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="h-svh space-y-8">
         <FormField
           control={form.control}
-          name="name"
+          name="nickname"
           render={({ field }) => (
             <FormItem>
               <FormControl>
@@ -170,12 +156,12 @@ const AddNewPlayer = ({ value, setValue }: DrawerProps) => {
           {form.formState.isSubmitting || form.formState.isValidating ? (
             <>
               <LoadingSpinner />
-              &nbsp;{t('save')}
+              {t('save')}
             </>
           ) : (
             <>
               <Save />
-              &nbsp;{t('save')}
+              {t('save')}
             </>
           )}
         </Button>
@@ -185,8 +171,7 @@ const AddNewPlayer = ({ value, setValue }: DrawerProps) => {
 };
 
 export type DrawerProps = {
-  value: string;
-  setValue: Dispatch<SetStateAction<string>>;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 export default AddPlayerDrawer;

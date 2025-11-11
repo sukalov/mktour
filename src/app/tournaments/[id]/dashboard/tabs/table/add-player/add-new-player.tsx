@@ -53,18 +53,19 @@ const AddNewPlayer = ({
   const form = useForm<NewPlayerFormType>({
     resolver: zodResolver(newPlayerFormSchema),
     defaultValues: {
-      name: value,
+      id: newid(),
+      nickname: value,
       rating: 1500,
       club_id: tournament.data?.club?.id,
     },
     reValidateMode: 'onSubmit',
   });
 
-  const name = form.getValues('name');
+  const nickname = form.getValues('nickname');
 
   useEffect(() => {
-    setValue(name);
-  }, [name, setValue]);
+    setValue(nickname);
+  }, [nickname, setValue]);
 
   function onSubmit(data: NewPlayerFormType) {
     if (!userId) {
@@ -74,8 +75,8 @@ const AddNewPlayer = ({
     const newPlayer: DatabasePlayer = {
       id: newid(),
       club_id: data.club_id,
-      nickname: data.name,
-      realname: data.name,
+      nickname: data.nickname,
+      realname: data.nickname,
       rating: data.rating,
       user_id: null,
       last_seen: 0,
@@ -88,7 +89,7 @@ const AddNewPlayer = ({
       <form onSubmit={form.handleSubmit(onSubmit)} className="h-svh space-y-8">
         <FormField
           control={form.control}
-          name="name"
+          name="nickname"
           render={({ field }) => (
             <FormItem>
               <FormControl>
@@ -139,12 +140,12 @@ const AddNewPlayer = ({
           {form.formState.isSubmitting || form.formState.isValidating ? (
             <>
               <LoadingSpinner />
-              &nbsp;{t('save')}
+              {t('save')}
             </>
           ) : (
             <>
               <Save />
-              &nbsp;{t('save')}
+              {t('save')}
             </>
           )}
         </Button>
