@@ -21,7 +21,7 @@ import { DatabaseUser } from '@/server/db/schema/users';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useTransition } from 'react';
 import { UseFormReturn, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -39,7 +39,7 @@ export default function NewClubForm({ teams }: NewClubFormProps) {
   const t = useTranslations('NewClubForm');
   const { mutate, isPending: isMutating } = useClubCreate();
   const router = useRouter();
-  const [isNavigating, setIsNavigating] = useState(false);
+  const [isNavigating, startNavigation] = useTransition();
   const isPending = isMutating || isNavigating;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -52,8 +52,10 @@ export default function NewClubForm({ teams }: NewClubFormProps) {
       },
       {
         onSuccess: () => {
-          setIsNavigating(true);
-          router.push('/clubs/my');
+          startNavigation(() => {
+            router.push('/clubs/my');
+            form.reset();
+          });
         },
         onError: (e) => {
           console.error(e);
@@ -96,7 +98,6 @@ export default function NewClubForm({ teams }: NewClubFormProps) {
               {isPending ? (
                 <>
                   <LoadingSpinner />
-                  &nbsp;
                   {t('making')}
                 </>
               ) : (

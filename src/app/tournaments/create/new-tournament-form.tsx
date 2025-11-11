@@ -38,7 +38,7 @@ import { PlusIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -60,13 +60,11 @@ export default function NewTournamentForm({
   });
   const t = useTranslations('MakeTournament');
   const { mutate, isPending: isMutating } = useTournamentCreate();
+  const [isNavigating, startNavigation] = useTransition();
   const router = useRouter();
-  const [isNavigating, setIsNavigating] = useState(false);
   const isPending = isMutating || isNavigating;
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const data = form.getValues();
+  const handleSubmit = (data: NewTournamentFormType) => {
     mutate(
       {
         ...data,
@@ -74,8 +72,10 @@ export default function NewTournamentForm({
       },
       {
         onSuccess: (result) => {
-          setIsNavigating(true);
-          router.push(`/tournaments/${result.id}`);
+          startNavigation(() => {
+            router.push(`/tournaments/${result.id}`);
+            form.reset();
+          });
         },
         onError: (e) => {
           console.error(e);
@@ -95,7 +95,7 @@ export default function NewTournamentForm({
       <Card className="bg-background sm:bg-card mx-auto max-w-[min(600px,98%)] border-none shadow-none sm:border-solid sm:shadow-2xs">
         <CardContent className="p-4 sm:p-8">
           <form
-            onSubmit={handleSubmit}
+            onSubmit={form.handleSubmit(handleSubmit)}
             className="flex flex-col gap-8"
             name="new-tournament-form"
           >
@@ -251,7 +251,6 @@ export default function NewTournamentForm({
               {isPending ? (
                 <>
                   <LoadingSpinner />
-                  &nbsp;
                   {t('making')}
                 </>
               ) : (
