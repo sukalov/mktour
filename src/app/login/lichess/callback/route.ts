@@ -108,6 +108,7 @@ export async function GET(request: Request): Promise<Response> {
         club_id: clubId,
         user_id: userId,
         status: 'co-owner',
+        promoted_at: new Date(),
       });
       await db.insert(user_preferences).values({
         user_id: userId,

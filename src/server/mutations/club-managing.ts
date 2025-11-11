@@ -44,6 +44,7 @@ export const createClub = async (values: NewClubFormType) => {
     club_id: id,
     user_id: user.id,
     status: 'co-owner',
+    promoted_at: new Date(),
   };
   try {
     await db.insert(clubs).values(newClub);
@@ -316,6 +317,7 @@ export const addClubManager = async ({
     club_id: clubId,
     user_id: userId,
     status,
+    promoted_at: new Date(),
   };
 
   const userNotification: InsertDatabaseUserNotification = {

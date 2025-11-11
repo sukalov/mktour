@@ -22,6 +22,9 @@ export const clubs_to_users = sqliteTable('clubs_to_users', {
     .notNull()
     .references(() => users.id),
   status: text('status').notNull().$type<StatusInClub>(),
+  promoted_at: integer('promoted_at', { mode: 'timestamp' })
+    .$default(() => new Date())
+    .notNull(),
 });
 
 export const clubs_relations = relations(clubs, ({ many }) => ({

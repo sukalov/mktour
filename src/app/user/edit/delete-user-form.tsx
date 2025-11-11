@@ -22,7 +22,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
 import { Dispatch, SetStateAction, useTransition } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -35,7 +34,6 @@ export default function DeleteUserForm({
   const queryClient = useQueryClient();
   const { data, isFetching } = useUser();
   const [isNavigating, startNavigation] = useTransition();
-  const router = useRouter();
   const { mutate, isPending } = useDeleteUserMutation(queryClient);
   const form = useForm<DeleteUserFormType>({
     resolver: zodResolver(deleteUserFormSchema),

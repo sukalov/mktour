@@ -43,6 +43,20 @@
       "when": 1762819379418,
       "tag": "0005_gray_runaways",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1762888940270,
+      "tag": "0006_graceful_odin",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1762889158806,
+      "tag": "0007_illegal_vargas",
+      "breakpoints": true
     }
   ]
 }

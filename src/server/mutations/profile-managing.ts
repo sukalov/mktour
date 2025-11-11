@@ -17,7 +17,7 @@ import {
   users,
 } from '@/server/db/schema/users';
 import { deleteClubFunction } from '@/server/mutations/club-managing';
-import { eq, sql } from 'drizzle-orm';
+import { and, asc, eq, sql } from 'drizzle-orm';
 
 export const editUser = async ({ userId, values }: EditUserProps) => {
   const { user } = await validateRequest();
@@ -69,6 +69,84 @@ export const deleteUser = async ({ userId }: { userId: string }) => {
 
   const clubId = user.selected_club;
 
+  const clubsNeedingPromotion = await db
+    .select({
+      clubId: clubs_to_users.club_id,
+    })
+    .from(clubs_to_users)
+    .where(
+      and(
+        eq(clubs_to_users.user_id, userId),
+        eq(clubs_to_users.status, 'co-owner'),
+      ),
+    )
+    .groupBy(clubs_to_users.club_id);
+
+  const clubsToPromote: string[] = [];
+  if (clubsNeedingPromotion.length > 0) {
+    const clubIds = clubsNeedingPromotion.map((c) => c.clubId);
+
+    const coOwnerCounts = await db
+      .select({
+        clubId: clubs_to_users.club_id,
+        count: sql<number>`COUNT(*)`,
+      })
+      .from(clubs_to_users)
+      .where(
+        and(
+          sql`${clubs_to_users.club_id} IN (${sql.join(
+            clubIds.map((id) => sql`${id}`),
+            sql`, `,
+          )})`,
+          eq(clubs_to_users.status, 'co-owner'),
+        ),
+      )
+      .groupBy(clubs_to_users.club_id);
+
+    for (const { clubId, count } of coOwnerCounts) {
+      if (count === 1) {
+        clubsToPromote.push(clubId);
+      }
+    }
+  }
+
+  if (clubsToPromote.length > 0) {
+    const allAdmins = await db
+      .select()
+      .from(clubs_to_users)
+      .where(
+        and(
+          sql`${clubs_to_users.club_id} IN (${sql.join(
+            clubsToPromote.map((id) => sql`${id}`),
+            sql`, `,
+          )})`,
+          eq(clubs_to_users.status, 'admin'),
+        ),
+      )
+      .orderBy(asc(clubs_to_users.promoted_at));
+
+    const oldestAdminsByClub = new Map<string, (typeof allAdmins)[0]>();
+    for (const admin of allAdmins) {
+      if (!oldestAdminsByClub.has(admin.club_id)) {
+        oldestAdminsByClub.set(admin.club_id, admin);
+      }
+    }
+
+    const promotionDate = new Date();
+    const updatePromises = Array.from(oldestAdminsByClub.values()).map(
+      (admin) =>
+        db
+          .update(clubs_to_users)
+          .set({
+            status: 'co-owner',
+            promoted_at: promotionDate,
+          })
+          .where(eq(clubs_to_users.id, admin.id)),
+    );
+
+    await Promise.all(updatePromises);
+  }
+
   await db.transaction(async (tx) => {
     if (userClubs.includes(clubId)) {
       await tx
@@ -97,18 +175,15 @@ export const deleteUser = async ({ userId }: { userId: string }) => {
       await tx.delete(tournaments).where(eq(tournaments.club_id, clubId));
     }
 
-    // Set players.user_id to null where it references the user being deleted
     await tx
       .update(players)
       .set({ user_id: null })
       .where(eq(players.user_id, userId));
 
-    // Delete user notifications
     await tx
       .delete(user_notifications)
       .where(eq(user_notifications.user_id, userId));
 
-    // Delete affiliations
     await tx.delete(affiliations).where(eq(affiliations.user_id, userId));
 
     await tx.delete(clubs_to_users).where(eq(clubs_to_users.user_id, userId));
