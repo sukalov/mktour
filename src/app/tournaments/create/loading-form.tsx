@@ -20,7 +20,7 @@ import Link from 'next/link';
 
 export default function Loading() {
   return (
-    <div className="w-full">
+    <div className="w-full" sr-only="loading...">
       <h2
         className={`m-2 w-full text-center text-4xl font-bold ${turboPascal.className}`}
       >
@@ -108,10 +108,10 @@ export default function Loading() {
                 </Label>
                 <Switch id="rated" disabled />
               </div>
-              <p className="text-muted-foreground hidden text-sm peer-hover:block">
+              <div className="text-muted-foreground hidden text-sm peer-hover:block">
                 <span className="text-xs">*</span>
                 <Skeleton className="h-4 w-32" />
-              </p>
+              </div>
             </div>
             <Button disabled className="w-full">
               <Skeleton className="h-10 w-full" />

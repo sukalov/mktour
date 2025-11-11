@@ -22,15 +22,20 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
+import { Dispatch, SetStateAction, useTransition } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { toast } from 'sonner';
 
 export default function DeleteUserForm({
   className,
   userId,
+  setOpen,
 }: DeleteProfileFormProps) {
   const queryClient = useQueryClient();
   const { data, isFetching } = useUser();
+  const [isNavigating, startNavigation] = useTransition();
+  const router = useRouter();
   const { mutate, isPending } = useDeleteUserMutation(queryClient);
   const form = useForm<DeleteUserFormType>({
     resolver: zodResolver(deleteUserFormSchema),
@@ -56,8 +61,21 @@ export default function DeleteUserForm({
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(() => mutate({ userId }))}
-        className={cn('grid items-start gap-6 px-4 py-0 md:px-0', className)}
+        onSubmit={form.handleSubmit(() =>
+          mutate(
+            { userId },
+            {
+              onSuccess: () => {
+                setOpen(false);
+                startNavigation(() => {
+                  window.location.href = '/sign-in';
+                  form.reset();
+                });
+              },
+            },
+          ),
+        )}
+        className={cn('grid items-start gap-6', className)}
         name="delete-user-form"
       >
         <FormField
@@ -68,7 +86,7 @@ export default function DeleteUserForm({
               <FormControl>
                 <Input
                   {...field}
-                  disabled={isPending}
+                  disabled={isPending || isNavigating}
                   autoComplete="off"
                   onPaste={(e) => {
                     e.preventDefault();
@@ -135,8 +153,8 @@ export default function DeleteUserForm({
           }
           variant="destructive"
         >
-          {isPending ? <LoadingSpinner /> : <Trash2 />}
-          &nbsp;{t('delete profile')}
+          {isPending || isNavigating ? <LoadingSpinner /> : <Trash2 />}
+          {t('delete profile')}
         </Button>
       </form>
     </Form>
@@ -146,4 +164,5 @@ export default function DeleteUserForm({
 interface DeleteProfileFormProps {
   className?: string;
   userId: string;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 }

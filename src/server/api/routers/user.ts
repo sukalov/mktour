@@ -101,6 +101,8 @@ export const userRouter = {
     .mutation(async (opts) => {
       const { input } = opts;
       await deleteUser(input);
+      revalidateTag(CACHE_TAGS.AUTH, 'max');
+      revalidateTag(CACHE_TAGS.USER_CLUBS, 'max');
     }),
   edit: protectedProcedure
     .input(
