@@ -12,7 +12,7 @@ export default function useDeletePlayerMutation(queryClient: QueryClient) {
       onSuccess: (_error, { clubId }) => {
         toast.success(t('player deleted'));
         queryClient.invalidateQueries({
-          queryKey: trpc.club.players.infinite.queryKey({ clubId }),
+          queryKey: trpc.club.players.infinite.infiniteQueryKey({ clubId }),
         });
       },
       onError: (error) =>
