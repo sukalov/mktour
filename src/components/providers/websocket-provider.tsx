@@ -33,7 +33,19 @@ export const GlobalWebSocketProvider = ({
     trpc.user.encryptedSession.queryOptions(),
   );
 
-  if (encryptedSession === undefined) return children;
+  if (!encryptedSession) {
+    return (
+      <GlobalWebSocketContext.Provider
+        value={{
+          sendJsonMessage: () => null,
+          lastJsonMessage: null,
+          readyState: -1,
+        }}
+      >
+        {children}
+      </GlobalWebSocketContext.Provider>
+    );
+  }
 
   return (
     <WebsocketProvider encryptedSession={encryptedSession}>
@@ -49,24 +61,15 @@ const WebsocketProvider = ({
   children: ReactNode;
   encryptedSession: string;
 }) => {
-  const { sendJsonMessage, lastJsonMessage, readyState } = useGlobalWebsocket(
-    encryptedSession ?? '',
-  );
+  const { sendJsonMessage, lastJsonMessage, readyState } =
+    useGlobalWebsocket(encryptedSession);
   return (
     <GlobalWebSocketContext.Provider
-      value={
-        encryptedSession !== undefined
-          ? {
-              sendJsonMessage,
-              lastJsonMessage,
-              readyState,
-            }
-          : {
-              sendJsonMessage: () => null,
-              lastJsonMessage: null,
-              readyState: -1,
-            }
-      }
+      value={{
+        sendJsonMessage,
+        lastJsonMessage,
+        readyState,
+      }}
     >
       {children}
     </GlobalWebSocketContext.Provider>
