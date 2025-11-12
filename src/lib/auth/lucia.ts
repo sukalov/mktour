@@ -48,7 +48,15 @@ export const validateRequest = async (): Promise<
   }
 
   try {
-    const result = await lucia.validateSession(sessionId);
+    // Add timeout to prevent hanging on Vercel
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error('Session validation timeout')), 4000),
+    );
+
+    const result = await Promise.race([
+      lucia.validateSession(sessionId),
+      timeoutPromise,
+    ]);
 
     // next.js throws when you attempt to set cookie when rendering page
     try {
@@ -92,7 +100,18 @@ export const cachedValidateRequest = cache(async () => {
   }
 
   try {
-    const result = await cachedValidateSession(sessionId);
+    // Add timeout to prevent hanging on Vercel
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(
+        () => reject(new Error('Cached session validation timeout')),
+        4000,
+      ),
+    );
+
+    const result = await Promise.race([
+      cachedValidateSession(sessionId),
+      timeoutPromise,
+    ]);
 
     // next.js throws when you attempt to set cookie when rendering page
     try {
