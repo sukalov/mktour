@@ -1,89 +1,93 @@
 // encrypt-decrypt.ts
 
-const SECRET_KEY_LENGTH = 32;
+import {
+  createCipheriv,
+  createDecipheriv,
+  pbkdf2Sync,
+  randomBytes,
+} from 'crypto';
 
-/**
- * Derives a consistent, repeatable "key stream" from a secret key.
- * This is a very basic derivation and NOT cryptographically secure.
- * @param secretKey The secret key string.
- * @returns A Uint8Array representing the key stream.
- */
-function deriveKeyStream(): Uint8Array {
-  const secretKey = process.env.SECRET_KEY ?? '';
-  const keyBytes = new TextEncoder().encode(secretKey);
-  const keyStream = new Uint8Array(SECRET_KEY_LENGTH);
+const PBKDF2_ITERATIONS = 100000;
+const SALT_LENGTH = 16;
+const IV_LENGTH = 16;
+const KEY_LENGTH = 32;
+const ALGORITHM = 'aes-256-cbc';
 
-  for (let i = 0; i < SECRET_KEY_LENGTH; i++) {
-    keyStream[i] = keyBytes[i % keyBytes.length] || 0; // Simple repetition/padding
+function getSecretKey(): string {
+  const key = process.env.SECRET_KEY;
+  if (!key || key.length < 32) {
+    throw new Error(
+      'SECRET_KEY must be at least 32 characters and match between app and ws server',
+    );
   }
-  return keyStream;
+  return key;
 }
 
-/**
- * Encrypts a string using a simple XOR cipher and a secret key.
- * The output is a base64url encoded string (which does not contain ':').
- * @param text The string to encrypt.
- * @param secretKey The secret key.
- * @returns The encrypted, base64url encoded string.
- */
+function deriveKey(salt: Buffer): Buffer {
+  const secretKey = getSecretKey();
+  return pbkdf2Sync(secretKey, salt, PBKDF2_ITERATIONS, KEY_LENGTH, 'sha256');
+}
+
 export function encrypt(text: string): string {
-  const textBytes = new TextEncoder().encode(text);
-  const keyStream = deriveKeyStream();
-  const encryptedBytes = new Uint8Array(textBytes.length);
+  const salt = randomBytes(SALT_LENGTH);
+  const iv = randomBytes(IV_LENGTH);
+  const key = deriveKey(salt);
 
-  for (let i = 0; i < textBytes.length; i++) {
-    encryptedBytes[i] = textBytes[i] ^ keyStream[i % keyStream.length];
-  }
+  const cipher = createCipheriv(ALGORITHM, key, iv);
+  let encrypted = cipher.update(text, 'utf8', 'base64');
+  encrypted += cipher.final('base64');
 
-  // Convert to Base64URL to avoid colons and other problematic characters
-  return base64UrlEncode(encryptedBytes);
+  const combined = Buffer.concat([salt, iv, Buffer.from(encrypted, 'base64')]);
+
+  return base64UrlEncode(combined);
 }
 
-/**
- * Decrypts a base64url encoded string using a simple XOR cipher and a secret key.
- * @param encryptedText The encrypted, base64url encoded string.
- * @param secretKey The secret key.
- * @returns The decrypted string.
- */
 export function decrypt(encryptedText: string): string {
-  const encryptedBytes = base64UrlDecode(encryptedText);
-  const keyStream = deriveKeyStream();
-  const decryptedBytes = new Uint8Array(encryptedBytes.length);
+  const combined = base64UrlDecode(encryptedText);
 
-  for (let i = 0; i < encryptedBytes.length; i++) {
-    decryptedBytes[i] = encryptedBytes[i] ^ keyStream[i % keyStream.length];
-  }
+  const salt = combined.subarray(0, SALT_LENGTH);
+  const iv = combined.subarray(SALT_LENGTH, SALT_LENGTH + IV_LENGTH);
+  const encryptedBytes = combined.subarray(SALT_LENGTH + IV_LENGTH);
 
-  return new TextDecoder().decode(decryptedBytes);
+  const key = deriveKey(salt);
+
+  const decipher = createDecipheriv(ALGORITHM, key, iv);
+  let decrypted = decipher.update(encryptedBytes);
+  decrypted = Buffer.concat([decrypted, decipher.final()]);
+
+  return decrypted.toString('utf8');
 }
 
-/**
- * Encodes a Uint8Array to a Base64URL string.
- * This avoids '+', '/', and '=' characters, replacing them with '-', '_', and omitting padding respectively.
- * @param bytes The Uint8Array to encode.
- * @returns The Base64URL string.
- */
-function base64UrlEncode(bytes: Uint8Array): string {
-  return btoa(String.fromCharCode(...bytes))
+function base64UrlEncode(buffer: Buffer): string {
+  return buffer
+    .toString('base64')
     .replace(/\+/g, '-')
     .replace(/\//g, '_')
-    .replace(/=+$/, ''); // Remove padding
+    .replace(/=+$/, '');
 }
 
-/**
- * Decodes a Base64URL string to a Uint8Array.
- * @param base64urlString The Base64URL string to decode.
- * @returns The decoded Uint8Array.
- */
-function base64UrlDecode(base64urlString: string): Uint8Array {
-  // Add padding back if necessary for btoa/atob compatibility
+function base64UrlDecode(base64urlString: string): Buffer {
   let padded = base64urlString.replace(/-/g, '+').replace(/_/g, '/');
   while (padded.length % 4) {
     padded += '=';
   }
-  return new Uint8Array(
-    atob(padded)
-      .split('')
-      .map((char) => char.charCodeAt(0)),
-  );
+  return Buffer.from(padded, 'base64');
+}
+
+if (require.main === module) {
+  const originalString =
+    'hello websocket! this message travels between app and ws server.';
+
+  try {
+    const encrypted = encrypt(originalString);
+    console.log('original:', originalString);
+    console.log('encrypted:', encrypted);
+    console.log("contains ':'?", encrypted.includes(':'));
+
+    const decrypted = decrypt(encrypted);
+    console.log('decrypted:', decrypted);
+    console.log('success:', originalString === decrypted);
+  } catch (error) {
+    console.error('error:', error);
+  }
 }
