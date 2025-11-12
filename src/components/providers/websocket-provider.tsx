@@ -29,11 +29,15 @@ export const GlobalWebSocketProvider = ({
   children,
 }: WebSocketProviderProps) => {
   const trpc = useTRPC();
-  const { data: encryptedSession } = useQuery(
-    trpc.user.encryptedSession.queryOptions(),
-  );
+  const { data: encryptedSession, isLoading } = useQuery({
+    ...trpc.user.encryptedSession.queryOptions(),
+    enabled: typeof window !== 'undefined',
+    staleTime: Infinity,
+    retry: 3,
+  });
 
-  if (!encryptedSession) {
+  // While loading or no session, provide stub context without WebSocket
+  if (isLoading || !encryptedSession) {
     return (
       <GlobalWebSocketContext.Provider
         value={{
