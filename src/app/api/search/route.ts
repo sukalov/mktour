@@ -7,8 +7,6 @@ import { users } from '@/server/db/schema/users';
 import { or, sql } from 'drizzle-orm';
 import { NextRequest } from 'next/server';
 
-// export const dynamic = 'force-dynamic';
-
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const user = await publicCaller.user.auth();

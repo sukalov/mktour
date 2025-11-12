@@ -9,7 +9,7 @@ import { redirect } from 'next/navigation';
 
 export default async function EditUserPage() {
   const user = await publicCaller.user.auth();
-  if (!user) redirect('/sign-in');
+  if (!user) redirect('/sign-in/?from=/user/edit');
   const queryClient = getQueryClient();
 
   await queryClient.prefetchQuery(trpc.user.auth.queryOptions());
