@@ -10,9 +10,7 @@ import { useCallback } from 'react';
 import useWebSocket from 'react-use-websocket';
 import { toast } from 'sonner';
 
-export const useGlobalWebsocket = (
-  encryptedAuthSession: string | undefined,
-) => {
+export const useGlobalWebsocket = (encryptedAuthSession: string | null) => {
   const t = useTranslations('Toasts');
   const queryClient = useQueryClient();
   const trpc = useTRPC();
@@ -34,7 +32,10 @@ export const useGlobalWebsocket = (
   }, [t]);
 
   return useWebSocket<GlobalMessage>(`${SOCKET_URL}/global`, {
-    protocols: encryptedAuthSession !== '' ? encryptedAuthSession : 'guest',
+    protocols:
+      encryptedAuthSession && encryptedAuthSession !== ''
+        ? encryptedAuthSession
+        : 'guest',
     shouldReconnect: () => true,
     heartbeat: {
       interval: 5000,

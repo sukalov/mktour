@@ -10,7 +10,7 @@ import useWebSocket from 'react-use-websocket';
 import { toast } from 'sonner';
 
 export const useDashboardWebsocket = (
-  session: string | undefined,
+  session: string | null,
   id: string,
   queryClient: QueryClient,
   setRoundInView: Dispatch<SetStateAction<number>>,
