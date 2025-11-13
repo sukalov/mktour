@@ -54,14 +54,17 @@ export const clubRouter = {
       .input(
         z.object({
           clubId: z.string(),
-          cursor: z.string().nullish(),
-          limit: z.number().min(1).max(100).optional(),
+          cursor: z.number().nullish(),
+          limit: z.number().min(1).max(100).optional().default(20),
         }),
       )
       .query(async (opts) => {
         const cursor = opts.input.cursor;
-        const limit = opts.input.limit ?? 20;
-        return await getClubPlayers(opts.input.clubId, limit, cursor);
+        return await getClubPlayers(
+          opts.input.clubId,
+          opts.input.limit,
+          cursor,
+        );
       }),
     create: clubAdminProcedure
       .input(z.object(playerSchema))
