@@ -11,7 +11,7 @@ const config = {
   url: DATABASE_URL,
   authToken: DATABASE_AUTH_TOKEN,
   syncInterval: 60,
-  requestTimeout: 5000, // 5 second timeout instead of default 10s
+  requestTimeout: 5000,
 };
 
 const sqlite = createClient(config);

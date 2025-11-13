@@ -48,7 +48,6 @@ export const validateRequest = async (): Promise<
   }
 
   try {
-    // Add timeout to prevent hanging on Vercel
     const timeoutPromise = new Promise<never>((_, reject) =>
       setTimeout(() => reject(new Error('Session validation timeout')), 4000),
     );

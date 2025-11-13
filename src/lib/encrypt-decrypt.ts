@@ -13,6 +13,9 @@ const IV_LENGTH = 16;
 const KEY_LENGTH = 32;
 const ALGORITHM = 'aes-256-cbc';
 
+const toUint8Array = (buffer: Buffer): Uint8Array<ArrayBuffer> =>
+  buffer as unknown as Uint8Array<ArrayBuffer>;
+
 function getSecretKey(): string {
   const key = process.env.SECRET_KEY;
   if (!key || key.length < 32) {
@@ -25,7 +28,13 @@ function getSecretKey(): string {
 
 function deriveKey(salt: Buffer): Buffer {
   const secretKey = getSecretKey();
-  return pbkdf2Sync(secretKey, salt, PBKDF2_ITERATIONS, KEY_LENGTH, 'sha256');
+  return pbkdf2Sync(
+    secretKey,
+    toUint8Array(salt),
+    PBKDF2_ITERATIONS,
+    KEY_LENGTH,
+    'sha256',
+  );
 }
 
 export function encrypt(text: string): string {
@@ -33,11 +42,15 @@ export function encrypt(text: string): string {
   const iv = randomBytes(IV_LENGTH);
   const key = deriveKey(salt);
 
-  const cipher = createCipheriv(ALGORITHM, key, iv);
+  const cipher = createCipheriv(ALGORITHM, toUint8Array(key), toUint8Array(iv));
   let encrypted = cipher.update(text, 'utf8', 'base64');
   encrypted += cipher.final('base64');
 
-  const combined = Buffer.concat([salt, iv, Buffer.from(encrypted, 'base64')]);
+  const combined = Buffer.concat([
+    toUint8Array(salt),
+    toUint8Array(iv),
+    toUint8Array(Buffer.from(encrypted, 'base64')),
+  ]);
 
   return base64UrlEncode(combined);
 }
@@ -51,9 +64,16 @@ export function decrypt(encryptedText: string): string {
 
   const key = deriveKey(salt);
 
-  const decipher = createDecipheriv(ALGORITHM, key, iv);
-  let decrypted = decipher.update(encryptedBytes);
-  decrypted = Buffer.concat([decrypted, decipher.final()]);
+  const decipher = createDecipheriv(
+    ALGORITHM,
+    toUint8Array(key),
+    toUint8Array(iv),
+  );
+  let decrypted = decipher.update(toUint8Array(encryptedBytes));
+  decrypted = Buffer.concat([
+    toUint8Array(decrypted),
+    toUint8Array(decipher.final()),
+  ]);
 
   return decrypted.toString('utf8');
 }
