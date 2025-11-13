@@ -10,8 +10,6 @@ import { drizzle } from 'drizzle-orm/libsql';
 const config = {
   url: DATABASE_URL,
   authToken: DATABASE_AUTH_TOKEN,
-  syncInterval: 60,
-  requestTimeout: 5000,
 };
 
 const sqlite = createClient(config);
