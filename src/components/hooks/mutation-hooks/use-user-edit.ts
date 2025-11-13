@@ -11,7 +11,7 @@ export default function useEditUserMutation(queryClient: QueryClient) {
       onSuccess: () => {
         toast.success(t('profile updated'));
         queryClient.invalidateQueries({
-          queryKey: trpc.user.auth.queryKey(),
+          queryKey: trpc.user.auth.info.queryKey(),
         });
       },
       onError: () => toast.error(t('server error')),

@@ -9,7 +9,7 @@ import { NextRequest } from 'next/server';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const user = await publicCaller.user.auth();
+  const user = await publicCaller.user.auth.info();
   const query = searchParams.get('q');
   const filter = searchParams.get('filter');
   if (!query) return new Response(JSON.stringify([]), { status: 200 });

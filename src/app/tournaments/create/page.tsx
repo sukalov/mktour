@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 
 export default async function NewTournament() {
-  const user = await publicCaller.user.auth();
+  const user = await publicCaller.user.auth.info();
   if (!user) redirect('/sign-in?from=/tournaments/create');
   const userClubs = await publicCaller.user.clubs({ userId: user.id });
 

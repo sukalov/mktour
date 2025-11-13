@@ -5,7 +5,7 @@ import { getTranslations } from 'next-intl/server';
 
 export default async function UserPage(props: TournamentPageProps) {
   const params = await props.params;
-  const user = await publicCaller.user.auth();
+  const user = await publicCaller.user.auth.info();
   const data = await publicCaller.user.infoByUsername({
     username: params.username,
   });

@@ -8,11 +8,11 @@ import { getTranslations } from 'next-intl/server';
 import { redirect } from 'next/navigation';
 
 export default async function EditUserPage() {
-  const user = await publicCaller.user.auth();
+  const user = await publicCaller.user.auth.info();
   if (!user) redirect('/sign-in/?from=/user/edit');
   const queryClient = getQueryClient();
 
-  await queryClient.prefetchQuery(trpc.user.auth.queryOptions());
+  await queryClient.prefetchQuery(trpc.user.auth.info.queryOptions());
 
   const t = await getTranslations('EditUser');
   return (

@@ -14,7 +14,7 @@ export const handleGlobalSocketMessage = (
   switch (message.type) {
     case 'user_notification':
       queryClient.invalidateQueries({
-        queryKey: trpc.user.authNotifications.queryKey(),
+        queryKey: trpc.user.auth.notifications.queryKey(),
       });
       break;
     case 'error':

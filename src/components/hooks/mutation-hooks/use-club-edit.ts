@@ -10,7 +10,7 @@ export default function useEditClubMutation(queryClient: QueryClient) {
         toast.success('club updated');
         queryClient.invalidateQueries({ queryKey: trpc.club.info.queryKey() });
         queryClient.invalidateQueries({
-          queryKey: trpc.user.authClubs.queryKey(),
+          queryKey: trpc.user.auth.clubs.queryKey(),
         });
       },
       onError: () => toast.error('sorry! server error happened'),

@@ -12,7 +12,7 @@ import { notFound } from 'next/navigation';
 export default async function TournamentPage(props: TournamentPageProps) {
   const params = await props.params;
   const session = await getEncryptedAuthSession();
-  const user = await publicCaller.user.auth();
+  const user = await publicCaller.user.auth.info();
   let tournament: TournamentInfo;
   try {
     tournament = await publicCaller.tournament.info({

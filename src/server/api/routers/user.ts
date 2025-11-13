@@ -40,13 +40,29 @@ export const userRouter = {
       const { input } = opts;
       return await getUserInfoByUsername(input.username);
     }),
-  auth: publicProcedure.query(async () => {
-    const { user } = await validateRequest();
-    return user;
-  }),
-  encryptedSession: publicProcedure.query(async () => {
-    return await getEncryptedAuthSession();
-  }),
+  auth: {
+    info: publicProcedure.query(async () => {
+      const { user } = await validateRequest();
+      return user;
+    }),
+    encryptedSession: publicProcedure.query(async () => {
+      return await getEncryptedAuthSession();
+    }),
+    notifications: publicProcedure.query(async () => {
+      //FIXME double check if it should be protected procedure
+      const { user } = await validateRequest();
+      if (!user) {
+        return [];
+      }
+      const userNotifications = await getUserNotifications();
+      return userNotifications;
+    }),
+    clubs: protectedProcedure.query(async () => {
+      const { user } = await validateRequest();
+      if (!user) return [];
+      return await getUserClubs({ userId: user.id });
+    }),
+  },
   create: publicProcedure
     .input(
       z.object({
@@ -77,13 +93,9 @@ export const userRouter = {
       revalidateTag(CACHE_TAGS.AUTH, 'max');
       return resultSet;
     }),
-  authNotifications: publicProcedure.query(async () => {
-    const { user } = await validateRequest();
-    if (!user) {
-      return [];
-    }
-    const userNotifications = await getUserNotifications();
-    return userNotifications;
+  context: publicProcedure.query(async (opts) => {
+    if (!opts.ctx.user) return null;
+    return await getUserData(opts.ctx.user.id);
   }),
   clubs: publicProcedure
     .input(z.object({ userId: z.string() }))
@@ -119,13 +131,4 @@ export const userRouter = {
       await editUser(input);
       revalidateTag(CACHE_TAGS.AUTH, 'max');
     }),
-  authClubs: protectedProcedure.query(async () => {
-    const { user } = await validateRequest();
-    if (!user) return [];
-    return await getUserClubs({ userId: user.id });
-  }),
-  authContext: publicProcedure.query(async (opts) => {
-    if (!opts.ctx.user) return null;
-    return await getUserData(opts.ctx.user.id);
-  }),
 };

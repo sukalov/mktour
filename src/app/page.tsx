@@ -7,7 +7,7 @@ import '@/styles/cursor.css';
 import { Suspense } from 'react';
 
 async function HomeContent() {
-  const user = await publicCaller.user.auth();
+  const user = await publicCaller.user.auth.info();
 
   if (!user) {
     return <Unauthorized />;
