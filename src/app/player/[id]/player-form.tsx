@@ -16,7 +16,8 @@ import { StatusInClub } from '@/server/db/schema/clubs';
 import { DatabasePlayer } from '@/server/db/schema/players';
 import { Save } from 'lucide-react';
 import { MessageKeys, NestedKeyOf } from 'next-intl';
-import { FC } from 'react';
+import { useRouter } from 'next/navigation';
+import { Dispatch, FC, SetStateAction } from 'react';
 import { ControllerRenderProps, useForm, UseFormReturn } from 'react-hook-form';
 
 const EditPlayerForm: FC<{
@@ -24,13 +25,16 @@ const EditPlayerForm: FC<{
   clubId: string;
   player: EditPlayerFormValues;
   status: StatusInClub | undefined;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 }> = ({
   player: { id, nickname, realname, rating },
   clubId,
   userId,
   status,
+  setOpen,
 }) => {
   const editPlayerMutation = useEditPlayerMutation();
+  const router = useRouter();
   const form = useForm<EditPlayerFormValues>({
     defaultValues: {
       id,
@@ -41,7 +45,15 @@ const EditPlayerForm: FC<{
   });
 
   const onSubmit = (values: EditPlayerFormValues) => {
-    editPlayerMutation.mutate({ clubId, values });
+    editPlayerMutation.mutate(
+      { clubId, values },
+      {
+        onSuccess: () => {
+          setOpen(false);
+          router.refresh();
+        },
+      },
+    );
   };
 
   return (

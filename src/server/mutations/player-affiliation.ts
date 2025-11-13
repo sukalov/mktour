@@ -116,6 +116,7 @@ export async function acceptAffiliation({
       .where(eq(club_notifications.id, notificationId)),
     db.insert(user_notifications).values(newNotification),
   ]);
+  revalidatePath(`/player/${affiliation.player_id}`);
 
   return affiliation;
 }
@@ -158,6 +159,7 @@ export async function rejectAffiliation({
       .where(eq(club_notifications.id, notificationId)),
     db.insert(user_notifications).values(newNotification),
   ]);
+  revalidatePath(`/player/${affiliation.player_id}`);
 
   return affiliation;
 }

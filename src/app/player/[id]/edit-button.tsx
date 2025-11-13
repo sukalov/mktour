@@ -13,15 +13,16 @@ import { Button } from '@/components/ui/button';
 import { StatusInClub } from '@/server/db/schema/clubs';
 import { DatabasePlayer } from '@/server/db/schema/players';
 import { Pencil } from 'lucide-react';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
 const EditButton: FC<{
   userId: string;
   player: DatabasePlayer;
   status: StatusInClub | undefined;
 }> = ({ userId, player, status }) => {
+  const [open, setOpen] = useState(false);
   return (
-    <Root>
+    <Root open={open} onOpenChange={setOpen}>
       <Trigger asChild>
         <Button variant="ghost" size="icon" className="h-9 w-9">
           <Pencil />
@@ -35,7 +36,7 @@ const EditButton: FC<{
           <Description hidden />
         </Header>
         <EditPlayerForm
-          {...{ player, clubId: player.club_id, userId, status }}
+          {...{ player, clubId: player.club_id, userId, status, setOpen }}
         />
       </Content>
     </Root>
