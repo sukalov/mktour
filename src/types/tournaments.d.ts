@@ -36,7 +36,11 @@ export interface TournamentInfo {
 
 export type Result = '0-1' | '1-0' | '1/2-1/2';
 
-export type TournamentFormat = 'swiss' | 'round robin' | 'double elimination';
+export type TournamentFormat =
+  | 'swiss'
+  | 'round robin'
+  | 'single elimination'
+  | 'double elimination';
 
 export type TournamentType = 'solo' | 'doubles' | 'team';
 
