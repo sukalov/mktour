@@ -168,6 +168,19 @@ export const handleSocketMessage = (
         setRoundInView(message.roundNumber);
       }
       break;
+    case 'finish-tournament':
+      queryClient.setQueryData(
+        trpc.tournament.info.queryKey({ tournamentId }),
+        (cache) => {
+          if (!cache) return cache;
+          cache.tournament.closed_at = message.closed_at;
+          return cache;
+        },
+      );
+      queryClient.invalidateQueries({
+        queryKey: trpc.tournament.info.queryKey({ tournamentId }),
+      });
+      break;
     case 'error':
       toast.error(errorMessage, { id: 'wsErrorMessage' });
     default:
