@@ -9,7 +9,7 @@ import { redirect } from 'next/navigation';
 import { FC } from 'react';
 
 export default async function MyTournaments() {
-  const user = await publicCaller.user.auth.info();
+  const user = await publicCaller.auth.info();
   if (!user) redirect('/sign-in?from=/tournaments/my');
   const t = await getTranslations('Tournaments');
   const tournaments = await getTournamentsToUserClubsQuery({ user });

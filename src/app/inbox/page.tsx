@@ -15,7 +15,7 @@ const InboxPage = async () => {
   await connection();
   const queryClient = getQueryClient();
   await queryClient.prefetchQuery({
-    queryKey: trpc.user.auth.notifications.queryKey(),
+    queryKey: trpc.auth.notifications.infinite.queryKey(),
   });
 
   // Measure validateRequest

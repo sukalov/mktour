@@ -6,7 +6,7 @@ import { Team } from '@/types/lichess-api';
 import { redirect } from 'next/navigation';
 
 export default async function CreateClubPage() {
-  const user = await publicCaller.user.auth.info();
+  const user = await publicCaller.auth.info();
   if (!user) redirect('/sign-in');
   const club = await emptyClubCheck({ user });
   let teams: Array<TeamSlice> = [];

@@ -9,7 +9,7 @@ const PageContent = async (props: { searchParams: Promise<SearchParams> }) => {
 
   const from =
     typeof searchParams.from === 'string' ? searchParams.from : undefined;
-  const user = await publicCaller.user.auth.info();
+  const user = await publicCaller.auth.info();
   if (user) redirect('/');
   return (
     <main className="p-mk-2 mx-auto my-4 flex h-[calc(100svh-3.5rem)] w-full max-w-lg flex-auto items-center justify-center">

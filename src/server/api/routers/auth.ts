@@ -1,0 +1,54 @@
+import { validateRequest } from '@/lib/auth/lucia';
+import { getEncryptedAuthSession } from '@/lib/get-encrypted-auth-session';
+import { protectedProcedure, publicProcedure } from '@/server/api/trpc';
+import {
+  markAllNotificationsAsSeen,
+  markNotificationAsSeen,
+} from '@/server/mutations/notifications';
+import { getUserClubs } from '@/server/queries/get-user-clubs';
+import {
+  getNotificationsCounter,
+  getUserNotificationsInfinite,
+} from '@/server/queries/get-user-notifications';
+import z from 'zod';
+
+export const authRouter = {
+  info: publicProcedure.query(async () => {
+    const { user } = await validateRequest();
+    return user;
+  }),
+  encryptedSession: publicProcedure.query(async () => {
+    return await getEncryptedAuthSession();
+  }),
+  notifications: {
+    infinite: protectedProcedure
+      .input(
+        z.object({
+          limit: z.number().min(1).max(100).optional().default(20),
+          cursor: z.number().nullish(),
+        }),
+      )
+      .query(async ({ input }) => {
+        return await getUserNotificationsInfinite({
+          limit: input.limit,
+          offset: input.cursor ?? 0,
+        });
+      }),
+    unseenCounter: protectedProcedure.query(async () => {
+      return await getNotificationsCounter();
+    }),
+    markAsSeen: protectedProcedure
+      .input(z.object({ notificationId: z.string() }))
+      .mutation(async (opts) => {
+        await markNotificationAsSeen(opts.input.notificationId);
+      }),
+    markAllAsSeen: protectedProcedure.mutation(async (opts) => {
+      await markAllNotificationsAsSeen(opts.ctx.user.id);
+    }),
+  },
+  clubs: protectedProcedure.query(async () => {
+    const { user } = await validateRequest();
+    if (!user) return [];
+    return await getUserClubs({ userId: user.id });
+  }),
+};

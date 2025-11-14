@@ -5,7 +5,7 @@ import { publicCaller } from '@/server/api';
 import { redirect } from 'next/navigation';
 
 export default async function ClubInfo() {
-  const user = await publicCaller.user.auth.info();
+  const user = await publicCaller.auth.info();
   if (!user) redirect('/sign-in?from=/clubs/my');
   clubQueryPrefetch(user.selected_club);
 

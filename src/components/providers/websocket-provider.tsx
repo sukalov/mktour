@@ -30,7 +30,7 @@ export const GlobalWebSocketProvider = ({
 }: WebSocketProviderProps) => {
   const trpc = useTRPC();
   const { data: encryptedSession, isLoading } = useQuery({
-    ...trpc.user.auth.encryptedSession.queryOptions(),
+    ...trpc.auth.encryptedSession.queryOptions(),
     enabled: typeof window !== 'undefined',
     staleTime: Infinity,
     retry: 3,

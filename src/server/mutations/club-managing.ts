@@ -58,37 +58,6 @@ export const createClub = async (values: NewClubFormType) => {
   }
 };
 
-export const getClubInfo = async (id: DatabaseClub['id']) => {
-  const data = (await db.select().from(clubs).where(eq(clubs.id, id)))?.at(0);
-  if (!data) return undefined;
-  return data;
-};
-
-export const getClubPlayers = async (
-  clubId: DatabasePlayer['club_id'],
-  limit: number,
-  cursor?: number | null,
-): Promise<{ players: DatabasePlayer[]; nextCursor: number | null }> => {
-  const result = await db
-    .select()
-    .from(players)
-    .where(eq(players.club_id, clubId))
-    .orderBy(players.nickname)
-    .offset(cursor ?? 0)
-    .limit(limit + 1);
-
-  let nextCursor: number | null = null;
-  if (result.length > limit) {
-    const currentCursor = cursor ?? 0;
-    nextCursor = currentCursor + limit;
-  }
-
-  return {
-    players: result.slice(0, limit),
-    nextCursor,
-  };
-};
-
 export const editClub = async ({ clubId, userId, values }: ClubEditProps) => {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');

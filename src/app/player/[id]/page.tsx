@@ -23,7 +23,7 @@ export default async function PlayerPage(props: PlayerPageProps) {
 async function PlayerPageContent(props: PlayerPageProps) {
   const { id } = await props.params;
   const [user, playerData] = await Promise.all([
-    publicCaller.user.auth.info(),
+    publicCaller.auth.info(),
     publicCaller.player.info({ playerId: id }),
   ]);
   if (!playerData) notFound();

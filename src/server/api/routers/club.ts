@@ -13,10 +13,9 @@ import getAllClubManagers, {
   deleteClubManager,
   editClub,
   getClubAffiliatedUsers,
-  getClubInfo,
-  getClubPlayers,
   leaveClub,
 } from '@/server/mutations/club-managing';
+import { getClubInfo, getClubPlayers } from '@/server/queries/club';
 import getAllClubs from '@/server/queries/get-all-clubs';
 import getClubNotifications from '@/server/queries/get-club-notifications';
 import { getClubTournaments } from '@/server/queries/get-club-tournaments';

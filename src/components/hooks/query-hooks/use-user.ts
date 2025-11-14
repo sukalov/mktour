@@ -3,5 +3,5 @@ import { useQuery } from '@tanstack/react-query';
 
 export const useUser = () => {
   const trpc = useTRPC();
-  return useQuery(trpc.user.auth.info.queryOptions());
+  return useQuery(trpc.auth.info.queryOptions());
 };

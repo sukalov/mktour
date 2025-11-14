@@ -7,7 +7,7 @@ import { UserNotification } from '@/server/queries/get-user-notifications';
 const UserNotifications = () => {
   // const trpc = useTRPC();
   // const { data: notifications } = useQuery(
-  //   trpc.user.auth.notifications.queryOptions(),
+  //   trpc.auth.notifications.queryOptions(),
   // );
 
   // FIXME mock data

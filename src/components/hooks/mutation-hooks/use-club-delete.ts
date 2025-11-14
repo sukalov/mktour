@@ -22,7 +22,7 @@ export default function useDeleteClubMutation(
             query.queryKey[2].clubId === clubId,
         });
         queryClient.invalidateQueries({
-          queryKey: trpc.user.auth.pathKey(),
+          queryKey: trpc.auth.pathKey(),
         });
         toast.success('club deleted');
         setOpen(false);
