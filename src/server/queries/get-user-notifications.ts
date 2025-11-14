@@ -12,16 +12,43 @@ import {
   players,
 } from '@/server/db/schema/players';
 import { users } from '@/server/db/schema/users';
-import { desc, eq, or, sql } from 'drizzle-orm';
+import { and, desc, eq, or, sql } from 'drizzle-orm';
 
-const getUserNotifications = async (): Promise<UserNotification[]> => {
+export const getNotificationsCounter = async () => {
+  const { user } = await validateRequest();
+  if (!user) {
+    throw new Error('UNAUTHORIZED_REQUEST');
+  }
+  return (
+    await db
+      .select({
+        count: sql<number>`COUNT(*)`,
+      })
+      .from(user_notifications)
+      .orderBy(desc(user_notifications.created_at))
+      .where(
+        and(
+          eq(user_notifications.user_id, user.id),
+          eq(user_notifications.is_seen, false),
+        ),
+      )
+  ).at(0)?.count;
+};
+
+export const getUserNotificationsInfinite = async ({
+  limit,
+  offset,
+}: {
+  limit: number;
+  offset: number;
+}) => {
   const { user } = await validateRequest();
 
   if (!user) {
     throw new Error('UNAUTHORIZED_REQUEST');
   }
 
-  return (await db
+  const result = (await db
     .select({
       type: user_notifications.notification_type,
       affiliation: affiliations,
@@ -48,9 +75,19 @@ const getUserNotifications = async (): Promise<UserNotification[]> => {
         ),
       ),
     )
-    .orderBy(desc(user_notifications.created_at))) as UserNotification[]; // FIXME (some day we will write good type-safe code)
-};
+    .orderBy(desc(user_notifications.created_at))
+    .limit(limit + 1)
+    .offset(offset)) as UserNotification[]; // FIXME (some day we will write good type-safe code)
 
+  let nextCursor: number | null = null;
+  if (result.length > limit) {
+    nextCursor = offset + limit;
+  }
+  return {
+    notifications: result.slice(0, limit),
+    nextCursor,
+  };
+};
 export type UserNotification =
   | {
       type: 'affiliation_approved';
@@ -92,5 +129,3 @@ export type UserNotification =
         tournament_id: string;
       };
     };
-
-export default getUserNotifications;
