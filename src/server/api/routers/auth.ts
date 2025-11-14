@@ -2,8 +2,8 @@ import { validateRequest } from '@/lib/auth/lucia';
 import { getEncryptedAuthSession } from '@/lib/get-encrypted-auth-session';
 import { protectedProcedure, publicProcedure } from '@/server/api/trpc';
 import {
+  changeNotificationStatus,
   markAllNotificationsAsSeen,
-  markNotificationAsSeen,
 } from '@/server/mutations/notifications';
 import { getUserClubs } from '@/server/queries/get-user-clubs';
 import {
@@ -37,10 +37,10 @@ export const authRouter = {
     unseenCounter: protectedProcedure.query(async () => {
       return await getNotificationsCounter();
     }),
-    markAsSeen: protectedProcedure
-      .input(z.object({ notificationId: z.string() }))
-      .mutation(async (opts) => {
-        await markNotificationAsSeen(opts.input.notificationId);
+    changeStatus: protectedProcedure
+      .input(z.object({ notificationId: z.string(), seen: z.boolean() }))
+      .mutation(async ({ input }) => {
+        await changeNotificationStatus(input);
       }),
     markAllAsSeen: protectedProcedure.mutation(async (opts) => {
       await markAllNotificationsAsSeen(opts.ctx.user.id);

@@ -5,10 +5,7 @@ import { UserNotificationLi } from '@/components/notification-items';
 import { UserNotification } from '@/server/queries/get-user-notifications';
 
 const UserNotifications = () => {
-  // const trpc = useTRPC();
-  // const { data: notifications } = useQuery(
-  //   trpc.auth.notifications.queryOptions(),
-  // );
+  // const { data: notifications, fetchNextPage, hasNextPage } = useUserNotifications();
 
   // FIXME mock data
   const notifications = [
