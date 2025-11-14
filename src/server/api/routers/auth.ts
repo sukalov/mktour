@@ -1,6 +1,8 @@
 import { validateRequest } from '@/lib/auth/lucia';
+import { CACHE_TAGS } from '@/lib/cache-tags';
 import { getEncryptedAuthSession } from '@/lib/get-encrypted-auth-session';
 import { protectedProcedure, publicProcedure } from '@/server/api/trpc';
+import { logout } from '@/server/mutations/logout';
 import {
   changeNotificationStatus,
   markAllNotificationsAsSeen,
@@ -10,6 +12,8 @@ import {
   getNotificationsCounter,
   getUserNotificationsInfinite,
 } from '@/server/queries/get-user-notifications';
+import { revalidateTag } from 'next/cache';
+import { redirect } from 'next/navigation';
 import z from 'zod';
 
 export const authRouter = {
@@ -19,6 +23,11 @@ export const authRouter = {
   }),
   encryptedSession: publicProcedure.query(async () => {
     return await getEncryptedAuthSession();
+  }),
+  signOut: publicProcedure.mutation(async () => {
+    await logout();
+    revalidateTag(CACHE_TAGS.AUTH, 'max');
+    redirect('/sign-in');
   }),
   notifications: {
     infinite: protectedProcedure
@@ -34,8 +43,10 @@ export const authRouter = {
           offset: input.cursor ?? 0,
         });
       }),
-    unseenCounter: protectedProcedure.query(async ({ ctx }) => {
-      return await getNotificationsCounter(ctx.user.id);
+    counter: publicProcedure.query(async () => {
+      const { user } = await validateRequest();
+      if (!user) return 0;
+      return await getNotificationsCounter(user.id);
     }),
     changeStatus: protectedProcedure
       .input(z.object({ notificationId: z.string(), seen: z.boolean() }))

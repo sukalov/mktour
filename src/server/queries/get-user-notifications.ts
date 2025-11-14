@@ -16,19 +16,21 @@ import { and, desc, eq, or, sql } from 'drizzle-orm';
 
 export const getNotificationsCounter = async (userId: string) => {
   return (
-    await db
-      .select({
-        count: sql<number>`COUNT(*)`,
-      })
-      .from(user_notifications)
-      .orderBy(desc(user_notifications.created_at))
-      .where(
-        and(
-          eq(user_notifications.user_id, userId),
-          eq(user_notifications.is_seen, false),
-        ),
-      )
-  ).at(0)?.count;
+    (
+      await db
+        .select({
+          count: sql<number>`COUNT(*)`,
+        })
+        .from(user_notifications)
+        .orderBy(desc(user_notifications.created_at))
+        .where(
+          and(
+            eq(user_notifications.user_id, userId),
+            eq(user_notifications.is_seen, false),
+          ),
+        )
+    ).at(0)?.count ?? 0
+  );
 };
 
 export const getUserNotificationsInfinite = async ({

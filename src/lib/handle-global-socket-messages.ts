@@ -14,7 +14,7 @@ export const handleGlobalSocketMessage = (
   switch (message.type) {
     case 'user_notification':
       queryClient.setQueryData(
-        trpc.auth.notifications.unseenCounter.queryKey(),
+        trpc.auth.notifications.counter.queryKey(),
         (cache) => cache && cache + 1,
       );
       queryClient.invalidateQueries({

@@ -18,5 +18,5 @@ export const useUserNotifications = () => {
 
 export const useUserNotificationsCounter = () => {
   const trpc = useTRPC();
-  return useQuery(trpc.auth.notifications.unseenCounter.queryOptions());
+  return useQuery(trpc.auth.notifications.counter.queryOptions());
 };
