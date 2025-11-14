@@ -1,8 +1,10 @@
+'use server';
+
 import SignInWithLichessButton from '@/components/auth/sign-in-with-lichess-button';
 import { publicCaller } from '@/server/api';
 import { SearchParams } from 'next/dist/server/request/search-params';
 import { redirect } from 'next/navigation';
-import { Suspense } from 'react';
+import { Suspense, ViewTransition } from 'react';
 
 const PageContent = async (props: { searchParams: Promise<SearchParams> }) => {
   const searchParams = await props.searchParams;
@@ -27,7 +29,9 @@ const Page = async (props: { searchParams: Promise<SearchParams> }) => {
         </main>
       }
     >
-      <PageContent {...props} />
+      <ViewTransition>
+        <PageContent {...props} />
+      </ViewTransition>
     </Suspense>
   );
 };

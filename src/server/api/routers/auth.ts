@@ -13,7 +13,6 @@ import {
   getUserNotificationsInfinite,
 } from '@/server/queries/get-user-notifications';
 import { revalidateTag } from 'next/cache';
-import { redirect } from 'next/navigation';
 import z from 'zod';
 
 export const authRouter = {
@@ -27,7 +26,6 @@ export const authRouter = {
   signOut: publicProcedure.mutation(async () => {
     await logout();
     revalidateTag(CACHE_TAGS.AUTH, 'max');
-    redirect('/sign-in');
   }),
   notifications: {
     infinite: protectedProcedure

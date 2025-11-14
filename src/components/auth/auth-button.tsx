@@ -1,31 +1,29 @@
+'use client';
+
+import { useSignOutMutation } from '@/components/hooks/mutation-hooks/use-sign-out';
+import { useUserNotificationsCounter } from '@/components/hooks/query-hooks/use-user-notifications';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useQueryClient } from '@tanstack/react-query';
 import { User } from 'lucia';
 import { User2 } from 'lucide-react';
 import { MessageKeys, useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { FC, PropsWithChildren } from 'react';
 import LichessLogo from '../ui-custom/lichess-logo';
 import { Button } from '../ui/button';
 
 export default function AuthButton({ user }: AuthButtonProps) {
   const t = useTranslations('Menu');
-
-  const handleSignOut = async () => {
-    const response = await fetch('/api/auth/sign-out', {
-      method: 'POST',
-      redirect: 'manual',
-    });
-
-    if (response.status === 0) {
-      redirect('/sign-in');
-    }
-  };
+  const queryClient = useQueryClient();
+  const router = useRouter();
+  const { mutate: signOut } = useSignOutMutation(queryClient);
+  const { data: notificationsCounter } = useUserNotificationsCounter();
 
   if (!user) {
     return (
@@ -57,9 +55,20 @@ export default function AuthButton({ user }: AuthButtonProps) {
               </StyledItem>
             </Link>
           ))}
-          <StyledItem onClick={handleSignOut}>{t('Profile.logout')}</StyledItem>
+          <StyledItem
+            onClick={() => {
+              signOut(undefined, {
+                onSuccess: () => {
+                  router.refresh();
+                },
+              });
+            }}
+          >
+            {t('Profile.logout')}
+          </StyledItem>
         </DropdownMenuContent>
       </DropdownMenu>
+      {notificationsCounter !== undefined && <div>{notificationsCounter}</div>}
     </>
   );
 }

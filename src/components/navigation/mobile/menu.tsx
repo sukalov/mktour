@@ -1,3 +1,4 @@
+import { useSignOutMutation } from '@/components/hooks/mutation-hooks/use-sign-out';
 import LocaleSwitcher from '@/components/locale-switcher';
 import MenuItem from '@/components/navigation/mobile/menu-item';
 import MenuItemWithSubMenu from '@/components/navigation/mobile/menu-item-with-sub';
@@ -5,6 +6,7 @@ import MenuToggle from '@/components/navigation/mobile/menu-toggle';
 import ModeToggler from '@/components/navigation/mode-toggler';
 import { NAVMENU_ITEMS } from '@/components/navigation/nav-menu-items';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { useQueryClient } from '@tanstack/react-query';
 import { motion, StyleTransitions, useCycle, Variants } from 'framer-motion';
 import { User } from 'lucia';
 import { useTranslations } from 'next-intl';
@@ -15,18 +17,18 @@ import { FC, RefObject, useEffect, useMemo, useRef, useState } from 'react';
 const Menu: FC<{ user: User | null }> = ({ user }) => {
   const containerRef = useRef(null);
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const { mutate: signOut } = useSignOutMutation(queryClient);
   const { height } = useDimensions(containerRef);
   const [isOpen, toggleOpen] = useCycle(false, true);
   const pathname = usePathname();
   const handleSignOut = async () => {
-    toggleOpen();
-    const response = await fetch('/api/auth/sign-out', {
-      method: 'POST',
-      redirect: 'manual',
+    signOut(undefined, {
+      onSuccess: () => {
+        toggleOpen();
+        router.refresh();
+      },
     });
-    if (response.status === 0) {
-      return router.refresh();
-    }
   };
 
   const variants = useMemo(
