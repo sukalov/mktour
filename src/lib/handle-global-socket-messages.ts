@@ -13,8 +13,12 @@ export const handleGlobalSocketMessage = (
 ) => {
   switch (message.type) {
     case 'user_notification':
+      queryClient.setQueryData(
+        trpc.auth.notifications.unseenCounter.queryKey(),
+        (cache) => cache && cache + 1,
+      );
       queryClient.invalidateQueries({
-        queryKey: trpc.auth.notifications.infinite.queryKey(),
+        queryKey: trpc.auth.notifications.pathKey(),
       });
       break;
     case 'error':

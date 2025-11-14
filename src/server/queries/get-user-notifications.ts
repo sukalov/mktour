@@ -14,11 +14,7 @@ import {
 import { users } from '@/server/db/schema/users';
 import { and, desc, eq, or, sql } from 'drizzle-orm';
 
-export const getNotificationsCounter = async () => {
-  const { user } = await validateRequest();
-  if (!user) {
-    throw new Error('UNAUTHORIZED_REQUEST');
-  }
+export const getNotificationsCounter = async (userId: string) => {
   return (
     await db
       .select({
@@ -28,7 +24,7 @@ export const getNotificationsCounter = async () => {
       .orderBy(desc(user_notifications.created_at))
       .where(
         and(
-          eq(user_notifications.user_id, user.id),
+          eq(user_notifications.user_id, userId),
           eq(user_notifications.is_seen, false),
         ),
       )

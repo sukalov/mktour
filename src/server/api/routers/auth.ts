@@ -34,8 +34,8 @@ export const authRouter = {
           offset: input.cursor ?? 0,
         });
       }),
-    unseenCounter: protectedProcedure.query(async () => {
-      return await getNotificationsCounter();
+    unseenCounter: protectedProcedure.query(async ({ ctx }) => {
+      return await getNotificationsCounter(ctx.user.id);
     }),
     changeStatus: protectedProcedure
       .input(z.object({ notificationId: z.string(), seen: z.boolean() }))
