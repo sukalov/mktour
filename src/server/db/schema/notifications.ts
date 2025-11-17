@@ -34,7 +34,11 @@ export type UserNotificationMetadata<
         }
       : never;
 
-export type ClubNotificationType = 'affiliation_request' | 'manager_left'; // User requests to join club (creates pending affiliation)
+export type ClubNotificationType =
+  | 'affiliation_request'
+  | 'manager_left'
+  | 'affiliation_request_approved'
+  | 'affiliation_request_rejected'; // User requests to join club (creates pending affiliation)
 export type ClubNotificationMetadata<
   T extends ClubNotificationType = ClubNotificationType,
 > = T extends 'affiliation_request'

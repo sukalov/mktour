@@ -5,7 +5,8 @@ import FormattedMessage from '@/components/formatted-message';
 import useAffiliationAcceptMutation from '@/components/hooks/mutation-hooks/use-affiliation-accept';
 import useAffiliationRejectMutation from '@/components/hooks/mutation-hooks/use-affiliation-reject';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
+import { Item } from '@/components/ui/item';
 import { ClubNotification } from '@/server/queries/get-club-notifications';
 import { UserNotification } from '@/server/queries/get-user-notifications';
 import { useQueryClient } from '@tanstack/react-query';
@@ -183,4 +184,20 @@ const iconMap: Record<UserNotification['type'], LucideIcon> = {
   affiliation_rejected: X,
   became_club_manager: ShieldUser,
   tournament_won: Medal,
+};
+
+export const NotificationItem = ({
+  children,
+  is_seen,
+}: {
+  children: React.ReactNode;
+  is_seen: boolean;
+}) => {
+  return (
+    <Card className={`${is_seen && 'opacity-70'}`}>
+      <CardContent>
+        <Item>{children}</Item>
+      </CardContent>
+    </Card>
+  );
 };

@@ -2,7 +2,10 @@
 
 import Empty from '@/components/empty';
 import { useClubNotifications } from '@/components/hooks/query-hooks/use-club-notifications';
-import { AffiliationNotificationLi } from '@/components/notification-items';
+import {
+  AffiliationNotificationLi,
+  NotificationItem,
+} from '@/components/notification-items';
 import SkeletonList from '@/components/skeleton-list';
 import { ClubNotification } from '@/server/queries/get-club-notifications';
 import { useTranslations } from 'next-intl';
@@ -25,9 +28,22 @@ const ClubInbox: FC<{ selectedClub: string }> = ({ selectedClub }) => {
 };
 
 const NotificationItemIteratee = (data: ClubNotification) => {
-  if (data.type === 'affiliation_request')
-    return <AffiliationNotificationLi key={data.notification.id} {...data} />;
-  return null;
+  switch (data.type) {
+    case 'affiliation_request':
+      return <AffiliationNotificationLi key={data.notification.id} {...data} />;
+    case 'affiliation_request_approved':
+    default:
+      return (
+        <NotificationItem
+          key={data.notification.id}
+          is_seen={data.notification.is_seen}
+        >
+          <div>
+            {data.player?.nickname} is officially user {data.user?.username}
+          </div>
+        </NotificationItem>
+      );
+  }
 };
 
 export default ClubInbox;

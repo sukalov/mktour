@@ -112,7 +112,8 @@ export async function acceptAffiliation({
       .set({ user_id: affiliation.user_id })
       .where(eq(players.id, affiliation.player_id)),
     db
-      .delete(club_notifications)
+      .update(club_notifications)
+      .set({ is_seen: true, notification_type: 'affiliation_request_approved' })
       .where(eq(club_notifications.id, notificationId)),
     db.insert(user_notifications).values(newNotification),
   ]);
