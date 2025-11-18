@@ -2,7 +2,7 @@
 
 import Empty from '@/components/empty';
 import { UserNotificationLi } from '@/components/notification-items';
-import { UserNotification } from '@/server/queries/get-user-notifications';
+import { AnyUserNotificationExtended } from '@/server/queries/get-user-notifications';
 
 const UserNotifications = () => {
   // const { data: notifications, fetchNextPage, hasNextPage } = useUserNotifications();
@@ -23,15 +23,15 @@ const UserNotifications = () => {
   );
 };
 
-const NotificationItemIteratee = (data: UserNotification) => {
+const NotificationItemIteratee = (data: AnyUserNotificationExtended) => {
   return <UserNotificationLi key={data.notification.id} {...data} />;
 };
-const mockApproveNotification: UserNotification = {
+const mockApproveNotification: AnyUserNotificationExtended = {
   notification: {
     id: crypto.randomUUID(),
     created_at: new Date(),
     user_id: crypto.randomUUID(),
-    notification_type: 'affiliation_approved',
+    event: 'affiliation_approved',
     is_seen: false,
     metadata: {
       club_id: crypto.randomUUID(),
@@ -47,7 +47,7 @@ const mockApproveNotification: UserNotification = {
     status: 'requested',
     updated_at: new Date(),
   },
-  type: 'affiliation_approved',
+  event: 'affiliation_approved',
   player: {
     id: crypto.randomUUID(),
     nickname: 'PlayerOne',
@@ -65,12 +65,12 @@ const mockApproveNotification: UserNotification = {
   },
 };
 
-const mockRejectNotification: UserNotification = {
+const mockRejectNotification: AnyUserNotificationExtended = {
   notification: {
     id: crypto.randomUUID(),
     created_at: new Date(),
     user_id: crypto.randomUUID(),
-    notification_type: 'affiliation_rejected',
+    event: 'affiliation_rejected',
     is_seen: false,
     metadata: {
       club_id: crypto.randomUUID(),
@@ -86,7 +86,7 @@ const mockRejectNotification: UserNotification = {
     status: 'requested',
     updated_at: new Date(),
   },
-  type: 'affiliation_rejected',
+  event: 'affiliation_rejected',
   player: {
     id: crypto.randomUUID(),
     nickname: 'PlayerTwo',
@@ -104,12 +104,12 @@ const mockRejectNotification: UserNotification = {
   },
 };
 
-const mockTnmtNotification: UserNotification = {
+const mockTnmtNotification: AnyUserNotificationExtended = {
   notification: {
     id: crypto.randomUUID(),
     created_at: new Date(),
     user_id: crypto.randomUUID(),
-    notification_type: 'tournament_won',
+    event: 'tournament_won',
     is_seen: true,
     metadata: {
       tournament_id: crypto.randomUUID(),
@@ -120,15 +120,18 @@ const mockTnmtNotification: UserNotification = {
     name: 'tournamentName',
     tournament_id: crypto.randomUUID(),
   },
-  type: 'tournament_won',
+  event: 'tournament_won',
+  affiliation: null,
+  player: null,
+  club: null,
 };
 
-const mockMngrNotification: UserNotification = {
+const mockMngrNotification: AnyUserNotificationExtended = {
   notification: {
     id: crypto.randomUUID(),
     created_at: new Date(),
     user_id: crypto.randomUUID(),
-    notification_type: 'became_club_manager',
+    event: 'became_club_manager',
     is_seen: true,
     metadata: {
       club_id: crypto.randomUUID(),
@@ -139,7 +142,7 @@ const mockMngrNotification: UserNotification = {
     club_id: crypto.randomUUID(),
     role: 'co-owner',
   },
-  type: 'became_club_manager',
+  event: 'became_club_manager',
   club: {
     id: crypto.randomUUID(),
     name: 'Chess Club',
@@ -147,7 +150,8 @@ const mockMngrNotification: UserNotification = {
     description: '',
     lichess_team: '',
   },
-  role: 'co-owner',
+  affiliation: null,
+  player: null,
 };
 
 export default UserNotifications;

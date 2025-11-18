@@ -1,1 +1,0 @@
-ALTER TABLE `players_to_tournaments` RENAME COLUMN "out" TO "is_out";

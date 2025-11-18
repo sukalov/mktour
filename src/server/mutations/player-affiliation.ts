@@ -60,7 +60,7 @@ export async function requestAffiliation({
   const newNotification: InsertDatabaseClubNotification = {
     id: newid(),
     club_id: clubId,
-    notification_type: 'affiliation_request',
+    event: 'affiliation_request',
     is_seen: false,
     created_at,
     metadata: { affiliation_id: newAffiliation.id, user_id: userId },
@@ -96,7 +96,7 @@ export async function acceptAffiliation({
   const newNotification: InsertDatabaseUserNotification = {
     id: newid(),
     user_id: affiliation.user_id,
-    notification_type: 'affiliation_approved',
+    event: 'affiliation_approved',
     is_seen: false,
     created_at: new Date(),
     metadata: { club_id: affiliation.club_id, affiliation_id: affiliationId },
@@ -113,7 +113,7 @@ export async function acceptAffiliation({
       .where(eq(players.id, affiliation.player_id)),
     db
       .update(club_notifications)
-      .set({ is_seen: true, notification_type: 'affiliation_request_approved' })
+      .set({ is_seen: true, event: 'affiliation_request_approved' })
       .where(eq(club_notifications.id, notificationId)),
     db.insert(user_notifications).values(newNotification),
   ]);
@@ -144,7 +144,7 @@ export async function rejectAffiliation({
   const newNotification: InsertDatabaseUserNotification = {
     id: newid(),
     user_id: affiliation.user_id,
-    notification_type: 'affiliation_rejected',
+    event: 'affiliation_rejected',
     is_seen: false,
     created_at: new Date(),
     metadata: { club_id: affiliation.club_id, affiliation_id: affiliationId },
@@ -156,7 +156,8 @@ export async function rejectAffiliation({
       .set({ status: 'cancelled_by_club', updated_at: new Date() })
       .where(eq(affiliations.id, affiliationId)),
     db
-      .delete(club_notifications)
+      .update(club_notifications)
+      .set({ is_seen: true, event: 'affiliation_request_rejected' })
       .where(eq(club_notifications.id, notificationId)),
     db.insert(user_notifications).values(newNotification),
   ]);

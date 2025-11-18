@@ -5,8 +5,8 @@ import {
   DatabasePlayer,
   InsertDatabasePlayer,
 } from '@/server/db/schema/players';
+import { DashboardMessage } from '@/types/tournament-ws-events';
 import { PlayerModel } from '@/types/tournaments';
-import { DashboardMessage } from '@/types/ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
@@ -75,7 +75,7 @@ export const useTournamentAddNewPlayer = (
         });
       },
       onSuccess: (_err, _data, context) => {
-        sendJsonMessage({ type: 'add-new-player', body: context.newPlayer });
+        sendJsonMessage({ event: 'add-new-player', body: context.newPlayer });
         const players = queryClient.getQueryData(
           trpc.tournament.playersIn.queryKey({ tournamentId }),
         );

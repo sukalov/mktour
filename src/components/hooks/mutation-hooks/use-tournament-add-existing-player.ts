@@ -1,8 +1,8 @@
 import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
 import { useTRPC } from '@/components/trpc/client';
 import { generateRandomRoundGames } from '@/lib/client-actions/random-pairs-generator';
+import { DashboardMessage } from '@/types/tournament-ws-events';
 import { PlayerModel } from '@/types/tournaments';
-import { DashboardMessage } from '@/types/ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
@@ -84,7 +84,7 @@ export const useTournamentAddExistingPlayer = (
       },
       onSuccess: (_err, _data, context) => {
         sendJsonMessage({
-          type: 'add-existing-player',
+          event: 'add-existing-player',
           body: context.newPlayer,
         });
         if (

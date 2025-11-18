@@ -18,7 +18,11 @@ export const useClubAddManagerMutation = ({
         queryClient.invalidateQueries({
           queryKey: trpc.club.managers.all.queryKey(),
         });
-        sendJsonMessage({ type: 'user_notification', recipientId: userId });
+        sendJsonMessage({
+          type: 'user',
+          event: 'became_club_manager',
+          recipientId: userId,
+        });
         onSuccess();
       },
       onError: () => toast.error('sorry! server error happened'),

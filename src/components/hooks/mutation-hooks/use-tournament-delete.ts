@@ -1,7 +1,7 @@
 'use client';
 
 import { useTRPC } from '@/components/trpc/client';
-import { DashboardMessage } from '@/types/ws-events';
+import { DashboardMessage } from '@/types/tournament-ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
@@ -20,7 +20,7 @@ export default function useTournamentDelete(
     trpc.tournament.delete.mutationOptions({
       onSuccess: () => {
         setOpen(false);
-        sendJsonMessage({ type: 'delete-tournament' });
+        sendJsonMessage({ event: 'delete-tournament' });
         router.push('/tournaments/my');
         router.refresh();
         queryClient.cancelQueries({

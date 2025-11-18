@@ -1,7 +1,7 @@
 'use client';
 
 import { useTRPC } from '@/components/trpc/client';
-import { DashboardMessage } from '@/types/ws-events';
+import { DashboardMessage } from '@/types/tournament-ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
@@ -15,7 +15,7 @@ export default function useTournamentSaveRoundsNumber(
   return useMutation(
     trpc.tournament.updateSwissRoundsNumber.mutationOptions({
       onSuccess: (_, { roundsNumber }) => {
-        sendJsonMessage({ type: 'swiss-new-rounds-number', roundsNumber });
+        sendJsonMessage({ event: 'swiss-new-rounds-number', roundsNumber });
         queryClient.setQueryData(
           trpc.tournament.info.queryKey(),
           (cache) =>

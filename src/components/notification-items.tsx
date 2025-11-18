@@ -8,7 +8,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Item } from '@/components/ui/item';
 import { ClubNotification } from '@/server/queries/get-club-notifications';
-import { UserNotification } from '@/server/queries/get-user-notifications';
+import {
+  AnyUserNotificationExtended,
+  UserNotificationExtended,
+} from '@/server/queries/get-user-notifications';
+import { UserNotificationEvent } from '@/types/notifications';
 import { useQueryClient } from '@tanstack/react-query';
 import {
   Check,
@@ -17,6 +21,7 @@ import {
   LucideIcon,
   Medal,
   ShieldUser,
+  Skull,
   X,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -96,9 +101,9 @@ export const AffiliationNotificationLi = ({
   );
 };
 
-export const UserNotificationLi: FC<UserNotification> = (props) => {
-  const { type, notification } = props;
-  const { messageId, Icon } = useUserNotificationItem(type);
+export const UserNotificationLi: FC<AnyUserNotificationExtended> = (props) => {
+  const { event, notification } = props;
+  const { messageId, Icon } = useUserNotificationItem(event);
 
   return (
     <NotificationCard
@@ -126,10 +131,10 @@ const NotificationCard: FC<
   </Card>
 );
 
-const NotificationContent: FC<UserNotification> = (notification) => {
-  if (notification.type === 'became_club_manager')
+const NotificationContent: FC<AnyUserNotificationExtended> = (notification) => {
+  if (notification.event === 'became_club_manager')
     return <ManagerNotification {...notification} />;
-  if (notification.type === 'tournament_won')
+  if (notification.event === 'tournament_won')
     return <TournamentNotification {...notification} />;
 
   const { player, club } = notification;
@@ -147,43 +152,44 @@ const NotificationContent: FC<UserNotification> = (notification) => {
   );
 };
 
-const ManagerNotification: FC<UserNotification> = (notification) => {
-  if (notification.type === 'became_club_manager')
-    return <div>{notification.club.name}</div>;
+const ManagerNotification: FC<Props<'became_club_manager'>> = (
+  notification,
+) => {
+  if (!notification.club) return null;
+  return <div>{notification.club.name}</div>;
+};
+type Props<T extends UserNotificationEvent> = UserNotificationExtended<T>;
+
+const TournamentNotification: FC<
+  UserNotificationExtended<'tournament_won'>
+> = ({ metadata }) => {
+  return <div>{metadata.name}</div>;
 };
 
-const TournamentNotification: FC<UserNotification> = ({ notification }) => {
-  if (
-    // FIXME wtf
-    notification.notification_type === 'tournament_won' &&
-    notification.metadata &&
-    'name' in notification?.metadata
-  )
-    return <div>{notification.metadata.name}</div>;
-};
-
-const useUserNotificationItem = (type: UserNotification['type']) => {
-  const messageId = messageIdMap[type];
-  const Icon: LucideIcon = iconMap[type];
+const useUserNotificationItem = (event: UserNotificationEvent) => {
+  const messageId = messageIdMap[event];
+  const Icon: LucideIcon = iconMap[event];
 
   return { messageId, Icon };
 };
 
 const messageIdMap: Record<
-  UserNotification['type'],
+  UserNotificationEvent,
   keyof IntlMessages['Notifications']['User']
 > = {
   affiliation_approved: 'affiliation approved',
   affiliation_rejected: 'affiliation rejected',
   became_club_manager: 'became club manager',
   tournament_won: 'tournament won',
+  removed_from_club_managers: 'removed from club managers',
 };
 
-const iconMap: Record<UserNotification['type'], LucideIcon> = {
+const iconMap: Record<UserNotificationEvent, LucideIcon> = {
   affiliation_approved: Check,
   affiliation_rejected: X,
   became_club_manager: ShieldUser,
   tournament_won: Medal,
+  removed_from_club_managers: Skull,
 };
 
 export const NotificationItem = ({

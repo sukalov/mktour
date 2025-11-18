@@ -2,7 +2,7 @@ import { useTRPC } from '@/components/trpc/client';
 import { SOCKET_URL } from '@/lib/config/urls';
 import { handleSocketMessage } from '@/lib/handle-dashboard-socket-message';
 
-import { DashboardMessage } from '@/types/ws-events';
+import { DashboardMessage } from '@/types/tournament-ws-events';
 import { QueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { Dispatch, SetStateAction } from 'react';

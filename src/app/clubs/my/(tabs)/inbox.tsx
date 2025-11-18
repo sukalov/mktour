@@ -28,11 +28,10 @@ const ClubInbox: FC<{ selectedClub: string }> = ({ selectedClub }) => {
 };
 
 const NotificationItemIteratee = (data: ClubNotification) => {
-  switch (data.type) {
+  switch (data.event) {
     case 'affiliation_request':
       return <AffiliationNotificationLi key={data.notification.id} {...data} />;
     case 'affiliation_request_approved':
-    default:
       return (
         <NotificationItem
           key={data.notification.id}
@@ -43,6 +42,20 @@ const NotificationItemIteratee = (data: ClubNotification) => {
           </div>
         </NotificationItem>
       );
+    case 'affiliation_request_rejected':
+      return (
+        <NotificationItem
+          key={data.notification.id}
+          is_seen={data.notification.is_seen}
+        >
+          <div>
+            {data.user?.username}&apos;s request to affiliate with{' '}
+            {data.player?.nickname} was rejected
+          </div>
+        </NotificationItem>
+      );
+    default:
+      return null;
   }
 };
 

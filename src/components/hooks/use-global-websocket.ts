@@ -3,7 +3,7 @@
 import { useTRPC } from '@/components/trpc/client';
 import { SOCKET_URL } from '@/lib/config/urls';
 import { handleGlobalSocketMessage } from '@/lib/handle-global-socket-messages';
-import { GlobalMessage } from '@/types/ws-events';
+import { GlobalMessage } from '@/types/notifications';
 import { useQueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { useCallback } from 'react';

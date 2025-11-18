@@ -7,7 +7,7 @@ import { eq, sql } from 'drizzle-orm';
 export default async function getClubNotifications(clubId: string) {
   return await db
     .select({
-      type: club_notifications.notification_type,
+      event: club_notifications.event,
       notification: club_notifications,
       affiliation: affiliations,
       user: users,

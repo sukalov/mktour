@@ -1,7 +1,7 @@
 'use client';
 
 import { useTRPC } from '@/components/trpc/client';
-import { DashboardMessage } from '@/types/ws-events';
+import { DashboardMessage } from '@/types/tournament-ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
@@ -18,7 +18,7 @@ export default function useTournamentStart(
         if (started_at) {
           toast.success(t('started'));
           sendJsonMessage({
-            type: 'start-tournament',
+            event: 'start-tournament',
             started_at,
           });
         }

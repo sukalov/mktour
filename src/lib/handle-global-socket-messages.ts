@@ -2,7 +2,7 @@
 // ws-handler global-ws
 
 import { useTRPC } from '@/components/trpc/client';
-import { GlobalMessage } from '@/types/ws-events';
+import { GlobalMessage } from '@/types/notifications';
 import { QueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
@@ -12,7 +12,7 @@ export const handleGlobalSocketMessage = (
   trpc: ReturnType<typeof useTRPC>,
 ) => {
   switch (message.type) {
-    case 'user_notification':
+    case 'user':
       queryClient.setQueryData(
         trpc.auth.notifications.counter.queryKey(),
         (cache) => cache && cache + 1,

@@ -1,7 +1,7 @@
 'use client';
 
 import { useTRPC } from '@/components/trpc/client';
-import { DashboardMessage } from '@/types/ws-events';
+import { DashboardMessage } from '@/types/tournament-ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { Dispatch, SetStateAction } from 'react';
@@ -18,7 +18,7 @@ export default function useTournamentReset(
   return useMutation(
     trpc.tournament.reset.mutationOptions({
       onSuccess: () => {
-        sendJsonMessage({ type: 'reset-tournament' });
+        sendJsonMessage({ event: 'reset-tournament' });
         queryClient.invalidateQueries({
           queryKey: trpc.tournament.pathKey(),
         });

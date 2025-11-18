@@ -2,7 +2,7 @@
 
 import { useGlobalWebsocket } from '@/components/hooks/use-global-websocket';
 import { useTRPC } from '@/components/trpc/client';
-import { GlobalMessage } from '@/types/ws-events';
+import { GlobalMessage } from '@/types/notifications';
 import { useQuery } from '@tanstack/react-query';
 import { createContext, ReactNode, useContext } from 'react';
 

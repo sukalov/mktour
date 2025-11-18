@@ -1,10 +1,7 @@
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/server/db';
 import { clubs, DatabaseClub } from '@/server/db/schema/clubs';
-import {
-  DatabaseUserNotification,
-  user_notifications,
-} from '@/server/db/schema/notifications';
+import { user_notifications } from '@/server/db/schema/notifications';
 import {
   affiliations,
   DatabaseAffiliation,
@@ -12,6 +9,11 @@ import {
   players,
 } from '@/server/db/schema/players';
 import { users } from '@/server/db/schema/users';
+import {
+  UserNotification,
+  UserNotificationEvent,
+  UserNotificationMetadata,
+} from '@/types/notifications';
 import { and, desc, eq, or, sql } from 'drizzle-orm';
 
 export const getNotificationsCounter = async (userId: string) => {
@@ -46,9 +48,9 @@ export const getUserNotificationsInfinite = async ({
     throw new Error('UNAUTHORIZED_REQUEST');
   }
 
-  const result = (await db
+  const result = await db
     .select({
-      type: user_notifications.notification_type,
+      event: user_notifications.event,
       affiliation: affiliations,
       notification: user_notifications,
       metadata: user_notifications.metadata,
@@ -75,7 +77,7 @@ export const getUserNotificationsInfinite = async ({
     )
     .orderBy(desc(user_notifications.created_at))
     .limit(limit + 1)
-    .offset(offset)) as UserNotification[]; // FIXME (some day we will write good type-safe code)
+    .offset(offset);
 
   let nextCursor: number | null = null;
   if (result.length > limit) {
@@ -86,44 +88,20 @@ export const getUserNotificationsInfinite = async ({
     nextCursor,
   };
 };
-export type UserNotification =
-  | {
-      type: 'affiliation_approved';
-      notification: DatabaseUserNotification;
-      affiliation: DatabaseAffiliation;
-      player: Pick<DatabasePlayer, 'nickname' | 'id'>;
-      club: DatabaseClub;
-      metadata: {
-        club_id: string;
-        affiliation_id: string;
-      };
-    }
-  | {
-      type: 'affiliation_rejected';
-      notification: DatabaseUserNotification;
-      affiliation: DatabaseAffiliation;
-      player: Pick<DatabasePlayer, 'nickname' | 'id'>;
-      club: DatabaseClub;
-      metadata: {
-        club_id: string;
-        affiliation_id: string;
-      };
-    }
-  | {
-      type: 'became_club_manager';
-      notification: DatabaseUserNotification;
-      club: DatabaseClub;
-      role: 'co-owner' | 'admin';
-      metadata: {
-        club_id: string;
-        role: 'co-owner' | 'admin';
-      };
-    }
-  | {
-      type: 'tournament_won';
-      notification: DatabaseUserNotification;
-      metadata: {
-        name: string;
-        tournament_id: string;
-      };
-    };
+
+export type UserNotificationExtendedInfer = Awaited<
+  ReturnType<typeof getUserNotificationsInfinite>
+>['notifications'][0];
+
+export type UserNotificationExtended<T extends UserNotificationEvent> = {
+  event: T;
+  notification: UserNotification<T>;
+  metadata: UserNotificationMetadata[T];
+  affiliation: DatabaseAffiliation | null;
+  player: Pick<DatabasePlayer, 'id' | 'nickname'> | null;
+  club: DatabaseClub | null;
+};
+
+export type AnyUserNotificationExtended = {
+  [K in UserNotificationEvent]: UserNotificationExtended<K>;
+}[UserNotificationEvent];

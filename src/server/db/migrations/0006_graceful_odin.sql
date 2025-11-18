@@ -1,1 +1,0 @@
-ALTER TABLE `clubs_to_users` ADD `promoted_at` integer;

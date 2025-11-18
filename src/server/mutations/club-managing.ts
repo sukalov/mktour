@@ -289,7 +289,7 @@ export const addClubManager = async ({
   const userNotification: InsertDatabaseUserNotification = {
     id: newid(),
     user_id: userId,
-    notification_type: 'became_club_manager',
+    event: 'became_club_manager',
     is_seen: false,
     created_at: new Date(),
     metadata: { club_id: clubId, role: status },

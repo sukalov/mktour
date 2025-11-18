@@ -3,8 +3,8 @@
 
 import { useTRPC } from '@/components/trpc/client';
 import { DatabasePlayer } from '@/server/db/schema/players';
+import type { DashboardMessage } from '@/types/tournament-ws-events';
 import { PlayerModel } from '@/types/tournaments';
-import type { DashboardMessage } from '@/types/ws-events';
 import { QueryClient } from '@tanstack/react-query';
 import { Dispatch, SetStateAction } from 'react';
 import { toast } from 'sonner';
@@ -17,7 +17,7 @@ export const handleSocketMessage = (
   setRoundInView: Dispatch<SetStateAction<number>>,
   trpc: ReturnType<typeof useTRPC>,
 ) => {
-  switch (message.type) {
+  switch (message.event) {
     case 'add-new-player':
       queryClient.cancelQueries({
         queryKey: trpc.tournament.playersIn.queryKey({ tournamentId }),

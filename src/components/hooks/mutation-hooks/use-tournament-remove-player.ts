@@ -1,7 +1,7 @@
 import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
 import { useTRPC } from '@/components/trpc/client';
 import { generateRandomRoundGames } from '@/lib/client-actions/random-pairs-generator';
-import { DashboardMessage } from '@/types/ws-events';
+import { DashboardMessage } from '@/types/tournament-ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
@@ -83,7 +83,7 @@ export const useTournamentRemovePlayer = (
         }
       },
       onSuccess: (_err, data) => {
-        sendJsonMessage({ type: 'remove-player', id: data.playerId });
+        sendJsonMessage({ event: 'remove-player', id: data.playerId });
         if (
           queryClient.isMutating({
             mutationKey: trpc.tournament.removePlayer.mutationKey(),
