@@ -24,6 +24,6 @@ export const clubsInsertSchema = createInsertSchema(clubs, {
       }
     }),
   description: z.string().optional(),
-}).omit({ id: true });
+}).omit({ id: true, created_at: true });
 
 export type ClubFormType = z.infer<typeof clubsInsertSchema>;

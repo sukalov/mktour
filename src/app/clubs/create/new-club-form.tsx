@@ -31,7 +31,6 @@ export default function NewClubForm({ teams }: NewClubFormProps) {
     defaultValues: {
       name: '',
       description: undefined,
-      created_at: undefined,
       lichess_team: undefined,
     },
   });
@@ -40,7 +39,7 @@ export default function NewClubForm({ teams }: NewClubFormProps) {
   const { mutate, isPending: isMutating } = useClubCreate();
   const router = useRouter();
   const [isNavigating, startNavigation] = useTransition();
-  const isPending = isMutating || isNavigating;
+  const isPending = isMutating || isNavigating || form.formState.isSubmitting;
 
   const handleSubmit = (data: ClubFormType) => {
     const dataWithDate = {
@@ -51,8 +50,8 @@ export default function NewClubForm({ teams }: NewClubFormProps) {
     mutate(dataWithDate, {
       onSuccess: () => {
         startNavigation(() => {
-          router.push('/clubs/my');
           form.reset();
+          router.push('/clubs/my');
         });
       },
       onError: (e) => {
@@ -95,12 +94,8 @@ export default function NewClubForm({ teams }: NewClubFormProps) {
             />
             <ClubDescription form={form} />
             <TeamSelector teams={teams} form={form} />
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={isPending || form.formState.isSubmitting}
-            >
-              {isPending || form.formState.isSubmitting ? (
+            <Button type="submit" className="w-full" disabled={isPending}>
+              {isPending ? (
                 <>
                   <LoadingSpinner />
                   {t('making')}

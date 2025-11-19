@@ -35,9 +35,11 @@ export const createClub = async (values: ClubFormType) => {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   const id = newid();
+  const created_at = new Date();
   const newClub = {
     ...values,
     id,
+    created_at,
   };
   const newRelation: DatabaseClubsToUsers = {
     id: `${user.id}=${id}`,
