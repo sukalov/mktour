@@ -34,7 +34,6 @@ export default function NewClubForm({ teams }: NewClubFormProps) {
       created_at: undefined,
       lichess_team: undefined,
     },
-    reValidateMode: 'onSubmit',
   });
 
   const t = useTranslations('NewClubForm');
@@ -96,8 +95,12 @@ export default function NewClubForm({ teams }: NewClubFormProps) {
             />
             <ClubDescription form={form} />
             <TeamSelector teams={teams} form={form} />
-            <Button type="submit" className="w-full" disabled={isPending}>
-              {isPending ? (
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={isPending || form.formState.isSubmitting}
+            >
+              {isPending || form.formState.isSubmitting ? (
                 <>
                   <LoadingSpinner />
                   {t('making')}
