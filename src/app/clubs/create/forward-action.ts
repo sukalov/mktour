@@ -3,13 +3,7 @@
 import selectClub from '@/server/mutations/club-select';
 import { redirect } from 'next/navigation';
 
-export const forwardAction = async ({
-  clubId,
-  userId,
-}: {
-  clubId: string;
-  userId: string;
-}) => {
-  await selectClub({ clubId, userId });
+export const forwardAction = async ({ clubId }: { clubId: string }) => {
+  await selectClub({ clubId });
   redirect('/clubs/my');
 };

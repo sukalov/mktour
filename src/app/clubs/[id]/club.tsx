@@ -82,7 +82,6 @@ const ClubInfo: FC<{
               prefetch={false}
               onNavigate={() => {
                 mutate({
-                  userId: user.id,
                   clubId: club.id,
                 });
               }}

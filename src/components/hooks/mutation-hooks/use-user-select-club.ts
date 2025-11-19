@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 export const useUserSelectClub = (queryClient: QueryClient) => {
   const trpc = useTRPC();
   return useMutation(
-    trpc.user.selectClub.mutationOptions({
+    trpc.auth.selectClub.mutationOptions({
       onMutate: ({ clubId }) => {
         queryClient.cancelQueries({ queryKey: trpc.auth.pathKey() });
 

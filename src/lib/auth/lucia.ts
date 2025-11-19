@@ -35,7 +35,7 @@ declare module 'lucia' {
   }
 }
 
-export const validateRequest = async (): Promise<
+export const uncachedValidateRequest = async (): Promise<
   { user: User; session: Session } | { user: null; session: null }
 > => {
   const cooks = await cookies();
@@ -49,7 +49,7 @@ export const validateRequest = async (): Promise<
 
   try {
     const timeoutPromise = new Promise<never>((_, reject) =>
-      setTimeout(() => reject(new Error('Session validation timeout')), 4000),
+      setTimeout(() => reject(new Error('session validation timeout')), 4000),
     );
 
     const result = await Promise.race([
@@ -86,9 +86,9 @@ export const validateRequest = async (): Promise<
   }
 };
 
-export const reactCachedValidateRequest = cache(validateRequest);
+export const reactCachedValidateRequest = cache(uncachedValidateRequest);
 
-export const cachedValidateRequest = cache(async () => {
+export const validateRequest = cache(async () => {
   const cooks = await cookies();
   const sessionId = cooks.get(lucia.sessionCookieName)?.value ?? null;
   if (!sessionId) {
@@ -99,7 +99,7 @@ export const cachedValidateRequest = cache(async () => {
   }
 
   try {
-    // Add timeout to prevent hanging on Vercel
+    // timeout prevents hanging on Vercel
     const timeoutPromise = new Promise<never>((_, reject) =>
       setTimeout(
         () => reject(new Error('Cached session validation timeout')),

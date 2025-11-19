@@ -9,13 +9,7 @@ import { DatabaseClub } from '@/server/db/schema/clubs';
 import { ArrowRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-export default function ForwardToEmptyClub({
-  club,
-  userId,
-}: {
-  club: DatabaseClub;
-  userId: string;
-}) {
+export default function ForwardToEmptyClub({ club }: { club: DatabaseClub }) {
   const t = useTranslations('NewClubForm.ForwardToEmpty');
   return (
     <div className="mk-container pt-mk-2">
@@ -31,9 +25,7 @@ export default function ForwardToEmptyClub({
           </RichText>
           <Button
             className="group py-8"
-            onClick={async () =>
-              await forwardAction({ clubId: club.id, userId })
-            }
+            onClick={async () => await forwardAction({ clubId: club.id })}
           >
             <p>{`${t('button text')} ${club.name}`}</p>
             &nbsp;

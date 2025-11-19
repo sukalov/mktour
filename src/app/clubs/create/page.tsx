@@ -28,7 +28,7 @@ export default async function CreateClubPage() {
   return (
     <div>
       {club ? (
-        <ForwardToEmpryClub club={club} userId={user.id} />
+        <ForwardToEmpryClub club={club} />
       ) : (
         <NewClubForm user={user} teams={teams} />
       )}

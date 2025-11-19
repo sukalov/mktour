@@ -49,7 +49,13 @@ export const userRouter = {
     })
     .output(
       usersSelectSchema
-        .pick({ username: true, name: true, rating: true })
+        .pick({
+          id: true,
+          username: true,
+          name: true,
+          rating: true,
+          created_at: true,
+        })
         .optional(),
     )
     .input(z.object({ username: z.string() }))

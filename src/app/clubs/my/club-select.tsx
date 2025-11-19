@@ -40,7 +40,6 @@ const ClubSelect: FC<{ user: DatabaseUser }> = ({ user }) => {
       onValueChange={(value) =>
         clubSelection.mutate({
           clubId: value,
-          userId: user.id,
         })
       }
     >

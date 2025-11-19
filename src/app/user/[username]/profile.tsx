@@ -10,10 +10,13 @@ import { useFormatter, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { FC } from 'react';
 
-const Profile: FC<{ user: DatabaseUser; isOwner: boolean }> = ({
-  user,
-  isOwner,
-}) => {
+const Profile: FC<{
+  user: Pick<
+    DatabaseUser,
+    'id' | 'username' | 'name' | 'rating' | 'created_at'
+  >;
+  isOwner: boolean;
+}> = ({ user, isOwner }) => {
   const { data, isPending } = useUserClubs(user.id);
   const format = useFormatter();
   const preparedCreatedAt = user.created_at
@@ -32,9 +35,6 @@ const Profile: FC<{ user: DatabaseUser; isOwner: boolean }> = ({
         </span>
         {isOwner && (
           <>
-            <span>
-              {t('email')}: {user.email}
-            </span>
             <span>
               {t('created')} {preparedCreatedAt}
             </span>

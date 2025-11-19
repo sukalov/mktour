@@ -3,6 +3,7 @@ import { CACHE_TAGS } from '@/lib/cache-tags';
 import { getEncryptedAuthSession } from '@/lib/get-encrypted-auth-session';
 import { timeout } from '@/lib/utils';
 import { protectedProcedure, publicProcedure } from '@/server/api/trpc';
+import selectClub from '@/server/mutations/club-select';
 import { logout } from '@/server/mutations/logout';
 import {
   changeNotificationStatus,
@@ -62,21 +63,14 @@ export const authRouter = {
     return await getUserClubs({ userId: user.id });
   }),
   selectClub: protectedProcedure
-    .meta({
-      openapi: {
-        method: 'POST',
-        path: '/auth/select-club',
-        summary: 'select club',
-        // protect: true,
-      },
-    })
     .output(z.string())
-    .mutation(async () => {
-      // const { input } = opts;
-      // const { selected_club } = await selectClub(input);
-      // console.log(input);
+    .input(z.object({ clubId: z.string() }))
+    .mutation(async (opts) => {
+      const { input } = opts;
+      const { selected_club } = await selectClub(input);
+      console.log(input);
       await timeout(1000);
       revalidateTag(CACHE_TAGS.AUTH, 'max');
-      return 'HELO';
+      return selected_club;
     }),
 };
