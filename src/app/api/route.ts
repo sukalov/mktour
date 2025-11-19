@@ -9,6 +9,7 @@ const config: Partial<HtmlRenderingConfiguration> = {
   hideClientButton: true,
   hideModels: true,
   documentDownloadType: 'json',
+  pageTitle: 'mktour open api',
 };
 
 export const GET = ApiReference(config);
