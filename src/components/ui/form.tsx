@@ -153,8 +153,7 @@ const FormMessage = React.forwardRef<
 >(({ className, children, ...props }, ref) => {
   const { error, formMessageId } = useFormField();
   const t = useTranslations('Errors'); // FIXME MODIFIED SHADCN
-  let body = error ? t(String(error?.message) ?? '') : children;
-  console.log(error);
+  let body;
 
   if (error?.message?.startsWith('LINK_TEAM_ERROR')) {
     const teamData = error.message.split('@%!!(&');
@@ -170,6 +169,8 @@ const FormMessage = React.forwardRef<
         </a>
       </span>
     ))();
+  } else {
+    body = error ? t(String(error?.message) ?? '') : children;
   }
 
   if (!body) {
