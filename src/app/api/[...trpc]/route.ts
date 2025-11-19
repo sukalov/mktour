@@ -9,7 +9,7 @@ const handler = (req: NextRequest) => {
   return createOpenApiFetchHandler({
     endpoint: '/api',
     router: appRouter,
-    createContext: () => createTRPCContext({ headers: new Headers(), req }),
+    createContext: () => createTRPCContext({ headers: req.headers, req }),
     req,
   });
 };
