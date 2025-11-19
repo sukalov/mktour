@@ -22,7 +22,8 @@
     "localdb:check": "OFFLINE=true drizzle-kit check",
     "knip": "knip-bun",
     "generate-erd": "bun run src/lib/generate-erd.ts",
-    "prepare": "husky"
+    "prepare": "husky",
+    "generate-openapi": "bun run src/server/api/generateOpenApi.ts > src/app/api/spec/openapi-spec.json"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -44,6 +45,7 @@
     "@radix-ui/react-slot": "^1.2.4",
     "@radix-ui/react-switch": "^1.2.6",
     "@radix-ui/react-tabs": "^1.1.13",
+    "@scalar/nextjs-api-reference": "^0.9.1",
     "@tanstack/react-query": "^5.90.10",
     "@trpc/client": "^11.7.1",
     "@trpc/server": "^11.7.1",

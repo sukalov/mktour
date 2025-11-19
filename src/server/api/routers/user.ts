@@ -1,5 +1,9 @@
 import { CACHE_TAGS } from '@/lib/cache-tags';
-import { protectedProcedure, publicProcedure } from '@/server/api/trpc';
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from '@/server/api/trpc';
 import { db } from '@/server/db';
 import { clubsSelectSchema } from '@/server/db/schema/clubs';
 import { users, usersSelectSchema } from '@/server/db/schema/users';
@@ -13,10 +17,15 @@ import { eq } from 'drizzle-orm';
 import { revalidateTag } from 'next/cache';
 import { z } from 'zod';
 
-export const userRouter = {
+export const userRouter = createTRPCRouter({
   all: publicProcedure
     .meta({
-      openapi: { method: 'GET', path: '/users', summary: 'get all users' },
+      openapi: {
+        method: 'GET',
+        path: '/users',
+        summary: 'get all users',
+        tags: ['users'],
+      },
     })
     .output(
       z.array(usersSelectSchema.pick({ username: true, name: true, id: true })),
@@ -26,17 +35,26 @@ export const userRouter = {
       return usersDb;
     }),
   info: publicProcedure
-    .meta({ openapi: { method: 'GET', path: '/users/{id}' } })
-    .input(z.object({ id: z.string() }))
+    .meta({
+      openapi: {
+        method: 'GET',
+        path: '/users/{userId}',
+        summary: 'get user by id',
+        tags: ['users'],
+      },
+    })
+    .input(z.object({ userId: z.string() }))
     .output(
-      usersSelectSchema.pick({ username: true, name: true, rating: true }),
+      usersSelectSchema
+        .pick({ username: true, name: true, rating: true })
+        .optional(),
     )
     .query(async (opts) => {
       const { input } = opts;
       const [user] = await db
         .select()
         .from(users)
-        .where(eq(users.id, input.id));
+        .where(eq(users.id, input.userId));
       return user;
     }),
   infoByUsername: publicProcedure
@@ -45,6 +63,7 @@ export const userRouter = {
         method: 'GET',
         path: '/users/username/{username}',
         summary: 'get user by username',
+        tags: ['users'],
       },
     })
     .output(
@@ -73,6 +92,7 @@ export const userRouter = {
         method: 'GET',
         path: '/users/{userId}/clubs',
         summary: 'get clubs where user is admin',
+        tags: ['users'],
       },
     })
     .output(z.array(clubsSelectSchema.pick({ id: true, name: true })))
@@ -109,4 +129,4 @@ export const userRouter = {
       await editUser(input);
       revalidateTag(CACHE_TAGS.AUTH, 'max');
     }),
-};
+});
