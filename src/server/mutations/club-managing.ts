@@ -2,7 +2,6 @@
 
 import { validateRequest } from '@/lib/auth/lucia';
 import { newid } from '@/lib/utils';
-import { NewClubFormType } from '@/lib/zod/new-club-form';
 import { db } from '@/server/db';
 import {
   clubs,
@@ -27,11 +26,12 @@ import {
   tournaments,
 } from '@/server/db/schema/tournaments';
 import { DatabaseUser, users } from '@/server/db/schema/users';
+import { ClubFormType } from '@/server/db/zod/clubs';
 import getStatusInClub from '@/server/queries/get-status-in-club';
 import { and, eq, ne } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 
-export const createClub = async (values: NewClubFormType) => {
+export const createClub = async (values: ClubFormType) => {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   const id = newid();

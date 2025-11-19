@@ -5,6 +5,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from '@/server/api/trpc';
+import { clubsInsertSchema } from '@/server/db/zod/clubs';
 import getAllClubManagers, {
   addClubManager,
   createClub,
@@ -25,24 +26,14 @@ import { revalidateTag } from 'next/cache';
 import { z } from 'zod';
 
 export const clubRouter = {
-  create: protectedProcedure
-    .input(
-      z.object({
-        name: z.string(),
-        description: z.string().optional(),
-        created_at: z.date(),
-        lichess_team: z.string().optional(),
-        set_default: z.boolean(),
-      }),
-    )
-    .mutation(async (opts) => {
-      const { input } = opts;
-      const newClub = await createClub(input);
-      revalidateTag(CACHE_TAGS.AUTH, 'max');
-      revalidateTag(CACHE_TAGS.ALL_CLUBS, 'max');
-      revalidateTag(`${CACHE_TAGS.USER_CLUBS}:${opts.ctx.user.id}`, 'max');
-      return newClub;
-    }),
+  create: protectedProcedure.input(clubsInsertSchema).mutation(async (opts) => {
+    const { input } = opts;
+    const newClub = await createClub(input);
+    revalidateTag(CACHE_TAGS.AUTH, 'max');
+    revalidateTag(CACHE_TAGS.ALL_CLUBS, 'max');
+    revalidateTag(`${CACHE_TAGS.USER_CLUBS}:${opts.ctx.user.id}`, 'max');
+    return newClub;
+  }),
   info: publicProcedure
     .input(z.object({ clubId: z.string() }))
     .query(async (opts) => {

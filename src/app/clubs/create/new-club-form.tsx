@@ -16,24 +16,25 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { NewClubFormType, newClubFormSchema } from '@/lib/zod/new-club-form';
 import { DatabaseUser } from '@/server/db/schema/users';
+import { ClubFormType, clubsInsertSchema } from '@/server/db/zod/clubs';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
-import { UseFormReturn, useForm } from 'react-hook-form';
+import { useForm, UseFormReturn } from 'react-hook-form';
 import { toast } from 'sonner';
 
 export default function NewClubForm({ teams }: NewClubFormProps) {
-  const form = useForm<NewClubFormType>({
-    resolver: zodResolver(newClubFormSchema),
+  const form = useForm<ClubFormType>({
+    resolver: zodResolver(clubsInsertSchema),
     defaultValues: {
       name: '',
-      description: '',
+      description: undefined,
       created_at: undefined,
-      set_default: true,
+      lichess_team: undefined,
     },
+    reValidateMode: 'onSubmit',
   });
 
   const t = useTranslations('NewClubForm');
@@ -42,27 +43,24 @@ export default function NewClubForm({ teams }: NewClubFormProps) {
   const [isNavigating, startNavigation] = useTransition();
   const isPending = isMutating || isNavigating;
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const data = form.getValues();
-    mutate(
-      {
-        ...data,
-        created_at: new Date(),
+  const handleSubmit = (data: ClubFormType) => {
+    const dataWithDate = {
+      ...data,
+      created_at: new Date(),
+    };
+
+    mutate(dataWithDate, {
+      onSuccess: () => {
+        startNavigation(() => {
+          router.push('/clubs/my');
+          form.reset();
+        });
       },
-      {
-        onSuccess: () => {
-          startNavigation(() => {
-            router.push('/clubs/my');
-            form.reset();
-          });
-        },
-        onError: (e) => {
-          console.error(e);
-          toast.error(t('club not created'));
-        },
+      onError: (e) => {
+        console.error(e);
+        toast.error(t('club not created'));
       },
-    );
+    });
   };
 
   return (
@@ -75,18 +73,22 @@ export default function NewClubForm({ teams }: NewClubFormProps) {
       <Card className="bg-background sm:bg-card mx-auto max-w-[min(600px,98%)] border-none shadow-none sm:border-solid sm:shadow-2xs">
         <CardContent className="p-mk sm:p-mk-2 pt-2">
           <form
-            onSubmit={handleSubmit}
+            onSubmit={form.handleSubmit(handleSubmit)}
             className="flex flex-col gap-8"
             name="new-tournament-form"
           >
             <FormField
               control={form.control}
               name="name"
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <FormItem>
                   <FormLabel>{t('name')}</FormLabel>
                   <FormControl>
-                    <Input {...field} autoComplete="off" />
+                    <Input
+                      {...field}
+                      autoComplete="off"
+                      aria-invalid={fieldState.invalid}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -121,10 +123,4 @@ export interface TeamSlice {
   value: string;
 }
 
-export type NewClubForm = UseFormReturn<{
-  name: string;
-  description?: string | undefined;
-  created_at: Date;
-  lichess_team?: string | undefined;
-  set_default: boolean;
-}>;
+export type NewClubForm = UseFormReturn<ClubFormType>;

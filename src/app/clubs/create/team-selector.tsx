@@ -31,7 +31,7 @@ export function TeamSelector({ teams, form }: TeamSelectorProps) {
           <FormItem>
             <Select
               onValueChange={field.onChange}
-              defaultValue={field.value}
+              defaultValue={field.value ?? undefined}
               disabled
             >
               <FormControl>
@@ -53,7 +53,10 @@ export function TeamSelector({ teams, form }: TeamSelectorProps) {
       key={Number(state)}
       render={({ field }) => (
         <FormItem>
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
+          <Select
+            onValueChange={field.onChange}
+            defaultValue={field.value ? field.value : undefined}
+          >
             <FormControl>
               <SelectTrigger>
                 <SelectValue placeholder={t('connect lichess team')} />

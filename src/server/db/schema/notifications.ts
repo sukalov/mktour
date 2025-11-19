@@ -6,6 +6,11 @@ import {
 } from '@/types/notifications';
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import {
+  createInsertSchema,
+  createSelectSchema,
+  createUpdateSchema,
+} from 'drizzle-zod';
 
 export const user_notifications = sqliteTable('user_notification', {
   id: text('id').primaryKey(),
@@ -79,3 +84,16 @@ export type InsertDatabaseUserNotification = InferInsertModel<
 export type InsertDatabaseClubNotification = InferInsertModel<
   typeof club_notifications
 >;
+
+export const userNotificationsSelectSchema =
+  createSelectSchema(user_notifications);
+export const clubNotificationsSelectSchema =
+  createSelectSchema(club_notifications);
+export const userNotificationsInsertSchema =
+  createInsertSchema(user_notifications);
+export const clubNotificationsInsertSchema =
+  createInsertSchema(club_notifications);
+export const userNotificationsUpdateSchema =
+  createUpdateSchema(user_notifications);
+export const clubNotificationsUpdateSchema =
+  createUpdateSchema(club_notifications);

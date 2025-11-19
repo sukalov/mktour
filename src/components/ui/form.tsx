@@ -13,6 +13,7 @@ import {
 } from 'react-hook-form';
 
 import { Label } from '@/components/ui/label';
+import { BASE_URL } from '@/lib/config/urls';
 import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
 
@@ -152,7 +153,24 @@ const FormMessage = React.forwardRef<
 >(({ className, children, ...props }, ref) => {
   const { error, formMessageId } = useFormField();
   const t = useTranslations('Errors'); // FIXME MODIFIED SHADCN
-  const body = error ? String(error?.message ?? '') : children;
+  let body = error ? t(String(error?.message) ?? '') : children;
+  console.log(error);
+
+  if (error?.message?.startsWith('LINK_TEAM_ERROR')) {
+    const teamData = error.message.split('@%!!(&');
+    console.log({ teamData });
+    body = (() => (
+      <span>
+        {t('lichess team connected')}&nbsp;
+        <a
+          href={`${BASE_URL}/clubs/${teamData[1]}`}
+          className="font-semibold underline underline-offset-2"
+        >
+          {teamData[2]}
+        </a>
+      </span>
+    ))();
+  }
 
   if (!body) {
     return null;
@@ -165,7 +183,7 @@ const FormMessage = React.forwardRef<
       className={cn('text-destructive text-[0.8rem] font-medium', className)}
       {...props}
     >
-      {t(String(body))}
+      {body}
     </p>
   );
 });

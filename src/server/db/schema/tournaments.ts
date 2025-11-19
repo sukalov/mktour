@@ -8,6 +8,11 @@ import {
 } from '@/types/tournaments';
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { int, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import {
+  createInsertSchema,
+  createSelectSchema,
+  createUpdateSchema,
+} from 'drizzle-zod';
 
 export const tournaments = sqliteTable('tournament', {
   id: text('id').primaryKey(),
@@ -108,3 +113,19 @@ export type InsertDatabaseGame = InferInsertModel<typeof games>;
 export type InsertDatabasePlayerToTournament = InferInsertModel<
   typeof players_to_tournaments
 >;
+
+export const tournamentsSelectSchema = createSelectSchema(tournaments);
+export const gamesSelectSchema = createSelectSchema(games);
+export const playersToTournamentsSelectSchema = createSelectSchema(
+  players_to_tournaments,
+);
+export const tournamentsInsertSchema = createInsertSchema(tournaments);
+export const gamesInsertSchema = createInsertSchema(games);
+export const playersToTournamentsInsertSchema = createInsertSchema(
+  players_to_tournaments,
+);
+export const tournamentsUpdateSchema = createUpdateSchema(tournaments);
+export const gamesUpdateSchema = createUpdateSchema(games);
+export const playersToTournamentsUpdateSchema = createUpdateSchema(
+  players_to_tournaments,
+);

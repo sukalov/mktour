@@ -20,6 +20,7 @@ export default function ClubDescription({ form }: ClubDescriptionProps) {
           <FormLabel>{t('description')}</FormLabel>
           <FormControl>
             <Textarea
+              defaultValue={field.value ? field.value : undefined}
               placeholder={t('description placeholder')}
               {...field}
               className="field-sizing-content min-h-26"

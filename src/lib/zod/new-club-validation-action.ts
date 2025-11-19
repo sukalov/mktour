@@ -1,14 +1,14 @@
 'use server';
 
 import { db } from '@/server/db';
-import { clubs } from '@/server/db/schema/clubs';
+import { clubs, DatabaseClub } from '@/server/db/schema/clubs';
 import { eq } from 'drizzle-orm';
 
 export async function validateLichessTeam({
   lichess_team,
 }: {
-  lichess_team?: string;
-}) {
+  lichess_team?: string | null;
+}): Promise<DatabaseClub | undefined> {
   if (!lichess_team) return undefined;
   return await db
     .select()

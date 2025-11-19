@@ -5,8 +5,8 @@ import {
   publicProcedure,
 } from '@/server/api/trpc';
 import { db } from '@/server/db';
-import { clubsSelectSchema } from '@/server/db/schema/clubs';
 import { users, usersSelectSchema } from '@/server/db/schema/users';
+import { clubsSelectSchema } from '@/server/db/zod/clubs';
 import { deleteUser, editUser } from '@/server/mutations/profile-managing';
 import { getUserClubNames } from '@/server/queries/get-user-clubs';
 import {
