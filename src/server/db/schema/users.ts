@@ -1,6 +1,11 @@
 import { clubs } from '@/server/db/schema/clubs';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import { int, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import {
+  createInsertSchema,
+  createSelectSchema,
+  createUpdateSchema,
+} from 'drizzle-zod';
 
 export const users = sqliteTable('user', {
   id: text('id').primaryKey(),
@@ -33,3 +38,9 @@ export type DatabaseSession = InferSelectModel<typeof sessions>;
 export type DatabaseUser = InferSelectModel<typeof users>;
 export type InsertDatabaseSession = InferInsertModel<typeof sessions>;
 export type InsertDatabaseUser = InferInsertModel<typeof users>;
+
+export const usersSelectSchema = createSelectSchema(users);
+export const usersInsertSchema = createInsertSchema(users);
+export const usersUpdateSchema = createUpdateSchema(users);
+export const sessionsSelectSchema = createSelectSchema(sessions);
+export const sessionsInsertSchema = createInsertSchema(sessions);

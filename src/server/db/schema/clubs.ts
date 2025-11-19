@@ -4,6 +4,11 @@ import { tournaments } from '@/server/db/schema/tournaments';
 import { users } from '@/server/db/schema/users';
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import {
+  createInsertSchema,
+  createSelectSchema,
+  createUpdateSchema,
+} from 'drizzle-zod';
 
 export const clubs = sqliteTable('club', {
   id: text('id').primaryKey(),
@@ -42,3 +47,10 @@ export type InsertDatabaseClub = InferInsertModel<typeof clubs>;
 export type InsertDatabaseClubsToUsers = InferInsertModel<
   typeof clubs_to_users
 >;
+
+export const clubsSelectSchema = createSelectSchema(clubs);
+export const clubsToUsersSelectSchema = createSelectSchema(clubs_to_users);
+export const clubsInsertSchema = createInsertSchema(clubs);
+export const clubsToUsersInsertSchema = createInsertSchema(clubs_to_users);
+export const clubsUpdateSchema = createUpdateSchema(clubs);
+export const clubsToUsersUpdateSchema = createUpdateSchema(clubs_to_users);

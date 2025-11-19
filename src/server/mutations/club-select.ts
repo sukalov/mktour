@@ -18,7 +18,9 @@ const selectClub = async ({
   return await db
     .update(users)
     .set({ selected_club: clubId })
-    .where(eq(users.id, userId));
+    .where(eq(users.id, userId))
+    .returning({ selected_club: users.selected_club })
+    .get();
 };
 
 export default selectClub;
