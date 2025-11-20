@@ -14,14 +14,14 @@ import {
   UserNotification,
   UserNotificationMetadata,
 } from '@/types/notifications';
-import { and, desc, eq, or, sql } from 'drizzle-orm';
+import { and, count, desc, eq, or, sql } from 'drizzle-orm';
 
 export const getNotificationsCounter = async (userId: string) => {
   return (
     (
       await db
         .select({
-          count: sql<number>`COUNT(*)`,
+          count: count(),
         })
         .from(user_notifications)
         .orderBy(desc(user_notifications.createdAt))

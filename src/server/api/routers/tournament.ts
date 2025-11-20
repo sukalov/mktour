@@ -13,11 +13,13 @@ import {
   players_to_tournaments,
   tournaments,
 } from '@/server/db/schema/tournaments';
+import { clubsSelectSchema } from '@/server/db/zod/clubs';
 import {
   gameResultEnum,
   roundNameEnum,
   TournamentFormat,
 } from '@/server/db/zod/enums';
+import { tournamentsSelectSchema } from '@/server/db/zod/tournaments';
 import {
   addExistingPlayer,
   addNewPlayer,
@@ -55,6 +57,12 @@ export const tournamentRouter = {
   }),
   info: publicProcedure
     .input(z.object({ tournamentId: z.string() }))
+    .output(
+      z.object({
+        tournament: tournamentsSelectSchema,
+        club: clubsSelectSchema,
+      }),
+    )
     .query(async (opts) => {
       const { input } = opts;
       const [tournamentInfo] = await db

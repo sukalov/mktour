@@ -3,6 +3,7 @@ import {
   players_to_tournaments,
   tournaments,
 } from '@/server/db/schema/tournaments';
+import { clubsSelectSchema } from '@/server/db/zod/clubs';
 import {
   tournamentFormatEnum,
   tournamentTypeEnum,
@@ -12,6 +13,7 @@ import {
   createSelectSchema,
   createUpdateSchema,
 } from 'drizzle-zod';
+import z from 'zod';
 
 export const tournamentsSelectSchema = createSelectSchema(tournaments, {
   format: tournamentFormatEnum,
@@ -31,3 +33,9 @@ export const gamesUpdateSchema = createUpdateSchema(games);
 export const playersToTournamentsUpdateSchema = createUpdateSchema(
   players_to_tournaments,
 );
+
+export const tournamentInfoSchema = z.object({
+  tournament: tournamentsSelectSchema,
+  club: clubsSelectSchema,
+});
+export type TournamentInfo = z.infer<typeof tournamentInfoSchema>;

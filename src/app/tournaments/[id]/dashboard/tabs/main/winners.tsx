@@ -1,7 +1,8 @@
 'use client';
 
 import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
-import { PlayerModel, TournamentInfo } from '@/types/tournaments';
+import { TournamentInfo } from '@/server/db/zod/tournaments';
+import { PlayerModel } from '@/types/tournaments';
 import Link from 'next/link';
 import { FC } from 'react';
 

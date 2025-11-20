@@ -1,8 +1,4 @@
-import { DatabaseClub } from '@/server/db/schema/clubs';
-import {
-  DatabaseGame,
-  DatabaseTournament,
-} from '@/server/db/schema/tournaments';
+import { DatabaseGame } from '@/server/db/schema/tournaments';
 
 /**
  * combination of player general info and tournament performance, recorded in players_to_tournaments
@@ -27,9 +23,4 @@ export interface PlayerModel {
 export interface GameModel extends DatabaseGame {
   blackNickname: string; // players where id === games.black_id  nickname;
   whiteNickname: string; // players where id === games.white_id  nickname;
-}
-
-export interface TournamentInfo {
-  tournament: DatabaseTournament;
-  club: DatabaseClub;
 }

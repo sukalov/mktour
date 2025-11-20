@@ -13,7 +13,7 @@ import {
 import { sessions, user_preferences, users } from '@/server/db/schema/users';
 import { EditProfileFormType } from '@/server/db/zod/users';
 import { deleteClubFunction } from '@/server/mutations/club-managing';
-import { and, asc, eq, sql } from 'drizzle-orm';
+import { and, asc, count, eq, sql } from 'drizzle-orm';
 
 export const editUser = async (values: EditProfileFormType) => {
   const { user } = await validateRequest();
@@ -32,7 +32,7 @@ export const deleteUser = async ({ userId }: { userId: string }) => {
     })
     .from(clubs_to_users)
     .groupBy(clubs_to_users.clubId)
-    .having(sql`COUNT(${clubs_to_users.userId}) = 1`);
+    .having(eq(count(), 1));
 
   const userClubs = (
     await db
@@ -84,7 +84,7 @@ export const deleteUser = async ({ userId }: { userId: string }) => {
     const coOwnerCounts = await db
       .select({
         clubId: clubs_to_users.clubId,
-        count: sql<number>`COUNT(*)`,
+        count: count(),
       })
       .from(clubs_to_users)
       .where(

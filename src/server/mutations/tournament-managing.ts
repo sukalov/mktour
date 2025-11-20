@@ -19,8 +19,9 @@ import {
   tournaments,
 } from '@/server/db/schema/tournaments';
 import { GameResult, TournamentFormat } from '@/server/db/zod/enums';
+import { TournamentInfo } from '@/server/db/zod/tournaments';
 import { getStatusInTournament } from '@/server/queries/get-status-in-tournament';
-import { GameModel, PlayerModel, TournamentInfo } from '@/types/tournaments';
+import { GameModel, PlayerModel } from '@/types/tournaments';
 import {
   aliasedTable,
   and,

@@ -5,7 +5,7 @@ import {
 } from '@/app/tournaments/[id]/prefetch';
 import { getEncryptedAuthSession } from '@/lib/get-encrypted-auth-session';
 import { publicCaller } from '@/server/api';
-import { TournamentInfo } from '@/types/tournaments';
+import { TournamentInfo } from '@/server/db/zod/tournaments';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { notFound } from 'next/navigation';
 
