@@ -63,9 +63,9 @@ const ClubInfo: FC<{
       <div className="flex w-full flex-row items-start justify-between gap-2 sm:items-center">
         <div className="flex flex-row items-center gap-2">
           <p className="px-mk text-2xl font-bold">{club.name}</p>
-          {club.lichess_team && (
+          {club.lichessTeam && (
             <Link
-              href={`https://lichess.org/team/${club.lichess_team}`}
+              href={`https://lichess.org/team/${club.lichessTeam}`}
               target="_blank"
             >
               <LichessLogo className="size-4" />
@@ -101,9 +101,9 @@ const ClubInfo: FC<{
           </span>
         )}
         <p className="text-muted-foreground text-xs">
-          {club.created_at &&
+          {club.createdAt &&
             t('Page.createdAt', {
-              date: club.created_at.toLocaleDateString(locale, {
+              date: club.createdAt.toLocaleDateString(locale, {
                 dateStyle: 'long',
               }),
             })}

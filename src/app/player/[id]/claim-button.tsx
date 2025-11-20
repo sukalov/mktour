@@ -26,21 +26,20 @@ const ClaimPlayer: FC<{
   userId: string;
   clubId: string;
 }> = ({ userId, clubId }) => {
-  const { id: playerId } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string }>();
   const [open, setOpen] = useState(false);
   const { mutate, isPending } = useAffiliationRequestMutation();
   const handleClick = () => {
     setOpen(false);
-    mutate({ playerId, userId, clubId });
+    mutate({ playerId: id, userId, clubId });
   };
   const t = useTranslations();
 
   const { data: userAffiliation } = useUserClubAffiliations(clubId);
   const affiliation = userAffiliation?.[0];
-  const { status, player_id } = affiliation || {};
+  const { status, playerId } = affiliation || {};
 
-  const hasClaimed =
-    !!affiliation && status === 'requested' && player_id === playerId;
+  const hasClaimed = !!affiliation && status === 'requested' && id === playerId;
 
   if (hasClaimed)
     return (

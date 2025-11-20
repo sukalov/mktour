@@ -61,7 +61,7 @@ export const tournamentRouter = {
         .select()
         .from(tournaments)
         .where(eq(tournaments.id, input.tournamentId))
-        .innerJoin(clubs, eq(tournaments.club_id, clubs.id));
+        .innerJoin(clubs, eq(tournaments.clubId, clubs.id));
       if (!tournamentInfo) throw new Error('TOURNAMENT NOT FOUND');
       return tournamentInfo;
     }),
@@ -72,8 +72,8 @@ export const tournamentRouter = {
       const playersDb = await db
         .select()
         .from(players_to_tournaments)
-        .where(eq(players_to_tournaments.tournament_id, input.tournamentId))
-        .innerJoin(players, eq(players.id, players_to_tournaments.player_id));
+        .where(eq(players_to_tournaments.tournamentId, input.tournamentId))
+        .innerJoin(players, eq(players.id, players_to_tournaments.playerId));
 
       const playerModels: PlayerModel[] = playersDb.map((each) => ({
         id: each.player.id,
@@ -83,10 +83,10 @@ export const tournamentRouter = {
         wins: each.players_to_tournaments.wins,
         draws: each.players_to_tournaments.draws,
         losses: each.players_to_tournaments.losses,
-        color_index: each.players_to_tournaments.color_index,
-        is_out: each.players_to_tournaments.is_out,
+        colorIndex: each.players_to_tournaments.colorIndex,
+        isOut: each.players_to_tournaments.isOut,
         place: each.players_to_tournaments.place,
-        pairingNumber: each.players_to_tournaments.pairing_number,
+        pairingNumber: each.players_to_tournaments.pairingNumber,
       }));
 
       return playerModels.sort(
@@ -139,7 +139,7 @@ export const tournamentRouter = {
           nickname: z.string(),
           realname: z.string().nullable(),
           rating: z.number(),
-          club_id: z.string(),
+          clubId: z.string(),
         }),
         userId: z.string(),
       }),
@@ -157,7 +157,7 @@ export const tournamentRouter = {
           nickname: z.string(),
           realname: z.string().nullable(),
           rating: z.number(),
-          club_id: z.string(),
+          clubId: z.string(),
         }),
         userId: z.string(),
       }),
@@ -202,17 +202,17 @@ export const tournamentRouter = {
         roundNumber: z.number(),
         newGames: z.array(
           z.object({
-            tournament_id: z.string(),
+            tournamentId: z.string(),
             id: z.string(),
-            white_id: z.string(),
-            black_id: z.string(),
-            round_number: z.number(),
-            game_number: z.number(),
-            round_name: roundNameEnum.nullable(),
-            white_prev_game_id: z.string().nullable(),
-            black_prev_game_id: z.string().nullable(),
-            white_nickname: z.string(),
-            black_nickname: z.string(),
+            whiteId: z.string(),
+            blackId: z.string(),
+            roundNumber: z.number(),
+            gameNumber: z.number(),
+            roundName: roundNameEnum.nullable(),
+            whitePrevGameId: z.string().nullable(),
+            blackPrevGameId: z.string().nullable(),
+            whiteNickname: z.string(),
+            blackNickname: z.string(),
             result: gameResultEnum.nullable(),
           }),
         ),
@@ -226,9 +226,9 @@ export const tournamentRouter = {
     .input(
       z.object({
         tournamentId: z.string(),
-        started_at: z.date(),
+        startedAt: z.date(),
         format: z.custom<TournamentFormat>(),
-        rounds_number: z.number().nullable(),
+        roundsNumber: z.number().nullable(),
       }),
     )
     .mutation(async (opts) => {
@@ -259,7 +259,7 @@ export const tournamentRouter = {
     .input(
       z.object({
         tournamentId: z.string(),
-        closed_at: z.date(),
+        closedAt: z.date(),
       }),
     )
     .mutation(async (opts) => {

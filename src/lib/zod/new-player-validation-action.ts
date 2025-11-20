@@ -7,7 +7,7 @@ import { and, eq, sql } from 'drizzle-orm';
 
 export async function validateNewPlayer({
   nickname,
-  club_id,
+  clubId,
 }: NewPlayerFormType) {
   const isValid = await db
     .select()
@@ -15,7 +15,7 @@ export async function validateNewPlayer({
     .where(
       and(
         sql`lower(${players.nickname}) = ${nickname.toLowerCase()}`,
-        eq(players.club_id, club_id),
+        eq(players.clubId, clubId),
       ),
     )
     .get();

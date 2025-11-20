@@ -14,8 +14,8 @@ export async function uncachedGetStatusInClub({
       .from(clubs_to_users)
       .where(
         and(
-          eq(clubs_to_users.user_id, userId),
-          eq(clubs_to_users.club_id, clubId),
+          eq(clubs_to_users.userId, userId),
+          eq(clubs_to_users.clubId, clubId),
         ),
       )
   )[0]?.status;

@@ -32,10 +32,10 @@ export default function StartTournamentButton() {
       throw new Error('NOT_ENOUGH_PLAYERS');
     }
     startTournamentMutation.mutate({
-      started_at: new Date(),
+      startedAt: new Date(),
       tournamentId: data.tournament.id,
       format: data.tournament.format,
-      rounds_number: data.tournament.rounds_number,
+      roundsNumber: data.tournament.roundsNumber,
     });
   };
 

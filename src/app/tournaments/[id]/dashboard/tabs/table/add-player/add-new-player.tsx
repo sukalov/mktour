@@ -56,7 +56,7 @@ const AddNewPlayer = ({
       id: newid(),
       nickname: value,
       rating: 1500,
-      club_id: tournament.data?.club?.id,
+      clubId: tournament.data?.club?.id,
     },
     reValidateMode: 'onSubmit',
   });
@@ -74,12 +74,12 @@ const AddNewPlayer = ({
     }
     const newPlayer: DatabasePlayer = {
       id: newid(),
-      club_id: data.club_id,
+      clubId: data.clubId,
       nickname: data.nickname,
       realname: data.nickname,
       rating: data.rating,
-      user_id: null,
-      last_seen: 0,
+      userId: null,
+      lastSeen: 0,
     };
     mutate({ tournamentId: id, player: newPlayer, userId });
     handleClose();

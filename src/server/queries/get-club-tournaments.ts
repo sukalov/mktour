@@ -8,5 +8,5 @@ export const getClubTournaments = async (clubId: string) => {
   return await db
     .select()
     .from(tournaments)
-    .where(eq(tournaments.club_id, clubId));
+    .where(eq(tournaments.clubId, clubId));
 };

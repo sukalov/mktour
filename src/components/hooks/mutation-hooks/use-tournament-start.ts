@@ -14,12 +14,12 @@ export default function useTournamentStart(
   const trpc = useTRPC();
   return useMutation(
     trpc.tournament.start.mutationOptions({
-      onSuccess: (_error, { started_at }) => {
-        if (started_at) {
+      onSuccess: (_error, { startedAt }) => {
+        if (startedAt) {
           toast.success(t('started'));
           sendJsonMessage({
             event: 'start-tournament',
-            started_at,
+            startedAt,
           });
         }
         queryClient.invalidateQueries({

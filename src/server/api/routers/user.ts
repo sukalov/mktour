@@ -46,7 +46,7 @@ export const userRouter = createTRPCRouter({
           username: true,
           name: true,
           rating: true,
-          created_at: true,
+          createdAt: true,
         })
         .optional(),
     )

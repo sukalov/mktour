@@ -35,7 +35,7 @@ const NotificationItemIteratee = (data: ClubNotification) => {
       return (
         <NotificationItem
           key={data.notification.id}
-          is_seen={data.notification.is_seen}
+          is_seen={data.notification.isSeen}
         >
           <div>
             {data.player?.nickname} is officially user {data.user?.username}
@@ -46,7 +46,7 @@ const NotificationItemIteratee = (data: ClubNotification) => {
       return (
         <NotificationItem
           key={data.notification.id}
-          is_seen={data.notification.is_seen}
+          is_seen={data.notification.isSeen}
         >
           <div>
             {data.user?.username}&apos;s request to affiliate with{' '}

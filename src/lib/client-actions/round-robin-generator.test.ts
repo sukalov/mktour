@@ -6,7 +6,8 @@ import { newid } from '@/lib/utils';
 import { DatabaseClub } from '@/server/db/schema/clubs';
 import { DatabaseTournament } from '@/server/db/schema/tournaments';
 import { DatabaseUser } from '@/server/db/schema/users';
-import { GameModel, PlayerModel, Result } from '@/types/tournaments';
+import { GameResult } from '@/server/db/zod/enums';
+import { GameModel, PlayerModel } from '@/types/tournaments';
 import { faker } from '@faker-js/faker';
 import assert from 'assert';
 
@@ -21,7 +22,7 @@ const DEFAULT_IS_EXITED = false;
 const DEFAULT_FORMAT = 'round robin';
 const DEFAULT_TYPE = 'solo';
 
-const POSSIBLE_RESULTS: Result[] = ['0-1', '1-0', '1/2-1/2'];
+const POSSIBLE_RESULTS: GameResult[] = ['0-1', '1-0', '1/2-1/2'];
 
 const RATING_FAKEOPTS = {
   min: 500,
@@ -43,8 +44,8 @@ const generateDatabaseUser = mock<() => DatabaseUser>(() => {
     name: randomRealName,
     email: randomEmail,
     rating: randomRating,
-    selected_club: randomClubName,
-    created_at: randomCreationDate,
+    selectedClub: randomClubName,
+    createdAt: randomCreationDate,
   };
   return randomUser;
 });
@@ -59,8 +60,8 @@ const generateRandomDatabaseClub = mock<() => DatabaseClub>(() => {
     id: randomId,
     name: randomTitle,
     description: randomDescription,
-    created_at: randomCreatedAt,
-    lichess_team: randomLichessTeam,
+    createdAt: randomCreatedAt,
+    lichessTeam: randomLichessTeam,
   };
   return randomClub;
 });
@@ -82,12 +83,12 @@ const generateRandomDatabaseTournament = mock<() => DatabaseTournament>(() => {
     title: randomTitle,
     format: DEFAULT_FORMAT,
     type: DEFAULT_TYPE,
-    created_at: randomCreationDate,
-    club_id: randomClub.id,
-    started_at: randomStartDate,
-    closed_at: randomEndDate,
-    rounds_number: randomRoundsNumber,
-    ongoing_round: INITIAL_ONGOING_ROUND,
+    createdAt: randomCreationDate,
+    clubId: randomClub.id,
+    startedAt: randomStartDate,
+    closedAt: randomEndDate,
+    roundsNumber: randomRoundsNumber,
+    ongoingRound: INITIAL_ONGOING_ROUND,
     rated: randomIsRated,
   };
 
@@ -120,10 +121,10 @@ const generatePlayerModel = mock(() => {
     wins: INITIAL_WINS,
     draws: INITIAL_DRAWS,
     losses: INITIAL_LOSSES,
-    color_index: INITIAL_COLOUR_INDEX,
+    colorIndex: INITIAL_COLOUR_INDEX,
     realname: randomUser.name,
     rating: randomUser.rating ?? 0,
-    is_out: DEFAULT_IS_EXITED,
+    isOut: DEFAULT_IS_EXITED,
     place: DEFAULT_PLACE,
     pairingNumber: null,
   };

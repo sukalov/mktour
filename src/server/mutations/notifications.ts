@@ -14,7 +14,7 @@ export const changeNotificationStatus = async ({
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   await db
     .update(user_notifications)
-    .set({ is_seen: seen })
+    .set({ isSeen: seen })
     .where(eq(user_notifications.id, notificationId));
 };
 
@@ -24,6 +24,6 @@ export async function markAllNotificationsAsSeen(userId: string) {
   if (user.id !== userId) throw new Error('UNAUTHORIZED_REQUEST');
   await db
     .update(user_notifications)
-    .set({ is_seen: true })
-    .where(eq(user_notifications.user_id, userId));
+    .set({ isSeen: true })
+    .where(eq(user_notifications.userId, userId));
 }

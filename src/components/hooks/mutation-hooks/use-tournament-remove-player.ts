@@ -109,7 +109,7 @@ export const useTournamentRemovePlayer = (
               tournamentId,
               roundNumber: 1,
             }),
-            () => newGames.sort((a, b) => a.game_number - b.game_number),
+            () => newGames.sort((a, b) => a.gameNumber - b.gameNumber),
           );
         }
       },

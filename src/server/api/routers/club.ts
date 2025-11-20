@@ -206,7 +206,7 @@ export const clubRouter = createTRPCRouter({
         values: z.object({
           name: z.string().optional(),
           description: z.string().optional().nullable(),
-          lichess_team: z.string().optional().nullable(),
+          lichessTeam: z.string().optional().nullable(),
         }),
       }),
     )

@@ -35,7 +35,7 @@ const ClubSettingsForm: FC<ClubTabProps & PropsWithChildren> = ({
   const defaultValues = {
     name: data?.name,
     description: data?.description,
-    lichess_team: data?.lichess_team,
+    lichessTeam: data?.lichessTeam,
     id: selectedClub,
   };
   const clubSettingsMutation = useEditClubMutation(queryClient);
@@ -45,14 +45,14 @@ const ClubSettingsForm: FC<ClubTabProps & PropsWithChildren> = ({
     defaultValues: {
       name: '',
       description: '',
-      lichess_team: '',
+      lichessTeam: '',
       id: selectedClub,
     },
     values: data
       ? {
           name: data.name,
           description: data.description,
-          lichess_team: data.lichess_team,
+          lichessTeam: data.lichessTeam,
           id: selectedClub,
         }
       : undefined,

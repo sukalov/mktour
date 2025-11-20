@@ -18,11 +18,11 @@ export default async function getPlayersLastTmts(playerId: string): Promise<
   return await db
     .select()
     .from(players_to_tournaments)
-    .where(eq(players_to_tournaments.player_id, playerId))
+    .where(eq(players_to_tournaments.playerId, playerId))
     .innerJoin(
       tournaments,
-      eq(players_to_tournaments.tournament_id, tournaments.id),
+      eq(players_to_tournaments.tournamentId, tournaments.id),
     )
-    .orderBy(desc(tournaments.started_at))
+    .orderBy(desc(tournaments.startedAt))
     .limit(5);
 }

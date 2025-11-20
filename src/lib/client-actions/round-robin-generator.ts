@@ -23,7 +23,7 @@ export function generateRoundRobinRound({
   roundNumber,
   tournamentId,
 }: RoundProps): GameModel[] {
-  games = games?.filter((game) => game.round_number !== roundNumber) ?? [];
+  games = games?.filter((game) => game.roundNumber !== roundNumber) ?? [];
 
   // checking if the set of layers is even, if not, making it even with a smart alg
   const matchedEntities = players.map(convertPlayerToEntity);

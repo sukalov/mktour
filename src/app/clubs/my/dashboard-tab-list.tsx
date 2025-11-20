@@ -22,7 +22,7 @@ const ClubDashboardTabList: FC<{
   // );
   const notifications = useClubNotifications(selectedClub);
   const hasNewNotifications = Boolean(
-    notifications?.data?.some(({ notification }) => !notification.is_seen),
+    notifications?.data?.some(({ notification }) => !notification.isSeen),
   );
 
   return (

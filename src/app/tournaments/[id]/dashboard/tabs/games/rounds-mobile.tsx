@@ -28,8 +28,8 @@ const RoundsMobile: FC = () => {
   const t = useTranslations('Tournament.Round');
   const trpc = useTRPC();
   const now = new Date().getTime();
-  const startedAt = data?.tournament.started_at
-    ? data.tournament.started_at.getTime()
+  const startedAt = data?.tournament.startedAt
+    ? data.tournament.startedAt.getTime()
     : 0;
   const renderDrawer = !startedAt || now - startedAt <= 5000;
 
@@ -85,7 +85,7 @@ const RoundsMobile: FC = () => {
       <RoundControls
         roundInView={roundInView}
         setRoundInView={setRoundInView}
-        currentRound={data.tournament.ongoing_round}
+        currentRound={data.tournament.ongoingRound}
         currentTab={currentTab}
       />
       <RoundItem roundNumber={roundInView} />

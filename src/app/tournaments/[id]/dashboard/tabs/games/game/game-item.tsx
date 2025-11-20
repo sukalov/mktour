@@ -35,8 +35,8 @@ const GameItem: FC<GameProps> = ({
   const ref = useRef<HTMLDivElement>(null);
   const selected = selectedGameId === id;
   const muted = result && !selected;
-  const hasStarted = !!data?.tournament.started_at;
-  const disabled = status !== 'organizer' || !!data?.tournament.closed_at;
+  const hasStarted = !!data?.tournament.startedAt;
+  const disabled = status !== 'organizer' || !!data?.tournament.closedAt;
   const draw = result === '1/2-1/2';
 
   const handleMutate = (newResult: GameResult) => {
@@ -44,8 +44,8 @@ const GameItem: FC<GameProps> = ({
     if (selected && hasStarted && !mutation.isPending) {
       mutation.mutate({
         gameId: id,
-        whiteId: playerLeft.white_id,
-        blackId: playerRight.black_id,
+        whiteId: playerLeft.whiteId,
+        blackId: playerRight.blackId,
         result: newResult,
         prevResult: result,
         tournamentId,
@@ -95,7 +95,7 @@ const GameItem: FC<GameProps> = ({
             isWinner={result === '1-0'}
             handleMutate={() => handleMutate('1-0')}
             selected={selected}
-            nickname={playerLeft.white_nickname}
+            nickname={playerLeft.whiteNickname}
             position={{ justify: 'justify-self-start', text: 'text-left' }}
           />
           <Button
@@ -109,7 +109,7 @@ const GameItem: FC<GameProps> = ({
             isWinner={result === '0-1'}
             handleMutate={() => handleMutate('0-1')}
             selected={selected}
-            nickname={playerRight.black_nickname}
+            nickname={playerRight.blackNickname}
             position={{ justify: 'justify-self-end', text: 'text-right' }}
           />
         </Card>
@@ -121,8 +121,8 @@ const GameItem: FC<GameProps> = ({
 type GameProps = {
   id: string;
   result: GameResult | null;
-  playerLeft: Record<'white_id' | 'white_nickname', string>;
-  playerRight: Record<'black_id' | 'black_nickname', string>;
+  playerLeft: Record<'whiteId' | 'whiteNickname', string>;
+  playerRight: Record<'blackId' | 'blackNickname', string>;
   roundNumber: number;
 };
 

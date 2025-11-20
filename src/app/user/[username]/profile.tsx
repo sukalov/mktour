@@ -11,16 +11,13 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 const Profile: FC<{
-  user: Pick<
-    DatabaseUser,
-    'id' | 'username' | 'name' | 'rating' | 'created_at'
-  >;
+  user: Pick<DatabaseUser, 'id' | 'username' | 'name' | 'rating' | 'createdAt'>;
   isOwner: boolean;
 }> = ({ user, isOwner }) => {
   const { data, isPending } = useUserClubs(user.id);
   const format = useFormatter();
-  const preparedCreatedAt = user.created_at
-    ? format.dateTime(user.created_at, { dateStyle: 'long' })
+  const preparedCreatedAt = user.createdAt
+    ? format.dateTime(user.createdAt, { dateStyle: 'long' })
     : null;
   const t = useTranslations('Profile');
 

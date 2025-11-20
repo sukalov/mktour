@@ -16,8 +16,8 @@ export interface PlayerModel {
   wins: number;
   draws: number;
   losses: number;
-  color_index: number;
-  is_out: boolean | null;
+  colorIndex: number;
+  isOut: boolean | null;
   place: number | null;
 }
 
@@ -25,8 +25,8 @@ export interface PlayerModel {
  *
  */
 export interface GameModel extends DatabaseGame {
-  black_nickname: string; // players where id === games.black_id  nickname;
-  white_nickname: string; // players where id === games.white_id  nickname;
+  blackNickname: string; // players where id === games.black_id  nickname;
+  whiteNickname: string; // players where id === games.white_id  nickname;
 }
 
 export interface TournamentInfo {

@@ -39,7 +39,7 @@ const ClubManagersList: FC<{ clubId: string; userId: string }> = ({
   const { data, status } = useClubManagers(clubId);
   const t = useTranslations('Club.Settings');
   const user = data?.find(
-    ({ clubs_to_users: { user_id } }) => user_id === userId,
+    ({ clubs_to_users: { userId } }) => userId === userId,
   );
 
   if (status === 'error') toast.error(t('search users error'));
@@ -107,7 +107,7 @@ const ManagerItem: FC<{
           </Button>
           {canDelete && (
             <DeleteManagerButton
-              clubId={user.clubs_to_users.club_id}
+              clubId={user.clubs_to_users.clubId}
               userId={manager.user.id}
             />
           )}

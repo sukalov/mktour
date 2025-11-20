@@ -10,14 +10,14 @@ export const getClubInfo = async (id: DatabaseClub['id']) => {
 };
 
 export const getClubPlayers = async (
-  clubId: DatabasePlayer['club_id'],
+  clubId: DatabasePlayer['clubId'],
   limit: number,
   cursor?: number | null,
 ): Promise<{ players: DatabasePlayer[]; nextCursor: number | null }> => {
   const result = await db
     .select()
     .from(players)
-    .where(eq(players.club_id, clubId))
+    .where(eq(players.clubId, clubId))
     .orderBy(players.nickname)
     .offset(cursor ?? 0)
     .limit(limit + 1);

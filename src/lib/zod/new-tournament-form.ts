@@ -9,7 +9,7 @@ export const newTournamentFormSchemaConfig = {
   format: z.custom<TournamentFormat>(),
   type: z.custom<TournamentType>(),
   timestamp: z.number(),
-  club_id: z.string(),
+  clubId: z.string(),
   rated: z.boolean(),
 };
 

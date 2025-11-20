@@ -15,7 +15,7 @@ export const getStatusInTournament = cache(
     if (!userId) return 'viewer';
     const clubId = (
       await db
-        .select({ club: tournaments.club_id })
+        .select({ club: tournaments.clubId })
         .from(tournaments)
         .where(eq(tournaments.id, tournamentId))
     ).at(0)?.club;
@@ -27,14 +27,14 @@ export const getStatusInTournament = cache(
         .from(clubs_to_users)
         .where(
           and(
-            eq(clubs_to_users.club_id, clubId),
-            eq(clubs_to_users.user_id, userId),
+            eq(clubs_to_users.clubId, clubId),
+            eq(clubs_to_users.userId, userId),
           ),
         )
     ).at(0)?.status;
     if (dbStatus) return 'organizer';
     const player = (
-      await db.select().from(players).where(eq(players.user_id, userId))
+      await db.select().from(players).where(eq(players.userId, userId))
     ).at(0);
     if (!player) return 'viewer';
     const isHere = (
@@ -43,8 +43,8 @@ export const getStatusInTournament = cache(
         .from(players_to_tournaments)
         .where(
           and(
-            eq(players_to_tournaments.player_id, player.id),
-            eq(players_to_tournaments.tournament_id, tournamentId),
+            eq(players_to_tournaments.playerId, player.id),
+            eq(players_to_tournaments.tournamentId, tournamentId),
           ),
         )
     ).at(0);

@@ -25,7 +25,7 @@ export default function useSaveRound(props: SaveRoundMutationProps) {
             trpc.tournament.info.queryKey({ tournamentId }),
             (cache) => {
               if (!cache) return cache;
-              cache.tournament.ongoing_round = roundNumber;
+              cache.tournament.ongoingRound = roundNumber;
               return cache;
             },
           );
@@ -67,7 +67,7 @@ export default function useSaveRound(props: SaveRoundMutationProps) {
           trpc.tournament.info.queryKey({ tournamentId }),
           (cache) => {
             if (!cache) return cache;
-            cache.tournament.ongoing_round = roundNumber - 1;
+            cache.tournament.ongoingRound = roundNumber - 1;
             return cache;
           },
         );

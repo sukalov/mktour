@@ -40,7 +40,7 @@ export default function FinishTournamentButton({
   return (
     <Button
       className="w-full"
-      onClick={() => mutate({ tournamentId, closed_at: new Date() })}
+      onClick={() => mutate({ tournamentId, closedAt: new Date() })}
       disabled={isPending}
     >
       {isPending ? <LoadingSpinner /> : <Save />}

@@ -11,7 +11,7 @@ import { Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import * as React from 'react';
 
-export default function ClubDelete({ id, userId }: ClubDeleteProps) {
+export default function ClubDelete({ id }: ClubDeleteProps) {
   const [open, setOpen] = React.useState(false);
   const t = useTranslations('Club.Settings');
   const trpc = useTRPC();
@@ -23,8 +23,8 @@ export default function ClubDelete({ id, userId }: ClubDeleteProps) {
 
   if (
     data?.some(
-      ({ clubs_to_users: { user_id, status } }) =>
-        user_id === userId && status !== 'co-owner',
+      ({ clubs_to_users: { userId, status } }) =>
+        userId === userId && status !== 'co-owner',
     )
   )
     return null;

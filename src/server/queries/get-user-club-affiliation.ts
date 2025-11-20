@@ -15,7 +15,7 @@ export async function getUserClubAffiliation(
     .select()
     .from(affiliations)
     .where(
-      and(eq(affiliations.club_id, clubId), eq(affiliations.user_id, user.id)),
+      and(eq(affiliations.clubId, clubId), eq(affiliations.userId, user.id)),
     );
 
   return affiliation;

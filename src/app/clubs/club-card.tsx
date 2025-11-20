@@ -14,7 +14,7 @@ const ClubCard: FC<{ club: DatabaseClub }> = async ({ club }) => {
       <Card className="mk-card flex flex-col shadow-sm">
         <div className="flex items-center gap-2">
           <CardTitle className="text-base">{club.name}</CardTitle>
-          {club.lichess_team && (
+          {club.lichessTeam && (
             <div className="size-4">
               <LichessLogo />
             </div>
@@ -27,9 +27,9 @@ const ClubCard: FC<{ club: DatabaseClub }> = async ({ club }) => {
         )}
 
         <p className="text-muted-foreground text-xs">
-          {club.created_at &&
+          {club.createdAt &&
             t('Club.Page.createdAt', {
-              date: club.created_at.toLocaleDateString(locale, {
+              date: club.createdAt.toLocaleDateString(locale, {
                 dateStyle: 'long',
               }),
             })}

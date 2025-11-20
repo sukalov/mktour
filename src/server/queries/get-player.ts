@@ -9,8 +9,8 @@ export default async function getPlayer(playerId: string) {
     .select()
     .from(players)
     .where(eq(players.id, playerId))
-    .innerJoin(clubs, eq(players.club_id, clubs.id))
-    .leftJoin(users, eq(players.user_id, users.id));
+    .innerJoin(clubs, eq(players.clubId, clubs.id))
+    .leftJoin(users, eq(players.userId, users.id));
 
   return result;
 }

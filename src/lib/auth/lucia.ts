@@ -22,8 +22,8 @@ export const lucia = new Lucia(adapter, {
       name: attributes.name,
       email: attributes.email,
       rating: attributes.rating,
-      selected_club: attributes.selected_club,
-      created_at: attributes.created_at,
+      selectedClub: attributes.selectedClub,
+      createdAt: attributes.createdAt,
     };
   },
 });

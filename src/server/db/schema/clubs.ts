@@ -10,20 +10,20 @@ export const clubs = sqliteTable('club', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
   description: text('description'),
-  created_at: integer('created_at', { mode: 'timestamp' }).notNull(),
-  lichess_team: text('lichess_team').unique(),
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
+  lichessTeam: text('lichess_team').unique(),
 });
 
 export const clubs_to_users = sqliteTable('clubs_to_users', {
   id: text('id').primaryKey(),
-  club_id: text('club_id')
+  clubId: text('club_id')
     .notNull()
     .references(() => clubs.id),
-  user_id: text('user_id')
+  userId: text('user_id')
     .notNull()
     .references(() => users.id),
   status: text('status').notNull().$type<StatusInClub>(),
-  promoted_at: integer('promoted_at', { mode: 'timestamp' })
+  promotedAt: integer('promoted_at', { mode: 'timestamp' })
     .$default(() => new Date())
     .notNull(),
 });

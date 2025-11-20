@@ -9,18 +9,18 @@ import type {
 } from '@/server/db/zod/enums';
 
 type UserNotificationMetadata = {
-  affiliation_approved: { club_id: string; affiliation_id: string };
-  affiliation_rejected: { club_id: string; affiliation_id: string };
-  tournament_won: { tournament_id: string; name: string };
-  became_club_manager: { club_id: string; role: StatusInClub };
-  removed_from_club_managers: { club_id: string };
+  affiliation_approved: { clubId: string; affiliationId: string };
+  affiliation_rejected: { clubId: string; affiliationId: string };
+  tournament_won: { tournamentId: string; name: string };
+  became_club_manager: { clubId: string; role: StatusInClub };
+  removed_from_club_managers: { clubId: string };
 };
 
 type ClubNotificationMetadata = {
-  affiliation_request: { user_id: string; affiliation_id: string };
-  manager_left: { user_id: string };
-  affiliation_request_approved: { user_id: string; affiliation_id: string };
-  affiliation_request_rejected: { user_id: string; affiliation_id: string };
+  affiliation_request: { userId: string; affiliationId: string };
+  manager_left: { userId: string };
+  affiliation_request_approved: { userId: string; affiliationId: string };
+  affiliation_request_rejected: { userId: string; affiliationId: string };
 };
 
 // typed notifications (database + typed metadata)

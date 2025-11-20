@@ -81,7 +81,7 @@ export function convertPlayerToEntity(playerModel: PlayerModel) {
   const tournamentEntity: ChessTournamentEntity = {
     entityId: playerModel.id,
     entityNickname: playerModel.nickname,
-    colourIndex: playerModel.color_index,
+    colourIndex: playerModel.colorIndex,
     entityRating: playerModel.rating,
     gamesPlayed: playerModel.draws + playerModel.wins + playerModel.losses,
     pairingNumber: playerModel.pairingNumber,
@@ -110,17 +110,17 @@ export function getGameToInsert(
 
   const gameToInsert: GameModel = {
     id: gameId,
-    white_id: whiteId,
-    black_id: blackId,
-    white_nickname: finalizedMatch.whiteEntity.entityNickname,
-    black_nickname: finalizedMatch.blackEntity.entityNickname,
-    tournament_id: tournamentId,
-    round_number: roundNumber,
-    game_number: finalizedMatch.pairNumber,
+    whiteId: whiteId,
+    blackId: blackId,
+    whiteNickname: finalizedMatch.whiteEntity.entityNickname,
+    blackNickname: finalizedMatch.blackEntity.entityNickname,
+    tournamentId: tournamentId,
+    roundNumber: roundNumber,
+    gameNumber: finalizedMatch.pairNumber,
     // all those fields are set to null here, maybe will rethink that later
-    round_name: null, // TODO: can be equal to round number in R&R
-    white_prev_game_id: null, // TODO: fill the gaps in prev ids
-    black_prev_game_id: null,
+    roundName: null, // TODO: can be equal to round number in R&R
+    whitePrevGameId: null, // TODO: fill the gaps in prev ids
+    blackPrevGameId: null,
     result: null,
   };
   return gameToInsert;

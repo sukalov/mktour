@@ -16,7 +16,7 @@ export default function SwissRoundsNumber() {
   const { data } = useTournamentInfo(tournamentId);
   const { data: players } = useTournamentPlayers(tournamentId);
   const t = useTranslations('Tournament.Main');
-  const [value, setValue] = useState(data?.tournament.rounds_number);
+  const [value, setValue] = useState(data?.tournament.roundsNumber);
   const queryClient = useQueryClient();
   const { sendJsonMessage } = useContext(DashboardContext);
   const { mutate, isPending } = useSaveRoundsNumberMutation(
@@ -25,12 +25,12 @@ export default function SwissRoundsNumber() {
   );
 
   const minValue =
-    data?.tournament.rounds_number ||
+    data?.tournament.roundsNumber ||
     (players ? getSwissMinRoundsNumber(players.length) : undefined);
 
   const isInputChaged =
-    (value !== 0 || data?.tournament.rounds_number) &&
-    data?.tournament.rounds_number !== value;
+    (value !== 0 || data?.tournament.roundsNumber) &&
+    data?.tournament.roundsNumber !== value;
 
   return (
     <form
@@ -49,9 +49,9 @@ export default function SwissRoundsNumber() {
         placeholder={minValue ? minValue.toString() : undefined}
         value={value ? value.toString() : ''}
         onChange={(e) => setValue(Number(e.target.value))}
-        name="rounds_number"
+        name="roundsNumber"
       />
-      <Label className="text-base" htmlFor="rounds_number">
+      <Label className="text-base" htmlFor="roundsNumber">
         {t('number of rounds')}
       </Label>
       <div className="grow" />

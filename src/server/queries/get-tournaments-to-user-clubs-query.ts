@@ -13,9 +13,9 @@ export default async function getTournamentsToUserClubsQuery({
   const userClubs = await db
     .select()
     .from(clubs_to_users)
-    .where(eq(clubs_to_users.user_id, user.id));
+    .where(eq(clubs_to_users.userId, user.id));
 
-  const clubIds = userClubs.map((club) => club.club_id);
+  const clubIds = userClubs.map((club) => club.clubId);
 
   if (clubIds.length === 0) {
     return [];
@@ -28,8 +28,8 @@ export default async function getTournamentsToUserClubsQuery({
       club: clubs,
     })
     .from(tournaments)
-    .innerJoin(clubs, eq(tournaments.club_id, clubs.id))
-    .where(inArray(tournaments.club_id, clubIds));
+    .innerJoin(clubs, eq(tournaments.clubId, clubs.id))
+    .where(inArray(tournaments.clubId, clubIds));
 
   return tournamentsFromUserClubs as TournamentWithClub[];
 }

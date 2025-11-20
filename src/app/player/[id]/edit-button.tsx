@@ -36,7 +36,7 @@ const EditButton: FC<{
           <Description hidden />
         </Header>
         <EditPlayerForm
-          {...{ player, clubId: player.club_id, userId, status, setOpen }}
+          {...{ player, clubId: player.clubId, userId, status, setOpen }}
         />
       </Content>
     </Root>

@@ -10,9 +10,9 @@ const selectClub = async ({ clubId }: { clubId: string }) => {
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   return await db
     .update(users)
-    .set({ selected_club: clubId })
+    .set({ selectedClub: clubId })
     .where(eq(users.id, user.id))
-    .returning({ selected_club: users.selected_club })
+    .returning({ selectedClub: users.selectedClub })
     .get();
 };
 

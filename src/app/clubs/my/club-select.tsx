@@ -28,15 +28,15 @@ const ClubSelect: FC<{ user: DatabaseUser }> = ({ user }) => {
       duration: 3000,
     });
   if (status !== 'success') return <SelectSkeleton />;
-  const placeholder = clubs.find((club) => club.id === user.selected_club)
+  const placeholder = clubs.find((club) => club.id === user.selectedClub)
     ?.name ?? <SelectSkeleton />;
   const sortedClubs = clubs.sort((a, b) =>
-    a.id === user.selected_club ? -1 : b.id === user.selected_club ? 1 : 0,
+    a.id === user.selectedClub ? -1 : b.id === user.selectedClub ? 1 : 0,
   );
 
   return (
     <Select
-      value={user.selected_club}
+      value={user.selectedClub}
       onValueChange={(value) =>
         clubSelection.mutate({
           clubId: value,

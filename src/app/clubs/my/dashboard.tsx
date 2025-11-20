@@ -38,7 +38,7 @@ export default function Dashboard({ userId }: { userId: string }) {
       />
       <div className="fixed top-14 z-10 w-full">
         <ClubDashboardTabList
-          selectedClub={data.selected_club}
+          selectedClub={data.selectedClub}
           activeTab={tab}
           setTab={setTab}
         />
@@ -47,7 +47,7 @@ export default function Dashboard({ userId }: { userId: string }) {
       <div className="fixed h-full w-full overflow-scroll">
         <div ref={ref} className="mk-container relative pt-21">
           <div className="h-full pb-20 md:pt-2">
-            <ActiveTab userId={userId} selectedClub={data.selected_club} />
+            <ActiveTab userId={userId} selectedClub={data.selectedClub} />
           </div>
         </div>
       </div>

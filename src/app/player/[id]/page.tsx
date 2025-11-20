@@ -37,9 +37,9 @@ async function PlayerPageContent(props: PlayerPageProps) {
       playerId: player.id,
     });
 
-  const isOwnPlayer = user && player.user_id === user.id;
+  const isOwnPlayer = user && player.userId === user.id;
   const canEdit = status || isOwnPlayer;
-  const canClaim = !status && user && !player.user_id;
+  const canClaim = !status && user && !player.userId;
 
   return (
     <div className="mk-container flex w-full flex-col gap-2">
@@ -69,7 +69,7 @@ async function PlayerPageContent(props: PlayerPageProps) {
         <p>
           <FormattedMessage id="Player.club" />
           {': '}
-          <Link className="mk-link" href={`/clubs/${player.club_id}`}>
+          <Link className="mk-link" href={`/clubs/${player.clubId}`}>
             {club.name}
           </Link>
         </p>

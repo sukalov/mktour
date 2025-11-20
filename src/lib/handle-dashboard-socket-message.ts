@@ -80,9 +80,9 @@ export const handleSocketMessage = (
           nickname: removedPlayer.nickname,
           realname: removedPlayer.realname ?? null,
           rating: removedPlayer.rating,
-          club_id: '',
-          user_id: null,
-          last_seen: null,
+          clubId: '',
+          userId: null,
+          lastSeen: null,
         };
         queryClient.setQueryData(
           trpc.tournament.playersOut.queryKey({ tournamentId }),
@@ -124,7 +124,7 @@ export const handleSocketMessage = (
         trpc.tournament.info.queryKey({ tournamentId }),
         (cache) => {
           if (!cache) return cache;
-          cache.tournament.started_at = message.started_at;
+          cache.tournament.startedAt = message.startedAt;
           return cache;
         },
       );
@@ -133,7 +133,7 @@ export const handleSocketMessage = (
         trpc.tournament.info.queryKey({ tournamentId }),
         (cache) => {
           if (!cache) return cache;
-          cache.tournament.started_at = null;
+          cache.tournament.startedAt = null;
           return cache;
         },
       );
@@ -173,7 +173,7 @@ export const handleSocketMessage = (
         trpc.tournament.info.queryKey({ tournamentId }),
         (cache) => {
           if (!cache) return cache;
-          cache.tournament.closed_at = message.closed_at;
+          cache.tournament.closedAt = message.closedAt;
           return cache;
         },
       );

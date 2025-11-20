@@ -16,19 +16,19 @@ export const players = sqliteTable(
     id: text('id').primaryKey(),
     nickname: text('nickname').notNull(),
     realname: text('realname'),
-    user_id: text('user_id').references(() => users.id),
+    userId: text('user_id').references(() => users.id),
     rating: integer('rating').notNull(),
-    club_id: text('club_id')
+    clubId: text('club_id')
       .references(() => clubs.id)
       .notNull(),
-    last_seen: integer('last_seen'), // equals closed_at() last tournament they participated
+    lastSeen: integer('last_seen'), // equals closed_at() last tournament they participated
   },
   (table) => [
     uniqueIndex('player_nickname_club_unique_idx').on(
       table.nickname,
-      table.club_id,
+      table.clubId,
     ),
-    uniqueIndex('player_user_club_unique_idx').on(table.user_id, table.club_id),
+    uniqueIndex('player_user_club_unique_idx').on(table.userId, table.clubId),
   ],
 );
 
@@ -38,47 +38,47 @@ export const affiliations = sqliteTable(
   'affiliation',
   {
     id: text('id').primaryKey(),
-    user_id: text('user_id')
+    userId: text('user_id')
       .references(() => users.id, { onDelete: 'cascade' })
       .notNull(),
-    club_id: text('club_id')
+    clubId: text('club_id')
       .references(() => clubs.id, { onDelete: 'cascade' })
       .notNull(),
-    player_id: text('player_id')
+    playerId: text('player_id')
       .references(() => players.id, { onDelete: 'cascade' })
       .notNull(),
     status: text('status').$type<AffiliationStatus>().notNull(),
-    created_at: integer('created_at', { mode: 'timestamp' })
+    createdAt: integer('created_at', { mode: 'timestamp' })
       .$default(() => new Date())
       .notNull(),
-    updated_at: integer('updated_at', { mode: 'timestamp' })
+    updatedAt: integer('updated_at', { mode: 'timestamp' })
       .$default(() => new Date())
       .notNull(),
   },
   (table) => [
     uniqueIndex('affiliation_user_club_unique_idx').on(
-      table.user_id,
-      table.club_id,
+      table.userId,
+      table.clubId,
     ),
   ],
 );
 
 export const players_relations = relations(players, ({ one, many }) => ({
-  club: one(clubs, { fields: [players.club_id], references: [clubs.id] }),
+  club: one(clubs, { fields: [players.clubId], references: [clubs.id] }),
   tournaments: many(players_to_tournaments),
 }));
 
 export const affiliations_relations = relations(affiliations, ({ one }) => ({
   user: one(users, {
-    fields: [affiliations.user_id],
+    fields: [affiliations.userId],
     references: [users.id],
   }),
   club: one(clubs, {
-    fields: [affiliations.club_id],
+    fields: [affiliations.clubId],
     references: [clubs.id],
   }),
   player: one(players, {
-    fields: [affiliations.player_id],
+    fields: [affiliations.playerId],
     references: [players.id],
   }),
 }));

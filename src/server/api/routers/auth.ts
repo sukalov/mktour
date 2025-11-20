@@ -70,11 +70,10 @@ export const authRouter = {
     .input(z.object({ clubId: z.string() }))
     .mutation(async (opts) => {
       const { input } = opts;
-      const { selected_club } = await selectClub(input);
-      console.log(input);
+      const { selectedClub } = await selectClub(input);
       await timeout(1000);
       revalidateTag(CACHE_TAGS.AUTH, 'max');
-      return selected_club;
+      return selectedClub;
     }),
   delete: protectedProcedure
     .input(

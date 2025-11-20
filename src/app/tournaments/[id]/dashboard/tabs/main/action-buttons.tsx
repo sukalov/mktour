@@ -13,9 +13,9 @@ const ActionButtonsRoot: FC<{
 }> = ({ status, tournament }) => {
   if (status !== 'organizer') return null;
 
-  const { closed_at, rounds_number, ongoing_round, started_at } = tournament;
+  const { closedAt, roundsNumber, ongoingRound, startedAt } = tournament;
 
-  if (closed_at) {
+  if (closedAt) {
     return (
       <>
         <ResetTournamentButton />
@@ -24,16 +24,16 @@ const ActionButtonsRoot: FC<{
     );
   }
 
-  if (started_at && rounds_number === ongoing_round) {
+  if (startedAt && roundsNumber === ongoingRound) {
     return (
       <>
-        <FinishTournamentButton lastRoundNumber={rounds_number} />
+        <FinishTournamentButton lastRoundNumber={roundsNumber} />
         <ResetTournamentButton />
       </>
     );
   }
 
-  if (started_at) return <ResetTournamentButton />;
+  if (startedAt) return <ResetTournamentButton />;
 
   return (
     <>

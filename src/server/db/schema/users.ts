@@ -13,14 +13,14 @@ export const users = sqliteTable('user', {
   email: text('email').notNull().unique(),
   username: text('username').notNull().unique(),
   rating: int('rating'),
-  selected_club: text('selected_club')
+  selectedClub: text('selected_club')
     .references(() => clubs.id)
     .notNull(),
-  created_at: integer('created_at', { mode: 'timestamp' }).notNull(),
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
 });
 
 export const user_preferences = sqliteTable('user_preferences', {
-  user_id: text('user_id')
+  userId: text('user_id')
     .primaryKey()
     .references(() => users.id),
   language: text('language').$default(() => 'en'),

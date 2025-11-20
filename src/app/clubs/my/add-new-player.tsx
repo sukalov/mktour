@@ -84,21 +84,18 @@ const AddNewPlayer = ({}: DrawerProps) => {
       id: newid(),
       nickname: '',
       rating: 1500,
-      club_id: user.data?.selected_club,
+      clubId: user.data?.selectedClub,
     },
     reValidateMode: 'onSubmit',
   });
 
   function onSubmit(data: NewPlayerFormType) {
-    mutate(
-      { ...data, clubId: data.club_id },
-      {
-        onSuccess: () => {
-          form.reset();
-          form.setValue('id', newid());
-        },
+    mutate(data, {
+      onSuccess: () => {
+        form.reset();
+        form.setValue('id', newid());
       },
-    );
+    });
   }
   return (
     <Form {...form}>

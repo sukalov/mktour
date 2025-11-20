@@ -9,7 +9,7 @@ const Winners: FC<TournamentInfo> = ({ tournament }) => {
   const { data: players } = useTournamentPlayers(tournament.id);
   const winners = groupWinnersByPlace(players);
 
-  if (!winners || !tournament.closed_at) return null;
+  if (!winners || !tournament.closedAt) return null;
   return (
     <div className="flex flex-col gap-4">
       {Object.entries(winners).map(([place, players]) => (

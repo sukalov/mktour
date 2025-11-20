@@ -26,7 +26,7 @@ export function TeamSelector({ teams, form }: TeamSelectorProps) {
     return (
       <FormField
         control={form.control}
-        name="lichess_team"
+        name="lichessTeam"
         render={({ field }) => (
           <FormItem>
             <Select
@@ -49,7 +49,7 @@ export function TeamSelector({ teams, form }: TeamSelectorProps) {
   return (
     <FormField
       control={form.control}
-      name="lichess_team"
+      name="lichessTeam"
       key={Number(state)}
       render={({ field }) => (
         <FormItem>
@@ -67,19 +67,19 @@ export function TeamSelector({ teams, form }: TeamSelectorProps) {
                 <SelectItem
                   key={team.value}
                   value={team.value}
-                  className={`${form.getValues('lichess_team') && 'text-muted-foreground'}`}
+                  className={`${form.getValues('lichessTeam') && 'text-muted-foreground'}`}
                   onClick={(e) => e.stopPropagation()}
                 >
                   {team.label}
                 </SelectItem>
               ))}
-              {form.getValues('lichess_team') && (
+              {form.getValues('lichessTeam') && (
                 <Button
                   id="removeSelection"
                   className="h-[30px] w-full justify-start pl-8"
                   variant="ghost"
                   onClick={() => {
-                    form.resetField('lichess_team');
+                    form.resetField('lichessTeam');
                     setState(!state);
                   }}
                   style={{ pointerEvents: 'auto' }}

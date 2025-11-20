@@ -43,9 +43,9 @@ export const useTournamentAddNewPlayer = (
           wins: 0,
           losses: 0,
           draws: 0,
-          color_index: 0,
+          colorIndex: 0,
           place: null,
-          is_out: null,
+          isOut: null,
           pairingNumber: null,
         };
 
@@ -93,7 +93,7 @@ export const useTournamentAddNewPlayer = (
         saveRound.mutate({ tournamentId, roundNumber: 1, newGames });
         queryClient.setQueryData(
           [tournamentId, 'games', { roundNumber: 1 }],
-          () => newGames.sort((a, b) => a.game_number - b.game_number),
+          () => newGames.sort((a, b) => a.gameNumber - b.gameNumber),
         );
       },
     }),

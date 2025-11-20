@@ -34,36 +34,36 @@ export async function requestAffiliation({
     db
       .select()
       .from(players)
-      .where(and(eq(players.user_id, userId), eq(players.club_id, clubId))),
+      .where(and(eq(players.userId, userId), eq(players.clubId, clubId))),
     db
       .select()
       .from(affiliations)
       .where(
-        and(eq(affiliations.user_id, userId), eq(affiliations.club_id, clubId)),
+        and(eq(affiliations.userId, userId), eq(affiliations.clubId, clubId)),
       ),
   ]);
   if (existingAffiliations.at(0) || existingPlayers.at(0))
     throw new Error('AFFILIATION_EXISTS');
 
-  const created_at = new Date();
+  const createdAt = new Date();
 
   const newAffiliation: InsertDatabaseAffiliation = {
     id: newid(),
-    user_id: userId,
-    player_id: playerId,
-    club_id: clubId,
+    userId: userId,
+    playerId: playerId,
+    clubId: clubId,
     status: 'requested',
-    created_at,
-    updated_at: created_at,
+    createdAt,
+    updatedAt: createdAt,
   };
 
   const newNotification: InsertDatabaseClubNotification = {
     id: newid(),
-    club_id: clubId,
+    clubId: clubId,
     event: 'affiliation_request',
-    is_seen: false,
-    created_at,
-    metadata: { affiliation_id: newAffiliation.id, user_id: userId },
+    isSeen: false,
+    createdAt,
+    metadata: { affiliationId: newAffiliation.id, userId },
   };
 
   await Promise.all([
@@ -88,36 +88,36 @@ export async function acceptAffiliation({
   });
 
   if (!affiliation) throw new Error('AFFILIATION_NOT_FOUND');
-  if (affiliation.club_id !== user.selected_club)
+  if (affiliation.clubId !== user.selectedClub)
     throw new Error('CLUB_ID_NOT_MATCHING');
   if (affiliation.status !== 'requested')
     throw new Error('AFFILIATION_STATUS_NOT_REQUESTED');
 
   const newNotification: InsertDatabaseUserNotification = {
     id: newid(),
-    user_id: affiliation.user_id,
+    userId: affiliation.userId,
     event: 'affiliation_approved',
-    is_seen: false,
-    created_at: new Date(),
-    metadata: { club_id: affiliation.club_id, affiliation_id: affiliationId },
+    isSeen: false,
+    createdAt: new Date(),
+    metadata: { clubId: affiliation.clubId, affiliationId: affiliationId },
   };
 
   await Promise.all([
     db
       .update(affiliations)
-      .set({ status: 'active', updated_at: new Date() })
+      .set({ status: 'active', updatedAt: new Date() })
       .where(eq(affiliations.id, affiliationId)),
     db
       .update(players)
-      .set({ user_id: affiliation.user_id })
-      .where(eq(players.id, affiliation.player_id)),
+      .set({ userId: affiliation.userId })
+      .where(eq(players.id, affiliation.playerId)),
     db
       .update(club_notifications)
-      .set({ is_seen: true, event: 'affiliation_request_approved' })
+      .set({ isSeen: true, event: 'affiliation_request_approved' })
       .where(eq(club_notifications.id, notificationId)),
     db.insert(user_notifications).values(newNotification),
   ]);
-  revalidatePath(`/player/${affiliation.player_id}`);
+  revalidatePath(`/player/${affiliation.playerId}`);
 
   return affiliation;
 }
@@ -136,32 +136,32 @@ export async function rejectAffiliation({
     where: eq(affiliations.id, affiliationId),
   });
   if (!affiliation) throw new Error('AFFILIATION_NOT_FOUND');
-  if (affiliation.club_id !== user.selected_club)
+  if (affiliation.clubId !== user.selectedClub)
     throw new Error('CLUB_ID_NOT_MATCHING');
   if (affiliation.status !== 'requested')
     throw new Error('AFFILIATION_STATUS_NOT_REQUESTED');
 
   const newNotification: InsertDatabaseUserNotification = {
     id: newid(),
-    user_id: affiliation.user_id,
+    userId: affiliation.userId,
     event: 'affiliation_rejected',
-    is_seen: false,
-    created_at: new Date(),
-    metadata: { club_id: affiliation.club_id, affiliation_id: affiliationId },
+    isSeen: false,
+    createdAt: new Date(),
+    metadata: { clubId: affiliation.clubId, affiliationId: affiliationId },
   };
 
   await Promise.all([
     db
       .update(affiliations)
-      .set({ status: 'cancelled_by_club', updated_at: new Date() })
+      .set({ status: 'cancelled_by_club', updatedAt: new Date() })
       .where(eq(affiliations.id, affiliationId)),
     db
       .update(club_notifications)
-      .set({ is_seen: true, event: 'affiliation_request_rejected' })
+      .set({ isSeen: true, event: 'affiliation_request_rejected' })
       .where(eq(club_notifications.id, notificationId)),
     db.insert(user_notifications).values(newNotification),
   ]);
-  revalidatePath(`/player/${affiliation.player_id}`);
+  revalidatePath(`/player/${affiliation.playerId}`);
 
   return affiliation;
 }

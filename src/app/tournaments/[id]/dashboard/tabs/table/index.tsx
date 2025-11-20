@@ -42,8 +42,8 @@ const TournamentTable: FC = ({}) => {
   const [selectedPlayer, setSelectedPlayer] = useState<PlayerModel | null>(
     null,
   );
-  const hasStarted = !!tournament.data?.tournament.started_at;
-  const hasEnded = !!tournament.data?.tournament.closed_at;
+  const hasStarted = !!tournament.data?.tournament.startedAt;
+  const hasEnded = !!tournament.data?.tournament.closedAt;
   const stats =
     tournament.data?.tournament.format === 'swiss' ? STATS_WITH_BERGER : STATS;
 
@@ -94,7 +94,7 @@ const TournamentTable: FC = ({}) => {
                 </Place>
               </TableCellStyled>
               <TableCellStyled className="font-small flex gap-2 truncate pl-0">
-                <Status player={{ ...player, is_out: false }}>
+                <Status player={{ ...player, isOut: false }}>
                   {player.nickname}
                 </Status>
               </TableCellStyled>
@@ -204,7 +204,7 @@ const Status: FC<{ player: PlayerModel } & PropsWithChildren> = ({
   player,
   children,
 }) => {
-  if (!player.is_out) return children;
+  if (!player.isOut) return children;
   return (
     <div className="flex items-center gap-2 opacity-50">
       <UserRoundX className="size-4 min-w-fit" />

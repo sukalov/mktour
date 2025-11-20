@@ -35,24 +35,24 @@ export const createClub = async (values: ClubFormType) => {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   const id = newid();
-  const created_at = new Date();
+  const createdAt = new Date();
   const newClub = {
     ...values,
     id,
-    created_at,
+    createdAt,
   };
   const newRelation: DatabaseClubsToUsers = {
     id: `${user.id}=${id}`,
-    club_id: id,
-    user_id: user.id,
+    clubId: id,
+    userId: user.id,
     status: 'co-owner',
-    promoted_at: new Date(),
+    promotedAt: new Date(),
   };
   try {
     const [returnedClubs] = await Promise.all([
       db.insert(clubs).values(newClub).returning(),
       db.insert(clubs_to_users).values(newRelation),
-      db.update(users).set({ selected_club: id }).where(eq(users.id, user.id)),
+      db.update(users).set({ selectedClub: id }).where(eq(users.id, user.id)),
     ]);
 
     const returnedClub = returnedClubs.at(0);
@@ -102,7 +102,7 @@ export const createPlayer = async ({
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   const status = await getStatusInClub({
     userId: user.id,
-    clubId: player.club_id,
+    clubId: player.clubId,
   });
   if (!status) throw new Error('NOT_ADMIN');
   try {
@@ -123,19 +123,19 @@ export const deletePlayer = async ({
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   const [playerClub] = await db
-    .select({ club_id: players.club_id })
+    .select({ clubId: players.clubId })
     .from(players)
     .where(eq(players.id, playerId));
-  if (playerClub.club_id !== clubId) throw new Error('CLUB_ID_NOT_MATCHING');
+  if (playerClub.clubId !== clubId) throw new Error('CLUB_ID_NOT_MATCHING');
   const status = await getStatusInClub({
     userId: user.id,
-    clubId: playerClub.club_id,
+    clubId: playerClub.clubId,
   });
   if (!status) throw new Error('NOT_ADMIN');
   const [playerTournament] = await db
-    .select({ tournament_id: players_to_tournaments.tournament_id })
+    .select({ tournamentId: players_to_tournaments.tournamentId })
     .from(players_to_tournaments)
-    .where(eq(players_to_tournaments.player_id, playerId))
+    .where(eq(players_to_tournaments.playerId, playerId))
     .limit(1);
 
   if (playerTournament) {
@@ -157,13 +157,13 @@ export const editPlayer = async ({
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   const [playerClub] = await db
-    .select({ club_id: players.club_id })
+    .select({ clubId: players.clubId })
     .from(players)
     .where(eq(players.id, values.id));
-  if (playerClub.club_id !== clubId) throw new Error('CLUB_ID_NOT_MATCHING');
+  if (playerClub.clubId !== clubId) throw new Error('CLUB_ID_NOT_MATCHING');
   const status = await getStatusInClub({
     userId: user.id,
-    clubId: playerClub.club_id,
+    clubId: playerClub.clubId,
   });
   if (!status) throw new Error('NOT_ADMIN');
   await db.update(players).set(values).where(eq(players.id, values.id));
@@ -171,13 +171,13 @@ export const editPlayer = async ({
 };
 
 export default async function getAllClubManagers(
-  club_id: string,
+  clubId: string,
 ): Promise<ClubManager[]> {
   return await db
     .select()
     .from(clubs_to_users)
-    .where(eq(clubs_to_users.club_id, club_id))
-    .innerJoin(users, eq(clubs_to_users.user_id, users.id));
+    .where(eq(clubs_to_users.clubId, clubId))
+    .innerJoin(users, eq(clubs_to_users.userId, users.id));
 }
 
 export type ClubManager = {
@@ -195,8 +195,8 @@ export const deleteClubFunction = async ({
     .from(clubs_to_users)
     .where(
       and(
-        eq(clubs_to_users.user_id, userId),
-        ne(clubs_to_users.club_id, clubId),
+        eq(clubs_to_users.userId, userId),
+        ne(clubs_to_users.clubId, clubId),
         eq(clubs_to_users.status, 'co-owner'),
       ),
     )
@@ -209,7 +209,7 @@ export const deleteClubFunction = async ({
   if (!userDeletion) {
     await db
       .update(users)
-      .set({ selected_club: otherClubs[0].club_id })
+      .set({ selectedClub: otherClubs[0].clubId })
       .where(eq(users.id, userId));
   }
   await db.batch([
@@ -217,30 +217,30 @@ export const deleteClubFunction = async ({
       .delete(games)
       .where(
         eq(
-          games.tournament_id,
+          games.tournamentId,
           db
             .select({ id: tournaments.id })
             .from(tournaments)
-            .where(eq(tournaments.club_id, clubId)),
+            .where(eq(tournaments.clubId, clubId)),
         ),
       ),
     db
       .delete(players_to_tournaments)
       .where(
         eq(
-          players_to_tournaments.tournament_id,
+          players_to_tournaments.tournamentId,
           db
             .select({ id: tournaments.id })
             .from(tournaments)
-            .where(eq(tournaments.club_id, clubId)),
+            .where(eq(tournaments.clubId, clubId)),
         ),
       ),
 
-    db.delete(affiliations).where(eq(affiliations.club_id, clubId)),
-    db.delete(club_notifications).where(eq(club_notifications.club_id, clubId)),
-    db.delete(players).where(eq(players.club_id, clubId)),
-    db.delete(tournaments).where(eq(tournaments.club_id, clubId)),
-    db.delete(clubs_to_users).where(eq(clubs_to_users.club_id, clubId)),
+    db.delete(affiliations).where(eq(affiliations.clubId, clubId)),
+    db.delete(club_notifications).where(eq(club_notifications.clubId, clubId)),
+    db.delete(players).where(eq(players.clubId, clubId)),
+    db.delete(tournaments).where(eq(tournaments.clubId, clubId)),
+    db.delete(clubs_to_users).where(eq(clubs_to_users.clubId, clubId)),
 
     db.delete(clubs).where(eq(clubs.id, clubId)),
   ]);
@@ -251,8 +251,8 @@ export const getClubAffiliatedUsers = async (clubId: string) => {
     await db
       .select()
       .from(players)
-      .where(eq(players.club_id, clubId))
-      .innerJoin(users, eq(players.user_id, users.id))
+      .where(eq(players.clubId, clubId))
+      .innerJoin(users, eq(players.userId, users.id))
   ).map((el) => el.user);
 };
 
@@ -277,27 +277,24 @@ export const addClubManager = async ({
     .select()
     .from(clubs_to_users)
     .where(
-      and(
-        eq(clubs_to_users.club_id, clubId),
-        eq(clubs_to_users.user_id, userId),
-      ),
+      and(eq(clubs_to_users.clubId, clubId), eq(clubs_to_users.userId, userId)),
     );
   if (existingRelation.length > 0) throw new Error('RELATION_EXISTS');
   const newRelation: DatabaseClubsToUsers = {
     id: `${clubId}=${userId}`,
-    club_id: clubId,
-    user_id: userId,
+    clubId: clubId,
+    userId: userId,
     status,
-    promoted_at: new Date(),
+    promotedAt: new Date(),
   };
 
   const userNotification: InsertDatabaseUserNotification = {
     id: newid(),
-    user_id: userId,
+    userId: userId,
     event: 'became_club_manager',
-    is_seen: false,
-    created_at: new Date(),
-    metadata: { club_id: clubId, role: status },
+    isSeen: false,
+    createdAt: new Date(),
+    metadata: { clubId: clubId, role: status },
   };
   await Promise.all([
     db.insert(clubs_to_users).values(newRelation),
@@ -327,10 +324,7 @@ export const deleteClubManager = async ({
   await db
     .delete(clubs_to_users)
     .where(
-      and(
-        eq(clubs_to_users.club_id, clubId),
-        eq(clubs_to_users.user_id, userId),
-      ),
+      and(eq(clubs_to_users.clubId, clubId), eq(clubs_to_users.userId, userId)),
     );
 };
 
@@ -339,30 +333,30 @@ export const leaveClub = async (clubId: string) => {
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   const otherClubId = (
     await db
-      .select({ club_id: clubs_to_users.club_id })
+      .select({ clubId: clubs_to_users.clubId })
       .from(clubs_to_users)
       .where(
         and(
-          eq(clubs_to_users.user_id, user.id),
-          ne(clubs_to_users.club_id, clubId),
+          eq(clubs_to_users.userId, user.id),
+          ne(clubs_to_users.clubId, clubId),
           eq(clubs_to_users.status, 'co-owner'),
         ),
       )
       .limit(1)
-  ).at(0)?.club_id;
+  ).at(0)?.clubId;
   if (!otherClubId) throw new Error('NO_OTHER_CLUB_CO_OWNER');
 
   await db.transaction(async (tx) => {
     await tx
       .update(users)
-      .set({ selected_club: otherClubId })
+      .set({ selectedClub: otherClubId })
       .where(eq(users.id, user.id));
     await tx
       .delete(clubs_to_users)
       .where(
         and(
-          eq(clubs_to_users.club_id, clubId),
-          eq(clubs_to_users.user_id, user.id),
+          eq(clubs_to_users.clubId, clubId),
+          eq(clubs_to_users.userId, user.id),
         ),
       );
   });

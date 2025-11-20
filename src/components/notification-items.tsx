@@ -48,7 +48,7 @@ export const AffiliationNotificationLi = ({
   if (!user || !affiliation) return null;
 
   const variables = {
-    clubId: notification.club_id,
+    clubId: notification.clubId,
     affiliationId: affiliation.id,
     notificationId: notification.id,
   };
@@ -63,7 +63,7 @@ export const AffiliationNotificationLi = ({
   return (
     <NotificationCard
       key={notification.id}
-      is_seen={notification.is_seen}
+      is_seen={notification.isSeen}
       className="flex flex-col gap-2"
     >
       <p className="text-muted-foreground flex items-center gap-2 text-xs">
@@ -109,7 +109,7 @@ export const UserNotificationLi: FC<AnyUserNotificationExtended> = (props) => {
     <NotificationCard
       className="flex flex-col gap-1"
       key={notification.id}
-      is_seen={notification.is_seen}
+      is_seen={notification.isSeen}
     >
       <p className="text-muted-foreground flex items-center gap-1 text-xs">
         <Icon size={16} />

@@ -15,8 +15,8 @@ export const editProfileFormSchema = usersUpdateSchema
     id: true,
     username: true,
     email: true,
-    created_at: true,
-    selected_club: true,
+    createdAt: true,
+    selectedClub: true,
     rating: true,
   })
   .extend({

@@ -7,7 +7,7 @@ import { FC } from 'react';
 
 const Mobile: FC<ClubTabProps & { club: DatabaseClub }> = ({ club }) => {
   const locale = useLocale();
-  const createdAt = club.created_at?.toLocaleDateString([locale], {
+  const createdAt = club.createdAt.toLocaleDateString([locale], {
     dateStyle: 'medium',
   });
 

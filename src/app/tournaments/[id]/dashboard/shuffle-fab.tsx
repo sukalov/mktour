@@ -26,7 +26,7 @@ const ShuffleFab = () => {
     isTournamentGoing: false,
   });
 
-  if (data?.tournament.started_at || !games.data || !players.data) return null;
+  if (data?.tournament.startedAt || !games.data || !players.data) return null;
 
   if (players.data && players.data.length < 3) return <AddPlayerDrawer />;
 

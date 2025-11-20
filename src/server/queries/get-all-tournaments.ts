@@ -8,6 +8,6 @@ export default async function getAllTournaments() {
   const allTournaments = await db
     .select()
     .from(tournaments)
-    .innerJoin(clubs, eq(tournaments.club_id, clubs.id));
+    .innerJoin(clubs, eq(tournaments.clubId, clubs.id));
   return allTournaments;
 }

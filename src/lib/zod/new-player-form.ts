@@ -12,8 +12,8 @@ export const playerSchema = {
     .max(3000, {
       error: 'max rating',
     }),
-  club_id: z.string(),
-  user_id: z.string().optional(),
+  clubId: z.string(),
+  userId: z.string().optional(),
   realname: z.string().optional().nullable(),
 };
 

@@ -33,11 +33,11 @@ export const getUserInfoByUsername = async (username: string) => {
 type UserContext = {
   user: User;
   userClubs: {
-    [club_id: string]: StatusInClub; // "admin" | "co-owner"
+    [clubId: string]: StatusInClub; // "admin" | "co-owner"
   };
   userAffiliations: {
-    [club_id: string]: {
-      player_id: string;
+    [clubId: string]: {
+      playerId: string;
       status: AffiliationStatus;
     };
   };
@@ -47,15 +47,15 @@ const getAffiliations = async (userId: string) => {
   return (
     await db
       .select({
-        club_id: affiliations.club_id,
-        player_id: affiliations.player_id,
+        clubId: affiliations.clubId,
+        playerId: affiliations.playerId,
         status: affiliations.status,
       })
       .from(affiliations)
-      .where(eq(affiliations.user_id, userId))
+      .where(eq(affiliations.userId, userId))
   ).reduce(
     (acc, curr) => {
-      acc[curr.club_id] = curr;
+      acc[curr.clubId] = curr;
       return acc;
     },
     {} as UserContext['userAffiliations'],

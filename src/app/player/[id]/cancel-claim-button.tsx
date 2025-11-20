@@ -30,7 +30,7 @@ const CancelClaimPlayer: FC<{
     mutate({
       affiliationId: affiliation.id,
       userId,
-      playerId: affiliation.player_id,
+      playerId: affiliation.playerId,
     });
   };
   const t = useTranslations();

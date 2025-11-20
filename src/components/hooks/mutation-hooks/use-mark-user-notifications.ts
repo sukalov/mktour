@@ -26,7 +26,7 @@ export const useChangeNotificationStatusMutation = (
             for (const page of newCache.pages) {
               for (const item of page.notifications) {
                 if (item.notification.id === notificationId) {
-                  item.notification.is_seen = seen;
+                  item.notification.isSeen = seen;
                   found = true;
                   break;
                 }
@@ -80,7 +80,7 @@ export const useMarkAllNotificationAsSeenMutation = (
 
             newCache.pages.forEach((page) => {
               page.notifications.forEach((item) => {
-                item.notification.is_seen = true;
+                item.notification.isSeen = true;
               });
             });
 

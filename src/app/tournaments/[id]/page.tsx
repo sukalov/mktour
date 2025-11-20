@@ -35,7 +35,7 @@ export default async function TournamentPage(props: TournamentPageProps) {
         id={params.id}
         status={status}
         userId={user?.id}
-        currentRound={tournament.tournament.ongoing_round}
+        currentRound={tournament.tournament.ongoingRound}
       />
     </HydrationBoundary>
   );

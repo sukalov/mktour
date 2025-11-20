@@ -14,11 +14,11 @@ export const clubsInsertSchema = createInsertSchema(clubs, {
     s
       .min(3, { error: 'short club name' })
       .max(100, { error: 'long club name' }),
-  lichess_team: (s) =>
+  lichessTeam: (s) =>
     s
-      .superRefine(async (lichess_team, ctx) => {
-        if (!lichess_team) return;
-        const team = await validateLichessTeam({ lichess_team });
+      .superRefine(async (lichessTeam, ctx) => {
+        if (!lichessTeam) return;
+        const team = await validateLichessTeam({ lichessTeam });
 
         if (team) {
           ctx.addIssue({
@@ -29,6 +29,6 @@ export const clubsInsertSchema = createInsertSchema(clubs, {
       })
       .optional(),
   description: z.string().optional(),
-}).omit({ id: true, created_at: true });
+}).omit({ id: true, createdAt: true });
 
 export type ClubFormType = z.infer<typeof clubsInsertSchema>;

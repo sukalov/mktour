@@ -14,12 +14,12 @@ export default function useTournamentFinish(
   const trpc = useTRPC();
   return useMutation(
     trpc.tournament.finish.mutationOptions({
-      onSuccess: (_error, { closed_at }) => {
-        if (closed_at) {
+      onSuccess: (_error, { closedAt }) => {
+        if (closedAt) {
           toast.success(t('finished'));
           sendJsonMessage({
             event: 'finish-tournament',
-            closed_at,
+            closedAt,
           });
         }
         queryClient.invalidateQueries({

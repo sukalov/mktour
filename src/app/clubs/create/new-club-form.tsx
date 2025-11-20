@@ -31,7 +31,7 @@ export default function NewClubForm({ teams }: NewClubFormProps) {
     defaultValues: {
       name: '',
       description: undefined,
-      lichess_team: undefined,
+      lichessTeam: undefined,
     },
   });
 
@@ -44,7 +44,7 @@ export default function NewClubForm({ teams }: NewClubFormProps) {
   const handleSubmit = (data: ClubFormType) => {
     const dataWithDate = {
       ...data,
-      created_at: new Date(),
+      createdAt: new Date(),
     };
 
     mutate(dataWithDate, {

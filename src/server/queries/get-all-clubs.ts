@@ -8,7 +8,7 @@ export default async function getAllClubs() {
   const allClubs = await db
     .select()
     .from(clubs)
-    .orderBy(asc(clubs.created_at))
+    .orderBy(asc(clubs.createdAt))
     // .limit(pageSize)
     // .offset((page - 1) * pageSize)
     .$dynamic();

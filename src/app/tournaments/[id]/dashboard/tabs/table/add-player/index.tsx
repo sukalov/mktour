@@ -53,7 +53,7 @@ const AddPlayerDrawer = () => {
   };
 
   const { data: tournamentInfo } = useTournamentInfo(tournamentId);
-  if (!tournamentInfo || tournamentInfo.tournament.started_at) return null;
+  if (!tournamentInfo || tournamentInfo.tournament.startedAt) return null;
 
   return (
     <>

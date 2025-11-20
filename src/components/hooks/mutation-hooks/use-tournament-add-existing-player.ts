@@ -40,9 +40,9 @@ export const useTournamentAddExistingPlayer = (
           wins: 0,
           losses: 0,
           draws: 0,
-          color_index: 0,
+          colorIndex: 0,
           place: null,
-          is_out: null,
+          isOut: null,
           pairingNumber: null,
         };
 
@@ -112,7 +112,7 @@ export const useTournamentAddExistingPlayer = (
               tournamentId,
               roundNumber: 1,
             }),
-            () => newGames.sort((a, b) => a.game_number - b.game_number),
+            () => newGames.sort((a, b) => a.gameNumber - b.gameNumber),
           );
         }
       },

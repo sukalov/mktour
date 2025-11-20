@@ -1,4 +1,5 @@
-import { PlayerModel, Result } from '@/types/tournaments';
+import { GameResult } from '@/server/db/zod/enums';
+import { PlayerModel } from '@/types/tournaments';
 
 type DashboardMessage =
   | { event: 'add-existing-player'; body: PlayerModel }
@@ -7,10 +8,10 @@ type DashboardMessage =
   | {
       event: 'set-game-result';
       gameId: string;
-      result: Result;
+      result: GameResult;
       roundNumber: number;
     }
-  | { event: 'start-tournament'; started_at: Date }
+  | { event: 'start-tournament'; startedAt: Date }
   | { event: 'reset-tournament' }
   | {
       event: 'new-round';
@@ -18,7 +19,7 @@ type DashboardMessage =
       newGames: GameModel[];
       isTournamentGoing: boolean;
     }
-  | { event: 'finish-tournament'; closed_at: Date }
+  | { event: 'finish-tournament'; closedAt: Date }
   | { event: 'delete-tournament' }
   | { event: 'swiss-new-rounds-number'; roundsNumber: number }
   | ErrorMessage;

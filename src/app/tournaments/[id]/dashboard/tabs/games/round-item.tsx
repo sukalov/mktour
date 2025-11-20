@@ -46,12 +46,12 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
   if (isError) return <Center>error</Center>;
   if (!round) return <Center>no round</Center>;
 
-  const { ongoing_round, rounds_number, closed_at } = info.data.tournament;
+  const { ongoingRound, roundsNumber, closedAt } = info.data.tournament;
   const renderFinishButton =
-    status === 'organizer' && !closed_at && ongoing_round === rounds_number;
+    status === 'organizer' && !closedAt && ongoingRound === roundsNumber;
   const renderNewRoundButton =
-    roundNumber === ongoing_round &&
-    ongoing_round !== rounds_number &&
+    roundNumber === ongoingRound &&
+    ongoingRound !== roundsNumber &&
     ongoingGames === 0 &&
     status === 'organizer' &&
     round.length > 0;
@@ -61,7 +61,7 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
       <ActionButton
         renderNewRoundButton={renderNewRoundButton}
         roundNumber={roundNumber}
-        rounds_number={rounds_number}
+        roundsNumber={roundsNumber}
         tournamentId={tournamentId}
         renderFinishButton={renderFinishButton}
       />
@@ -116,41 +116,41 @@ const NewRoundButton: FC<{ tournamentId: string; roundNumber: number }> = ({
 const ActionButton = ({
   renderNewRoundButton,
   roundNumber,
-  rounds_number,
+  roundsNumber,
   tournamentId,
   renderFinishButton,
 }: {
   renderNewRoundButton: boolean;
   roundNumber: number;
-  rounds_number: number | null;
+  roundsNumber: number | null;
   tournamentId: string;
   renderFinishButton: boolean;
 }) => {
-  if (!rounds_number) return null;
+  if (!roundsNumber) return null;
   if (renderNewRoundButton)
     return (
       <NewRoundButton tournamentId={tournamentId} roundNumber={roundNumber} />
     );
   if (renderFinishButton)
-    return <FinishTournamentButton lastRoundNumber={rounds_number} />;
+    return <FinishTournamentButton lastRoundNumber={roundsNumber} />;
   return null;
 };
 
 const GamesIteratee = ({
   id,
   result,
-  white_nickname,
-  black_nickname,
-  white_id,
-  black_id,
-  round_number,
+  whiteNickname,
+  blackNickname,
+  whiteId,
+  blackId,
+  roundNumber,
 }: GameModel) => (
   <GameItem
     id={id}
     result={result}
-    playerLeft={{ white_id, white_nickname }}
-    playerRight={{ black_id, black_nickname }}
-    roundNumber={round_number}
+    playerLeft={{ whiteId, whiteNickname }}
+    playerRight={{ blackId, blackNickname }}
+    roundNumber={roundNumber}
   />
 );
 

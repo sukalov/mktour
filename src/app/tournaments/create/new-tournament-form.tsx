@@ -100,8 +100,8 @@ export default function NewTournamentForm({
           >
             <FormField
               control={form.control}
-              name="club_id"
-              defaultValue={user.selected_club}
+              name="clubId"
+              defaultValue={user.selectedClub}
               render={({ field }) => (
                 <FormItem>
                   <Select

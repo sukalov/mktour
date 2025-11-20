@@ -15,8 +15,8 @@ export async function getUserClubNames({ userId }: { userId: string }) {
       name: clubs.name,
     })
     .from(clubs_to_users)
-    .where(eq(clubs_to_users.user_id, userId))
-    .innerJoin(clubs, eq(clubs_to_users.club_id, clubs.id));
+    .where(eq(clubs_to_users.userId, userId))
+    .innerJoin(clubs, eq(clubs_to_users.clubId, clubs.id));
 }
 
 export async function getUserClubs({ userId }: { userId: string }) {
@@ -24,8 +24,8 @@ export async function getUserClubs({ userId }: { userId: string }) {
     await db
       .select()
       .from(clubs_to_users)
-      .where(eq(clubs_to_users.user_id, userId))
-      .innerJoin(clubs, eq(clubs_to_users.club_id, clubs.id))
+      .where(eq(clubs_to_users.userId, userId))
+      .innerJoin(clubs, eq(clubs_to_users.clubId, clubs.id))
   ).map((el) => el.club);
 }
 
@@ -43,8 +43,8 @@ export const getUserClubIds = cache(async ({ userId }: { userId: string }) => {
         status: clubs_to_users.status,
       })
       .from(clubs_to_users)
-      .where(eq(clubs_to_users.user_id, userId))
-      .innerJoin(clubs, eq(clubs_to_users.club_id, clubs.id))
+      .where(eq(clubs_to_users.userId, userId))
+      .innerJoin(clubs, eq(clubs_to_users.clubId, clubs.id))
   ).reduce(
     (acc, curr) => {
       acc[curr.id] = curr.status;

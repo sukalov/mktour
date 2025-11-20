@@ -24,11 +24,11 @@ export const getNotificationsCounter = async (userId: string) => {
           count: sql<number>`COUNT(*)`,
         })
         .from(user_notifications)
-        .orderBy(desc(user_notifications.created_at))
+        .orderBy(desc(user_notifications.createdAt))
         .where(
           and(
-            eq(user_notifications.user_id, userId),
-            eq(user_notifications.is_seen, false),
+            eq(user_notifications.userId, userId),
+            eq(user_notifications.isSeen, false),
           ),
         )
     ).at(0)?.count ?? 0
@@ -58,24 +58,24 @@ export const getUserNotificationsInfinite = async ({
       club: clubs,
     })
     .from(user_notifications)
-    .where(eq(user_notifications.user_id, user.id))
+    .where(eq(user_notifications.userId, user.id))
     .leftJoin(
       affiliations,
       sql`json_extract(${user_notifications.metadata}, '$.affiliation_id') = ${affiliations.id}`,
     )
-    .leftJoin(users, eq(users.id, affiliations.user_id))
-    .leftJoin(players, eq(players.id, affiliations.player_id))
+    .leftJoin(users, eq(users.id, affiliations.userId))
+    .leftJoin(players, eq(players.id, affiliations.playerId))
     .leftJoin(
       clubs,
       or(
-        eq(clubs.id, affiliations.club_id),
+        eq(clubs.id, affiliations.clubId),
         eq(
           clubs.id,
           sql`json_extract(${user_notifications.metadata}, '$.club_id')`,
         ),
       ),
     )
-    .orderBy(desc(user_notifications.created_at))
+    .orderBy(desc(user_notifications.createdAt))
     .limit(limit + 1)
     .offset(offset);
 

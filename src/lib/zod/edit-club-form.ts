@@ -7,7 +7,7 @@ export const editClubFormSchema = z.object({
     .min(3, { error: 'short club name' })
     .optional(),
   description: z.string().optional().nullable(),
-  lichess_team: z.string().optional().nullable(),
+  lichessTeam: z.string().optional().nullable(),
   id: z.string(),
 });
 

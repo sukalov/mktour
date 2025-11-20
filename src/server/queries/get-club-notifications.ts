@@ -14,13 +14,13 @@ export default async function getClubNotifications(clubId: string) {
       player: players,
     })
     .from(club_notifications)
-    .where(eq(club_notifications.club_id, clubId))
+    .where(eq(club_notifications.clubId, clubId))
     .leftJoin(
       affiliations,
       sql`json_extract(${club_notifications.metadata}, '$.affiliation_id') = ${affiliations.id}`,
     )
-    .leftJoin(users, eq(users.id, affiliations.user_id))
-    .leftJoin(players, eq(players.id, affiliations.player_id));
+    .leftJoin(users, eq(users.id, affiliations.userId))
+    .leftJoin(players, eq(players.id, affiliations.playerId));
 }
 
 export type ClubNotification = Awaited<
