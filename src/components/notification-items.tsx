@@ -7,12 +7,12 @@ import useAffiliationRejectMutation from '@/components/hooks/mutation-hooks/use-
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Item } from '@/components/ui/item';
+import { UserNotificationEvent } from '@/server/db/zod/enums';
 import { ClubNotification } from '@/server/queries/get-club-notifications';
 import {
   AnyUserNotificationExtended,
   UserNotificationExtended,
 } from '@/server/queries/get-user-notifications';
-import { UserNotificationEvent } from '@/types/notifications';
 import { useQueryClient } from '@tanstack/react-query';
 import {
   Check,

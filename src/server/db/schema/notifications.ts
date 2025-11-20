@@ -2,8 +2,9 @@ import { clubs } from '@/server/db/schema/clubs';
 import { users } from '@/server/db/schema/users';
 import {
   ClubNotificationEvent,
+  clubNotificationEventEnum,
   UserNotificationEvent,
-} from '@/types/notifications';
+} from '@/server/db/zod/enums';
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import {
@@ -87,8 +88,12 @@ export type InsertDatabaseClubNotification = InferInsertModel<
 
 export const userNotificationsSelectSchema =
   createSelectSchema(user_notifications);
-export const clubNotificationsSelectSchema =
-  createSelectSchema(club_notifications);
+export const clubNotificationsSelectSchema = createSelectSchema(
+  club_notifications,
+  {
+    event: clubNotificationEventEnum,
+  },
+);
 export const userNotificationsInsertSchema =
   createInsertSchema(user_notifications);
 export const clubNotificationsInsertSchema =

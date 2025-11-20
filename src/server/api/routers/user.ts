@@ -1,32 +1,19 @@
-import { CACHE_TAGS } from '@/lib/cache-tags';
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from '@/server/api/trpc';
+import meta from '@/server/api/meta';
+import { createTRPCRouter, publicProcedure } from '@/server/api/trpc';
 import { db } from '@/server/db';
 import { users, usersSelectSchema } from '@/server/db/schema/users';
 import { clubsSelectSchema } from '@/server/db/zod/clubs';
-import { deleteUser, editUser } from '@/server/mutations/profile-managing';
 import { getUserClubNames } from '@/server/queries/get-user-clubs';
 import {
   getUserData,
   getUserInfoByUsername,
 } from '@/server/queries/get-user-data';
 import { eq } from 'drizzle-orm';
-import { revalidateTag } from 'next/cache';
 import { z } from 'zod';
 
 export const userRouter = createTRPCRouter({
   all: publicProcedure
-    .meta({
-      openapi: {
-        method: 'GET',
-        path: '/users',
-        summary: 'get all users',
-        tags: ['users'],
-      },
-    })
+    .meta(meta.usersAll)
     .output(
       z.array(usersSelectSchema.pick({ username: true, name: true, id: true })),
     )
@@ -35,14 +22,7 @@ export const userRouter = createTRPCRouter({
       return usersDb;
     }),
   info: publicProcedure
-    .meta({
-      openapi: {
-        method: 'GET',
-        path: '/users/{userId}',
-        summary: 'get user by id',
-        tags: ['users'],
-      },
-    })
+    .meta(meta.usersInfo)
     .input(z.object({ userId: z.string() }))
     .output(
       usersSelectSchema
@@ -58,14 +38,7 @@ export const userRouter = createTRPCRouter({
       return user;
     }),
   infoByUsername: publicProcedure
-    .meta({
-      openapi: {
-        method: 'GET',
-        path: '/users/username/{username}',
-        summary: 'get user by username',
-        tags: ['users'],
-      },
-    })
+    .meta(meta.usersInfoByUsername)
     .output(
       usersSelectSchema
         .pick({
@@ -87,46 +60,12 @@ export const userRouter = createTRPCRouter({
     return await getUserData(opts.ctx.user.id);
   }),
   clubs: publicProcedure
-    .meta({
-      openapi: {
-        method: 'GET',
-        path: '/users/{userId}/clubs',
-        summary: 'get clubs where user is admin',
-        tags: ['users'],
-      },
-    })
+    .meta(meta.usersClubs)
     .output(z.array(clubsSelectSchema.pick({ id: true, name: true })))
     .input(z.object({ userId: z.string() }))
     .query(async (opts) => {
       const { input } = opts;
       const userClubs = await getUserClubNames(input);
       return userClubs;
-    }),
-  delete: protectedProcedure
-    .input(
-      z.object({
-        userId: z.string(),
-      }),
-    )
-    .mutation(async (opts) => {
-      const { input } = opts;
-      await deleteUser(input);
-      revalidateTag(CACHE_TAGS.AUTH, 'max');
-      revalidateTag(CACHE_TAGS.USER_CLUBS, 'max');
-    }),
-  edit: protectedProcedure
-    .input(
-      z.object({
-        userId: z.string(),
-        values: z.object({
-          name: z.string().optional(),
-          username: z.string().optional(),
-        }),
-      }),
-    )
-    .mutation(async (opts) => {
-      const { input } = opts;
-      await editUser(input);
-      revalidateTag(CACHE_TAGS.AUTH, 'max');
     }),
 });

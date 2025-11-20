@@ -1,5 +1,6 @@
 import { db } from '@/server/db';
-import { clubs_to_users, StatusInClub } from '@/server/db/schema/clubs';
+import { clubs_to_users } from '@/server/db/schema/clubs';
+import { StatusInClub } from '@/server/db/zod/enums';
 import { and, eq } from 'drizzle-orm';
 import { cache } from 'react';
 

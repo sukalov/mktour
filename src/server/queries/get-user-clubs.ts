@@ -2,7 +2,8 @@
 
 import { CACHE_TAGS } from '@/lib/cache-tags';
 import { db } from '@/server/db';
-import { clubs, clubs_to_users, StatusInClub } from '@/server/db/schema/clubs';
+import { clubs, clubs_to_users } from '@/server/db/schema/clubs';
+import { StatusInClub } from '@/server/db/zod/enums';
 import { eq } from 'drizzle-orm';
 import { cacheLife, cacheTag } from 'next/cache';
 import { cache } from 'react';

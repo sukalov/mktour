@@ -6,7 +6,7 @@ import ClubDashboardTabList from '@/app/clubs/my/dashboard-tab-list';
 import { ClubDashboardTab, ClubTabProps, tabMap } from '@/app/clubs/my/tabMap';
 import Loading from '@/app/loading';
 import Empty from '@/components/empty';
-import { useUser } from '@/components/hooks/query-hooks/use-user';
+import { useAuth } from '@/components/hooks/query-hooks/use-user';
 import useScrollableContainer from '@/components/hooks/use-scrollable-container';
 import SwipeHandlerProvider from '@/components/swipe-handler-provider';
 import FabProvider from '@/components/ui-custom/fab-provider';
@@ -15,7 +15,7 @@ import { Dispatch, FC, ReactNode, SetStateAction, useState } from 'react';
 
 export default function Dashboard({ userId }: { userId: string }) {
   const t = useTranslations('Club.Dashboard');
-  const { data, isLoading } = useUser();
+  const { data, isLoading } = useAuth();
   const [tab, setTab] = useState<ClubDashboardTab>('main');
   const ActiveTab: FC<ClubTabProps> = tabMap[tab];
   const tabs = Object.keys(tabMap) as ClubDashboardTab[];

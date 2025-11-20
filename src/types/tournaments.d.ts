@@ -33,26 +33,3 @@ export interface TournamentInfo {
   tournament: DatabaseTournament;
   club: DatabaseClub;
 }
-
-export type Result = '0-1' | '1-0' | '1/2-1/2';
-
-export type TournamentFormat =
-  | 'swiss'
-  | 'round robin'
-  | 'single elimination'
-  | 'double elimination';
-
-export type TournamentType = 'solo' | 'doubles' | 'team';
-
-export type TournamentStatus = 'not started' | 'ongoing' | 'finished';
-
-export type RoundName =
-  | 'final'
-  | 'match_for_third'
-  | 'semifinal'
-  | 'quarterfinal'
-  | '1/8'
-  | '1/16'
-  | '1/32'
-  | '1/64'
-  | '1/128';

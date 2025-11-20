@@ -16,14 +16,14 @@ import {
   user_preferences,
   users,
 } from '@/server/db/schema/users';
+import { EditProfileFormType } from '@/server/db/zod/users';
 import { deleteClubFunction } from '@/server/mutations/club-managing';
 import { and, asc, eq, sql } from 'drizzle-orm';
 
-export const editUser = async ({ userId, values }: EditUserProps) => {
+export const editUser = async (values: EditProfileFormType) => {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
-  if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
-  await db.update(users).set(values).where(eq(users.id, userId));
+  await db.update(users).set(values).where(eq(users.id, user.id));
 };
 
 export const deleteUser = async ({ userId }: { userId: string }) => {

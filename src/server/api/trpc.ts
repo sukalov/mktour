@@ -9,7 +9,7 @@
 
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/server/db';
-import { StatusInClub } from '@/server/db/schema/clubs';
+import { StatusInClub } from '@/server/db/zod/enums';
 import { getStatusInTournament } from '@/server/queries/get-status-in-tournament';
 import { getUserClubIds } from '@/server/queries/get-user-clubs';
 import { initTRPC, TRPCError } from '@trpc/server';

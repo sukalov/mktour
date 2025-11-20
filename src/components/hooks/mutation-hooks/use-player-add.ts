@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 export const usePlayerAddMutation = (queryClient: QueryClient) => {
   const trpc = useTRPC();
   return useMutation(
-    trpc.club.players.create.mutationOptions({
+    trpc.player.create.mutationOptions({
       onSuccess: (_data, variables) => {
         queryClient.invalidateQueries({
           queryKey: trpc.club.players.infinite.infiniteQueryKey({

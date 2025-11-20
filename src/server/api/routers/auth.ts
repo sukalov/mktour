@@ -2,13 +2,16 @@ import { validateRequest } from '@/lib/auth/lucia';
 import { CACHE_TAGS } from '@/lib/cache-tags';
 import { getEncryptedAuthSession } from '@/lib/get-encrypted-auth-session';
 import { timeout } from '@/lib/utils';
+import meta from '@/server/api/meta';
 import { protectedProcedure, publicProcedure } from '@/server/api/trpc';
+import { editProfileFormSchema } from '@/server/db/zod/users';
 import selectClub from '@/server/mutations/club-select';
 import { logout } from '@/server/mutations/logout';
 import {
   changeNotificationStatus,
   markAllNotificationsAsSeen,
 } from '@/server/mutations/notifications';
+import { deleteUser, editUser } from '@/server/mutations/profile-managing';
 import { getUserClubs } from '@/server/queries/get-user-clubs';
 import {
   getNotificationsCounter,
@@ -72,5 +75,26 @@ export const authRouter = {
       await timeout(1000);
       revalidateTag(CACHE_TAGS.AUTH, 'max');
       return selected_club;
+    }),
+  delete: protectedProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+      }),
+    )
+    .mutation(async (opts) => {
+      const { input } = opts;
+      await deleteUser(input);
+      revalidateTag(CACHE_TAGS.AUTH, 'max');
+      revalidateTag(CACHE_TAGS.USER_CLUBS, 'max');
+    }),
+  edit: protectedProcedure
+    .meta(meta.usersEdit)
+    .input(editProfileFormSchema)
+    .output(z.void())
+    .mutation(async (opts) => {
+      const { input } = opts;
+      await editUser(input);
+      revalidateTag(CACHE_TAGS.AUTH, 'max');
     }),
 };

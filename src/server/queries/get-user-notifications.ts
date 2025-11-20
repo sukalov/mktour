@@ -9,9 +9,9 @@ import {
   players,
 } from '@/server/db/schema/players';
 import { users } from '@/server/db/schema/users';
+import { UserNotificationEvent } from '@/server/db/zod/enums';
 import {
   UserNotification,
-  UserNotificationEvent,
   UserNotificationMetadata,
 } from '@/types/notifications';
 import { and, desc, eq, or, sql } from 'drizzle-orm';

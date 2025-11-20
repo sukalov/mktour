@@ -14,6 +14,11 @@ import {
   tournaments,
 } from '@/server/db/schema/tournaments';
 import {
+  gameResultEnum,
+  roundNameEnum,
+  TournamentFormat,
+} from '@/server/db/zod/enums';
+import {
   addExistingPlayer,
   addNewPlayer,
   createTournament,
@@ -31,7 +36,7 @@ import {
 } from '@/server/mutations/tournament-managing';
 import getAllTournaments from '@/server/queries/get-all-tournaments';
 import { getStatusInTournament } from '@/server/queries/get-status-in-tournament';
-import { PlayerModel, TournamentFormat } from '@/types/tournaments';
+import { PlayerModel } from '@/types/tournaments';
 import { eq, sql } from 'drizzle-orm';
 import { revalidateTag } from 'next/cache';
 import { z } from 'zod';
@@ -179,8 +184,8 @@ export const tournamentRouter = {
         gameId: z.string(),
         whiteId: z.string(),
         blackId: z.string(),
-        result: z.enum(['1-0', '0-1', '1/2-1/2']),
-        prevResult: z.enum(['1-0', '0-1', '1/2-1/2']).nullable(),
+        result: gameResultEnum,
+        prevResult: gameResultEnum.nullable(),
         roundNumber: z.number(),
         userId: z.string(),
         tournamentId: z.string(),
@@ -203,24 +208,12 @@ export const tournamentRouter = {
             black_id: z.string(),
             round_number: z.number(),
             game_number: z.number(),
-            round_name: z
-              .enum([
-                'final',
-                'match_for_third',
-                'semifinal',
-                'quarterfinal',
-                '1/8',
-                '1/16',
-                '1/32',
-                '1/64',
-                '1/128',
-              ])
-              .nullable(),
+            round_name: roundNameEnum.nullable(),
             white_prev_game_id: z.string().nullable(),
             black_prev_game_id: z.string().nullable(),
             white_nickname: z.string(),
             black_nickname: z.string(),
-            result: z.enum(['1-0', '0-1', '1/2-1/2']).nullable(),
+            result: gameResultEnum.nullable(),
           }),
         ),
       }),

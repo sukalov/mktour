@@ -18,14 +18,9 @@ import {
   players_to_tournaments,
   tournaments,
 } from '@/server/db/schema/tournaments';
+import { GameResult, TournamentFormat } from '@/server/db/zod/enums';
 import { getStatusInTournament } from '@/server/queries/get-status-in-tournament';
-import {
-  GameModel,
-  PlayerModel,
-  Result,
-  TournamentFormat,
-  TournamentInfo,
-} from '@/types/tournaments';
+import { GameModel, PlayerModel, TournamentInfo } from '@/types/tournaments';
 import {
   aliasedTable,
   and,
@@ -272,83 +267,6 @@ export async function getTournamentRoundGames({
   return gamesDb.sort((a, b) => a.game_number - b.game_number);
 }
 
-// export async function generateRoundRobinRound({
-//   tournamentId,
-//   roundNumber,
-//   userId,
-// }: {
-//   tournamentId: string;
-//   roundNumber: number;
-//   userId: string;
-// }): Promise<GameModel[]> {
-//   const { user } = await validateRequest();
-//   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
-//   if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
-
-//   const tournament = (
-//     await db.select().from(tournaments).where(eq(tournaments.id, tournamentId))
-//   ).at(0);
-
-//   if (tournament?.started_at) {
-//     const roundGames = await db
-//       .select()
-//       .from(games)
-//       .where(
-//         and(
-//           eq(games.tournament_id, tournamentId),
-//           eq(games.round_number, roundNumber),
-//         ),
-//       );
-//     if (roundGames.length > 0) {
-//       for (let game in roundGames) {
-//         if (roundGames[game].result) throw new Error('RESULTS_PRESENT');
-//       }
-//     }
-//   }
-
-//   await db
-//     .delete(games)
-//     .where(
-//       and(
-//         eq(games.tournament_id, tournamentId),
-//         eq(games.round_number, roundNumber),
-//       ),
-//     );
-
-//   const roundGames = await generateRoundRobinRoundFunction({
-//     tournamentId,
-//     roundNumber,
-//   });
-
-//   let playerIds: string[] = [];
-//   roundGames.forEach((game) => {
-//     playerIds.push(game.white_id);
-//     playerIds.push(game.black_id);
-//   });
-//   const tournamentPlayers = await db
-//     .select()
-//     .from(players)
-//     .where(inArray(players.id, playerIds));
-
-//   return roundGames.map((game) => ({
-//     white_nickname: tournamentPlayers.find(
-//       (player) => player.id === game.white_id,
-//     )!.nickname,
-//     black_nickname: tournamentPlayers.find(
-//       (player) => player.id === game.black_id,
-//     )!.nickname,
-//     id: game.id,
-//     round_number: game.round_number,
-//     white_id: game.white_id,
-//     black_id: game.black_id,
-//     tournament_id: game.tournament_id,
-//     round_name: game.round_name || null,
-//     white_prev_game_id: game.white_prev_game_id || null,
-//     black_prev_game_id: game.black_prev_game_id || null,
-//     result: game.result || null,
-//   }));
-// }
-
 export async function saveRound({
   tournamentId,
   roundNumber,
@@ -483,8 +401,8 @@ export async function setTournamentGameResult({
   gameId: string;
   whiteId: string;
   blackId: string;
-  result: Result;
-  prevResult: Result | null;
+  result: GameResult;
+  prevResult: GameResult | null;
   roundNumber: number;
 }) {
   const { user } = await validateRequest();
@@ -522,7 +440,7 @@ async function handleWhiteWin(
   whiteId: string,
   blackId: string,
   tournamentId: string,
-  prevResult?: Result | null,
+  prevResult?: GameResult | null,
 ) {
   if (!prevResult) {
     await Promise.all([
@@ -611,7 +529,7 @@ async function handleBlackWin(
   whiteId: string,
   blackId: string,
   tournamentId: string,
-  prevResult?: Result | null,
+  prevResult?: GameResult | null,
 ) {
   if (!prevResult) {
     await Promise.all([
@@ -700,7 +618,7 @@ async function handleDraw(
   whiteId: string,
   blackId: string,
   tournamentId: string,
-  prevResult?: Result | null,
+  prevResult?: GameResult | null,
 ) {
   if (!prevResult) {
     await Promise.all([
@@ -789,7 +707,7 @@ async function handleResultReset(
   whiteId: string,
   blackId: string,
   tournamentId: string,
-  prevResult: Result,
+  prevResult: GameResult,
 ) {
   if (prevResult === '1-0') {
     await Promise.all([

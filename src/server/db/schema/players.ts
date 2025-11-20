@@ -1,6 +1,7 @@
 import { clubs } from '@/server/db/schema/clubs';
 import { players_to_tournaments } from '@/server/db/schema/tournaments';
 import { users } from '@/server/db/schema/users';
+import { AffiliationStatus } from '@/server/db/zod/enums';
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import {
   integer,
@@ -8,11 +9,6 @@ import {
   text,
   uniqueIndex,
 } from 'drizzle-orm/sqlite-core';
-import {
-  createInsertSchema,
-  createSelectSchema,
-  createUpdateSchema,
-} from 'drizzle-zod';
 
 export const players = sqliteTable(
   'player',
@@ -87,20 +83,7 @@ export const affiliations_relations = relations(affiliations, ({ one }) => ({
   }),
 }));
 
-export type AffiliationStatus =
-  | 'requested' // by user
-  | 'active' // set by club or approved by club
-  | 'cancelled_by_club' // by club
-  | 'cancelled_by_user'; // by user
-
 export type DatabasePlayer = InferSelectModel<typeof players>;
 export type InsertDatabasePlayer = InferInsertModel<typeof players>;
 export type DatabaseAffiliation = InferSelectModel<typeof affiliations>;
 export type InsertDatabaseAffiliation = InferInsertModel<typeof affiliations>;
-
-export const playersSelectSchema = createSelectSchema(players);
-export const playersInsertSchema = createInsertSchema(players);
-export const playersUpdateSchema = createUpdateSchema(players);
-export const affiliationsSelectSchema = createSelectSchema(affiliations);
-export const affiliationsInsertSchema = createInsertSchema(affiliations);
-export const affiliationsUpdateSchema = createUpdateSchema(affiliations);

@@ -2,6 +2,7 @@ import { club_notifications } from '@/server/db/schema/notifications';
 import { affiliations, players } from '@/server/db/schema/players';
 import { tournaments } from '@/server/db/schema/tournaments';
 import { users } from '@/server/db/schema/users';
+import { StatusInClub } from '@/server/db/zod/enums';
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
@@ -33,8 +34,6 @@ export const clubs_relations = relations(clubs, ({ many }) => ({
   notifications: many(club_notifications), // user can be involved in many notifications
   affiliations: many(affiliations),
 }));
-
-export type StatusInClub = 'admin' | 'co-owner';
 
 export type DatabaseClub = InferSelectModel<typeof clubs>;
 export type DatabaseClubsToUsers = InferSelectModel<typeof clubs_to_users>;

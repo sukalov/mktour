@@ -1,7 +1,7 @@
 import { db } from '@/server/db';
-import { StatusInClub } from '@/server/db/schema/clubs';
-import { affiliations, AffiliationStatus } from '@/server/db/schema/players';
+import { affiliations } from '@/server/db/schema/players';
 import { users } from '@/server/db/schema/users';
+import { AffiliationStatus, StatusInClub } from '@/server/db/zod/enums';
 import { getUserClubIds } from '@/server/queries/get-user-clubs';
 import { eq } from 'drizzle-orm';
 import { User } from 'lucia';

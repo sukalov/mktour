@@ -47,7 +47,6 @@ export default function DeleteConfirmationForm({
         onSubmit={form.handleSubmit((data) => {
           mutate({
             clubId: data.id,
-            userId,
             userDeletion: false,
           });
         })}

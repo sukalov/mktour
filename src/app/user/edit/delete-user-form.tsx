@@ -2,7 +2,7 @@
 
 import { LoadingSpinner } from '@/app/loading';
 import useDeleteUserMutation from '@/components/hooks/mutation-hooks/use-user-delete';
-import { useUser } from '@/components/hooks/query-hooks/use-user';
+import { useAuth } from '@/components/hooks/query-hooks/use-user';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -32,7 +32,7 @@ export default function DeleteUserForm({
   setOpen,
 }: DeleteProfileFormProps) {
   const queryClient = useQueryClient();
-  const { data, isFetching } = useUser();
+  const { data, isFetching } = useAuth();
   const [isNavigating, startNavigation] = useTransition();
   const { mutate, isPending } = useDeleteUserMutation(queryClient);
   const form = useForm<DeleteUserFormType>({

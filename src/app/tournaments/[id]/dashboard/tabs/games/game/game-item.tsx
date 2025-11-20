@@ -9,7 +9,7 @@ import useOutsideClick from '@/components/hooks/use-outside-click';
 import PortalWrapper from '@/components/portal-wrapper';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Result as ResultModel } from '@/types/tournaments';
+import { GameResult } from '@/server/db/zod/enums';
 import { useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { useParams } from 'next/navigation';
@@ -39,7 +39,7 @@ const GameItem: FC<GameProps> = ({
   const disabled = status !== 'organizer' || !!data?.tournament.closed_at;
   const draw = result === '1/2-1/2';
 
-  const handleMutate = (newResult: ResultModel) => {
+  const handleMutate = (newResult: GameResult) => {
     if (!userId) return;
     if (selected && hasStarted && !mutation.isPending) {
       mutation.mutate({
@@ -120,7 +120,7 @@ const GameItem: FC<GameProps> = ({
 
 type GameProps = {
   id: string;
-  result: ResultModel | null;
+  result: GameResult | null;
   playerLeft: Record<'white_id' | 'white_nickname', string>;
   playerRight: Record<'black_id' | 'black_nickname', string>;
   roundNumber: number;

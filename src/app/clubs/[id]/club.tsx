@@ -7,10 +7,11 @@ import FormattedMessage, {
   IntlMessageId,
 } from '@/components/formatted-message';
 import { useUserSelectClub } from '@/components/hooks/mutation-hooks/use-user-select-club';
-import { useUser } from '@/components/hooks/query-hooks/use-user';
+import { useAuth } from '@/components/hooks/query-hooks/use-user';
 import LichessLogo from '@/components/ui-custom/lichess-logo';
 import { Button } from '@/components/ui/button';
-import { DatabaseClub, StatusInClub } from '@/server/db/schema/clubs';
+import { DatabaseClub } from '@/server/db/schema/clubs';
+import { StatusInClub } from '@/server/db/zod/enums';
 import { useQueryClient } from '@tanstack/react-query';
 import { Home } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
@@ -54,7 +55,7 @@ const ClubInfo: FC<{
   const t = useTranslations('Club');
   const locale = useLocale();
   const queryClient = useQueryClient();
-  const { data: user } = useUser();
+  const { data: user } = useAuth();
   const { mutate } = useUserSelectClub(queryClient);
 
   return (

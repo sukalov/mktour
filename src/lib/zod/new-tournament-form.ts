@@ -1,4 +1,4 @@
-import { TournamentFormat, TournamentType } from '@/types/tournaments';
+import { TournamentFormat, TournamentType } from '@/server/db/zod/enums';
 import * as z from 'zod';
 
 export const newTournamentFormSchemaConfig = {

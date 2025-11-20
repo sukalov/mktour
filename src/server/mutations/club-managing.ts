@@ -49,12 +49,15 @@ export const createClub = async (values: ClubFormType) => {
     promoted_at: new Date(),
   };
   try {
-    await db.insert(clubs).values(newClub);
-    await db.insert(clubs_to_users).values(newRelation);
-    await db
-      .update(users)
-      .set({ selected_club: id })
-      .where(eq(users.id, user.id));
+    const [returnedClubs] = await Promise.all([
+      db.insert(clubs).values(newClub).returning(),
+      db.insert(clubs_to_users).values(newRelation),
+      db.update(users).set({ selected_club: id }).where(eq(users.id, user.id)),
+    ]);
+
+    const returnedClub = returnedClubs.at(0);
+    if (!returnedClub) throw new Error('CLUB_NOT_CREATED');
+    return returnedClub;
   } catch (e) {
     throw new Error(`CLUB_NOT_CREATED: ${e}`);
   }

@@ -5,7 +5,7 @@ import ClubMain from '@/app/clubs/my/(tabs)/main';
 import ClubSettings from '@/app/clubs/my/(tabs)/settings';
 import ClubPlayersList from '@/app/clubs/players';
 import ClubDashboardTournaments from '@/app/clubs/tournaments';
-import { StatusInClub } from '@/server/db/schema/clubs';
+import { StatusInClub } from '@/server/db/zod/enums';
 import { FC } from 'react';
 
 export const tabMap: Record<ClubDashboardTab, FC<ClubTabProps>> = {

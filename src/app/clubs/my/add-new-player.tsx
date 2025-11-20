@@ -1,7 +1,7 @@
 import { LoadingSpinner } from '@/app/loading';
 import Fab from '@/components/fab';
 import { usePlayerAddMutation } from '@/components/hooks/mutation-hooks/use-player-add';
-import { useUser } from '@/components/hooks/query-hooks/use-user';
+import { useAuth } from '@/components/hooks/query-hooks/use-user';
 import SideDrawer from '@/components/ui-custom/side-drawer';
 import { Button } from '@/components/ui/button';
 import {
@@ -73,7 +73,7 @@ const AddPlayerDrawer = () => {
 };
 
 const AddNewPlayer = ({}: DrawerProps) => {
-  const user = useUser();
+  const user = useAuth();
   const queryClient = useQueryClient();
   const { mutate } = usePlayerAddMutation(queryClient);
   const t = useTranslations('Tournament.AddPlayer');

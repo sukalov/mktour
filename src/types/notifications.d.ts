@@ -2,25 +2,17 @@ import type {
   DatabaseClubNotification,
   DatabaseUserNotification,
 } from '@/server/db/schema/notifications';
-
-type UserNotificationEvent =
-  | 'affiliation_approved'
-  | 'affiliation_rejected'
-  | 'tournament_won'
-  | 'became_club_manager'
-  | 'removed_from_club_managers';
-
-type ClubNotificationEvent =
-  | 'affiliation_request'
-  | 'manager_left'
-  | 'affiliation_request_approved'
-  | 'affiliation_request_rejected';
+import type {
+  ClubNotificationEvent,
+  StatusInClub,
+  UserNotificationEvent,
+} from '@/server/db/zod/enums';
 
 type UserNotificationMetadata = {
   affiliation_approved: { club_id: string; affiliation_id: string };
   affiliation_rejected: { club_id: string; affiliation_id: string };
   tournament_won: { tournament_id: string; name: string };
-  became_club_manager: { club_id: string; role: 'co-owner' | 'admin' };
+  became_club_manager: { club_id: string; role: StatusInClub };
   removed_from_club_managers: { club_id: string };
 };
 

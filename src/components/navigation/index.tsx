@@ -1,6 +1,6 @@
 'use client';
 
-import { useUser } from '@/components/hooks/query-hooks/use-user';
+import { useAuth } from '@/components/hooks/query-hooks/use-user';
 import Desktop from '@/components/navigation/desktop';
 import Mobile from '@/components/navigation/mobile';
 import { MediaQueryContext } from '@/components/providers/media-query-context';
@@ -11,7 +11,7 @@ import { FC, useContext, useEffect, useState } from 'react';
 const Navigation: FC<NavMenuProps> = () => {
   const { isTablet } = useContext(MediaQueryContext);
   const [mounted, setMounted] = useState(false);
-  const { data: user } = useUser();
+  const { data: user } = useAuth();
 
   useEffect(() => {
     // eslint-disable-next-line

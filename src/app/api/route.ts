@@ -5,7 +5,7 @@ import { ApiReference } from '@scalar/nextjs-api-reference';
 const config: Partial<HtmlRenderingConfiguration> = {
   url: '/api/spec',
   title: 'mktour open api',
-  showToolbar: 'never',
+  showDeveloperTools: 'never',
   hideClientButton: true,
   hideModels: true,
   documentDownloadType: 'json',

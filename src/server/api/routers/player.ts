@@ -1,9 +1,15 @@
+import { playerSchema } from '@/lib/zod/new-player-form';
+import meta from '@/server/api/meta';
 import {
   clubAdminProcedure,
   protectedProcedure,
   publicProcedure,
 } from '@/server/api/trpc';
-import { deletePlayer, editPlayer } from '@/server/mutations/club-managing';
+import {
+  createPlayer,
+  deletePlayer,
+  editPlayer,
+} from '@/server/mutations/club-managing';
 import {
   abortAffiliationRequest,
   acceptAffiliation,
@@ -20,6 +26,14 @@ export const playerRouter = {
     .query(async (opts) => {
       const { input } = opts;
       return await getPlayer(input.playerId);
+    }),
+  create: clubAdminProcedure
+    .meta(meta.playersCreate)
+    .input(z.object(playerSchema))
+    .output(z.void())
+    .mutation(async (opts) => {
+      const { input: player } = opts;
+      await createPlayer({ player });
     }),
   playersLastTournaments: publicProcedure
     .input(z.object({ playerId: z.string() }))
