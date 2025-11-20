@@ -49,11 +49,7 @@ export default function ClubDelete({ id, userId }: ClubDeleteProps) {
             {t('confirmation body')}
           </ComboModal.Description>
         </ComboModal.Header>
-        <DeleteConfirmationForm
-          id={id}
-          userId={userId}
-          setOpenAction={setOpen}
-        />
+        <DeleteConfirmationForm id={id} setOpenAction={setOpen} />
         <ComboModal.Close asChild>
           <Button variant="outline" className="w-full">
             {t('cancel')}
