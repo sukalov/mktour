@@ -190,7 +190,7 @@ export async function abortAffiliationRequest({
     db
       .delete(club_notifications)
       .where(
-        sql`json_extract(${club_notifications.metadata}, '$.affiliation_id') = ${affiliationId}`,
+        sql`json_extract(${club_notifications.metadata}, '$.affiliationId') = ${affiliationId}`,
       ),
   ]);
   revalidatePath(`/player/${playerId}`);

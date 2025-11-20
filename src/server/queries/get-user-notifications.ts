@@ -61,7 +61,7 @@ export const getUserNotificationsInfinite = async ({
     .where(eq(user_notifications.userId, user.id))
     .leftJoin(
       affiliations,
-      sql`json_extract(${user_notifications.metadata}, '$.affiliation_id') = ${affiliations.id}`,
+      sql`json_extract(${user_notifications.metadata}, '$.affiliationId') = ${affiliations.id}`,
     )
     .leftJoin(users, eq(users.id, affiliations.userId))
     .leftJoin(players, eq(players.id, affiliations.playerId))
@@ -71,7 +71,7 @@ export const getUserNotificationsInfinite = async ({
         eq(clubs.id, affiliations.clubId),
         eq(
           clubs.id,
-          sql`json_extract(${user_notifications.metadata}, '$.club_id')`,
+          sql`json_extract(${user_notifications.metadata}, '$.clubId')`,
         ),
       ),
     )

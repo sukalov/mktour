@@ -1,11 +1,16 @@
 'use client';
 
 import Empty from '@/components/empty';
+import { useUserNotifications } from '@/components/hooks/query-hooks/use-user-notifications';
 import { UserNotificationLi } from '@/components/notification-items';
 import { AnyUserNotificationExtended } from '@/server/queries/get-user-notifications';
 
 const UserNotifications = () => {
-  // const { data: notifications, fetchNextPage, hasNextPage } = useUserNotifications();
+  const {
+    data: notificationss,
+    fetchNextPage,
+    hasNextPage,
+  } = useUserNotifications();
 
   // FIXME mock data
   const notifications = [

@@ -17,7 +17,7 @@ export default async function getClubNotifications(clubId: string) {
     .where(eq(club_notifications.clubId, clubId))
     .leftJoin(
       affiliations,
-      sql`json_extract(${club_notifications.metadata}, '$.affiliation_id') = ${affiliations.id}`,
+      sql`json_extract(${club_notifications.metadata}, '$.affiliationId') = ${affiliations.id}`,
     )
     .leftJoin(users, eq(users.id, affiliations.userId))
     .leftJoin(players, eq(players.id, affiliations.playerId));
