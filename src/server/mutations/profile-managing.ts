@@ -10,12 +10,7 @@ import {
   players_to_tournaments,
   tournaments,
 } from '@/server/db/schema/tournaments';
-import {
-  DatabaseUser,
-  sessions,
-  user_preferences,
-  users,
-} from '@/server/db/schema/users';
+import { sessions, user_preferences, users } from '@/server/db/schema/users';
 import { EditProfileFormType } from '@/server/db/zod/users';
 import { deleteClubFunction } from '@/server/mutations/club-managing';
 import { and, asc, eq, sql } from 'drizzle-orm';
@@ -195,9 +190,4 @@ export const deleteUser = async ({ userId }: { userId: string }) => {
     if (userClubs.includes(clubId))
       await tx.delete(clubs).where(eq(clubs.id, clubId));
   });
-};
-
-type EditUserProps = {
-  userId: string;
-  values: Partial<DatabaseUser>;
 };
