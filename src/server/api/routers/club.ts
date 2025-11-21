@@ -6,19 +6,18 @@ import {
   protectedProcedure,
   publicProcedure,
 } from '@/server/api/trpc';
-import { clubNotificationsSelectSchema } from '@/server/db/schema/notifications';
-import { usersSelectSchema } from '@/server/db/schema/users';
 import {
   clubsInsertSchema,
   clubsSelectSchema,
   clubsToUsersSelectSchema,
 } from '@/server/db/zod/clubs';
-import { clubNotificationEventEnum } from '@/server/db/zod/enums';
+import { clubNotificationExtendedSchema } from '@/server/db/zod/notifications';
 import {
   affiliationsSelectSchema,
   playersSelectSchema,
 } from '@/server/db/zod/players';
 import { tournamentsSelectSchema } from '@/server/db/zod/tournaments';
+import { usersSelectSchema } from '@/server/db/zod/users';
 import getAllClubManagers, {
   addClubManager,
   createClub,
@@ -167,17 +166,7 @@ export const clubRouter = createTRPCRouter({
   notifications: clubAdminProcedure
     .meta(meta.clubNotifications)
     .input(z.object({ clubId: z.string() }))
-    .output(
-      z.array(
-        z.object({
-          event: clubNotificationEventEnum,
-          notification: clubNotificationsSelectSchema,
-          affiliation: affiliationsSelectSchema.nullable(),
-          user: usersSelectSchema.nullable(),
-          player: playersSelectSchema.nullable(),
-        }),
-      ),
-    )
+    .output(z.array(clubNotificationExtendedSchema))
     .query(async (opts) => {
       return await getClubNotifications(opts.input.clubId);
     }),

@@ -15,5 +15,11 @@ const config = {
 const sqlite = createClient(config);
 
 export const db = drizzle(sqlite, {
-  schema: { ...schema1, ...schema2, ...schema3, ...schema4, ...schema5 },
+  schema: {
+    ...schema1,
+    ...schema2,
+    ...schema3,
+    ...schema4,
+    ...schema5,
+  },
 });

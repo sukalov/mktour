@@ -15,10 +15,8 @@ import { EditProfileFormType } from '@/server/db/zod/users';
 import { deleteClubFunction } from '@/server/mutations/club-managing';
 import { and, asc, count, eq, sql } from 'drizzle-orm';
 
-export const editUser = async (values: EditProfileFormType) => {
-  const { user } = await validateRequest();
-  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
-  await db.update(users).set(values).where(eq(users.id, user.id));
+export const editUser = async (userId: string, values: EditProfileFormType) => {
+  await db.update(users).set(values).where(eq(users.id, userId));
 };
 
 export const deleteUser = async ({ userId }: { userId: string }) => {

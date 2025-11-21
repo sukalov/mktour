@@ -9,10 +9,13 @@
 
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/server/db';
+import { apiTokens, users } from '@/server/db/schema/users';
 import { StatusInClub } from '@/server/db/zod/enums';
 import { getStatusInTournament } from '@/server/queries/get-status-in-tournament';
 import { getUserClubIds } from '@/server/queries/get-user-clubs';
 import { initTRPC, TRPCError } from '@trpc/server';
+import crypto from 'crypto';
+import { eq } from 'drizzle-orm';
 import { Session, User } from 'lucia';
 import { NextRequest } from 'next/server';
 import superjson from 'superjson';
@@ -38,6 +41,50 @@ export const createTRPCContext = async (opts: {
   let session: Session | undefined;
   let user: User | undefined;
   let clubs: { [club_id: string]: StatusInClub } | undefined;
+
+  const authHeader = opts.headers.get('authorization');
+
+  if (authHeader?.startsWith('Bearer ')) {
+    const token = authHeader.substring(7);
+    console.log('Auth Token:', token);
+
+    if (token) {
+      const parts = token.split('_');
+      const [prefix, id, secret] = parts;
+      console.log('Token Parts:', { prefix, id, secret });
+
+      if (prefix === 'mktour' && id && secret) {
+        const tokenHash = crypto
+          .createHash('sha256')
+          .update(secret)
+          .digest('hex');
+
+        console.log('Computed Hash:', tokenHash);
+
+        const apiToken = await db.query.apiTokens.findFirst({
+          where: eq(apiTokens.id, id),
+        });
+        console.log('Found API Token:', apiToken);
+
+        if (apiToken && apiToken.tokenHash === tokenHash) {
+          const dbUser = await db.query.users.findFirst({
+            where: eq(users.id, apiToken.userId),
+          });
+          console.log('Found User:', dbUser);
+
+          if (dbUser) {
+            user = dbUser;
+            db.update(apiTokens)
+              .set({ lastUsedAt: new Date() })
+              .where(eq(apiTokens.id, id))
+              .run();
+          }
+        } else {
+          console.log('Hash mismatch or token not found');
+        }
+      }
+    }
+  }
 
   return {
     session,
@@ -102,9 +149,16 @@ export const publicProcedure = t.procedure;
  *
  * @see https://trpc.io/docs/procedures
  */
-export const protectedProcedure = t.procedure.use(async ({ next }) => {
-  const { session, user } = await validateRequest();
-  if (!session || !user) {
+export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
+  let { session, user } = ctx;
+
+  if (!user) {
+    const result = await validateRequest();
+    session = result.session ?? undefined;
+    user = result.user ?? undefined;
+  }
+
+  if (!user) {
     throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
   return next({

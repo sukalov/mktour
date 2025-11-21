@@ -1,4 +1,4 @@
-import { users } from '@/server/db/schema/users';
+import { apiTokens, sessions, users } from '@/server/db/schema/users';
 import {
   createInsertSchema,
   createSelectSchema,
@@ -23,4 +23,18 @@ export const editProfileFormSchema = usersUpdateSchema
     name: z.string().optional(),
   });
 
+export const apiTokensSelectSchema = createSelectSchema(apiTokens);
+export const apiTokensInsertSchema = createInsertSchema(apiTokens);
+
+export const apiTokenList = apiTokensSelectSchema.pick({
+  id: true,
+  name: true,
+  createdAt: true,
+  lastUsedAt: true,
+});
+
+export const sessionsSelectSchema = createSelectSchema(sessions);
+export const sessionsInsertSchema = createInsertSchema(sessions);
+
 export type EditProfileFormType = z.infer<typeof editProfileFormSchema>;
+export type ApiTokenList = z.infer<typeof apiTokenList>;

@@ -1,11 +1,6 @@
 import { clubs } from '@/server/db/schema/clubs';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import { int, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
-import {
-  createInsertSchema,
-  createSelectSchema,
-  createUpdateSchema,
-} from 'drizzle-zod';
 
 export const users = sqliteTable('user', {
   id: text('id').primaryKey(),
@@ -34,13 +29,20 @@ export const sessions = sqliteTable('user_session', {
   expiresAt: integer('expires_at').notNull(),
 });
 
+export const apiTokens = sqliteTable('api_token', {
+  id: text('id').primaryKey(),
+  tokenHash: text('token_hash').notNull(),
+  userId: text('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  name: text('name').notNull(),
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
+  lastUsedAt: integer('last_used_at', { mode: 'timestamp' }),
+});
+
 export type DatabaseSession = InferSelectModel<typeof sessions>;
 export type DatabaseUser = InferSelectModel<typeof users>;
 export type InsertDatabaseSession = InferInsertModel<typeof sessions>;
 export type InsertDatabaseUser = InferInsertModel<typeof users>;
-
-export const usersSelectSchema = createSelectSchema(users);
-export const usersInsertSchema = createInsertSchema(users);
-export const usersUpdateSchema = createUpdateSchema(users);
-export const sessionsSelectSchema = createSelectSchema(sessions);
-export const sessionsInsertSchema = createInsertSchema(sessions);
+export type DatabaseApiToken = InferSelectModel<typeof apiTokens>;
+export type InsertDatabaseApiToken = InferInsertModel<typeof apiTokens>;

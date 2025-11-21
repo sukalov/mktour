@@ -1,8 +1,9 @@
 import meta from '@/server/api/meta';
 import { createTRPCRouter, publicProcedure } from '@/server/api/trpc';
 import { db } from '@/server/db';
-import { users, usersSelectSchema } from '@/server/db/schema/users';
+import { users } from '@/server/db/schema/users';
 import { clubsSelectSchema } from '@/server/db/zod/clubs';
+import { usersSelectSchema } from '@/server/db/zod/users';
 import { getUserClubNames } from '@/server/queries/get-user-clubs';
 import {
   getUserData,

@@ -8,6 +8,13 @@
       "when": 1763434586181,
       "tag": "0000_nifty_loki",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1763679211637,
+      "tag": "0001_faithful_queen_noir",
+      "breakpoints": true
     }
   ]
 }

@@ -1,10 +1,11 @@
 import { validateRequest } from '@/lib/auth/lucia';
 import { CACHE_TAGS } from '@/lib/cache-tags';
 import { getEncryptedAuthSession } from '@/lib/get-encrypted-auth-session';
-import { timeout } from '@/lib/utils';
+import { newid, timeout } from '@/lib/utils';
 import meta from '@/server/api/meta';
 import { protectedProcedure, publicProcedure } from '@/server/api/trpc';
-import { editProfileFormSchema } from '@/server/db/zod/users';
+import { apiTokens } from '@/server/db/schema/users';
+import { apiTokenList, editProfileFormSchema } from '@/server/db/zod/users';
 import selectClub from '@/server/mutations/club-select';
 import { logout } from '@/server/mutations/logout';
 import {
@@ -17,6 +18,10 @@ import {
   getNotificationsCounter,
   getUserNotificationsInfinite,
 } from '@/server/queries/get-user-notifications';
+import { TRPCError } from '@trpc/server';
+import crypto from 'crypto';
+import { eq } from 'drizzle-orm';
+import { nanoid } from 'nanoid';
 import { revalidateTag } from 'next/cache';
 import z from 'zod';
 
@@ -91,9 +96,62 @@ export const authRouter = {
     .meta(meta.usersEdit)
     .input(editProfileFormSchema)
     .output(z.void())
-    .mutation(async (opts) => {
-      const { input } = opts;
-      await editUser(input);
+    .mutation(async ({ ctx, input }) => {
+      await editUser(ctx.user.id, input);
       revalidateTag(CACHE_TAGS.AUTH, 'max');
     }),
+  apiToken: {
+    list: protectedProcedure
+      .output(z.array(apiTokenList))
+      .query(async ({ ctx }) => {
+        const tokens = await ctx.db.query.apiTokens.findMany({
+          where: eq(apiTokens.userId, ctx.user.id),
+          orderBy: (tokens, { desc }) => [desc(tokens.createdAt)],
+        });
+        return tokens;
+      }),
+
+    generate: protectedProcedure
+      .input(z.object({ name: z.string().min(1) }))
+      .mutation(async ({ ctx, input }) => {
+        const id = newid();
+        const secret = nanoid(32);
+        const token = `mktour_${id}_${secret}`;
+        const tokenHash = crypto
+          .createHash('sha256')
+          .update(secret)
+          .digest('hex');
+
+        await ctx.db.insert(apiTokens).values({
+          id,
+          tokenHash,
+          userId: ctx.user.id,
+          name: input.name,
+          createdAt: new Date(),
+        });
+
+        return { token };
+      }),
+
+    revoke: protectedProcedure
+      .input(z.object({ id: z.string() }))
+      .mutation(async ({ ctx, input }) => {
+        const token = await ctx.db.query.apiTokens.findFirst({
+          where: eq(apiTokens.id, input.id),
+        });
+
+        if (!token) {
+          throw new TRPCError({
+            code: 'NOT_FOUND',
+            message: 'Token not found',
+          });
+        }
+
+        if (token.userId !== ctx.user.id) {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'Not your token' });
+        }
+
+        await ctx.db.delete(apiTokens).where(eq(apiTokens.id, input.id));
+      }),
+  },
 };
