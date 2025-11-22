@@ -1,6 +1,6 @@
 'use client';
 
-import { useUserSelectClub } from '@/components/hooks/mutation-hooks/use-user-select-club';
+import { useAuthSelectClub } from '@/components/hooks/mutation-hooks/use-user-select-club';
 import { useAuthClubs } from '@/components/hooks/query-hooks/use-user-clubs';
 import {
   Select,
@@ -19,7 +19,7 @@ import { toast } from 'sonner';
 const ClubSelect: FC<{ user: DatabaseUser }> = ({ user }) => {
   const { data: clubs, status } = useAuthClubs();
   const queryClient = useQueryClient();
-  const clubSelection = useUserSelectClub(queryClient);
+  const clubSelection = useAuthSelectClub(queryClient);
   const t = useTranslations('Toasts');
 
   if (status === 'error')

@@ -58,7 +58,7 @@ export const clubRouter = createTRPCRouter({
   info: publicProcedure
     .meta(meta.clubInfo)
     .input(z.object({ clubId: z.string() }))
-    .output(clubsSelectSchema.optional())
+    .output(clubsSelectSchema.nullable())
     .query(async (opts) => {
       return await getClubInfo(opts.input.clubId);
     }),

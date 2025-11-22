@@ -5,7 +5,7 @@ import { eq } from 'drizzle-orm';
 
 export const getClubInfo = async (id: DatabaseClub['id']) => {
   const data = (await db.select().from(clubs).where(eq(clubs.id, id)))?.at(0);
-  if (!data) return undefined;
+  if (!data) return null;
   return data;
 };
 

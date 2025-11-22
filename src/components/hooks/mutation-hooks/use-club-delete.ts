@@ -14,12 +14,7 @@ export default function useDeleteClubMutation(
     trpc.club.delete.mutationOptions({
       onSuccess: (_, { clubId }) => {
         queryClient.removeQueries({
-          predicate: (query) =>
-            query.queryKey[0] === 'club' &&
-            typeof query.queryKey[2] === 'object' &&
-            query.queryKey[2] !== null &&
-            'clubId' in query.queryKey[2] &&
-            query.queryKey[2].clubId === clubId,
+          queryKey: trpc.club.pathKey(),
         });
         queryClient.invalidateQueries({
           queryKey: trpc.auth.pathKey(),

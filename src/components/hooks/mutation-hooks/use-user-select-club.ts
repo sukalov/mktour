@@ -2,7 +2,7 @@ import { useTRPC } from '@/components/trpc/client';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-export const useUserSelectClub = (queryClient: QueryClient) => {
+export const useAuthSelectClub = (queryClient: QueryClient) => {
   const trpc = useTRPC();
   return useMutation(
     trpc.auth.selectClub.mutationOptions({
@@ -26,7 +26,7 @@ export const useUserSelectClub = (queryClient: QueryClient) => {
 
       onSettled: () => {
         queryClient.invalidateQueries({
-          queryKey: trpc.auth.info.queryKey(),
+          queryKey: trpc.auth.pathKey(),
         });
       },
       onError: (_error, _variables, context) => {
