@@ -95,7 +95,8 @@
     "name": "what's their name?",
     "add-player-error": "sorry! couldn't add {player} to the tournament",
     "remove-player-error": "sorry! couldn't remove {player} from the tournament",
-    "internal-error": "internal error: {error}"
+    "internal-error": "internal error: {error}",
+    "max 50": "max 50 characters"
   },
   "NewClubForm": {
     "new club": "new club",
