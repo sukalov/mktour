@@ -49,7 +49,7 @@ export const clubRouter = createTRPCRouter({
     .output(clubsSelectSchema)
     .mutation(async (opts) => {
       const { input } = opts;
-      const newClub = await createClub(input);
+      const newClub = await createClub(opts.ctx.user, input);
       revalidateTag(CACHE_TAGS.AUTH, 'max');
       revalidateTag(CACHE_TAGS.ALL_CLUBS, 'max');
       revalidateTag(`${CACHE_TAGS.USER_CLUBS}:${opts.ctx.user.id}`, 'max');

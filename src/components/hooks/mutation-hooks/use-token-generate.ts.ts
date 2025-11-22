@@ -7,7 +7,7 @@ export const useTokenGenerateMutation = () => {
 
   return useMutation(
     trpc.auth.apiToken.generate.mutationOptions({
-      onSuccess: ({ token }) => {
+      onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: trpc.auth.apiToken.list.queryKey(),
         });

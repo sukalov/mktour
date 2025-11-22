@@ -1,5 +1,6 @@
 'use server';
 
+import { emptyClubCheck } from '@/app/clubs/create/empty-club-check';
 import { validateRequest } from '@/lib/auth/lucia';
 import { newid } from '@/lib/utils';
 import { db } from '@/server/db';
@@ -29,11 +30,13 @@ import { DatabaseUser, users } from '@/server/db/schema/users';
 import { ClubFormType } from '@/server/db/zod/clubs';
 import getStatusInClub from '@/server/queries/get-status-in-club';
 import { and, eq, ne } from 'drizzle-orm';
+import { User } from 'lucia';
 import { revalidatePath } from 'next/cache';
 
-export const createClub = async (values: ClubFormType) => {
-  const { user } = await validateRequest();
-  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
+export const createClub = async (user: User, values: ClubFormType) => {
+  const emptyClub = await emptyClubCheck({ user });
+  if (emptyClub) throw new Error('EMPTY_CLUB_EXISTS');
+
   const id = newid();
   const createdAt = new Date();
   const newClub = {
@@ -49,13 +52,13 @@ export const createClub = async (values: ClubFormType) => {
     promotedAt: new Date(),
   };
   try {
-    const [returnedClubs] = await Promise.all([
-      db.insert(clubs).values(newClub).returning(),
+    const returnedClub = (
+      await db.insert(clubs).values(newClub).returning()
+    ).at(0);
+    await Promise.all([
       db.insert(clubs_to_users).values(newRelation),
       db.update(users).set({ selectedClub: id }).where(eq(users.id, user.id)),
     ]);
-
-    const returnedClub = returnedClubs.at(0);
     if (!returnedClub) throw new Error('CLUB_NOT_CREATED');
     return returnedClub;
   } catch (e) {

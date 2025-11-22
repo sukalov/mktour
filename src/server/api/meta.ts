@@ -19,6 +19,15 @@ const meta = {
     },
   },
 
+  userClubs: {
+    openapi: {
+      method: 'GET',
+      path: '/users/{userId}/clubs',
+      summary: 'get user clubs',
+      tags: ['users'],
+    },
+  },
+
   usersInfoByUsername: {
     openapi: {
       method: 'GET',
@@ -28,57 +37,57 @@ const meta = {
     },
   },
 
-  usersContext: {
+  authInfo: {
     openapi: {
       method: 'GET',
-      path: '/users/context',
-      summary: 'get user context',
-      tags: ['users'],
+      path: '/auth',
+      summary: 'get my public info',
+      tags: ['auth'],
     },
   },
 
-  usersClubs: {
+  authClubs: {
     openapi: {
       method: 'GET',
-      path: '/users/{userId}/clubs',
-      summary: 'get clubs where user is admin',
-      tags: ['users'],
+      path: '/auth/clubs',
+      summary: 'get clubs where i am an admin',
+      tags: ['auth'],
     },
   },
 
-  usersDelete: {
+  authDelete: {
     openapi: {
       method: 'DELETE',
-      path: '/users/{userId}',
+      path: '/auth',
       summary: 'delete user',
-      tags: ['users'],
+      tags: ['auth'],
     },
   },
 
-  usersEdit: {
+  authEdit: {
     openapi: {
       method: 'PATCH',
       path: '/auth',
-      summary: 'edit user',
-      tags: ['users'],
+      summary: 'edit my account',
+      tags: ['auth'],
     },
   },
 
-  usersAffiliations: {
+  myAffiliations: {
     openapi: {
       method: 'GET',
-      path: '/users/{userId}/affiliations',
-      summary: 'get user affiliations',
-      tags: ['users'],
+      path: '/auth/affiliations',
+      summary: 'get my affiliations',
+      tags: ['auth'],
     },
   },
 
-  usersAffiliationRequests: {
+  authAffiliationRequests: {
     openapi: {
       method: 'GET',
-      path: '/users/{userId}/affiliation-requests',
-      summary: 'get user affiliation requests',
-      tags: ['users'],
+      path: '/auth/affiliation-requests',
+      summary: 'get my affiliation requests',
+      tags: ['auth'],
     },
   },
 
@@ -91,66 +100,57 @@ const meta = {
     },
   },
 
-  usersNotifications: {
+  authNotifications: {
     openapi: {
       method: 'GET',
-      path: '/users/{userId}/notifications',
-      summary: 'get user notifications',
-      tags: ['users'],
+      path: '/auth/notifications',
+      summary: 'get my notifications',
+      tags: ['auth'],
     },
   },
 
-  usersNotificationStatus: {
+  authNotificationStatus: {
     openapi: {
       method: 'PATCH',
-      path: '/users/{userId}/notifications/{notificationId}',
+      path: '/auth/notifications/{notificationId}',
       summary: 'change notification status',
-      tags: ['users'],
+      tags: ['auth'],
     },
   },
 
-  usersMarkAllNotificationsAsSeen: {
+  authMarkAllNotificationsAsSeen: {
     openapi: {
       method: 'PATCH',
-      path: '/users/{userId}/notifications/mark-all-as-seen',
-      summary: 'mark all notifications as seen',
-      tags: ['users'],
+      path: '/auth/notifications/mark-all-as-seen',
+      summary: 'mark all my notifications as seen',
+      tags: ['auth'],
     },
   },
 
-  usersCounter: {
+  authNotificationCounter: {
     openapi: {
       method: 'GET',
-      path: '/users/{userId}/counter',
-      summary: 'get user notifications counter',
-      tags: ['users'],
+      path: '/auth/notifications/counter',
+      summary: 'get my notifications counter',
+      tags: ['auth'],
     },
   },
 
-  usersLogout: {
+  authLogout: {
     openapi: {
       method: 'POST',
-      path: '/users/logout',
+      path: '/auth/logout',
       summary: 'logout user',
-      tags: ['users'],
+      tags: ['auth'],
     },
   },
 
-  usersSelectClub: {
+  authSelectClub: {
     openapi: {
       method: 'POST',
-      path: '/users/select-club',
+      path: '/auth/select-club',
       summary: 'select club',
-      tags: ['users'],
-    },
-  },
-
-  usersDeleteNewUserCookie: {
-    openapi: {
-      method: 'GET',
-      path: '/users/delete-new-user-cookie',
-      summary: 'delete new user cookie',
-      tags: ['users'],
+      tags: ['auth'],
     },
   },
 

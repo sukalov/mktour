@@ -61,7 +61,7 @@ export const userRouter = createTRPCRouter({
     return await getUserData(opts.ctx.user.id);
   }),
   clubs: publicProcedure
-    .meta(meta.usersClubs)
+    .meta(meta.userClubs)
     .output(z.array(clubsSelectSchema.pick({ id: true, name: true })))
     .input(z.object({ userId: z.string() }))
     .query(async (opts) => {

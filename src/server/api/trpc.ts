@@ -9,14 +9,14 @@
 
 import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/server/db';
-import { apiTokens, users } from '@/server/db/schema/users';
+import { apiTokens, DatabaseUser, users } from '@/server/db/schema/users';
 import { StatusInClub } from '@/server/db/zod/enums';
 import { getStatusInTournament } from '@/server/queries/get-status-in-tournament';
 import { getUserClubIds } from '@/server/queries/get-user-clubs';
 import { initTRPC, TRPCError } from '@trpc/server';
 import crypto from 'crypto';
 import { eq } from 'drizzle-orm';
-import { Session, User } from 'lucia';
+import { Session } from 'lucia';
 import { NextRequest } from 'next/server';
 import superjson from 'superjson';
 import { OpenApiMeta } from 'trpc-to-openapi';
@@ -38,9 +38,7 @@ export const createTRPCContext = async (opts: {
   headers: Headers;
   req: NextRequest;
 }) => {
-  let session: Session | undefined;
-  let user: User | undefined;
-  let clubs: { [club_id: string]: StatusInClub } | undefined;
+  let user: DatabaseUser | null = null;
 
   const authHeader = opts.headers.get('authorization');
 
@@ -51,7 +49,6 @@ export const createTRPCContext = async (opts: {
     if (token) {
       const parts = token.split('_');
       const [prefix, id, secret] = parts;
-      console.log('Token Parts:', { prefix, id, secret });
 
       if (prefix === 'mktour' && id && secret) {
         const tokenHash = crypto
@@ -59,18 +56,14 @@ export const createTRPCContext = async (opts: {
           .update(secret)
           .digest('hex');
 
-        console.log('Computed Hash:', tokenHash);
-
         const apiToken = await db.query.apiTokens.findFirst({
           where: eq(apiTokens.id, id),
         });
-        console.log('Found API Token:', apiToken);
 
         if (apiToken && apiToken.tokenHash === tokenHash) {
           const dbUser = await db.query.users.findFirst({
             where: eq(users.id, apiToken.userId),
           });
-          console.log('Found User:', dbUser);
 
           if (dbUser) {
             user = dbUser;
@@ -87,9 +80,9 @@ export const createTRPCContext = async (opts: {
   }
 
   return {
-    session,
+    session: null as Session | null,
     user,
-    clubs,
+    clubs: null as { [club_id: string]: StatusInClub } | null,
     db,
     headers: opts.headers,
   };
@@ -104,7 +97,7 @@ export const createTRPCContext = async (opts: {
  */
 const t = initTRPC
   .meta<OpenApiMeta>()
-  .context<typeof createTRPCContext>()
+  .context<Awaited<ReturnType<typeof createTRPCContext>>>()
   .create({
     transformer: superjson,
     errorFormatter({ shape, error }) {
@@ -154,8 +147,8 @@ export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
 
   if (!user) {
     const result = await validateRequest();
-    session = result.session ?? undefined;
-    user = result.user ?? undefined;
+    user = result.user;
+    session = result.session;
   }
 
   if (!user) {

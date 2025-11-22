@@ -5,7 +5,12 @@ import { newid, timeout } from '@/lib/utils';
 import meta from '@/server/api/meta';
 import { protectedProcedure, publicProcedure } from '@/server/api/trpc';
 import { apiTokens } from '@/server/db/schema/users';
-import { apiTokenList, editProfileFormSchema } from '@/server/db/zod/users';
+import { clubsSelectSchema } from '@/server/db/zod/clubs';
+import {
+  apiTokenList,
+  editProfileFormSchema,
+  usersSelectSchema,
+} from '@/server/db/zod/users';
 import selectClub from '@/server/mutations/club-select';
 import { logout } from '@/server/mutations/logout';
 import {
@@ -21,15 +26,21 @@ import {
 import { TRPCError } from '@trpc/server';
 import crypto from 'crypto';
 import { eq } from 'drizzle-orm';
-import { nanoid } from 'nanoid';
 import { revalidateTag } from 'next/cache';
 import z from 'zod';
 
 export const authRouter = {
-  info: publicProcedure.query(async () => {
-    const { user } = await validateRequest();
-    return user;
-  }),
+  info: publicProcedure
+    .meta(meta.authInfo)
+    .output(usersSelectSchema.nullish())
+    .query(async ({ ctx }) => {
+      let { user } = ctx;
+      if (!user) {
+        const result = await validateRequest();
+        user = result.user ?? null;
+      }
+      return user || null;
+    }),
   encryptedSession: publicProcedure.query(async () => {
     return await getEncryptedAuthSession();
   }),
@@ -65,12 +76,14 @@ export const authRouter = {
       await markAllNotificationsAsSeen(opts.ctx.user.id);
     }),
   },
-  clubs: protectedProcedure.query(async () => {
-    const { user } = await validateRequest();
-    if (!user) return [];
-    return await getUserClubs({ userId: user.id });
-  }),
+  clubs: protectedProcedure
+    .meta(meta.authClubs)
+    .output(z.array(clubsSelectSchema))
+    .query(async ({ ctx }) => {
+      return await getUserClubs({ userId: ctx.user.id });
+    }),
   selectClub: protectedProcedure
+    .meta(meta.authSelectClub)
     .output(z.string())
     .input(z.object({ clubId: z.string() }))
     .mutation(async (opts) => {
@@ -93,7 +106,7 @@ export const authRouter = {
       revalidateTag(CACHE_TAGS.USER_CLUBS, 'max');
     }),
   edit: protectedProcedure
-    .meta(meta.usersEdit)
+    .meta(meta.authEdit)
     .input(editProfileFormSchema)
     .output(z.void())
     .mutation(async ({ ctx, input }) => {
@@ -115,7 +128,7 @@ export const authRouter = {
       .input(z.object({ name: z.string().min(1) }))
       .mutation(async ({ ctx, input }) => {
         const id = newid();
-        const secret = nanoid(32);
+        const secret = newid(32);
         const token = `mktour_${id}_${secret}`;
         const tokenHash = crypto
           .createHash('sha256')

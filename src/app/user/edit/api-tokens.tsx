@@ -27,7 +27,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { Copy, Eye, EyeOff, Info, Plus, Trash2 } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
@@ -37,7 +37,6 @@ import { toast } from 'sonner';
 export default function ApiTokens() {
   const trpc = useTRPC();
   const { data, isLoading } = useQuery(trpc.auth.apiToken.list.queryOptions());
-  const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
   const [generatedToken, setGeneratedToken] = useState<string | null>(null);
   const [isBlurred, setIsBlurred] = useState(true);

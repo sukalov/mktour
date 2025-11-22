@@ -17,9 +17,9 @@ export const appRouter = createTRPCRouter({
 });
 
 export const publicCaller = appRouter.createCaller({
-  session: undefined,
-  user: undefined,
-  clubs: undefined,
+  session: null,
+  user: null,
+  clubs: null,
   db,
   headers: new Headers(),
 });
@@ -28,8 +28,8 @@ export const makeProtectedCaller = async () => {
   const { session, user } = await validateRequest();
   const clubs = user ? await getUserClubIds({ userId: user.id }) : {};
   return appRouter.createCaller({
-    session: session ?? undefined,
-    user: user ?? undefined,
+    session,
+    user,
     clubs,
     db,
     headers: new Headers(),

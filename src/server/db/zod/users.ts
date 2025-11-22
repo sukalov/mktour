@@ -10,6 +10,10 @@ export const usersSelectSchema = createSelectSchema(users);
 export const usersInsertSchema = createInsertSchema(users);
 export const usersUpdateSchema = createUpdateSchema(users);
 
+export const usersSelectPublicSchema = usersSelectSchema.omit({
+  email: true,
+});
+
 export const editProfileFormSchema = usersUpdateSchema
   .omit({
     id: true,
@@ -35,6 +39,11 @@ export const apiTokenList = apiTokensSelectSchema.pick({
 
 export const sessionsSelectSchema = createSelectSchema(sessions);
 export const sessionsInsertSchema = createInsertSchema(sessions);
+
+export const validateRequestSchema = z.object({
+  user: usersSelectSchema.nullable(),
+  session: sessionsSelectSchema.nullable(),
+});
 
 export type EditProfileFormType = z.infer<typeof editProfileFormSchema>;
 export type ApiTokenList = z.infer<typeof apiTokenList>;
