@@ -49,8 +49,8 @@ export default function DeleteUserForm({
     name: 'checkboxes',
   });
 
-  const t = useTranslations('EditUser');
-  const checkboxes: Array<keyof IntlMessages['EditUser']> = [
+  const t = useTranslations('UserSettings');
+  const checkboxes: Array<keyof IntlMessages['UserSettings']> = [
     'checkbox1',
     'checkbox2',
     'checkbox3',

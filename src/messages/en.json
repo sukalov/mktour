@@ -182,8 +182,9 @@
     "player deleted": "player deleted",
     "player has tournaments": "sorry! the player, who is added to a tournament, cannot be deleted. otherwise you have to delete that tournament too"
   },
-  "EditUser": {
+  "UserSettings": {
     "header": "settings",
+    "edit profile": "profile",
     "name": "name",
     "save": "save",
     "danger zone": "danger zone",
@@ -195,7 +196,24 @@
     "checkbox1": "delete every tournament i made",
     "checkbox2": "delete every club i own (with all players)",
     "checkbox3": "delete my whole stats",
-    "do it yourself": "you have to do it yourself"
+    "do it yourself": "you have to do it yourself",
+    "Tokens": {
+      "header": "api tokens",
+      "empty": "you don't have active tokens",
+      "description": "api tokens allow you to make authenticated requests\nto mktour api. it gives full access to your account",
+      "new token name": "new token name",
+      "created": "created",
+      "last used": "last used",
+      "name": "name",
+      "revoke": "revoke",
+      "make": "make",
+      "making": "making",
+      "modal description": "this token will only be shown once. please copy it and store it securely. you will not be able to see it again.",
+      "modal warning": "warning: this token gives full access to your account. do not share it with anyone.",
+      "copied": "copied",
+      "test tokens": "tokens can be tested",
+      "here": "here"
+    }
   },
   "Tournament": {
     "Tabs": {

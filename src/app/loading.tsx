@@ -11,5 +11,5 @@ export default function Loading() {
 }
 
 export const LoadingSpinner = ({ className }: { className?: string }) => (
-  <Loader2 className={cn(`size-5 animate-spin`, className)} />
+  <Loader2 className={cn(`animate-spin`, className)} />
 );

@@ -33,57 +33,60 @@ export default function EditProfileForm() {
   const editUserMutation = useEditUserMutation(queryClient);
 
   const defaultValues = {
-    name: userQuery.data?.name || undefined,
+    name: userQuery.data?.name || '',
   };
 
   const form = useForm<EditProfileFormType>({
     resolver: zodResolver(editProfileFormSchema),
     values: defaultValues,
   });
-  const t = useTranslations('EditUser');
+  const t = useTranslations('UserSettings');
 
   if (userQuery.isLoading) return <Skeleton className="m-4 w-full" />;
 
   return (
     <Form {...form}>
-      <HalfCard className="w-full">
-        <CardContent className="p-4 sm:p-8">
-          <form
-            onSubmit={form.handleSubmit((data) =>
-              editUserMutation.mutate(data),
-            )}
-            className="flex flex-col gap-8"
-            name="new-tournament-form"
-          >
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t('name')}</FormLabel>
-                  <FormControl>
-                    <Input {...field} autoComplete="off" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+      <div className="flex flex-col gap-4 pt-2">
+        <h2 className="pl-4">{t('edit profile')}</h2>
+        <HalfCard className="w-full">
+          <CardContent className="p-2 sm:p-8">
+            <form
+              onSubmit={form.handleSubmit((data) =>
+                editUserMutation.mutate(data),
               )}
-            />
-
-            <Button
-              disabled={
-                shallowEqual(form.getValues(), defaultValues) ||
-                editUserMutation.isPending ||
-                userQuery.isFetching
-              }
-              type="submit"
-              className="w-full"
+              className="flex flex-col gap-8"
+              name="new-tournament-form"
             >
-              {editUserMutation.isPending ? <LoadingSpinner /> : <Save />}
-              &nbsp;{t('save')}
-            </Button>
-          </form>
-        </CardContent>
-      </HalfCard>
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t('name')}</FormLabel>
+                    <FormControl>
+                      <Input {...field} autoComplete="off" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <Button
+                disabled={
+                  shallowEqual(form.getValues(), defaultValues) ||
+                  editUserMutation.isPending ||
+                  userQuery.isFetching
+                }
+                type="submit"
+                className="w-full"
+              >
+                {editUserMutation.isPending ? <LoadingSpinner /> : <Save />}
+                &nbsp;{t('save')}
+              </Button>
+            </form>
+          </CardContent>
+        </HalfCard>
+      </div>
     </Form>
   );
 }

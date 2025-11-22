@@ -18,9 +18,9 @@ import * as React from 'react';
 
 export default function DeleteUser({ userId }: { userId: string }) {
   const [open, setOpen] = React.useState(false);
-  const t = useTranslations('EditUser');
+  const t = useTranslations('UserSettings');
   return (
-    <>
+    <div className="flex flex-col gap-4">
       <h2 className="pl-4">{t('danger zone')}</h2>
       <HalfCard className="w-full">
         <CardContent className="p-mk flex flex-col gap-4 sm:p-8">
@@ -46,6 +46,6 @@ export default function DeleteUser({ userId }: { userId: string }) {
           </ComboModal.Root>
         </CardContent>
       </HalfCard>
-    </>
+    </div>
   );
 }
