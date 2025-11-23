@@ -1,4 +1,4 @@
-import Loading from '@/app/tournaments/create/loading-form';
+import Loading from '@/app/tournaments/create/loading';
 import NewTournamentForm from '@/app/tournaments/create/new-tournament-form';
 import { publicCaller } from '@/server/api';
 import { redirect } from 'next/navigation';
