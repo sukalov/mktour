@@ -18,7 +18,7 @@ export const useAuthSelectClub = (queryClient: QueryClient) => {
           (cache) =>
             cache && {
               ...cache,
-              selected_club: clubId,
+              selectedClub: clubId,
             },
         );
         return { previousState };

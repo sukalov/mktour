@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuthSelectClub } from '@/components/hooks/mutation-hooks/use-user-select-club';
+import { useAuthSelectClub } from '@/components/hooks/mutation-hooks/use-auth-select-club';
 import { useAuthClubs } from '@/components/hooks/query-hooks/use-user-clubs';
 import {
   Select,

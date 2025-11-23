@@ -6,7 +6,7 @@ import ClubDashboardTournaments from '@/app/clubs/tournaments';
 import FormattedMessage, {
   IntlMessageId,
 } from '@/components/formatted-message';
-import { useUserSelectClub } from '@/components/hooks/mutation-hooks/use-user-select-club';
+import { useAuthSelectClub } from '@/components/hooks/mutation-hooks/use-auth-select-club';
 import { useAuth } from '@/components/hooks/query-hooks/use-user';
 import LichessLogo from '@/components/ui-custom/lichess-logo';
 import { Button } from '@/components/ui/button';
@@ -56,7 +56,7 @@ const ClubInfo: FC<{
   const locale = useLocale();
   const queryClient = useQueryClient();
   const { data: user } = useAuth();
-  const { mutate } = useUserSelectClub(queryClient);
+  const { mutate } = useAuthSelectClub(queryClient);
 
   return (
     <div className="flex flex-col gap-2">
