@@ -29,6 +29,7 @@
     height: 100dvh;
     overflow: auto;
     touch-action: pan-x pan-y;
+    scrollbar-gutter: stable;
   }
 
   /* latin */
