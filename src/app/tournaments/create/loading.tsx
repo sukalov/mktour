@@ -1,4 +1,3 @@
-import TypeCard from '@/components/ui-custom/type-card';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -81,9 +80,9 @@ export default function LoadingForm() {
               defaultValue="solo"
               className="grid grid-cols-3 gap-2 sm:gap-4"
             >
-              <TypeCard name="solo" />
-              <TypeCard name="doubles" disabled />
-              <TypeCard name="team" disabled />
+              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-10 w-full" />
             </RadioGroup>
             <div>
               <Button
