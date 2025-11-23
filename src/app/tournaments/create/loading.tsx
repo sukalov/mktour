@@ -19,7 +19,7 @@ import Link from 'next/link';
 export default function LoadingForm() {
   return (
     <div className="w-full" sr-only="loading...">
-      <h2 className="w-full text-center">
+      <h2 className="w-full py-2 text-center">
         <Skeleton className="mx-auto h-10 w-52" />
       </h2>
       <Card className="bg-background sm:bg-card mx-auto max-w-[min(600px,98%)] border-none shadow-none sm:border-solid sm:shadow-2xs">

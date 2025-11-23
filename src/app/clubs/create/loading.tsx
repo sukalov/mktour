@@ -1,3 +1,5 @@
-export default function Loading() {
-  return <p>loading...</p>;
+import Loading from '@/app/loading';
+
+export default function LoadingForm() {
+  return <Loading />;
 }
