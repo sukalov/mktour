@@ -27,7 +27,7 @@ module.exports = {
         'impr',
         'fix',
         'perf',
-        'refactor',
+        'ref',
         'revert',
         'style',
         'test',
@@ -65,7 +65,7 @@ module.exports = {
             title: 'Styles',
             emoji: '💎',
           },
-          refactor: {
+          ref: {
             description:
               'A code change that neither fixes a bug nor adds a feature',
             title: 'Code Refactoring',

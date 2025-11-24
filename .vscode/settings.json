@@ -11,6 +11,13 @@
     "source.organizeImports": "explicit",
     "source.fixAll": "explicit"
   },
-  "i18n-ally.localesPaths": ["src/messages"],
+  "tailwindCSS.lint.suggestCanonicalClasses": "ignore",
+  "tailwindCSS.experimental.classRegex": [
+    "twc\\.[^`]+`([^`]*)`",
+    "twc\\(.*?\\).*?`([^)]*)",
+    ["twc\\.[^`]+\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+    ["twc\\(.*?\\).*?\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ],
+  "i18n-ally.localesPaths": ["./messages"], // E.g. "./messages"
   "i18n-ally.keystyle": "nested"
 }
