@@ -5,5 +5,5 @@ if [ -n "$FILES" ]; then
   git add $FILES
 fi
 
-# Run linting on all files
-bun check && bun run build
+# run all checks tsc, lint, test
+bun check  && bun run build
