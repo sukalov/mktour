@@ -6,4 +6,4 @@ if [ -n "$FILES" ]; then
 fi
 
 # Run linting on all files
-bun lint
+bun check && bun run build
