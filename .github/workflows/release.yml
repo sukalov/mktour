@@ -14,6 +14,10 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest
