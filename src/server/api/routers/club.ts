@@ -7,6 +7,7 @@ import {
   publicProcedure,
 } from '@/server/api/trpc';
 import {
+  clubsEditSchema,
   clubsInsertSchema,
   clubsSelectSchema,
   clubsToUsersSelectSchema,
@@ -188,12 +189,16 @@ export const clubRouter = createTRPCRouter({
     }),
   edit: clubAdminProcedure
     .meta(meta.clubEdit)
-    .input(z.object({ values: clubsInsertSchema }))
-    .output(z.void())
+    .input(z.object({ values: clubsEditSchema }))
+    .output(clubsSelectSchema)
     .mutation(async (opts) => {
       const { input } = opts;
-      await editClub(input);
-      revalidateTag(CACHE_TAGS.ALL_CLUBS, 'max');
+      const newClub = await editClub({
+        ...input,
+        username: opts.ctx.user.username,
+      });
+      if (!newClub) throw new Error('CLUB_NOT_FOUND');
+      return newClub;
     }),
   leave: clubAdminProcedure
     .meta(meta.clubLeave)

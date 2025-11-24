@@ -1,8 +1,11 @@
 'use server';
 
 import { emptyClubCheck } from '@/app/clubs/create/empty-club-check';
+import { getUserLichessTeams } from '@/lib/api/lichess';
 import { validateRequest } from '@/lib/auth/lucia';
+import { CACHE_TAGS } from '@/lib/cache-tags';
 import { newid } from '@/lib/utils';
+import { validateLichessTeam } from '@/lib/zod/new-club-validation-action';
 import { db } from '@/server/db';
 import {
   clubs,
@@ -26,11 +29,11 @@ import {
   tournaments,
 } from '@/server/db/schema/tournaments';
 import { DatabaseUser, users } from '@/server/db/schema/users';
-import { ClubFormType } from '@/server/db/zod/clubs';
+import { ClubEditType, ClubFormType } from '@/server/db/zod/clubs';
 import getStatusInClub from '@/server/queries/get-status-in-club';
 import { and, eq, ne } from 'drizzle-orm';
 import { User } from 'lucia';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 
 export const createClub = async (user: User, values: ClubFormType) => {
   const emptyClub = await emptyClubCheck({ user });
@@ -68,11 +71,31 @@ export const createClub = async (user: User, values: ClubFormType) => {
 export const editClub = async ({
   clubId,
   values,
+  username,
 }: {
   clubId: string;
-  values: ClubFormType;
+  values: ClubEditType;
+  username: string;
 }) => {
-  await db.update(clubs).set(values).where(eq(clubs.id, clubId));
+  if (values.lichessTeam) {
+    const userTeams = await getUserLichessTeams(username);
+    const isTeamAdmin = userTeams.find((t) => t.id === values.lichessTeam);
+    if (!isTeamAdmin) throw new Error('NOT_LICHESS_TEAM_ADMIN');
+
+    const existingClub = await validateLichessTeam({
+      lichessTeam: values.lichessTeam,
+    });
+    if (existingClub && existingClub.id !== clubId)
+      throw new Error('LICHESS_TEAM_ALREADY_LINKED');
+  }
+
+  const newClub = await db
+    .update(clubs)
+    .set(values)
+    .where(eq(clubs.id, clubId))
+    .returning();
+  revalidateTag(CACHE_TAGS.ALL_CLUBS, 'max');
+  return newClub.at(0);
 };
 
 type ClubDeleteProps = {

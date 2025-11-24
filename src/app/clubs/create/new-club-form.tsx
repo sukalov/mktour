@@ -113,12 +113,10 @@ export default function NewClubForm({ teams }: NewClubFormProps) {
 
 interface NewClubFormProps {
   user: DatabaseUser;
-  teams: TeamSlice[];
-}
-
-export interface TeamSlice {
-  label: string;
-  value: string;
+  teams: {
+    label: string;
+    value: string;
+  }[];
 }
 
 export type NewClubForm = UseFormReturn<ClubFormType>;

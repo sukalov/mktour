@@ -1,6 +1,6 @@
 'use client';
 
-import { NewClubForm, TeamSlice } from '@/app/clubs/create/new-club-form';
+import { NewClubForm } from '@/app/clubs/create/new-club-form';
 import { Button } from '@/components/ui/button';
 import {
   FormControl,
@@ -101,5 +101,5 @@ export function TeamSelector({ teams, form }: TeamSelectorProps) {
 
 interface TeamSelectorProps {
   form: NewClubForm;
-  teams: Array<TeamSlice>;
+  teams: Array<{ label: string; value: string }>;
 }
