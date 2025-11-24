@@ -1,16 +1,18 @@
-<img src='/public/readme.png' width=500/>
+# mktour_&nbsp;&nbsp;&nbsp;tournament manager for chess clubs
 
-# ♟️ chess club & tournament manager
+**mktour** — is a modern web application for organizing chess tournaments and networking with chess clubs, integrated with [lichess](https://lichess.org) chess platform. kinda ultimate tool for a chess community
 
-**mktour** is a modern web application for organizing local chess clubs and managing tournaments. it offers a smooth experience for club owners, players, and organizers, built with a cutting-edge stack.
+---
+### features:
+- tournament brackets generation with real-time updates
+- mobile first! + PWA support
+- it is pretty fast (we optimize, next caching, otimistic updates etc)
+- authentication with lichess oauth
+- various tools to manage players and tournaments inside a club
+- each club has its own rating
+- all actions are availible via api
+- and finally — **completely** free and open-source (inspired by lichess ofc)
 
 ---
 
-## ✨ features
-
-- 🧑‍🤝‍🧑 manage local chess clubs and members
-- 🏆 run and track tournaments (swiss-system, round-robin)
-- 📊 real-time results and standings
-- 🔐 authentication with lichess.org
-- 📱 PWA support for mobile use
-- ⚡ optimized performance with bun, nextjs, react compiler, and react 19
+contribution is highly welcomed but don't have any descent contribution guide yet
