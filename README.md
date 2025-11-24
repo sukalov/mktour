@@ -15,4 +15,4 @@
 
 ---
 
-contribution is highly welcomed but don't have any descent contribution guide yet
+сontributions are highly welcome, though we don’t have a decent contribution guide yet
