@@ -1,5 +1,7 @@
 import Navigation from '@/components/navigation';
+import { validateRequest } from '@/lib/auth/lucia';
 
 export default async function NavWrapper() {
-  return <Navigation user={null} />;
+  const { user } = await validateRequest();
+  return <Navigation user={user} />;
 }

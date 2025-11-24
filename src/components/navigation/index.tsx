@@ -8,10 +8,10 @@ import MktourNavbar from '@/components/ui-custom/mktour-logo-navbar';
 import { User } from 'lucia';
 import { FC, useContext, useEffect, useState } from 'react';
 
-const Navigation: FC<NavMenuProps> = () => {
+const Navigation: FC<NavMenuProps> = ({ user: initialUser }) => {
   const { isTablet } = useContext(MediaQueryContext);
   const [mounted, setMounted] = useState(false);
-  const { data: user } = useAuth();
+  const { data: user } = useAuth(initialUser);
 
   useEffect(() => {
     // eslint-disable-next-line
