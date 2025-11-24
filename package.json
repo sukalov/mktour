@@ -1,6 +1,6 @@
 {
   "name": "mktour",
-  "version": "0.1.0-pre-alpha",
+  "version": "1.0.0-beta.1",
   "private": true,
   "packageManager": "bun@1.3.3",
   "scripts": {
