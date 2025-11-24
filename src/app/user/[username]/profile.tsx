@@ -22,7 +22,7 @@ const Profile: FC<{
   const t = useTranslations('Profile');
 
   return (
-    <div className="flex w-full flex-col gap-2 p-2">
+    <div className="mk-container flex w-full flex-col gap-2 p-2">
       <div className="px-2 text-sm">
         {user.username} ({user.name})
       </div>
