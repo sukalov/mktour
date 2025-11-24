@@ -1,6 +1,6 @@
 'use client';
 
-import DeleteUserForm from '@/app/user/edit/delete-user-form';
+import DeleteUserForm from '@/app/profile/settings/delete-user-form';
 import RichText from '@/components/rich-text';
 import ComboModal, {
   Close,

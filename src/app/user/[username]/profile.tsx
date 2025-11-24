@@ -40,8 +40,8 @@ const Profile: FC<{
       </Card>
       {isOwner && (
         <Button variant="outline" className="w-full" asChild>
-          <Link href="/user/edit">
-            <FormattedMessage id="Common.edit" />
+          <Link href="/profile/settings">
+            <FormattedMessage id="Common.settings" />
           </Link>
         </Button>
       )}

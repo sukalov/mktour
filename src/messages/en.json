@@ -10,7 +10,8 @@
     "close": "close",
     "delete": "delete",
     "edit": "edit",
-    "save": "save"
+    "save": "save",
+    "settings": "settings"
   },
   "Menu": {
     "club": "club",
@@ -41,7 +42,7 @@
       "FAQ": "FAQ",
       "contact": "contact",
       "profile": "my profile",
-      "edit profile": "edit profile",
+      "settings": "settings",
       "inbox": "inbox",
       "Descriptions": {
         "all clubs": "explore clubs and their events, join new communities",

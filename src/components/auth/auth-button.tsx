@@ -90,12 +90,12 @@ const menuItems: MenuItems = [
     path: '/user',
   },
   {
-    title: 'edit profile',
-    path: '/user/edit',
-  },
-  {
     title: 'inbox',
     path: '/inbox',
+  },
+  {
+    title: 'settings',
+    path: '/profile/settings',
   },
 ];
 
