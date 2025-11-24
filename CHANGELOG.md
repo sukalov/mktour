@@ -1,3 +1,10 @@
+# [1.0.0-beta.2](https://github.com/sukalov/mktour/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2025-11-24)
+
+
+### Bug Fixes
+
+* edit club api endpoint with all necessary server validation for linking lichess-team via api ([990c959](https://github.com/sukalov/mktour/commit/990c959afd5c9468185ae87d3642cad66387d4bf))
+
 # 1.0.0-beta.1 (2025-11-24)
 
 
