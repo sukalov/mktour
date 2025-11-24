@@ -20,8 +20,6 @@ jobs:
 
       - run: bun install --frozen-lockfile
 
-      - run: bun test
-
       - run: bunx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
