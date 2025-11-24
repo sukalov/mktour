@@ -7,7 +7,6 @@ import { db } from '@/server/db';
 import {
   clubs,
   clubs_to_users,
-  DatabaseClub,
   DatabaseClubsToUsers,
 } from '@/server/db/schema/clubs';
 import {
@@ -66,17 +65,14 @@ export const createClub = async (user: User, values: ClubFormType) => {
   }
 };
 
-export const editClub = async ({ clubId, userId, values }: ClubEditProps) => {
-  const { user } = await validateRequest();
-  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
-  if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
-  await db.update(clubs).set(values).where(eq(clubs.id, clubId));
-};
-
-type ClubEditProps = {
+export const editClub = async ({
+  clubId,
+  values,
+}: {
   clubId: string;
-  userId: string;
-  values: Partial<DatabaseClub>;
+  values: ClubFormType;
+}) => {
+  await db.update(clubs).set(values).where(eq(clubs.id, clubId));
 };
 
 type ClubDeleteProps = {

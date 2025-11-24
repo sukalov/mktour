@@ -188,17 +188,7 @@ export const clubRouter = createTRPCRouter({
     }),
   edit: clubAdminProcedure
     .meta(meta.clubEdit)
-    .input(
-      z.object({
-        clubId: z.string(),
-        userId: z.string(),
-        values: z.object({
-          name: z.string().optional(),
-          description: z.string().optional().nullable(),
-          lichessTeam: z.string().optional().nullable(),
-        }),
-      }),
-    )
+    .input(z.object({ values: clubsInsertSchema }))
     .output(z.void())
     .mutation(async (opts) => {
       const { input } = opts;

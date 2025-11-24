@@ -28,7 +28,30 @@ export const clubsInsertSchema = createInsertSchema(clubs, {
         }
       })
       .optional(),
-  description: z.string().optional(),
+  description: z.string().nullable(),
 }).omit({ id: true, createdAt: true });
 
+export const clubsEditSchema = createInsertSchema(clubs, {
+  name: (s) =>
+    s
+      .min(3, { error: 'short club name' })
+      .max(100, { error: 'long club name' }),
+  lichessTeam: (s) =>
+    s
+      .superRefine(async (lichessTeam, ctx) => {
+        if (!lichessTeam) return;
+        const team = await validateLichessTeam({ lichessTeam });
+
+        if (team) {
+          ctx.addIssue({
+            code: 'custom',
+            message: `LINK_TEAM_ERROR@%!!(&${team.id}@%!!(&${team.name}`,
+          });
+        }
+      })
+      .optional(),
+  description: z.string().nullable(),
+}).omit({ createdAt: true });
+
+export type ClubEditType = z.infer<typeof clubsEditSchema>;
 export type ClubFormType = z.infer<typeof clubsInsertSchema>;

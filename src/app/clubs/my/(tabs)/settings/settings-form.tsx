@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { shallowEqual } from '@/lib/utils';
-import { EditClubFormType, editClubFormSchema } from '@/lib/zod/edit-club-form';
+import { ClubFormType, clubsInsertSchema } from '@/server/db/zod/clubs';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { Save } from 'lucide-react';
@@ -27,35 +27,27 @@ import { useForm } from 'react-hook-form';
 
 const ClubSettingsForm: FC<ClubTabProps & PropsWithChildren> = ({
   selectedClub,
-  userId,
   children,
 }) => {
   const queryClient = useQueryClient();
   const { data, isFetching } = useClubInfo(selectedClub);
-  const defaultValues = {
-    name: data?.name,
-    description: data?.description,
-    lichessTeam: data?.lichessTeam,
-    id: selectedClub,
-  };
   const clubSettingsMutation = useEditClubMutation(queryClient);
 
-  const form = useForm<EditClubFormType>({
-    resolver: zodResolver(editClubFormSchema),
-    defaultValues: {
-      name: '',
-      description: '',
-      lichessTeam: '',
-      id: selectedClub,
-    },
+  const defaultValues = {
+    name: '',
+    description: '',
+    lichessTeam: '',
+  };
+
+  const form = useForm<ClubFormType>({
+    resolver: zodResolver(clubsInsertSchema),
     values: data
       ? {
           name: data.name,
           description: data.description,
           lichessTeam: data.lichessTeam,
-          id: selectedClub,
         }
-      : undefined,
+      : defaultValues,
   });
 
   const t = useTranslations('Club.Settings');
@@ -71,8 +63,7 @@ const ClubSettingsForm: FC<ClubTabProps & PropsWithChildren> = ({
             <form
               onSubmit={form.handleSubmit((data) =>
                 clubSettingsMutation.mutate({
-                  clubId: data.id,
-                  userId,
+                  clubId: selectedClub,
                   values: data,
                 }),
               )}
@@ -96,11 +87,6 @@ const ClubSettingsForm: FC<ClubTabProps & PropsWithChildren> = ({
                     <FormMessage />
                   </FormItem>
                 )}
-              />
-              <FormField
-                control={form.control}
-                name="id"
-                render={() => <></>}
               />
               <Button
                 type="submit"
