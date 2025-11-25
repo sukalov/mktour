@@ -138,7 +138,6 @@ export const useMarkAllNotificationAsSeenMutation = () => {
             context.prevCache,
           );
         }
-
         if (context?.counterPrevCache !== undefined) {
           queryClient.setQueryData(
             trpc.auth.notifications.counter.queryKey(),
@@ -146,7 +145,7 @@ export const useMarkAllNotificationAsSeenMutation = () => {
           );
         }
       },
-      onSettled: () => {
+      onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: trpc.auth.notifications.pathKey(),
         });
