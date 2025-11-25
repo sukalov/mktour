@@ -96,6 +96,10 @@ export const useMarkAllNotificationAsSeenMutation = () => {
           trpc.auth.notifications.infinite.infiniteQueryKey({}),
         );
 
+        const counterPrevCache = queryClient.getQueryData(
+          trpc.auth.notifications.counter.queryKey(),
+        );
+
         queryClient.setQueryData(
           trpc.auth.notifications.infinite.infiniteQueryKey({}),
           (cache) => {
@@ -117,7 +121,15 @@ export const useMarkAllNotificationAsSeenMutation = () => {
           },
         );
 
-        return { prevCache };
+        queryClient.setQueryData(
+          trpc.auth.notifications.counter.queryKey(),
+          (cache) => {
+            if (cache === undefined) return cache;
+            return 0;
+          },
+        );
+
+        return { prevCache, counterPrevCache };
       },
       onError: (_err, _variables, context) => {
         if (context?.prevCache) {
@@ -126,8 +138,15 @@ export const useMarkAllNotificationAsSeenMutation = () => {
             context.prevCache,
           );
         }
+
+        if (context?.counterPrevCache !== undefined) {
+          queryClient.setQueryData(
+            trpc.auth.notifications.counter.queryKey(),
+            context.counterPrevCache,
+          );
+        }
       },
-      onSuccess: () => {
+      onSettled: () => {
         queryClient.invalidateQueries({
           queryKey: trpc.auth.notifications.pathKey(),
         });
