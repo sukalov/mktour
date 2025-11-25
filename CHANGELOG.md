@@ -1,3 +1,10 @@
+# [1.0.0-beta.5](https://github.com/sukalov/mktour/compare/v1.0.0-beta.4...v1.0.0-beta.5) (2025-11-25)
+
+
+### Features
+
+* notification badge in club dashboard ([9e1d9f0](https://github.com/sukalov/mktour/commit/9e1d9f01504f2370a73358f935c0211dd87ab915))
+
 # [1.0.0-beta.4](https://github.com/sukalov/mktour/compare/v1.0.0-beta.3...v1.0.0-beta.4) (2025-11-25)
 
 
