@@ -1,3 +1,15 @@
+# [1.0.0-beta.9](https://github.com/sukalov/mktour/compare/v1.0.0-beta.8...v1.0.0-beta.9) (2025-11-25)
+
+
+### Bug Fixes
+
+* optimistic update in markAllAsSeen mutation ([f243c2c](https://github.com/sukalov/mktour/commit/f243c2c4eeb8488430110143f2c463b6c00fe63b))
+
+
+### Features
+
+* new player/[id] endpoint working publically ([0baf996](https://github.com/sukalov/mktour/commit/0baf996ec78dce1fece35f522819ed65f968699a))
+
 # [1.0.0-beta.8](https://github.com/sukalov/mktour/compare/v1.0.0-beta.7...v1.0.0-beta.8) (2025-11-25)
 
 
