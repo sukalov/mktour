@@ -1,3 +1,16 @@
+# [1.0.0-beta.3](https://github.com/sukalov/mktour/compare/v1.0.0-beta.2...v1.0.0-beta.3) (2025-11-25)
+
+
+### Bug Fixes
+
+* mk-container in profile page ([c3c6b55](https://github.com/sukalov/mktour/commit/c3c6b5523e27e8e5f6a446782c19555ff10e6e51))
+* separate mutations for separate api-tokens ([3c83692](https://github.com/sukalov/mktour/commit/3c83692a6810c1152aac83f0253dacdb4fa595e6))
+
+
+### Features
+
+* toggleIsSeen ([8b6b1e9](https://github.com/sukalov/mktour/commit/8b6b1e96441cd42d411b8072058884d281cc5d0e))
+
 # [1.0.0-beta.2](https://github.com/sukalov/mktour/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2025-11-24)
 
 
