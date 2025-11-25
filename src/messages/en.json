@@ -157,7 +157,8 @@
     "Inbox": {
       "loading": "loading...",
       "empty": "claims to moderate tournaments, to link players to users and other club related notifications",
-      "affiliation": "affiliation request"
+      "affiliation": "affiliation request",
+      "mark all as read": "mark all as read"
     }
   },
   "Status": {
