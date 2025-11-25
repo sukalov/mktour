@@ -27,11 +27,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { ApiToken } from '@/server/db/zod/users';
 import { useQuery } from '@tanstack/react-query';
 import { Copy, Eye, EyeOff, Info, Plus, Trash2 } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { toast } from 'sonner';
 
 export default function ApiTokens() {
@@ -40,10 +41,8 @@ export default function ApiTokens() {
   const [open, setOpen] = useState(false);
   const [generatedToken, setGeneratedToken] = useState<string | null>(null);
   const [isBlurred, setIsBlurred] = useState(true);
-  const locale = useLocale();
 
   const { mutate, isPending } = useTokenGenerateMutation();
-  const { mutate: revoke, isPending: isRevoking } = useTokenRevokeMutation();
 
   const t = useTranslations('UserSettings.Tokens');
 
@@ -109,35 +108,7 @@ export default function ApiTokens() {
                     <TableHead></TableHead>
                   </TableRow>
                 </TableHeader>
-                <TableBody>
-                  {data?.map(({ id, name, createdAt, lastUsedAt }) => (
-                    <TableRow key={id}>
-                      <TableCell className="font-medium lowercase">
-                        {name}
-                      </TableCell>
-                      <TableCell className="text-muted-foreground text-xs lowercase">
-                        {createdAt.toLocaleDateString([locale])}
-                      </TableCell>
-                      <TableCell className="text-muted-foreground text-xs lowercase">
-                        {lastUsedAt
-                          ? lastUsedAt.toLocaleDateString([locale])
-                          : '-'}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => revoke({ id })}
-                          disabled={isRevoking}
-                        >
-                          {isRevoking ? <LoadingSpinner /> : <Trash2 />}
-                          <span className="sr-only">revoke</span>
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                  <TableRow />
-                </TableBody>
+                <TableBody>{data?.map(ApiTokenIteratee)}</TableBody>
               </Table>
             )}
 
@@ -223,3 +194,34 @@ export default function ApiTokens() {
     </div>
   );
 }
+
+const ApiTokenIteratee = (token: ApiToken) => {
+  return <ApiTokenRow token={token} key={token.id} />;
+};
+
+const ApiTokenRow: FC<{ token: ApiToken }> = ({ token }) => {
+  const locale = useLocale();
+  const { mutate: revoke, isPending: isRevoking } = useTokenRevokeMutation();
+  return (
+    <TableRow key={token.id}>
+      <TableCell className="font-medium lowercase">{token.name}</TableCell>
+      <TableCell className="text-muted-foreground text-xs lowercase">
+        {token.createdAt.toLocaleDateString([locale])}
+      </TableCell>
+      <TableCell className="text-muted-foreground text-xs lowercase">
+        {token.lastUsedAt ? token.lastUsedAt.toLocaleDateString([locale]) : '-'}
+      </TableCell>
+      <TableCell className="text-right">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => revoke({ id: token.id })}
+          disabled={isRevoking}
+        >
+          {isRevoking ? <LoadingSpinner /> : <Trash2 />}
+          <span className="sr-only">revoke</span>
+        </Button>
+      </TableCell>
+    </TableRow>
+  );
+};
