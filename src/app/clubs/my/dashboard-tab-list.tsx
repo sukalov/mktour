@@ -4,7 +4,7 @@ import { ClubDashboardTab, tabMap } from '@/app/clubs/my/tabMap';
 import { useClubNotifications } from '@/components/hooks/query-hooks/use-club-notifications';
 import { CLUB_DASHBOARD_NAVBAR_ITEMS } from '@/components/navigation/club-dashboard-navbar-items';
 import { MediaQueryContext } from '@/components/providers/media-query-context';
-import Badge from '@/components/ui-custom/badge';
+import Badge, { BadgeWithCount } from '@/components/ui-custom/badge';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LucideIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -21,6 +21,7 @@ const ClubDashboardTabList: FC<{
   const hasNewNotifications = Boolean(
     notifications?.data?.some(({ isSeen }) => !isSeen),
   );
+  const counter = notifications?.data?.filter(({ isSeen }) => !isSeen).length;
 
   return (
     <Tabs
@@ -37,6 +38,7 @@ const ClubDashboardTabList: FC<{
               hasNewNotifications={hasNewNotifications}
               activeTab={activeTab}
               isMobile={isMobile}
+              counter={counter}
             />
           </TabsTrigger>
         ))}
@@ -50,7 +52,8 @@ const TabContent: FC<{
   activeTab: ClubDashboardTab;
   hasNewNotifications: boolean;
   isMobile: boolean;
-}> = ({ tab, activeTab, hasNewNotifications, isMobile }) => {
+  counter?: number;
+}> = ({ tab, activeTab, hasNewNotifications, isMobile, counter }) => {
   const item = CLUB_DASHBOARD_NAVBAR_ITEMS[tab];
   const isActive = tab === activeTab;
   const t = useTranslations('Club.Dashboard');
@@ -61,9 +64,14 @@ const TabContent: FC<{
   const shouldShowBadge = hasNewNotifications && tab === 'inbox';
 
   return (
-    <div className="relative w-fit">
+    <div className="gap-mk item relative flex w-fit">
       {isMobile ? <Icon size={18} strokeWidth={isActive ? 2.5 : 2} /> : t(tab)}
-      {shouldShowBadge && <Badge isMobile={isMobile} />}
+      {shouldShowBadge &&
+        (isMobile ? (
+          <Badge className="top-0" />
+        ) : (
+          <BadgeWithCount count={counter!} />
+        ))}
     </div>
   );
 };

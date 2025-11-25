@@ -2,6 +2,7 @@
 
 import { useSignOutMutation } from '@/components/hooks/mutation-hooks/use-sign-out';
 import { useUserNotificationsCounter } from '@/components/hooks/query-hooks/use-user-notifications';
+import Badge, { BadgeWithCount } from '@/components/ui-custom/badge';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -43,15 +44,21 @@ export default function AuthButton({ user }: AuthButtonProps) {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="gap-2 p-3 select-none">
-            <User2 size={20} />
-            <div className="hidden sm:block">{user.username}</div>
+            <div className="gap-mk relative flex w-fit items-center">
+              <User2 size={20} />
+              <div className="hidden sm:block">{user.username}</div>
+              {!!notificationsCounter && <Badge />}
+            </div>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="-translate-x-2 translate-y-1">
-          {menuItems.map((item) => (
-            <Link href={item.path} key={item.title}>
+          {menuItems.map(({ path, title }) => (
+            <Link href={path} key={title}>
               <StyledItem className="w-full">
-                {t(`Subs.${item.title}`)}
+                <div className="relative">{t(`Subs.${title}`)}</div>
+                {title === 'inbox' && !!notificationsCounter && (
+                  <BadgeWithCount count={notificationsCounter} />
+                )}
               </StyledItem>
             </Link>
           ))}
@@ -68,7 +75,6 @@ export default function AuthButton({ user }: AuthButtonProps) {
           </StyledItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      {notificationsCounter !== undefined && <div>{notificationsCounter}</div>}
     </>
   );
 }
