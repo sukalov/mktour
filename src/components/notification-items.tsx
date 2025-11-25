@@ -185,18 +185,13 @@ const ToggleIsSeen: FC<{ notificationId: string; seen: boolean }> = ({
   notificationId,
   seen,
 }) => {
-  const { mutate, isPending } = useChangeNotificationStatusMutation();
+  const { mutate } = useChangeNotificationStatusMutation();
   const onClick = () => mutate({ notificationId, seen: !seen });
   const icon = seen ? <EyeOff /> : <Eye />;
 
   return (
-    <Button
-      size="icon-lg"
-      variant="ghost"
-      disabled={isPending}
-      onClick={onClick}
-    >
-      {isPending ? <LoadingSpinner /> : icon}
+    <Button size="icon-lg" variant="ghost" onClick={onClick}>
+      {icon}
     </Button>
   );
 };

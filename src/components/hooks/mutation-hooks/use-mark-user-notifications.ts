@@ -1,4 +1,5 @@
 import { useTRPC } from '@/components/trpc/client';
+import { AnyUserNotificationExtended } from '@/server/queries/get-user-notifications';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const useChangeNotificationStatusMutation = () => {
@@ -8,7 +9,7 @@ export const useChangeNotificationStatusMutation = () => {
   return useMutation(
     trpc.auth.notifications.changeStatus.mutationOptions({
       onMutate: async ({ notificationId, seen }) => {
-        queryClient.cancelQueries({
+        await queryClient.cancelQueries({
           queryKey: trpc.auth.notifications.infinite.infiniteQueryKey({}),
         });
 
@@ -20,21 +21,25 @@ export const useChangeNotificationStatusMutation = () => {
           trpc.auth.notifications.infinite.infiniteQueryKey({}),
           (cache) => {
             if (!cache) return cache;
-            const newCache = { ...cache };
-            let found = false;
 
-            for (const page of newCache.pages) {
-              for (const item of page.notifications) {
-                if (item.notification.id === notificationId) {
-                  item.notification.isSeen = seen;
-                  found = true;
-                  break;
-                }
-              }
-              if (found) break;
-            }
-
-            return newCache;
+            return {
+              ...cache,
+              pages: cache.pages.map((page) => ({
+                ...page,
+                notifications: page.notifications.map((item) => {
+                  if (item.notification.id === notificationId) {
+                    return {
+                      ...item,
+                      notification: {
+                        ...item.notification,
+                        isSeen: seen,
+                      },
+                    };
+                  }
+                  return item;
+                }) as AnyUserNotificationExtended[],
+              })),
+            };
           },
         );
 
@@ -69,22 +74,27 @@ export const useMarkAllNotificationAsSeenMutation = () => {
         });
 
         const prevCache = queryClient.getQueryData(
-          trpc.auth.notifications.infinite.infiniteQueryKey(),
+          trpc.auth.notifications.infinite.infiniteQueryKey({}),
         );
 
         queryClient.setQueryData(
-          trpc.auth.notifications.infinite.infiniteQueryKey(),
+          trpc.auth.notifications.infinite.infiniteQueryKey({}),
           (cache) => {
             if (!cache) return cache;
-            const newCache = { ...cache };
 
-            newCache.pages.forEach((page) => {
-              page.notifications.forEach((item) => {
-                item.notification.isSeen = true;
-              });
-            });
-
-            return newCache;
+            return {
+              ...cache,
+              pages: cache.pages.map((page) => ({
+                ...page,
+                notifications: page.notifications.map((item) => ({
+                  ...item,
+                  notification: {
+                    ...item.notification,
+                    isSeen: true,
+                  },
+                })) as typeof page.notifications,
+              })),
+            };
           },
         );
 
@@ -93,7 +103,7 @@ export const useMarkAllNotificationAsSeenMutation = () => {
       onError: (_err, _variables, context) => {
         if (context?.prevCache) {
           queryClient.setQueryData(
-            trpc.auth.notifications.infinite.infiniteQueryKey(),
+            trpc.auth.notifications.infinite.infiniteQueryKey({}),
             context.prevCache,
           );
         }
