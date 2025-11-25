@@ -1,3 +1,10 @@
+# [1.0.0-beta.8](https://github.com/sukalov/mktour/compare/v1.0.0-beta.7...v1.0.0-beta.8) (2025-11-25)
+
+
+### Bug Fixes
+
+* optimistic update for marking usdr-notifications ([9d944ab](https://github.com/sukalov/mktour/commit/9d944abe794da281e562b78a3cd5a170045295ea))
+
 # [1.0.0-beta.7](https://github.com/sukalov/mktour/compare/v1.0.0-beta.6...v1.0.0-beta.7) (2025-11-25)
 
 
