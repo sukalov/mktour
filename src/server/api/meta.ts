@@ -293,6 +293,15 @@ const meta = {
     },
   },
 
+  playerInfo: {
+    openapi: {
+      method: 'GET',
+      path: '/players/{playerId}',
+      summary: 'get player info',
+      tags: ['players'],
+    },
+  },
+
   tournamentsAll: {
     openapi: {
       method: 'GET',

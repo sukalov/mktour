@@ -6,7 +6,7 @@ import LastTournaments from '@/app/player/[id]/last-tournaments';
 import FormattedMessage from '@/components/formatted-message';
 import { Card } from '@/components/ui/card';
 import { publicCaller } from '@/server/api';
-import { DatabaseUser } from '@/server/db/schema/users';
+import { UserMinimal } from '@/server/db/zod/users';
 import { User2 } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -27,7 +27,7 @@ async function PlayerPageContent(props: PlayerPageProps) {
     publicCaller.player.info({ playerId: id }),
   ]);
   if (!playerData) notFound();
-  const { player, club, user: playerUser } = playerData;
+  const { user: playerUser, club, ...player } = playerData;
   const status = await publicCaller.club.authStatus({
     clubId: club.id,
   });
@@ -91,7 +91,7 @@ async function PlayerPageContent(props: PlayerPageProps) {
   );
 }
 
-const UserLink: FC<{ user: DatabaseUser | null }> = ({ user }) => {
+const UserLink: FC<{ user: UserMinimal | null }> = ({ user }) => {
   if (!user) return null;
   return (
     <Link href={`/user/${user.username}`}>

@@ -120,13 +120,6 @@ export const createPlayer = async ({
 }: {
   player: InsertDatabasePlayer;
 }) => {
-  const { user } = await validateRequest();
-  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
-  const status = await getStatusInClub({
-    userId: user.id,
-    clubId: player.clubId,
-  });
-  if (!status) throw new Error('NOT_ADMIN');
   try {
     await db.insert(players).values(player);
   } catch (e) {

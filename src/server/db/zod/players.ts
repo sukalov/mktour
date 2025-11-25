@@ -30,9 +30,9 @@ export const affiliationMinimalSchema = affiliationsSelectSchema.omit({
 
 export const playersMinimalSchema = playersSelectSchema.omit({
   clubId: true,
-  rating: true,
 });
 
 export type AffiliationExtended = z.infer<typeof affiliationExtendedSchema>;
 export type AffiliationMinimal = z.infer<typeof affiliationMinimalSchema>;
+export type Player = z.infer<typeof playersSelectSchema>;
 export type PlayerMinimal = z.infer<typeof playersMinimalSchema>;

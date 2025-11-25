@@ -1,10 +1,13 @@
-import { playerSchema } from '@/lib/zod/new-player-form';
+import { newPlayerFormSchema } from '@/lib/zod/new-player-form';
 import meta from '@/server/api/meta';
 import {
   clubAdminProcedure,
   protectedProcedure,
   publicProcedure,
 } from '@/server/api/trpc';
+import { clubsSelectSchema } from '@/server/db/zod/clubs';
+import { playersSelectSchema } from '@/server/db/zod/players';
+import { usersSelectMinimalSchema } from '@/server/db/zod/users';
 import {
   createPlayer,
   deletePlayer,
@@ -22,14 +25,21 @@ import { z } from 'zod';
 
 export const playerRouter = {
   info: publicProcedure
+    .meta(meta.playerInfo)
     .input(z.object({ playerId: z.string() }))
+    .output(
+      playersSelectSchema.extend({
+        user: usersSelectMinimalSchema.nullable(),
+        club: clubsSelectSchema,
+      }),
+    )
     .query(async (opts) => {
       const { input } = opts;
       return await getPlayer(input.playerId);
     }),
   create: clubAdminProcedure
     .meta(meta.playersCreate)
-    .input(z.object(playerSchema))
+    .input(newPlayerFormSchema)
     .output(z.void())
     .mutation(async (opts) => {
       const { input: player } = opts;

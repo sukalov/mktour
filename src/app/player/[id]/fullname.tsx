@@ -1,15 +1,15 @@
 'use client';
 
 import FormattedMessage from '@/components/formatted-message';
-import { DatabasePlayer } from '@/server/db/schema/players';
-import { DatabaseUser } from '@/server/db/schema/users';
+import { Player } from '@/server/db/zod/players';
+import { UserMinimal } from '@/server/db/zod/users';
 
 const FullName = ({
   player,
   user,
 }: {
-  player: DatabasePlayer;
-  user: DatabaseUser | null;
+  player: Player;
+  user: UserMinimal | null;
 }) => {
   let name;
   if (!user && !player.realname) return null;

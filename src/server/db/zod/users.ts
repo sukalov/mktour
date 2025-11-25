@@ -14,8 +14,7 @@ export const usersSelectPublicSchema = usersSelectSchema.omit({
   email: true,
 });
 
-export const usersSelectMinimalSchema = usersSelectSchema.omit({
-  email: true,
+export const usersSelectMinimalSchema = usersSelectPublicSchema.omit({
   createdAt: true,
   selectedClub: true,
   rating: true,
@@ -52,5 +51,7 @@ export const validateRequestSchema = z.object({
   session: sessionsSelectSchema.nullable(),
 });
 
+export type UserPublic = z.infer<typeof usersSelectPublicSchema>;
+export type UserMinimal = z.infer<typeof usersSelectMinimalSchema>;
 export type EditProfileFormType = z.infer<typeof editProfileFormSchema>;
 export type ApiToken = z.infer<typeof apiToken>;
