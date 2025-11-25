@@ -6,7 +6,7 @@ const Badge: FC<PropsWithChildren & { className?: string }> = ({
 }) => {
   return (
     <div
-      className={`bg-destructive absolute -top-1 -right-1 m-auto size-2 rounded-full sm:top-0 sm:-right-2 ${className}`}
+      className={`bg-destructive absolute -top-1 -right-1 size-2 rounded-full sm:top-0 sm:-right-2 ${className}`}
     >
       {children}
     </div>

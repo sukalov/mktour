@@ -64,7 +64,7 @@ const TabContent: FC<{
   const shouldShowBadge = hasNewNotifications && tab === 'inbox';
 
   return (
-    <div className="gap-mk item relative flex w-fit">
+    <div className="gap-mk relative flex w-fit items-center">
       {isMobile ? <Icon size={18} strokeWidth={isActive ? 2.5 : 2} /> : t(tab)}
       {shouldShowBadge &&
         (isMobile ? (
