@@ -1,3 +1,15 @@
+# [1.0.0-beta.7](https://github.com/sukalov/mktour/compare/v1.0.0-beta.6...v1.0.0-beta.7) (2025-11-25)
+
+
+### Bug Fixes
+
+* minor ([6a66df0](https://github.com/sukalov/mktour/commit/6a66df0fa6180df835ac7f90633c0df66ab9d4d1))
+
+
+### Features
+
+* mark all as read in user's inbox ([4893153](https://github.com/sukalov/mktour/commit/4893153c3fe5abaa7ee5cfb82df48bde4a9c9966))
+
 # [1.0.0-beta.6](https://github.com/sukalov/mktour/compare/v1.0.0-beta.5...v1.0.0-beta.6) (2025-11-25)
 
 
