@@ -1,3 +1,10 @@
+# [1.0.0-beta.6](https://github.com/sukalov/mktour/compare/v1.0.0-beta.5...v1.0.0-beta.6) (2025-11-25)
+
+
+### Features
+
+* badge with counter ([73b8018](https://github.com/sukalov/mktour/commit/73b80187c3127b1493d4d491f5817ad7d3ea5a29))
+
 # [1.0.0-beta.5](https://github.com/sukalov/mktour/compare/v1.0.0-beta.4...v1.0.0-beta.5) (2025-11-25)
 
 
