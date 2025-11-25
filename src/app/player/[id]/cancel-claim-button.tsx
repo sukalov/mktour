@@ -13,7 +13,6 @@ import {
   Trigger,
 } from '@/components/ui-custom/combo-modal';
 import { Button } from '@/components/ui/button';
-import { DatabaseAffiliation } from '@/server/db/schema/players';
 import { PointerOff } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { FC, useState } from 'react';
@@ -21,16 +20,17 @@ import { FC, useState } from 'react';
 const CancelClaimPlayer: FC<{
   userId: string;
   clubId: string;
-  affiliation: DatabaseAffiliation;
-}> = ({ userId, clubId, affiliation }) => {
+  affiliationId: string;
+  playerId: string;
+}> = ({ userId, clubId, affiliationId, playerId }) => {
   const [open, setOpen] = useState(false);
   const { mutate, isPending } = useAffiliationAbortRequestMutation(clubId);
   const handleClick = () => {
     setOpen(false);
     mutate({
-      affiliationId: affiliation.id,
+      affiliationId,
       userId,
-      playerId: affiliation.playerId,
+      playerId,
     });
   };
   const t = useTranslations();

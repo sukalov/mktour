@@ -192,20 +192,13 @@ export const editPlayer = async ({
   revalidatePath(`/player/${values.id}`);
 };
 
-export default async function getAllClubManagers(
-  clubId: string,
-): Promise<ClubManager[]> {
+export default async function getAllClubManagers(clubId: string) {
   return await db
     .select()
     .from(clubs_to_users)
     .where(eq(clubs_to_users.clubId, clubId))
     .innerJoin(users, eq(clubs_to_users.userId, users.id));
 }
-
-export type ClubManager = {
-  clubs_to_users: DatabaseClubsToUsers;
-  user: DatabaseUser;
-};
 
 export const deleteClubFunction = async ({
   clubId,
@@ -282,13 +275,13 @@ export const addClubManager = async ({
   clubId,
   userId,
   status,
+  user,
 }: {
   clubId: string;
   userId: string;
   status: 'co-owner' | 'admin';
+  user: DatabaseUser;
 }) => {
-  const { user } = await validateRequest();
-  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   const authorStatus = await getStatusInClub({
     userId: user.id,
     clubId,
@@ -327,12 +320,12 @@ export const addClubManager = async ({
 export const deleteClubManager = async ({
   clubId,
   userId,
+  user,
 }: {
   clubId: string;
   userId: string;
+  user: DatabaseUser;
 }) => {
-  const { user } = await validateRequest();
-  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   const authorStatus = await getStatusInClub({
     userId: user.id,
     clubId,
@@ -350,16 +343,20 @@ export const deleteClubManager = async ({
     );
 };
 
-export const leaveClub = async (clubId: string) => {
-  const { user } = await validateRequest();
-  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
+export const leaveClub = async ({
+  clubId,
+  userId,
+}: {
+  clubId: string;
+  userId: string;
+}) => {
   const otherClubId = (
     await db
       .select({ clubId: clubs_to_users.clubId })
       .from(clubs_to_users)
       .where(
         and(
-          eq(clubs_to_users.userId, user.id),
+          eq(clubs_to_users.userId, userId),
           ne(clubs_to_users.clubId, clubId),
           eq(clubs_to_users.status, 'co-owner'),
         ),
@@ -372,14 +369,22 @@ export const leaveClub = async (clubId: string) => {
     await tx
       .update(users)
       .set({ selectedClub: otherClubId })
-      .where(eq(users.id, user.id));
+      .where(eq(users.id, userId));
     await tx
       .delete(clubs_to_users)
       .where(
         and(
           eq(clubs_to_users.clubId, clubId),
-          eq(clubs_to_users.userId, user.id),
+          eq(clubs_to_users.userId, userId),
         ),
       );
+    await tx.insert(club_notifications).values({
+      id: newid(),
+      clubId,
+      event: 'manager_left',
+      isSeen: false,
+      createdAt: new Date(),
+      metadata: { userId },
+    });
   });
 };

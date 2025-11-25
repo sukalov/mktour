@@ -14,6 +14,13 @@ export const usersSelectPublicSchema = usersSelectSchema.omit({
   email: true,
 });
 
+export const usersSelectMinimalSchema = usersSelectSchema.omit({
+  email: true,
+  createdAt: true,
+  selectedClub: true,
+  rating: true,
+});
+
 export const editProfileFormSchema = usersUpdateSchema
   .omit({
     id: true,
@@ -30,7 +37,7 @@ export const editProfileFormSchema = usersUpdateSchema
 export const apiTokensSelectSchema = createSelectSchema(apiTokens);
 export const apiTokensInsertSchema = createInsertSchema(apiTokens);
 
-export const apiTokenList = apiTokensSelectSchema.pick({
+export const apiToken = apiTokensSelectSchema.pick({
   id: true,
   name: true,
   createdAt: true,
@@ -46,4 +53,4 @@ export const validateRequestSchema = z.object({
 });
 
 export type EditProfileFormType = z.infer<typeof editProfileFormSchema>;
-export type ApiTokenList = z.infer<typeof apiTokenList>;
+export type ApiToken = z.infer<typeof apiToken>;

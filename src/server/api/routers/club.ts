@@ -7,18 +7,18 @@ import {
   publicProcedure,
 } from '@/server/api/trpc';
 import {
+  clubManagersSchema,
   clubsEditSchema,
   clubsInsertSchema,
   clubsSelectSchema,
-  clubsToUsersSelectSchema,
 } from '@/server/db/zod/clubs';
 import { clubNotificationExtendedSchema } from '@/server/db/zod/notifications';
 import {
-  affiliationsSelectSchema,
+  affiliationExtendedSchema,
   playersSelectSchema,
 } from '@/server/db/zod/players';
 import { tournamentsSelectSchema } from '@/server/db/zod/tournaments';
-import { usersSelectSchema } from '@/server/db/zod/users';
+import { usersSelectMinimalSchema } from '@/server/db/zod/users';
 import getAllClubManagers, {
   addClubManager,
   createClub,
@@ -63,31 +63,25 @@ export const clubRouter = createTRPCRouter({
     .query(async (opts) => {
       return await getClubInfo(opts.input.clubId);
     }),
-  players: createTRPCRouter({
-    infinite: publicProcedure
-      .meta(meta.clubPlayers)
-      .input(
-        z.object({
-          clubId: z.string(),
-          cursor: z.number().nullish(),
-          limit: z.number().min(1).max(100).optional().default(20),
-        }),
-      )
-      .output(
-        z.object({
-          players: z.array(playersSelectSchema),
-          nextCursor: z.number().nullable(),
-        }),
-      )
-      .query(async (opts) => {
-        const cursor = opts.input.cursor;
-        return await getClubPlayers(
-          opts.input.clubId,
-          opts.input.limit,
-          cursor,
-        );
+  players: publicProcedure
+    .meta(meta.clubPlayers)
+    .input(
+      z.object({
+        clubId: z.string(),
+        cursor: z.number().nullish(),
+        limit: z.number().min(1).max(100).optional().default(20),
       }),
-  }),
+    )
+    .output(
+      z.object({
+        players: z.array(playersSelectSchema),
+        nextCursor: z.number().nullable(),
+      }),
+    )
+    .query(async (opts) => {
+      const cursor = opts.input.cursor;
+      return await getClubPlayers(opts.input.clubId, opts.input.limit, cursor);
+    }),
   tournaments: publicProcedure
     .meta(meta.clubTournaments)
     .input(z.object({ clubId: z.string() }))
@@ -98,24 +92,25 @@ export const clubRouter = createTRPCRouter({
   affiliatedUsers: publicProcedure
     .meta(meta.clubAffiliatedUsers)
     .input(z.object({ clubId: z.string() }))
-    .output(z.array(usersSelectSchema))
+    .output(z.array(usersSelectMinimalSchema))
     .query(async (opts) => {
       return await getClubAffiliatedUsers(opts.input.clubId);
     }),
   authAffiliation: protectedProcedure
     .meta(meta.clubAuthAffiliation)
     .input(z.object({ clubId: z.string() }))
-    .output(z.array(affiliationsSelectSchema))
+    .output(affiliationExtendedSchema.nullable())
     .query(async (opts) => {
       return await getUserClubAffiliation(opts.ctx.user, opts.input.clubId);
     }),
   authStatus: publicProcedure
     .meta(meta.clubAuthStatus)
-    .input(z.object({ clubId: z.string(), userId: z.string() }))
-    .output(z.enum(['co-owner', 'admin']).optional())
+    .input(z.object({ clubId: z.string() }))
+    .output(z.enum(['co-owner', 'admin']).nullable())
     .query(async (opts) => {
+      if (!opts.ctx.user) return null;
       return await getStatusInClub({
-        userId: opts.input.userId,
+        userId: opts.ctx.user.id,
         clubId: opts.input.clubId,
       });
     }),
@@ -123,14 +118,7 @@ export const clubRouter = createTRPCRouter({
     all: publicProcedure
       .meta(meta.clubManagers)
       .input(z.object({ clubId: z.string() }))
-      .output(
-        z.array(
-          z.object({
-            clubs_to_users: clubsToUsersSelectSchema,
-            user: usersSelectSchema,
-          }),
-        ),
-      )
+      .output(z.array(clubManagersSchema))
       .query(async (opts) => {
         return await getAllClubManagers(opts.input.clubId);
       }),
@@ -146,7 +134,7 @@ export const clubRouter = createTRPCRouter({
       .output(z.void())
       .mutation(async (opts) => {
         const { input } = opts;
-        await addClubManager(input);
+        await addClubManager({ ...input, user: opts.ctx.user });
         revalidateTag(`${CACHE_TAGS.USER_CLUBS}:${input.userId}`, 'max');
       }),
     delete: clubAdminProcedure
@@ -159,8 +147,8 @@ export const clubRouter = createTRPCRouter({
       )
       .output(z.void())
       .mutation(async (opts) => {
-        const { input } = opts;
-        await deleteClubManager(input);
+        const { input, ctx } = opts;
+        await deleteClubManager({ ...input, user: ctx.user });
         revalidateTag(`${CACHE_TAGS.USER_CLUBS}:${input.userId}`, 'max');
       }),
   }),
@@ -208,14 +196,15 @@ export const clubRouter = createTRPCRouter({
       }),
     )
     .output(z.object({ clubs: z.array(z.string()) }))
-    .mutation(async (opts) => {
-      if (Object.keys(opts.ctx.clubs).length === 1)
+    .mutation(async ({ ctx, input }) => {
+      if (Object.keys(ctx.clubs).length === 1)
         throw new Error('CANT_LEAVE_ONLY_CLUB');
-      await leaveClub(opts.input.clubId);
+      await leaveClub({ clubId: input.clubId, userId: ctx.user.id });
+
       revalidateTag(CACHE_TAGS.AUTH, 'max');
-      revalidateTag(`${CACHE_TAGS.USER_CLUBS}:${opts.ctx.user.id}`, 'max');
-      const updatedClubs = Object.keys(opts.ctx.clubs).filter(
-        (id) => id !== opts.input.clubId,
+      revalidateTag(`${CACHE_TAGS.USER_CLUBS}:${ctx.user.id}`, 'max');
+      const updatedClubs = Object.keys(ctx.clubs).filter(
+        (id) => id !== input.clubId,
       );
       return { clubs: updatedClubs };
     }),

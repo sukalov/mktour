@@ -30,7 +30,6 @@ async function PlayerPageContent(props: PlayerPageProps) {
   const { player, club, user: playerUser } = playerData;
   const status = await publicCaller.club.authStatus({
     clubId: club.id,
-    userId: user?.id || '',
   });
   const playerLastTournaments =
     await publicCaller.player.playersLastTournaments({
@@ -38,7 +37,7 @@ async function PlayerPageContent(props: PlayerPageProps) {
     });
 
   const isOwnPlayer = user && player.userId === user.id;
-  const canEdit = status || isOwnPlayer;
+  const canEdit = status !== null || isOwnPlayer;
   const canClaim = !status && user && !player.userId;
 
   return (

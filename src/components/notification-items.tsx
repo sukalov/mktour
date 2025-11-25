@@ -8,7 +8,7 @@ import { useChangeNotificationStatusMutation } from '@/components/hooks/mutation
 import { Button } from '@/components/ui/button';
 import { Item, ItemActions, ItemContent } from '@/components/ui/item';
 import { UserNotificationEvent } from '@/server/db/zod/enums';
-import { ClubNotification } from '@/server/queries/get-club-notifications';
+import { ClubNotificationExtended } from '@/server/db/zod/notifications';
 import {
   AnyUserNotificationExtended,
   UserNotificationExtended,
@@ -31,10 +31,12 @@ import { FC, HTMLAttributes, PropsWithChildren } from 'react';
 
 export const AffiliationNotificationLi = ({
   affiliation,
-  notification,
   player,
   user,
-}: ClubNotification) => {
+  clubId,
+  id,
+  isSeen,
+}: ClubNotificationExtended) => {
   const queryClient = useQueryClient();
   const { mutate: acceptAffiliation, isPending: pendingAccept } =
     useAffiliationAcceptMutation({
@@ -50,9 +52,9 @@ export const AffiliationNotificationLi = ({
   if (!user || !affiliation) return null;
 
   const variables = {
-    clubId: notification.clubId,
+    clubId,
     affiliationId: affiliation.id,
-    notificationId: notification.id,
+    notificationId: id,
   };
 
   const handleAccept = (accept: boolean) => {
@@ -63,7 +65,7 @@ export const AffiliationNotificationLi = ({
   if (!affiliation) return null;
 
   return (
-    <Item variant="muted" key={notification.id}>
+    <Item variant="muted" key={id}>
       <ItemContent>
         <p className="text-muted-foreground flex items-center gap-2 text-xs">
           <GitPullRequestCreateArrow className="size-4" />
@@ -104,10 +106,7 @@ export const AffiliationNotificationLi = ({
                 </Button>
               </div>
             )}
-            <ToggleIsSeen
-              notificationId={notification.id}
-              seen={notification.isSeen}
-            />
+            <ToggleIsSeen notificationId={id} seen={isSeen} />
           </ItemActions>
         </div>
       </ItemContent>

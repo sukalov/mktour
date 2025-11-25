@@ -8,7 +8,7 @@ export const usePlayerAddMutation = (queryClient: QueryClient) => {
     trpc.player.create.mutationOptions({
       onSuccess: (_data, variables) => {
         queryClient.invalidateQueries({
-          queryKey: trpc.club.players.infinite.infiniteQueryKey({
+          queryKey: trpc.club.players.infiniteQueryKey({
             clubId: variables.clubId,
           }),
         });

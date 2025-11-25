@@ -18,7 +18,7 @@ import { FC, useState } from 'react';
 const EditButton: FC<{
   userId: string;
   player: DatabasePlayer;
-  status: StatusInClub | undefined;
+  status: StatusInClub | null;
 }> = ({ userId, player, status }) => {
   const [open, setOpen] = useState(false);
   return (

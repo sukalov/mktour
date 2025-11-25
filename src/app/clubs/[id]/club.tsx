@@ -20,7 +20,7 @@ import { FC, useState } from 'react';
 
 const ClubPage: FC<{
   club: DatabaseClub;
-  statusInClub: StatusInClub | undefined;
+  statusInClub: StatusInClub | null;
   userId: string;
 }> = ({ club, statusInClub, userId }) => {
   const [tab, setTab] = useState(0);
@@ -50,7 +50,7 @@ const ClubPage: FC<{
 
 const ClubInfo: FC<{
   club: DatabaseClub;
-  statusInClub: StatusInClub | undefined;
+  statusInClub: StatusInClub | null;
 }> = ({ club, statusInClub }) => {
   const t = useTranslations('Club');
   const locale = useLocale();

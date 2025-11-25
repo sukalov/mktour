@@ -5,6 +5,7 @@ import {
   createSelectSchema,
   createUpdateSchema,
 } from 'drizzle-zod';
+import z from 'zod';
 
 export const playersSelectSchema = createSelectSchema(players);
 export const playersInsertSchema = createInsertSchema(players);
@@ -14,3 +15,24 @@ export const affiliationsSelectSchema = createSelectSchema(affiliations, {
 });
 export const affiliationsInsertSchema = createInsertSchema(affiliations);
 export const affiliationsUpdateSchema = createUpdateSchema(affiliations);
+
+export const affiliationExtendedSchema = affiliationsSelectSchema
+  .extend({
+    player: playersSelectSchema,
+  })
+  .omit({ playerId: true, clubId: true });
+
+export const affiliationMinimalSchema = affiliationsSelectSchema.omit({
+  playerId: true,
+  clubId: true,
+  userId: true,
+});
+
+export const playersMinimalSchema = playersSelectSchema.omit({
+  clubId: true,
+  rating: true,
+});
+
+export type AffiliationExtended = z.infer<typeof affiliationExtendedSchema>;
+export type AffiliationMinimal = z.infer<typeof affiliationMinimalSchema>;
+export type PlayerMinimal = z.infer<typeof playersMinimalSchema>;

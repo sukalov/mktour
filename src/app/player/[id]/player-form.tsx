@@ -24,7 +24,7 @@ const EditPlayerForm: FC<{
   userId: string;
   clubId: string;
   player: EditPlayerFormValues;
-  status: StatusInClub | undefined;
+  status: StatusInClub | null;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }> = ({
   player: { id, nickname, realname, rating },

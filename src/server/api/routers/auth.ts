@@ -7,7 +7,7 @@ import { protectedProcedure, publicProcedure } from '@/server/api/trpc';
 import { apiTokens } from '@/server/db/schema/users';
 import { clubsSelectSchema } from '@/server/db/zod/clubs';
 import {
-  apiTokenList,
+  apiToken,
   editProfileFormSchema,
   usersSelectSchema,
 } from '@/server/db/zod/users';
@@ -119,7 +119,7 @@ export const authRouter = {
     }),
   apiToken: {
     list: protectedProcedure
-      .output(z.array(apiTokenList))
+      .output(z.array(apiToken))
       .query(async ({ ctx }) => {
         const tokens = await ctx.db.query.apiTokens.findMany({
           where: eq(apiTokens.userId, ctx.user.id),

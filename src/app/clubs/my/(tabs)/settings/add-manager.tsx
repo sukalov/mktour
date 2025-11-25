@@ -54,7 +54,8 @@ const AddManager = ({
 
   let users: DatabaseUser[];
   if (debouncedValue === '') {
-    users = affiliatedUsers.data;
+    // users = affiliatedUsers.data;
+    users = []; // FIXME when search typing is updated
   } else {
     users = foundUsers.data.users;
   }

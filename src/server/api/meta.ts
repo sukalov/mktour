@@ -278,7 +278,7 @@ const meta = {
   clubDeleteManager: {
     openapi: {
       method: 'DELETE',
-      path: '/clubs/{clubId}/managers',
+      path: '/clubs/{clubId}/managers/{userId}',
       summary: 'delete club manager',
       tags: ['clubs'],
     },

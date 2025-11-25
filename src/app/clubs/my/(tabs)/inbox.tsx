@@ -7,7 +7,7 @@ import {
   NotificationItem,
 } from '@/components/notification-items';
 import SkeletonList from '@/components/skeleton-list';
-import { ClubNotification } from '@/server/queries/get-club-notifications';
+import { ClubNotificationExtended } from '@/server/db/zod/notifications';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
@@ -27,16 +27,16 @@ const ClubInbox: FC<{ selectedClub: string }> = ({ selectedClub }) => {
   );
 };
 
-const NotificationItemIteratee = (data: ClubNotification) => {
+const NotificationItemIteratee = (data: ClubNotificationExtended) => {
   switch (data.event) {
     case 'affiliation_request':
-      return <AffiliationNotificationLi key={data.notification.id} {...data} />;
+      return <AffiliationNotificationLi key={data.id} {...data} />;
     case 'affiliation_request_approved':
       return (
         <NotificationItem
-          notificationId={data.notification.id}
-          key={data.notification.id}
-          is_seen={data.notification.isSeen}
+          notificationId={data.id}
+          key={data.id}
+          is_seen={data.isSeen}
         >
           {data.player?.nickname} is officially user {data.user?.username}
         </NotificationItem>
@@ -44,9 +44,9 @@ const NotificationItemIteratee = (data: ClubNotification) => {
     case 'affiliation_request_rejected':
       return (
         <NotificationItem
-          notificationId={data.notification.id}
-          key={data.notification.id}
-          is_seen={data.notification.isSeen}
+          notificationId={data.id}
+          key={data.id}
+          is_seen={data.isSeen}
         >
           <div>
             {data.user?.username}&apos;s request to affiliate with{' '}
@@ -57,11 +57,11 @@ const NotificationItemIteratee = (data: ClubNotification) => {
     case 'manager_left':
       return (
         <NotificationItem
-          notificationId={data.notification.id}
-          key={data.notification.id}
-          is_seen={data.notification.isSeen}
+          notificationId={data.id}
+          key={data.id}
+          is_seen={data.isSeen}
         >
-          {JSON.stringify(data.notification.metadata)}
+          {JSON.stringify(data.metadata)}
         </NotificationItem>
       );
     default:

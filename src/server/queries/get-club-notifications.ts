@@ -2,13 +2,12 @@ import { db } from '@/server/db';
 import { club_notifications } from '@/server/db/schema/notifications';
 import { affiliations, players } from '@/server/db/schema/players';
 import { users } from '@/server/db/schema/users';
-import { eq, sql } from 'drizzle-orm';
+import { eq, getTableColumns, sql } from 'drizzle-orm';
 
 export default async function getClubNotifications(clubId: string) {
   return await db
     .select({
-      event: club_notifications.event,
-      notification: club_notifications,
+      ...getTableColumns(club_notifications),
       affiliation: affiliations,
       user: users,
       player: players,
@@ -22,7 +21,3 @@ export default async function getClubNotifications(clubId: string) {
     .leftJoin(users, eq(users.id, affiliations.userId))
     .leftJoin(players, eq(players.id, affiliations.playerId));
 }
-
-export type ClubNotification = Awaited<
-  ReturnType<typeof getClubNotifications>
->[0];
