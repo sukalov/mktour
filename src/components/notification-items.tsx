@@ -4,9 +4,9 @@ import { LoadingSpinner } from '@/app/loading';
 import FormattedMessage from '@/components/formatted-message';
 import useAffiliationAcceptMutation from '@/components/hooks/mutation-hooks/use-affiliation-accept';
 import useAffiliationRejectMutation from '@/components/hooks/mutation-hooks/use-affiliation-reject';
+import { useChangeNotificationStatusMutation } from '@/components/hooks/mutation-hooks/use-mark-user-notifications';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Item } from '@/components/ui/item';
+import { Item, ItemActions, ItemContent } from '@/components/ui/item';
 import { UserNotificationEvent } from '@/server/db/zod/enums';
 import { ClubNotification } from '@/server/queries/get-club-notifications';
 import {
@@ -17,6 +17,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import {
   Check,
   CornerDownRightIcon,
+  Eye,
+  EyeOff,
   GitPullRequestCreateArrow,
   LucideIcon,
   Medal,
@@ -61,43 +63,55 @@ export const AffiliationNotificationLi = ({
   if (!affiliation) return null;
 
   return (
-    <NotificationCard
-      key={notification.id}
-      is_seen={notification.isSeen}
-      className="flex flex-col gap-2"
-    >
-      <p className="text-muted-foreground flex items-center gap-2 text-xs">
-        <GitPullRequestCreateArrow className="size-4" />
-        <FormattedMessage id="Club.Inbox.affiliation" />
-      </p>
-      <div className="flex items-center justify-between text-sm">
-        <div className="flex items-center gap-2">
+    <Item variant="muted" key={notification.id}>
+      <ItemContent>
+        <p className="text-muted-foreground flex items-center gap-2 text-xs">
+          <GitPullRequestCreateArrow className="size-4" />
+          <FormattedMessage id="Club.Inbox.affiliation" />
+        </p>
+        <div className="flex items-center justify-between text-sm">
           <div className="flex items-center gap-2">
-            <div className="flex flex-col justify-center">
-              <div className="flex items-center gap-2">
-                <Link href={`/user/${user?.username}`}>{user?.username}</Link>
-              </div>
-              <div className="flex items-center">
-                <CornerDownRightIcon className="text-muted-foreground mx-2 size-4" />
-                <Link href={`/player/${player?.id}`}>{player?.nickname}</Link>
+            <div className="flex items-center gap-2">
+              <div className="flex flex-col justify-center">
+                <div className="flex items-center gap-2">
+                  <Link href={`/user/${user?.username}`}>{user?.username}</Link>
+                </div>
+                <div className="flex items-center">
+                  <CornerDownRightIcon className="text-muted-foreground mx-2 size-4" />
+                  <Link href={`/player/${player?.id}`}>{player?.nickname}</Link>
+                </div>
               </div>
             </div>
           </div>
+          <ItemActions>
+            {isPending ? (
+              <LoadingSpinner />
+            ) : (
+              <div className="ml-3 flex gap-2">
+                <Button
+                  size="icon-lg"
+                  onClick={() => handleAccept(true)}
+                  variant="secondary"
+                >
+                  <Check />{' '}
+                </Button>
+                <Button
+                  size="icon-lg"
+                  onClick={() => handleAccept(false)}
+                  variant="destructive"
+                >
+                  <X />{' '}
+                </Button>
+              </div>
+            )}
+            <ToggleIsSeen
+              notificationId={notification.id}
+              seen={notification.isSeen}
+            />
+          </ItemActions>
         </div>
-        {isPending ? (
-          <LoadingSpinner />
-        ) : (
-          <div className="ml-3 flex gap-2">
-            <Button onClick={() => handleAccept(true)} variant="secondary">
-              <Check />{' '}
-            </Button>
-            <Button onClick={() => handleAccept(false)} variant="destructive">
-              <X />{' '}
-            </Button>
-          </div>
-        )}
-      </div>
-    </NotificationCard>
+      </ItemContent>
+    </Item>
   );
 };
 
@@ -106,9 +120,9 @@ export const UserNotificationLi: FC<AnyUserNotificationExtended> = (props) => {
   const { messageId, Icon } = useUserNotificationItem(event);
 
   return (
-    <NotificationCard
-      className="flex flex-col gap-1"
+    <NotificationItem
       key={notification.id}
+      notificationId={notification.id}
       is_seen={notification.isSeen}
     >
       <p className="text-muted-foreground flex items-center gap-1 text-xs">
@@ -116,20 +130,9 @@ export const UserNotificationLi: FC<AnyUserNotificationExtended> = (props) => {
         <FormattedMessage id={`Notifications.User.${messageId}`} />
       </p>
       <NotificationContent {...props} />
-    </NotificationCard>
+    </NotificationItem>
   );
 };
-
-const NotificationCard: FC<
-  PropsWithChildren & {
-    is_seen: boolean;
-    className?: HTMLAttributes<HTMLDivElement>['className'];
-  }
-> = ({ is_seen, className, children }) => (
-  <Card className={`mk-card ${is_seen && 'opacity-70'} ${className}`}>
-    {children}
-  </Card>
-);
 
 const NotificationContent: FC<AnyUserNotificationExtended> = (notification) => {
   if (notification.event === 'became_club_manager')
@@ -152,25 +155,51 @@ const NotificationContent: FC<AnyUserNotificationExtended> = (notification) => {
   );
 };
 
-const ManagerNotification: FC<Props<'became_club_manager'>> = (
-  notification,
-) => {
-  if (!notification.club) return null;
-  return <div>{notification.club.name}</div>;
-};
-type Props<T extends UserNotificationEvent> = UserNotificationExtended<T>;
-
-const TournamentNotification: FC<
-  UserNotificationExtended<'tournament_won'>
-> = ({ metadata }) => {
-  return <div>{metadata.name}</div>;
-};
-
 const useUserNotificationItem = (event: UserNotificationEvent) => {
   const messageId = messageIdMap[event];
   const Icon: LucideIcon = iconMap[event];
 
   return { messageId, Icon };
+};
+
+export const NotificationItem: FC<
+  PropsWithChildren & {
+    is_seen: boolean;
+    className?: HTMLAttributes<HTMLDivElement>['className'];
+    notificationId: string;
+  }
+> = ({ is_seen, className, children, notificationId }) => (
+  <Item
+    variant="muted"
+    className={`mk-card ${is_seen && 'opacity-70'} ${className} text-xs`}
+  >
+    <ItemContent>
+      <div className="flex flex-col gap-2">{children}</div>
+    </ItemContent>
+    <ItemActions>
+      <ToggleIsSeen notificationId={notificationId} seen={is_seen} />
+    </ItemActions>
+  </Item>
+);
+
+const ToggleIsSeen: FC<{ notificationId: string; seen: boolean }> = ({
+  notificationId,
+  seen,
+}) => {
+  const { mutate, isPending } = useChangeNotificationStatusMutation();
+  const onClick = () => mutate({ notificationId, seen: !seen });
+  const icon = seen ? <EyeOff /> : <Eye />;
+
+  return (
+    <Button
+      size="icon-lg"
+      variant="ghost"
+      disabled={isPending}
+      onClick={onClick}
+    >
+      {isPending ? <LoadingSpinner /> : icon}
+    </Button>
+  );
 };
 
 const messageIdMap: Record<
@@ -192,18 +221,17 @@ const iconMap: Record<UserNotificationEvent, LucideIcon> = {
   removed_from_club_managers: Skull,
 };
 
-export const NotificationItem = ({
-  children,
-  is_seen,
-}: {
-  children: React.ReactNode;
-  is_seen: boolean;
-}) => {
-  return (
-    <Card className={`${is_seen && 'opacity-70'}`}>
-      <CardContent>
-        <Item>{children}</Item>
-      </CardContent>
-    </Card>
-  );
+const ManagerNotification: FC<Props<'became_club_manager'>> = (
+  notification,
+) => {
+  if (!notification.club) return null;
+  return <div>{notification.club.name}</div>;
 };
+
+const TournamentNotification: FC<
+  UserNotificationExtended<'tournament_won'>
+> = ({ metadata }) => {
+  return <div>{metadata.name}</div>;
+};
+
+type Props<T extends UserNotificationEvent> = UserNotificationExtended<T>;

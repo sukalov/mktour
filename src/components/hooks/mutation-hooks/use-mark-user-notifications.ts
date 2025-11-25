@@ -1,23 +1,23 @@
 import { useTRPC } from '@/components/trpc/client';
-import { QueryClient, useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-export const useChangeNotificationStatusMutation = (
-  queryClient: QueryClient,
-) => {
+export const useChangeNotificationStatusMutation = () => {
   const trpc = useTRPC();
+  const queryClient = useQueryClient();
+
   return useMutation(
     trpc.auth.notifications.changeStatus.mutationOptions({
       onMutate: async ({ notificationId, seen }) => {
-        await queryClient.cancelQueries({
-          queryKey: trpc.auth.notifications.pathKey(),
+        queryClient.cancelQueries({
+          queryKey: trpc.auth.notifications.infinite.infiniteQueryKey({}),
         });
 
         const prevCache = queryClient.getQueryData(
-          trpc.auth.notifications.infinite.infiniteQueryKey(),
+          trpc.auth.notifications.infinite.infiniteQueryKey({}),
         );
 
         queryClient.setQueryData(
-          trpc.auth.notifications.infinite.infiniteQueryKey(),
+          trpc.auth.notifications.infinite.infiniteQueryKey({}),
           (cache) => {
             if (!cache) return cache;
             const newCache = { ...cache };
@@ -43,7 +43,7 @@ export const useChangeNotificationStatusMutation = (
       onError: (_err, _variables, context) => {
         if (context?.prevCache) {
           queryClient.setQueryData(
-            trpc.auth.notifications.infinite.infiniteQueryKey(),
+            trpc.auth.notifications.infinite.infiniteQueryKey({}),
             context.prevCache,
           );
         }
@@ -57,10 +57,10 @@ export const useChangeNotificationStatusMutation = (
   );
 };
 
-export const useMarkAllNotificationAsSeenMutation = (
-  queryClient: QueryClient,
-) => {
+export const useMarkAllNotificationAsSeenMutation = () => {
   const trpc = useTRPC();
+  const queryClient = useQueryClient();
+
   return useMutation(
     trpc.auth.notifications.markAllAsSeen.mutationOptions({
       onMutate: async () => {

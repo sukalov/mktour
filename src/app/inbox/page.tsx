@@ -11,11 +11,8 @@ const InboxPage = async () => {
   await queryClient.prefetchQuery({
     queryKey: trpc.auth.notifications.infinite.queryKey(),
   });
-  return (
-    <>
-      <UserNotifications />
-    </>
-  );
+
+  return <UserNotifications />;
 };
 
 const Page = async () => {

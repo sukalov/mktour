@@ -34,17 +34,17 @@ const NotificationItemIteratee = (data: ClubNotification) => {
     case 'affiliation_request_approved':
       return (
         <NotificationItem
+          notificationId={data.notification.id}
           key={data.notification.id}
           is_seen={data.notification.isSeen}
         >
-          <div>
-            {data.player?.nickname} is officially user {data.user?.username}
-          </div>
+          {data.player?.nickname} is officially user {data.user?.username}
         </NotificationItem>
       );
     case 'affiliation_request_rejected':
       return (
         <NotificationItem
+          notificationId={data.notification.id}
           key={data.notification.id}
           is_seen={data.notification.isSeen}
         >
@@ -52,6 +52,16 @@ const NotificationItemIteratee = (data: ClubNotification) => {
             {data.user?.username}&apos;s request to affiliate with{' '}
             {data.player?.nickname} was rejected
           </div>
+        </NotificationItem>
+      );
+    case 'manager_left':
+      return (
+        <NotificationItem
+          notificationId={data.notification.id}
+          key={data.notification.id}
+          is_seen={data.notification.isSeen}
+        >
+          {JSON.stringify(data.notification.metadata)}
         </NotificationItem>
       );
     default:

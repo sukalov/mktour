@@ -20,6 +20,7 @@ import {
 import { deleteUser, editUser } from '@/server/mutations/profile-managing';
 import { getUserClubs } from '@/server/queries/get-user-clubs';
 import {
+  AnyUserNotificationExtended,
   getNotificationsCounter,
   getUserNotificationsInfinite,
 } from '@/server/queries/get-user-notifications';
@@ -57,10 +58,13 @@ export const authRouter = {
         }),
       )
       .query(async ({ input }) => {
-        return await getUserNotificationsInfinite({
+        return (await getUserNotificationsInfinite({
           limit: input.limit,
           offset: input.cursor ?? 0,
-        });
+        })) as {
+          notifications: AnyUserNotificationExtended[];
+          nextCursor: number | null;
+        }; // FIXME as
       }),
     counter: publicProcedure.query(async () => {
       const { user } = await validateRequest();

@@ -6,7 +6,6 @@ export const useUserNotifications = () => {
   return useInfiniteQuery(
     trpc.auth.notifications.infinite.infiniteQueryOptions(
       {
-        limit: 20,
         cursor: undefined,
       },
       {
