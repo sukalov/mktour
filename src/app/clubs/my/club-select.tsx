@@ -43,7 +43,7 @@ const ClubSelect: FC<{ user: DatabaseUser }> = ({ user }) => {
         })
       }
     >
-      <SelectTrigger className="bg-background placeholder:text-muted-foreground border-box focus:ring-ring md:py-mk flex h-10 w-full max-w-3xl items-center justify-between rounded-md border-0 px-3 text-sm shadow-none backdrop-blur-md focus:ring-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:mx-auto">
+      <SelectTrigger className="bg-background placeholder:text-muted-foreground border-box focus:ring-ring md:py-mk flex h-12 w-full max-w-3xl items-center justify-between rounded-md border-0 px-3 text-sm shadow-none backdrop-blur-md focus:ring-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:mx-auto">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       {sortedClubs && (
