@@ -22,6 +22,10 @@ import superjson from 'superjson';
 import { OpenApiMeta } from 'trpc-to-openapi';
 import { z, ZodError } from 'zod';
 
+if (process.env.NODE_ENV === 'development') {
+  superjson.allowErrorProps();
+}
+
 /**
  * 1. CONTEXT
  *
