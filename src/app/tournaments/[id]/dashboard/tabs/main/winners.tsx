@@ -1,8 +1,8 @@
 'use client';
 
 import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
+import { PlayerTournamentModel } from '@/server/db/zod/players';
 import { TournamentInfo } from '@/server/db/zod/tournaments';
-import { PlayerModel } from '@/types/tournaments';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -20,7 +20,7 @@ const Winners: FC<TournamentInfo> = ({ tournament }) => {
   );
 };
 
-const MedalGroup: FC<{ place: string; players: PlayerModel[] }> = ({
+const MedalGroup: FC<{ place: string; players: PlayerTournamentModel[] }> = ({
   place,
   players,
 }) => {
@@ -53,7 +53,7 @@ export const Medal: FC<{ className: string }> = ({ className }) => (
 
 export const medalColour = ['bg-amber-300', 'bg-gray-300', 'bg-amber-700'];
 
-const groupWinnersByPlace = (players: PlayerModel[] | undefined) => {
+const groupWinnersByPlace = (players: PlayerTournamentModel[] | undefined) => {
   const winners = players?.filter(({ place }) => place && place <= 3);
 
   if (!winners) return {};
@@ -66,7 +66,7 @@ const groupWinnersByPlace = (players: PlayerModel[] | undefined) => {
       acc[place].push(player);
       return acc;
     },
-    {} as Record<number, PlayerModel[]>,
+    {} as Record<number, PlayerTournamentModel[]>,
   );
 };
 

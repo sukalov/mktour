@@ -1,4 +1,3 @@
-import { newPlayerFormSchema } from '@/lib/zod/new-player-form';
 import meta from '@/server/api/meta';
 import {
   clubAdminProcedure,
@@ -6,7 +5,7 @@ import {
   publicProcedure,
 } from '@/server/api/trpc';
 import { clubsSelectSchema } from '@/server/db/zod/clubs';
-import { playersSelectSchema } from '@/server/db/zod/players';
+import { playerFormSchema, playersSelectSchema } from '@/server/db/zod/players';
 import { usersSelectMinimalSchema } from '@/server/db/zod/users';
 import {
   createPlayer,
@@ -39,11 +38,11 @@ export const playerRouter = {
     }),
   create: clubAdminProcedure
     .meta(meta.playersCreate)
-    .input(newPlayerFormSchema)
-    .output(z.void())
+    .input(playerFormSchema)
+    .output(playersSelectSchema)
     .mutation(async (opts) => {
       const { input: player } = opts;
-      await createPlayer({ player });
+      return await createPlayer({ player });
     }),
   playersLastTournaments: publicProcedure
     .input(z.object({ playerId: z.string() }))

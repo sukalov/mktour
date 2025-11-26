@@ -1,12 +1,12 @@
 import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
 import { useTRPC } from '@/components/trpc/client';
 import { generateRandomRoundGames } from '@/lib/client-actions/random-pairs-generator';
+import { DatabasePlayer } from '@/server/db/schema/players';
 import {
-  DatabasePlayer,
-  InsertDatabasePlayer,
-} from '@/server/db/schema/players';
+  PlayerFormModel,
+  PlayerTournamentModel,
+} from '@/server/db/zod/players';
 import { DashboardMessage } from '@/types/tournament-ws-events';
-import { PlayerModel } from '@/types/tournaments';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
@@ -15,7 +15,7 @@ export const useTournamentAddNewPlayer = (
   tournamentId: string,
   queryClient: QueryClient,
   sendJsonMessage: (_message: DashboardMessage) => void,
-  returnToNewPlayer: (_player: InsertDatabasePlayer) => void,
+  returnToNewPlayer: (_player: PlayerFormModel & { id: string }) => void,
 ) => {
   const t = useTranslations('Errors');
   const saveRound = useSaveRound({
@@ -35,11 +35,11 @@ export const useTournamentAddNewPlayer = (
             trpc.tournament.playersIn.queryKey({ tournamentId }),
           );
 
-        const newPlayer: PlayerModel = {
+        const newPlayer: PlayerTournamentModel = {
           id: player.id,
           nickname: player.nickname,
           rating: player.rating,
-          realname: player.realname,
+          realname: player.realname ?? null,
           wins: 0,
           losses: 0,
           draws: 0,

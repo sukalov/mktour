@@ -79,8 +79,11 @@ export const clubRouter = createTRPCRouter({
       }),
     )
     .query(async (opts) => {
-      const cursor = opts.input.cursor;
-      return await getClubPlayers(opts.input.clubId, opts.input.limit, cursor);
+      return await getClubPlayers(
+        opts.input.clubId,
+        opts.input.limit,
+        opts.input.cursor,
+      );
     }),
   tournaments: publicProcedure
     .meta(meta.clubTournaments)

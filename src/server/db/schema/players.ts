@@ -17,11 +17,13 @@ export const players = sqliteTable(
     nickname: text('nickname').notNull(),
     realname: text('realname'),
     userId: text('user_id').references(() => users.id),
-    rating: integer('rating').notNull(),
+    rating: integer('rating').notNull().default(1500),
     clubId: text('club_id')
       .references(() => clubs.id)
       .notNull(),
-    lastSeen: integer('last_seen'), // equals closed_at() last tournament they participated
+    lastSeen: integer('last_seen', { mode: 'timestamp' })
+      .$default(() => new Date())
+      .notNull(), // equals closed_at() last tournament they participated
   },
   (table) => [
     uniqueIndex('player_nickname_club_unique_idx').on(

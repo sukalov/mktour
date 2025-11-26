@@ -1,9 +1,10 @@
-import { GameModel, PlayerModel } from '@/types/tournaments';
+import { PlayerTournamentModel } from '@/server/db/zod/players';
+import { GameModel } from '@/types/tournaments';
 import { useMemo } from 'react';
 
 export const useRoundData = (
   round: GameModel[] | undefined,
-  players: PlayerModel[] | undefined,
+  players: PlayerTournamentModel[] | undefined,
 ) => {
   const playerScores = useMemo(() => {
     if (!players || !round) return new Map<string, number>();

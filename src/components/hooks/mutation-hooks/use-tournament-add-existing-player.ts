@@ -1,8 +1,8 @@
 import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
 import { useTRPC } from '@/components/trpc/client';
 import { generateRandomRoundGames } from '@/lib/client-actions/random-pairs-generator';
+import { PlayerTournamentModel } from '@/server/db/zod/players';
 import { DashboardMessage } from '@/types/tournament-ws-events';
-import { PlayerModel } from '@/types/tournaments';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
@@ -32,7 +32,7 @@ export const useTournamentAddExistingPlayer = (
           trpc.tournament.playersIn.queryKey({ tournamentId }),
         );
 
-        const newPlayer: PlayerModel = {
+        const newPlayer: PlayerTournamentModel = {
           id: player.id,
           nickname: player.nickname,
           rating: player.rating,

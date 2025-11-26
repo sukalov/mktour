@@ -1,8 +1,4 @@
-import {
-  games,
-  players_to_tournaments,
-  tournaments,
-} from '@/server/db/schema/tournaments';
+import { games, tournaments } from '@/server/db/schema/tournaments';
 import { clubsSelectSchema } from '@/server/db/zod/clubs';
 import {
   tournamentFormatEnum,
@@ -20,19 +16,10 @@ export const tournamentsSelectSchema = createSelectSchema(tournaments, {
   type: tournamentTypeEnum,
 });
 export const gamesSelectSchema = createSelectSchema(games);
-export const playersToTournamentsSelectSchema = createSelectSchema(
-  players_to_tournaments,
-);
 export const tournamentsInsertSchema = createInsertSchema(tournaments);
 export const gamesInsertSchema = createInsertSchema(games);
-export const playersToTournamentsInsertSchema = createInsertSchema(
-  players_to_tournaments,
-);
 export const tournamentsUpdateSchema = createUpdateSchema(tournaments);
 export const gamesUpdateSchema = createUpdateSchema(games);
-export const playersToTournamentsUpdateSchema = createUpdateSchema(
-  players_to_tournaments,
-);
 
 export const tournamentInfoSchema = z.object({
   tournament: tournamentsSelectSchema,

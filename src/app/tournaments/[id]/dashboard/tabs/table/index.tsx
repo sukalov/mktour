@@ -18,7 +18,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { PlayerModel } from '@/types/tournaments';
+import { PlayerTournamentModel } from '@/server/db/zod/players';
 import { useQueryClient } from '@tanstack/react-query';
 import { Scale, UserRoundX } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -39,9 +39,8 @@ const TournamentTable: FC = ({}) => {
   );
   const { userId } = useContext(DashboardContext);
   const t = useTranslations('Tournament.Table');
-  const [selectedPlayer, setSelectedPlayer] = useState<PlayerModel | null>(
-    null,
-  );
+  const [selectedPlayer, setSelectedPlayer] =
+    useState<PlayerTournamentModel | null>(null);
   const hasStarted = !!tournament.data?.tournament.startedAt;
   const hasEnded = !!tournament.data?.tournament.closedAt;
   const stats =
@@ -187,7 +186,7 @@ const TableLoading = () => {
 };
 
 const Place: FC<
-  { player: PlayerModel; hasEnded: boolean } & PropsWithChildren
+  { player: PlayerTournamentModel; hasEnded: boolean } & PropsWithChildren
 > = ({ player, hasEnded, children }) => {
   const place = player.place;
 
@@ -200,7 +199,7 @@ const Place: FC<
   );
 };
 
-const Status: FC<{ player: PlayerModel } & PropsWithChildren> = ({
+const Status: FC<{ player: PlayerTournamentModel } & PropsWithChildren> = ({
   player,
   children,
 }) => {
@@ -236,7 +235,7 @@ const Stat: FC<PropsWithChildren> = ({ children }) => (
  * Berger is typically sum of defeated opponents' scores + half of drawn opponents' scores.
  * Here, we just mock it as: wins * 3 + draws * 1 + losses * 0.5
  */
-function mockBergerScore(player: PlayerModel): number {
+function mockBergerScore(player: PlayerTournamentModel): number {
   return (
     (player.wins ?? 0) * 3 +
     (player.draws ?? 0) * 1 +
@@ -244,7 +243,11 @@ function mockBergerScore(player: PlayerModel): number {
   );
 }
 
-const STATS: (keyof Partial<PlayerModel>)[] = ['wins', 'draws', 'losses'];
+const STATS: (keyof Partial<PlayerTournamentModel>)[] = [
+  'wins',
+  'draws',
+  'losses',
+];
 const STATS_WITH_BERGER = [...STATS, 'berger'];
 
 export default TournamentTable;

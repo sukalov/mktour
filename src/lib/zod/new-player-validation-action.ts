@@ -1,6 +1,5 @@
 'use server';
 
-import { NewPlayerFormType } from '@/lib/zod/new-player-form';
 import { db } from '@/server/db';
 import { players } from '@/server/db/schema/players';
 import { and, eq, sql } from 'drizzle-orm';
@@ -8,7 +7,10 @@ import { and, eq, sql } from 'drizzle-orm';
 export async function validateNewPlayer({
   nickname,
   clubId,
-}: NewPlayerFormType) {
+}: {
+  nickname: string;
+  clubId: string;
+}) {
   const isValid = await db
     .select()
     .from(players)

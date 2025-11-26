@@ -7,7 +7,8 @@ import { DatabaseClub } from '@/server/db/schema/clubs';
 import { DatabaseTournament } from '@/server/db/schema/tournaments';
 import { DatabaseUser } from '@/server/db/schema/users';
 import { GameResult } from '@/server/db/zod/enums';
-import { GameModel, PlayerModel } from '@/types/tournaments';
+import { PlayerTournamentModel } from '@/server/db/zod/players';
+import { GameModel } from '@/types/tournaments';
 import { faker } from '@faker-js/faker';
 import assert from 'assert';
 
@@ -115,7 +116,7 @@ const fillRandomResult = mock(
 const generatePlayerModel = mock(() => {
   const randomUser = generateDatabaseUser();
 
-  const randomPlayer: PlayerModel = {
+  const randomPlayer: PlayerTournamentModel = {
     id: randomUser.id,
     nickname: randomUser.username,
     wins: INITIAL_WINS,
@@ -149,7 +150,7 @@ describe('pure matching generation test', () => {
     const randomPlayerNumber = faker.number.int(PLAYER_NUMBER_FAKEOPTS);
 
     // initialising the player list
-    const randomPlayers: PlayerModel[] = [];
+    const randomPlayers: PlayerTournamentModel[] = [];
     for (let playerIdx = 0; playerIdx < randomPlayerNumber; playerIdx++) {
       const generatedPlayer = generatePlayerModel();
       randomPlayers.push(generatedPlayer);

@@ -14,14 +14,19 @@ import {
   DatabasePlayerToTournament,
   DatabaseTournament,
   games,
+  InsertDatabasePlayerToTournament,
   InsertDatabaseTournament,
   players_to_tournaments,
   tournaments,
 } from '@/server/db/schema/tournaments';
 import { GameResult, TournamentFormat } from '@/server/db/zod/enums';
+import {
+  PlayerFormModel,
+  PlayerTournamentModel,
+} from '@/server/db/zod/players';
 import { TournamentInfo } from '@/server/db/zod/tournaments';
 import { getStatusInTournament } from '@/server/queries/get-status-in-tournament';
-import { GameModel, PlayerModel } from '@/types/tournaments';
+import { GameModel } from '@/types/tournaments';
 import {
   aliasedTable,
   and,
@@ -58,14 +63,14 @@ export const createTournament = async (
 // moved to API endpoint
 export async function getTournamentPlayers(
   id: string,
-): Promise<Array<PlayerModel>> {
+): Promise<Array<PlayerTournamentModel>> {
   const playersDb = await db
     .select()
     .from(players_to_tournaments)
     .where(eq(players_to_tournaments.tournamentId, id))
     .innerJoin(players, eq(players.id, players_to_tournaments.playerId));
 
-  const playerModels: PlayerModel[] = playersDb.map((each) => ({
+  const playerModels: PlayerTournamentModel[] = playersDb.map((each) => ({
     id: each.player.id,
     nickname: each.player.nickname,
     realname: each.player.realname,
@@ -143,20 +148,12 @@ export async function removePlayer({
 export async function addNewPlayer({
   tournamentId,
   player,
-  userId,
 }: {
   tournamentId: string;
-  player: InsertDatabasePlayer;
-  userId: string;
+  player: PlayerFormModel & { id: string };
 }) {
-  const { user } = await validateRequest();
-  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
-  if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
-  const status = await getStatusInTournament(user.id, tournamentId);
-  if (status === 'viewer') throw new Error('NOT_ADMIN');
-
-  await db.insert(players).values(player);
-  const playerToTournament: DatabasePlayerToTournament = {
+  await db.insert(players).values({ ...player, lastSeen: new Date() });
+  const playerToTournament: InsertDatabasePlayerToTournament = {
     playerId: player.id,
     tournamentId: tournamentId,
     id: `${player.id}=${tournamentId}`,

@@ -9,7 +9,7 @@ import {
   Trigger,
 } from '@/components/ui-custom/combo-modal';
 import { Button } from '@/components/ui/button';
-import { PlayerModel } from '@/types/tournaments';
+import { PlayerTournamentModel } from '@/server/db/zod/players';
 import { LogOut, Trash2 } from 'lucide-react';
 import { FC } from 'react';
 
@@ -28,7 +28,7 @@ export const DeleteButton: FC<{ handleDelete: () => void }> = ({
 );
 
 export const WithdrawButtonWithConfirmation: FC<{
-  selectedPlayer: PlayerModel;
+  selectedPlayer: PlayerTournamentModel;
 }> = ({ selectedPlayer }) => (
   <Root>
     <Trigger asChild>

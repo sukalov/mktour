@@ -1,6 +1,7 @@
 import { db } from '@/server/db';
 import { clubs, DatabaseClub } from '@/server/db/schema/clubs';
-import { DatabasePlayer, players } from '@/server/db/schema/players';
+import { players } from '@/server/db/schema/players';
+import { PlayerModel } from '@/server/db/zod/players';
 import { eq } from 'drizzle-orm';
 
 export const getClubInfo = async (id: DatabaseClub['id']) => {
@@ -10,10 +11,10 @@ export const getClubInfo = async (id: DatabaseClub['id']) => {
 };
 
 export const getClubPlayers = async (
-  clubId: DatabasePlayer['clubId'],
+  clubId: PlayerModel['clubId'],
   limit: number,
   cursor?: number | null,
-): Promise<{ players: DatabasePlayer[]; nextCursor: number | null }> => {
+): Promise<{ players: PlayerModel[]; nextCursor: number | null }> => {
   const result = await db
     .select()
     .from(players)

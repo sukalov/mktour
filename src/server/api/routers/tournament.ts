@@ -19,6 +19,10 @@ import {
   roundNameEnum,
   TournamentFormat,
 } from '@/server/db/zod/enums';
+import {
+  playerFormSchema,
+  PlayerTournamentModel,
+} from '@/server/db/zod/players';
 import { tournamentsSelectSchema } from '@/server/db/zod/tournaments';
 import {
   addExistingPlayer,
@@ -38,7 +42,6 @@ import {
 } from '@/server/mutations/tournament-managing';
 import getAllTournaments from '@/server/queries/get-all-tournaments';
 import { getStatusInTournament } from '@/server/queries/get-status-in-tournament';
-import { PlayerModel } from '@/types/tournaments';
 import { eq, sql } from 'drizzle-orm';
 import { revalidateTag } from 'next/cache';
 import { z } from 'zod';
@@ -83,7 +86,7 @@ export const tournamentRouter = {
         .where(eq(players_to_tournaments.tournamentId, input.tournamentId))
         .innerJoin(players, eq(players.id, players_to_tournaments.playerId));
 
-      const playerModels: PlayerModel[] = playersDb.map((each) => ({
+      const playerModels: PlayerTournamentModel[] = playersDb.map((each) => ({
         id: each.player.id,
         nickname: each.player.nickname,
         realname: each.player.realname,
@@ -158,17 +161,7 @@ export const tournamentRouter = {
     }),
   addNewPlayer: tournamentAdminProcedure
     .input(
-      z.object({
-        tournamentId: z.string(),
-        player: z.object({
-          id: z.string(),
-          nickname: z.string(),
-          realname: z.string().nullable(),
-          rating: z.number(),
-          clubId: z.string(),
-        }),
-        userId: z.string(),
-      }),
+      z.object({ player: playerFormSchema.and(z.object({ id: z.string() })) }),
     )
     .mutation(async (opts) => {
       const { input } = opts;

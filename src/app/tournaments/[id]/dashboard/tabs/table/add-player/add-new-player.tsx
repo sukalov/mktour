@@ -14,14 +14,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { Slider } from '@/components/ui/slider';
 import { newid } from '@/lib/utils';
-import {
-  newPlayerFormSchema,
-  NewPlayerFormType,
-} from '@/lib/zod/new-player-form';
-import {
-  DatabasePlayer,
-  InsertDatabasePlayer,
-} from '@/server/db/schema/players';
+import { InsertDatabasePlayer } from '@/server/db/schema/players';
+import { PlayerFormModel, playerFormSchema } from '@/server/db/zod/players';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { Save } from 'lucide-react';
@@ -40,7 +34,7 @@ const AddNewPlayer = ({
   const { id } = useParams<{ id: string }>();
   const tournament = useTournamentInfo(id);
   const queryClient = useQueryClient();
-  const { sendJsonMessage, userId } = useContext(DashboardContext);
+  const { sendJsonMessage } = useContext(DashboardContext);
   const { mutate } = useTournamentAddNewPlayer(
     id,
     queryClient,
@@ -50,10 +44,9 @@ const AddNewPlayer = ({
   const t = useTranslations('Tournament.AddPlayer');
   useHotkeys('escape', handleClose, { enableOnFormTags: true });
 
-  const form = useForm<NewPlayerFormType>({
-    resolver: zodResolver(newPlayerFormSchema),
+  const form = useForm<PlayerFormModel>({
+    resolver: zodResolver(playerFormSchema),
     defaultValues: {
-      id: newid(),
       nickname: value,
       rating: 1500,
       clubId: tournament.data?.club?.id,
@@ -67,21 +60,8 @@ const AddNewPlayer = ({
     setValue(nickname);
   }, [nickname, setValue]);
 
-  function onSubmit(data: NewPlayerFormType) {
-    if (!userId) {
-      console.log('not found user id in context');
-      return;
-    }
-    const newPlayer: DatabasePlayer = {
-      id: newid(),
-      clubId: data.clubId,
-      nickname: data.nickname,
-      realname: data.nickname,
-      rating: data.rating,
-      userId: null,
-      lastSeen: 0,
-    };
-    mutate({ tournamentId: id, player: newPlayer, userId });
+  function onSubmit(player: PlayerFormModel) {
+    mutate({ tournamentId: id, player: { ...player, id: newid() } });
     handleClose();
   }
   return (

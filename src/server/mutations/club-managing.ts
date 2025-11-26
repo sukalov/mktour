@@ -20,7 +20,6 @@ import {
 import {
   affiliations,
   DatabasePlayer,
-  InsertDatabasePlayer,
   players,
 } from '@/server/db/schema/players';
 import {
@@ -30,6 +29,7 @@ import {
 } from '@/server/db/schema/tournaments';
 import { DatabaseUser, users } from '@/server/db/schema/users';
 import { ClubEditType, ClubFormType } from '@/server/db/zod/clubs';
+import { PlayerFormModel } from '@/server/db/zod/players';
 import getStatusInClub from '@/server/queries/get-status-in-club';
 import { and, eq, ne } from 'drizzle-orm';
 import { User } from 'lucia';
@@ -115,16 +115,15 @@ export const deleteClub = async ({
   await deleteClubFunction({ clubId, userId, userDeletion });
 };
 
-export const createPlayer = async ({
-  player,
-}: {
-  player: InsertDatabasePlayer;
-}) => {
-  try {
-    await db.insert(players).values(player);
-  } catch (e) {
-    throw new Error(`PLAYER_NOT_CREATED: ${e}`);
-  }
+export const createPlayer = async ({ player }: { player: PlayerFormModel }) => {
+  const newPlayer = (
+    await db
+      .insert(players)
+      .values({ ...player, lastSeen: new Date(), id: newid() })
+      .returning()
+  ).at(0);
+  if (!newPlayer) throw new Error('PLAYER_NOT_CREATED');
+  return newPlayer;
 };
 
 // FIXME

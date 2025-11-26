@@ -2,9 +2,8 @@
 // ws-handler
 
 import { useTRPC } from '@/components/trpc/client';
-import { DatabasePlayer } from '@/server/db/schema/players';
+import { PlayerModel, PlayerTournamentModel } from '@/server/db/zod/players';
 import type { DashboardMessage } from '@/types/tournament-ws-events';
-import { PlayerModel } from '@/types/tournaments';
 import { QueryClient } from '@tanstack/react-query';
 import { Dispatch, SetStateAction } from 'react';
 import { toast } from 'sonner';
@@ -67,7 +66,7 @@ export const handleSocketMessage = (
       );
       if (!addedPlayers) break;
       const removedPlayer = addedPlayers.find(
-        (player: PlayerModel) => player.id === message.id,
+        (player: PlayerTournamentModel) => player.id === message.id,
       );
 
       queryClient.setQueryData(
@@ -75,14 +74,14 @@ export const handleSocketMessage = (
         (cache) => cache && cache.filter((player) => player.id !== message.id),
       );
       if (removedPlayer) {
-        const removedPlayerDb: DatabasePlayer = {
+        const removedPlayerDb: PlayerModel = {
           id: removedPlayer.id,
           nickname: removedPlayer.nickname,
           realname: removedPlayer.realname ?? null,
           rating: removedPlayer.rating,
           clubId: '',
           userId: null,
-          lastSeen: null,
+          lastSeen: new Date(),
         };
         queryClient.setQueryData(
           trpc.tournament.playersOut.queryKey({ tournamentId }),

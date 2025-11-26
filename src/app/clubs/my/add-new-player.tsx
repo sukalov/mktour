@@ -13,11 +13,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Slider } from '@/components/ui/slider';
-import { newid } from '@/lib/utils';
-import {
-  newPlayerFormSchema,
-  NewPlayerFormType,
-} from '@/lib/zod/new-player-form';
+import { PlayerFormModel, playerFormSchema } from '@/server/db/zod/players';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { Save, UserPlus, X } from 'lucide-react';
@@ -78,10 +74,9 @@ const AddNewPlayer = ({}: DrawerProps) => {
   const { mutate } = usePlayerAddMutation(queryClient);
   const t = useTranslations('Tournament.AddPlayer');
 
-  const form = useForm<NewPlayerFormType>({
-    resolver: zodResolver(newPlayerFormSchema),
+  const form = useForm<PlayerFormModel>({
+    resolver: zodResolver(playerFormSchema),
     defaultValues: {
-      id: newid(),
       nickname: '',
       rating: 1500,
       clubId: user.data?.selectedClub,
@@ -89,11 +84,10 @@ const AddNewPlayer = ({}: DrawerProps) => {
     reValidateMode: 'onSubmit',
   });
 
-  function onSubmit(data: NewPlayerFormType) {
+  function onSubmit(data: PlayerFormModel) {
     mutate(data, {
       onSuccess: () => {
         form.reset();
-        form.setValue('id', newid());
       },
     });
   }

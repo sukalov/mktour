@@ -44,7 +44,6 @@ export const createTRPCContext = async (opts: {
 
   if (authHeader?.startsWith('Bearer ')) {
     const token = authHeader.substring(7);
-    console.log('Auth Token:', token);
 
     if (token) {
       const parts = token.split('_');

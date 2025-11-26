@@ -1,14 +1,14 @@
 'use client';
 
 import FormattedMessage from '@/components/formatted-message';
-import { Player } from '@/server/db/zod/players';
+import { PlayerModel } from '@/server/db/zod/players';
 import { UserMinimal } from '@/server/db/zod/users';
 
 const FullName = ({
   player,
   user,
 }: {
-  player: Player;
+  player: PlayerModel;
   user: UserMinimal | null;
 }) => {
   let name;

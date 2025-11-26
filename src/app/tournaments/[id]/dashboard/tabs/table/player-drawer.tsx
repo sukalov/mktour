@@ -13,13 +13,13 @@ import {
   Title,
 } from '@/components/ui-custom/combo-modal';
 import { Button } from '@/components/ui/button';
-import { PlayerModel } from '@/types/tournaments';
+import { PlayerTournamentModel } from '@/server/db/zod/players';
 import { UserRound } from 'lucide-react';
 import Link from 'next/link';
 import { Dispatch, FC, SetStateAction, useContext, useState } from 'react';
 
 const PlayerDrawer: FC<{
-  player: PlayerModel;
+  player: PlayerTournamentModel;
   setSelectedPlayer: (_arg: null) => void;
   handleDelete: () => void;
   hasEnded: boolean;
@@ -79,7 +79,7 @@ const DestructiveButton = ({
 }: {
   hasEnded: boolean;
   hasStarted: boolean;
-  player: PlayerModel;
+  player: PlayerTournamentModel;
   handleDelete: () => void;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {

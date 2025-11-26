@@ -6,6 +6,7 @@ CREATE TABLE `club` (
 	`lichess_team` text
 );
 --> statement-breakpoint
+CREATE UNIQUE INDEX `club_lichess_team_unique` ON `club` (`lichess_team`);--> statement-breakpoint
 CREATE TABLE `clubs_to_users` (
 	`id` text PRIMARY KEY NOT NULL,
 	`club_id` text NOT NULL,
@@ -55,9 +56,9 @@ CREATE TABLE `player` (
 	`nickname` text NOT NULL,
 	`realname` text,
 	`user_id` text,
-	`rating` integer NOT NULL,
+	`rating` integer DEFAULT 1500 NOT NULL,
 	`club_id` text NOT NULL,
-	`last_seen` integer,
+	`last_seen` integer NOT NULL,
 	FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action,
 	FOREIGN KEY (`club_id`) REFERENCES `club`(`id`) ON UPDATE no action ON DELETE no action
 );
@@ -109,6 +110,16 @@ CREATE TABLE `tournament` (
 	`ongoing_round` integer NOT NULL,
 	`rated` integer NOT NULL,
 	FOREIGN KEY (`club_id`) REFERENCES `club`(`id`) ON UPDATE no action ON DELETE no action
+);
+--> statement-breakpoint
+CREATE TABLE `api_token` (
+	`id` text PRIMARY KEY NOT NULL,
+	`token_hash` text NOT NULL,
+	`user_id` text NOT NULL,
+	`name` text NOT NULL,
+	`created_at` integer NOT NULL,
+	`last_used_at` integer,
+	FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
 CREATE TABLE `user_session` (

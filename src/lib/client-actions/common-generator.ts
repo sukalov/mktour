@@ -1,12 +1,13 @@
 import { newid } from '@/lib/utils';
-import { GameModel, PlayerModel } from '@/types/tournaments';
+import { PlayerTournamentModel } from '@/server/db/zod/players';
+import { GameModel } from '@/types/tournaments';
 
 // default set of round properties, may be changed internally
 export interface RoundProps {
   /**
    * Current round players
    */
-  players: PlayerModel[];
+  players: PlayerTournamentModel[];
 
   /**
    * Previously played games, not all round generators require those
@@ -74,7 +75,7 @@ type EntitiesPair = [ChessTournamentEntity, ChessTournamentEntity];
  * This simple converter is taking a joined player info and transforms it to a matched entity
  * @param playerModel a joined representation of player
  */
-export function convertPlayerToEntity(playerModel: PlayerModel) {
+export function convertPlayerToEntity(playerModel: PlayerTournamentModel) {
   if (playerModel.pairingNumber === null)
     throw new TypeError('PAIRING_NUMBER_IS_NULL');
 
