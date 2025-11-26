@@ -1,3 +1,10 @@
+# [1.0.0-beta.10](https://github.com/sukalov/mktour/compare/v1.0.0-beta.9...v1.0.0-beta.10) (2025-11-26)
+
+
+### Features
+
+* new api endpoints for player-info and create player. + player types ref ([622ad39](https://github.com/sukalov/mktour/commit/622ad399c4f6751309d40d7d083bb7fc1a2b5035))
+
 # [1.0.0-beta.9](https://github.com/sukalov/mktour/compare/v1.0.0-beta.8...v1.0.0-beta.9) (2025-11-25)
 
 
