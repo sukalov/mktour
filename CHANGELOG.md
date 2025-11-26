@@ -1,3 +1,10 @@
+# [1.0.0-beta.11](https://github.com/sukalov/mktour/compare/v1.0.0-beta.10...v1.0.0-beta.11) (2025-11-26)
+
+
+### Bug Fixes
+
+* trpc crushing in dev-mode because of hot reloading ([70d9100](https://github.com/sukalov/mktour/commit/70d91002800f969f4765c9c182aa1163b1cdad2b))
+
 # [1.0.0-beta.10](https://github.com/sukalov/mktour/compare/v1.0.0-beta.9...v1.0.0-beta.10) (2025-11-26)
 
 
