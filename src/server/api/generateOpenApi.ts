@@ -1,3 +1,3 @@
-import { openApiDocument } from '@/server/api/openapi';
+import { getOpenApiDocument } from '@/server/api/openapi';
 
-console.log(JSON.stringify(openApiDocument, null, 2));
+console.log(JSON.stringify(getOpenApiDocument(), null, 2));

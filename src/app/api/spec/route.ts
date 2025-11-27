@@ -1,7 +1,7 @@
-import { openApiDocument } from '@/server/api/openapi';
+import { getOpenApiDocument } from '@/server/api/openapi';
 
 export async function GET() {
-  const openApiSpec = JSON.stringify(openApiDocument, null, 2);
+  const openApiSpec = JSON.stringify(getOpenApiDocument(), null, 2);
   return new Response(openApiSpec, {
     status: 200,
     headers: {

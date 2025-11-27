@@ -14,4 +14,6 @@ const parameters: GenerateOpenApiDocumentOptions = {
   tags: ['users', 'auth', 'clubs', 'tournaments', 'players'],
 };
 
-export const openApiDocument = generateOpenApiDocument(appRouter, parameters);
+export const getOpenApiDocument = () => {
+  return generateOpenApiDocument(appRouter, parameters);
+};
