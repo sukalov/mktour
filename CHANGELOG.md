@@ -1,3 +1,22 @@
+# [1.0.0-beta.12](https://github.com/sukalov/mktour/compare/v1.0.0-beta.11...v1.0.0-beta.12) (2025-11-27)
+
+
+### Bug Fixes
+
+* adding existing players to tournaments. rm raw sql which broke key-names ([54066ac](https://github.com/sukalov/mktour/commit/54066ac7dc907510c1db39ab454c9ce9942ccccb))
+* player-page. publicCaller always returned status null  so canEdit was never true ([2c2a193](https://github.com/sukalov/mktour/commit/2c2a193e36a6dec2e54fde12d666311363e4e779))
+* rm required id for tournament/addNewPlayer ([2450010](https://github.com/sukalov/mktour/commit/24500106ca7c7ddeee4ae58d10e5522bd2bb3a97))
+
+
+### Features
+
+* public enpoint to get players last tournaments. continuing major ref with new `Model` types ([e5e35d1](https://github.com/sukalov/mktour/commit/e5e35d1c3d2b3664a6f51816193395f04a371977))
+
+
+### Reverts
+
+* 70d91002800f969f4765c9c182aa1163b1cdad2b ([aed24de](https://github.com/sukalov/mktour/commit/aed24de4a488443b86c809aa51cbcfad98b3966e))
+
 # [1.0.0-beta.11](https://github.com/sukalov/mktour/compare/v1.0.0-beta.10...v1.0.0-beta.11) (2025-11-26)
 
 
