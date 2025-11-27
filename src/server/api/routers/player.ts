@@ -20,7 +20,9 @@ import {
   requestAffiliation,
 } from '@/server/mutations/player-affiliation';
 import getPlayer from '@/server/queries/get-player';
+import { getUserClubIds } from '@/server/queries/get-user-clubs';
 import getPlayersLastTmts from '@/server/queries/player';
+import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
 export const playerRouter = {
@@ -105,16 +107,21 @@ export const playerRouter = {
         await abortAffiliationRequest(input);
       }),
   },
-  delete: clubAdminProcedure
+  delete: protectedProcedure
+    .meta(meta.playersDelete)
     .input(
       z.object({
-        clubId: z.string(),
         playerId: z.string(),
-        userId: z.string(),
       }),
     )
-    .mutation(async (opts) => {
-      const { input } = opts;
+    .output(z.void())
+    .mutation(async ({ input, ctx }) => {
+      const clubs = await getUserClubIds({ userId: ctx.user.id });
+      const player = await getPlayer(input.playerId);
+      const isAdmin = Object.keys(clubs).find(
+        (clubId) => clubId === player.clubId,
+      );
+      if (!isAdmin) throw new TRPCError({ code: 'UNAUTHORIZED' });
       await deletePlayer(input);
     }),
   edit: clubAdminProcedure

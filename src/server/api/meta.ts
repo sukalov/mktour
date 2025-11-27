@@ -471,6 +471,14 @@ const meta = {
       tags: ['players'],
     },
   },
+  playersDelete: {
+    openapi: {
+      method: 'DELETE',
+      path: '/players/{playerId}',
+      summary: 'delete player',
+      tags: ['players'],
+    },
+  },
 } as const satisfies Record<string, OpenApiMeta>;
 
 export default meta;

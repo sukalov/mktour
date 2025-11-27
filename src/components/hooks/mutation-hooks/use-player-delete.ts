@@ -4,12 +4,15 @@ import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
 // FIXME
-export default function useDeletePlayerMutation(queryClient: QueryClient) {
+export default function useDeletePlayerMutation(
+  queryClient: QueryClient,
+  clubId: string,
+) {
   const trpc = useTRPC();
   const t = useTranslations('Toasts');
   return useMutation(
     trpc.player.delete.mutationOptions({
-      onSuccess: (_error, { clubId }) => {
+      onSuccess: (_error) => {
         toast.success(t('player deleted'));
         queryClient.invalidateQueries({
           queryKey: trpc.club.players.infiniteQueryKey({ clubId }),

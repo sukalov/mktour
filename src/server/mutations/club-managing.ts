@@ -127,25 +127,7 @@ export const createPlayer = async ({ player }: { player: PlayerFormModel }) => {
 };
 
 // FIXME
-export const deletePlayer = async ({
-  playerId,
-  clubId,
-}: {
-  playerId: string;
-  clubId: string;
-}) => {
-  const { user } = await validateRequest();
-  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
-  const [playerClub] = await db
-    .select({ clubId: players.clubId })
-    .from(players)
-    .where(eq(players.id, playerId));
-  if (playerClub.clubId !== clubId) throw new Error('CLUB_ID_NOT_MATCHING');
-  const status = await getStatusInClub({
-    userId: user.id,
-    clubId: playerClub.clubId,
-  });
-  if (!status) throw new Error('NOT_ADMIN');
+export const deletePlayer = async ({ playerId }: { playerId: string }) => {
   const [playerTournament] = await db
     .select({ tournamentId: players_to_tournaments.tournamentId })
     .from(players_to_tournaments)

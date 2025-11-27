@@ -19,16 +19,16 @@ import { useTranslations } from 'next-intl';
 import { redirect, useParams } from 'next/navigation';
 import { FC, useState } from 'react';
 
-const DeletePlayer: FC<{ clubId: string; userId: string }> = ({
-  clubId,
-  userId,
-}) => {
+const DeletePlayer: FC<{ clubId: string }> = ({ clubId }) => {
   const { id: playerId } = useParams<{ id: string }>();
   const queryClient = useQueryClient();
-  const { mutate, isPending, isSuccess } = useDeletePlayerMutation(queryClient);
-  const handleClick = () => mutate({ playerId, clubId, userId });
+  const { mutate, isPending, isSuccess } = useDeletePlayerMutation(
+    queryClient,
+    clubId,
+  );
+  const handleClick = () => mutate({ playerId });
   const [open, setOpen] = useState(false);
-  const t = useTranslations();
+  const t = useTranslations('Common');
 
   if (isSuccess) redirect('/clubs/my');
 
@@ -47,7 +47,7 @@ const DeletePlayer: FC<{ clubId: string; userId: string }> = ({
       </Trigger>
       <Content>
         <Header>
-          <Title>{t('Common.confirm')}</Title>
+          <Title>{t('confirm')}</Title>
           <Description hidden />
         </Header>
         <Button
@@ -58,11 +58,11 @@ const DeletePlayer: FC<{ clubId: string; userId: string }> = ({
         >
           {isPending ? <LoadingSpinner /> : <CircleX />}
           &nbsp;
-          {t('Common.delete')}
+          {t('delete')}
         </Button>
         <Close asChild>
           <Button className="w-full" variant="outline">
-            {t('Common.cancel')}
+            {t('cancel')}
           </Button>
         </Close>
       </Content>
