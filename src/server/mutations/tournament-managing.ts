@@ -21,7 +21,7 @@ import {
   PlayerInsertModel,
   PlayerTournamentModel,
 } from '@/server/db/zod/players';
-import { TournamentInfo } from '@/server/db/zod/tournaments';
+import { TournamentInfoModel } from '@/server/db/zod/tournaments';
 import { getStatusInTournament } from '@/server/queries/get-status-in-tournament';
 import { GameModel } from '@/types/tournaments';
 import {
@@ -87,7 +87,9 @@ export async function getTournamentPlayers(
 }
 
 // decided to keep using server action for this one not to face problems with dates serialization
-export async function getTournamentInfo(id: string): Promise<TournamentInfo> {
+export async function getTournamentInfo(
+  id: string,
+): Promise<TournamentInfoModel> {
   const tournamentInfo = (
     await db
       .select()

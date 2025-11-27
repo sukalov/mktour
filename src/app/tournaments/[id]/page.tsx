@@ -5,7 +5,7 @@ import {
 } from '@/app/tournaments/[id]/prefetch';
 import { getEncryptedAuthSession } from '@/lib/get-encrypted-auth-session';
 import { publicCaller } from '@/server/api';
-import { TournamentInfo } from '@/server/db/zod/tournaments';
+import { TournamentInfoModel } from '@/server/db/zod/tournaments';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { notFound } from 'next/navigation';
 
@@ -13,7 +13,7 @@ export default async function TournamentPage(props: TournamentPageProps) {
   const params = await props.params;
   const session = await getEncryptedAuthSession();
   const user = await publicCaller.auth.info();
-  let tournament: TournamentInfo;
+  let tournament: TournamentInfoModel;
   try {
     tournament = await publicCaller.tournament.info({
       tournamentId: params.id,

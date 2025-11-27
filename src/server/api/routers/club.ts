@@ -18,7 +18,7 @@ import {
   affiliationExtendedSchema,
   playersSelectSchema,
 } from '@/server/db/zod/players';
-import { tournamentsSelectSchema } from '@/server/db/zod/tournaments';
+import { tournamentSchema } from '@/server/db/zod/tournaments';
 import { usersSelectMinimalSchema } from '@/server/db/zod/users';
 import getAllClubManagers, {
   addClubManager,
@@ -89,7 +89,7 @@ export const clubRouter = createTRPCRouter({
   tournaments: publicProcedure
     .meta(meta.clubTournaments)
     .input(z.object({ clubId: z.string() }))
-    .output(z.array(tournamentsSelectSchema))
+    .output(z.array(tournamentSchema))
     .query(async (opts) => {
       return await getClubTournaments(opts.input.clubId);
     }),

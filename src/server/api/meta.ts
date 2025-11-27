@@ -463,6 +463,14 @@ const meta = {
       tags: ['players'],
     },
   },
+  playersLastTournaments: {
+    openapi: {
+      method: 'GET',
+      path: '/players/{playerId}/last-tournaments',
+      summary: 'get player last tournaments',
+      tags: ['players'],
+    },
+  },
 } as const satisfies Record<string, OpenApiMeta>;
 
 export default meta;

@@ -33,10 +33,9 @@ async function PlayerPageContent(props: PlayerPageProps) {
   const status = await protectedCaller.club.authStatus({
     clubId: club.id,
   });
-  const playerLastTournaments =
-    await publicCaller.player.playersLastTournaments({
-      playerId: player.id,
-    });
+  const playerLastTournaments = await publicCaller.player.lastTournaments({
+    playerId: player.id,
+  });
 
   const isOwnPlayer = user && player.userId === user.id;
   const canEdit = status !== null || isOwnPlayer;

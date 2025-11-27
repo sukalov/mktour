@@ -21,8 +21,8 @@ import { deleteUser, editUser } from '@/server/mutations/profile-managing';
 import { getUserClubs } from '@/server/queries/get-user-clubs';
 import {
   AnyUserNotificationExtended,
+  getAuthNotificationsInfinite,
   getNotificationsCounter,
-  getUserNotificationsInfinite,
 } from '@/server/queries/get-user-notifications';
 import { TRPCError } from '@trpc/server';
 import crypto from 'crypto';
@@ -57,10 +57,11 @@ export const authRouter = {
           cursor: z.number().nullish(),
         }),
       )
-      .query(async ({ input }) => {
-        return (await getUserNotificationsInfinite({
+      .query(async ({ input, ctx }) => {
+        return (await getAuthNotificationsInfinite({
           limit: input.limit,
           offset: input.cursor ?? 0,
+          userId: ctx.user.id,
         })) as {
           notifications: AnyUserNotificationExtended[];
           nextCursor: number | null;

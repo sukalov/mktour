@@ -24,7 +24,7 @@ import {
   playersSelectSchema,
   PlayerTournamentModel,
 } from '@/server/db/zod/players';
-import { tournamentsSelectSchema } from '@/server/db/zod/tournaments';
+import { tournamentSchema } from '@/server/db/zod/tournaments';
 import {
   addExistingPlayer,
   addNewPlayer,
@@ -64,7 +64,7 @@ export const tournamentRouter = {
     .input(z.object({ tournamentId: z.string() }))
     .output(
       z.object({
-        tournament: tournamentsSelectSchema,
+        tournament: tournamentSchema,
         club: clubsSelectSchema,
       }),
     )

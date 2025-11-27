@@ -3,13 +3,13 @@ import DeleteTournamentButton from '@/app/tournaments/[id]/dashboard/tabs/main/d
 import ResetTournamentPButton from '@/app/tournaments/[id]/dashboard/tabs/main/reset-players-button';
 import ResetTournamentButton from '@/app/tournaments/[id]/dashboard/tabs/main/reset-tournament-button';
 import StartTournamentButton from '@/app/tournaments/[id]/dashboard/tabs/main/start-tournament-button';
-import { TournamentInfo } from '@/server/db/zod/tournaments';
+import { TournamentModel } from '@/server/db/zod/tournaments';
 import { Status } from '@/server/queries/get-status-in-tournament';
 import { FC } from 'react';
 
 const ActionButtonsRoot: FC<{
   status: Status;
-  tournament: TournamentInfo['tournament'];
+  tournament: TournamentModel;
 }> = ({ status, tournament }) => {
   if (status !== 'organizer') return null;
 
@@ -46,7 +46,7 @@ const ActionButtonsRoot: FC<{
 
 const ActionButtons: FC<{
   status: Status;
-  tournament: TournamentInfo['tournament'];
+  tournament: TournamentModel;
 }> = (props) => (
   <div className="flex w-full flex-col gap-2 p-2">
     <ActionButtonsRoot {...props} />

@@ -2,11 +2,11 @@
 
 import { useTournamentPlayers } from '@/components/hooks/query-hooks/use-tournament-players';
 import { PlayerTournamentModel } from '@/server/db/zod/players';
-import { TournamentInfo } from '@/server/db/zod/tournaments';
+import { TournamentInfoModel } from '@/server/db/zod/tournaments';
 import Link from 'next/link';
 import { FC } from 'react';
 
-const Winners: FC<TournamentInfo> = ({ tournament }) => {
+const Winners: FC<TournamentInfoModel> = ({ tournament }) => {
   const { data: players } = useTournamentPlayers(tournament.id);
   const winners = groupWinnersByPlace(players);
 

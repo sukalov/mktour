@@ -1,4 +1,3 @@
-import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/server/db';
 import { clubs, DatabaseClub } from '@/server/db/schema/clubs';
 import { user_notifications } from '@/server/db/schema/notifications';
@@ -35,19 +34,15 @@ export const getNotificationsCounter = async (userId: string) => {
   );
 };
 
-export const getUserNotificationsInfinite = async ({
+export const getAuthNotificationsInfinite = async ({
   limit,
   offset,
+  userId,
 }: {
   limit: number;
   offset: number;
+  userId: string;
 }) => {
-  const { user } = await validateRequest();
-
-  if (!user) {
-    throw new Error('UNAUTHORIZED_REQUEST');
-  }
-
   const result = await db
     .select({
       event: user_notifications.event,
@@ -58,7 +53,7 @@ export const getUserNotificationsInfinite = async ({
       club: clubs,
     })
     .from(user_notifications)
-    .where(eq(user_notifications.userId, user.id))
+    .where(eq(user_notifications.userId, userId))
     .leftJoin(
       affiliations,
       sql`json_extract(${user_notifications.metadata}, '$.affiliationId') = ${affiliations.id}`,
@@ -90,7 +85,7 @@ export const getUserNotificationsInfinite = async ({
 };
 
 export type UserNotificationExtendedInfer = Awaited<
-  ReturnType<typeof getUserNotificationsInfinite>
+  ReturnType<typeof getAuthNotificationsInfinite>
 >['notifications'][0];
 
 export type UserNotificationExtended<T extends UserNotificationEvent> = {

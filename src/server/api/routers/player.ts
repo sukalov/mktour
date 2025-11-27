@@ -6,6 +6,7 @@ import {
 } from '@/server/api/trpc';
 import { clubsSelectSchema } from '@/server/db/zod/clubs';
 import { playerFormSchema, playersSelectSchema } from '@/server/db/zod/players';
+import { playerToTournamentSchema } from '@/server/db/zod/tournaments';
 import { usersSelectMinimalSchema } from '@/server/db/zod/users';
 import {
   createPlayer,
@@ -19,7 +20,7 @@ import {
   requestAffiliation,
 } from '@/server/mutations/player-affiliation';
 import getPlayer from '@/server/queries/get-player';
-import getPlayersLastTmts from '@/server/queries/get-players-last-tmts';
+import getPlayersLastTmts from '@/server/queries/player';
 import { z } from 'zod';
 
 export const playerRouter = {
@@ -44,8 +45,10 @@ export const playerRouter = {
       const { input: player } = opts;
       return await createPlayer({ player });
     }),
-  playersLastTournaments: publicProcedure
+  lastTournaments: publicProcedure
+    .meta(meta.playersLastTournaments)
     .input(z.object({ playerId: z.string() }))
+    .output(z.array(playerToTournamentSchema))
     .query(async (opts) => {
       const { input } = opts;
       return await getPlayersLastTmts(input.playerId);

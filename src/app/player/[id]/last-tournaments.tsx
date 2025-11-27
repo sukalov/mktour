@@ -1,13 +1,10 @@
 import FormattedMessage from '@/components/formatted-message';
 import { Card } from '@/components/ui/card';
-import {
-  DatabasePlayerToTournament,
-  DatabaseTournament,
-} from '@/server/db/schema/tournaments';
+import { PlayerToTournamentModel } from '@/server/db/zod/tournaments';
 import Link from 'next/link';
 import { FC } from 'react';
 
-const LastTournaments: FC<{ tournaments: TournamentsProps }> = ({
+const LastTournaments: FC<{ tournaments: PlayerToTournamentModel[] }> = ({
   tournaments,
 }) => {
   if (!tournaments) return null;
@@ -28,12 +25,5 @@ const LastTournaments: FC<{ tournaments: TournamentsProps }> = ({
     </div>
   );
 };
-
-type TournamentsProps =
-  | {
-      players_to_tournaments: DatabasePlayerToTournament;
-      tournament: DatabaseTournament | null;
-    }[]
-  | null;
 
 export default LastTournaments;
