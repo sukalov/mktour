@@ -14,7 +14,6 @@ import {
 import { Input } from '@/components/ui/input';
 import { Slider } from '@/components/ui/slider';
 import { newid } from '@/lib/utils';
-import { InsertDatabasePlayer } from '@/server/db/schema/players';
 import { PlayerFormModel, playerFormSchema } from '@/server/db/zod/players';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
@@ -135,7 +134,7 @@ const AddNewPlayer = ({
 };
 
 interface AddNewPlayerProps extends DrawerProps {
-  returnToNewPlayer: (_player: InsertDatabasePlayer) => void;
+  returnToNewPlayer: (_player: PlayerFormModel & { id?: string }) => void;
   handleClose: () => void;
 }
 

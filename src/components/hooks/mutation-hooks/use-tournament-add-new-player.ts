@@ -1,6 +1,7 @@
 import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
 import { useTRPC } from '@/components/trpc/client';
 import { generateRandomRoundGames } from '@/lib/client-actions/random-pairs-generator';
+import { newid } from '@/lib/utils';
 import { DatabasePlayer } from '@/server/db/schema/players';
 import {
   PlayerFormModel,
@@ -15,7 +16,7 @@ export const useTournamentAddNewPlayer = (
   tournamentId: string,
   queryClient: QueryClient,
   sendJsonMessage: (_message: DashboardMessage) => void,
-  returnToNewPlayer: (_player: PlayerFormModel & { id: string }) => void,
+  returnToNewPlayer: (_player: PlayerFormModel & { id?: string }) => void,
 ) => {
   const t = useTranslations('Errors');
   const saveRound = useSaveRound({
@@ -36,7 +37,7 @@ export const useTournamentAddNewPlayer = (
           );
 
         const newPlayer: PlayerTournamentModel = {
-          id: player.id,
+          id: player.id ?? newid(),
           nickname: player.nickname,
           rating: player.rating,
           realname: player.realname ?? null,

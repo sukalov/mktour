@@ -150,13 +150,16 @@ export async function addNewPlayer({
   player,
 }: {
   tournamentId: string;
-  player: PlayerFormModel & { id: string };
+  player: PlayerFormModel & { id?: string };
 }) {
-  await db.insert(players).values({ ...player, lastSeen: new Date() });
+  const playerId = player.id ?? newid();
+  await db
+    .insert(players)
+    .values({ ...player, lastSeen: new Date(), id: playerId });
   const playerToTournament: InsertDatabasePlayerToTournament = {
-    playerId: player.id,
-    tournamentId: tournamentId,
-    id: `${player.id}=${tournamentId}`,
+    playerId,
+    tournamentId,
+    id: `${playerId}=${tournamentId}`,
     wins: 0,
     losses: 0,
     draws: 0,

@@ -1,5 +1,6 @@
 import { validateRequest } from '@/lib/auth/lucia';
 import { CACHE_TAGS } from '@/lib/cache-tags';
+import { newid } from '@/lib/utils';
 import { newTournamentFormSchemaConfig } from '@/lib/zod/new-tournament-form';
 import {
   protectedProcedure,
@@ -161,7 +162,9 @@ export const tournamentRouter = {
     }),
   addNewPlayer: tournamentAdminProcedure
     .input(
-      z.object({ player: playerFormSchema.and(z.object({ id: z.string() })) }),
+      z.object({
+        player: playerFormSchema.and(z.object({ id: z.string().optional() })),
+      }),
     )
     .mutation(async (opts) => {
       const { input } = opts;
