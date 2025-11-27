@@ -5,11 +5,7 @@ import { newid } from '@/lib/utils';
 import { NewTournamentFormType } from '@/lib/zod/new-tournament-form';
 import { db } from '@/server/db';
 import { clubs } from '@/server/db/schema/clubs';
-import {
-  DatabasePlayer,
-  InsertDatabasePlayer,
-  players,
-} from '@/server/db/schema/players';
+import { DatabasePlayer, players } from '@/server/db/schema/players';
 import {
   DatabasePlayerToTournament,
   DatabaseTournament,
@@ -22,6 +18,7 @@ import {
 import { GameResult, TournamentFormat } from '@/server/db/zod/enums';
 import {
   PlayerFormModel,
+  PlayerInsertModel,
   PlayerTournamentModel,
 } from '@/server/db/zod/players';
 import { TournamentInfo } from '@/server/db/zod/tournaments';
@@ -178,7 +175,7 @@ export async function addExistingPlayer({
   userId,
 }: {
   tournamentId: string;
-  player: InsertDatabasePlayer;
+  player: PlayerInsertModel;
   userId: string;
 }) {
   const { user } = await validateRequest();

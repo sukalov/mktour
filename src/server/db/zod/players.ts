@@ -84,3 +84,4 @@ export type AffiliationMinimal = z.infer<typeof affiliationMinimalSchema>;
 export type PlayerModel = z.infer<typeof playersSelectSchema>;
 export type PlayerMinimalModel = z.infer<typeof playersMinimalSchema>;
 export type PlayerFormModel = z.infer<typeof playerFormSchema>;
+export type PlayerInsertModel = z.infer<typeof playersInsertSchema>;

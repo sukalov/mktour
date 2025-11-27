@@ -1,6 +1,5 @@
 import { validateRequest } from '@/lib/auth/lucia';
 import { CACHE_TAGS } from '@/lib/cache-tags';
-import { newid } from '@/lib/utils';
 import { newTournamentFormSchemaConfig } from '@/lib/zod/new-tournament-form';
 import {
   protectedProcedure,
@@ -9,7 +8,7 @@ import {
 } from '@/server/api/trpc';
 import { db } from '@/server/db';
 import { clubs } from '@/server/db/schema/clubs';
-import { DatabasePlayer, players } from '@/server/db/schema/players';
+import { players } from '@/server/db/schema/players';
 import {
   players_to_tournaments,
   tournaments,
@@ -22,6 +21,7 @@ import {
 } from '@/server/db/zod/enums';
 import {
   playerFormSchema,
+  playersSelectSchema,
   PlayerTournamentModel,
 } from '@/server/db/zod/players';
 import { tournamentsSelectSchema } from '@/server/db/zod/tournaments';
@@ -43,7 +43,8 @@ import {
 } from '@/server/mutations/tournament-managing';
 import getAllTournaments from '@/server/queries/get-all-tournaments';
 import { getStatusInTournament } from '@/server/queries/get-status-in-tournament';
-import { eq, sql } from 'drizzle-orm';
+import { and, eq, getTableColumns, isNull } from 'drizzle-orm';
+
 import { revalidateTag } from 'next/cache';
 import { z } from 'zod';
 
@@ -107,20 +108,28 @@ export const tournamentRouter = {
     }),
   playersOut: tournamentAdminProcedure
     .input(z.object({ tournamentId: z.string() }))
+    .output(z.array(playersSelectSchema))
     .query(async (opts) => {
       const { input } = opts;
-      const result = (await db.all(sql`
-      SELECT p.*
-      FROM ${players} p
-      LEFT JOIN ${players_to_tournaments} pt
-        ON p.id = pt.player_id AND pt.tournament_id = ${input.tournamentId}
-      WHERE p.club_id = (
-        SELECT t.club_id
-        FROM ${tournaments} t
-        WHERE t.id = ${input.tournamentId}
-      )
-      AND pt.player_id IS NULL;
-    `)) as Array<DatabasePlayer>;
+      const result = await db
+        .select(getTableColumns(players))
+        .from(players)
+        .innerJoin(
+          tournaments,
+          and(
+            eq(tournaments.id, input.tournamentId),
+            eq(players.clubId, tournaments.clubId),
+          ),
+        )
+        .leftJoin(
+          players_to_tournaments,
+          and(
+            eq(players.id, players_to_tournaments.playerId),
+            eq(players_to_tournaments.tournamentId, input.tournamentId),
+          ),
+        )
+        .where(isNull(players_to_tournaments.playerId));
+
       return result;
     }),
   roundGames: publicProcedure
@@ -146,13 +155,7 @@ export const tournamentRouter = {
     .input(
       z.object({
         tournamentId: z.string(),
-        player: z.object({
-          id: z.string(),
-          nickname: z.string(),
-          realname: z.string().nullable(),
-          rating: z.number(),
-          clubId: z.string(),
-        }),
+        player: playersSelectSchema,
         userId: z.string(),
       }),
     )
