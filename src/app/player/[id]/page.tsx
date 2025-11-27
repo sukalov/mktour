@@ -5,7 +5,7 @@ import FullName from '@/app/player/[id]/fullname';
 import LastTournaments from '@/app/player/[id]/last-tournaments';
 import FormattedMessage from '@/components/formatted-message';
 import { Card } from '@/components/ui/card';
-import { publicCaller } from '@/server/api';
+import { makeProtectedCaller, publicCaller } from '@/server/api';
 import { UserMinimal } from '@/server/db/zod/users';
 import { User2 } from 'lucide-react';
 import Link from 'next/link';
@@ -22,13 +22,15 @@ export default async function PlayerPage(props: PlayerPageProps) {
 
 async function PlayerPageContent(props: PlayerPageProps) {
   const { id } = await props.params;
-  const [user, playerData] = await Promise.all([
+  const [user, playerData, protectedCaller] = await Promise.all([
     publicCaller.auth.info(),
     publicCaller.player.info({ playerId: id }),
+    makeProtectedCaller(),
   ]);
   if (!playerData) notFound();
+
   const { user: playerUser, club, ...player } = playerData;
-  const status = await publicCaller.club.authStatus({
+  const status = await protectedCaller.club.authStatus({
     clubId: club.id,
   });
   const playerLastTournaments =
