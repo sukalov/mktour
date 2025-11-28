@@ -1,35 +1,30 @@
 # [1.0.0-beta.13](https://github.com/sukalov/mktour/compare/v1.0.0-beta.12...v1.0.0-beta.13) (2025-11-28)
 
-
 ### Bug Fixes
 
-* broken zods global registry in dev mode (trying to register error.UNAUTHORIZED multiple times) ([dddf88d](https://github.com/sukalov/mktour/commit/dddf88dc7183a6625716a71865ed75e48f203390))
-* multiple improvements of loading states ([72dec9e](https://github.com/sukalov/mktour/commit/72dec9e8f335ed1c008db0831eba3411e3471bc9))
-* padding in inbox ([37c2706](https://github.com/sukalov/mktour/commit/37c2706e0aa7745e43a718dc564c85d23cd5c361))
-
+- broken zods global registry in dev mode (trying to register error.UNAUTHORIZED multiple times) ([dddf88d](https://github.com/sukalov/mktour/commit/dddf88dc7183a6625716a71865ed75e48f203390))
+- multiple improvements of loading states ([72dec9e](https://github.com/sukalov/mktour/commit/72dec9e8f335ed1c008db0831eba3411e3471bc9))
+- padding in inbox ([37c2706](https://github.com/sukalov/mktour/commit/37c2706e0aa7745e43a718dc564c85d23cd5c361))
 
 ### Features
 
-* public api endpoint "player.delete" ([b271986](https://github.com/sukalov/mktour/commit/b271986c854cdaea257db7248f530a7209aa36de))
+- public api endpoint "player.delete" ([b271986](https://github.com/sukalov/mktour/commit/b271986c854cdaea257db7248f530a7209aa36de))
 
 # [1.0.0-beta.12](https://github.com/sukalov/mktour/compare/v1.0.0-beta.11...v1.0.0-beta.12) (2025-11-27)
 
-
 ### Bug Fixes
 
-* adding existing players to tournaments. rm raw sql which broke key-names ([54066ac](https://github.com/sukalov/mktour/commit/54066ac7dc907510c1db39ab454c9ce9942ccccb))
-* player-page. publicCaller always returned status null  so canEdit was never true ([2c2a193](https://github.com/sukalov/mktour/commit/2c2a193e36a6dec2e54fde12d666311363e4e779))
-* rm required id for tournament/addNewPlayer ([2450010](https://github.com/sukalov/mktour/commit/24500106ca7c7ddeee4ae58d10e5522bd2bb3a97))
-
+- adding existing players to tournaments. rm raw sql which broke key-names ([54066ac](https://github.com/sukalov/mktour/commit/54066ac7dc907510c1db39ab454c9ce9942ccccb))
+- player-page. publicCaller always returned status null so canEdit was never true ([2c2a193](https://github.com/sukalov/mktour/commit/2c2a193e36a6dec2e54fde12d666311363e4e779))
+- rm required id for tournament/addNewPlayer ([2450010](https://github.com/sukalov/mktour/commit/24500106ca7c7ddeee4ae58d10e5522bd2bb3a97))
 
 ### Features
 
-* public enpoint to get players last tournaments. continuing major ref with new `Model` types ([e5e35d1](https://github.com/sukalov/mktour/commit/e5e35d1c3d2b3664a6f51816193395f04a371977))
-
+- public enpoint to get players last tournaments. continuing major ref with new `Model` types ([e5e35d1](https://github.com/sukalov/mktour/commit/e5e35d1c3d2b3664a6f51816193395f04a371977))
 
 ### Reverts
 
-* 70d91002800f969f4765c9c182aa1163b1cdad2b ([aed24de](https://github.com/sukalov/mktour/commit/aed24de4a488443b86c809aa51cbcfad98b3966e))
+- 70d91002800f969f4765c9c182aa1163b1cdad2b ([aed24de](https://github.com/sukalov/mktour/commit/aed24de4a488443b86c809aa51cbcfad98b3966e))
 
 # [1.0.0-beta.11](https://github.com/sukalov/mktour/compare/v1.0.0-beta.10...v1.0.0-beta.11) (2025-11-26)
 
