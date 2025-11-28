@@ -65,7 +65,7 @@ const UserNotifications = () => {
       {notifications.pages.map((page) => {
         if (!page.notifications.length) return null;
         return (
-          <div key={page.notifications[0].notification.id}>
+          <div key={page.notifications[0].notification.id} className="mk-list">
             {page.notifications.map(NotificationItemIteratee)}
           </div>
         );
