@@ -66,8 +66,10 @@
   "Profile": {
     "rating": "lichess blitz rating",
     "email": "email",
-    "created": "joined on",
-    "clubs": "clubs:"
+    "created": "joined mktour on",
+    "clubs": "clubs",
+    "myClubs": "my clubs",
+    "noClubs": "not a member of any club yet"
   },
   "Player": {
     "last seen": "last seen: ",

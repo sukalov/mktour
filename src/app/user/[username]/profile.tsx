@@ -4,8 +4,24 @@ import FormattedMessage from '@/components/formatted-message';
 import { useUserClubs } from '@/components/hooks/query-hooks/use-user-clubs';
 import SkeletonList from '@/components/skeleton-list';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { Skeleton } from '@/components/ui/skeleton';
 import { DatabaseUser } from '@/server/db/schema/users';
+import {
+  CalendarDays,
+  ChevronRight,
+  Settings,
+  Star,
+  Trophy,
+  Users,
+} from 'lucide-react';
 import { useFormatter, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { FC } from 'react';
@@ -22,54 +38,150 @@ const Profile: FC<{
   const t = useTranslations('Profile');
 
   return (
-    <div className="mk-container flex w-full flex-col gap-2 p-2">
-      <div className="px-2 text-sm">
-        {user.username} ({user.name})
-      </div>
-      <Card className="text-muted-foreground p-mk flex flex-col gap-2 text-sm break-words">
-        <span>
-          {t('rating')}: {user.rating}
-        </span>
-        {isOwner && (
-          <>
-            <span>
-              {t('created')} {preparedCreatedAt}
-            </span>
-          </>
-        )}
+    <div className="mk-container flex w-full flex-col gap-6">
+      <Card>
+        <CardHeader className="pb-4">
+          <div className="flex items-start justify-between">
+            <div className="flex items-center gap-4">
+              <div className="flex flex-col gap-1">
+                <CardTitle className="text-xl">{user.name}</CardTitle>
+                <CardDescription className="text-muted-foreground">
+                  <Link href={`https://lichess.org/@/${user.username}`}>
+                    @{user.username}
+                  </Link>
+                </CardDescription>
+              </div>
+            </div>
+            {/* {isOwner && (
+              <Button variant="ghost" size="icon" asChild>
+                <Link href="/profile/settings">
+                  <Settings className="size-5" />
+                </Link>
+              </Button>
+            )} */}
+          </div>
+        </CardHeader>
+        <CardContent className="pt-0">
+          <Separator className="mb-4" />
+          <div className="grid grid-cols-2 gap-4">
+            <StatItem
+              icon={Star}
+              label={t('rating')}
+              value={user.rating ?? '—'}
+            />
+            {preparedCreatedAt && (
+              <StatItem
+                icon={CalendarDays}
+                label={t('created')}
+                value={preparedCreatedAt}
+              />
+            )}
+          </div>
+        </CardContent>
       </Card>
+
       {isOwner && (
-        <Button variant="outline" className="w-full" asChild>
-          <Link href="/profile/settings">
-            <FormattedMessage id="Common.settings" />
-          </Link>
-        </Button>
+        <div className="grid grid-cols-2 gap-3">
+          <Button
+            variant="outline"
+            className="h-auto flex-col gap-2 py-4"
+            asChild
+          >
+            <Link href="/profile/settings">
+              <Settings className="text-muted-foreground size-5" />
+              <span className="text-sm">
+                <FormattedMessage id="Common.settings" />
+              </span>
+            </Link>
+          </Button>
+          <Button
+            variant="outline"
+            className="h-auto flex-col gap-2 py-4"
+            asChild
+          >
+            <Link href="/clubs/my">
+              <Trophy className="text-muted-foreground size-5" />
+              <span className="text-sm">{t('myClubs')}</span>
+            </Link>
+          </Button>
+        </div>
       )}
+
       <ClubList clubs={data} isPending={isPending} />
     </div>
   );
 };
 
+const StatItem: FC<{
+  icon: FC<{ className?: string }>;
+  label: string;
+  value: string | number;
+}> = ({ icon: Icon, label, value }) => (
+  <div className="flex items-center gap-3">
+    <div className="bg-muted flex size-10 items-center justify-center rounded-lg">
+      <Icon className="text-muted-foreground size-5" />
+    </div>
+    <div className="flex flex-col">
+      <span className="text-muted-foreground text-xs">{label}</span>
+      <span className="text-sm font-medium">{value}</span>
+    </div>
+  </div>
+);
+
 const ClubList: FC<ClubListProps> = ({ clubs, isPending }) => {
   const t = useTranslations('Profile');
-  if (!clubs && isPending) return <SkeletonList />;
-  if (!clubs) return null;
+
+  if (!clubs && isPending) {
+    return (
+      <Card>
+        <CardHeader className="pb-3">
+          <Skeleton className="h-5 w-24" />
+        </CardHeader>
+        <CardContent className="pt-0">
+          <SkeletonList />
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (!clubs || clubs.length === 0) {
+    return (
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-base">
+            <Users className="size-4" />
+            {t('clubs')}
+          </CardTitle>
+        </CardHeader>
+      </Card>
+    );
+  }
 
   return (
-    <>
-      <div className="px-2 text-sm">
-        <span>{t('clubs')}</span>
-      </div>
-      <ul className="flex flex-col gap-2">
-        {clubs.map((club) => (
-          <li key={club.id}>
-            <Link href={`/clubs/${club.id}`}>
-              <Card className="p-mk min-h-8 text-sm">{club.name}</Card>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </>
+    <Card>
+      <CardHeader className="pb-3">
+        <CardTitle className="flex items-center gap-2 text-base">
+          <Users className="size-4" />
+          {t('clubs')} ({clubs.length})
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="pt-0">
+        <ul className="flex flex-col">
+          {clubs.map((club, index) => (
+            <li key={club.id}>
+              {index > 0 && <Separator />}
+              <Link
+                href={`/clubs/${club.id}`}
+                className="hover:bg-muted/50 -mx-2 flex items-center justify-between rounded-lg px-2 py-3 transition-colors"
+              >
+                <span className="text-sm font-medium">{club.name}</span>
+                <ChevronRight className="text-muted-foreground size-4" />
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </CardContent>
+    </Card>
   );
 };
 
