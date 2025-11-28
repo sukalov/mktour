@@ -1,3 +1,17 @@
+# [1.0.0-beta.13](https://github.com/sukalov/mktour/compare/v1.0.0-beta.12...v1.0.0-beta.13) (2025-11-28)
+
+
+### Bug Fixes
+
+* broken zods global registry in dev mode (trying to register error.UNAUTHORIZED multiple times) ([dddf88d](https://github.com/sukalov/mktour/commit/dddf88dc7183a6625716a71865ed75e48f203390))
+* multiple improvements of loading states ([72dec9e](https://github.com/sukalov/mktour/commit/72dec9e8f335ed1c008db0831eba3411e3471bc9))
+* padding in inbox ([37c2706](https://github.com/sukalov/mktour/commit/37c2706e0aa7745e43a718dc564c85d23cd5c361))
+
+
+### Features
+
+* public api endpoint "player.delete" ([b271986](https://github.com/sukalov/mktour/commit/b271986c854cdaea257db7248f530a7209aa36de))
+
 # [1.0.0-beta.12](https://github.com/sukalov/mktour/compare/v1.0.0-beta.11...v1.0.0-beta.12) (2025-11-27)
 
 
