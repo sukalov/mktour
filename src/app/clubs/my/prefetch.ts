@@ -1,17 +1,17 @@
 import { prefetch, trpc } from '@/components/trpc/server';
 
-const clubQueryPrefetch = (selectedClubId: string) => {
+const clubQueryPrefetch = (clubId: string) => {
   prefetch(trpc.auth.info.queryOptions());
   prefetch(trpc.auth.clubs.queryOptions());
-  prefetch(trpc.club.info.queryOptions({ clubId: selectedClubId }));
+  prefetch(trpc.club.info.queryOptions({ clubId }));
   prefetch(
-    trpc.club.players.queryOptions({
-      clubId: selectedClubId,
+    trpc.club.players.infiniteQueryOptions({
+      clubId,
     }),
   );
   prefetch(
     trpc.club.tournaments.queryOptions({
-      clubId: selectedClubId,
+      clubId,
     }),
   );
 };

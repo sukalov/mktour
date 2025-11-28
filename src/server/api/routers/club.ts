@@ -70,7 +70,7 @@ export const clubRouter = createTRPCRouter({
       z.object({
         clubId: z.string(),
         cursor: z.number().nullish(),
-        limit: z.number().min(1).max(100).optional().default(20),
+        limit: z.number().min(1).max(100).optional().default(10),
       }),
     )
     .output(
