@@ -6,4 +6,4 @@ if [ -n "$FILES" ]; then
 fi
 
 # run all checks tsc, lint, test
-bun check  && bun run build
+bun check  && bun run build && bun format
