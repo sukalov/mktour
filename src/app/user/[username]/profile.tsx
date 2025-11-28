@@ -14,14 +14,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
 import { DatabaseUser } from '@/server/db/schema/users';
-import {
-  CalendarDays,
-  ChevronRight,
-  Settings,
-  Star,
-  Trophy,
-  Users,
-} from 'lucide-react';
+import { CalendarDays, Settings, Star, Users2 } from 'lucide-react';
 import { useFormatter, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { FC } from 'react';
@@ -52,18 +45,11 @@ const Profile: FC<{
                 </CardDescription>
               </div>
             </div>
-            {/* {isOwner && (
-              <Button variant="ghost" size="icon" asChild>
-                <Link href="/profile/settings">
-                  <Settings className="size-5" />
-                </Link>
-              </Button>
-            )} */}
           </div>
         </CardHeader>
         <CardContent className="pt-0">
           <Separator className="mb-4" />
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <StatItem
               icon={Star}
               label={t('rating')}
@@ -100,7 +86,7 @@ const Profile: FC<{
             asChild
           >
             <Link href="/clubs/my">
-              <Trophy className="text-muted-foreground size-5" />
+              <Users2 className="text-muted-foreground size-5" />
               <span className="text-sm">{t('myClubs')}</span>
             </Link>
           </Button>
@@ -118,8 +104,8 @@ const StatItem: FC<{
   value: string | number;
 }> = ({ icon: Icon, label, value }) => (
   <div className="flex items-center gap-3">
-    <div className="bg-muted flex size-10 items-center justify-center rounded-lg">
-      <Icon className="text-muted-foreground size-5" />
+    <div className="bg-muted flex aspect-square size-10 items-center justify-center rounded-lg">
+      <Icon className="text-muted-foreground aspect-square size-5" />
     </div>
     <div className="flex flex-col">
       <span className="text-muted-foreground text-xs">{label}</span>
@@ -149,7 +135,7 @@ const ClubList: FC<ClubListProps> = ({ clubs, isPending }) => {
       <Card>
         <CardHeader className="pb-3">
           <CardTitle className="flex items-center gap-2 text-base">
-            <Users className="size-4" />
+            <Users2 className="size-4" />
             {t('clubs')}
           </CardTitle>
         </CardHeader>
@@ -161,23 +147,25 @@ const ClubList: FC<ClubListProps> = ({ clubs, isPending }) => {
     <Card>
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center gap-2 text-base">
-          <Users className="size-4" />
+          <Users2 className="size-4" />
           {t('clubs')} ({clubs.length})
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-0">
         <ul className="flex flex-col">
           {clubs.map((club, index) => (
-            <li key={club.id}>
+            <>
               {index > 0 && <Separator />}
-              <Link
-                href={`/clubs/${club.id}`}
-                className="hover:bg-muted/50 -mx-2 flex items-center justify-between rounded-lg px-2 py-3 transition-colors"
-              >
-                <span className="text-sm font-medium">{club.name}</span>
-                <ChevronRight className="text-muted-foreground size-4" />
-              </Link>
-            </li>
+              <li key={club.id} className="py-1">
+                <Link
+                  href={`/clubs/${club.id}`}
+                  className="hover:bg-muted/50 -mx-2 flex items-center justify-between rounded-lg px-2 py-3 transition-colors"
+                >
+                  <span className="text-sm font-medium">{club.name}</span>
+                  {/* <ChevronRight className="text-muted-foreground size-4" /> */}
+                </Link>
+              </li>
+            </>
           ))}
         </ul>
       </CardContent>

@@ -63,7 +63,7 @@ export default function Loading() {
           </h2>
           <Card className="bg-background sm:bg-card w-full border-none shadow-none sm:border-solid sm:shadow-2xs">
             <CardContent className="p-mk flex flex-col gap-4 sm:p-8">
-              <Skeleton className="bg-destructive/20 h-10 w-32" />
+              <Button className="hw-full" disabled />
             </CardContent>
           </Card>
         </div>
