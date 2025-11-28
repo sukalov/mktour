@@ -22,7 +22,7 @@ const ClubPlayersList: FC<ClubTabProps> = ({ selectedClub }) => {
   const playersData = players.data?.pages.flatMap((page) => page.players) ?? [];
 
   if (players.status === 'pending' || players.status === 'error')
-    return <SkeletonList length={4} />;
+    return <SkeletonList length={4} className="h-14 rounded-xl" />;
   if (!playersData.length) {
     return <Empty className="text-center text-balance">{t('players')}</Empty>;
   }
@@ -35,7 +35,12 @@ const ClubPlayersList: FC<ClubTabProps> = ({ selectedClub }) => {
           ref={triggerRef}
           className="h-0 w-full -translate-y-[calc(var(--spacing-mk-card-height)+calc((var(--spacing-mk)*2)))]"
         />
-        {players.isFetchingNextPage && <SkeletonList length={2} />}
+
+        {players.isFetchingNextPage && (
+          <div className="-mt-18">
+            <SkeletonList length={3} className="h-14 rounded-xl" />
+          </div>
+        )}
       </div>
     </div>
   );
