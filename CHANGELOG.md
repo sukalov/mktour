@@ -1,3 +1,10 @@
+# [1.0.0-beta.14](https://github.com/sukalov/mktour/compare/v1.0.0-beta.13...v1.0.0-beta.14) (2025-11-28)
+
+
+### Features
+
+* redesign user page ([434b0f7](https://github.com/sukalov/mktour/commit/434b0f7609879d8b01f6f6939a1dada2be7c6aae))
+
 # [1.0.0-beta.13](https://github.com/sukalov/mktour/compare/v1.0.0-beta.12...v1.0.0-beta.13) (2025-11-28)
 
 ### Bug Fixes
