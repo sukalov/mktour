@@ -2,7 +2,6 @@ import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-
 import { useTRPC } from '@/components/trpc/client';
 import { generateRandomRoundGames } from '@/lib/client-actions/random-pairs-generator';
 import { newid } from '@/lib/utils';
-import { DatabasePlayer } from '@/server/db/schema/players';
 import {
   PlayerFormModel,
   PlayerTournamentModel,
@@ -31,7 +30,7 @@ export const useTournamentAddNewPlayer = (
         await queryClient.cancelQueries({
           queryKey: trpc.tournament.playersIn.queryKey({ tournamentId }),
         });
-        const previousState: Array<DatabasePlayer> | undefined =
+        const previousState: Array<PlayerTournamentModel> | undefined =
           queryClient.getQueryData(
             trpc.tournament.playersIn.queryKey({ tournamentId }),
           );
@@ -59,7 +58,7 @@ export const useTournamentAddNewPlayer = (
       onError: (_err, data, context) => {
         if (context?.previousState) {
           queryClient.setQueryData(
-            trpc.tournament.playersOut.queryKey({ tournamentId }),
+            trpc.tournament.playersIn.queryKey({ tournamentId }),
             context.previousState,
           );
         }

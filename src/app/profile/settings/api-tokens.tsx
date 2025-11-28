@@ -1,7 +1,7 @@
 'use client';
 
 import { LoadingSpinner } from '@/app/loading';
-import { useTokenGenerateMutation } from '@/components/hooks/mutation-hooks/use-token-generate.ts';
+import { useTokenGenerateMutation } from '@/components/hooks/mutation-hooks/use-token-generate';
 import { useTokenRevokeMutation } from '@/components/hooks/mutation-hooks/use-token-revoke';
 import { useTRPC } from '@/components/trpc/client';
 import ComboModal, {

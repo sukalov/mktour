@@ -1,4 +1,5 @@
 import ClubPage from '@/app/clubs/[id]/club';
+import Loading from '@/app/loading';
 import { validateRequest } from '@/lib/auth/lucia';
 import { publicCaller } from '@/server/api';
 import getStatusInClub from '@/server/queries/get-status-in-club';
@@ -16,7 +17,7 @@ export default async function Page(props: ClubPageProps) {
 
   if (!club) notFound();
   return (
-    <Suspense fallback={<p>loading...</p>}>
+    <Suspense fallback={<Loading />}>
       <ClubPage
         club={club}
         statusInClub={statusInClub}

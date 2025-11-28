@@ -35,9 +35,7 @@ const ClubPlayersList: FC<ClubTabProps> = ({ selectedClub }) => {
           ref={triggerRef}
           className="h-0 w-full -translate-y-[calc(var(--spacing-mk-card-height)+calc((var(--spacing-mk)*2)))]"
         />
-        {players.isFetchingNextPage && (
-          <SkeletonList length={2} className="h-mk-card-height" />
-        )}
+        {players.isFetchingNextPage && <SkeletonList length={2} />}
       </div>
     </div>
   );

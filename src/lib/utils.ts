@@ -28,7 +28,7 @@ export function shallowEqual(
     return false;
   }
 
-  for (let key of keys1) {
+  for (const key of keys1) {
     if (object1[key] !== object2[key]) {
       return false;
     }
@@ -97,6 +97,6 @@ export function debounce<T extends (..._args: any[]) => any>(
 export function getSwissMinRoundsNumber(players: number): number {
   if (players < 2) return 0;
   if (players === 2) return 1;
-  if (players < 7) Math.floor(Math.log2(players - 1)) + 2;
+  if (players < 7) return Math.floor(Math.log2(players - 1)) + 2;
   return Math.floor(Math.log2(players - 1)) + 3;
 }

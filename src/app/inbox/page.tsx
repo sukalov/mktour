@@ -1,6 +1,5 @@
-// FIXME eslint
-
 import UserNotifications from '@/app/inbox/notifications';
+import Loading from '@/app/loading';
 import { getQueryClient, trpc } from '@/components/trpc/server';
 import { connection } from 'next/server';
 import { Suspense } from 'react';
@@ -17,7 +16,7 @@ const InboxPage = async () => {
 
 const Page = async () => {
   return (
-    <Suspense fallback={<p>loading...</p>}>
+    <Suspense fallback={<Loading />}>
       <InboxPage />
     </Suspense>
   );

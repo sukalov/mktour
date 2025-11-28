@@ -8,7 +8,7 @@ export default async function Authorized() {
   return (
     <div className="flex min-h-[calc(100svh-3.5rem)] w-full flex-auto items-center justify-center p-4">
       <MakeTournamentButton />
-      <Suspense fallback={<p>loading toaster</p>}>
+      <Suspense fallback={null}>
         <TeamJoinToasterServer />
       </Suspense>
     </div>

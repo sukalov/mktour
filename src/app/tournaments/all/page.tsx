@@ -1,5 +1,5 @@
-import TournamentsAllCache from '@/components/tournaent-item-cache';
 import TournamentItemIteratee from '@/components/tournament-item';
+import TournamentsAllCache from '@/components/tournament-item-cache';
 import { publicCaller } from '@/server/api';
 
 import { Suspense } from 'react';

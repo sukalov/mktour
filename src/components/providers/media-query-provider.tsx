@@ -1,8 +1,17 @@
 'use client';
 
-import { MediaQueryContext } from '@/components/providers/media-query-context';
-import { FC, PropsWithChildren, useEffect, useState } from 'react';
+import {
+  MediaQueryContext,
+  MediaQueryContextType,
+} from '@/components/providers/media-query-context';
+import { FC, PropsWithChildren, useEffect, useMemo, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
+
+const DEFAULT_CONTEXT: MediaQueryContextType = {
+  isMobile: true,
+  isTablet: true,
+  isDesktop: false,
+};
 
 const MediaQueryProvider: FC<PropsWithChildren> = ({ children }) => {
   const [isMounted, setIsMounted] = useState(false);
@@ -15,10 +24,13 @@ const MediaQueryProvider: FC<PropsWithChildren> = ({ children }) => {
     setIsMounted(true);
   }, []);
 
-  if (!isMounted) return children;
+  const value = useMemo(
+    () => (isMounted ? { isMobile, isTablet, isDesktop } : DEFAULT_CONTEXT),
+    [isMounted, isMobile, isTablet, isDesktop],
+  );
 
   return (
-    <MediaQueryContext.Provider value={{ isMobile, isTablet, isDesktop }}>
+    <MediaQueryContext.Provider value={value}>
       {children}
     </MediaQueryContext.Provider>
   );

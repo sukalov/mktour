@@ -39,7 +39,7 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
   if (isLoading || !info.data || !players)
     return (
       <div className="px-4 pt-2">
-        <SkeletonList length={8} height={16} />
+        <SkeletonList length={8} />
       </div>
     );
 

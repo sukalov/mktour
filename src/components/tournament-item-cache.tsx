@@ -14,7 +14,7 @@ const TournamentItemCache = ({ club, tournament }: Props) => {
   const { id, title } = tournament;
   const details = [0, 1, 2];
 
-  const description = details.map((detail, i) => {
+  const description = details.map((_, i) => {
     const separator = i !== details.length - 1 && <Dot className="inline" />;
     return (
       <span key={i} className="flex items-center">

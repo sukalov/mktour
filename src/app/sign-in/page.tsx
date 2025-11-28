@@ -1,5 +1,3 @@
-'use server';
-
 import SignInWithLichessButton from '@/components/auth/sign-in-with-lichess-button';
 import { publicCaller } from '@/server/api';
 import { SearchParams } from 'next/dist/server/request/search-params';
