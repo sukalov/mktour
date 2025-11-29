@@ -16,5 +16,5 @@ export default async function getPlayer(playerId: string) {
     .innerJoin(clubs, eq(players.clubId, clubs.id))
     .leftJoin(users, eq(players.userId, users.id));
 
-  return result;
+  return result ?? null;
 }

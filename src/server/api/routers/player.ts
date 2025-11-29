@@ -30,10 +30,12 @@ export const playerRouter = {
     .meta(meta.playerInfo)
     .input(z.object({ playerId: z.string() }))
     .output(
-      playersSelectSchema.extend({
-        user: usersSelectMinimalSchema.nullable(),
-        club: clubsSelectSchema,
-      }),
+      playersSelectSchema
+        .extend({
+          user: usersSelectMinimalSchema.nullable(),
+          club: clubsSelectSchema,
+        })
+        .nullable(),
     )
     .query(async (opts) => {
       const { input } = opts;
