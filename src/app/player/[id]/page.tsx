@@ -5,7 +5,7 @@ import LastTournaments from '@/app/player/[id]/last-tournaments';
 import HalfCard from '@/components/ui-custom/half-card';
 import LichessLogo from '@/components/ui-custom/lichess-logo';
 import { Button } from '@/components/ui/button';
-import { CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { publicCaller } from '@/server/api';
 import {
   ChevronRight,
@@ -170,7 +170,7 @@ async function PlayerPageContent(props: PlayerPageProps) {
 
       {/* Head to Head */}
       {user && (
-        <HalfCard>
+        <Card>
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2 text-base">
               <Target className="size-4" />
@@ -193,7 +193,7 @@ async function PlayerPageContent(props: PlayerPageProps) {
               </p>
             )}
           </CardContent>
-        </HalfCard>
+        </Card>
       )}
 
       <LastTournaments tournaments={playerLastTournaments} />

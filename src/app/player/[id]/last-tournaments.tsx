@@ -17,9 +17,6 @@ const LastTournaments: FC<{ tournaments: PlayerToTournamentModel[] }> = ({
         <CardTitle className="flex items-center gap-2 text-base">
           <Trophy className="size-4" />
           <FormattedMessage id="Player.last tournaments" />
-          <span className="text-muted-foreground font-normal">
-            ({tournaments.length})
-          </span>
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-0">
