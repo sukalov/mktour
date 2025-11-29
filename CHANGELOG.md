@@ -1,3 +1,15 @@
+# [1.0.0-beta.15](https://github.com/sukalov/mktour/compare/v1.0.0-beta.14...v1.0.0-beta.15) (2025-11-29)
+
+
+### Bug Fixes
+
+* prefetch players in club dashboard ([9ed41c9](https://github.com/sukalov/mktour/commit/9ed41c9f7e373bccc6ed5f142a5fd8852303cb74))
+
+
+### Features
+
+* redesign for player page with opus4.5 (mock data and bad architecture for now) ([ad90ada](https://github.com/sukalov/mktour/commit/ad90adae5ea85091b2fe96d1ee3254870116d9d3))
+
 # [1.0.0-beta.14](https://github.com/sukalov/mktour/compare/v1.0.0-beta.13...v1.0.0-beta.14) (2025-11-28)
 
 
