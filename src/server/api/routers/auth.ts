@@ -9,6 +9,7 @@ import { clubsSelectSchema } from '@/server/db/zod/clubs';
 import {
   apiToken,
   editProfileFormSchema,
+  usersSelectPublicSchema,
   usersSelectSchema,
 } from '@/server/db/zod/users';
 import selectClub from '@/server/mutations/club-select';
@@ -113,10 +114,9 @@ export const authRouter = {
   edit: protectedProcedure
     .meta(meta.authEdit)
     .input(editProfileFormSchema)
-    .output(z.void())
+    .output(usersSelectPublicSchema)
     .mutation(async ({ ctx, input }) => {
-      await editUser(ctx.user.id, input);
-      revalidateTag(CACHE_TAGS.AUTH, 'max');
+      return await editUser(ctx.user.id, input);
     }),
   apiToken: {
     list: protectedProcedure

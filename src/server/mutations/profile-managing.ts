@@ -1,6 +1,7 @@
 'use server';
 
 import { validateRequest } from '@/lib/auth/lucia';
+import { CACHE_TAGS } from '@/lib/cache-tags';
 import { db } from '@/server/db';
 import { clubs, clubs_to_users } from '@/server/db/schema/clubs';
 import { user_notifications } from '@/server/db/schema/notifications';
@@ -14,9 +15,16 @@ import { sessions, user_preferences, users } from '@/server/db/schema/users';
 import { EditProfileFormType } from '@/server/db/zod/users';
 import { deleteClubFunction } from '@/server/mutations/club-managing';
 import { and, asc, count, eq, sql } from 'drizzle-orm';
+import { revalidateTag } from 'next/cache';
 
 export const editUser = async (userId: string, values: EditProfileFormType) => {
-  await db.update(users).set(values).where(eq(users.id, userId));
+  const [user] = await db
+    .update(users)
+    .set(values)
+    .where(eq(users.id, userId))
+    .returning();
+  revalidateTag(CACHE_TAGS.AUTH, 'max');
+  return user;
 };
 
 export const deleteUser = async ({ userId }: { userId: string }) => {
