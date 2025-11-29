@@ -24,7 +24,7 @@ const EditButton: FC<{
   return (
     <Root open={open} onOpenChange={setOpen}>
       <Trigger asChild>
-        <Button variant="ghost" size="icon" className="h-9 w-9">
+        <Button variant="ghost" size="icon">
           <Pencil />
         </Button>
       </Trigger>

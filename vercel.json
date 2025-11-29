@@ -4,5 +4,6 @@
       "path": "/api/auth/delete-expired-sessions",
       "schedule": "0 10 * * *"
     }
-  ]
+  ],
+  "bunVersion": "1.3.x"
 }

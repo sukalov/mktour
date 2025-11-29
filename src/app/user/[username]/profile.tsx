@@ -3,6 +3,7 @@
 import FormattedMessage from '@/components/formatted-message';
 import { useUserClubs } from '@/components/hooks/query-hooks/use-user-clubs';
 import SkeletonList from '@/components/skeleton-list';
+import HalfCard from '@/components/ui-custom/half-card';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -32,7 +33,7 @@ const Profile: FC<{
 
   return (
     <div className="mk-container flex w-full flex-col gap-6">
-      <Card>
+      <HalfCard>
         <CardHeader className="pb-4">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
@@ -64,7 +65,7 @@ const Profile: FC<{
             )}
           </div>
         </CardContent>
-      </Card>
+      </HalfCard>
 
       {isOwner && (
         <div className="grid grid-cols-2 gap-3">

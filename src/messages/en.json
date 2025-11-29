@@ -83,7 +83,23 @@
     "claim": "it's me!",
     "cancel claim": "cancel application",
     "claim confirmation": "you are gonna send application. as soon as admins confirm it, the player will be associated with your account",
-    "last tournaments": "last tournaments:"
+    "last tournaments": "last tournaments",
+    "linkedTo": "linked to",
+    "not linked": "not linked to account",
+    "Stats": {
+      "gamesPlayed": "games played",
+      "winRate": "win rate",
+      "peakRating": "peak rating",
+      "tournaments": "tournaments",
+      "bestPlace": "best place",
+      "streak": "win streak",
+      "h2h": "head to head",
+      "h2hEmpty": "no games against other players yet",
+      "total": "total",
+      "wins": "w",
+      "draws": "d",
+      "losses": "l"
+    }
   },
   "Errors": {
     "hard naming": "naming is hard, but necessary",

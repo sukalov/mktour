@@ -10,7 +10,7 @@ const HalfCard = React.forwardRef<
   <Card
     ref={ref}
     className={cn(
-      'bg-background md:bg-card border-none shadow-none sm:border-solid md:shadow',
+      'bg-background sm:bg-card border-none shadow-none sm:border-solid sm:shadow',
       className,
     )}
     {...props}

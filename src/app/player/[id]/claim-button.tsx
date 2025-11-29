@@ -97,14 +97,13 @@ export const ClaimActionButton: FC<ClaimActionButtonProps> = ({
   ...props
 }) => (
   <Button
-    variant="ghost"
-    size="sm"
+    variant="outline"
     className="flex gap-2 text-nowrap"
     disabled={disabled}
     {...props}
   >
     <Icon />
-    <span className="text-2xs">
+    <span className="text-xs">
       <FormattedMessage id={messageId} />
     </span>
   </Button>
