@@ -1,3 +1,20 @@
+# [1.0.0-beta.16](https://github.com/sukalov/mktour/compare/v1.0.0-beta.15...v1.0.0-beta.16) (2025-11-30)
+
+
+### Bug Fixes
+
+* 404 if player doesn't exist ([ddd905c](https://github.com/sukalov/mktour/commit/ddd905c01b14c38a36af69d4a2cb53c57d065991))
+* add filling finishedAt to setGameResult function ([2df1ed7](https://github.com/sukalov/mktour/commit/2df1ed7a8383e315ba9c11d16910b2be994089af))
+* update all GameModels with generic inferred schema ([91abf4e](https://github.com/sukalov/mktour/commit/91abf4e78d4782531d8be8f572433f32bcc657cd))
+
+
+### Features
+
+* add finishedAt column to games ([915d4cd](https://github.com/sukalov/mktour/commit/915d4cd9baac6d616ce3d12269c2baab8363e891))
+* add peakRating to player schema and update db ([09ccf52](https://github.com/sukalov/mktour/commit/09ccf52b7cc2b8ee9a18f029189542e746940cd5))
+* full backend for new player stats ([770f2db](https://github.com/sukalov/mktour/commit/770f2dbd31a2b023793b6cbef17eea43fbbafc7a))
+* profile edition api endpoint now returns user object ([0a2266c](https://github.com/sukalov/mktour/commit/0a2266c9a192a0278b9d78a4fe203a93ca6f0526))
+
 # [1.0.0-beta.15](https://github.com/sukalov/mktour/compare/v1.0.0-beta.14...v1.0.0-beta.15) (2025-11-29)
 
 
