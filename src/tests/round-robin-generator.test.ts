@@ -8,7 +8,7 @@ import { DatabaseTournament } from '@/server/db/schema/tournaments';
 import { DatabaseUser } from '@/server/db/schema/users';
 import { GameResult } from '@/server/db/zod/enums';
 import { PlayerTournamentModel } from '@/server/db/zod/players';
-import { GameModel } from '@/types/tournaments';
+import { GameModel } from '@/server/db/zod/tournaments';
 import { faker } from '@faker-js/faker';
 import assert from 'assert';
 

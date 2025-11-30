@@ -1,6 +1,6 @@
 import { newid } from '@/lib/utils';
 import { PlayerTournamentModel } from '@/server/db/zod/players';
-import { GameModel } from '@/types/tournaments';
+import { GameModel } from '@/server/db/zod/tournaments';
 
 // default set of round properties, may be changed internally
 export interface RoundProps {
@@ -123,6 +123,7 @@ export function getGameToInsert(
     whitePrevGameId: null, // TODO: fill the gaps in prev ids
     blackPrevGameId: null,
     result: null,
+    finishedAt: null,
   };
   return gameToInsert;
 }

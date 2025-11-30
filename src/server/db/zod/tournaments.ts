@@ -5,6 +5,8 @@ import {
 } from '@/server/db/schema/tournaments';
 import { clubsSelectSchema } from '@/server/db/zod/clubs';
 import {
+  gameResultEnum,
+  roundNameEnum,
   tournamentFormatEnum,
   tournamentTypeEnum,
 } from '@/server/db/zod/enums';
@@ -19,7 +21,12 @@ export const tournamentSchema = createSelectSchema(tournaments, {
   format: tournamentFormatEnum,
   type: tournamentTypeEnum,
 });
-export const gameSchema = createSelectSchema(games);
+export const gameSchema = createSelectSchema(games).extend({
+  whiteNickname: z.string(),
+  blackNickname: z.string(),
+  roundName: roundNameEnum.nullable(),
+  result: gameResultEnum.nullable(),
+});
 export const tournamentsInsertSchema = createInsertSchema(tournaments);
 export const gamesInsertSchema = createInsertSchema(games);
 export const tournamentsUpdateSchema = createUpdateSchema(tournaments);
@@ -48,6 +55,7 @@ export const tournamentInfoSchema = z.object({
   tournament: tournamentSchema,
   club: clubsSelectSchema,
 });
+
 export type TournamentInfoModel = z.infer<typeof tournamentInfoSchema>;
 export type TournamentModel = z.infer<typeof tournamentSchema>;
 export type GameModel = z.infer<typeof gameSchema>;

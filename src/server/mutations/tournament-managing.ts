@@ -21,13 +21,13 @@ import {
   PlayerInsertModel,
   PlayerTournamentModel,
 } from '@/server/db/zod/players';
-import { TournamentInfoModel } from '@/server/db/zod/tournaments';
+import { GameModel, TournamentInfoModel } from '@/server/db/zod/tournaments';
 import { getStatusInTournament } from '@/server/queries/get-status-in-tournament';
-import { GameModel } from '@/types/tournaments';
 import {
   aliasedTable,
   and,
   eq,
+  getTableColumns,
   isNotNull,
   isNull,
   ne,
@@ -220,6 +220,7 @@ export async function getTournamentGames(
       whitePrevGameId: games.whitePrevGameId || null,
       blackPrevGameId: games.blackPrevGameId || null,
       result: games.result || null,
+      finishedAt: games.finishedAt,
     })
     .from(games)
     .where(eq(games.tournamentId, tournamentId))
@@ -241,18 +242,9 @@ export async function getTournamentRoundGames({
   const blackPlayer = aliasedTable(players, 'black_player');
   const gamesDb = await db
     .select({
-      id: games.id,
-      tournamentId: games.tournamentId,
-      blackId: games.blackId,
-      whiteId: games.whiteId,
+      ...getTableColumns(games),
       blackNickname: blackPlayer.nickname,
       whiteNickname: whitePlayer.nickname,
-      roundNumber: games.roundNumber,
-      gameNumber: games.gameNumber,
-      roundName: games.roundName || null,
-      whitePrevGameId: games.whitePrevGameId || null,
-      blackPrevGameId: games.blackPrevGameId || null,
-      result: games.result || null,
     })
     .from(games)
     .where(
@@ -300,7 +292,7 @@ export async function saveRound({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const insertPromises: Promise<any>[] = []; // FIXME any
   newGames.forEach((game) => {
-    const { ...newGame } = game;
+    const { blackNickname, whiteNickname, ...newGame } = game;
     insertPromises.push(db.insert(games).values(newGame));
   });
 

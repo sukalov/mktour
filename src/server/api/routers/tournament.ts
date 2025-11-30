@@ -14,17 +14,13 @@ import {
   tournaments,
 } from '@/server/db/schema/tournaments';
 import { clubsSelectSchema } from '@/server/db/zod/clubs';
-import {
-  gameResultEnum,
-  roundNameEnum,
-  TournamentFormat,
-} from '@/server/db/zod/enums';
+import { gameResultEnum, TournamentFormat } from '@/server/db/zod/enums';
 import {
   playerFormSchema,
   playersSelectSchema,
   PlayerTournamentModel,
 } from '@/server/db/zod/players';
-import { tournamentSchema } from '@/server/db/zod/tournaments';
+import { gameSchema, tournamentSchema } from '@/server/db/zod/tournaments';
 import {
   addExistingPlayer,
   addNewPlayer,
@@ -207,22 +203,7 @@ export const tournamentRouter = {
       z.object({
         tournamentId: z.string(),
         roundNumber: z.number(),
-        newGames: z.array(
-          z.object({
-            tournamentId: z.string(),
-            id: z.string(),
-            whiteId: z.string(),
-            blackId: z.string(),
-            roundNumber: z.number(),
-            gameNumber: z.number(),
-            roundName: roundNameEnum.nullable(),
-            whitePrevGameId: z.string().nullable(),
-            blackPrevGameId: z.string().nullable(),
-            whiteNickname: z.string(),
-            blackNickname: z.string(),
-            result: gameResultEnum.nullable(),
-          }),
-        ),
+        newGames: z.array(gameSchema),
       }),
     )
     .mutation(async (opts) => {
