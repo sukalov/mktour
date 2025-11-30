@@ -86,6 +86,8 @@
     "last tournaments": "последние турниры",
     "linkedTo": "связан с",
     "not linked": "не привязан к аккаунту",
+    "cancel affiliation": "отвязать",
+    "cancel affiliation description": "если вы отвяжете игрока от вашего аккаунта, он больше не будет у вас отображаться",
     "Stats": {
       "gamesPlayed": "сыграно партий",
       "winRate": "победы",

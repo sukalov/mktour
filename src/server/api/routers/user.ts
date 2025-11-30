@@ -3,12 +3,16 @@ import { createTRPCRouter, publicProcedure } from '@/server/api/trpc';
 import { db } from '@/server/db';
 import { users } from '@/server/db/schema/users';
 import { clubsSelectSchema } from '@/server/db/zod/clubs';
-import { usersSelectSchema } from '@/server/db/zod/users';
+import {
+  usersSelectPublicSchema,
+  usersSelectSchema,
+} from '@/server/db/zod/users';
 import { getUserClubNames } from '@/server/queries/get-user-clubs';
 import {
   getUserData,
   getUserInfoByUsername,
 } from '@/server/queries/get-user-data';
+import { TRPCError } from '@trpc/server';
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
 
@@ -40,21 +44,13 @@ export const userRouter = createTRPCRouter({
     }),
   infoByUsername: publicProcedure
     .meta(meta.usersInfoByUsername)
-    .output(
-      usersSelectSchema
-        .pick({
-          id: true,
-          username: true,
-          name: true,
-          rating: true,
-          createdAt: true,
-        })
-        .optional(),
-    )
+    .output(usersSelectPublicSchema)
     .input(z.object({ username: z.string() }))
     .query(async (opts) => {
       const { input } = opts;
-      return await getUserInfoByUsername(input.username);
+      const user = await getUserInfoByUsername(input.username);
+      if (!user) throw new TRPCError({ code: 'NOT_FOUND' });
+      return user;
     }),
   context: publicProcedure.query(async (opts) => {
     if (!opts.ctx.user) return null;

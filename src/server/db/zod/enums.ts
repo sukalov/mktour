@@ -14,6 +14,7 @@ export const clubNotificationEventEnum = z.enum([
   'manager_left',
   'affiliation_request_approved',
   'affiliation_request_rejected',
+  'affiliation_cancelled',
 ]);
 
 export const userNotificationEventEnum = z.enum([

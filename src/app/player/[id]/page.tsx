@@ -1,5 +1,6 @@
 import Loading from '@/app/loading';
 import { AffiliateButton } from '@/app/player/[id]/affiliate-button';
+import CancelAffiliationByUser from '@/app/player/[id]/cancel-affiliation-by-user';
 import ClaimPlayer from '@/app/player/[id]/claim-button';
 import EditButton from '@/app/player/[id]/edit-button';
 import LastTournaments from '@/app/player/[id]/last-tournaments';
@@ -43,7 +44,8 @@ async function PlayerPageContent(props: PlayerPageProps) {
 
   const isOwnPlayer = user && player.userId === user.id;
   const canEdit = status !== null || isOwnPlayer;
-  const canClaim = !status && user && !player.userId && !affiliation;
+  const canClaim = !status && user && !player.userId;
+  console.log({ canClaim });
   const canAffiliate = status !== null && !player.userId && !affiliation;
   const t = await getTranslations('Player');
 
@@ -89,8 +91,11 @@ async function PlayerPageContent(props: PlayerPageProps) {
           </Button>
         )}
         {canAffiliate && <AffiliateButton player={player} />}
+        {isOwnPlayer && status && (
+          <CancelAffiliationByUser playerId={player.id} />
+        )}
         {user && canEdit && <EditButton player={player} status={status} />}
-        {user && canClaim && <ClaimPlayer userId={user.id} clubId={club.id} />}
+        {canClaim && <ClaimPlayer userId={user.id} clubId={club.id} />}
       </div>
 
       <PlayerStats player={player} />

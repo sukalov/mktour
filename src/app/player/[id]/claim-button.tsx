@@ -36,10 +36,14 @@ const ClaimPlayer: FC<{
   const t = useTranslations();
 
   const { data: userAffiliation } = useUserClubAffiliations(clubId);
-  if (!userAffiliation) return null;
-  const { status, player } = userAffiliation;
+  console.log({ userAffiliation });
+  // if (!userAffiliation) return null;
+  // const { status, player } = userAffiliation;
 
-  const hasClaimed = status === 'requested' && id === player?.id;
+  const hasClaimed =
+    userAffiliation &&
+    userAffiliation.status === 'requested' &&
+    id === userAffiliation.player.id;
 
   if (hasClaimed)
     return (
@@ -47,11 +51,11 @@ const ClaimPlayer: FC<{
         userId={userId}
         clubId={clubId}
         affiliationId={userAffiliation.id}
-        playerId={player?.id}
+        playerId={userAffiliation.player.id}
       />
     );
 
-  if (status !== 'requested')
+  if (!userAffiliation)
     return (
       <Root open={open} onOpenChange={setOpen}>
         <Trigger asChild>

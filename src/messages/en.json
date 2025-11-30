@@ -86,6 +86,8 @@
     "last tournaments": "last tournaments",
     "linkedTo": "linked to",
     "not linked": "not linked to account",
+    "cancel affiliation": "disconnect",
+    "cancel affiliation description": "you are going to disconnect your account from this player",
     "Stats": {
       "gamesPlayed": "games played",
       "winRate": "win rate",

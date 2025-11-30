@@ -14,6 +14,7 @@ import {
   InsertDatabaseAffiliation,
   players,
 } from '@/server/db/schema/players';
+import { TRPCError } from '@trpc/server';
 import { and, eq, sql } from 'drizzle-orm';
 import { User } from 'lucia';
 import { revalidatePath } from 'next/cache';
@@ -213,10 +214,24 @@ export async function affiliateUser({
   });
   if (!player) throw new Error('PLAYER_NOT_FOUND');
 
-  await Promise.all([
-    db
-      .insert(affiliations)
-      .values({
+  const affiliation = await db.query.affiliations.findFirst({
+    where: and(
+      eq(affiliations.userId, user.id),
+      eq(affiliations.clubId, clubId),
+    ),
+  });
+
+  if (affiliation?.status === 'active') throw new Error('ALREADY_AFFILIATED');
+
+  const affiliationQuery = affiliation
+    ? db
+        .update(affiliations)
+        .set({
+          status: 'active',
+          updatedAt: new Date(),
+        })
+        .where(eq(affiliations.id, affiliation.id))
+    : db.insert(affiliations).values({
         id: newid(),
         userId: user.id,
         playerId: playerId,
@@ -224,11 +239,50 @@ export async function affiliateUser({
         status: 'active',
         createdAt: new Date(),
         updatedAt: new Date(),
-      })
-      .returning(),
+      });
+
+  await Promise.all([
+    affiliationQuery,
     db.update(players).set({ userId: user.id }).where(eq(players.id, playerId)),
   ]);
-  revalidatePath(`/player/${playerId}`);
+
+  return player;
+}
+
+export async function cancelAffiliationByUser({
+  playerId,
+  userId,
+}: {
+  playerId: string;
+  userId: string;
+}) {
+  const player = await db.query.players.findFirst({
+    where: eq(players.id, playerId),
+  });
+  if (!player)
+    throw new TRPCError({ code: 'BAD_REQUEST', message: 'PLAYER_NOT_FOUND' });
+  if (player.userId !== userId) throw new TRPCError({ code: 'BAD_REQUEST' });
+
+  await Promise.all([
+    db
+      .update(affiliations)
+      .set({ status: 'cancelled_by_user' })
+      .where(
+        and(
+          eq(affiliations.playerId, playerId),
+          eq(affiliations.userId, userId),
+        ),
+      ),
+    db.update(players).set({ userId: null }).where(eq(players.id, playerId)),
+    db.insert(club_notifications).values({
+      id: newid(),
+      clubId: player.clubId,
+      event: 'affiliation_cancelled',
+      isSeen: false,
+      createdAt: new Date(),
+      metadata: { playerId: playerId, userId: userId },
+    }),
+  ]);
 
   return player;
 }

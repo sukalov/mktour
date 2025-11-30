@@ -21,6 +21,7 @@ type ClubNotificationMetadata = {
   manager_left: { userId: string };
   affiliation_request_approved: { userId: string; affiliationId: string };
   affiliation_request_rejected: { userId: string; affiliationId: string };
+  affiliation_cancelled: { userId: string; affiliationId: string };
 };
 
 // typed notifications (database + typed metadata)
@@ -69,13 +70,11 @@ interface ClubWebSocketMessage<T extends ClubNotificationEvent> {
 }
 
 // additional properties for specific messages
-interface AffiliationApprovedWSMessage
-  extends UserWebSocketMessage<'affiliation_approved'> {
+interface AffiliationApprovedWSMessage extends UserWebSocketMessage<'affiliation_approved'> {
   clubId: string;
 }
 
-interface AffiliationRejectedWSMessage
-  extends UserWebSocketMessage<'affiliation_rejected'> {
+interface AffiliationRejectedWSMessage extends UserWebSocketMessage<'affiliation_rejected'> {
   clubId: string;
 }
 
