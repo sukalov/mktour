@@ -25,7 +25,30 @@ const AddPlayer = ({ value, setValue, handleClose }: DrawerProps) => {
     sendJsonMessage,
   );
   const t = useTranslations('Tournament.AddPlayer');
+  const filteredPlayers =
+    possiblePlayers.data?.filter((player: DatabasePlayer) => {
+      const regex = new RegExp(value, 'i');
+      if (value === '') return player;
+      return regex.test(player.nickname);
+    }) ?? [];
+
   useHotkeys('escape', () => handleClose, { enableOnFormTags: true });
+  useHotkeys(
+    'enter',
+    () => {
+      if (
+        !filteredPlayers ||
+        value === '' ||
+        filteredPlayers.length !== 1 ||
+        !userId
+      )
+        return;
+      setValue('');
+      document.getElementById('possible-players-search')?.focus();
+      mutate({ tournamentId: id, player: filteredPlayers[0], userId });
+    },
+    { enableOnFormTags: true },
+  );
 
   if (possiblePlayers.status === 'pending')
     return (
@@ -57,13 +80,6 @@ const AddPlayer = ({ value, setValue, handleClose }: DrawerProps) => {
     );
   }
 
-  const filteredPlayers = possiblePlayers.data.filter(
-    (player: DatabasePlayer) => {
-      const regex = new RegExp(value, 'i');
-      if (value === '') return player;
-      return regex.test(player.nickname);
-    },
-  );
   return (
     <div className="flex flex-col">
       <Input
@@ -90,6 +106,7 @@ const AddPlayer = ({ value, setValue, handleClose }: DrawerProps) => {
                     return;
                   }
                   setValue('');
+                  document.getElementById('possible-players-search')?.focus();
                   mutate({ tournamentId: id, player, userId });
                 }}
                 className="p-0"

@@ -16,10 +16,9 @@ import { Pencil } from 'lucide-react';
 import { FC, useState } from 'react';
 
 const EditButton: FC<{
-  userId: string;
   player: DatabasePlayer;
   status: StatusInClub | null;
-}> = ({ userId, player, status }) => {
+}> = ({ player, status }) => {
   const [open, setOpen] = useState(false);
   return (
     <Root open={open} onOpenChange={setOpen}>
@@ -36,7 +35,7 @@ const EditButton: FC<{
           <Description hidden />
         </Header>
         <EditPlayerForm
-          {...{ player, clubId: player.clubId, userId, status, setOpen }}
+          {...{ player, clubId: player.clubId, status, setOpen }}
         />
       </Content>
     </Root>

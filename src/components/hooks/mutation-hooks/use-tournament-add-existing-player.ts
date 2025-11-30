@@ -48,7 +48,11 @@ export const useTournamentAddExistingPlayer = (
 
         queryClient.setQueryData(
           trpc.tournament.playersIn.queryKey({ tournamentId }),
-          (cache) => cache && cache.concat(newPlayer),
+          (cache) => {
+            if (!cache) return [newPlayer];
+            if (cache.some((p) => p.id === newPlayer.id)) return cache;
+            return cache.concat(newPlayer);
+          },
         );
         queryClient.setQueryData(
           trpc.tournament.playersOut.queryKey({ tournamentId }),

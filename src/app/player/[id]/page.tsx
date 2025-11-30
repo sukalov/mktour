@@ -89,9 +89,7 @@ async function PlayerPageContent(props: PlayerPageProps) {
           </Button>
         )}
         {canAffiliate && <AffiliateButton player={player} />}
-        {user && canEdit && (
-          <EditButton userId={user.id} player={player} status={status} />
-        )}
+        {user && canEdit && <EditButton player={player} status={status} />}
         {user && canClaim && <ClaimPlayer userId={user.id} clubId={club.id} />}
       </div>
 

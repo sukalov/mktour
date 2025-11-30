@@ -23,6 +23,7 @@ import { useParams } from 'next/navigation';
 import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useHotkeys } from 'react-hotkeys-hook';
+import { toast } from 'sonner';
 
 const AddNewPlayer = ({
   value,
@@ -60,8 +61,16 @@ const AddNewPlayer = ({
   }, [nickname, setValue]);
 
   function onSubmit(player: PlayerFormModel) {
-    mutate({ tournamentId: id, player: { ...player, id: newid() } });
-    handleClose();
+    mutate(
+      { tournamentId: id, player: { ...player, id: newid() } },
+      {
+        onSuccess: () => {
+          form.reset();
+          form.setFocus('nickname');
+          toast.success(t('player added', { name: player.nickname }));
+        },
+      },
+    );
   }
   return (
     <Form {...form}>

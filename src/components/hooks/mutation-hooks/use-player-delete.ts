@@ -12,7 +12,7 @@ export default function useDeletePlayerMutation(
   const t = useTranslations('Toasts');
   return useMutation(
     trpc.player.delete.mutationOptions({
-      onSuccess: (_error) => {
+      onSuccess: () => {
         toast.success(t('player deleted'));
         queryClient.invalidateQueries({
           queryKey: trpc.club.players.infiniteQueryKey({ clubId }),

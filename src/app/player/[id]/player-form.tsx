@@ -21,7 +21,6 @@ import { Dispatch, FC, SetStateAction } from 'react';
 import { ControllerRenderProps, useForm, UseFormReturn } from 'react-hook-form';
 
 const EditPlayerForm: FC<{
-  userId: string;
   clubId: string;
   player: EditPlayerFormValues;
   status: StatusInClub | null;
@@ -29,7 +28,6 @@ const EditPlayerForm: FC<{
 }> = ({
   player: { id, nickname, realname, rating },
   clubId,
-  userId,
   status,
   setOpen,
 }) => {

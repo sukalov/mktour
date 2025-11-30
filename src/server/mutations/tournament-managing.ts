@@ -292,6 +292,7 @@ export async function saveRound({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const insertPromises: Promise<any>[] = []; // FIXME any
   newGames.forEach((game) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { blackNickname, whiteNickname, ...newGame } = game;
     insertPromises.push(db.insert(games).values(newGame));
   });
