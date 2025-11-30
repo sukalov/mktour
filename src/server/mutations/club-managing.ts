@@ -119,7 +119,12 @@ export const createPlayer = async ({ player }: { player: PlayerFormModel }) => {
   const newPlayer = (
     await db
       .insert(players)
-      .values({ ...player, lastSeen: new Date(), id: newid() })
+      .values({
+        ...player,
+        lastSeen: new Date(),
+        id: newid(),
+        peakRating: player.rating,
+      })
       .returning()
   ).at(0);
   if (!newPlayer) throw new Error('PLAYER_NOT_CREATED');

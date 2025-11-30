@@ -79,6 +79,7 @@ export const handleSocketMessage = (
           nickname: removedPlayer.nickname,
           realname: removedPlayer.realname ?? null,
           rating: removedPlayer.rating,
+          peakRating: removedPlayer.rating,
           clubId: '',
           userId: null,
           lastSeen: new Date(),

@@ -48,6 +48,7 @@ export const playerFormSchema = playersInsertSchema
     id: true,
     lastSeen: true,
     userId: true,
+    peakRating: true,
   })
   .refine(
     async (data) => {
@@ -76,6 +77,13 @@ export const playerTournamentSchema = playersToTournamentsSelectSchema
     realname: playersSelectSchema.shape.realname,
     rating: playersSelectSchema.shape.rating,
   });
+
+export const playerStatsSchema = z.object({
+  tournamentsPlayed: z.number(),
+  gamesPlayed: z.number(),
+  winRate: z.number(),
+  peakRating: z.number(),
+});
 
 export type PlayerTournamentModel = z.infer<typeof playerTournamentSchema>;
 

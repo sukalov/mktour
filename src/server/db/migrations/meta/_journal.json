@@ -8,6 +8,20 @@
       "when": 1764189043983,
       "tag": "0000_sticky_cerebro",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1764459859740,
+      "tag": "0001_strong_stardust",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1764460383313,
+      "tag": "0002_wonderful_corsair",
+      "breakpoints": true
     }
   ]
 }

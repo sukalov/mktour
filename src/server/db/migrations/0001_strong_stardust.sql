@@ -1,0 +1,1 @@
+ALTER TABLE `player` ADD `peak_rating` integer DEFAULT 1500;
