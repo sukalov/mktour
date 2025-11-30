@@ -70,6 +70,7 @@ export const games = sqliteTable('game', {
   whitePrevGameId: text('white_prev_game_id'),
   blackPrevGameId: text('black_prev_game_id'),
   result: text('result').$type<GameResult>(),
+  finishedAt: integer('finished_at', { mode: 'timestamp' }),
   tournamentId: text('tournament_id')
     .references(() => tournaments.id)
     .notNull(),
