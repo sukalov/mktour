@@ -1,3 +1,10 @@
+# [1.0.0-beta.17](https://github.com/sukalov/mktour/compare/v1.0.0-beta.16...v1.0.0-beta.17) (2025-11-30)
+
+
+### Features
+
+* add option to self-affiliate inside own club ([4928149](https://github.com/sukalov/mktour/commit/4928149a3e14832a0c2d0738d72fd7b449a3b7cd))
+
 # [1.0.0-beta.16](https://github.com/sukalov/mktour/compare/v1.0.0-beta.15...v1.0.0-beta.16) (2025-11-30)
 
 
