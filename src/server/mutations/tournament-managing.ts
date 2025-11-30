@@ -405,7 +405,10 @@ export async function setTournamentGameResult({
   if (result === prevResult) {
     await Promise.all([
       handleResultReset(whiteId, blackId, tournamentId, prevResult),
-      db.update(games).set({ result: null }).where(eq(games.id, gameId)),
+      db
+        .update(games)
+        .set({ result: null, finishedAt: null })
+        .where(eq(games.id, gameId)),
     ]);
     return;
   }
@@ -421,7 +424,10 @@ export async function setTournamentGameResult({
   }
   await Promise.all([
     handler,
-    db.update(games).set({ result }).where(eq(games.id, gameId)),
+    db
+      .update(games)
+      .set({ result, finishedAt: new Date() })
+      .where(eq(games.id, gameId)),
   ]);
 }
 
