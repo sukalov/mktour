@@ -160,6 +160,23 @@ export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
   });
 });
 
+export const authProcedure = t.procedure.use(async ({ ctx, next }) => {
+  let { session, user } = ctx;
+
+  if (!user) {
+    const result = await validateRequest();
+    user = result.user;
+    session = result.session;
+  }
+
+  return next({
+    ctx: {
+      session,
+      user,
+    },
+  });
+});
+
 export const clubAdminProcedure = protectedProcedure
   .input(z.object({ clubId: z.string() }))
   .use(async (opts) => {

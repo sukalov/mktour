@@ -1,11 +1,17 @@
 import meta from '@/server/api/meta';
 import {
+  authProcedure,
   clubAdminProcedure,
   protectedProcedure,
   publicProcedure,
 } from '@/server/api/trpc';
 import { clubsSelectSchema } from '@/server/db/zod/clubs';
-import { playerFormSchema, playersSelectSchema } from '@/server/db/zod/players';
+import {
+  playerAuthStatsSchema,
+  playerFormSchema,
+  playersSelectSchema,
+  playerStatsSchema,
+} from '@/server/db/zod/players';
 import { playerToTournamentSchema } from '@/server/db/zod/tournaments';
 import { usersSelectMinimalSchema } from '@/server/db/zod/users';
 import {
@@ -21,7 +27,11 @@ import {
 } from '@/server/mutations/player-affiliation';
 import getPlayer from '@/server/queries/get-player';
 import { getUserClubIds } from '@/server/queries/get-user-clubs';
-import getPlayersLastTmts from '@/server/queries/player';
+import {
+  getPlayerAuthStats,
+  getPlayerStats,
+  getPlayersTournaments,
+} from '@/server/queries/player';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
@@ -55,7 +65,7 @@ export const playerRouter = {
     .output(z.array(playerToTournamentSchema))
     .query(async (opts) => {
       const { input } = opts;
-      return await getPlayersLastTmts(input.playerId);
+      return await getPlayersTournaments(input.playerId);
     }),
   affiliation: {
     request: protectedProcedure
@@ -142,4 +152,25 @@ export const playerRouter = {
       const { input } = opts;
       await editPlayer(input);
     }),
+  stats: {
+    public: publicProcedure
+      .meta(meta.playersPublicStats)
+      .input(z.object({ playerId: z.string() }))
+      .output(playerStatsSchema)
+      .query(async (opts) => {
+        const { input } = opts;
+        return await getPlayerStats(input.playerId);
+      }),
+    auth: authProcedure
+      .meta(meta.playersAuthStats)
+      .input(z.object({ playerId: z.string() }))
+      .output(playerAuthStatsSchema.nullable())
+      .query(async ({ input, ctx }) => {
+        if (!ctx.user) return null;
+        return await getPlayerAuthStats({
+          playerId: input.playerId,
+          userId: ctx.user.id,
+        });
+      }),
+  },
 };

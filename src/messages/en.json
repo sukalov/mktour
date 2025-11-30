@@ -98,7 +98,8 @@
       "total": "total",
       "wins": "w",
       "draws": "d",
-      "losses": "l"
+      "losses": "l",
+      "you": "you"
     }
   },
   "Errors": {

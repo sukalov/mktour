@@ -479,6 +479,22 @@ const meta = {
       tags: ['players'],
     },
   },
+  playersPublicStats: {
+    openapi: {
+      method: 'GET',
+      path: '/players/{playerId}/stats',
+      summary: 'get player stats',
+      tags: ['players'],
+    },
+  },
+  playersAuthStats: {
+    openapi: {
+      method: 'GET',
+      path: '/players/{playerId}/auth-stats',
+      summary: 'get player auth stats',
+      tags: ['players'],
+    },
+  },
 } as const satisfies Record<string, OpenApiMeta>;
 
 export default meta;

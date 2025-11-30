@@ -2,6 +2,7 @@ import { validateNewPlayer } from '@/lib/zod/new-player-validation-action';
 import { affiliations, players } from '@/server/db/schema/players';
 import { players_to_tournaments } from '@/server/db/schema/tournaments';
 import { affiliationStatusEnum } from '@/server/db/zod/enums';
+import { tournamentSchema } from '@/server/db/zod/tournaments';
 import {
   createInsertSchema,
   createSelectSchema,
@@ -79,10 +80,27 @@ export const playerTournamentSchema = playersToTournamentsSelectSchema
   });
 
 export const playerStatsSchema = z.object({
-  tournamentsPlayed: z.number(),
-  gamesPlayed: z.number(),
-  winRate: z.number(),
-  peakRating: z.number(),
+  tournamentsPlayed: z.object({
+    value: z.number(),
+    rank: z.number(),
+  }),
+  gamesPlayed: z.object({
+    value: z.number(),
+    rank: z.number(),
+  }),
+  winRate: z.object({
+    value: z.number(),
+    rank: z.number(),
+  }),
+  peakRatingRank: z.number(),
+});
+
+export const playerAuthStatsSchema = z.object({
+  playerWins: z.number(),
+  draws: z.number(),
+  userWins: z.number(),
+  userPlayerNickname: z.string(),
+  lastTournament: tournamentSchema.nullable(),
 });
 
 export type PlayerTournamentModel = z.infer<typeof playerTournamentSchema>;
@@ -93,3 +111,5 @@ export type PlayerModel = z.infer<typeof playersSelectSchema>;
 export type PlayerMinimalModel = z.infer<typeof playersMinimalSchema>;
 export type PlayerFormModel = z.infer<typeof playerFormSchema>;
 export type PlayerInsertModel = z.infer<typeof playersInsertSchema>;
+export type PlayerStatsModel = z.infer<typeof playerStatsSchema>;
+export type PlayerAuthStatsModel = z.infer<typeof playerAuthStatsSchema>;
