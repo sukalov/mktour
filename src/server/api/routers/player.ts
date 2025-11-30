@@ -22,6 +22,7 @@ import {
 import {
   abortAffiliationRequest,
   acceptAffiliation,
+  affiliateUser,
   rejectAffiliation,
   requestAffiliation,
 } from '@/server/mutations/player-affiliation';
@@ -117,6 +118,20 @@ export const playerRouter = {
       .mutation(async (opts) => {
         const { input } = opts;
         await abortAffiliationRequest(input);
+      }),
+    affiliateAuth: clubAdminProcedure
+      .input(
+        z.object({
+          playerId: z.string(),
+        }),
+      )
+      .mutation(async (opts) => {
+        const {
+          input,
+          ctx: { user, clubId },
+        } = opts;
+        const { playerId } = input;
+        await affiliateUser({ playerId, user, clubId });
       }),
   },
   delete: protectedProcedure

@@ -18,7 +18,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { Save, UserPlus, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useHotkeys } from 'react-hotkeys-hook';
 
@@ -62,13 +62,13 @@ const AddPlayerDrawer = () => {
         setOpen={handleChange}
         setIsAnimating={setIsAnimating}
       >
-        <AddNewPlayer setOpen={setOpen} />
+        <AddNewPlayer />
       </SideDrawer>
     </>
   );
 };
 
-const AddNewPlayer = ({}: DrawerProps) => {
+const AddNewPlayer = () => {
   const user = useAuth();
   const queryClient = useQueryClient();
   const { mutate } = usePlayerAddMutation(queryClient);
@@ -130,7 +130,7 @@ const AddNewPlayer = ({}: DrawerProps) => {
                   min={0}
                   max={3000}
                   className="w-full"
-                  defaultValue={[Number(value)]}
+                  defaultValue={[value ?? 1500]}
                   onValueChange={(vals) => {
                     onChange(vals[0]);
                   }}
@@ -159,10 +159,6 @@ const AddNewPlayer = ({}: DrawerProps) => {
       </form>
     </Form>
   );
-};
-
-export type DrawerProps = {
-  setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 export default AddPlayerDrawer;

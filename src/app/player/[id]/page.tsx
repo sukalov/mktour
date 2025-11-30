@@ -1,4 +1,5 @@
 import Loading from '@/app/loading';
+import { AffiliateButton } from '@/app/player/[id]/affiliate-button';
 import ClaimPlayer from '@/app/player/[id]/claim-button';
 import EditButton from '@/app/player/[id]/edit-button';
 import LastTournaments from '@/app/player/[id]/last-tournaments';
@@ -30,16 +31,20 @@ async function PlayerPageContent(props: PlayerPageProps) {
   if (!playerData) notFound();
 
   const { user: playerUser, club, ...player } = playerData;
-  const status = await publicCaller.club.authStatus({
-    clubId: club.id,
-  });
+  const [status, affiliation] = await Promise.all([
+    publicCaller.club.authStatus({
+      clubId: club.id,
+    }),
+    publicCaller.auth.affiliationInClub({ clubId: club.id }),
+  ]);
   const playerLastTournaments = await publicCaller.player.lastTournaments({
     playerId: player.id,
   });
 
   const isOwnPlayer = user && player.userId === user.id;
   const canEdit = status !== null || isOwnPlayer;
-  const canClaim = !status && user && !player.userId;
+  const canClaim = !status && user && !player.userId && !affiliation;
+  const canAffiliate = status !== null && !player.userId && !affiliation;
   const t = await getTranslations('Player');
 
   return (
@@ -83,6 +88,7 @@ async function PlayerPageContent(props: PlayerPageProps) {
             </Link>
           </Button>
         )}
+        {canAffiliate && <AffiliateButton player={player} />}
         {user && canEdit && (
           <EditButton userId={user.id} player={player} status={status} />
         )}

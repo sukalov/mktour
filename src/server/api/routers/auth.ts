@@ -3,9 +3,15 @@ import { CACHE_TAGS } from '@/lib/cache-tags';
 import { getEncryptedAuthSession } from '@/lib/get-encrypted-auth-session';
 import { newid, timeout } from '@/lib/utils';
 import meta from '@/server/api/meta';
-import { protectedProcedure, publicProcedure } from '@/server/api/trpc';
+import {
+  authProcedure,
+  protectedProcedure,
+  publicProcedure,
+} from '@/server/api/trpc';
+import { players } from '@/server/db/schema/players';
 import { apiTokens } from '@/server/db/schema/users';
 import { clubsSelectSchema } from '@/server/db/zod/clubs';
+import { playersSelectSchema } from '@/server/db/zod/players';
 import {
   apiToken,
   editProfileFormSchema,
@@ -27,7 +33,7 @@ import {
 } from '@/server/queries/get-user-notifications';
 import { TRPCError } from '@trpc/server';
 import crypto from 'crypto';
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 import { revalidateTag } from 'next/cache';
 import z from 'zod';
 
@@ -172,4 +178,16 @@ export const authRouter = {
         await ctx.db.delete(apiTokens).where(eq(apiTokens.id, input.id));
       }),
   },
+  affiliationInClub: authProcedure
+    .input(z.object({ clubId: z.string() }))
+    .output(playersSelectSchema.nullish())
+    .query(async ({ ctx, input }) => {
+      if (!ctx.user) return null;
+      return await ctx.db.query.players.findFirst({
+        where: and(
+          eq(players.userId, ctx.user.id),
+          eq(players.clubId, input.clubId),
+        ),
+      });
+    }),
 };

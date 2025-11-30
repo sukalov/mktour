@@ -15,6 +15,7 @@ import {
   players,
 } from '@/server/db/schema/players';
 import { and, eq, sql } from 'drizzle-orm';
+import { User } from 'lucia';
 import { revalidatePath } from 'next/cache';
 
 export async function requestAffiliation({
@@ -196,4 +197,38 @@ export async function abortAffiliationRequest({
   revalidatePath(`/player/${playerId}`);
 
   return affiliation;
+}
+
+export async function affiliateUser({
+  playerId,
+  user,
+  clubId,
+}: {
+  playerId: string;
+  user: User;
+  clubId: string;
+}) {
+  const player = await db.query.players.findFirst({
+    where: eq(players.id, playerId),
+  });
+  if (!player) throw new Error('PLAYER_NOT_FOUND');
+
+  await Promise.all([
+    db
+      .insert(affiliations)
+      .values({
+        id: newid(),
+        userId: user.id,
+        playerId: playerId,
+        clubId: clubId,
+        status: 'active',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      })
+      .returning(),
+    db.update(players).set({ userId: user.id }).where(eq(players.id, playerId)),
+  ]);
+  revalidatePath(`/player/${playerId}`);
+
+  return player;
 }

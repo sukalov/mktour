@@ -192,6 +192,7 @@ export const clubAdminProcedure = protectedProcedure
     return opts.next({
       ctx: {
         clubs,
+        clubId: opts.input.clubId,
       },
     });
   });
