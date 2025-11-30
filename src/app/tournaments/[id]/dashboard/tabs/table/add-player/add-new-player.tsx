@@ -102,7 +102,7 @@ const AddNewPlayer = ({
                   min={0}
                   max={3000}
                   className="w-full"
-                  defaultValue={[value]}
+                  value={[value ?? 1500]}
                   onValueChange={(vals) => {
                     onChange(vals[0]);
                   }}

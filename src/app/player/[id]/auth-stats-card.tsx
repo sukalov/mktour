@@ -9,13 +9,11 @@ import { FC } from 'react';
 
 interface AuthStatsCardProps {
   playerId: string;
-  clubId: string;
   playerNickname: string;
 }
 
 const AuthStatsCard: FC<AuthStatsCardProps> = ({
   playerId,
-  clubId,
   playerNickname,
 }) => {
   const { data: authStats, isPending } = usePlayerAuthStats(playerId);

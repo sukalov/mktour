@@ -52,11 +52,7 @@ export default function PlayerStats({ player }: { player: PlayerModel }) {
         </CardContent>
       </HalfCard>
 
-      <AuthStatsCard
-        playerId={player.id}
-        clubId={player.clubId}
-        playerNickname={player.nickname}
-      />
+      <AuthStatsCard playerId={player.id} playerNickname={player.nickname} />
     </div>
   );
 }

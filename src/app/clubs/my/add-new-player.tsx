@@ -130,7 +130,7 @@ const AddNewPlayer = ({}: DrawerProps) => {
                   min={0}
                   max={3000}
                   className="w-full"
-                  defaultValue={[value]}
+                  defaultValue={[Number(value)]}
                   onValueChange={(vals) => {
                     onChange(vals[0]);
                   }}

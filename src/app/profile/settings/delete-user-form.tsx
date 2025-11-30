@@ -119,7 +119,10 @@ export default function DeleteUserForm({
                             checked={field.value?.includes(checkbox)}
                             onCheckedChange={(checked) => {
                               return checked
-                                ? field.onChange([...field.value, checkbox])
+                                ? field.onChange([
+                                    ...(field.value || []),
+                                    checkbox,
+                                  ])
                                 : field.onChange(
                                     field.value?.filter(
                                       (value) => value !== checkbox,
