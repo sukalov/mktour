@@ -1,3 +1,17 @@
+# [1.0.0-beta.18](https://github.com/sukalov/mktour/compare/v1.0.0-beta.17...v1.0.0-beta.18) (2025-12-01)
+
+
+### Bug Fixes
+
+* wrong imports ([e06393f](https://github.com/sukalov/mktour/commit/e06393f3b69f753a5985efc7305bcfa99ddfa097))
+
+
+### Features
+
+* cancel affiliation by user mutations, fix states at player page ([5d3de32](https://github.com/sukalov/mktour/commit/5d3de322b42f85fc6ef19058b9bace5d8a28cea8))
+* toggling isSeen for club notifications ([7a1dea7](https://github.com/sukalov/mktour/commit/7a1dea7f717df0146f6b466e031a3e7a6eafeb18))
+* turn club notifications into infinite query ([5ddda2a](https://github.com/sukalov/mktour/commit/5ddda2a4fca75d880d24c413c7b193cca9bc2f8c))
+
 # [1.0.0-beta.17](https://github.com/sukalov/mktour/compare/v1.0.0-beta.16...v1.0.0-beta.17) (2025-11-30)
 
 
