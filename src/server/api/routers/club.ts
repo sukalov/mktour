@@ -22,6 +22,7 @@ import { tournamentSchema } from '@/server/db/zod/tournaments';
 import { usersSelectMinimalSchema } from '@/server/db/zod/users';
 import getAllClubManagers, {
   addClubManager,
+  changeClubNotificationStatus,
   createClub,
   deleteClub,
   deleteClubManager,
@@ -160,27 +161,41 @@ export const clubRouter = createTRPCRouter({
         revalidateTag(`${CACHE_TAGS.USER_CLUBS}:${input.userId}`, 'max');
       }),
   }),
-  notifications: clubAdminProcedure
-    .meta(meta.clubNotifications)
-    .input(
-      z.object({
-        clubId: z.string(),
-        limit: z.number().min(1).max(100).optional().default(20),
-        cursor: z.number().nullable().default(0),
+  notifications: {
+    all: clubAdminProcedure
+      .meta(meta.clubNotifications)
+      .input(
+        z.object({
+          clubId: z.string(),
+          limit: z.number().min(1).max(100).optional().default(20),
+          cursor: z.number().nullable().default(0),
+        }),
+      )
+      .output(
+        z.object({
+          notifications: z.array(clubNotificationExtendedSchema),
+          nextCursor: z.number().nullable(),
+        }),
+      )
+      .query(async ({ input }) => {
+        return await getClubNotifications({
+          ...input,
+          cursor: input.cursor ?? 0,
+        });
       }),
-    )
-    .output(
-      z.object({
-        notifications: z.array(clubNotificationExtendedSchema),
-        nextCursor: z.number().nullable(),
+    toggleSeen: clubAdminProcedure
+      .meta(meta.clubToggleSeen)
+      .input(
+        z.object({
+          notificationId: z.string(),
+          isSeen: z.boolean(),
+        }),
+      )
+      .output(z.void())
+      .mutation(async ({ input }) => {
+        await changeClubNotificationStatus(input);
       }),
-    )
-    .query(async ({ input }) => {
-      return await getClubNotifications({
-        ...input,
-        cursor: input.cursor ?? 0,
-      });
-    }),
+  },
   delete: clubAdminProcedure
     .meta(meta.clubDelete)
     .input(

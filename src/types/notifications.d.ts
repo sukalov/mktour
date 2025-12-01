@@ -7,7 +7,7 @@ import type {
   StatusInClub,
   UserNotificationEvent,
 } from '@/server/db/zod/enums';
-import { ClubNotificationExtended } from '@/server/db/zod/notifications';
+import type { ClubNotificationExtended } from '@/server/db/zod/notifications';
 
 type UserNotificationMetadata = {
   affiliation_approved: { clubId: string; affiliationId: string };
@@ -66,8 +66,17 @@ export type AnyUserNotificationExtended = {
   [K in UserNotificationEvent]: UserNotificationExtended<K>;
 }[UserNotificationEvent];
 
+// Generic typed version that narrows event and metadata from the schema-inferred type
+type ClubNotificationExtendedTyped<T extends ClubNotificationEvent> = Omit<
+  ClubNotificationExtended,
+  'event' | 'metadata'
+> & {
+  event: T;
+  metadata: ClubNotificationMetadata[T];
+};
+
 export type AnyClubNotificationExtended = {
-  [K in ClubNotificationEvent]: ClubNotificationExtended<K>;
+  [K in ClubNotificationEvent]: ClubNotificationExtendedTyped<K>;
 }[ClubNotificationEvent];
 
 // ============================================================================

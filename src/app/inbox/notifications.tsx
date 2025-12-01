@@ -2,7 +2,7 @@
 
 import Empty from '@/components/empty';
 import FormattedMessage from '@/components/formatted-message';
-import { useMarkAllNotificationAsSeenMutation } from '@/components/hooks/mutation-hooks/use-mark-user-notifications';
+import { useMarkAllNotificationAsSeenMutation } from '@/components/hooks/mutation-hooks/use-notifications';
 import {
   useUserNotifications,
   useUserNotificationsCounter,

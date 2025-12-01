@@ -1,5 +1,8 @@
 import { useTRPC } from '@/components/trpc/client';
-import { AnyUserNotificationExtended } from '@/types/notifications';
+import {
+  AnyClubNotificationExtended,
+  AnyUserNotificationExtended,
+} from '@/types/notifications';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const useChangeNotificationStatusMutation = () => {
@@ -148,6 +151,63 @@ export const useMarkAllNotificationAsSeenMutation = () => {
       onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: trpc.auth.notifications.pathKey(),
+        });
+      },
+    }),
+  );
+};
+
+export const useChangeClubNotificationStatusMutation = () => {
+  const trpc = useTRPC();
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    trpc.club.notifications.toggleSeen.mutationOptions({
+      onMutate: async ({ notificationId, isSeen, clubId }) => {
+        await queryClient.cancelQueries({
+          queryKey: trpc.club.notifications.all.infiniteQueryKey({ clubId }),
+        });
+
+        const prevCache = queryClient.getQueryData(
+          trpc.club.notifications.all.infiniteQueryKey({ clubId }),
+        );
+
+        queryClient.setQueryData(
+          trpc.club.notifications.all.infiniteQueryKey({ clubId }),
+          (cache) => {
+            if (!cache) return cache;
+
+            return {
+              ...cache,
+              pages: cache.pages.map((page) => ({
+                ...page,
+                notifications: page.notifications.map((item) => {
+                  if (item.id === notificationId) {
+                    return {
+                      ...item,
+                      isSeen,
+                    };
+                  }
+                  return item;
+                }) as AnyClubNotificationExtended[],
+              })),
+            };
+          },
+        );
+
+        return { prevCache };
+      },
+      onError: (_err, { clubId }, context) => {
+        if (context?.prevCache) {
+          queryClient.setQueryData(
+            trpc.club.notifications.all.infiniteQueryKey({ clubId }),
+            context.prevCache,
+          );
+        }
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries({
+          queryKey: trpc.club.notifications.pathKey(),
         });
       },
     }),

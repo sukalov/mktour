@@ -4,7 +4,10 @@ import { LoadingSpinner } from '@/app/loading';
 import FormattedMessage from '@/components/formatted-message';
 import useAffiliationAcceptMutation from '@/components/hooks/mutation-hooks/use-affiliation-accept';
 import useAffiliationRejectMutation from '@/components/hooks/mutation-hooks/use-affiliation-reject';
-import { useChangeNotificationStatusMutation } from '@/components/hooks/mutation-hooks/use-mark-user-notifications';
+import {
+  useChangeClubNotificationStatusMutation,
+  useChangeNotificationStatusMutation,
+} from '@/components/hooks/mutation-hooks/use-notifications';
 import { Button } from '@/components/ui/button';
 import { Item, ItemActions, ItemContent } from '@/components/ui/item';
 import { UserNotificationEvent } from '@/server/db/zod/enums';
@@ -106,7 +109,7 @@ export const AffiliationNotificationLi = ({
                 </Button>
               </div>
             )}
-            <ToggleIsSeen notificationId={id} seen={isSeen} />
+            <ToggleIsSeen notificationId={id} isSeen={isSeen} />
           </ItemActions>
         </div>
       </ItemContent>
@@ -123,6 +126,7 @@ export const UserNotificationLi: FC<AnyUserNotificationExtended> = (props) => {
       key={notification.id}
       notificationId={notification.id}
       is_seen={notification.isSeen}
+      type="user"
     >
       <p className="text-muted-foreground flex items-center gap-1 text-xs">
         <Icon size={16} />
@@ -166,8 +170,17 @@ export const NotificationItem: FC<
     is_seen: boolean;
     className?: HTMLAttributes<HTMLDivElement>['className'];
     notificationId: string;
+    type: 'user' | 'club';
+    clubId?: string;
   }
-> = ({ is_seen, className, children, notificationId }) => (
+> = ({
+  is_seen,
+  className,
+  children,
+  notificationId,
+  type = 'user',
+  clubId,
+}) => (
   <Item
     variant="muted"
     className={`mk-card ${is_seen && 'opacity-70'} ${className} text-xs`}
@@ -176,18 +189,43 @@ export const NotificationItem: FC<
       <div className="flex flex-col gap-2">{children}</div>
     </ItemContent>
     <ItemActions>
-      <ToggleIsSeen notificationId={notificationId} seen={is_seen} />
+      {type === 'user' ? (
+        <ToggleIsSeen notificationId={notificationId} isSeen={is_seen} />
+      ) : (
+        <ToggleClubIsSeen
+          notificationId={notificationId}
+          isSeen={is_seen}
+          clubId={clubId}
+        />
+      )}
     </ItemActions>
   </Item>
 );
 
-const ToggleIsSeen: FC<{ notificationId: string; seen: boolean }> = ({
+const ToggleIsSeen: FC<{ notificationId: string; isSeen: boolean }> = ({
   notificationId,
-  seen,
+  isSeen,
 }) => {
   const { mutate } = useChangeNotificationStatusMutation();
-  const onClick = () => mutate({ notificationId, seen: !seen });
-  const icon = seen ? <EyeOff /> : <Eye />;
+  const onClick = () => mutate({ notificationId, seen: !isSeen });
+  const icon = isSeen ? <EyeOff /> : <Eye />;
+
+  return (
+    <Button size="icon-lg" variant="ghost" onClick={onClick}>
+      {icon}
+    </Button>
+  );
+};
+
+const ToggleClubIsSeen: FC<{
+  notificationId: string;
+  isSeen: boolean;
+  clubId?: string;
+}> = ({ notificationId, isSeen, clubId }) => {
+  const { mutate } = useChangeClubNotificationStatusMutation();
+  if (!clubId) return null;
+  const onClick = () => mutate({ clubId, notificationId, isSeen: !isSeen });
+  const icon = isSeen ? <EyeOff /> : <Eye />;
 
   return (
     <Button size="icon-lg" variant="ghost" onClick={onClick}>

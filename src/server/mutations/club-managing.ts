@@ -367,3 +367,16 @@ export const leaveClub = async ({
     });
   });
 };
+
+export const changeClubNotificationStatus = async ({
+  notificationId,
+  isSeen,
+}: {
+  notificationId: string;
+  isSeen: boolean;
+}) => {
+  await db
+    .update(club_notifications)
+    .set({ isSeen })
+    .where(eq(club_notifications.id, notificationId));
+};

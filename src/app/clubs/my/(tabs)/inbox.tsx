@@ -51,6 +51,8 @@ const NotificationItemIteratee = (data: ClubNotificationExtended) => {
           notificationId={data.id}
           key={data.id}
           is_seen={data.isSeen}
+          type="club"
+          clubId={data.clubId}
         >
           {data.player?.nickname} is officially user {data.user?.username}
         </NotificationItem>
@@ -61,6 +63,8 @@ const NotificationItemIteratee = (data: ClubNotificationExtended) => {
           notificationId={data.id}
           key={data.id}
           is_seen={data.isSeen}
+          type="club"
+          clubId={data.clubId}
         >
           <div>
             {data.user?.username}&apos;s request to affiliate with{' '}
@@ -74,6 +78,8 @@ const NotificationItemIteratee = (data: ClubNotificationExtended) => {
           notificationId={data.id}
           key={data.id}
           is_seen={data.isSeen}
+          type="club"
+          clubId={data.clubId}
         >
           {data.event}
           {JSON.stringify(data.metadata)}
@@ -85,6 +91,8 @@ const NotificationItemIteratee = (data: ClubNotificationExtended) => {
           notificationId={data.id}
           key={data.id}
           is_seen={data.isSeen}
+          type="club"
+          clubId={data.clubId}
         >
           {data.event}
           {JSON.stringify(data.metadata)}

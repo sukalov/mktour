@@ -293,6 +293,15 @@ const meta = {
     },
   },
 
+  clubToggleSeen: {
+    openapi: {
+      method: 'POST',
+      path: '/clubs/{clubId}/toggle-seen',
+      summary: 'change notifications "isSeen" parameter',
+      tags: ['clubs'],
+    },
+  },
+
   playerInfo: {
     openapi: {
       method: 'GET',
