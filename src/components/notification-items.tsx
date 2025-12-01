@@ -10,7 +10,7 @@ import {
 } from '@/components/hooks/mutation-hooks/use-notifications';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Item, ItemActions, ItemContent } from '@/components/ui/item';
+import { ItemActions } from '@/components/ui/item';
 import { UserNotificationEvent } from '@/server/db/zod/enums';
 import { ClubNotificationExtended } from '@/server/db/zod/notifications';
 import {
@@ -69,52 +69,50 @@ export const AffiliationNotificationLi = ({
   if (!affiliation) return null;
 
   return (
-    <Item variant="muted" key={id}>
-      <ItemContent>
-        <p className="text-muted-foreground flex items-center gap-2 text-xs">
-          <GitPullRequestCreateArrow className="size-4" />
-          <FormattedMessage id="Club.Inbox.affiliation" />
-        </p>
-        <div className="flex items-center justify-between text-sm">
+    <Card key={id} className={`mk-card flex flex-col gap-2 ${isSeen && 'opacity-70'}`}>
+      <p className="text-muted-foreground flex items-center gap-2 text-xs">
+        <GitPullRequestCreateArrow className="size-4" />
+        <FormattedMessage id="Club.Inbox.affiliation" />
+      </p>
+      <div className="flex items-center justify-between text-sm">
+        <div className="flex items-center gap-2">
           <div className="flex items-center gap-2">
-            <div className="flex items-center gap-2">
-              <div className="flex flex-col justify-center">
-                <div className="flex items-center gap-2">
-                  <Link href={`/user/${user?.username}`}>{user?.username}</Link>
-                </div>
-                <div className="flex items-center">
-                  <CornerDownRightIcon className="text-muted-foreground mx-2 size-4" />
-                  <Link href={`/player/${player?.id}`}>{player?.nickname}</Link>
-                </div>
+            <div className="flex flex-col justify-center">
+              <div className="flex items-center gap-2">
+                <Link href={`/user/${user?.username}`}>{user?.username}</Link>
+              </div>
+              <div className="flex items-center">
+                <CornerDownRightIcon className="text-muted-foreground mx-2 size-4" />
+                <Link href={`/player/${player?.id}`}>{player?.nickname}</Link>
               </div>
             </div>
           </div>
-          <ItemActions>
-            {isPending ? (
-              <LoadingSpinner />
-            ) : (
-              <div className="ml-3 flex gap-2">
-                <Button
-                  size="icon-lg"
-                  onClick={() => handleAccept(true)}
-                  variant="secondary"
-                >
-                  <Check />{' '}
-                </Button>
-                <Button
-                  size="icon-lg"
-                  onClick={() => handleAccept(false)}
-                  variant="destructive"
-                >
-                  <X />{' '}
-                </Button>
-              </div>
-            )}
-            <ToggleIsSeen notificationId={id} isSeen={isSeen} />
-          </ItemActions>
         </div>
-      </ItemContent>
-    </Item>
+        <ItemActions>
+          {isPending ? (
+            <LoadingSpinner />
+          ) : (
+            <div className="ml-3 flex gap-2">
+              <Button
+                size="icon-lg"
+                onClick={() => handleAccept(true)}
+                variant="secondary"
+              >
+                <Check />{' '}
+              </Button>
+              <Button
+                size="icon-lg"
+                onClick={() => handleAccept(false)}
+                variant="destructive"
+              >
+                <X />{' '}
+              </Button>
+            </div>
+          )}
+        </ItemActions>
+      </div>
+      {/* </CardDescription> */}
+    </Card>
   );
 };
 
