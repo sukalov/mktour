@@ -9,6 +9,7 @@ import {
   useChangeNotificationStatusMutation,
 } from '@/components/hooks/mutation-hooks/use-notifications';
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { Item, ItemActions, ItemContent } from '@/components/ui/item';
 import { UserNotificationEvent } from '@/server/db/zod/enums';
 import { ClubNotificationExtended } from '@/server/db/zod/notifications';
@@ -181,25 +182,20 @@ export const NotificationItem: FC<
   type = 'user',
   clubId,
 }) => (
-  <Item
-    variant="muted"
-    className={`mk-card ${is_seen && 'opacity-70'} ${className} text-xs`}
+  <Card
+    className={`mk-card ${is_seen && 'opacity-70'} ${className} flex items-center justify-between text-xs`}
   >
-    <ItemContent>
-      <div className="flex flex-col gap-2">{children}</div>
-    </ItemContent>
-    <ItemActions>
-      {type === 'user' ? (
-        <ToggleIsSeen notificationId={notificationId} isSeen={is_seen} />
-      ) : (
-        <ToggleClubIsSeen
-          notificationId={notificationId}
-          isSeen={is_seen}
-          clubId={clubId}
-        />
-      )}
-    </ItemActions>
-  </Item>
+    <div className="flex flex-col gap-2">{children}</div>
+    {type === 'user' ? (
+      <ToggleIsSeen notificationId={notificationId} isSeen={is_seen} />
+    ) : (
+      <ToggleClubIsSeen
+        notificationId={notificationId}
+        isSeen={is_seen}
+        clubId={clubId}
+      />
+    )}
+  </Card>
 );
 
 const ToggleIsSeen: FC<{ notificationId: string; isSeen: boolean }> = ({
