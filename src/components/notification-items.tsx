@@ -111,7 +111,6 @@ export const AffiliationNotificationLi = ({
           )}
         </ItemActions>
       </div>
-      {/* </CardDescription> */}
     </Card>
   );
 };
