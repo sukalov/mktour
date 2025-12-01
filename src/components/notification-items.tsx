@@ -12,7 +12,7 @@ import { ClubNotificationExtended } from '@/server/db/zod/notifications';
 import {
   AnyUserNotificationExtended,
   UserNotificationExtended,
-} from '@/server/queries/get-user-notifications';
+} from '@/types/notifications';
 import { useQueryClient } from '@tanstack/react-query';
 import {
   Check,

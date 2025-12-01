@@ -1,5 +1,5 @@
 import { useTRPC } from '@/components/trpc/client';
-import { AnyUserNotificationExtended } from '@/server/queries/get-user-notifications';
+import { AnyUserNotificationExtended } from '@/types/notifications';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const useChangeNotificationStatusMutation = () => {
