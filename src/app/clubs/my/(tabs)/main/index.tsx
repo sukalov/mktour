@@ -9,10 +9,6 @@ import { FC } from 'react';
 
 const ClubMain: FC<ClubTabProps> = ({ selectedClub, userId }) => {
   const club = useClubInfo(selectedClub);
-  // const { isMobile } = useContext(MediaQueryContext);
-  // const Component: FC<ClubTabProps & { club: DatabaseClub }> = isMobile
-  //   ? Mobile
-  //   : Desktop;
 
   if (club.isPending) return <Skeleton className="h-24 w-full" />;
   if (!club.data) return <Empty />;
