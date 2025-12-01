@@ -7,6 +7,7 @@ import type {
   StatusInClub,
   UserNotificationEvent,
 } from '@/server/db/zod/enums';
+import { ClubNotificationExtended } from '@/server/db/zod/notifications';
 
 type UserNotificationMetadata = {
   affiliation_approved: { clubId: string; affiliationId: string };
@@ -51,6 +52,23 @@ type AnyClubNotification = {
 }[ClubNotificationEvent];
 
 type AnyNotification = AnyUserNotification | AnyClubNotification;
+
+export type UserNotificationExtended<T extends UserNotificationEvent> = {
+  event: T;
+  notification: UserNotification<T>;
+  metadata: UserNotificationMetadata[T];
+  affiliation: DatabaseAffiliation | null;
+  player: Pick<DatabasePlayer, 'id' | 'nickname'> | null;
+  club: DatabaseClub | null;
+};
+
+export type AnyUserNotificationExtended = {
+  [K in UserNotificationEvent]: UserNotificationExtended<K>;
+}[UserNotificationEvent];
+
+export type AnyClubNotificationExtended = {
+  [K in ClubNotificationEvent]: ClubNotificationExtended<K>;
+}[ClubNotificationEvent];
 
 // ============================================================================
 // websocket message types

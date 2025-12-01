@@ -162,10 +162,24 @@ export const clubRouter = createTRPCRouter({
   }),
   notifications: clubAdminProcedure
     .meta(meta.clubNotifications)
-    .input(z.object({ clubId: z.string() }))
-    .output(z.array(clubNotificationExtendedSchema))
-    .query(async (opts) => {
-      return await getClubNotifications(opts.input.clubId);
+    .input(
+      z.object({
+        clubId: z.string(),
+        limit: z.number().min(1).max(100).optional().default(20),
+        cursor: z.number().nullable().default(0),
+      }),
+    )
+    .output(
+      z.object({
+        notifications: z.array(clubNotificationExtendedSchema),
+        nextCursor: z.number().nullable(),
+      }),
+    )
+    .query(async ({ input }) => {
+      return await getClubNotifications({
+        ...input,
+        cursor: input.cursor ?? 0,
+      });
     }),
   delete: clubAdminProcedure
     .meta(meta.clubDelete)

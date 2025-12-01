@@ -2,6 +2,7 @@
 
 import Empty from '@/components/empty';
 import { useClubNotifications } from '@/components/hooks/query-hooks/use-club-notifications';
+import useOnReach from '@/components/hooks/use-on-reach';
 import {
   AffiliationNotificationLi,
   NotificationItem,
@@ -13,16 +14,29 @@ import { FC } from 'react';
 
 const ClubInbox: FC<{ selectedClub: string }> = ({ selectedClub }) => {
   const t = useTranslations('Club.Inbox');
-  const notifications = useClubNotifications(selectedClub);
+  const {
+    data: notifications,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    status,
+    error,
+  } = useClubNotifications(selectedClub);
+
+  const ref = useOnReach(fetchNextPage);
 
   if (!notifications) return null;
-  if (notifications.status === 'pending') return <SkeletonList />;
-  if (notifications.status === 'error')
-    return <p>{notifications.error.message}</p>;
-  if (!notifications.data.length) return <Empty>{t('empty')}</Empty>;
+  if (status === 'error') return <p>{error.message}</p>;
+  const allNotifications = notifications.pages.flatMap(
+    (page) => page.notifications,
+  );
+
+  if (!allNotifications.length) return <Empty>{t('empty')}</Empty>;
   return (
     <div className="mk-list">
-      {notifications.data.map(NotificationItemIteratee)}
+      {allNotifications.map(NotificationItemIteratee)}
+      {isFetchingNextPage && <SkeletonList />}
+      {hasNextPage && <div ref={ref} />}
     </div>
   );
 };
@@ -61,6 +75,18 @@ const NotificationItemIteratee = (data: ClubNotificationExtended) => {
           key={data.id}
           is_seen={data.isSeen}
         >
+          {data.event}
+          {JSON.stringify(data.metadata)}
+        </NotificationItem>
+      );
+    case 'affiliation_cancelled':
+      return (
+        <NotificationItem
+          notificationId={data.id}
+          key={data.id}
+          is_seen={data.isSeen}
+        >
+          {data.event}
           {JSON.stringify(data.metadata)}
         </NotificationItem>
       );

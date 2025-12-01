@@ -27,8 +27,7 @@ import {
 import { deleteUser, editUser } from '@/server/mutations/profile-managing';
 import { getUserClubs } from '@/server/queries/get-user-clubs';
 import {
-  AnyUserNotificationExtended,
-  getAuthNotificationsInfinite,
+  getAuthNotifications,
   getNotificationsCounter,
 } from '@/server/queries/get-user-notifications';
 import { TRPCError } from '@trpc/server';
@@ -65,14 +64,11 @@ export const authRouter = {
         }),
       )
       .query(async ({ input, ctx }) => {
-        return (await getAuthNotificationsInfinite({
+        return await getAuthNotifications({
           limit: input.limit,
           offset: input.cursor ?? 0,
           userId: ctx.user.id,
-        })) as {
-          notifications: AnyUserNotificationExtended[];
-          nextCursor: number | null;
-        }; // FIXME as
+        });
       }),
     counter: publicProcedure.query(async () => {
       const { user } = await validateRequest();

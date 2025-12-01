@@ -19,9 +19,15 @@ const ClubDashboardTabList: FC<{
   const preparedTabs = Object.keys(tabMap) as ClubDashboardTab[];
   const notifications = useClubNotifications(selectedClub);
   const hasNewNotifications = Boolean(
-    notifications?.data?.some(({ isSeen }) => !isSeen),
+    notifications?.data?.pages?.some((page) =>
+      page.notifications.some(({ isSeen }) => !isSeen),
+    ),
   );
-  const counter = notifications?.data?.filter(({ isSeen }) => !isSeen).length;
+  const counter = notifications?.data?.pages?.reduce(
+    (acc, page) =>
+      acc + page.notifications.filter(({ isSeen }) => !isSeen).length,
+    0,
+  );
 
   return (
     <Tabs

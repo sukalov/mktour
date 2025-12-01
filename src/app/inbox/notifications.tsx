@@ -11,7 +11,7 @@ import useOnReach from '@/components/hooks/use-on-reach';
 import { UserNotificationLi } from '@/components/notification-items';
 import SkeletonList from '@/components/skeleton-list';
 import { Button } from '@/components/ui/button';
-import { AnyUserNotificationExtended } from '@/server/queries/get-user-notifications';
+import { AnyUserNotificationExtended } from '@/types/notifications';
 import { Eye } from 'lucide-react';
 
 const UserNotifications = () => {

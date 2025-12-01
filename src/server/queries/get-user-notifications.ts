@@ -1,18 +1,9 @@
 import { db } from '@/server/db';
-import { clubs, DatabaseClub } from '@/server/db/schema/clubs';
+import { clubs } from '@/server/db/schema/clubs';
 import { user_notifications } from '@/server/db/schema/notifications';
-import {
-  affiliations,
-  DatabaseAffiliation,
-  DatabasePlayer,
-  players,
-} from '@/server/db/schema/players';
+import { affiliations, players } from '@/server/db/schema/players';
 import { users } from '@/server/db/schema/users';
-import { UserNotificationEvent } from '@/server/db/zod/enums';
-import {
-  UserNotification,
-  UserNotificationMetadata,
-} from '@/types/notifications';
+import { AnyUserNotificationExtended } from '@/types/notifications';
 import { and, count, desc, eq, or, sql } from 'drizzle-orm';
 
 export const getNotificationsCounter = async (userId: string) => {
@@ -34,7 +25,7 @@ export const getNotificationsCounter = async (userId: string) => {
   );
 };
 
-export const getAuthNotificationsInfinite = async ({
+export const getAuthNotifications = async ({
   limit,
   offset,
   userId,
@@ -42,8 +33,11 @@ export const getAuthNotificationsInfinite = async ({
   limit: number;
   offset: number;
   userId: string;
-}) => {
-  const result = await db
+}): Promise<{
+  notifications: AnyUserNotificationExtended[];
+  nextCursor: number | null;
+}> => {
+  const result = (await db
     .select({
       event: user_notifications.event,
       affiliation: affiliations,
@@ -72,7 +66,7 @@ export const getAuthNotificationsInfinite = async ({
     )
     .orderBy(desc(user_notifications.createdAt))
     .limit(limit + 1)
-    .offset(offset);
+    .offset(offset)) as unknown as AnyUserNotificationExtended[];
 
   let nextCursor: number | null = null;
   if (result.length > limit) {
@@ -83,20 +77,3 @@ export const getAuthNotificationsInfinite = async ({
     nextCursor,
   };
 };
-
-export type UserNotificationExtendedInfer = Awaited<
-  ReturnType<typeof getAuthNotificationsInfinite>
->['notifications'][0];
-
-export type UserNotificationExtended<T extends UserNotificationEvent> = {
-  event: T;
-  notification: UserNotification<T>;
-  metadata: UserNotificationMetadata[T];
-  affiliation: DatabaseAffiliation | null;
-  player: Pick<DatabasePlayer, 'id' | 'nickname'> | null;
-  club: DatabaseClub | null;
-};
-
-export type AnyUserNotificationExtended = {
-  [K in UserNotificationEvent]: UserNotificationExtended<K>;
-}[UserNotificationEvent];
