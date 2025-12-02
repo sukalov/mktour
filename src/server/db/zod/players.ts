@@ -12,14 +12,30 @@ import z from 'zod';
 
 export const playersSelectSchema = createSelectSchema(players);
 export const playersInsertSchema = createInsertSchema(players, {
-  rating: z
-    .number()
-    .min(0, {
-      error: 'min rating',
-    })
-    .max(3000, {
-      error: 'max rating',
-    }),
+  rating: (s) =>
+    s
+      .min(0, {
+        error: 'min rating',
+      })
+      .max(3000, {
+        error: 'max rating',
+      }),
+  peakRating: (s) =>
+    s
+      .min(0, {
+        error: 'min peak rating',
+      })
+      .max(3000, {
+        error: 'max peak rating',
+      }),
+  nickname: (s) =>
+    s
+      .min(3, {
+        error: 'min nickname length',
+      })
+      .max(30, {
+        error: 'max nickname length',
+      }),
 });
 export const playersUpdateSchema = createUpdateSchema(players);
 export const affiliationsSelectSchema = createSelectSchema(affiliations, {
@@ -57,6 +73,43 @@ export const playerFormSchema = playersInsertSchema
     },
     { error: 'player exists error', path: ['nickname'] },
   );
+
+export const playerEditSchema = playersUpdateSchema
+  .extend({
+    id: z.string(),
+    clubId: z.string(),
+    nickname: z
+      .string()
+      .min(3, {
+        error: 'min nickname length',
+      })
+      .max(30, {
+        error: 'max nickname length',
+      })
+      .optional(),
+    rating: z
+      .number()
+      .min(0, {
+        error: 'min rating',
+      })
+      .max(3000, {
+        error: 'max rating',
+      })
+      .optional(),
+    peakRating: z
+      .number()
+      .min(0, {
+        error: 'min peak rating',
+      })
+      .max(3000, {
+        error: 'max peak rating',
+      })
+      .optional(),
+  })
+  .omit({
+    lastSeen: true,
+    peakRating: true,
+  });
 
 export const playersToTournamentsSelectSchema = createSelectSchema(
   players_to_tournaments,
@@ -111,5 +164,8 @@ export type PlayerModel = z.infer<typeof playersSelectSchema>;
 export type PlayerMinimalModel = z.infer<typeof playersMinimalSchema>;
 export type PlayerFormModel = z.infer<typeof playerFormSchema>;
 export type PlayerInsertModel = z.infer<typeof playersInsertSchema>;
+export type PlayerUpdateModel = z.infer<typeof playersUpdateSchema>;
+export type PlayerEditModel = z.infer<typeof playerEditSchema>;
+
 export type PlayerStatsModel = z.infer<typeof playerStatsSchema>;
 export type PlayerAuthStatsModel = z.infer<typeof playerAuthStatsSchema>;

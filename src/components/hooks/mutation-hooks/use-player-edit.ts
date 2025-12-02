@@ -4,14 +4,18 @@ import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
 export default function useEditPlayerMutation() {
-  const t = useTranslations('Toasts');
+  const t = useTranslations('Errors');
   const trpc = useTRPC();
   return useMutation(
     trpc.player.edit.mutationOptions({
       onSuccess: () => {
         toast.success(t('player updated'));
       },
-      onError: () => toast.error(t('server error')),
+      onError: ({ message }) => {
+        toast.error(
+          t(JSON.parse(message).at(0)?.message ?? 'unknown server error'),
+        );
+      },
     }),
   );
 }

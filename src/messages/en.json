@@ -105,6 +105,7 @@
     }
   },
   "Errors": {
+    "unknown server error": "unknown server error, sorry!",
     "hard naming": "naming is hard, but necessary",
     "short club name": "too short for a chess club name",
     "long club name": "too long for a chess club name",
@@ -118,7 +119,9 @@
     "add-player-error": "sorry! couldn't add {player} to the tournament",
     "remove-player-error": "sorry! couldn't remove {player} from the tournament",
     "internal-error": "internal error: {error}",
-    "max 50": "max 50 characters"
+    "max 50": "max 50 characters",
+    "min nickname length": "nickname must be at least 3 characters long",
+    "max nickname length": "nickname must be at most 30 characters long"
   },
   "NewClubForm": {
     "new club": "new club",

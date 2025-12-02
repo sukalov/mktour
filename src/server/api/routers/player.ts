@@ -8,6 +8,7 @@ import {
 import { clubsSelectSchema } from '@/server/db/zod/clubs';
 import {
   playerAuthStatsSchema,
+  playerEditSchema,
   playerFormSchema,
   playersSelectSchema,
   playerStatsSchema,
@@ -163,20 +164,12 @@ export const playerRouter = {
       await deletePlayer(input);
     }),
   edit: clubAdminProcedure
-    .input(
-      z.object({
-        clubId: z.string(),
-        values: z.object({
-          id: z.string(),
-          nickname: z.string(),
-          realname: z.string().nullable(),
-          rating: z.number(),
-        }),
-      }),
-    )
+    .meta(meta.playersEdit)
+    .input(playerEditSchema)
+    .output(playersSelectSchema)
     .mutation(async (opts) => {
       const { input } = opts;
-      await editPlayer(input);
+      return await editPlayer({ values: input, user: opts.ctx.user });
     }),
   stats: {
     public: publicProcedure

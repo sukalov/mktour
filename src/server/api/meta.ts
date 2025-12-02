@@ -504,6 +504,14 @@ const meta = {
       tags: ['players'],
     },
   },
+  playersEdit: {
+    openapi: {
+      method: 'PATCH',
+      path: '/players/{id}',
+      summary: 'edit player',
+      tags: ['players'],
+    },
+  },
 } as const satisfies Record<string, OpenApiMeta>;
 
 export default meta;

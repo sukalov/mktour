@@ -17,11 +17,7 @@ import {
   InsertDatabaseUserNotification,
   user_notifications,
 } from '@/server/db/schema/notifications';
-import {
-  affiliations,
-  DatabasePlayer,
-  players,
-} from '@/server/db/schema/players';
+import { affiliations, players } from '@/server/db/schema/players';
 import {
   games,
   players_to_tournaments,
@@ -29,7 +25,7 @@ import {
 } from '@/server/db/schema/tournaments';
 import { DatabaseUser, users } from '@/server/db/schema/users';
 import { ClubEditType, ClubFormType } from '@/server/db/zod/clubs';
-import { PlayerFormModel } from '@/server/db/zod/players';
+import { PlayerEditModel, PlayerFormModel } from '@/server/db/zod/players';
 import getStatusInClub from '@/server/queries/get-status-in-club';
 import { and, eq, ne } from 'drizzle-orm';
 import { User } from 'lucia';
@@ -149,26 +145,33 @@ export const deletePlayer = async ({ playerId }: { playerId: string }) => {
 };
 
 export const editPlayer = async ({
-  clubId,
   values,
+  user,
 }: {
-  clubId: string;
-  values: Pick<DatabasePlayer, 'id' | 'nickname' | 'realname' | 'rating'>;
+  values: PlayerEditModel;
+  user: User;
 }) => {
-  const { user } = await validateRequest();
-  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   const [playerClub] = await db
     .select({ clubId: players.clubId })
     .from(players)
     .where(eq(players.id, values.id));
-  if (playerClub.clubId !== clubId) throw new Error('CLUB_ID_NOT_MATCHING');
+
   const status = await getStatusInClub({
     userId: user.id,
     clubId: playerClub.clubId,
   });
   if (!status) throw new Error('NOT_ADMIN');
-  await db.update(players).set(values).where(eq(players.id, values.id));
+  const result = (
+    await db
+      .update(players)
+      .set(values)
+      .where(eq(players.id, values.id))
+      .returning()
+  ).at(0);
   revalidatePath(`/player/${values.id}`);
+
+  if (!result) throw new Error('PLAYER_NOT_EDITED');
+  return result;
 };
 
 export default async function getAllClubManagers(clubId: string) {

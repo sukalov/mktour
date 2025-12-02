@@ -12,8 +12,8 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { DatabasePlayer } from '@/server/db/schema/players';
 import { StatusInClub } from '@/server/db/zod/enums';
+import { PlayerEditModel } from '@/server/db/zod/players';
 import { Save } from 'lucide-react';
 import { MessageKeys, NestedKeyOf } from 'next-intl';
 import { useRouter } from 'next/navigation';
@@ -22,7 +22,7 @@ import { ControllerRenderProps, useForm, UseFormReturn } from 'react-hook-form';
 
 const EditPlayerForm: FC<{
   clubId: string;
-  player: EditPlayerFormValues;
+  player: PlayerEditModel;
   status: StatusInClub | null;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }> = ({
@@ -33,7 +33,7 @@ const EditPlayerForm: FC<{
 }) => {
   const editPlayerMutation = useEditPlayerMutation();
   const router = useRouter();
-  const form = useForm<EditPlayerFormValues>({
+  const form = useForm<PlayerEditModel>({
     defaultValues: {
       id,
       nickname,
@@ -42,9 +42,9 @@ const EditPlayerForm: FC<{
     },
   });
 
-  const onSubmit = (values: EditPlayerFormValues) => {
+  const onSubmit = (values: PlayerEditModel) => {
     editPlayerMutation.mutate(
-      { clubId, values },
+      { ...values, clubId },
       {
         onSuccess: () => {
           setOpen(false);
@@ -112,17 +112,12 @@ const Field: FC<FieldProps> = ({ name, CustomInput, form, placeholder }) => (
   />
 );
 
-type EditPlayerFormValues = Pick<
-  DatabasePlayer,
-  'id' | 'nickname' | 'realname' | 'rating'
->;
-
 type FieldProps = {
-  name: keyof EditPlayerFormValues;
+  name: keyof PlayerEditModel;
   CustomInput?: FC<
-    ControllerRenderProps<EditPlayerFormValues, keyof EditPlayerFormValues>
+    ControllerRenderProps<PlayerEditModel, keyof PlayerEditModel>
   >;
-  form: UseFormReturn<EditPlayerFormValues>;
+  form: UseFormReturn<PlayerEditModel>;
   placeholder?: string | undefined;
 };
 
