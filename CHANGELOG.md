@@ -1,3 +1,10 @@
+# [1.0.0-beta.19](https://github.com/sukalov/mktour/compare/v1.0.0-beta.18...v1.0.0-beta.19) (2025-12-02)
+
+
+### Bug Fixes
+
+* validating player schemas ([e014668](https://github.com/sukalov/mktour/commit/e014668c36872dd4becb44f7cbdc902450b9a66e))
+
 # [1.0.0-beta.18](https://github.com/sukalov/mktour/compare/v1.0.0-beta.17...v1.0.0-beta.18) (2025-12-01)
 
 
