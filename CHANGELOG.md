@@ -1,3 +1,11 @@
+# [1.0.0-beta.20](https://github.com/sukalov/mktour/compare/v1.0.0-beta.19...v1.0.0-beta.20) (2025-12-04)
+
+
+### Features
+
+* implement glicko2 rating calculator + tests. integrate it into finish-tournament process ([117edce](https://github.com/sukalov/mktour/commit/117edce1e75547af6520d279fc242adf9242b4c5))
+* update database schemas to add all glicko2 columns for proper rating calculations ([14f38d3](https://github.com/sukalov/mktour/commit/14f38d3d5038c17ab9378452d992040b5ad39776))
+
 # [1.0.0-beta.19](https://github.com/sukalov/mktour/compare/v1.0.0-beta.18...v1.0.0-beta.19) (2025-12-02)
 
 
