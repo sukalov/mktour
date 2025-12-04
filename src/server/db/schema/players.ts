@@ -5,6 +5,7 @@ import { AffiliationStatus } from '@/server/db/zod/enums';
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import {
   integer,
+  real,
   sqliteTable,
   text,
   uniqueIndex,
@@ -20,12 +21,12 @@ export const players = sqliteTable(
     rating: integer('rating').notNull().default(1500),
     ratingPeak: integer('rating_peak').notNull().default(1500),
     ratingDeviation: integer('rating_deviation').notNull().default(350),
-    ratingVolatility: integer('rating_volatility').notNull().default(0.06),
+    ratingVolatility: real('rating_volatility').notNull().default(0.06),
     ratingLastUpdateAt: integer('rating_last_update_at', {
       mode: 'timestamp',
     })
-      .$default(() => new Date())
-      .notNull(),
+      .notNull()
+      .$default(() => new Date()),
     clubId: text('club_id')
       .references(() => clubs.id)
       .notNull(),
