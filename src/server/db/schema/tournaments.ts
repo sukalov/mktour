@@ -7,7 +7,7 @@ import {
   TournamentType,
 } from '@/server/db/zod/enums';
 import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
-import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import { integer, real, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
 export const tournaments = sqliteTable('tournament', {
   id: text('id').primaryKey(),
@@ -56,7 +56,7 @@ export const players_to_tournaments = sqliteTable('players_to_tournaments', {
   pairingNumber: integer('pairing_number'),
   ratingChange: integer('rating_change'),
   ratingDeviationChange: integer('rating_deviation_change'),
-  volatilityChange: integer('volatility_change'),
+  volatilityChange: real('volatility_change'),
 });
 
 export const games = sqliteTable('game', {
