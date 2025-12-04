@@ -34,6 +34,7 @@ import {
   notInArray,
   sql,
 } from 'drizzle-orm';
+import { calculateAndApplyGlickoRatings } from './rating-calculation';
 
 export const createTournament = async (
   values: Omit<NewTournamentFormType, 'date'> & {
@@ -154,7 +155,7 @@ export async function addNewPlayer({
   const playerId = player.id ?? newid();
   await db
     .insert(players)
-    .values({ ...player, lastSeen: new Date(), id: playerId });
+    .values({ ...player, lastSeenAt: new Date(), id: playerId });
   const playerToTournament: InsertDatabasePlayerToTournament = {
     playerId,
     tournamentId,
@@ -166,6 +167,9 @@ export async function addNewPlayer({
     place: null,
     isOut: null,
     pairingNumber: null,
+    ratingChange: null,
+    ratingDeviationChange: null,
+    volatilityChange: null,
   };
   await db.insert(players_to_tournaments).values(playerToTournament);
 }
@@ -197,6 +201,9 @@ export async function addExistingPlayer({
     place: null,
     isOut: null,
     pairingNumber: null,
+    ratingChange: null,
+    ratingDeviationChange: null,
+    volatilityChange: null,
   };
   await db.insert(players_to_tournaments).values(playerToTournament);
 }
@@ -844,6 +851,17 @@ export async function finishTournament({
       ),
   );
   await Promise.all(updates);
+
+  // calculate and apply Glicko-2 ratings if tournament is rated
+  const tournament = await db
+    .select({ rated: tournaments.rated })
+    .from(tournaments)
+    .where(eq(tournaments.id, tournamentId))
+    .then((rows) => rows[0]);
+
+  if (tournament?.rated) {
+    await calculateAndApplyGlickoRatings(tournamentId);
+  }
 }
 
 export async function deleteTournament({
