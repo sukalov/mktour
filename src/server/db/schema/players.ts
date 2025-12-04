@@ -18,11 +18,18 @@ export const players = sqliteTable(
     realname: text('realname'),
     userId: text('user_id').references(() => users.id),
     rating: integer('rating').notNull().default(1500),
-    peakRating: integer('peak_rating').notNull().default(1500),
+    ratingPeak: integer('rating_peak').notNull().default(1500),
+    ratingDeviation: integer('rating_deviation').notNull().default(350),
+    ratingVolatility: integer('rating_volatility').notNull().default(0.06),
+    ratingLastUpdateAt: integer('rating_last_update_at', {
+      mode: 'timestamp',
+    })
+      .$default(() => new Date())
+      .notNull(),
     clubId: text('club_id')
       .references(() => clubs.id)
       .notNull(),
-    lastSeen: integer('last_seen', { mode: 'timestamp' })
+    lastSeenAt: integer('last_seen_at', { mode: 'timestamp' })
       .$default(() => new Date())
       .notNull(), // equals closed_at() last tournament they participated
   },

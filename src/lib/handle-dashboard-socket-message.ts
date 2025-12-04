@@ -79,10 +79,13 @@ export const handleSocketMessage = (
           nickname: removedPlayer.nickname,
           realname: removedPlayer.realname ?? null,
           rating: removedPlayer.rating,
-          peakRating: removedPlayer.rating,
+          ratingPeak: removedPlayer.rating,
           clubId: '',
           userId: null,
-          lastSeen: new Date(),
+          lastSeenAt: new Date(),
+          ratingDeviation: 0,
+          ratingVolatility: 0,
+          ratingLastUpdateAt: new Date(),
         };
         queryClient.setQueryData(
           trpc.tournament.playersOut.queryKey({ tournamentId }),

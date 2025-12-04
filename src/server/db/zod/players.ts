@@ -20,7 +20,7 @@ export const playersInsertSchema = createInsertSchema(players, {
       .max(3000, {
         error: 'max rating',
       }),
-  peakRating: (s) =>
+  ratingPeak: (s) =>
     s
       .min(0, {
         error: 'min peak rating',
@@ -63,9 +63,9 @@ export const playersMinimalSchema = playersSelectSchema.omit({
 export const playerFormSchema = playersInsertSchema
   .omit({
     id: true,
-    lastSeen: true,
+    lastSeenAt: true,
     userId: true,
-    peakRating: true,
+    ratingPeak: true,
   })
   .refine(
     async (data) => {
@@ -96,7 +96,7 @@ export const playerEditSchema = playersUpdateSchema
         error: 'max rating',
       })
       .optional(),
-    peakRating: z
+    ratingPeak: z
       .number()
       .min(0, {
         error: 'min peak rating',
@@ -107,8 +107,9 @@ export const playerEditSchema = playersUpdateSchema
       .optional(),
   })
   .omit({
-    lastSeen: true,
-    peakRating: true,
+    lastSeenAt: true,
+    ratingPeak: true,
+    ratingLastUpdateAt: true,
   });
 
 export const playersToTournamentsSelectSchema = createSelectSchema(
@@ -145,7 +146,7 @@ export const playerStatsSchema = z.object({
     value: z.number(),
     rank: z.number(),
   }),
-  peakRatingRank: z.number(),
+  ratingPeakRank: z.number(),
 });
 
 export const playerAuthStatsSchema = z.object({

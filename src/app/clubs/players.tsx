@@ -54,7 +54,7 @@ const PlayerItem: FC<{ player: DatabasePlayer }> = ({ player }) => {
   // const t = useTranslations();
   // const formatter = useFormatter();
   const { id, nickname, rating } = player;
-  // const lastSeen =
+  // const lastSeenAt =
   //   last_seen && last_seen > 0
   //     ? formatter.relativeTime(last_seen)
   //     : t('Player.never');

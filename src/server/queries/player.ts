@@ -46,7 +46,7 @@ export async function getPlayerStats(
   playerId: string,
 ): Promise<PlayerStatsModel> {
   const player = await db
-    .select({ clubId: players.clubId, peakRating: players.peakRating })
+    .select({ clubId: players.clubId, ratingPeak: players.ratingPeak })
     .from(players)
     .where(eq(players.id, playerId))
     .get();
@@ -56,14 +56,14 @@ export async function getPlayerStats(
       tournamentsPlayed: { value: 0, rank: 0 },
       gamesPlayed: { value: 0, rank: 0 },
       winRate: { value: 0, rank: 0 },
-      peakRatingRank: 0,
+      ratingPeakRank: 0,
     };
 
   // Get stats for all players in the same club
   const clubPlayersStats = await db
     .select({
       playerId: players.id,
-      peakRating: players.peakRating,
+      ratingPeak: players.ratingPeak,
       tournamentsPlayed: count(players_to_tournaments.id),
       wins: sum(players_to_tournaments.wins),
       losses: sum(players_to_tournaments.losses),
@@ -89,7 +89,7 @@ export async function getPlayerStats(
       tournamentsPlayed: p.tournamentsPlayed,
       gamesPlayed,
       winRate,
-      peakRating: p.peakRating,
+      ratingPeak: p.ratingPeak,
     };
   });
 
@@ -102,8 +102,8 @@ export async function getPlayerStats(
   const byWinRate = [...statsWithCalculations].sort(
     (a, b) => b.winRate - a.winRate,
   );
-  const byPeakRating = [...statsWithCalculations].sort(
-    (a, b) => b.peakRating - a.peakRating,
+  const byRatingPeak = [...statsWithCalculations].sort(
+    (a, b) => b.ratingPeak - a.ratingPeak,
   );
 
   const playerStats = statsWithCalculations.find(
@@ -115,7 +115,7 @@ export async function getPlayerStats(
       tournamentsPlayed: { value: 0, rank: 0 },
       gamesPlayed: { value: 0, rank: 0 },
       winRate: { value: 0, rank: 0 },
-      peakRatingRank: 0,
+      ratingPeakRank: 0,
     };
 
   return {
@@ -131,7 +131,7 @@ export async function getPlayerStats(
       value: Math.round(playerStats.winRate * 10000) / 100,
       rank: byWinRate.findIndex((p) => p.playerId === playerId) + 1,
     },
-    peakRatingRank: byPeakRating.findIndex((p) => p.playerId === playerId) + 1,
+    ratingPeakRank: byRatingPeak.findIndex((p) => p.playerId === playerId) + 1,
   };
 }
 

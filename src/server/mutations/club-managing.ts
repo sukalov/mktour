@@ -117,9 +117,9 @@ export const createPlayer = async ({ player }: { player: PlayerFormModel }) => {
       .insert(players)
       .values({
         ...player,
-        lastSeen: new Date(),
+        lastSeenAt: new Date(),
         id: newid(),
-        peakRating: player.rating,
+        ratingPeak: player.rating,
       })
       .returning()
   ).at(0);

@@ -91,7 +91,7 @@
     "Stats": {
       "gamesPlayed": "games played",
       "winRate": "win rate",
-      "peakRating": "peak rating",
+      "ratingPeak": "peak rating",
       "tournaments": "tournaments",
       "bestPlace": "best place",
       "streak": "win streak",
