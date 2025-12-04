@@ -1,3 +1,10 @@
+# [1.0.0-beta.21](https://github.com/sukalov/mktour/compare/v1.0.0-beta.20...v1.0.0-beta.21) (2025-12-04)
+
+
+### Bug Fixes
+
+* change volatilyChange type from integer to real ([4f5a53b](https://github.com/sukalov/mktour/commit/4f5a53bf2717f2d1bad9f20d65ba44f553e0c487))
+
 # [1.0.0-beta.20](https://github.com/sukalov/mktour/compare/v1.0.0-beta.19...v1.0.0-beta.20) (2025-12-04)
 
 
