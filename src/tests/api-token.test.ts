@@ -25,8 +25,15 @@ describe('API Token Auth', () => {
       req: new NextRequest('http://localhost:3000'),
     });
 
-    // @ts-expect-error - injecting user for test
-    ctx.user = { id: userId };
+    ctx.user = {
+      id: userId,
+      name: 'Test User',
+      email: 'test@example.com',
+      username: 'testuser',
+      rating: 1500,
+      createdAt: new Date(),
+      selectedClub: '',
+    };
 
     const caller = appRouter.createCaller(ctx);
     const result = await caller.auth.apiToken.generate({ name: 'Test Token' });
@@ -98,6 +105,6 @@ describe('API Token Auth', () => {
       req: new NextRequest('http://localhost:3000'),
     });
 
-    expect(ctx.user).toBeUndefined();
+    expect(ctx.user).toBeNull();
   });
 });

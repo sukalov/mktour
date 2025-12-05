@@ -12,7 +12,7 @@ const config = {
   authToken: DATABASE_AUTH_TOKEN,
 };
 
-const sqlite = createClient(config);
+export const sqlite = createClient(config);
 
 export const db = drizzle(sqlite, {
   schema: {
