@@ -1,3 +1,10 @@
+# [1.0.0-beta.22](https://github.com/sukalov/mktour/compare/v1.0.0-beta.21...v1.0.0-beta.22) (2025-12-05)
+
+
+### Bug Fixes
+
+* scroll in tournament dashboard ([7bb8ecf](https://github.com/sukalov/mktour/commit/7bb8ecfc8a73733a28edab9ac8fb611cc3937919))
+
 # [1.0.0-beta.21](https://github.com/sukalov/mktour/compare/v1.0.0-beta.20...v1.0.0-beta.21) (2025-12-04)
 
 
