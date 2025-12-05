@@ -15,7 +15,6 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { RemoveScroll } from 'react-remove-scroll';
 
 const CarouselContainer: FC<CarouselProps> = ({
   currentTab,
@@ -39,7 +38,8 @@ const CarouselContainer: FC<CarouselProps> = ({
 
   return (
     <Carousel setApi={setApi} opts={{ loop: false }}>
-      <CarouselContent>
+      {/* calcalating content height to prevent carousel from overflow-y-scroll (screen - nav + controls) */}
+      <CarouselContent className="h-[calc(100dvh-6rem)]">
         {tabs.map((tab) => (
           <CarouselIteratee
             setScrolling={setScrolling}
@@ -69,9 +69,9 @@ const CarouselIteratee: FC<{
 
   return (
     <CarouselItem>
-      <RemoveScroll noIsolation ref={ref} className="overflow-scroll pb-20">
+      <div className="h-full overflow-y-auto">
         <Component />
-      </RemoveScroll>
+      </div>
     </CarouselItem>
   );
 };
