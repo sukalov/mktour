@@ -1,5 +1,7 @@
 #!/usr/bin/env bun
 
+(process.env as Record<string, string>).NODE_ENV = 'test';
+
 import { seedComprehensiveTestData } from '../../server/db/seed';
 import { cleanupTestDb } from './utils';
 

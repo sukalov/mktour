@@ -2,6 +2,18 @@ import { db } from '@/server/db';
 import * as schema from '@/server/db/schema';
 
 export const cleanupTestDb = async () => {
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error(
+      '🚨 CRITICAL: cleanupTestDb cannot run in production! This would wipe the database.',
+    );
+  }
+
+  if (process.env.NODE_ENV !== 'test') {
+    throw new Error(
+      '🚨 CRITICAL: cleanupTestDb can only run with NODE_ENV=test',
+    );
+  }
+
   // cleaning all tables in correct order to handle foreign key constraints
   await db.delete(schema.user_notifications);
   await db.delete(schema.club_notifications);

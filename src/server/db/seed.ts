@@ -5,6 +5,18 @@ import { drizzle } from 'drizzle-orm/libsql';
 import { reset, seed } from 'drizzle-seed';
 
 export const seedComprehensiveTestData = async () => {
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error(
+      '🚨 CRITICAL: seedComprehensiveTestData cannot run in production! This would wipe the database.',
+    );
+  }
+
+  if (process.env.NODE_ENV !== 'test') {
+    throw new Error(
+      '🚨 CRITICAL: seedComprehensiveTestData can only run with NODE_ENV=test',
+    );
+  }
+
   const db = drizzle(sqlite);
 
   await reset(db, schema);
