@@ -1,3 +1,11 @@
+# [1.0.0-beta.24](https://github.com/sukalov/mktour/compare/v1.0.0-beta.23...v1.0.0-beta.24) (2025-12-05)
+
+
+### Bug Fixes
+
+* **?:** remove mktourtest env to return correct database ([0f86879](https://github.com/sukalov/mktour/commit/0f8687911b1034f2ea7e750b5201230e6ea873ce))
+* **?:** remove mktourtest env to return correct database ([22bf2bc](https://github.com/sukalov/mktour/commit/22bf2bcd8ae60bcba5f3d9048918aabc8b9d7761))
+
 # [1.0.0-beta.23](https://github.com/sukalov/mktour/compare/v1.0.0-beta.22...v1.0.0-beta.23) (2025-12-05)
 
 
