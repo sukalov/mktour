@@ -3,8 +3,8 @@
 import { ClubTabProps } from '@/app/clubs/my/tabMap';
 import Empty from '@/components/empty';
 import { useClubPlayers } from '@/components/hooks/query-hooks/use-club-players';
-import useOnReach from '@/components/hooks/use-on-reach';
 import SkeletonList from '@/components/skeleton-list';
+import Paginator from '@/components/ui-custom/paginator';
 import { Card } from '@/components/ui/card';
 import { DatabasePlayer } from '@/server/db/schema/players';
 import { useTranslations } from 'next-intl';
@@ -14,11 +14,6 @@ import { FC } from 'react';
 const ClubPlayersList: FC<ClubTabProps> = ({ selectedClub }) => {
   const { fetchNextPage, ...players } = useClubPlayers(selectedClub);
   const t = useTranslations('Empty');
-  const triggerRef = useOnReach(() => {
-    if (players.hasNextPage && !players.isFetchingNextPage) {
-      fetchNextPage();
-    }
-  });
   const playersData = players.data?.pages.flatMap((page) => page.players) ?? [];
 
   if (players.status === 'pending' || players.status === 'error')
@@ -30,18 +25,11 @@ const ClubPlayersList: FC<ClubTabProps> = ({ selectedClub }) => {
   return (
     <div className="mk-list">
       <div className="mk-list">{playersData.map(PlayerItemIteratee)}</div>
-      <div>
-        <div
-          ref={triggerRef}
-          className="h-0 w-full -translate-y-[calc(var(--spacing-mk-card-height)+calc((var(--spacing-mk)*2)))]"
-        />
-
-        {players.isFetchingNextPage && (
-          <div className="-mt-18">
-            <SkeletonList length={3} className="h-14 rounded-xl" />
-          </div>
-        )}
-      </div>
+      <Paginator
+        hasNextPage={players.hasNextPage}
+        isFetchingNextPage={players.isFetchingNextPage}
+        fetchNextPage={fetchNextPage}
+      />
     </div>
   );
 };
