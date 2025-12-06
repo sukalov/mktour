@@ -13,8 +13,8 @@ export const CLUB_DASHBOARD_NAVBAR_ITEMS: Record<string, SubNavbarItem> = {
     path: 'tournaments',
     logo: Flag,
   },
-  inbox: {
-    path: 'inbox',
+  notifications: {
+    path: 'notifications',
     logo: Mail,
   },
   settings: {

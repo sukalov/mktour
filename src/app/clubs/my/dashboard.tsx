@@ -75,6 +75,6 @@ const fabTabMap: Record<ClubDashboardTab, ReactNode | undefined> = {
   players: <AddPlayerDrawer />,
   tournaments: undefined,
   main: undefined,
-  inbox: undefined,
+  notifications: undefined,
   settings: undefined,
 };

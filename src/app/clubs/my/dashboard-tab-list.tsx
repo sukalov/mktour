@@ -67,7 +67,7 @@ const TabContent: FC<{
   if (!item || !item.logo) return tab;
 
   const Icon: LucideIcon = item.logo;
-  const shouldShowBadge = hasNewNotifications && tab === 'inbox';
+  const shouldShowBadge = hasNewNotifications && tab === 'notifications';
 
   return (
     <div className="gap-mk relative flex w-fit items-center">

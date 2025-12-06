@@ -56,7 +56,7 @@ export default function AuthButton({ user }: AuthButtonProps) {
             <Link href={path} key={title}>
               <StyledItem className="w-full">
                 <div className="relative">{t(`Subs.${title}`)}</div>
-                {title === 'inbox' && !!notificationsCounter && (
+                {title === 'notifications' && !!notificationsCounter && (
                   <BadgeWithCount count={notificationsCounter} />
                 )}
               </StyledItem>
@@ -96,8 +96,8 @@ const menuItems: MenuItems = [
     path: '/user',
   },
   {
-    title: 'inbox',
-    path: '/inbox',
+    title: 'notifications',
+    path: '/notifications',
   },
   {
     title: 'settings',

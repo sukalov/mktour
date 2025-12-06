@@ -1,7 +1,7 @@
 'use client';
 
-import ClubInbox from '@/app/clubs/my/(tabs)/inbox';
 import ClubMain from '@/app/clubs/my/(tabs)/main';
+import ClubInbox from '@/app/clubs/my/(tabs)/notifications';
 import ClubSettings from '@/app/clubs/my/(tabs)/settings';
 import ClubPlayersList from '@/app/clubs/players';
 import ClubDashboardTournaments from '@/app/clubs/tournaments';
@@ -12,7 +12,7 @@ export const tabMap: Record<ClubDashboardTab, FC<ClubTabProps>> = {
   main: ClubMain,
   players: ClubPlayersList,
   tournaments: ClubDashboardTournaments,
-  inbox: ClubInbox,
+  notifications: ClubInbox,
   settings: ClubSettings,
 };
 
@@ -20,7 +20,7 @@ export type ClubDashboardTab =
   | 'main'
   | 'players'
   | 'tournaments'
-  | 'inbox'
+  | 'notifications'
   | 'settings';
 
 export type ClubTabProps = {

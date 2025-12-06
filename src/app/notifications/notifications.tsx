@@ -43,12 +43,12 @@ const UserNotifications = () => {
       </div>
     );
   if (!notifications?.pages[0].notifications.length)
-    return <Empty messageId="inbox" />;
+    return <Empty messageId="notifications" />;
   return (
     <div className="mk-container mk-list">
       <div className="px-mk-2 text-muted-foreground flex h-8 items-center justify-between text-sm">
         <span>
-          <FormattedMessage id="Menu.Subs.inbox" />
+          <FormattedMessage id="Menu.Subs.notifications" />
         </span>
         {!!count && (
           <Button
@@ -57,7 +57,7 @@ const UserNotifications = () => {
             className="gap-mk flex text-xs"
             size="sm"
           >
-            <FormattedMessage id="Club.Inbox.mark all as read" />
+            <FormattedMessage id="Club.Notifications.mark all as read" />
             <Eye className="mr-0.5" />
           </Button>
         )}

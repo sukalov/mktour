@@ -43,7 +43,7 @@
       "contact": "contact",
       "profile": "my profile",
       "settings": "settings",
-      "inbox": "inbox",
+      "notifications": "notifications",
       "Descriptions": {
         "all clubs": "explore clubs and their events, join new communities",
         "new club": "create new chess club right here",
@@ -61,7 +61,7 @@
     "dashboard": "no data",
     "user": "user not found",
     "no data": "no data",
-    "inbox": "no notifications"
+    "notifications": "no notifications"
   },
   "Profile": {
     "rating": "lichess blitz rating",
@@ -167,7 +167,7 @@
       "main": "main",
       "players": "players",
       "tournaments": "tournaments",
-      "inbox": "inbox",
+      "notifications": "notifications",
       "settings": "settings",
       "danger zone": "danger zone",
       "leave club": "leave club"
@@ -178,7 +178,7 @@
       "createdAt": "created: {date}",
       "tournaments": "club tournaments:"
     },
-    "Inbox": {
+    "Notifications": {
       "loading": "loading...",
       "empty": "claims to moderate tournaments, to link players to users and other club related notifications",
       "affiliation": "affiliation request",
@@ -388,7 +388,7 @@
     "tournaments": "tournaments",
     "players": "players",
     "sign out": "sign out",
-    "inbox": "inbox",
+    "notifications": "notifications",
     "lichess team": "find us at lichess",
     "my clubs": "my clubs",
     "my tournaments": "my tournaments",

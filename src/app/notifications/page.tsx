@@ -1,4 +1,4 @@
-import UserNotifications from '@/app/inbox/notifications';
+import UserNotifications from '@/app/notifications/notifications';
 import Loading from '@/app/loading';
 import { getQueryClient, trpc } from '@/components/trpc/server';
 import { connection } from 'next/server';

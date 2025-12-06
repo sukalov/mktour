@@ -58,8 +58,8 @@ export default function GlobalSearch({ user }: { user: User | null }) {
       href: '/user/edit',
     },
     {
-      title: t('inbox'),
-      href: '/inbox',
+      title: t('notifications'),
+      href: '/notifications',
     },
     {
       title: t('lichess team'),
