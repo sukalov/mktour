@@ -1,3 +1,11 @@
+# [1.0.0-beta.26](https://github.com/sukalov/mktour/compare/v1.0.0-beta.25...v1.0.0-beta.26) (2025-12-06)
+
+
+### Bug Fixes
+
+* forward to page 404 if user not found. (page `user/[username]`) ([663cb20](https://github.com/sukalov/mktour/commit/663cb202383bbd5e6a3c72b788b7f05eddf45a4c))
+* userpage. keyprop must be at first child of a map ([f71535d](https://github.com/sukalov/mktour/commit/f71535da6770104541d427ef8e0d227a3ad73563))
+
 # [1.0.0-beta.25](https://github.com/sukalov/mktour/compare/v1.0.0-beta.24...v1.0.0-beta.25) (2025-12-06)
 
 
