@@ -1,15 +1,15 @@
 #!/usr/bin/env bun
 
 (process.env as Record<string, string>).NODE_ENV = 'test';
-
-import { seedComprehensiveTestData } from '../../server/db/seed';
-import { cleanupTestDb } from './utils';
+(process.env as Record<string, string>).MKTOURTEST = 'true';
 
 async function runSeededTests() {
+  const { seedComprehensiveTestData } = await import('../../server/db/seed');
+  const { cleanupTestDb, getSeededTestData } = await import('./utils');
+
   console.log('setting up test database...');
 
   try {
-    // Seed the database
     console.log('cleaning up test database...');
     await cleanupTestDb();
     console.log('🧹 test database cleaned up');
@@ -18,12 +18,17 @@ async function runSeededTests() {
     await seedComprehensiveTestData();
     console.log('🌱 test database seeded');
 
-    // Run the actual tests
+    const data = await getSeededTestData();
+    console.log(
+      `📊 seeded ${data.users.length} users, ${data.clubs.length} clubs, ${data.players.length} players`,
+    );
+
     console.log('running tests...');
     Bun.spawn(
       ['bun', '--env-file=.env.local', 'test', ...process.argv.slice(3)],
       {
-        env: { ...process.env, NODE_ENV: 'test' },
+        stdio: ['inherit', 'inherit', 'inherit'],
+        env: { ...process.env, NODE_ENV: 'test', MKTOURTEST: 'true' },
         onExit: (_, code) => {
           process.exit(code || 0);
         },

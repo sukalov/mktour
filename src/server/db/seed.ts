@@ -4,18 +4,26 @@ import { and, eq, notInArray } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/libsql';
 import { reset, seed } from 'drizzle-seed';
 
-export const seedComprehensiveTestData = async () => {
-  if (process.env.NODE_ENV === 'production') {
+const verifyTestDatabase = () => {
+  const dbUrl = process.env.TEST_DATABASE_URL ?? process.env.DATABASE_URL ?? '';
+  const isTestEnv = process.env.NODE_ENV === 'test';
+  const isTestUrl = dbUrl.toLowerCase().includes('test');
+
+  if (!isTestEnv) {
     throw new Error(
-      '🚨 CRITICAL: seedComprehensiveTestData cannot run in production! This would wipe the database.',
+      `🚨 CRITICAL: seedComprehensiveTestData requires NODE_ENV=test (current: ${process.env.NODE_ENV})`,
     );
   }
 
-  if (process.env.NODE_ENV !== 'test') {
+  if (!isTestUrl) {
     throw new Error(
-      '🚨 CRITICAL: seedComprehensiveTestData can only run with NODE_ENV=test',
+      `🚨 CRITICAL: Database URL does not appear to be a test database. URL must contain "test". Got: ${dbUrl.substring(0, 50)}...`,
     );
   }
+};
+
+export const seedComprehensiveTestData = async () => {
+  verifyTestDatabase();
 
   const db = drizzle(sqlite);
 
@@ -89,6 +97,15 @@ export const seedComprehensiveTestData = async () => {
       },
     },
   }));
+
+  const clubUserRelations = await db.select().from(schema.clubs_to_users);
+
+  for (const relation of clubUserRelations) {
+    await db
+      .update(schema.users)
+      .set({ selectedClub: relation.clubId })
+      .where(eq(schema.users.id, relation.userId));
+  }
 
   const usersWithValidSelectedClub = db
     .select({ id: schema.users.id })
