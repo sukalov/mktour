@@ -25,8 +25,7 @@
     "generate-erd": "bun run src/lib/generate-erd.ts",
     "prepare": "husky",
     "generate-openapi": "bun run src/server/api/generateOpenApi.ts > src/app/api/spec/openapi-spec.json",
-    "test": "bun run src/tests/setup/run-seeded-tests.ts",
-    "check": "bunx tsc --noEmit && bun lint && bun run test"
+    "check": "bunx tsc --noEmit && bun lint && bun test"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
