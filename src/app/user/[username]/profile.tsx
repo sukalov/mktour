@@ -155,9 +155,9 @@ const ClubList: FC<ClubListProps> = ({ clubs, isPending }) => {
       <CardContent className="pt-0">
         <ul className="flex flex-col">
           {clubs.map((club, index) => (
-            <>
+            <div key={club.id}>
               {index > 0 && <Separator />}
-              <li key={club.id} className="py-1">
+              <li className="py-1">
                 <Link
                   href={`/clubs/${club.id}`}
                   className="hover:bg-muted/50 -mx-2 flex items-center justify-between rounded-lg px-2 py-3 transition-colors"
@@ -166,7 +166,7 @@ const ClubList: FC<ClubListProps> = ({ clubs, isPending }) => {
                   {/* <ChevronRight className="text-muted-foreground size-4" /> */}
                 </Link>
               </li>
-            </>
+            </div>
           ))}
         </ul>
       </CardContent>
