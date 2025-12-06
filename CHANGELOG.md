@@ -1,3 +1,10 @@
+# [1.0.0-beta.25](https://github.com/sukalov/mktour/compare/v1.0.0-beta.24...v1.0.0-beta.25) (2025-12-06)
+
+
+### Bug Fixes
+
+* database migration flow ([b934839](https://github.com/sukalov/mktour/commit/b934839148438e8b7f63b5a222fb38556bff46ff))
+
 # [1.0.0-beta.24](https://github.com/sukalov/mktour/compare/v1.0.0-beta.23...v1.0.0-beta.24) (2025-12-05)
 
 
