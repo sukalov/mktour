@@ -18,13 +18,14 @@ export default defineConfig([
     extends: compat.extends('next/core-web-vitals', 'prettier'),
 
     rules: {
-      'no-unused-vars': [
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': [
         'error',
         {
           vars: 'all',
           args: 'all',
           ignoreRestSiblings: true,
-          argsIgnorePattern: '_',
+          argsIgnorePattern: '^_',
         },
       ],
     },
