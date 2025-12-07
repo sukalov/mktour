@@ -27,7 +27,6 @@ export default async function TournamentPage(props: TournamentPageProps) {
   const status = await publicCaller.tournament.authStatus({
     tournamentId: params.id,
   });
-  console.log(status);
 
   return (
     <HydrationBoundary state={dehydrate(tournamentQueryClient)}>

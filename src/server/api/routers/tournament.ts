@@ -1,4 +1,5 @@
 import { validateRequest } from '@/lib/auth/lucia';
+import { CACHE_TAGS } from '@/lib/cache-tags';
 import {
   protectedProcedure,
   publicProcedure,
@@ -24,11 +25,13 @@ import {
   saveRound,
   setTournamentGameResult,
   startTournament,
+  updateSwissRoundsNumber,
 } from '@/server/mutations/tournament-managing';
 import getAllTournaments from '@/server/queries/get-all-tournaments';
 import { getStatusInTournament } from '@/server/queries/get-status-in-tournament';
-import { PlayerModel } from '@/types/tournaments';
+import { PlayerModel, TournamentFormat } from '@/types/tournaments';
 import { eq, sql } from 'drizzle-orm';
+import { revalidateTag } from 'next/cache';
 import { z } from 'zod';
 
 export const tournamentRouter = {
@@ -221,7 +224,8 @@ export const tournamentRouter = {
       z.object({
         tournamentId: z.string(),
         started_at: z.date(),
-        rounds_number: z.number(),
+        format: z.custom<TournamentFormat>(),
+        rounds_number: z.number().nullable(),
       }),
     )
     .mutation(async (opts) => {
@@ -268,6 +272,7 @@ export const tournamentRouter = {
     .mutation(async (opts) => {
       const { input } = opts;
       await deleteTournament(input);
+      revalidateTag(CACHE_TAGS.ALL_TOURNAMENTS);
     }),
   authStatus: publicProcedure
     .input(z.object({ tournamentId: z.string() }))
@@ -275,5 +280,16 @@ export const tournamentRouter = {
       const { user } = await validateRequest();
       if (!user) return 'viewer';
       return await getStatusInTournament(user.id, opts.input.tournamentId);
+    }),
+  updateSwissRoundsNumber: tournamentAdminProcedure
+    .input(
+      z.object({
+        tournamentId: z.string(),
+        roundsNumber: z.number(),
+      }),
+    )
+    .mutation(async (opts) => {
+      const { input } = opts;
+      await updateSwissRoundsNumber(input);
     }),
 };

@@ -10,7 +10,7 @@ type DashboardMessage =
       result: Result;
       roundNumber: number;
     }
-  | { type: 'start-tournament'; started_at: Date; rounds_number: number }
+  | { type: 'start-tournament'; started_at: Date }
   | { type: 'reset-tournament' }
   | {
       type: 'new-round';
@@ -20,6 +20,7 @@ type DashboardMessage =
     }
   | { type: 'finish-tournament'; closed_at: Date }
   | { type: 'delete-tournament' }
+  | { type: 'swiss-new-rounds-number'; roundsNumber: number }
   | ErrorMessage;
 
 type ErrorMessage = {

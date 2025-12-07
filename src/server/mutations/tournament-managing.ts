@@ -1,6 +1,7 @@
 'use server';
 
 import { validateRequest } from '@/lib/auth/lucia';
+import { CACHE_TAGS } from '@/lib/cache-tags';
 import { newid } from '@/lib/utils';
 import { NewTournamentFormType } from '@/lib/zod/new-tournament-form';
 import { db } from '@/server/db';
@@ -22,6 +23,7 @@ import {
   GameModel,
   PlayerModel,
   Result,
+  TournamentFormat,
   TournamentInfo,
 } from '@/types/tournaments';
 import {
@@ -34,6 +36,7 @@ import {
   notInArray,
   sql,
 } from 'drizzle-orm';
+import { revalidateTag } from 'next/cache';
 import { permanentRedirect } from 'next/navigation';
 
 export const createTournament = async (
@@ -58,6 +61,7 @@ export const createTournament = async (
   } catch (e) {
     throw new Error(`tournament has NOT been saved, ${e}`);
   }
+  revalidateTag(CACHE_TAGS.ALL_TOURNAMENTS);
   permanentRedirect(`/tournaments/${newTournamentID}`);
 };
 
@@ -394,21 +398,24 @@ export async function saveRound({
 export async function startTournament({
   tournamentId,
   started_at,
+  format,
   rounds_number,
-}: {
+}: Pick<DatabaseTournament, 'format' | 'rounds_number' | 'started_at'> & {
   tournamentId: string;
-  started_at: Date;
-  rounds_number: number;
 }) {
   const { user } = await validateRequest();
   if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   const status = await getStatusInTournament(user.id, tournamentId);
   if (status === 'viewer') throw new Error('NOT_ADMIN');
 
+  const roundsNumber = !rounds_number
+    ? await getRoundsNumber(tournamentId, format)
+    : rounds_number;
+
   await Promise.all([
     db
       .update(tournaments)
-      .set({ started_at, rounds_number })
+      .set({ started_at, rounds_number: roundsNumber })
       .where(
         and(eq(tournaments.id, tournamentId), isNull(tournaments.started_at)),
       )
@@ -978,11 +985,7 @@ async function updatePairingNumbers(tournamentId: string) {
       ),
     );
   if (oddPlayerId.length === 1) {
-    playerIds.splice(
-      Math.floor(playerIds.length / 2),
-      0,
-      oddPlayerId[0].player_id,
-    );
+    playerIds.unshift(oddPlayerId[0].player_id);
   }
 
   const promises = playerIds.map((playerId, i) => {
@@ -998,4 +1001,27 @@ async function updatePairingNumbers(tournamentId: string) {
   });
 
   await Promise.all(promises);
+}
+
+async function getRoundsNumber(
+  tournamentId: string,
+  tournamentFormat: TournamentFormat,
+) {
+  if (tournamentFormat === 'round robin') {
+    const players = await getTournamentPlayers(tournamentId);
+    return players.length - 1;
+  }
+}
+
+export async function updateSwissRoundsNumber({
+  tournamentId,
+  roundsNumber,
+}: {
+  tournamentId: string;
+  roundsNumber: number;
+}) {
+  await db
+    .update(tournaments)
+    .set({ rounds_number: roundsNumber })
+    .where(eq(tournaments.id, tournamentId));
 }

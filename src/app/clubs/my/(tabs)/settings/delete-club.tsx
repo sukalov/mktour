@@ -2,6 +2,7 @@
 
 import DeleteConfirmationForm from '@/app/clubs/my/(tabs)/settings/delete-form';
 import { LoadingSpinner } from '@/app/loading';
+import { useClubManagers } from '@/components/hooks/query-hooks/use-club-managers';
 import { useTRPC } from '@/components/trpc/client';
 import { Button } from '@/components/ui/button';
 import ComboModal from '@/components/ui/combo-modal';
@@ -18,6 +19,15 @@ export default function ClubDelete({ id, userId }: ClubDeleteProps) {
   const deleting = useIsMutating({
     mutationKey: trpc.club.delete.mutationKey(),
   });
+  const { data } = useClubManagers(id);
+
+  if (
+    data?.some(
+      ({ clubs_to_users: { user_id, status } }) =>
+        user_id === userId && status !== 'co-owner',
+    )
+  )
+    return null;
 
   return (
     <ComboModal.Root open={open} onOpenChange={setOpen}>

@@ -2,13 +2,13 @@ import { useClubAddManagerMutation } from '@/components/hooks/mutation-hooks/use
 import { useClubAffiliatedUsers } from '@/components/hooks/query-hooks/use-club-affiliated-users';
 import { useClubManagers } from '@/components/hooks/query-hooks/use-club-managers';
 import { useSearchQuery } from '@/components/hooks/query-hooks/use-search-result';
-import { Button } from '@/components/ui/button';
+import { Button, ButtonProps } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 import { DatabaseUser } from '@/server/db/schema/users';
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
+import { FC, PropsWithChildren, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { toast } from 'sonner';
 
@@ -59,61 +59,81 @@ const AddManager = ({
   return (
     <div className="flex flex-col">
       {users.length === 0 && debouncedValue === '' && (
-        <p className="text-muted-foreground px-8 pt-8 text-center text-sm text-balance">
+        <p className="text-muted-foreground p-4 text-center text-sm text-balance">
           {t('no affiliated users')}
         </p>
       )}
       <ScrollArea className="rounded-2 h-[calc(100dvh-6rem)] w-full rounded-b-md">
         <Table>
           <TableBody>
-            {users?.map((user) => (
-              <>
-                {!managers.data?.some(
-                  (manager) => manager.user.id === user.id,
-                ) && (
-                  <TableRow key={user.id} className="p-0">
-                    {promotingUser && promotingUser.id === user.id ? (
-                      <TableCell className="grid grid-cols-3 gap-1.5 p-1.5">
-                        <Button
+            {users
+              ?.filter(
+                (user) =>
+                  !managers.data?.some(
+                    (manager) => manager.user.id === user.id,
+                  ),
+              )
+              .map((user) => (
+                <TableRow
+                  key={user.id}
+                  className="flex flex-col gap-2 rounded-md p-0"
+                >
+                  <TableCell
+                    className={`relative flex max-h-min cursor-pointer flex-col`}
+                    onClick={() =>
+                      setPromotingUser(
+                        promotingUser?.id === user.id ? undefined : user,
+                      )
+                    }
+                  >
+                    <p className="line-clamp-2 break-all">{user.username}</p>
+                    <div
+                      className={`${promotingUser?.id === user.id ? `max-h-300` : 'max-h-0'} overflow-hidden transition-all duration-300 ease-in-out`}
+                    >
+                      <div className="h-2 w-full" />
+                      <div className="flex flex-wrap gap-2">
+                        <ActionButton
                           disabled={isPending}
-                          onClick={() =>
-                            mutate({ clubId, userId: user.id, status: 'admin' })
-                          }
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            mutate({
+                              clubId,
+                              userId: user.id,
+                              status: 'admin',
+                            });
+                          }}
                         >
                           {t('make admin')}
-                        </Button>
-                        <Button
+                        </ActionButton>
+                        <ActionButton
                           disabled={isPending}
                           variant="destructive"
-                          onClick={() =>
+                          onClick={(event) => {
+                            event.stopPropagation();
                             mutate({
                               clubId,
                               userId: user.id,
                               status: 'co-owner',
-                            })
-                          }
+                            });
+                          }}
                         >
                           {t('make co-owner')}
-                        </Button>
-                        <Button
+                        </ActionButton>
+                        <ActionButton
                           disabled={isPending}
-                          variant="secondary"
-                          onClick={() => setPromotingUser(undefined)}
+                          variant="outline"
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            setPromotingUser(undefined);
+                          }}
                         >
                           {t('cancel')}
-                        </Button>
-                      </TableCell>
-                    ) : (
-                      <TableCell onClick={() => setPromotingUser(user)}>
-                        <p className="line-clamp-2 break-all">
-                          {user.username}
-                        </p>{' '}
-                      </TableCell>
-                    )}
-                  </TableRow>
-                )}
-              </>
-            ))}
+                        </ActionButton>
+                      </div>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
         <div className="h-24 w-full grow" />
@@ -121,5 +141,14 @@ const AddManager = ({
     </div>
   );
 };
+
+const ActionButton: FC<ButtonProps & PropsWithChildren> = ({
+  children,
+  ...props
+}) => (
+  <Button className="min-w-30 flex-1" size="sm" {...props}>
+    <div className="text-xs">{children}</div>
+  </Button>
+);
 
 export default AddManager;

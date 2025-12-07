@@ -1,9 +1,11 @@
+import Loading from '@/app/loading';
 import ClaimPlayer from '@/app/player/[id]/claim-button';
-import DeletePlayer from '@/app/player/[id]/delete-button';
 import EditButton from '@/app/player/[id]/edit-button';
+import FullName from '@/app/player/[id]/fullname';
+import LastTournaments from '@/app/player/[id]/last-tournaments';
 import FormattedMessage from '@/components/formatted-message';
-import { makeProtectedCaller, publicCaller } from '@/server/api';
-import { DatabasePlayer } from '@/server/db/schema/players';
+import { Card } from '@/components/ui/card';
+import { publicCaller } from '@/server/api';
 import { DatabaseUser } from '@/server/db/schema/users';
 import { User2 } from 'lucide-react';
 import Link from 'next/link';
@@ -12,7 +14,7 @@ import { FC, Suspense } from 'react';
 
 export default async function PlayerPage(props: PlayerPageProps) {
   return (
-    <Suspense fallback={<p>loading player page...</p>}>
+    <Suspense fallback={<Loading />}>
       <PlayerPageContent {...props} />
     </Suspense>
   );
@@ -26,15 +28,14 @@ async function PlayerPageContent(props: PlayerPageProps) {
   ]);
   if (!playerData) notFound();
   const { player, club, user: playerUser } = playerData;
-  const protectedCaller = await makeProtectedCaller();
-  const [userAffiliation, status] = await Promise.all([
-    user
-      ? protectedCaller.club.authAffiliation({
-          clubId: club.id,
-        })
-      : undefined,
-    publicCaller.club.authStatus({ clubId: club.id }),
-  ]);
+  const status = await publicCaller.club.authStatus({
+    clubId: club.id,
+    userId: user?.id || '',
+  });
+  const playerLastTournaments =
+    await publicCaller.player.playersLastTournaments({
+      playerId: player.id,
+    });
 
   const isOwnPlayer = user && player.user_id === user.id;
   const canEdit = status || isOwnPlayer;
@@ -42,9 +43,9 @@ async function PlayerPageContent(props: PlayerPageProps) {
 
   return (
     <div className="mk-container flex w-full flex-col gap-2">
-      <div className="flex w-full items-center justify-between border-b-2 pb-2 pl-2">
+      <div className="pl-mk flex w-full items-center justify-between">
         <div className="flex flex-col">
-          <span className="truncate text-2xl font-semibold text-wrap">
+          <span className="truncate text-xl font-semibold text-wrap">
             {player.nickname}
           </span>
           <UserLink user={playerUser} />
@@ -52,24 +53,13 @@ async function PlayerPageContent(props: PlayerPageProps) {
         {user && (
           <div className="text-muted-foreground flex self-end">
             {canEdit && (
-              <>
-                <EditButton userId={user.id} player={player} />
-                {!isOwnPlayer && (
-                  <DeletePlayer userId={user.id} clubId={club.id} />
-                )}
-              </>
+              <EditButton userId={user.id} player={player} status={status} />
             )}
-            {canClaim && (
-              <ClaimPlayer
-                userId={user.id}
-                clubId={club.id}
-                userAffiliation={userAffiliation}
-              />
-            )}
+            {canClaim && <ClaimPlayer userId={user.id} clubId={club.id} />}
           </div>
         )}
       </div>
-      <div className="flex flex-col gap-2 pl-2 text-sm">
+      <Card className="mk-card flex flex-col gap-2 text-sm">
         <FullName player={player} user={playerUser} />
         <span>
           <FormattedMessage id="Player.rating" />
@@ -96,18 +86,11 @@ async function PlayerPageContent(props: PlayerPageProps) {
             </Link>
           </p>
         )}
-      </div>
+      </Card>
+      <LastTournaments tournaments={playerLastTournaments} />
     </div>
   );
 }
-
-const FullName: FC<{ player: DatabasePlayer; user: DatabaseUser | null }> = ({
-  player,
-  user,
-}) => {
-  if (!player.realname && !user?.name) return null;
-  return <span className="font-semibold">{user?.name || player.realname}</span>;
-};
 
 const UserLink: FC<{ user: DatabaseUser | null }> = ({ user }) => {
   if (!user) return null;

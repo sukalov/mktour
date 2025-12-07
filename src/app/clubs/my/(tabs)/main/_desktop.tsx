@@ -6,7 +6,7 @@ import { Card } from '@/components/ui/card';
 import { DatabaseClub } from '@/server/db/schema/clubs';
 import { CalendarDays, Info } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
-import { FC } from 'react';
+import { FC, PropsWithChildren } from 'react';
 
 const Desktop: FC<ClubTabProps & { club: DatabaseClub }> = ({
   selectedClub,
@@ -21,10 +21,10 @@ const Desktop: FC<ClubTabProps & { club: DatabaseClub }> = ({
 
   return (
     <div>
-      <div className="grid h-full gap-8 p-2 pt-2 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid h-full w-full grid-cols-1 gap-8">
         <div>
-          <h1 className="mb-2">{t('main')}</h1>
-          <Card className="items-left mx-auto flex max-w-[min(640px,100%)] flex-col gap-8 p-4">
+          <BlockTitle>{t('main')}</BlockTitle>
+          <Card className="items-left flex max-w-[min(640px,100%)] flex-col gap-8 p-4">
             {club.description && (
               <InfoItem icon={Info} value={club.description} />
             )}
@@ -32,18 +32,20 @@ const Desktop: FC<ClubTabProps & { club: DatabaseClub }> = ({
           </Card>
         </div>
         <div>
-          <h1 className="mb-2">{t('inbox')}</h1>
-          <Card className="p-4">
-            <ClubInbox selectedClub={selectedClub} />
-          </Card>
+          <BlockTitle>{t('inbox')}</BlockTitle>
+          <ClubInbox selectedClub={selectedClub} />
         </div>
         <div>
-          <h1 className="mb-2">{t('settings')}</h1>
+          <BlockTitle>{t('settings')}</BlockTitle>
           <ClubSettings selectedClub={selectedClub} userId={userId} />
         </div>
       </div>
     </div>
   );
 };
+
+const BlockTitle: FC<PropsWithChildren> = ({ children }) => (
+  <h1 className="mb-2 pl-3">{children}</h1>
+);
 
 export default Desktop;

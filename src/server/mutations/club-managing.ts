@@ -5,16 +5,21 @@ import { newid } from '@/lib/utils';
 import { NewClubFormType } from '@/lib/zod/new-club-form';
 import { db } from '@/server/db';
 import {
-  DatabaseClub,
-  DatabaseClubsToUsers,
   clubs,
   clubs_to_users,
+  DatabaseClub,
+  DatabaseClubsToUsers,
 } from '@/server/db/schema/clubs';
 import {
+  club_notifications,
   InsertDatabaseUserNotification,
   user_notifications,
 } from '@/server/db/schema/notifications';
-import { DatabasePlayer, players } from '@/server/db/schema/players';
+import {
+  affiliations,
+  DatabasePlayer,
+  players,
+} from '@/server/db/schema/players';
 import {
   games,
   players_to_tournaments,
@@ -22,7 +27,7 @@ import {
 } from '@/server/db/schema/tournaments';
 import { DatabaseUser, users } from '@/server/db/schema/users';
 import getStatusInClub from '@/server/queries/get-status-in-club';
-import { and, eq, ne } from 'drizzle-orm';
+import { and, eq, gt, ne } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 
 export const createClub = async (values: NewClubFormType) => {
@@ -57,8 +62,32 @@ export const getClubInfo = async (id: DatabaseClub['id']) => {
   return data;
 };
 
-export const getClubPlayers = async (id: DatabasePlayer['club_id']) => {
-  return await db.select().from(players).where(eq(players.club_id, id));
+export const getClubPlayers = async (
+  clubId: DatabasePlayer['club_id'],
+  limit: number,
+  cursor?: string | null,
+): Promise<{ players: DatabasePlayer[]; nextCursor: string | null }> => {
+  const conditions = [eq(players.club_id, clubId)];
+  if (cursor) {
+    conditions.push(gt(players.id, cursor));
+  }
+  const result = await db
+    .select()
+    .from(players)
+    .where(and(...conditions))
+    .orderBy(players.last_seen, players.id)
+    .limit(limit + 1);
+
+  let nextCursor: string | null = null;
+  if (result.length > limit) {
+    const next = result.pop(); // remove the extra item
+    nextCursor = next ? next.id : null;
+  }
+
+  return {
+    players: result,
+    nextCursor,
+  };
 };
 
 export const editClub = async ({ clubId, userId, values }: ClubEditProps) => {
@@ -111,6 +140,16 @@ export const deletePlayer = async ({
     clubId: playerClub.club_id,
   });
   if (!status) throw new Error('NOT_ADMIN');
+  const [playerTournament] = await db
+    .select({ tournament_id: players_to_tournaments.tournament_id })
+    .from(players_to_tournaments)
+    .where(eq(players_to_tournaments.player_id, playerId))
+    .limit(1);
+
+  if (playerTournament) {
+    throw new Error('PLAYER_HAS_TOURNAMENTS');
+  }
+
   await db.transaction(async (tx) => {
     await tx.delete(players).where(eq(players.id, playerId));
   });
@@ -157,7 +196,7 @@ export type ClubManager = {
 export const deleteClubFunction = async ({
   clubId,
   userId,
-  userDeletion = false,
+  userDeletion = false, // true when function is invoked while deleting the user - single owner of a club
 }: ClubDeleteProps) => {
   const otherClubs = await db
     .select()
@@ -181,35 +220,38 @@ export const deleteClubFunction = async ({
       .set({ selected_club: otherClubs[0].club_id })
       .where(eq(users.id, userId));
   }
-
-  await db.transaction(async (tx) => {
-    await tx
+  await db.batch([
+    db
       .delete(games)
       .where(
         eq(
           games.tournament_id,
-          tx
+          db
             .select({ id: tournaments.id })
             .from(tournaments)
             .where(eq(tournaments.club_id, clubId)),
         ),
-      );
-    await tx
+      ),
+    db
       .delete(players_to_tournaments)
       .where(
         eq(
           players_to_tournaments.tournament_id,
-          tx
+          db
             .select({ id: tournaments.id })
             .from(tournaments)
             .where(eq(tournaments.club_id, clubId)),
         ),
-      );
-    await tx.delete(players).where(eq(players.club_id, clubId));
-    await tx.delete(tournaments).where(eq(tournaments.club_id, clubId));
-    await tx.delete(clubs_to_users).where(eq(clubs_to_users.club_id, clubId));
-    await tx.delete(clubs).where(eq(clubs.id, clubId));
-  });
+      ),
+
+    db.delete(affiliations).where(eq(affiliations.club_id, clubId)),
+    db.delete(club_notifications).where(eq(club_notifications.club_id, clubId)),
+    db.delete(players).where(eq(players.club_id, clubId)),
+    db.delete(tournaments).where(eq(tournaments.club_id, clubId)),
+    db.delete(clubs_to_users).where(eq(clubs_to_users.club_id, clubId)),
+
+    db.delete(clubs).where(eq(clubs.id, clubId)),
+  ]);
 };
 
 export const getClubAffiliatedUsers = async (clubId: string) => {
@@ -268,6 +310,35 @@ export const addClubManager = async ({
     db.insert(clubs_to_users).values(newRelation),
     db.insert(user_notifications).values(userNotification),
   ]);
+};
+
+export const deleteClubManager = async ({
+  clubId,
+  userId,
+}: {
+  clubId: string;
+  userId: string;
+}) => {
+  const { user } = await validateRequest();
+  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
+  const authorStatus = await getStatusInClub({
+    userId: user.id,
+    clubId,
+  });
+  const targetStatus = await getStatusInClub({
+    userId,
+    clubId,
+  });
+  if (targetStatus === 'co-owner') throw new Error('NOT_AUTHORIZED');
+  if (authorStatus !== 'co-owner') throw new Error('NOT_AUTHORIZED');
+  await db
+    .delete(clubs_to_users)
+    .where(
+      and(
+        eq(clubs_to_users.club_id, clubId),
+        eq(clubs_to_users.user_id, userId),
+      ),
+    );
 };
 
 export const leaveClub = async (clubId: string) => {

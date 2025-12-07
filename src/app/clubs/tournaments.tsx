@@ -8,16 +8,19 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { FC } from 'react';
 
-const ClubDashboardTournaments: FC<ClubTabProps> = ({ selectedClub }) => {
+const ClubDashboardTournaments: FC<ClubTabProps> = ({
+  selectedClub,
+  statusInClub,
+}) => {
   const { data, isLoading, isError, failureReason } =
     useClubTournaments(selectedClub);
 
-  if (isLoading) return <SkeletonList length={4} height={16} />;
+  if (isLoading) return <SkeletonList length={10} height={16} />;
   if (!data || !data.length)
     return (
       <Empty className="mk-container">
         <FormattedMessage id="Empty.tournaments" />
-        <MakeTournament />
+        {statusInClub && <MakeTournament />}
       </Empty>
     );
   if (isError) return <p className="w-full">{failureReason?.message}</p>;

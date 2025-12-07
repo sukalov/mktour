@@ -149,26 +149,42 @@ button {
   -webkit-tap-highlight-color: transparent;
 }
 
+@theme {
+  --spacing-mk: calc(var(--spacing) * 3);
+  --spacing-mk-2: calc(var(--spacing-mk) * 2);
+  --spacing-mk-card-height: calc(var(--spacing-mk) * 4);
+}
+
 @utility mk-container {
   height: 100%;
   width: 100%;
-  padding: calc(var(--spacing) * 3);
+  padding: var(--spacing-mk);
   padding-bottom: calc(var(--spacing) * 20);
+  @media screen and (min-width: 768px) {
+    width: 66.6%;
+    max-width: 768px;
+    margin: auto;
+    padding: var(--spacing-mk-2);
+  }
 }
 
 @utility mk-card {
   cursor: pointer;
-  padding: calc(var(--spacing) * 3);
+  padding: var(--spacing-mk);
   @media screen and (min-width: 768px) {
-    padding: calc(var(--spacing) * 4);
-    width: calc(var(--spacing) * 100);
+    padding: var(--spacing-mk-2);
+    width: 100%;
   }
 }
 
 @utility mk-list {
   display: flex;
   flex-direction: column;
-  gap: calc(var(--spacing) * 2);
+  gap: var(--spacing-mk);
+  padding-bottom: 10dvh;
+  @media screen and (min-width: 768px) {
+    gap: var(--spacing-mk-2);
+  }
 }
 
 @utility mk-link {

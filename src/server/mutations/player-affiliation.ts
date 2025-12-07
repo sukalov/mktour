@@ -70,7 +70,7 @@ export async function requestAffiliation({
     db.insert(affiliations).values(newAffiliation),
     db.insert(club_notifications).values(newNotification),
   ]);
-  revalidatePath(`/players/${playerId}`);
+  revalidatePath(`/player/${playerId}`);
 }
 
 export async function acceptAffiliation({
@@ -189,7 +189,7 @@ export async function abortAffiliationRequest({
         sql`json_extract(${club_notifications.metadata}, '$.affiliation_id') = ${affiliationId}`,
       ),
   ]);
-  revalidatePath(`/players/${playerId}`);
+  revalidatePath(`/player/${playerId}`);
 
   return affiliation;
 }

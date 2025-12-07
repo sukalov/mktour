@@ -8,7 +8,6 @@ import { Dispatch, SetStateAction } from 'react';
 import { toast } from 'sonner';
 
 export default function useTournamentResetPlayers(
-  tournamentId: string,
   queryClient: QueryClient,
   sendJsonMessage: (_message: DashboardMessage) => void,
   setRoundInView: Dispatch<SetStateAction<number>>,

@@ -9,7 +9,6 @@ import { useDebounce } from '@/components/hooks/use-debounce';
 import { Button } from '@/components/ui/button';
 import {
   CommandDialog,
-  CommandEmpty,
   CommandGroup,
   CommandItem,
   CommandList,
@@ -17,11 +16,13 @@ import {
   CommandShortcut,
 } from '@/components/ui/command';
 import { DialogDescription, DialogTitle } from '@/components/ui/dialog';
+import { Skeleton } from '@/components/ui/skeleton';
 import { DatabaseClub } from '@/server/db/schema/clubs';
 import { DatabasePlayer } from '@/server/db/schema/players';
 import { DatabaseUser } from '@/server/db/schema/users';
 import { User } from 'lucia';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 export default function GlobalSearch({ user }: { user: User | null }) {
@@ -34,31 +35,52 @@ export default function GlobalSearch({ user }: { user: User | null }) {
     filter: undefined,
   });
   const router = useRouter();
+  const t = useTranslations('GlobalSearch');
 
-  const actions: Array<{
+  const ACTIONS: Array<{
     title: string;
-    shortcut: string;
-    onClick: () => void;
+    shortcut?: string;
+    href: string;
   }> = [
     {
-      title: 'make tournament',
+      title: t('make tournament'),
       shortcut: '⌘M',
-      onClick: () => router.push('/tournaments/create'),
+      href: '/tournaments/create',
     },
     {
-      title: 'edit club',
-      shortcut: '⌘C',
-      onClick: () => router.push('/clubs/my'),
+      title: t('club dashboard'),
+      shortcut: '⌘L',
+      href: '/clubs/my',
     },
     {
-      title: 'edit profile',
+      title: t('edit profile'),
       shortcut: '⌘P',
-      onClick: () => router.push('/user/edit'),
+      href: '/user/edit',
+    },
+    {
+      title: t('inbox'),
+      href: '/inbox',
+    },
+    {
+      title: t('lichess team'),
+      href: 'https://lichess.org/team/mktour',
+    },
+    {
+      title: t('my clubs'),
+      href: '/clubs/my',
+    },
+    {
+      title: t('my tournaments'),
+      href: '/tournaments/my',
+    },
+    {
+      title: t('new club'),
+      href: '/clubs/create',
     },
   ];
 
-  const filteredActions = actions.filter((action) =>
-    action.title.toLowerCase().includes(searchQuery.toLowerCase()),
+  const filteredActions = ACTIONS.filter((action) =>
+    action.title.toLowerCase().includes(debouncedSearchQuery.toLowerCase()),
   );
 
   React.useEffect(() => {
@@ -72,7 +94,7 @@ export default function GlobalSearch({ user }: { user: User | null }) {
         setOpen(false);
         router.push('/tournaments/create');
       }
-      if (e.key === 'c' && (e.metaKey || e.ctrlKey)) {
+      if (e.key === 'l' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         setOpen(false);
         router.push('/clubs/my');
@@ -86,8 +108,6 @@ export default function GlobalSearch({ user }: { user: User | null }) {
     document.addEventListener('keydown', down);
     return () => document.removeEventListener('keydown', down);
   }, [router]);
-
-  const t = useTranslations('GlobalSearch');
 
   return (
     <>
@@ -127,86 +147,139 @@ export default function GlobalSearch({ user }: { user: User | null }) {
           />
         </div>
         <CommandList>
-          <CommandEmpty>{t('not found')}</CommandEmpty>
-          {data && (
+          {isLoading ? (
+            <div className="grid grid-cols-1 gap-2 p-2">
+              <Skeleton className="h-12 w-full" />
+              <Skeleton className="h-12 w-full" />
+              <Skeleton className="h-12 w-full" />
+              <Skeleton className="h-12 w-full" />
+              <Skeleton className="h-12 w-full" />
+            </div>
+          ) : data &&
+            data.clubs &&
+            data?.clubs.length === 0 &&
+            data.tournaments &&
+            data?.tournaments.length === 0 &&
+            data.users &&
+            data?.users.length === 0 &&
+            data.players &&
+            data?.players.length === 0 &&
+            filteredActions.length === 0 ? (
+            <div className="p-2">
+              <p className="text-muted-foreground text-center text-sm">
+                {t('not found')}
+              </p>
+            </div>
+          ) : (
             <>
-              {data?.users && data?.users.length > 0 && (
+              {data && (
                 <>
-                  <CommandGroup heading="users">
-                    {data.users.map((item: DatabaseUser) => (
-                      <CommandItem
-                        key={item.id}
-                        value={item.id}
-                        onSelect={() => router.push(`/user/${item.username}`)}
-                      >
-                        <span>{item.username}</span>
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
-                  <CommandSeparator />
-                </>
-              )}
-              {data.clubs && data.clubs.length > 0 && (
-                <>
-                  <CommandGroup heading="clubs">
-                    {data.clubs.map((item: DatabaseClub) => (
-                      <CommandItem
-                        key={item.id}
-                        value={item.id}
-                        onSelect={() => router.push(`/clubs/${item.id}`)}
-                      >
-                        <span>{item.name}</span>
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
-                  <CommandSeparator />
-                </>
-              )}
+                  {data?.users && data?.users.length > 0 && (
+                    <>
+                      <CommandGroup heading={t('users')}>
+                        {data.users.map((item: DatabaseUser) => (
+                          <Link key={item.id} href={`/user/${item.username}`}>
+                            <CommandItem
+                              value={item.id}
+                              onSelect={() => {
+                                router.push(`/user/${item.username}`);
+                                setOpen(false);
+                              }}
+                            >
+                              <span>{item.username}</span>
+                            </CommandItem>
+                          </Link>
+                        ))}
+                      </CommandGroup>
+                      <CommandSeparator />
+                    </>
+                  )}
+                  {data.clubs && data.clubs.length > 0 && (
+                    <>
+                      <CommandGroup heading={t('clubs')}>
+                        {data.clubs.map((item: DatabaseClub) => (
+                          <Link key={item.id} href={`/clubs/${item.id}`}>
+                            <CommandItem
+                              value={item.id}
+                              onSelect={() => {
+                                router.push(`/clubs/${item.id}`);
+                                setOpen(false);
+                              }}
+                            >
+                              <span>{item.name}</span>
+                            </CommandItem>
+                          </Link>
+                        ))}
+                      </CommandGroup>
+                      <CommandSeparator />
+                    </>
+                  )}
 
-              {data.tournaments && data.tournaments.length > 0 && (
-                <CommandGroup heading="tournaments">
-                  {data.tournaments.map((item) => (
-                    <CommandItem
-                      key={item.id}
-                      value={item.id}
-                      onSelect={() => router.push(`/tournaments/${item.id}`)}
-                    >
-                      <span>{item.title}</span>
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
+                  {data.tournaments && data.tournaments.length > 0 && (
+                    <CommandGroup heading={t('tournaments')}>
+                      {data.tournaments.map((item) => (
+                        <Link key={item.id} href={`/tournaments/${item.id}`}>
+                          <CommandItem
+                            value={item.id}
+                            onSelect={() => {
+                              router.push(`/tournaments/${item.id}`);
+                              setOpen(false);
+                            }}
+                          >
+                            <span>{item.title}</span>
+                          </CommandItem>
+                        </Link>
+                      ))}
+                    </CommandGroup>
+                  )}
+                  <CommandSeparator />
+                  {data?.players && data?.players.length > 0 && (
+                    <>
+                      <CommandGroup heading={t('players')}>
+                        {data.players.map((item: DatabasePlayer) => (
+                          <Link key={item.id} href={`/player/${item.id}`}>
+                            <CommandItem
+                              value={item.id}
+                              onSelect={() => {
+                                router.push(`/player/${item.id}`);
+                                setOpen(false);
+                              }}
+                            >
+                              <span>{item.nickname}</span>
+                            </CommandItem>
+                          </Link>
+                        ))}
+                      </CommandGroup>
+                      <CommandSeparator />
+                    </>
+                  )}
+                </>
               )}
-              <CommandSeparator />
-              {data?.players && data?.players.length > 0 && (
+              {filteredActions.length > 0 && (
                 <>
-                  <CommandGroup heading="players">
-                    {data.players.map((item: DatabasePlayer) => (
-                      <CommandItem
-                        key={item.id}
-                        value={item.id}
-                        onSelect={() => router.push(`/player/${item.id}`)}
-                      >
-                        <span>{item.nickname}</span>
-                      </CommandItem>
+                  <CommandSeparator />
+                  <CommandGroup heading={t('actions')}>
+                    {filteredActions.slice(0, 3).map((action) => (
+                      <Link key={action.title} href={action.href}>
+                        <CommandItem
+                          value={action.title}
+                          onSelect={() => {
+                            router.push(action.href);
+                            setOpen(false);
+                          }}
+                        >
+                          <span>{action.title}</span>
+                          {action.shortcut && (
+                            <CommandShortcut>{action.shortcut}</CommandShortcut>
+                          )}
+                        </CommandItem>
+                      </Link>
                     ))}
                   </CommandGroup>
-                  <CommandSeparator />
                 </>
               )}
             </>
           )}
-          <CommandGroup heading="actions">
-            {filteredActions.map((action) => (
-              <CommandItem
-                key={action.title}
-                value={action.title}
-                onSelect={action.onClick}
-              >
-                <span>{action.title}</span>
-                <CommandShortcut>{action.shortcut}</CommandShortcut>
-              </CommandItem>
-            ))}
-          </CommandGroup>
         </CommandList>
       </CommandDialog>
     </>

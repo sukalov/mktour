@@ -34,7 +34,7 @@ export default function NavigationMenuContainer() {
               </NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                  <li className="row-span-3">
+                  <li className="row-span-3 cursor-pointer">
                     <NavigationMenuLink asChild>
                       <a
                         className="from-muted/50 to-muted flex w-full flex-col gap-2 rounded-md bg-linear-to-b p-4 px-6 no-underline outline-hidden select-none focus:shadow-md"

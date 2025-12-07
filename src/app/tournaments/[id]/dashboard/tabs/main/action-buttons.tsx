@@ -48,7 +48,7 @@ const ActionButtons: FC<{
   status: Status;
   tournament: TournamentInfo['tournament'];
 }> = (props) => (
-  <div className="flex w-full flex-col gap-2 px-4">
+  <div className="flex w-full flex-col gap-2 p-2">
     <ActionButtonsRoot {...props} />
   </div>
 );

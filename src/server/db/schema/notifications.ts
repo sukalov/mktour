@@ -25,6 +25,7 @@ export type UserNotificationMetadata<
   : T extends 'tournament_won'
     ? {
         tournament_id: string;
+        name: string;
       }
     : T extends 'became_club_manager'
       ? {

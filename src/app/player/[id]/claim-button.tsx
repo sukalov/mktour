@@ -2,9 +2,12 @@
 
 import { LoadingSpinner } from '@/app/loading';
 import CancelClaimPlayer from '@/app/player/[id]/cancel-claim-button';
-import FormattedMessage from '@/components/formatted-message';
+import FormattedMessage, {
+  IntlMessageId,
+} from '@/components/formatted-message';
 import useAffiliationRequestMutation from '@/components/hooks/mutation-hooks/use-affiliation-request';
-import { Button } from '@/components/ui/button';
+import useUserClubAffiliations from '@/components/hooks/query-hooks/use-user-affiliations';
+import { Button, ButtonProps } from '@/components/ui/button';
 import {
   Close,
   Content,
@@ -14,7 +17,6 @@ import {
   Title,
   Trigger,
 } from '@/components/ui/combo-modal';
-import { DatabaseAffiliation } from '@/server/db/schema/players';
 import { Check, Pointer } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
@@ -23,8 +25,7 @@ import { FC, useState } from 'react';
 const ClaimPlayer: FC<{
   userId: string;
   clubId: string;
-  userAffiliation: DatabaseAffiliation | undefined;
-}> = ({ userId, clubId, userAffiliation }) => {
+}> = ({ userId, clubId }) => {
   const { id: playerId } = useParams<{ id: string }>();
   const [open, setOpen] = useState(false);
   const { mutate, isPending } = useAffiliationRequestMutation();
@@ -34,33 +35,31 @@ const ClaimPlayer: FC<{
   };
   const t = useTranslations();
 
+  const { data: userAffiliation } = useUserClubAffiliations(clubId);
+  const affiliation = userAffiliation?.[0];
+  const { status, player_id } = affiliation || {};
+
   const hasClaimed =
-    userAffiliation?.status === 'requested' &&
-    userAffiliation.player_id === playerId;
+    !!affiliation && status === 'requested' && player_id === playerId;
 
   if (hasClaimed)
     return (
       <CancelClaimPlayer
         userId={userId}
         clubId={clubId}
-        affiliation={userAffiliation}
+        affiliation={affiliation}
       />
     );
 
-  if (!userAffiliation)
+  if (!affiliation)
     return (
       <Root open={open} onOpenChange={setOpen}>
         <Trigger asChild>
-          <Button
-            variant="ghost"
-            className="flex gap-2 px-2"
+          <ClaimActionButton
             disabled={isPending}
-          >
-            {isPending ? <LoadingSpinner /> : <Pointer />}
-            <div className="text-[10px] text-nowrap">
-              <FormattedMessage id="Player.claim" />
-            </div>
-          </Button>
+            icon={isPending ? LoadingSpinner : Pointer}
+            messageId="Player.claim"
+          />
         </Trigger>
         <Content>
           <Header>
@@ -90,5 +89,30 @@ const ClaimPlayer: FC<{
       </Root>
     );
 };
+
+export const ClaimActionButton: FC<ClaimActionButtonProps> = ({
+  messageId,
+  icon: Icon,
+  disabled,
+  ...props
+}) => (
+  <Button
+    variant="ghost"
+    size="sm"
+    className="flex gap-2 text-nowrap"
+    disabled={disabled}
+    {...props}
+  >
+    <Icon />
+    <span className="text-2xs">
+      <FormattedMessage id={messageId} />
+    </span>
+  </Button>
+);
+
+type ClaimActionButtonProps = {
+  messageId: IntlMessageId;
+  icon: FC;
+} & ButtonProps;
 
 export default ClaimPlayer;

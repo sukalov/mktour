@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/table';
 import { PlayerModel } from '@/types/tournaments';
 import { useQueryClient } from '@tanstack/react-query';
-import { UserRoundX } from 'lucide-react';
+import { Scale, UserRoundX } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { FC, PropsWithChildren, useContext, useState } from 'react';
@@ -44,6 +44,8 @@ const TournamentTable: FC = ({}) => {
   );
   const hasStarted = !!tournament.data?.tournament.started_at;
   const hasEnded = !!tournament.data?.tournament.closed_at;
+  const stats =
+    tournament.data?.tournament.format === 'swiss' ? STATS_WITH_BERGER : STATS;
 
   if (players.isLoading) return <TableLoading />;
   if (players.isError) {
@@ -68,15 +70,19 @@ const TournamentTable: FC = ({}) => {
   };
 
   return (
-    <>
-      <Table className="mb-20">
+    <div className="mb-20 md:m-auto md:max-w-1/2">
+      <Table className="pt-0">
         <TableHeader>
           <TableRow>
             <TableHeadStyled className="text-center">#</TableHeadStyled>
-            <TableHeadStyled>
-              {t('name column', { number: players.data?.length ?? 0 })}
+            <TableHeadStyled className="w-full p-0">
+              {t.rich('name column', {
+                count: players.data?.length ?? 0,
+                small: (chunks) =>
+                  !!players.data?.length && <small>{chunks}</small>,
+              })}
             </TableHeadStyled>
-            <TableStatsHeads />
+            <TableStatsHeads stats={stats} />
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -92,9 +98,14 @@ const TournamentTable: FC = ({}) => {
                   {player.nickname}
                 </Status>
               </TableCellStyled>
-              <Stat>{player.wins}</Stat>
-              <Stat>{player.draws}</Stat>
-              <Stat>{player.losses}</Stat>
+              {/* FIXME this should be stats not STATS */}
+              {STATS.map((stat: (typeof STATS)[number]) => (
+                <Stat key={stat}>{player[stat]}</Stat>
+              ))}
+              {/* FIXME: this should be iterated with stats.map(...) above, given that berger score comes from the PlayerModel */}
+              {tournament.data?.tournament.format === 'swiss' && (
+                <Stat>{mockBergerScore(player)}</Stat> // FIXME mock data
+              )}
             </TableRow>
           ))}
         </TableBody>
@@ -108,13 +119,14 @@ const TournamentTable: FC = ({}) => {
           hasEnded={hasEnded}
         />
       )}
-    </>
+    </div>
   );
 };
 
-const TableStatsHeads = () => {
+const TableStatsHeads: FC<{ stats: typeof STATS_WITH_BERGER }> = ({
+  stats,
+}) => {
   const { isMobile } = useContext(MediaQueryContext);
-  const stats: Stats[] = ['wins', 'draws', 'losses'];
   const t = useTranslations(
     `Tournament.Table.Stats.${isMobile ? 'short' : 'full'}`,
   );
@@ -123,7 +135,11 @@ const TableStatsHeads = () => {
     <>
       {stats.map((stat) => (
         <TableHeadStyled key={stat} className="text-center">
-          {t(stat)}
+          {stat === 'berger' ? (
+            <Scale className="m-auto size-[14px]" />
+          ) : (
+            t(stat)
+          )}
         </TableHeadStyled>
       ))}
     </>
@@ -138,9 +154,11 @@ const TableLoading = () => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHeadStyled className="text-center">#</TableHeadStyled>
-            <TableHeadStyled>{t('name column', { number: 0 })}</TableHeadStyled>
-            <TableStatsHeads />
+            <TableHeadStyled className="p-mk text-center">#</TableHeadStyled>
+            <TableHeadStyled className="p-0">
+              {t('name column', { number: 0 })}
+            </TableHeadStyled>
+            <TableStatsHeads stats={STATS} />
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -206,7 +224,7 @@ const TableCellStyled: FC<PropsWithChildren & { className?: string }> = ({
 const TableHeadStyled: FC<PropsWithChildren & { className?: string }> = ({
   children,
   className,
-}) => <TableHead className={`h-11 p-0 ${className}`}>{children}</TableHead>;
+}) => <TableHead className={`h-11 ${className}`}>{children}</TableHead>;
 
 const Stat: FC<PropsWithChildren> = ({ children }) => (
   <TableCellStyled className="min-w-8 text-center font-medium">
@@ -214,6 +232,20 @@ const Stat: FC<PropsWithChildren> = ({ children }) => (
   </TableCellStyled>
 );
 
-type Stats = 'wins' | 'draws' | 'losses';
+/**
+ * Mock Berger tiebreak calculation.
+ * Berger is typically sum of defeated opponents' scores + half of drawn opponents' scores.
+ * Here, we just mock it as: wins * 3 + draws * 1 + losses * 0.5
+ */
+function mockBergerScore(player: PlayerModel): number {
+  return (
+    (player.wins ?? 0) * 3 +
+    (player.draws ?? 0) * 1 +
+    (player.losses ?? 0) * 0.5
+  );
+}
+
+const STATS: (keyof Partial<PlayerModel>)[] = ['wins', 'draws', 'losses'];
+const STATS_WITH_BERGER = [...STATS, 'berger'];
 
 export default TournamentTable;

@@ -8,8 +8,6 @@ export default async function NewTournament() {
   if (!user) redirect('/sign-in?from=/tournaments/create');
   const userClubs = await publicCaller.user.clubs({ userId: user.id });
 
-  if (!user) redirect('/sign-in'); // Not sure if needed
-
   return (
     <Suspense fallback={<p>loading make tournament page...</p>}>
       <div className="w-full">

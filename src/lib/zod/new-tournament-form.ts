@@ -1,4 +1,4 @@
-import { Format, TournamentType } from '@/types/tournaments';
+import { TournamentFormat, TournamentType } from '@/types/tournaments';
 import * as z from 'zod';
 
 export const newTournamentFormSchema = z.object({
@@ -9,7 +9,7 @@ export const newTournamentFormSchema = z.object({
   date: z.date().min(new Date(new Date().setDate(new Date().getDate() - 1)), {
     message: 'time travel',
   }),
-  format: z.custom<Format>(),
+  format: z.custom<TournamentFormat>(),
   type: z.custom<TournamentType>(),
   timestamp: z.number(),
   club_id: z.string(),

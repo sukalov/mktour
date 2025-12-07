@@ -56,9 +56,10 @@
   "Empty": {
     "players": "в этом клубе ещё нет игроков",
     "dashboard": "данные не получены",
-    "tournaments": "здесь будут турниры твоего клуба",
+    "tournaments": "здесь будут турниры клуба",
     "user": "пользователь не найден",
-    "no data": "нет данных"
+    "no data": "нет данных",
+    "inbox": "нет уведомлений"
   },
   "Profile": {
     "edit": "редактировать",
@@ -78,7 +79,8 @@
     "club": "клуб",
     "claim": "это я!",
     "cancel claim": "отменить заявку",
-    "claim confirmation": "вы отправите заявку. как только админы её подтвердят, этот игрок будет привязан к вашему аккаунту"
+    "claim confirmation": "вы отправите заявку. как только админы её подтвердят, этот игрок будет привязан к вашему аккаунту",
+    "last tournaments": "последние турниры:"
   },
   "Errors": {
     "hard naming": "увы, название придётся придумать",
@@ -115,6 +117,7 @@
   "Club": {
     "managers list": "админы:",
     "add manager": "добавить админа",
+    "dashboard": "управление клубом",
     "Settings": {
       "name": "название",
       "save": "сохранить",
@@ -123,13 +126,14 @@
       "delete club": "удалить клуб",
       "confirmation body": "все игроки и турниры будут удалены. если вы точно уверены, введите название клуба, который вы удаляете",
       "cancel": "отмена",
-      "search": "поиск по пользователям мктура",
-      "no affiliated users": "в вашем клубе живых людей не нашлось. начните печатать, чтобы запустить поиск по всему сайту",
+      "search": "поиск по юзернейму",
+      "no affiliated users": "в вашем клубе пользователей не нашлось. начните печатать, чтобы запустить поиск по всему мктуру",
       "make co-owner": "сделать совладельцем",
       "make moderator": "сделать модератором",
       "add manager": "добавить админа",
       "make admin": "сделать админом",
-      "search users error": "во время поиска что-то слетело"
+      "search users error": "во время поиска что-то слетело",
+      "delete manager": "удалить админа"
     },
     "Dashboard": {
       "no data": "данные не получены",
@@ -174,7 +178,10 @@
     "player updated": "игрок обновлён",
     "affiliation requested": "заявка отправлена",
     "affiliation canceled": "заявка отменена",
-    "player deleted": "игрок удалён"
+    "affiliation approved": "заявка одобрена",
+    "affiliation denied": "заявка отклонена",
+    "player deleted": "игрок удалён",
+    "player has tournaments": "простите! нельзя удалять игрока, который участвовал в турнире. для этого придётся удалить турнир тоже"
   },
   "EditUser": {
     "header": "настройки",
@@ -221,7 +228,9 @@
         "team": "командный"
       },
       "started at": "начался в",
-      "ended at": "закончился в"
+      "ended at": "закончился в",
+      "number of rounds": "туров",
+      "save": "сохранить"
     },
     "Results": {
       "1-0": "1 - 0",
@@ -243,17 +252,19 @@
     "Table": {
       "added players error": "простите! не получилось загрузить игроков",
       "loading": "идёт загрузка...",
-      "name column": "имя ({number} игроков)",
+      "name column": "имя <small>({count} {count, plural, one {игрок} few {игрока} many {игроков} other {игроков}})</small>",
       "Stats": {
         "full": {
           "wins": "выигрыши",
           "draws": "ничьи",
-          "losses": "проигрыши"
+          "losses": "проигрыши",
+          "berger": "бергер"
         },
         "short": {
           "wins": "в",
           "draws": "н",
-          "losses": "п"
+          "losses": "п",
+          "berger": "т-б"
         }
       },
       "Player": {
@@ -278,7 +289,8 @@
     }
   },
   "Tournaments": {
-    "no tournaments": "у вас пока нет никаких турниров"
+    "no tournaments": "у вас пока нет никаких турниров",
+    "make tournament": "сделать турнир"
   },
   "MakeTournament": {
     "making": "делаем...",
@@ -320,6 +332,31 @@
     "search dialog description": "здесь можно найти любой клуб, турнир или пользователя мктура",
     "search placeholder": "что ищем?",
     "not found": "ничего не найдено",
-    "search dialog title": "поиск по всему сайту"
+    "search dialog title": "поиск по всему сайту",
+    "make tournament": "сделать турнир",
+    "club dashboard": "управление клубами",
+    "edit profile": "редактировать профиль",
+    "actions": "действия",
+    "users": "пользователи",
+    "clubs": "клубы",
+    "tournaments": "турниры",
+    "players": "игроки",
+    "sign out": "выйти",
+    "inbox": "сообщения",
+    "lichess team": "найти нас на личесе",
+    "my clubs": "мои клубы",
+    "my tournaments": "мои турниры",
+    "new club": "новый клуб"
+  },
+  "Notifications": {
+    "User": {
+      "affiliation approved": "аффиляция одобрена",
+      "affiliation rejected": "аффиляция отклонена",
+      "became club manager": "вас сделали админом клуба",
+      "tournament won": "вы выиграли турнир!"
+    },
+    "Club": {
+      "affiliation requested": "заявка отправлена"
+    }
   }
 }
