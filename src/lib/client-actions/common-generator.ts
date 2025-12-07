@@ -1,8 +1,5 @@
 import { newid } from '@/lib/utils';
-import { GameModel, PlayerModel } from '@/types/tournaments';
-
-const DEFAULT_ENTITY_SCORE = 0;
-const DEFAULT_PREVIOUS_GAMES: GameModel[] = [];
+import { FloatHistoryItem, GameModel, PlayerModel } from '@/types/tournaments';
 
 // default set of round properties, may be changed internally
 export interface RoundProps {
@@ -63,6 +60,7 @@ export interface ChessTournamentEntity {
   entityTitle: ChessTitle;
   entityScore: number;
   previousGames: GameModel[];
+  floatHistory: FloatHistoryItem[];
 }
 
 enum ChessTitle {
@@ -103,9 +101,21 @@ export type EntitiesPair = [ChessTournamentEntity, ChessTournamentEntity];
  * This simple converter is taking a joined player info and transforms it to a matched entity
  * @param playerModel a joined representation of player
  */
-export function convertPlayerToEntity(playerModel: PlayerModel) {
+export function convertPlayerToEntity(
+  playerModel: PlayerModel,
+  allGames: GameModel[],
+) {
   if (playerModel.pairingNumber === null)
     throw new TypeError('PAIRING_NUMBER_IS_NULL');
+
+  // Calculate tournament score from wins and draws (standard chess scoring: 1 point per win, 0.5 per draw)
+  const entityScore = playerModel.wins + playerModel.draws * 0.5;
+
+  // Filter games involving this player (either as white or black)
+  const previousGames = allGames.filter(
+    (game) =>
+      game.white_id === playerModel.id || game.black_id === playerModel.id,
+  );
 
   // #TODO: ADDD THE TITLE LOGIC HERE
   const tournamentEntity: ChessTournamentEntity = {
@@ -116,8 +126,9 @@ export function convertPlayerToEntity(playerModel: PlayerModel) {
     gamesPlayed: playerModel.draws + playerModel.wins + playerModel.losses,
     pairingNumber: playerModel.pairingNumber,
     entityTitle: ChessTitle.GM,
-    entityScore: DEFAULT_ENTITY_SCORE,
-    previousGames: DEFAULT_PREVIOUS_GAMES,
+    entityScore,
+    previousGames,
+    floatHistory: playerModel.floatHistory || [],
   };
   return tournamentEntity;
 }

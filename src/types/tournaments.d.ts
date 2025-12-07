@@ -19,6 +19,14 @@ export interface PlayerModel {
   color_index: number;
   is_out: boolean | null;
   place: number | null;
+  floatHistory: FloatHistoryItem[];
+}
+
+export type FloatType = 'up' | 'down' | 'none';
+
+export interface FloatHistoryItem {
+  roundNumber: number;
+  floatType: FloatType;
 }
 
 /**
