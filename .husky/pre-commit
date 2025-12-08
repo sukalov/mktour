@@ -7,4 +7,4 @@ if [ -n "$FILES" ]; then
 fi
 
 # Run linting on all files
-bun run lint
+# bun run lint

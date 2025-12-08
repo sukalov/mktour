@@ -38,6 +38,7 @@ next-env.d.ts
 
 # turborepo
 .turbo
+.bruno
 
 # local urls
 src/lib/config/urls.ts
