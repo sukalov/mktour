@@ -33,11 +33,25 @@ import getAllClubManagers, {
 import { getClubInfo, getClubPlayers } from '@/server/queries/club';
 import getAllClubs from '@/server/queries/get-all-clubs';
 import getClubNotifications from '@/server/queries/get-club-notifications';
+import { getClubStats } from '@/server/queries/get-club-stats';
 import { getClubTournaments } from '@/server/queries/get-club-tournaments';
 import getStatusInClub from '@/server/queries/get-status-in-club';
 import { getUserClubAffiliation } from '@/server/queries/get-user-club-affiliation';
 import { revalidateTag } from 'next/cache';
 import { z } from 'zod';
+
+const clubStatsSchema = z.object({
+  playersCount: z.number(),
+  tournamentsCount: z.number(),
+  mostActivePlayers: z.array(
+    z.object({
+      id: z.string(),
+      nickname: z.string(),
+      rating: z.number(),
+      tournamentsPlayed: z.number(),
+    }),
+  ),
+});
 
 export const clubRouter = createTRPCRouter({
   all: publicProcedure
@@ -64,6 +78,12 @@ export const clubRouter = createTRPCRouter({
     .output(clubsSelectSchema.nullable())
     .query(async (opts) => {
       return await getClubInfo(opts.input.clubId);
+    }),
+  stats: publicProcedure
+    .input(z.object({ clubId: z.string() }))
+    .output(clubStatsSchema)
+    .query(async (opts) => {
+      return await getClubStats(opts.input.clubId);
     }),
   players: publicProcedure
     .meta(meta.clubPlayers)

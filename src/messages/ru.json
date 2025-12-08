@@ -11,7 +11,8 @@
     "delete": "удалить",
     "edit": "редактировать",
     "save": "сохранить",
-    "settings": "настройки"
+    "settings": "настройки",
+    "search": "поиск"
   },
   "Menu": {
     "club": "клубы",
@@ -144,6 +145,12 @@
     "managers list": "админы",
     "add manager": "добавить админа",
     "dashboard": "управление клубом",
+    "mostActive": "самые активные игроки",
+    "Stats": {
+      "players": "игроки",
+      "tournaments": "турниры",
+      "tournamentsPlayed": "турниров"
+    },
     "Settings": {
       "name": "название",
       "save": "сохранить",

@@ -11,7 +11,8 @@
     "delete": "delete",
     "edit": "edit",
     "save": "save",
-    "settings": "settings"
+    "settings": "settings",
+    "search": "search"
   },
   "Menu": {
     "club": "club",
@@ -144,6 +145,12 @@
     "managers list": "managers",
     "add manager": "add new manager",
     "dashboard": "club dashboard",
+    "mostActive": "most active players",
+    "Stats": {
+      "players": "players",
+      "tournaments": "tournaments",
+      "tournamentsPlayed": "tournaments"
+    },
     "Settings": {
       "name": "name",
       "save": "save",
