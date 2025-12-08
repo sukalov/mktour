@@ -6,6 +6,7 @@ import { useClubPlayers } from '@/components/hooks/query-hooks/use-club-players'
 import { useClubStats } from '@/components/hooks/query-hooks/use-club-stats';
 import { useClubTournaments } from '@/components/hooks/query-hooks/use-club-tournaments';
 import { useAuth } from '@/components/hooks/query-hooks/use-user';
+import { useDebounce } from '@/components/hooks/use-debounce';
 import SkeletonList from '@/components/skeleton-list';
 import TournamentItemIteratee from '@/components/tournament-item';
 import { useTRPC } from '@/components/trpc/client';
@@ -17,19 +18,20 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { DatabaseClub } from '@/server/db/schema/clubs';
 import { DatabasePlayer } from '@/server/db/schema/players';
 import { StatusInClub } from '@/server/db/zod/enums';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import {
-  CalendarDays,
-  Home,
-  Search,
-  Shield,
-  Trophy,
-  Users2,
-} from 'lucide-react';
+import { CalendarDays, Home, Search, Trophy, Users2 } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { FC, useMemo, useState } from 'react';
@@ -38,14 +40,11 @@ const ClubPage: FC<{
   club: DatabaseClub;
   statusInClub: StatusInClub | null;
   userId: string;
-}> = ({ club, statusInClub, userId }) => {
-  const props = { selectedClub: club.id, userId, statusInClub };
-
+}> = ({ club, statusInClub }) => {
   return (
     <div className="mk-container flex flex-col gap-6">
       <ClubHeader club={club} statusInClub={statusInClub} />
       <ClubStats clubId={club.id} />
-      <ClubManagers clubId={club.id} />
       <MostActivePlayers clubId={club.id} />
 
       <div className="hidden gap-6 md:grid md:grid-cols-2">
@@ -83,10 +82,15 @@ const ClubHeader: FC<{
   statusInClub: StatusInClub | null;
 }> = ({ club, statusInClub }) => {
   const t = useTranslations('Club');
+  const tStatus = useTranslations('Status');
   const locale = useLocale();
   const queryClient = useQueryClient();
   const { data: user } = useAuth();
   const { mutate } = useAuthSelectClub(queryClient);
+  const trpc = useTRPC();
+  const { data: managers } = useQuery(
+    trpc.club.managers.all.queryOptions({ clubId: club.id }),
+  );
 
   return (
     <HalfCard>
@@ -109,6 +113,25 @@ const ClubHeader: FC<{
               <span className="text-muted-foreground text-sm">
                 {club.description}
               </span>
+            )}
+            {managers && managers.length > 0 && (
+              <div className="mt-2 flex flex-wrap items-center gap-2">
+                <span className="text-muted-foreground text-xs">
+                  {t('managers list')}:
+                </span>
+                {managers.map((manager) => (
+                  <Link
+                    key={manager.user.id}
+                    href={`/user/${manager.user.username}`}
+                    className="text-muted-foreground hover:text-foreground text-xs transition-colors"
+                  >
+                    {manager.user.username}
+                    <span className="text-muted-foreground/60 ml-1">
+                      ({tStatus(manager.clubs_to_users.status)})
+                    </span>
+                  </Link>
+                ))}
+              </div>
             )}
           </div>
           {user && statusInClub && (
@@ -191,63 +214,6 @@ const StatCard: FC<{
   </div>
 );
 
-const ClubManagers: FC<{ clubId: string }> = ({ clubId }) => {
-  const trpc = useTRPC();
-  const { data: managers, isPending } = useQuery(
-    trpc.club.managers.all.queryOptions({ clubId }),
-  );
-  const t = useTranslations('Club');
-  const tStatus = useTranslations('Status');
-
-  if (isPending) {
-    return (
-      <Card>
-        <CardHeader className="pb-3">
-          <Skeleton className="h-5 w-24" />
-        </CardHeader>
-        <CardContent className="pt-0">
-          <div className="flex gap-2">
-            {[1, 2].map((i) => (
-              <Skeleton key={i} className="h-8 w-24 rounded-full" />
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
-
-  if (!managers?.length) return null;
-
-  return (
-    <Card>
-      <CardHeader className="pb-3">
-        <CardTitle className="flex items-center gap-2 text-base">
-          <Shield className="size-4" />
-          {t('managers list')}
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="pt-0">
-        <div className="flex flex-wrap gap-2">
-          {managers.map((manager) => (
-            <Link
-              key={manager.user.id}
-              href={`/user/${manager.user.username}`}
-              className="bg-muted hover:bg-muted/70 flex items-center gap-2 rounded-full px-3 py-1.5 transition-colors"
-            >
-              <span className="text-sm font-medium">
-                {manager.user.username}
-              </span>
-              <span className="text-muted-foreground text-xs">
-                {tStatus(manager.clubs_to_users.status)}
-              </span>
-            </Link>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
-  );
-};
-
 const MostActivePlayers: FC<{ clubId: string }> = ({ clubId }) => {
   const { data: stats, isPending } = useClubStats(clubId);
   const t = useTranslations('Club');
@@ -259,11 +225,7 @@ const MostActivePlayers: FC<{ clubId: string }> = ({ clubId }) => {
           <Skeleton className="h-5 w-40" />
         </CardHeader>
         <CardContent className="pt-0">
-          <div className="flex flex-col gap-2">
-            {[1, 2, 3].map((i) => (
-              <Skeleton key={i} className="h-10 w-full" />
-            ))}
-          </div>
+          <Skeleton className="h-32 w-full" />
         </CardContent>
       </Card>
     );
@@ -280,31 +242,43 @@ const MostActivePlayers: FC<{ clubId: string }> = ({ clubId }) => {
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-0">
-        <ul className="flex flex-col">
-          {stats.mostActivePlayers.map((player, index) => (
-            <li key={player.id}>
-              {index > 0 && <Separator />}
-              <Link
-                href={`/player/${player.id}`}
-                className="hover:bg-muted/50 -mx-2 flex items-center justify-between rounded-lg px-2 py-3 transition-colors"
-              >
-                <div className="flex items-center gap-3">
-                  <span className="text-muted-foreground w-5 text-center text-sm">
-                    {index + 1}
-                  </span>
-                  <span className="text-sm font-medium">{player.nickname}</span>
-                </div>
-                <div className="flex items-center gap-4">
-                  <span className="text-muted-foreground text-xs">
-                    {player.tournamentsPlayed}{' '}
-                    <FormattedMessage id="Club.Stats.tournamentsPlayed" />
-                  </span>
-                  <span className="text-sm font-medium">{player.rating}</span>
-                </div>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-10">#</TableHead>
+              <TableHead>
+                <FormattedMessage id="Player.nickname" />
+              </TableHead>
+              <TableHead className="text-right">
+                <FormattedMessage id="Player.rating" />
+              </TableHead>
+              <TableHead className="text-right">
+                <FormattedMessage id="Club.Stats.tournaments" />
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {stats.mostActivePlayers.map((player, index) => (
+              <TableRow key={player.id} className="cursor-pointer">
+                <TableCell className="text-muted-foreground">
+                  {index + 1}
+                </TableCell>
+                <TableCell>
+                  <Link
+                    href={`/player/${player.id}`}
+                    className="hover:underline"
+                  >
+                    {player.nickname}
+                  </Link>
+                </TableCell>
+                <TableCell className="text-right">{player.rating}</TableCell>
+                <TableCell className="text-right">
+                  {player.tournamentsPlayed}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </CardContent>
     </Card>
   );
@@ -316,6 +290,7 @@ const ClubTournamentsSection: FC<{
 }> = ({ clubId, statusInClub }) => {
   const [search, setSearch] = useState('');
   const t = useTranslations();
+  const { data: stats } = useClubStats(clubId);
   const { data, isLoading, isError } = useClubTournaments(clubId);
 
   const filteredTournaments = useMemo(() => {
@@ -331,11 +306,9 @@ const ClubTournamentsSection: FC<{
         <CardTitle className="flex items-center gap-2 text-base">
           <Trophy className="size-4" />
           <FormattedMessage id="Menu.tournaments" />
-          {data && (
-            <span className="text-muted-foreground font-normal">
-              ({data.length})
-            </span>
-          )}
+          <span className="text-muted-foreground font-normal">
+            ({stats?.tournamentsCount ?? 0})
+          </span>
         </CardTitle>
         <div className="relative mt-2">
           <Search className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
