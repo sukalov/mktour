@@ -11,7 +11,6 @@ const bundleAnalyzer = withBundleAnalyzer({
 const nextConfig = {
   experimental: {
     reactCompiler: true,
-    ppr: 'incremental',
   },
   logging: {
     fetches: {
