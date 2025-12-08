@@ -5,7 +5,7 @@ import MenuToggle from '@/components/navigation/mobile/menu-toggle';
 import ModeToggler from '@/components/navigation/mode-toggler';
 import { NAVMENU_ITEMS } from '@/components/navigation/nav-menu-items';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { motion, useCycle } from 'framer-motion';
+import { motion, useCycle, Variants } from 'framer-motion';
 import { User } from 'lucia';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
@@ -29,7 +29,7 @@ const Menu: FC<{ user: User | null }> = ({ user }) => {
     }
   };
 
-  const variants = useMemo(
+  const variants = useMemo<Variants>(
     () => ({
       open: {
         transition: { staggerChildren: 0.02, delayChildren: 0.15 },
@@ -41,7 +41,7 @@ const Menu: FC<{ user: User | null }> = ({ user }) => {
     [],
   );
 
-  const sidebar = useMemo(
+  const sidebar = useMemo<Variants>(
     () => ({
       open: (height = 1000) => ({
         clipPath: `circle(${height * 2 + 200}px at 100% 0)`,
