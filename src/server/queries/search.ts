@@ -1,20 +1,16 @@
-import { publicCaller } from '@/server/api';
+import { SearchParamsModel } from '@/server/api/routers/search';
 import { db } from '@/server/db';
 import { clubs } from '@/server/db/schema/clubs';
 import { players } from '@/server/db/schema/players';
 import { tournaments } from '@/server/db/schema/tournaments';
 import { users } from '@/server/db/schema/users';
-import { or, sql } from 'drizzle-orm';
-import { NextRequest } from 'next/server';
+import { and, eq, or, sql } from 'drizzle-orm';
 
-export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
-  const user = await publicCaller.auth.info();
-  const query = searchParams.get('q');
-  const filter = searchParams.get('filter');
-  if (!query) return new Response(JSON.stringify([]), { status: 200 });
+export async function globalSearch(params: SearchParamsModel) {
+  const { query, filter } = params;
   const queryStr = `%${query}%`;
-  if (filter === 'users') {
+  if (!query && !filter) return {};
+  if (filter && filter.type === 'users') {
     const usersResult = await db
       .select()
       .from(users)
@@ -25,13 +21,38 @@ export async function GET(req: NextRequest) {
         ),
       )
       .limit(15);
-    const filteredUsers = usersResult.filter((u) => u.id !== user?.id);
-    return new Response(JSON.stringify({ users: filteredUsers }), {
-      status: 200,
-      headers: {
-        Cache: 'no-store',
-      },
-    });
+    return { users: usersResult };
+  }
+  if (filter && filter.type === 'players') {
+    const { clubId } = filter;
+    const playersResult = await db
+      .select()
+      .from(players)
+      .where(
+        and(
+          or(
+            sql`lower(${players.nickname}) like lower(${queryStr})`,
+            sql`lower(${players.realname}) like lower(${queryStr})`,
+          ),
+          eq(players.clubId, clubId),
+        ),
+      )
+      .limit(15);
+    return { players: playersResult };
+  }
+  if (filter && filter.type === 'tournaments') {
+    const { clubId } = filter;
+    const tournamentsResult = await db
+      .select()
+      .from(tournaments)
+      .where(
+        and(
+          sql`lower(${tournaments.title}) like lower(${queryStr})`,
+          eq(tournaments.clubId, clubId),
+        ),
+      )
+      .limit(15);
+    return { tournaments: tournamentsResult };
   }
   const playersDb = db
     .select()
@@ -64,14 +85,9 @@ export async function GET(req: NextRequest) {
 
   const data = {
     players: playersResult,
-    users: usersResult.filter((u) => u.id !== user?.id),
+    users: usersResult,
     tournaments: tournamentsResult,
     clubs: clubsResult,
   };
-  return new Response(JSON.stringify(data), {
-    status: 200,
-    headers: {
-      Cache: 'no-store',
-    },
-  });
+  return data;
 }

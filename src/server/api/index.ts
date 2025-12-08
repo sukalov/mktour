@@ -7,6 +7,7 @@ import { userRouter } from '@/server/api/routers/user';
 import { createTRPCRouter } from '@/server/api/trpc';
 import { db } from '@/server/db';
 import { getUserClubIds } from '@/server/queries/get-user-clubs';
+import { search } from '@/server/api/routers/search';
 
 export const appRouter = createTRPCRouter({
   user: userRouter,
@@ -14,6 +15,7 @@ export const appRouter = createTRPCRouter({
   club: clubRouter,
   player: playerRouter,
   auth: authRouter,
+  search,
 });
 
 export const publicCaller = appRouter.createCaller({

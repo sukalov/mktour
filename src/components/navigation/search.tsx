@@ -30,9 +30,7 @@ export default function GlobalSearch({ user }: { user: User | null }) {
   const [searchQuery, setSearchQuery] = React.useState('');
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
   const { data, isLoading } = useSearchQuery({
-    userId: user?.id,
     query: debouncedSearchQuery,
-    filter: undefined,
   });
   const router = useRouter();
   const t = useTranslations('GlobalSearch');
@@ -152,14 +150,14 @@ export default function GlobalSearch({ user }: { user: User | null }) {
               <Skeleton className="h-12 w-full" />
             </div>
           ) : data &&
-            data.clubs &&
-            data?.clubs.length === 0 &&
-            data.tournaments &&
-            data?.tournaments.length === 0 &&
-            data.users &&
-            data?.users.length === 0 &&
-            data.players &&
+            data?.players &&
             data?.players.length === 0 &&
+            data?.tournaments &&
+            data?.tournaments.length === 0 &&
+            data?.users &&
+            data?.users.length === 0 &&
+            data?.clubs &&
+            data?.clubs.length === 0 &&
             filteredActions.length === 0 ? (
             <div className="p-2">
               <p className="text-muted-foreground text-center text-sm">
@@ -190,10 +188,10 @@ export default function GlobalSearch({ user }: { user: User | null }) {
                       <CommandSeparator />
                     </>
                   )}
-                  {data.clubs && data.clubs.length > 0 && (
+                  {'clubs' in data && data?.clubs && data?.clubs.length > 0 && (
                     <>
                       <CommandGroup heading={t('clubs')}>
-                        {data.clubs.map((item: DatabaseClub) => (
+                        {data?.clubs.map((item: DatabaseClub) => (
                           <Link key={item.id} href={`/clubs/${item.id}`}>
                             <CommandItem
                               value={item.id}
@@ -211,7 +209,7 @@ export default function GlobalSearch({ user }: { user: User | null }) {
                     </>
                   )}
 
-                  {data.tournaments && data.tournaments.length > 0 && (
+                  {data?.tournaments && data?.tournaments.length > 0 && (
                     <CommandGroup heading={t('tournaments')}>
                       {data.tournaments.map((item) => (
                         <Link key={item.id} href={`/tournaments/${item.id}`}>

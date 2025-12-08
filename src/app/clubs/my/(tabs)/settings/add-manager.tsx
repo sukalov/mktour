@@ -29,9 +29,8 @@ const AddManager = ({
   );
   const affiliatedUsers = useClubAffiliatedUsers(clubId);
   const foundUsers = useSearchQuery({
-    userId,
     query: debouncedValue,
-    filter: 'users',
+    filter: { type: 'users', userId },
   });
   const managers = useClubManagers(clubId);
 
@@ -57,7 +56,7 @@ const AddManager = ({
     // users = affiliatedUsers.data;
     users = []; // FIXME when search typing is updated
   } else {
-    users = foundUsers.data.users;
+    users = foundUsers.data?.users || [];
   }
 
   return (
