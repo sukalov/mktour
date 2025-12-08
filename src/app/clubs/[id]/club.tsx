@@ -2,17 +2,14 @@
 
 import FormattedMessage from '@/components/formatted-message';
 import { useAuthSelectClub } from '@/components/hooks/mutation-hooks/use-auth-select-club';
-import { useClubPlayers } from '@/components/hooks/query-hooks/use-club-players';
 import { useClubStats } from '@/components/hooks/query-hooks/use-club-stats';
-import { useClubTournaments } from '@/components/hooks/query-hooks/use-club-tournaments';
+import { useSearchQuery } from '@/components/hooks/query-hooks/use-search-result';
 import { useAuth } from '@/components/hooks/query-hooks/use-user';
 import { useDebounce } from '@/components/hooks/use-debounce';
-import SkeletonList from '@/components/skeleton-list';
 import TournamentItemIteratee from '@/components/tournament-item';
 import { useTRPC } from '@/components/trpc/client';
 import HalfCard from '@/components/ui-custom/half-card';
 import LichessLogo from '@/components/ui-custom/lichess-logo';
-import Paginator from '@/components/ui-custom/paginator';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -34,7 +31,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { CalendarDays, Home, Search, Trophy, Users2 } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { FC, useMemo, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 const ClubPage: FC<{
   club: DatabaseClub;
@@ -289,16 +286,34 @@ const ClubTournamentsSection: FC<{
   statusInClub: StatusInClub | null;
 }> = ({ clubId, statusInClub }) => {
   const [search, setSearch] = useState('');
+  const debouncedSearch = useDebounce(search, 300);
   const t = useTranslations();
   const { data: stats } = useClubStats(clubId);
-  const { data, isLoading, isError } = useClubTournaments(clubId);
+  const queryClient = useQueryClient();
+  const trpc = useTRPC();
+  const { data: searchResults, isFetching: isSearchFetching } = useSearchQuery({
+    query: debouncedSearch,
+    filter: {
+      type: 'tournaments',
+      clubId,
+    },
+  });
 
-  const filteredTournaments = useMemo(() => {
-    if (!data) return [];
-    if (!search.trim()) return data;
-    const lower = search.toLowerCase();
-    return data.filter((t) => t.title?.toLowerCase().includes(lower));
-  }, [data, search]);
+  useEffect(() => {
+    queryClient.setQueryData(
+      trpc.search.queryKey({
+        filter: { type: 'tournaments', clubId },
+        query: search,
+      }),
+      searchResults,
+    );
+    queryClient.invalidateQueries({
+      queryKey: trpc.search.queryKey({
+        filter: { type: 'tournaments', clubId },
+        query: search,
+      }),
+    });
+  }, [search]);
 
   return (
     <Card className="flex flex-col">
@@ -321,24 +336,22 @@ const ClubTournamentsSection: FC<{
         </div>
       </CardHeader>
       <CardContent className="max-h-[400px] overflow-y-auto pt-0">
-        {isLoading && <SkeletonList length={4} />}
-        {isError && (
-          <p className="text-destructive text-sm">Error loading tournaments</p>
-        )}
-        {!isLoading && !isError && filteredTournaments.length === 0 && (
+        {!isSearchFetching && !searchResults?.tournaments?.length && (
           <p className="text-muted-foreground py-4 text-center text-sm">
-            {search ? t('GlobalSearch.not found') : t('Empty.tournaments')}
+            {debouncedSearch.length
+              ? t('GlobalSearch.not found')
+              : t('Empty.tournaments')}
           </p>
         )}
         <div className="flex flex-col gap-2">
-          {filteredTournaments.map((tournament) => (
+          {searchResults?.tournaments?.map((tournament) => (
             <TournamentItemIteratee
               key={tournament.id}
               tournament={tournament}
             />
           ))}
         </div>
-        {statusInClub && !data?.length && (
+        {statusInClub && !searchResults?.tournaments?.length && (
           <Button size="sm" variant="default" className="mt-2 w-full" asChild>
             <Link href="/tournaments/create">
               <FormattedMessage id="Home.make tournament" />
@@ -352,17 +365,36 @@ const ClubTournamentsSection: FC<{
 
 const ClubPlayersSection: FC<{ clubId: string }> = ({ clubId }) => {
   const [search, setSearch] = useState('');
+  const debouncedSearch = useDebounce(search, 300);
+
   const t = useTranslations();
-  const { fetchNextPage, hasNextPage, isFetchingNextPage, ...players } =
-    useClubPlayers(clubId);
+  const { playersCount } = useClubStats(clubId).data ?? {};
+  const queryClient = useQueryClient();
+  const trpc = useTRPC();
 
-  const allPlayers = players.data?.pages.flatMap((page) => page.players) ?? [];
+  const { data: searchResults, isFetching: isSearching } = useSearchQuery({
+    query: debouncedSearch,
+    filter: {
+      type: 'players',
+      clubId,
+    },
+  });
 
-  const filteredPlayers = useMemo(() => {
-    if (!search.trim()) return allPlayers;
-    const lower = search.toLowerCase();
-    return allPlayers.filter((p) => p.nickname.toLowerCase().includes(lower));
-  }, [allPlayers, search]);
+  useEffect(() => {
+    queryClient.setQueryData(
+      trpc.search.queryKey({
+        filter: { type: 'players', clubId },
+        query: search,
+      }),
+      searchResults,
+    );
+    queryClient.invalidateQueries({
+      queryKey: trpc.search.queryKey({
+        filter: { type: 'players', clubId },
+        query: search,
+      }),
+    });
+  }, [search]);
 
   return (
     <Card className="flex flex-col">
@@ -370,9 +402,9 @@ const ClubPlayersSection: FC<{ clubId: string }> = ({ clubId }) => {
         <CardTitle className="flex items-center gap-2 text-base">
           <Users2 className="size-4" />
           <FormattedMessage id="Club.Dashboard.players" />
-          {allPlayers.length > 0 && (
+          {playersCount && playersCount > 0 && (
             <span className="text-muted-foreground font-normal">
-              ({allPlayers.length})
+              ({playersCount})
             </span>
           )}
         </CardTitle>
@@ -387,28 +419,20 @@ const ClubPlayersSection: FC<{ clubId: string }> = ({ clubId }) => {
         </div>
       </CardHeader>
       <CardContent className="max-h-[400px] overflow-y-auto pt-0">
-        {players.status === 'pending' && (
-          <SkeletonList length={4} className="h-14 rounded-xl" />
-        )}
-        {players.status === 'error' && (
-          <p className="text-destructive text-sm">Error loading players</p>
-        )}
-        {players.status === 'success' && filteredPlayers.length === 0 && (
+        {searchResults?.players?.length === 0 && (
           <p className="text-muted-foreground py-4 text-center text-sm">
-            {search ? t('GlobalSearch.not found') : t('Empty.players')}
+            {searchResults?.players?.length === 0
+              ? t('GlobalSearch.not found')
+              : t('Empty.players')}
           </p>
         )}
-        <div className="flex flex-col gap-2">
-          {filteredPlayers.map((player) => (
-            <PlayerItem key={player.id} player={player} />
-          ))}
-        </div>
-        {!search && (
-          <Paginator
-            hasNextPage={hasNextPage}
-            isFetchingNextPage={isFetchingNextPage}
-            fetchNextPage={fetchNextPage}
-          />
+
+        {searchResults?.players && searchResults.players.length > 0 && (
+          <div className="flex flex-col gap-2">
+            {searchResults?.players.map((player) => (
+              <PlayerItem key={player.id} player={player} />
+            ))}
+          </div>
         )}
       </CardContent>
     </Card>
