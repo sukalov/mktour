@@ -1,3 +1,11 @@
+# [1.0.0-beta.27](https://github.com/sukalov/mktour/compare/v1.0.0-beta.26...v1.0.0-beta.27) (2025-12-08)
+
+
+### Features
+
+* club page redesign draft by opus ([60257e4](https://github.com/sukalov/mktour/commit/60257e4b78a202b61d408f48737d0658f0121629))
+* make search bars on club page useful by connecting them to globalSearch api (with club scope) ([25d12ea](https://github.com/sukalov/mktour/commit/25d12eaac1778b7e757db25abac833bbfaa7a794))
+
 # [1.0.0-beta.26](https://github.com/sukalov/mktour/compare/v1.0.0-beta.25...v1.0.0-beta.26) (2025-12-06)
 
 
