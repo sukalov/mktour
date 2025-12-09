@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { publicCaller } from '@/server/api/index';
 import { clubsSelectSchema } from '@/server/db/zod/clubs';
 import {
@@ -5,6 +6,7 @@ import {
   usersSelectSchema,
 } from '@/server/db/zod/users';
 import { beforeAll, describe, expect, it } from 'bun:test';
+
 import { getSeededTestData } from '../setup/utils';
 
 describe('user router', () => {

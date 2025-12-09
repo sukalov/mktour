@@ -313,7 +313,8 @@ const ClubTournamentsSection: FC<{
         query: search,
       }),
     });
-  }, [search]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [clubId, queryClient, search, trpc.search]);
 
   return (
     <Card className="flex flex-col">
@@ -372,7 +373,7 @@ const ClubPlayersSection: FC<{ clubId: string }> = ({ clubId }) => {
   const queryClient = useQueryClient();
   const trpc = useTRPC();
 
-  const { data: searchResults, isFetching: isSearching } = useSearchQuery({
+  const { data: searchResults } = useSearchQuery({
     query: debouncedSearch,
     filter: {
       type: 'players',
@@ -394,7 +395,8 @@ const ClubPlayersSection: FC<{ clubId: string }> = ({ clubId }) => {
         query: search,
       }),
     });
-  }, [search]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [clubId, queryClient, search, trpc.search]);
 
   return (
     <Card className="flex flex-col">

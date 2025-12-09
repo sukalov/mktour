@@ -1,6 +1,7 @@
 'use client';
 
 import { useSignOutMutation } from '@/components/hooks/mutation-hooks/use-sign-out';
+import { useAuth } from '@/components/hooks/query-hooks/use-user';
 import { useUserNotificationsCounter } from '@/components/hooks/query-hooks/use-user-notifications';
 import Badge, { BadgeWithCount } from '@/components/ui-custom/badge';
 import {
@@ -9,8 +10,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useQueryClient } from '@tanstack/react-query';
-import { User } from 'lucia';
 import { User2 } from 'lucide-react';
 import { MessageKeys, useTranslations } from 'next-intl';
 import Link from 'next/link';
@@ -19,12 +20,23 @@ import { FC, PropsWithChildren } from 'react';
 import LichessLogo from '../ui-custom/lichess-logo';
 import { Button } from '../ui/button';
 
-export default function AuthButton({ user }: AuthButtonProps) {
+export default function AuthButton() {
   const t = useTranslations('Menu');
   const queryClient = useQueryClient();
   const router = useRouter();
+  const { data: user, isLoading } = useAuth();
   const { mutate: signOut } = useSignOutMutation(queryClient);
   const { data: notificationsCounter } = useUserNotificationsCounter();
+
+  if (isLoading)
+    return (
+      <Button className={`flex-row gap-2 p-2`} variant="ghost" asChild disabled>
+        <Link href="/login/lichess" prefetch={false}>
+          <LichessLogo />
+          <Skeleton className="hidden h-4 w-16 sm:block" />
+        </Link>
+      </Button>
+    );
 
   if (!user) {
     return (
@@ -32,7 +44,7 @@ export default function AuthButton({ user }: AuthButtonProps) {
         <Button className={`flex-row gap-2 p-2`} variant="ghost" asChild>
           <Link href="/login/lichess" prefetch={false}>
             <LichessLogo />
-            {t('Profile.login')}
+            <span className="hidden sm:block">{t('Profile.login')}</span>
           </Link>
         </Button>
       </>
@@ -112,7 +124,3 @@ type MenuItems = {
   >;
   path: string;
 }[];
-
-interface AuthButtonProps {
-  user?: User | null;
-}

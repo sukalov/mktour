@@ -1,4 +1,5 @@
 import { useSignOutMutation } from '@/components/hooks/mutation-hooks/use-sign-out';
+import { useAuth } from '@/components/hooks/query-hooks/use-user';
 import LocaleSwitcher from '@/components/locale-switcher';
 import MenuItem from '@/components/navigation/mobile/menu-item';
 import MenuItemWithSubMenu from '@/components/navigation/mobile/menu-item-with-sub';
@@ -8,15 +9,15 @@ import { NAVMENU_ITEMS } from '@/components/navigation/nav-menu-items';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useQueryClient } from '@tanstack/react-query';
 import { motion, StyleTransitions, useCycle, Variants } from 'framer-motion';
-import { User } from 'lucia';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { FC, RefObject, useEffect, useMemo, useRef, useState } from 'react';
 
-const Menu: FC<{ user: User | null }> = ({ user }) => {
+const Menu: FC = () => {
   const containerRef = useRef(null);
   const router = useRouter();
+  const { data: user } = useAuth();
   const queryClient = useQueryClient();
   const { mutate: signOut } = useSignOutMutation(queryClient);
   const { height } = useDimensions(containerRef);

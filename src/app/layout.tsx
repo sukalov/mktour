@@ -1,5 +1,5 @@
 import Loading from '@/app/loading';
-import NavWrapper from '@/components/navigation/nav-wrapper';
+import Navigation from '@/components/navigation';
 import ErrorFallback from '@/components/providers/error-boundary';
 import IntlProvider from '@/components/providers/intl-provider';
 import MediaQueryProvider from '@/components/providers/media-query-provider';
@@ -24,7 +24,7 @@ async function LayoutContent({ children }: PropsWithChildren) {
   return (
     <IntlProvider messages={messages} locale={locale}>
       <GlobalWebSocketProvider>
-        <NavWrapper />
+        <Navigation />
         <div className="pt-14">{children}</div>
         <Analytics />
         <SpeedInsights />

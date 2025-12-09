@@ -20,12 +20,11 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { DatabaseClub } from '@/server/db/schema/clubs';
 import { DatabasePlayer } from '@/server/db/schema/players';
 import { DatabaseUser } from '@/server/db/schema/users';
-import { User } from 'lucia';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-export default function GlobalSearch({ user }: { user: User | null }) {
+export default function GlobalSearch() {
   const [open, setOpen] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState('');
   const debouncedSearchQuery = useDebounce(searchQuery, 300);

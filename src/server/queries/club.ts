@@ -2,7 +2,7 @@ import { db } from '@/server/db';
 import { clubs, DatabaseClub } from '@/server/db/schema/clubs';
 import { players } from '@/server/db/schema/players';
 import { PlayerModel } from '@/server/db/zod/players';
-import { and, desc, eq, like } from 'drizzle-orm';
+import { desc, eq } from 'drizzle-orm';
 
 export const getClubInfo = async (id: DatabaseClub['id']) => {
   const data = (await db.select().from(clubs).where(eq(clubs.id, id)))?.at(0);
