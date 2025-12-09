@@ -8,10 +8,7 @@ import {
   usersSelectSchema,
 } from '@/server/db/zod/users';
 import { getUserClubNames } from '@/server/queries/get-user-clubs';
-import {
-  getUserData,
-  getUserInfoByUsername,
-} from '@/server/queries/get-user-data';
+import { getUserInfoByUsername } from '@/server/queries/get-user-data';
 import { TRPCError } from '@trpc/server';
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
@@ -52,10 +49,6 @@ export const userRouter = createTRPCRouter({
       if (!user) throw new TRPCError({ code: 'NOT_FOUND' });
       return user;
     }),
-  context: publicProcedure.query(async (opts) => {
-    if (!opts.ctx.user) return null;
-    return await getUserData(opts.ctx.user.id);
-  }),
   clubs: publicProcedure
     .meta(meta.userClubs)
     .output(z.array(clubsSelectSchema.pick({ id: true, name: true })))

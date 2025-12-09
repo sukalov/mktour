@@ -1,8 +1,8 @@
 import { glicko2Calculator, type GameResult } from '@/lib/glicko2';
 import { describe, expect, it } from 'bun:test';
 
-describe('Glicko-2 Implementation', () => {
-  // Test Case 1: New player plays 5 games with mixed results
+describe('glicko-2', () => {
+  // test case 1: new player plays 5 games with mixed results
   it('should calculate ratings correctly for a new player', () => {
     const newPlayer = {
       rating: 1500,
@@ -20,7 +20,7 @@ describe('Glicko-2 Implementation', () => {
 
     const update = glicko2Calculator.calculateNewRatings(newPlayer, results);
 
-    // Expected: Rating should increase (performed well), RD should decrease significantly
+    // expected: rating should increase (performed well), RD should decrease significantly
     const expectedRatingRange = { min: 1600, max: 1650 };
     const expectedRDRange = { min: 150, max: 200 };
 
@@ -36,7 +36,7 @@ describe('Glicko-2 Implementation', () => {
     expect(update.ratingDeviationChange).toBeLessThan(0);
   });
 
-  // Test Case 2: Established player with volatile performance
+  // test case 2: established player with volatile performance
   it('should handle volatile performance for an established player', () => {
     const establishedPlayer = {
       rating: 1800,
@@ -55,7 +55,7 @@ describe('Glicko-2 Implementation', () => {
       results,
     );
 
-    // Expected: Rating might decrease slightly, RD should increase, volatility should increase
+    // expected: rating might decrease slightly, RD should increase, volatility should increase
     const expectedRatingRange = { min: 1780, max: 1800 };
     const expectedRDRange = { min: 45, max: 55 };
     const expectedVolatilityMin = 0.055;
@@ -71,7 +71,7 @@ describe('Glicko-2 Implementation', () => {
     expect(update.newVolatility).toBeGreaterThanOrEqual(expectedVolatilityMin);
   });
 
-  // Test Case 3: Player with no games (inactivity)
+  // test case 3: player with no games (inactivity)
   it('should increase RD for inactive players', () => {
     const inactivePlayer = {
       rating: 1600,
@@ -86,22 +86,22 @@ describe('Glicko-2 Implementation', () => {
       results,
     );
 
-    // Expected: Rating unchanged, RD increased slightly, volatility unchanged
+    // expected: rating unchanged, RD increased slightly, volatility unchanged
     expect(update.ratingChange).toBe(0);
     expect(update.ratingDeviationChange).toBeGreaterThan(0);
     expect(update.volatilityChange).toBe(0);
   });
 
-  // Test Case 4: Database format conversion
+  // test case 4: database format conversion
   it('should correctly convert between DB and calculation formats', () => {
-    // Test conversion from database format
+    // test conversion from database format
     const dbPlayer = glicko2Calculator.fromDbFormat(1500, 350, 0.06);
 
     expect(dbPlayer.rating).toBe(1500);
     expect(dbPlayer.ratingDeviation).toBe(350);
     expect(dbPlayer.volatility).toBe(0.06);
 
-    // Test conversion to database format
+    // test conversion to database format
     const calcPlayer = {
       rating: 1525.7,
       ratingDeviation: 325.3,
@@ -119,7 +119,7 @@ describe('Glicko-2 Implementation', () => {
     );
   });
 
-  // New Test Case: Extreme Opponent Ratings
+  // test case 5: extreme opponent ratings
   it('should handle extreme opponent ratings gracefully', () => {
     const player = {
       rating: 1500,
@@ -135,7 +135,7 @@ describe('Glicko-2 Implementation', () => {
       player,
       resultsHigh,
     );
-    // Should lose very little rating for losing to a much stronger player
+    // should lose very little rating for losing to a much stronger player
     expect(Math.abs(updateHigh.ratingChange)).toBeLessThan(5);
 
     const resultsLow: GameResult[] = [
@@ -147,7 +147,7 @@ describe('Glicko-2 Implementation', () => {
     expect(updateLow.ratingChange).toBeLessThan(5);
   });
 
-  // New Test Case: Winning Streak
+  // test case 6: winning streak
   it('should reward winning streaks with higher rating gains', () => {
     const player = {
       rating: 1500,
@@ -164,7 +164,7 @@ describe('Glicko-2 Implementation', () => {
 
     const update = glicko2Calculator.calculateNewRatings(player, results);
 
-    expect(update.ratingChange).toBeGreaterThan(50); // Significant gain
-    expect(update.newVolatility).toBeGreaterThan(0.06); // Volatility likely increases due to consistent overperformance
+    expect(update.ratingChange).toBeGreaterThan(50); // significant gain
+    expect(update.newVolatility).toBeGreaterThan(0.06); // volatility likely increases due to consistent overperformance
   });
 });
