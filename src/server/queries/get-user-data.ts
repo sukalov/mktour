@@ -19,10 +19,12 @@ const getUserInfo = async (username: string) => {
 
 export const getUserInfoByUsername = async (username: string) => {
   'use cache';
-  cacheLife({
-    stale: 1000 * 60 * 60,
-    revalidate: 1000 * 60 * 60,
-  });
+  if (process.env.NODE_ENV !== 'test') {
+    cacheLife({
+      stale: 1000 * 60 * 60,
+      revalidate: 1000 * 60 * 60,
+    });
+  }
   return await db
     .select()
     .from(users)
@@ -67,7 +69,9 @@ export const getUserData = async (userId: string): Promise<UserContext> => {
   const user = await getUserInfo(userId);
   const userClubs = await getUserClubIds({ userId });
   const userAffiliations = await getAffiliations(userId);
-  cacheTag(`user-context:${userId}`);
+  if (process.env.NODE_ENV !== 'test') {
+    cacheTag(`user-context:${userId}`);
+  }
   return {
     user,
     userClubs,
