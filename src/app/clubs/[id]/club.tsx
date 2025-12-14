@@ -303,18 +303,18 @@ const ClubTournamentsSection: FC<{
     queryClient.setQueryData(
       trpc.search.queryKey({
         filter: { type: 'tournaments', clubId },
-        query: search,
+        query: debouncedSearch,
       }),
       searchResults,
     );
     queryClient.invalidateQueries({
       queryKey: trpc.search.queryKey({
         filter: { type: 'tournaments', clubId },
-        query: search,
+        query: debouncedSearch,
       }),
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [clubId, queryClient, search, trpc.search]);
+  }, [clubId, queryClient, debouncedSearch, trpc.search]);
 
   return (
     <Card className="flex flex-col">
