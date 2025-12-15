@@ -57,7 +57,7 @@
     "@vercel/analytics": "^1.6.1",
     "@vercel/speed-insights": "^1.3.1",
     "arctic": "^3.7.0",
-    "autoprefixer": "^10.4.22",
+    "autoprefixer": "^10.4.23",
     "babel-plugin-react-compiler": "^1.0.0",
     "caniuse-lite": "^1.0.30001760",
     "class-variance-authority": "^0.7.1",
@@ -71,7 +71,7 @@
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.23.26",
     "lucia": "^3.2.2",
-    "lucide-react": "^0.556.0",
+    "lucide-react": "^0.561.0",
     "nanoid": "^5.1.6",
     "next": "^16.0.10",
     "next-intl": "^4.6.0",
@@ -98,7 +98,7 @@
     "trpc-client-devtools-link": "^0.1.1",
     "trpc-to-openapi": "^3.1.0",
     "vaul": "^1.1.2",
-    "zod": "^4.1.13"
+    "zod": "^4.2.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.2.0",
@@ -110,7 +110,7 @@
     "@tailwindcss/postcss": "^4.1.18",
     "@tanstack/react-query-devtools": "^5.91.1",
     "@types/bun": "^1.3.4",
-    "@types/node": "^24.10.4",
+    "@types/node": "^25.0.2",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "drizzle-kit": "0.31.8",
