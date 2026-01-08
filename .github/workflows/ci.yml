@@ -27,6 +27,8 @@ jobs:
         env:
           MKTOURTEST: 'true'
           NODE_ENV: test
+          TEST_DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
+          TEST_DATABASE_AUTH_TOKEN: ${{ secrets.TEST_DATABASE_AUTH_TOKEN }}
 
       - name: Build
         run: bun run build

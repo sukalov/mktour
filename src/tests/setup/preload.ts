@@ -1,19 +1,3 @@
-const fs = await import('fs');
-const path = await import('path');
-
-const envPath = path.join(process.cwd(), '.env.local');
-const envContent = fs.readFileSync(envPath, 'utf-8');
-
-envContent.split('\n').forEach((line) => {
-  const match = line.match(/^([^=:#]+)=(.*)$/);
-  if (match) {
-    const [, key, value] = match;
-    (process.env as Record<string, string>)[key.trim()] = value
-      .trim()
-      .replace(/^["']|["']$/g, '');
-  }
-});
-
 (process.env as Record<string, string>).NODE_ENV = 'test';
 (process.env as Record<string, string>).MKTOURTEST = 'true';
 
