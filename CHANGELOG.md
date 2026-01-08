@@ -1,3 +1,10 @@
+# [1.0.0-beta.30](https://github.com/sukalov/mktour/compare/v1.0.0-beta.29...v1.0.0-beta.30) (2026-01-08)
+
+
+### Bug Fixes
+
+* **?:** remove loadEnv which is not imported properly inside gh workflow ([2f2777f](https://github.com/sukalov/mktour/commit/2f2777f3f7ca965b519d34e055d62f2311015c8f))
+
 # [1.0.0-beta.29](https://github.com/sukalov/mktour/compare/v1.0.0-beta.28...v1.0.0-beta.29) (2026-01-08)
 
 
