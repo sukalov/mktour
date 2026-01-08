@@ -1,19 +1,18 @@
-import { Format, TournamentType } from '@/types/tournaments';
+import { TournamentFormat, TournamentType } from '@/server/db/zod/enums';
 import * as z from 'zod';
 
-export const newTournamentFormSchema = z.object({
-  title: z
-    .string({ required_error: 'hard naming' })
-    .min(1, { message: 'hard naming' })
-    .min(3, { message: 'short tournament name' }),
+export const newTournamentFormSchemaConfig = {
+  title: z.string().optional(),
   date: z.date().min(new Date(new Date().setDate(new Date().getDate() - 1)), {
-    message: 'time travel',
+    error: 'time travel',
   }),
-  format: z.custom<Format>(),
+  format: z.custom<TournamentFormat>(),
   type: z.custom<TournamentType>(),
   timestamp: z.number(),
-  club_id: z.string(),
+  clubId: z.string(),
   rated: z.boolean(),
-});
+};
+
+export const newTournamentFormSchema = z.object(newTournamentFormSchemaConfig);
 
 export type NewTournamentFormType = z.infer<typeof newTournamentFormSchema>;

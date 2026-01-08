@@ -3,7 +3,7 @@ import { useTournamentAddNewPlayer } from '@/components/hooks/mutation-hooks/use
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
 import { Button } from '@/components/ui/button';
 import { newid } from '@/lib/utils';
-import { DatabasePlayer } from '@/server/db/schema/players';
+import { PlayerFormModel } from '@/server/db/zod/players';
 import { faker } from '@faker-js/faker';
 import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
@@ -26,18 +26,20 @@ const AddFakerPlayer: FC<{ setOpen: (_arg: boolean) => void }> = ({
   );
 
   const nickname =
+    // eslint-disable-next-line
     Math.round(Math.random()) > 0
       ? faker.internet.username()
       : faker.person.fullName();
 
-  const player: DatabasePlayer = {
+  const player: PlayerFormModel & { id: string } = {
     id: newid(),
     nickname,
     realname: null,
-    club_id: tournament.data?.club?.id || '',
-    user_id: null,
+    clubId: tournament.data?.club?.id || '',
     rating: faker.number.int({ min: 100, max: 3000 }),
-    last_seen: null,
+    ratingDeviation: 350,
+    ratingVolatility: faker.number.float({ min: 0.5, max: 1.2 }),
+    ratingLastUpdateAt: new Date(),
   };
 
   const onClick = () => {
@@ -45,7 +47,6 @@ const AddFakerPlayer: FC<{ setOpen: (_arg: boolean) => void }> = ({
     mutate({
       player,
       tournamentId: tournament.data?.tournament.id || '',
-      userId,
     });
   };
 

@@ -90,7 +90,7 @@ export async function GET(request: Request): Promise<Response> {
       await db.insert(clubs).values({
         id: clubId,
         name: `${lichessUser.id}'s chess club`,
-        created_at: new Date(),
+        createdAt: new Date(),
       });
 
       await db.insert(users).values({
@@ -99,18 +99,19 @@ export async function GET(request: Request): Promise<Response> {
         username: lichessUser.id,
         email: lichessUserEmail,
         name,
-        selected_club: clubId,
-        created_at: new Date(),
+        selectedClub: clubId,
+        createdAt: new Date(),
       });
 
       await db.insert(clubs_to_users).values({
         id: ctuId,
-        club_id: clubId,
-        user_id: userId,
+        clubId,
+        userId,
         status: 'co-owner',
+        promotedAt: new Date(),
       });
       await db.insert(user_preferences).values({
-        user_id: userId,
+        userId: userId,
         language: 'en',
       });
 

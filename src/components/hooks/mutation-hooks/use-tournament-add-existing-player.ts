@@ -1,9 +1,8 @@
 import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
 import { useTRPC } from '@/components/trpc/client';
-import { generateRoundRobinRoundFunction } from '@/lib/client-actions/round-robin-generator';
-import { shuffle } from '@/lib/utils';
-import { PlayerModel } from '@/types/tournaments';
-import { DashboardMessage } from '@/types/ws-events';
+import { generateRandomRoundGames } from '@/lib/client-actions/random-pairs-generator';
+import { PlayerTournamentModel } from '@/server/db/zod/players';
+import { DashboardMessage } from '@/types/tournament-ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
@@ -33,7 +32,7 @@ export const useTournamentAddExistingPlayer = (
           trpc.tournament.playersIn.queryKey({ tournamentId }),
         );
 
-        const newPlayer: PlayerModel = {
+        const newPlayer: PlayerTournamentModel = {
           id: player.id,
           nickname: player.nickname,
           rating: player.rating,
@@ -41,14 +40,19 @@ export const useTournamentAddExistingPlayer = (
           wins: 0,
           losses: 0,
           draws: 0,
-          color_index: 0,
+          colorIndex: 0,
           place: null,
-          is_out: null,
+          isOut: null,
+          pairingNumber: null,
         };
 
         queryClient.setQueryData(
           trpc.tournament.playersIn.queryKey({ tournamentId }),
-          (cache) => cache && cache.concat(newPlayer),
+          (cache) => {
+            if (!cache) return [newPlayer];
+            if (cache.some((p) => p.id === newPlayer.id)) return cache;
+            return cache.concat(newPlayer);
+          },
         );
         queryClient.setQueryData(
           trpc.tournament.playersOut.queryKey({ tournamentId }),
@@ -84,7 +88,7 @@ export const useTournamentAddExistingPlayer = (
       },
       onSuccess: (_err, _data, context) => {
         sendJsonMessage({
-          type: 'add-existing-player',
+          event: 'add-existing-player',
           body: context.newPlayer,
         });
         if (
@@ -92,15 +96,17 @@ export const useTournamentAddExistingPlayer = (
             mutationKey: trpc.tournament.addExistingPlayer.mutationKey(),
           }) === 1
         ) {
-          const playersUnshuffled = queryClient.getQueryData(
+          const players = queryClient.getQueryData(
             trpc.tournament.playersIn.queryKey({ tournamentId }),
           );
-          const games = queryClient.getQueryData(
-            trpc.tournament.allGames.queryKey({ tournamentId }),
-          );
-          const newGames = generateRoundRobinRoundFunction({
-            players: playersUnshuffled ? shuffle(playersUnshuffled) : [],
-            games: games ?? [],
+          const newGames = generateRandomRoundGames({
+            players: players
+              ? players?.map((player, i) => ({
+                  ...player,
+                  pairingNumber: i,
+                }))
+              : [],
+            games: [],
             roundNumber: 1,
             tournamentId,
           });
@@ -110,7 +116,7 @@ export const useTournamentAddExistingPlayer = (
               tournamentId,
               roundNumber: 1,
             }),
-            () => newGames.sort((a, b) => a.game_number - b.game_number),
+            () => newGames.sort((a, b) => a.gameNumber - b.gameNumber),
           );
         }
       },

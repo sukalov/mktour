@@ -1,22 +1,28 @@
 'use client';
 
+import AddPlayerDrawer from '@/app/clubs/my/add-new-player';
 import ClubSelect from '@/app/clubs/my/club-select';
 import ClubDashboardTabList from '@/app/clubs/my/dashboard-tab-list';
 import { ClubDashboardTab, ClubTabProps, tabMap } from '@/app/clubs/my/tabMap';
 import Loading from '@/app/loading';
 import Empty from '@/components/empty';
-import { useUser } from '@/components/hooks/query-hooks/use-user';
+import { useAuth } from '@/components/hooks/query-hooks/use-user';
+import useScrollableContainer from '@/components/hooks/use-scrollable-container';
 import SwipeHandlerProvider from '@/components/swipe-handler-provider';
+import FabProvider from '@/components/ui-custom/fab-provider';
 import { useTranslations } from 'next-intl';
-import { Dispatch, FC, SetStateAction, useState } from 'react';
+import { Dispatch, FC, ReactNode, SetStateAction, useState } from 'react';
 
 export default function Dashboard({ userId }: { userId: string }) {
   const t = useTranslations('Club.Dashboard');
-  const { data, isLoading } = useUser();
+  const { data, isLoading } = useAuth();
   const [tab, setTab] = useState<ClubDashboardTab>('main');
   const ActiveTab: FC<ClubTabProps> = tabMap[tab];
   const tabs = Object.keys(tabMap) as ClubDashboardTab[];
   const indexOfTab = tabs.indexOf(tab);
+  const fabContent = fabTabMap[tab];
+  const [scrolling, setScrolling] = useState(false);
+  const ref = useScrollableContainer({ setScrolling });
 
   if (!data && isLoading) return <Loading />;
   if (!data) return <Empty>{t('no data')}</Empty>;
@@ -25,12 +31,25 @@ export default function Dashboard({ userId }: { userId: string }) {
     <SwipeHandlerProvider
       handleSwipe={(dir) => handleSwipe(dir, indexOfTab, tabs, setTab)}
     >
-      <div className="fixed top-14 w-full">
-        <ClubDashboardTabList activeTab={tab} setTab={setTab} />
+      <FabProvider
+        status="organizer"
+        fabContent={fabContent}
+        scrolling={scrolling}
+      />
+      <div className="fixed top-14 z-10 w-full">
+        <ClubDashboardTabList
+          selectedClub={data.selectedClub}
+          activeTab={tab}
+          setTab={setTab}
+        />
         <ClubSelect user={data} />
       </div>
-      <div className="mk-container pt-20">
-        <ActiveTab selectedClub={data.selected_club} userId={userId} />
+      <div className="fixed h-full w-full overflow-scroll">
+        <div ref={ref} className="mk-container relative pt-21">
+          <div className="h-full pb-20">
+            <ActiveTab userId={userId} selectedClub={data.selectedClub} />
+          </div>
+        </div>
       </div>
     </SwipeHandlerProvider>
   );
@@ -50,4 +69,12 @@ const handleSwipe = (
   } else return;
 
   setTab(tabs[newIndex]);
+};
+
+const fabTabMap: Record<ClubDashboardTab, ReactNode | undefined> = {
+  players: <AddPlayerDrawer />,
+  tournaments: undefined,
+  main: undefined,
+  notifications: undefined,
+  settings: undefined,
 };

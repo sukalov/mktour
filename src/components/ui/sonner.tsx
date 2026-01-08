@@ -24,9 +24,6 @@ const Toaster = ({ ...props }: ToasterProps) => {
         },
       }}
       {...props}
-      duration={2000}
-      style={{ width: 'min(80dvw, 512px)' }}
-      position="bottom-left"
     />
   );
 };

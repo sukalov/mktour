@@ -1,6 +1,6 @@
 import { LoadingSpinner } from '@/app/loading';
 import { Card } from '@/components/ui/card';
-import { Result as ResultModel } from '@/types/tournaments';
+import { GameResult } from '@/server/db/zod/enums';
 import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
@@ -41,7 +41,7 @@ const Result: FC<ResultProps> = ({ isPending, result, selected }) => {
 };
 
 export type ResultProps = {
-  result: ResultModel | null;
+  result: GameResult | null;
   selected?: boolean;
   isPending?: boolean;
 };

@@ -3,6 +3,8 @@
 import { turboPascal } from '@/app/fonts';
 import { LoadingSpinner } from '@/app/loading';
 import FormDatePicker from '@/app/tournaments/create/form-date-picker';
+import { useTournamentCreate } from '@/components/hooks/mutation-hooks/use-tournament-create';
+import TypeCard from '@/components/ui-custom/type-card';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -25,19 +27,18 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-import TypeCard from '@/components/ui/type-card';
 import {
   NewTournamentFormType,
   newTournamentFormSchema,
 } from '@/lib/zod/new-tournament-form';
 import { DatabaseClub } from '@/server/db/schema/clubs';
 import { DatabaseUser } from '@/server/db/schema/users';
-import { createTournament } from '@/server/mutations/tournament-managing';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PlusIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import * as React from 'react';
+import { useRouter } from 'next/navigation';
+import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -45,11 +46,10 @@ export default function NewTournamentForm({
   clubs,
   user,
 }: NewTournamentFormProps) {
-  const [defaultClub] = React.useState('');
   const form = useForm<NewTournamentFormType>({
     resolver: zodResolver(newTournamentFormSchema),
     defaultValues: {
-      title: defaultClub,
+      title: undefined,
       format: undefined,
       date: new Date(),
       timestamp: 0,
@@ -58,33 +58,31 @@ export default function NewTournamentForm({
     },
   });
   const t = useTranslations('MakeTournament');
+  const { mutate, isPending: isMutating } = useTournamentCreate();
+  const [isNavigating, startNavigation] = useTransition();
+  const router = useRouter();
+  const isPending = isMutating || isNavigating;
 
-  const onSubmit = async (data: NewTournamentFormType) => {
-    setSubmitButton(
-      <Button disabled className="w-full">
-        <LoadingSpinner />
-        &nbsp;
-        {t('making')}
-      </Button>,
-    );
-    try {
-      await createTournament({
+  const handleSubmit = (data: NewTournamentFormType) => {
+    mutate(
+      {
         ...data,
         date: data.date.toISOString().slice(0, 10),
-      });
-    } catch (e) {
-      if ((e as Error).message !== 'NEXT_REDIRECT') {
-        console.log('SERVER_ERROR', e);
-        toast.error(t('server error'));
-      }
-    }
+      },
+      {
+        onSuccess: (result) => {
+          startNavigation(() => {
+            router.push(`/tournaments/${result.id}`);
+            form.reset();
+          });
+        },
+        onError: (e) => {
+          console.error(e);
+          toast.error(t('error'));
+        },
+      },
+    );
   };
-
-  const [submitButton, setSubmitButton] = React.useState(
-    <Button type="submit" className="w-full">
-      {t('make tournament')}
-    </Button>,
-  );
 
   return (
     <Form {...form}>
@@ -93,17 +91,17 @@ export default function NewTournamentForm({
       >
         {t('new tournament')}
       </h2>
-      <Card className="mx-auto max-w-[min(600px,98%)] border-none shadow-none sm:border-solid sm:shadow-2xs">
+      <Card className="bg-background sm:bg-card mx-auto max-w-[min(600px,98%)] border-none shadow-none sm:border-solid sm:shadow-2xs">
         <CardContent className="p-4 sm:p-8">
           <form
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={form.handleSubmit(handleSubmit)}
             className="flex flex-col gap-8"
             name="new-tournament-form"
           >
             <FormField
               control={form.control}
-              name="club_id"
-              defaultValue={user.selected_club}
+              name="clubId"
+              defaultValue={user.selectedClub}
               render={({ field }) => (
                 <FormItem>
                   <Select
@@ -248,7 +246,16 @@ export default function NewTournamentForm({
                 </div>
               )}
             />
-            {submitButton}
+            <Button type="submit" className="w-full" disabled={isPending}>
+              {isPending ? (
+                <>
+                  <LoadingSpinner />
+                  {t('making')}
+                </>
+              ) : (
+                t('make tournament')
+              )}
+            </Button>
           </form>
         </CardContent>
       </Card>

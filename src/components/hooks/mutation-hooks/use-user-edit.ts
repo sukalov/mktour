@@ -7,11 +7,11 @@ export default function useEditUserMutation(queryClient: QueryClient) {
   const t = useTranslations('Toasts');
   const trpc = useTRPC();
   return useMutation(
-    trpc.user.edit.mutationOptions({
+    trpc.auth.edit.mutationOptions({
       onSuccess: () => {
         toast.success(t('profile updated'));
         queryClient.invalidateQueries({
-          queryKey: trpc.user.auth.queryKey(),
+          queryKey: trpc.auth.info.queryKey(),
         });
       },
       onError: () => toast.error(t('server error')),

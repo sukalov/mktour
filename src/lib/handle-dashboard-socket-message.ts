@@ -2,9 +2,8 @@
 // ws-handler
 
 import { useTRPC } from '@/components/trpc/client';
-import { DatabasePlayer } from '@/server/db/schema/players';
-import { PlayerModel } from '@/types/tournaments';
-import type { DashboardMessage } from '@/types/ws-events';
+import { PlayerModel, PlayerTournamentModel } from '@/server/db/zod/players';
+import type { DashboardMessage } from '@/types/tournament-ws-events';
 import { QueryClient } from '@tanstack/react-query';
 import { Dispatch, SetStateAction } from 'react';
 import { toast } from 'sonner';
@@ -17,7 +16,7 @@ export const handleSocketMessage = (
   setRoundInView: Dispatch<SetStateAction<number>>,
   trpc: ReturnType<typeof useTRPC>,
 ) => {
-  switch (message.type) {
+  switch (message.event) {
     case 'add-new-player':
       queryClient.cancelQueries({
         queryKey: trpc.tournament.playersIn.queryKey({ tournamentId }),
@@ -67,7 +66,7 @@ export const handleSocketMessage = (
       );
       if (!addedPlayers) break;
       const removedPlayer = addedPlayers.find(
-        (player: PlayerModel) => player.id === message.id,
+        (player: PlayerTournamentModel) => player.id === message.id,
       );
 
       queryClient.setQueryData(
@@ -75,14 +74,18 @@ export const handleSocketMessage = (
         (cache) => cache && cache.filter((player) => player.id !== message.id),
       );
       if (removedPlayer) {
-        const removedPlayerDb: DatabasePlayer = {
+        const removedPlayerDb: PlayerModel = {
           id: removedPlayer.id,
           nickname: removedPlayer.nickname,
           realname: removedPlayer.realname ?? null,
           rating: removedPlayer.rating,
-          club_id: '',
-          user_id: null,
-          last_seen: null,
+          ratingPeak: removedPlayer.rating,
+          clubId: '',
+          userId: null,
+          lastSeenAt: new Date(),
+          ratingDeviation: 0,
+          ratingVolatility: 0,
+          ratingLastUpdateAt: new Date(),
         };
         queryClient.setQueryData(
           trpc.tournament.playersOut.queryKey({ tournamentId }),
@@ -124,7 +127,7 @@ export const handleSocketMessage = (
         trpc.tournament.info.queryKey({ tournamentId }),
         (cache) => {
           if (!cache) return cache;
-          cache.tournament.started_at = message.started_at;
+          cache.tournament.startedAt = message.startedAt;
           return cache;
         },
       );
@@ -133,7 +136,7 @@ export const handleSocketMessage = (
         trpc.tournament.info.queryKey({ tournamentId }),
         (cache) => {
           if (!cache) return cache;
-          cache.tournament.started_at = null;
+          cache.tournament.startedAt = null;
           return cache;
         },
       );
@@ -167,6 +170,19 @@ export const handleSocketMessage = (
       if (message.isTournamentGoing) {
         setRoundInView(message.roundNumber);
       }
+      break;
+    case 'finish-tournament':
+      queryClient.setQueryData(
+        trpc.tournament.info.queryKey({ tournamentId }),
+        (cache) => {
+          if (!cache) return cache;
+          cache.tournament.closedAt = message.closedAt;
+          return cache;
+        },
+      );
+      queryClient.invalidateQueries({
+        queryKey: trpc.tournament.info.queryKey({ tournamentId }),
+      });
       break;
     case 'error':
       toast.error(errorMessage, { id: 'wsErrorMessage' });

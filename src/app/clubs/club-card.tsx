@@ -1,5 +1,5 @@
+import LichessLogo from '@/components/ui-custom/lichess-logo';
 import { Card, CardTitle } from '@/components/ui/card';
-import LichessLogo from '@/components/ui/lichess-logo';
 import { DatabaseClub } from '@/server/db/schema/clubs';
 import { getLocale, getTranslations } from 'next-intl/server';
 import Link from 'next/link';
@@ -13,15 +13,11 @@ const ClubCard: FC<{ club: DatabaseClub }> = async ({ club }) => {
     <Link href={`/clubs/${club.id}`}>
       <Card className="mk-card flex flex-col shadow-sm">
         <div className="flex items-center gap-2">
-          <CardTitle className="text-sm">{club.name}</CardTitle>
-          {club.lichess_team && (
-            <Link
-              href={`https://lichess.org/team/${club.lichess_team}`}
-              target="_blank"
-              className="size-4"
-            >
+          <CardTitle className="text-base">{club.name}</CardTitle>
+          {club.lichessTeam && (
+            <div className="size-4">
               <LichessLogo />
-            </Link>
+            </div>
           )}
         </div>
         {club.description && (
@@ -31,9 +27,9 @@ const ClubCard: FC<{ club: DatabaseClub }> = async ({ club }) => {
         )}
 
         <p className="text-muted-foreground text-xs">
-          {club.created_at &&
+          {club.createdAt &&
             t('Club.Page.createdAt', {
-              date: club.created_at.toLocaleDateString(locale, {
+              date: club.createdAt.toLocaleDateString(locale, {
                 dateStyle: 'long',
               }),
             })}

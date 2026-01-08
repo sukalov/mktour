@@ -9,11 +9,10 @@ import { redirect } from 'next/navigation';
 import { FC } from 'react';
 
 export default async function MyTournaments() {
-  const user = await publicCaller.user.auth();
-  if (!user) redirect('/sign-in');
-  const tournaments = await getTournamentsToUserClubsQuery({ user });
-
+  const user = await publicCaller.auth.info();
+  if (!user) redirect('/sign-in?from=/tournaments/my');
   const t = await getTranslations('Tournaments');
+  const tournaments = await getTournamentsToUserClubsQuery({ user });
 
   if (!tournaments.length) {
     return (
@@ -23,14 +22,14 @@ export default async function MyTournaments() {
           href={'/tournaments/create'}
           className="bg-primary text-secondary m-4 rounded-md p-2"
         >
-          make tournament
+          {t('make tournament')}
         </Link>
       </p>
     );
   }
 
   return (
-    <main className="mk-container">
+    <main className="mk-container mk-list">
       <TournamentGroups props={tournaments} />
     </main>
   );
@@ -42,8 +41,8 @@ const TournamentGroups: FC<{ props: TournamentWithClub[] }> = ({ props }) => {
   return Object.entries(groupedTournaments).map(
     ([clubId, { clubName, tournaments }]) => {
       return (
-        <div className="mk-list" key={clubId}>
-          <Link href={`/clubs/${clubId}`} className="pl-4">
+        <div className="mk-list pb-0" key={clubId}>
+          <Link href={`/clubs/${clubId}`} className="pl-mk text-sm">
             <h2 className="text-muted-foreground">{clubName}</h2>
           </Link>
           {tournaments.map(({ tournament }) => (

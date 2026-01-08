@@ -1,77 +1,97 @@
 'use server';
 
+import { emptyClubCheck } from '@/app/clubs/create/empty-club-check';
+import { getUserLichessTeams } from '@/lib/api/lichess';
 import { validateRequest } from '@/lib/auth/lucia';
+import { CACHE_TAGS } from '@/lib/cache-tags';
 import { newid } from '@/lib/utils';
-import { NewClubFormType } from '@/lib/zod/new-club-form';
+import { validateLichessTeam } from '@/lib/zod/new-club-validation-action';
 import { db } from '@/server/db';
 import {
-  DatabaseClub,
-  DatabaseClubsToUsers,
   clubs,
   clubs_to_users,
+  DatabaseClubsToUsers,
 } from '@/server/db/schema/clubs';
 import {
+  club_notifications,
   InsertDatabaseUserNotification,
   user_notifications,
 } from '@/server/db/schema/notifications';
-import { DatabasePlayer, players } from '@/server/db/schema/players';
+import { affiliations, players } from '@/server/db/schema/players';
 import {
   games,
   players_to_tournaments,
   tournaments,
 } from '@/server/db/schema/tournaments';
 import { DatabaseUser, users } from '@/server/db/schema/users';
+import { ClubEditType, ClubFormType } from '@/server/db/zod/clubs';
+import { PlayerEditModel, PlayerFormModel } from '@/server/db/zod/players';
 import getStatusInClub from '@/server/queries/get-status-in-club';
 import { and, eq, ne } from 'drizzle-orm';
-import { revalidatePath } from 'next/cache';
+import { User } from 'lucia';
+import { revalidatePath, revalidateTag } from 'next/cache';
 
-export const createClub = async (values: NewClubFormType) => {
-  const { user } = await validateRequest();
-  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
+export const createClub = async (user: User, values: ClubFormType) => {
+  const emptyClub = await emptyClubCheck({ user });
+  if (emptyClub) throw new Error('EMPTY_CLUB_EXISTS');
+
   const id = newid();
+  const createdAt = new Date();
   const newClub = {
     ...values,
     id,
+    createdAt,
   };
   const newRelation: DatabaseClubsToUsers = {
     id: `${user.id}=${id}`,
-    club_id: id,
-    user_id: user.id,
+    clubId: id,
+    userId: user.id,
     status: 'co-owner',
+    promotedAt: new Date(),
   };
   try {
-    await db.insert(clubs).values(newClub);
-    await db.insert(clubs_to_users).values(newRelation);
-    await db
-      .update(users)
-      .set({ selected_club: id })
-      .where(eq(users.id, user.id));
+    const returnedClub = (
+      await db.insert(clubs).values(newClub).returning()
+    ).at(0);
+    await Promise.all([
+      db.insert(clubs_to_users).values(newRelation),
+      db.update(users).set({ selectedClub: id }).where(eq(users.id, user.id)),
+    ]);
+    if (!returnedClub) throw new Error('CLUB_NOT_CREATED');
+    return returnedClub;
   } catch (e) {
     throw new Error(`CLUB_NOT_CREATED: ${e}`);
   }
 };
 
-export const getClubInfo = async (id: DatabaseClub['id']) => {
-  const data = (await db.select().from(clubs).where(eq(clubs.id, id)))?.at(0);
-  if (!data) return undefined;
-  return data;
-};
-
-export const getClubPlayers = async (id: DatabasePlayer['club_id']) => {
-  return await db.select().from(players).where(eq(players.club_id, id));
-};
-
-export const editClub = async ({ clubId, userId, values }: ClubEditProps) => {
-  const { user } = await validateRequest();
-  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
-  if (user.id !== userId) throw new Error('USER_NOT_MATCHING');
-  await db.update(clubs).set(values).where(eq(clubs.id, clubId));
-};
-
-type ClubEditProps = {
+export const editClub = async ({
+  clubId,
+  values,
+  username,
+}: {
   clubId: string;
-  userId: string;
-  values: Partial<DatabaseClub>;
+  values: ClubEditType;
+  username: string;
+}) => {
+  if (values.lichessTeam) {
+    const userTeams = await getUserLichessTeams(username);
+    const isTeamAdmin = userTeams.find((t) => t.id === values.lichessTeam);
+    if (!isTeamAdmin) throw new Error('NOT_LICHESS_TEAM_ADMIN');
+
+    const existingClub = await validateLichessTeam({
+      lichessTeam: values.lichessTeam,
+    });
+    if (existingClub && existingClub.id !== clubId)
+      throw new Error('LICHESS_TEAM_ALREADY_LINKED');
+  }
+
+  const newClub = await db
+    .update(clubs)
+    .set(values)
+    .where(eq(clubs.id, clubId))
+    .returning();
+  revalidateTag(CACHE_TAGS.ALL_CLUBS, 'max');
+  return newClub.at(0);
 };
 
 type ClubDeleteProps = {
@@ -91,81 +111,89 @@ export const deleteClub = async ({
   await deleteClubFunction({ clubId, userId, userDeletion });
 };
 
+export const createPlayer = async ({ player }: { player: PlayerFormModel }) => {
+  const newPlayer = (
+    await db
+      .insert(players)
+      .values({
+        ...player,
+        lastSeenAt: new Date(),
+        id: newid(),
+        ratingPeak: player.rating,
+      })
+      .returning()
+  ).at(0);
+  if (!newPlayer) throw new Error('PLAYER_NOT_CREATED');
+  return newPlayer;
+};
+
 // FIXME
-export const deletePlayer = async ({
-  playerId,
-  clubId,
-}: {
-  playerId: string;
-  clubId: string;
-}) => {
-  const { user } = await validateRequest();
-  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
-  const [playerClub] = await db
-    .select({ club_id: players.club_id })
-    .from(players)
-    .where(eq(players.id, playerId));
-  if (playerClub.club_id !== clubId) throw new Error('CLUB_ID_NOT_MATCHING');
-  const status = await getStatusInClub({
-    userId: user.id,
-    clubId: playerClub.club_id,
-  });
-  if (!status) throw new Error('NOT_ADMIN');
+export const deletePlayer = async ({ playerId }: { playerId: string }) => {
+  const [playerTournament] = await db
+    .select({ tournamentId: players_to_tournaments.tournamentId })
+    .from(players_to_tournaments)
+    .where(eq(players_to_tournaments.playerId, playerId))
+    .limit(1);
+
+  if (playerTournament) {
+    throw new Error('PLAYER_HAS_TOURNAMENTS');
+  }
+
   await db.transaction(async (tx) => {
     await tx.delete(players).where(eq(players.id, playerId));
   });
 };
 
 export const editPlayer = async ({
-  clubId,
   values,
+  user,
 }: {
-  clubId: string;
-  values: Pick<DatabasePlayer, 'id' | 'nickname' | 'realname' | 'rating'>;
+  values: PlayerEditModel;
+  user: User;
 }) => {
-  const { user } = await validateRequest();
-  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   const [playerClub] = await db
-    .select({ club_id: players.club_id })
+    .select({ clubId: players.clubId })
     .from(players)
     .where(eq(players.id, values.id));
-  if (playerClub.club_id !== clubId) throw new Error('CLUB_ID_NOT_MATCHING');
+
   const status = await getStatusInClub({
     userId: user.id,
-    clubId: playerClub.club_id,
+    clubId: playerClub.clubId,
   });
   if (!status) throw new Error('NOT_ADMIN');
-  await db.update(players).set(values).where(eq(players.id, values.id));
+  const result = (
+    await db
+      .update(players)
+      .set(values)
+      .where(eq(players.id, values.id))
+      .returning()
+  ).at(0);
   revalidatePath(`/player/${values.id}`);
+
+  if (!result) throw new Error('PLAYER_NOT_EDITED');
+  return result;
 };
 
-export default async function getAllClubManagers(
-  club_id: string,
-): Promise<ClubManager[]> {
+export default async function getAllClubManagers(clubId: string) {
   return await db
     .select()
     .from(clubs_to_users)
-    .where(eq(clubs_to_users.club_id, club_id))
-    .innerJoin(users, eq(clubs_to_users.user_id, users.id));
+    .where(eq(clubs_to_users.clubId, clubId))
+    .innerJoin(users, eq(clubs_to_users.userId, users.id));
 }
-
-export type ClubManager = {
-  clubs_to_users: DatabaseClubsToUsers;
-  user: DatabaseUser;
-};
 
 export const deleteClubFunction = async ({
   clubId,
   userId,
-  userDeletion = false,
+  userDeletion = false, // true when function is invoked while deleting the user - single owner of a club
 }: ClubDeleteProps) => {
   const otherClubs = await db
     .select()
     .from(clubs_to_users)
     .where(
       and(
-        eq(clubs_to_users.user_id, userId),
-        ne(clubs_to_users.club_id, clubId),
+        eq(clubs_to_users.userId, userId),
+        ne(clubs_to_users.clubId, clubId),
         eq(clubs_to_users.status, 'co-owner'),
       ),
     )
@@ -178,38 +206,41 @@ export const deleteClubFunction = async ({
   if (!userDeletion) {
     await db
       .update(users)
-      .set({ selected_club: otherClubs[0].club_id })
+      .set({ selectedClub: otherClubs[0].clubId })
       .where(eq(users.id, userId));
   }
-
-  await db.transaction(async (tx) => {
-    await tx
+  await db.batch([
+    db
       .delete(games)
       .where(
         eq(
-          games.tournament_id,
-          tx
+          games.tournamentId,
+          db
             .select({ id: tournaments.id })
             .from(tournaments)
-            .where(eq(tournaments.club_id, clubId)),
+            .where(eq(tournaments.clubId, clubId)),
         ),
-      );
-    await tx
+      ),
+    db
       .delete(players_to_tournaments)
       .where(
         eq(
-          players_to_tournaments.tournament_id,
-          tx
+          players_to_tournaments.tournamentId,
+          db
             .select({ id: tournaments.id })
             .from(tournaments)
-            .where(eq(tournaments.club_id, clubId)),
+            .where(eq(tournaments.clubId, clubId)),
         ),
-      );
-    await tx.delete(players).where(eq(players.club_id, clubId));
-    await tx.delete(tournaments).where(eq(tournaments.club_id, clubId));
-    await tx.delete(clubs_to_users).where(eq(clubs_to_users.club_id, clubId));
-    await tx.delete(clubs).where(eq(clubs.id, clubId));
-  });
+      ),
+
+    db.delete(affiliations).where(eq(affiliations.clubId, clubId)),
+    db.delete(club_notifications).where(eq(club_notifications.clubId, clubId)),
+    db.delete(players).where(eq(players.clubId, clubId)),
+    db.delete(tournaments).where(eq(tournaments.clubId, clubId)),
+    db.delete(clubs_to_users).where(eq(clubs_to_users.clubId, clubId)),
+
+    db.delete(clubs).where(eq(clubs.id, clubId)),
+  ]);
 };
 
 export const getClubAffiliatedUsers = async (clubId: string) => {
@@ -217,8 +248,8 @@ export const getClubAffiliatedUsers = async (clubId: string) => {
     await db
       .select()
       .from(players)
-      .where(eq(players.club_id, clubId))
-      .innerJoin(users, eq(players.user_id, users.id))
+      .where(eq(players.clubId, clubId))
+      .innerJoin(users, eq(players.userId, users.id))
   ).map((el) => el.user);
 };
 
@@ -226,13 +257,13 @@ export const addClubManager = async ({
   clubId,
   userId,
   status,
+  user,
 }: {
   clubId: string;
   userId: string;
   status: 'co-owner' | 'admin';
+  user: DatabaseUser;
 }) => {
-  const { user } = await validateRequest();
-  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
   const authorStatus = await getStatusInClub({
     userId: user.id,
     clubId,
@@ -243,26 +274,24 @@ export const addClubManager = async ({
     .select()
     .from(clubs_to_users)
     .where(
-      and(
-        eq(clubs_to_users.club_id, clubId),
-        eq(clubs_to_users.user_id, userId),
-      ),
+      and(eq(clubs_to_users.clubId, clubId), eq(clubs_to_users.userId, userId)),
     );
   if (existingRelation.length > 0) throw new Error('RELATION_EXISTS');
   const newRelation: DatabaseClubsToUsers = {
     id: `${clubId}=${userId}`,
-    club_id: clubId,
-    user_id: userId,
+    clubId: clubId,
+    userId: userId,
     status,
+    promotedAt: new Date(),
   };
 
   const userNotification: InsertDatabaseUserNotification = {
     id: newid(),
-    user_id: userId,
-    notification_type: 'became_club_manager',
-    is_seen: false,
-    created_at: new Date(),
-    metadata: { club_id: clubId, role: status },
+    userId: userId,
+    event: 'became_club_manager',
+    isSeen: false,
+    createdAt: new Date(),
+    metadata: { clubId: clubId, role: status },
   };
   await Promise.all([
     db.insert(clubs_to_users).values(newRelation),
@@ -270,36 +299,87 @@ export const addClubManager = async ({
   ]);
 };
 
-export const leaveClub = async (clubId: string) => {
-  const { user } = await validateRequest();
-  if (!user) throw new Error('UNAUTHORIZED_REQUEST');
+export const deleteClubManager = async ({
+  clubId,
+  userId,
+  user,
+}: {
+  clubId: string;
+  userId: string;
+  user: DatabaseUser;
+}) => {
+  const authorStatus = await getStatusInClub({
+    userId: user.id,
+    clubId,
+  });
+  const targetStatus = await getStatusInClub({
+    userId,
+    clubId,
+  });
+  if (targetStatus === 'co-owner') throw new Error('NOT_AUTHORIZED');
+  if (authorStatus !== 'co-owner') throw new Error('NOT_AUTHORIZED');
+  await db
+    .delete(clubs_to_users)
+    .where(
+      and(eq(clubs_to_users.clubId, clubId), eq(clubs_to_users.userId, userId)),
+    );
+};
+
+export const leaveClub = async ({
+  clubId,
+  userId,
+}: {
+  clubId: string;
+  userId: string;
+}) => {
   const otherClubId = (
     await db
-      .select({ club_id: clubs_to_users.club_id })
+      .select({ clubId: clubs_to_users.clubId })
       .from(clubs_to_users)
       .where(
         and(
-          eq(clubs_to_users.user_id, user.id),
-          ne(clubs_to_users.club_id, clubId),
+          eq(clubs_to_users.userId, userId),
+          ne(clubs_to_users.clubId, clubId),
           eq(clubs_to_users.status, 'co-owner'),
         ),
       )
       .limit(1)
-  ).at(0)?.club_id;
+  ).at(0)?.clubId;
   if (!otherClubId) throw new Error('NO_OTHER_CLUB_CO_OWNER');
 
   await db.transaction(async (tx) => {
     await tx
       .update(users)
-      .set({ selected_club: otherClubId })
-      .where(eq(users.id, user.id));
+      .set({ selectedClub: otherClubId })
+      .where(eq(users.id, userId));
     await tx
       .delete(clubs_to_users)
       .where(
         and(
-          eq(clubs_to_users.club_id, clubId),
-          eq(clubs_to_users.user_id, user.id),
+          eq(clubs_to_users.clubId, clubId),
+          eq(clubs_to_users.userId, userId),
         ),
       );
+    await tx.insert(club_notifications).values({
+      id: newid(),
+      clubId,
+      event: 'manager_left',
+      isSeen: false,
+      createdAt: new Date(),
+      metadata: { userId },
+    });
   });
+};
+
+export const changeClubNotificationStatus = async ({
+  notificationId,
+  isSeen,
+}: {
+  notificationId: string;
+  isSeen: boolean;
+}) => {
+  await db
+    .update(club_notifications)
+    .set({ isSeen })
+    .where(eq(club_notifications.id, notificationId));
 };

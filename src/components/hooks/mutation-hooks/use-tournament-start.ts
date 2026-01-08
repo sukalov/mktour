@@ -1,26 +1,25 @@
 'use client';
 
 import { useTRPC } from '@/components/trpc/client';
-import { DashboardMessage } from '@/types/ws-events';
+import { DashboardMessage } from '@/types/tournament-ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
 export default function useTournamentStart(
   queryClient: QueryClient,
-  { sendJsonMessage }: SetStatusProps,
+  { sendJsonMessage }: TournamentHookProps,
 ) {
   const t = useTranslations('Toasts');
   const trpc = useTRPC();
   return useMutation(
     trpc.tournament.start.mutationOptions({
-      onSuccess: (_error, { started_at, rounds_number }) => {
-        if (started_at) {
+      onSuccess: (_error, { startedAt }) => {
+        if (startedAt) {
           toast.success(t('started'));
           sendJsonMessage({
-            type: 'start-tournament',
-            started_at,
-            rounds_number,
+            event: 'start-tournament',
+            startedAt,
           });
         }
         queryClient.invalidateQueries({
@@ -35,7 +34,7 @@ export default function useTournamentStart(
   );
 }
 
-type SetStatusProps = {
-  tournamentId: string | undefined;
+type TournamentHookProps = {
+  id: string | undefined;
   sendJsonMessage: (_message: DashboardMessage) => void;
 };

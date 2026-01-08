@@ -1,8 +1,8 @@
 'use client';
 
 import { LoadingSpinner } from '@/app/loading';
+import FormattedMessage from '@/components/formatted-message';
 import useDeletePlayerMutation from '@/components/hooks/mutation-hooks/use-player-delete';
-import { Button } from '@/components/ui/button';
 import {
   Close,
   Content,
@@ -11,36 +11,43 @@ import {
   Root,
   Title,
   Trigger,
-} from '@/components/ui/combo-modal';
+} from '@/components/ui-custom/combo-modal';
+import { Button } from '@/components/ui/button';
 import { useQueryClient } from '@tanstack/react-query';
 import { CircleX, Trash2Icon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { redirect, useParams } from 'next/navigation';
 import { FC, useState } from 'react';
 
-const DeletePlayer: FC<{ clubId: string; userId: string }> = ({
-  clubId,
-  userId,
-}) => {
+const DeletePlayer: FC<{ clubId: string }> = ({ clubId }) => {
   const { id: playerId } = useParams<{ id: string }>();
   const queryClient = useQueryClient();
-  const { mutate, isPending, isSuccess } = useDeletePlayerMutation(queryClient);
-  const handleClick = () => mutate({ playerId, clubId, userId });
+  const { mutate, isPending, isSuccess } = useDeletePlayerMutation(
+    queryClient,
+    clubId,
+  );
+  const handleClick = () => mutate({ playerId });
   const [open, setOpen] = useState(false);
-  const t = useTranslations();
+  const t = useTranslations('Common');
 
   if (isSuccess) redirect('/clubs/my');
 
   return (
     <Root open={open} onOpenChange={setOpen}>
       <Trigger asChild>
-        <Button disabled={isPending} size="icon" variant="ghost">
+        <Button
+          disabled={isPending}
+          // size="sm"
+          variant="destructive"
+          className="gap-mk flex w-full"
+        >
           {isPending ? <LoadingSpinner /> : <Trash2Icon />}
+          <FormattedMessage id="Player.delete" />
         </Button>
       </Trigger>
       <Content>
         <Header>
-          <Title>{t('Common.confirm')}</Title>
+          <Title>{t('confirm')}</Title>
           <Description hidden />
         </Header>
         <Button
@@ -51,11 +58,11 @@ const DeletePlayer: FC<{ clubId: string; userId: string }> = ({
         >
           {isPending ? <LoadingSpinner /> : <CircleX />}
           &nbsp;
-          {t('Common.delete')}
+          {t('delete')}
         </Button>
         <Close asChild>
           <Button className="w-full" variant="outline">
-            {t('Common.cancel')}
+            {t('cancel')}
           </Button>
         </Close>
       </Content>

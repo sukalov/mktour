@@ -3,22 +3,26 @@
 import Desktop from '@/components/navigation/desktop';
 import Mobile from '@/components/navigation/mobile';
 import { MediaQueryContext } from '@/components/providers/media-query-context';
-import MktourNavbar from '@/components/ui/mktour-logo-navbar';
-import { User } from 'lucia';
-import { FC, useContext } from 'react';
+import MktourNavbar from '@/components/ui-custom/mktour-logo-navbar';
+import { FC, useContext, useEffect, useState } from 'react';
 
-const Navigation: FC<NavMenuProps> = ({ user }) => {
+const Navigation: FC = () => {
   const { isTablet } = useContext(MediaQueryContext);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    // eslint-disable-next-line
+    setMounted(true);
+  }, []);
+
+  const showMobile = mounted ? isTablet : true;
+
   return (
-    <nav className="bg-background fixed z-50 flex h-14 w-full items-center justify-between border-b p-4">
+    <nav className="bg-background p-mk md:p-mk-2 fixed z-50 flex h-14 w-full items-center justify-between border-b">
       <MktourNavbar />
-      {isTablet ? <Mobile user={user} /> : <Desktop user={user} />}
+      {showMobile ? <Mobile /> : <Desktop />}
     </nav>
   );
-};
-
-export type NavMenuProps = {
-  user: User | null;
 };
 
 export default Navigation;

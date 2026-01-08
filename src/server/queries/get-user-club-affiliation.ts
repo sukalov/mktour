@@ -1,19 +1,26 @@
 import { db } from '@/server/db';
-import { affiliations, DatabaseAffiliation } from '@/server/db/schema/players';
-import { and, eq } from 'drizzle-orm';
+import { affiliations, players } from '@/server/db/schema/players';
+import { and, eq, getTableColumns } from 'drizzle-orm';
 import { User } from 'lucia';
 
-export const getUserClubAffiliation = async (
+export async function getUserClubAffiliation(
   user: User | null,
   clubId: string,
-): Promise<DatabaseAffiliation | undefined> => {
-  if (!user) throw new Error('USER_NOT_FOUND');
-  const res = await db
-    .select()
+) {
+  if (!user) {
+    throw new Error('USER_NOT_FOUND');
+  }
+
+  const affiliation = await db
+    .select({
+      player: players,
+      ...getTableColumns(affiliations),
+    })
     .from(affiliations)
     .where(
-      and(eq(affiliations.club_id, clubId), eq(affiliations.user_id, user.id)),
-    );
+      and(eq(affiliations.clubId, clubId), eq(affiliations.userId, user.id)),
+    )
+    .innerJoin(players, eq(affiliations.playerId, players.id));
 
-  return res[0] ?? undefined;
-};
+  return affiliation.at(0) ?? null;
+}

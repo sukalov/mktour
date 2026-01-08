@@ -1,8 +1,6 @@
 'use client';
 
 import EditPlayerForm from '@/app/player/[id]/player-form';
-import FormattedMessage from '@/components/formatted-message';
-import { Button } from '@/components/ui/button';
 import {
   Content,
   Description,
@@ -10,32 +8,38 @@ import {
   Root,
   Title,
   Trigger,
-} from '@/components/ui/combo-modal';
+} from '@/components/ui-custom/combo-modal';
+import { Button } from '@/components/ui/button';
 import { DatabasePlayer } from '@/server/db/schema/players';
+import { StatusInClub } from '@/server/db/zod/enums';
 import { Pencil } from 'lucide-react';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
-const ActionButton: FC<{ userId: string; player: DatabasePlayer }> = ({
-  player,
-}) => {
+const EditButton: FC<{
+  player: DatabasePlayer;
+  status: StatusInClub | null;
+}> = ({ player, status }) => {
+  const [open, setOpen] = useState(false);
   return (
-    <Root>
+    <Root open={open} onOpenChange={setOpen}>
       <Trigger asChild>
-        <Button variant="ghost" size="icon" className="aspect-square">
+        <Button variant="ghost" size="icon">
           <Pencil />
         </Button>
       </Trigger>
       <Content>
         <Header>
           <Title className="pl-3">
-            <FormattedMessage id="Common.edit" />
+            {/* <FormattedMessage id="Common.edit" /> */}
           </Title>
           <Description hidden />
         </Header>
-        <EditPlayerForm {...{ player, clubId: player.club_id }} />
+        <EditPlayerForm
+          {...{ player, clubId: player.clubId, status, setOpen }}
+        />
       </Content>
     </Root>
   );
 };
 
-export default ActionButton;
+export default EditButton;

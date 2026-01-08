@@ -4,18 +4,24 @@ import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
 // FIXME
-export default function useDeletePlayerMutation(queryClient: QueryClient) {
+export default function useDeletePlayerMutation(
+  queryClient: QueryClient,
+  clubId: string,
+) {
   const trpc = useTRPC();
   const t = useTranslations('Toasts');
   return useMutation(
     trpc.player.delete.mutationOptions({
-      onSuccess: (_error, { clubId }) => {
+      onSuccess: () => {
         toast.success(t('player deleted'));
         queryClient.invalidateQueries({
-          queryKey: trpc.club.players.queryKey({ clubId }),
+          queryKey: trpc.club.players.infiniteQueryKey({ clubId }),
         });
       },
-      onError: () => toast.error('sorry! server error happened'),
+      onError: (error) =>
+        error.message === 'PLAYER_HAS_TOURNAMENTS'
+          ? toast.error(t('player has tournaments'))
+          : toast.error('sorry! server error happened: ' + error.message),
     }),
   );
 }

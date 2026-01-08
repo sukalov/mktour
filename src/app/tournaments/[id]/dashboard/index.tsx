@@ -5,9 +5,11 @@ import {
   DashboardContext,
   DashboardContextType,
 } from '@/app/tournaments/[id]/dashboard/dashboard-context';
-import FabProvider from '@/app/tournaments/[id]/dashboard/fab-provider';
+import ShuffleFab from '@/app/tournaments/[id]/dashboard/shuffle-fab';
 import TabsContainer from '@/app/tournaments/[id]/dashboard/tabs-container';
+import AddPlayerDrawer from '@/app/tournaments/[id]/dashboard/tabs/table/add-player';
 import { useDashboardWebsocket } from '@/components/hooks/use-dashboard-websocket';
+import FabProvider from '@/components/ui-custom/fab-provider';
 import { Status } from '@/server/queries/get-status-in-tournament';
 import { useQueryClient } from '@tanstack/react-query';
 import { Dispatch, FC, SetStateAction, useState } from 'react';
@@ -19,7 +21,6 @@ const Dashboard: FC<TournamentPageContentProps> = ({
   status,
   currentRound,
 }) => {
-  const [scrolling, setScrolling] = useState(false);
   const [currentTab, setCurrentTab] =
     useState<DashboardContextType['currentTab']>('main');
   const queryClient = useQueryClient();
@@ -31,6 +32,8 @@ const Dashboard: FC<TournamentPageContentProps> = ({
     setRoundInView,
   );
   const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
+  const fabContent = fabTabMap[currentTab];
+  const [scrolling, setScrolling] = useState(false);
 
   return (
     <DashboardContext.Provider
@@ -53,11 +56,17 @@ const Dashboard: FC<TournamentPageContentProps> = ({
       />
       <FabProvider
         status={status}
-        currentTab={currentTab}
+        fabContent={fabContent}
         scrolling={scrolling}
       />
     </DashboardContext.Provider>
   );
+};
+
+const fabTabMap = {
+  main: <AddPlayerDrawer />,
+  table: <AddPlayerDrawer />,
+  games: <ShuffleFab />,
 };
 
 export type TabProps = {
@@ -72,7 +81,7 @@ export type TabType = {
 };
 
 interface TournamentPageContentProps {
-  session: string;
+  session: string | null;
   id: string;
   status: Status;
   userId: string | undefined;

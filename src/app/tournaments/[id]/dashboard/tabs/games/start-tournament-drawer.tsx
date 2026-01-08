@@ -3,7 +3,6 @@
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import StartTournamentButton from '@/app/tournaments/[id]/dashboard/tabs/main/start-tournament-button';
 import FormattedMessage from '@/components/formatted-message';
-import { Button } from '@/components/ui/button';
 import {
   Close,
   Content,
@@ -11,22 +10,18 @@ import {
   Header,
   Root,
   Title,
-} from '@/components/ui/combo-modal';
-import { FC, useContext, useEffect, useState } from 'react';
+} from '@/components/ui-custom/combo-modal';
+import { Button } from '@/components/ui/button';
+import { FC, useContext } from 'react';
 
 const StartTournamentDrawer: FC<{
   startedAt: number | undefined;
 }> = ({ startedAt }) => {
-  const [open, setOpen] = useState(false);
   const { selectedGameId } = useContext(DashboardContext);
-
-  useEffect(() => {
-    if (!startedAt && !!selectedGameId) setOpen(true);
-    if (startedAt) setOpen(false);
-  }, [selectedGameId, startedAt]);
+  const open = !startedAt && !!selectedGameId;
 
   return (
-    <Root open={open} onOpenChange={setOpen}>
+    <Root open={open}>
       <Content>
         <Header>
           <Title>

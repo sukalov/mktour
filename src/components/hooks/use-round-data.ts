@@ -1,9 +1,10 @@
-import { GameModel, PlayerModel } from '@/types/tournaments';
+import { PlayerTournamentModel } from '@/server/db/zod/players';
+import { GameModel } from '@/server/db/zod/tournaments';
 import { useMemo } from 'react';
 
 export const useRoundData = (
   round: GameModel[] | undefined,
-  players: PlayerModel[] | undefined,
+  players: PlayerTournamentModel[] | undefined,
 ) => {
   const playerScores = useMemo(() => {
     if (!players || !round) return new Map<string, number>();
@@ -20,10 +21,10 @@ export const useRoundData = (
     if (!round || !players) return [];
 
     return [...round].sort((a, b) => {
-      const aWhiteScore = playerScores.get(a.white_id) || 0;
-      const aBlackScore = playerScores.get(a.black_id) || 0;
-      const bWhiteScore = playerScores.get(b.white_id) || 0;
-      const bBlackScore = playerScores.get(b.black_id) || 0;
+      const aWhiteScore = playerScores.get(a.whiteId) || 0;
+      const aBlackScore = playerScores.get(a.blackId) || 0;
+      const bWhiteScore = playerScores.get(b.whiteId) || 0;
+      const bBlackScore = playerScores.get(b.blackId) || 0;
 
       const aScore = aWhiteScore + aBlackScore;
       const bScore = bWhiteScore + bBlackScore;

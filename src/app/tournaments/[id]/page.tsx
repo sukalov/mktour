@@ -5,17 +5,15 @@ import {
 } from '@/app/tournaments/[id]/prefetch';
 import { getEncryptedAuthSession } from '@/lib/get-encrypted-auth-session';
 import { publicCaller } from '@/server/api';
-import { TournamentInfo } from '@/types/tournaments';
+import { TournamentInfoModel } from '@/server/db/zod/tournaments';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { notFound } from 'next/navigation';
-
-export const revalidate = 0;
 
 export default async function TournamentPage(props: TournamentPageProps) {
   const params = await props.params;
   const session = await getEncryptedAuthSession();
-  const user = await publicCaller.user.auth();
-  let tournament: TournamentInfo;
+  const user = await publicCaller.auth.info();
+  let tournament: TournamentInfoModel;
   try {
     tournament = await publicCaller.tournament.info({
       tournamentId: params.id,
@@ -29,7 +27,6 @@ export default async function TournamentPage(props: TournamentPageProps) {
   const status = await publicCaller.tournament.authStatus({
     tournamentId: params.id,
   });
-  console.log(status);
 
   return (
     <HydrationBoundary state={dehydrate(tournamentQueryClient)}>
@@ -38,7 +35,7 @@ export default async function TournamentPage(props: TournamentPageProps) {
         id={params.id}
         status={status}
         userId={user?.id}
-        currentRound={tournament.tournament.ongoing_round}
+        currentRound={tournament.tournament.ongoingRound}
       />
     </HydrationBoundary>
   );

@@ -1,8 +1,8 @@
 'use client';
 
 import Center from '@/components/center';
-import GithubLogo, { LogoProps } from '@/components/ui/github-logo';
-import LichessLogo from '@/components/ui/lichess-logo';
+import LichessSVG from '@/components/icons/lichess-svg';
+import GithubLogo, { LogoProps } from '@/components/ui-custom/github-logo';
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { FC } from 'react';
@@ -39,7 +39,7 @@ const links: Record<
 > = {
   lichess: {
     title: 'lichess',
-    logo: LichessLogo,
+    logo: LichessSVG,
     url: 'https://lichess.org/team/mktour',
   },
   github: {

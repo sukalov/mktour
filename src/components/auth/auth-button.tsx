@@ -1,41 +1,52 @@
+'use client';
+
+import { useSignOutMutation } from '@/components/hooks/mutation-hooks/use-sign-out';
+import { useAuth } from '@/components/hooks/query-hooks/use-user';
+import { useUserNotificationsCounter } from '@/components/hooks/query-hooks/use-user-notifications';
+import Badge, { BadgeWithCount } from '@/components/ui-custom/badge';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { User } from 'lucia';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useQueryClient } from '@tanstack/react-query';
 import { User2 } from 'lucide-react';
 import { MessageKeys, useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { FC, PropsWithChildren } from 'react';
+import LichessLogo from '../ui-custom/lichess-logo';
 import { Button } from '../ui/button';
-import LichessLogo from '../ui/lichess-logo';
 
-export default function AuthButton({ user }: AuthButtonProps) {
+export default function AuthButton() {
   const t = useTranslations('Menu');
+  const queryClient = useQueryClient();
+  const router = useRouter();
+  const { data: user, isLoading } = useAuth();
+  const { mutate: signOut } = useSignOutMutation(queryClient);
+  const { data: notificationsCounter } = useUserNotificationsCounter();
 
-  const handleSignOut = async () => {
-    const response = await fetch('/api/auth/sign-out', {
-      method: 'POST',
-      redirect: 'manual',
-    });
-
-    if (response.status === 0) {
-      redirect('/sign-in');
-    }
-  };
+  if (isLoading)
+    return (
+      <Button className={`flex-row gap-2 p-2`} variant="ghost" asChild disabled>
+        <Link href="/login/lichess" prefetch={false}>
+          <LichessLogo />
+          <Skeleton className="hidden h-4 w-16 sm:block" />
+        </Link>
+      </Button>
+    );
 
   if (!user) {
     return (
       <>
-        <Link href="/login/lichess" prefetch={false}>
-          <Button className={`flex-row gap-2 p-2`} variant="ghost">
+        <Button className={`flex-row gap-2 p-2`} variant="ghost" asChild>
+          <Link href="/login/lichess" prefetch={false}>
             <LichessLogo />
-            {t('Profile.login')}
-          </Button>
-        </Link>
+            <span className="hidden sm:block">{t('Profile.login')}</span>
+          </Link>
+        </Button>
       </>
     );
   }
@@ -45,19 +56,35 @@ export default function AuthButton({ user }: AuthButtonProps) {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="gap-2 p-3 select-none">
-            <User2 size={20} />
-            <div className="hidden sm:block">{user.username}</div>
+            <div className="gap-mk relative flex w-fit items-center">
+              <User2 size={20} />
+              <div className="hidden sm:block">{user.username}</div>
+              {!!notificationsCounter && <Badge />}
+            </div>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="-translate-x-2 translate-y-1">
-          {menuItems.map((item) => (
-            <Link href={item.path} key={item.title}>
+          {menuItems.map(({ path, title }) => (
+            <Link href={path} key={title}>
               <StyledItem className="w-full">
-                {t(`Subs.${item.title}`)}
+                <div className="relative">{t(`Subs.${title}`)}</div>
+                {title === 'notifications' && !!notificationsCounter && (
+                  <BadgeWithCount count={notificationsCounter} />
+                )}
               </StyledItem>
             </Link>
           ))}
-          <StyledItem onClick={handleSignOut}>{t('Profile.logout')}</StyledItem>
+          <StyledItem
+            onClick={() => {
+              signOut(undefined, {
+                onSuccess: () => {
+                  router.refresh();
+                },
+              });
+            }}
+          >
+            {t('Profile.logout')}
+          </StyledItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </>
@@ -81,12 +108,12 @@ const menuItems: MenuItems = [
     path: '/user',
   },
   {
-    title: 'edit profile',
-    path: '/user/edit',
+    title: 'notifications',
+    path: '/notifications',
   },
   {
-    title: 'inbox',
-    path: '/inbox',
+    title: 'settings',
+    path: '/profile/settings',
   },
 ];
 
@@ -97,7 +124,3 @@ type MenuItems = {
   >;
   path: string;
 }[];
-
-interface AuthButtonProps {
-  user?: User | null;
-}

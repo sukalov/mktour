@@ -3,7 +3,6 @@
 import { LoadingSpinner } from '@/app/loading';
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import useTournamentResetPlayers from '@/components/hooks/mutation-hooks/use-tournament-reset-players';
-import { Button } from '@/components/ui/button';
 import {
   Close,
   Content,
@@ -12,7 +11,8 @@ import {
   Root,
   Title,
   Trigger,
-} from '@/components/ui/combo-modal';
+} from '@/components/ui-custom/combo-modal';
+import { Button } from '@/components/ui/button';
 import { useQueryClient } from '@tanstack/react-query';
 import { RotateCcw } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -24,7 +24,6 @@ export default function ResetTournamentPButton() {
   const queryClient = useQueryClient();
   const { sendJsonMessage, setRoundInView } = useContext(DashboardContext);
   const { mutate, isPending } = useTournamentResetPlayers(
-    tournamentId,
     queryClient,
     sendJsonMessage,
     setRoundInView,

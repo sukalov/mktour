@@ -1,6 +1,6 @@
 'use client';
 
-import { NewClubForm, TeamSlice } from '@/app/clubs/create/new-club-form';
+import { NewClubForm } from '@/app/clubs/create/new-club-form';
 import { Button } from '@/components/ui/button';
 import {
   FormControl,
@@ -26,12 +26,12 @@ export function TeamSelector({ teams, form }: TeamSelectorProps) {
     return (
       <FormField
         control={form.control}
-        name="lichess_team"
+        name="lichessTeam"
         render={({ field }) => (
           <FormItem>
             <Select
               onValueChange={field.onChange}
-              defaultValue={field.value}
+              defaultValue={field.value ?? undefined}
               disabled
             >
               <FormControl>
@@ -49,11 +49,14 @@ export function TeamSelector({ teams, form }: TeamSelectorProps) {
   return (
     <FormField
       control={form.control}
-      name="lichess_team"
+      name="lichessTeam"
       key={Number(state)}
       render={({ field }) => (
         <FormItem>
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
+          <Select
+            onValueChange={field.onChange}
+            defaultValue={field.value ? field.value : undefined}
+          >
             <FormControl>
               <SelectTrigger>
                 <SelectValue placeholder={t('connect lichess team')} />
@@ -64,19 +67,19 @@ export function TeamSelector({ teams, form }: TeamSelectorProps) {
                 <SelectItem
                   key={team.value}
                   value={team.value}
-                  className={`${form.getValues('lichess_team') && 'text-muted-foreground'}`}
+                  className={`${form.getValues('lichessTeam') && 'text-muted-foreground'}`}
                   onClick={(e) => e.stopPropagation()}
                 >
                   {team.label}
                 </SelectItem>
               ))}
-              {form.getValues('lichess_team') && (
+              {form.getValues('lichessTeam') && (
                 <Button
                   id="removeSelection"
                   className="h-[30px] w-full justify-start pl-8"
                   variant="ghost"
                   onClick={() => {
-                    form.resetField('lichess_team');
+                    form.resetField('lichessTeam');
                     setState(!state);
                   }}
                   style={{ pointerEvents: 'auto' }}
@@ -98,5 +101,5 @@ export function TeamSelector({ teams, form }: TeamSelectorProps) {
 
 interface TeamSelectorProps {
   form: NewClubForm;
-  teams: Array<TeamSlice>;
+  teams: Array<{ label: string; value: string }>;
 }

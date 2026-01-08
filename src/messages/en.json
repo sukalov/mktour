@@ -10,7 +10,9 @@
     "close": "close",
     "delete": "delete",
     "edit": "edit",
-    "save": "save"
+    "save": "save",
+    "settings": "settings",
+    "search": "search"
   },
   "Menu": {
     "club": "club",
@@ -41,8 +43,8 @@
       "FAQ": "FAQ",
       "contact": "contact",
       "profile": "my profile",
-      "edit profile": "edit profile",
-      "inbox": "inbox",
+      "settings": "settings",
+      "notifications": "notifications",
       "Descriptions": {
         "all clubs": "explore clubs and their events, join new communities",
         "new club": "create new chess club right here",
@@ -51,20 +53,24 @@
         "all tournaments": "explore events made with mktour",
         "make tournament": "well, let's go!"
       }
-    }
+    },
+    "mktour": "mktour"
   },
   "Empty": {
-    "players": "there are no players in your club yet",
-    "tournaments": "there are no tournaments in your club yet",
+    "players": "there are no players in this club yet",
+    "tournaments": "there are no tournaments in this club yet",
     "dashboard": "no data",
     "user": "user not found",
-    "no data": "no data"
+    "no data": "no data",
+    "notifications": "no notifications"
   },
   "Profile": {
     "rating": "lichess blitz rating",
     "email": "email",
-    "created": "joined on",
-    "clubs": "clubs:"
+    "created": "joined mktour on",
+    "clubs": "clubs",
+    "myClubs": "my clubs",
+    "noClubs": "not a member of any club yet"
   },
   "Player": {
     "last seen": "last seen: ",
@@ -77,9 +83,30 @@
     "club": "club",
     "claim": "it's me!",
     "cancel claim": "cancel application",
-    "claim confirmation": "you are gonna send application. as soon as admins confirm it, the player will be associated with your account"
+    "claim confirmation": "you are gonna send application. as soon as admins confirm it, the player will be associated with your account",
+    "last tournaments": "last tournaments",
+    "linkedTo": "linked to",
+    "not linked": "not linked to account",
+    "cancel affiliation": "disconnect",
+    "cancel affiliation description": "you are going to disconnect your account from this player",
+    "Stats": {
+      "gamesPlayed": "games played",
+      "winRate": "win rate",
+      "ratingPeak": "peak rating",
+      "tournaments": "tournaments",
+      "bestPlace": "best place",
+      "streak": "win streak",
+      "h2h": "head to head",
+      "h2hEmpty": "no games against other players yet",
+      "total": "total",
+      "wins": "w",
+      "draws": "d",
+      "losses": "l",
+      "you": "you"
+    }
   },
   "Errors": {
+    "unknown server error": "unknown server error, sorry!",
     "hard naming": "naming is hard, but necessary",
     "short club name": "too short for a chess club name",
     "long club name": "too long for a chess club name",
@@ -92,7 +119,10 @@
     "name": "what's their name?",
     "add-player-error": "sorry! couldn't add {player} to the tournament",
     "remove-player-error": "sorry! couldn't remove {player} from the tournament",
-    "internal-error": "internal error: {error}"
+    "internal-error": "internal error: {error}",
+    "max 50": "max 50 characters",
+    "min nickname length": "nickname must be at least 3 characters long",
+    "max nickname length": "nickname must be at most 30 characters long"
   },
   "NewClubForm": {
     "new club": "new club",
@@ -112,8 +142,15 @@
     "club not created": "sorry! some error happened. the club wasn't created"
   },
   "Club": {
-    "managers list": "managers list:",
+    "managers list": "managers",
     "add manager": "add new manager",
+    "dashboard": "club dashboard",
+    "mostActive": "most active players",
+    "Stats": {
+      "players": "players",
+      "tournaments": "tournaments",
+      "tournamentsPlayed": "tournaments"
+    },
     "Settings": {
       "name": "name",
       "save": "save",
@@ -123,18 +160,21 @@
       "confirmation body": "all players and tournaments will be deleted. if you're completely sure, type the name of the club you are deleting",
       "cancel": "cancel",
       "add manager": "add manager",
-      "search": "sesrch for mktour users",
-      "no affiliated users": "couldn't find real people related to your club. start typing to search among all mktour users",
+      "search": "username",
+      "no affiliated users": "couldn't find users related to your club. start typing to search among all mktour users",
       "search users error": "an error happened while searching",
       "make admin": "make admin",
-      "make co-owner": "make co-owner"
+      "make co-owner": "make co-owner",
+      "delete manager": "delete manager",
+      "delete": "delete",
+      "club settings": "general settings"
     },
     "Dashboard": {
       "no data": "no data",
       "main": "main",
       "players": "players",
       "tournaments": "tournaments",
-      "inbox": "inbox",
+      "notifications": "notifications",
       "settings": "settings",
       "danger zone": "danger zone",
       "leave club": "leave club"
@@ -145,10 +185,11 @@
       "createdAt": "created: {date}",
       "tournaments": "club tournaments:"
     },
-    "Inbox": {
+    "Notifications": {
       "loading": "loading...",
       "empty": "claims to moderate tournaments, to link players to users and other club related notifications",
-      "affiliation": "affiliation request"
+      "affiliation": "affiliation request",
+      "mark all as read": "mark all as read"
     }
   },
   "Status": {
@@ -172,10 +213,12 @@
     "player updated": "player updated",
     "affiliation requested": "request sent",
     "affiliation canceled": "request cancelled",
-    "player deleted": "player deleted"
+    "player deleted": "player deleted",
+    "player has tournaments": "sorry! the player, who is added to a tournament, cannot be deleted. otherwise you have to delete that tournament too"
   },
-  "EditUser": {
+  "UserSettings": {
     "header": "settings",
+    "edit profile": "profile",
     "name": "name",
     "save": "save",
     "danger zone": "danger zone",
@@ -187,7 +230,24 @@
     "checkbox1": "delete every tournament i made",
     "checkbox2": "delete every club i own (with all players)",
     "checkbox3": "delete my whole stats",
-    "do it yourself": "you have to do it yourself"
+    "do it yourself": "you have to do it yourself",
+    "Tokens": {
+      "header": "api tokens",
+      "empty": "you don't have active tokens",
+      "description": "api tokens allow you to make authenticated requests\nto mktour api. it gives full access to your account",
+      "new token name": "new token name",
+      "created": "created",
+      "last used": "last used",
+      "name": "name",
+      "revoke": "revoke",
+      "make": "make",
+      "making": "making",
+      "modal description": "this token will only be shown once. please copy it and store it securely. you will not be able to see it again.",
+      "modal warning": "warning: this token gives full access to your account. do not share it with anyone.",
+      "copied": "copied",
+      "test tokens": "tokens can be tested",
+      "here": "here"
+    }
   },
   "Tournament": {
     "Tabs": {
@@ -219,7 +279,9 @@
         "team": "team"
       },
       "started at": "started at",
-      "ended at": "ended at"
+      "ended at": "ended at",
+      "number of rounds": "rounds",
+      "save": "save"
     },
     "Results": {
       "1-0": "1 - 0",
@@ -241,17 +303,19 @@
     "Table": {
       "added players error": "sorry! couldn't get added players from the server",
       "loading": "loading...",
-      "name column": "name ({number} players)",
+      "name column": "name <small>({count} {count, plural, one {player} other {players}})</small>",
       "Stats": {
         "full": {
           "wins": "wins",
           "draws": "draws",
-          "losses": "losses"
+          "losses": "losses",
+          "berger": "berger"
         },
         "short": {
           "wins": "w",
           "draws": "d",
-          "losses": "l"
+          "losses": "l",
+          "berger": "t-b"
         }
       },
       "Player": {
@@ -272,11 +336,13 @@
       "save": "save",
       "search": "search",
       "possible players error": "error happened while loading club players",
-      "no players": "nobody here yet!\ngo add some new people"
+      "no players": "nobody here yet!\ngo add some new people",
+      "player added": "player {name} added"
     }
   },
   "Tournaments": {
-    "no tournaments": "you don't have any tournaments yet"
+    "no tournaments": "you don't have any tournaments yet",
+    "make tournament": "make tournament"
   },
   "MakeTournament": {
     "making": "making...",
@@ -296,7 +362,8 @@
     "no data": "no data",
     "name": "name",
     "rated": "rated",
-    "comming soon": "coming soon"
+    "comming soon": "coming soon",
+    "error": "tournament making failed"
   },
   "Home": {
     "make tournament": "make tournament",
@@ -318,6 +385,32 @@
     "search dialog title": "global search menu",
     "search dialog description": "here you can find any club, tournament or mktour user",
     "search placeholder": "whate are you looking for?",
-    "not found": "nothing found"
+    "not found": "nothing found",
+    "make tournament": "make tournament",
+    "club dashboard": "club dashboard",
+    "edit profile": "edit profile",
+    "actions": "actions",
+    "users": "users",
+    "clubs": "clubs",
+    "tournaments": "tournaments",
+    "players": "players",
+    "sign out": "sign out",
+    "notifications": "notifications",
+    "lichess team": "find us at lichess",
+    "my clubs": "my clubs",
+    "my tournaments": "my tournaments",
+    "new club": "new club"
+  },
+  "Notifications": {
+    "User": {
+      "affiliation approved": "affiliated",
+      "affiliation rejected": "affiliation rejected",
+      "became club manager": "you became club manager",
+      "tournament won": "you won the tournament!",
+      "removed from club managers": "you were removed from club managers"
+    },
+    "Club": {
+      "affiliation requested": "request sent"
+    }
   }
 }

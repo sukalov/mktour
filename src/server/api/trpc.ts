@@ -7,15 +7,20 @@
  * need to use are documented accordingly near the end.
  */
 
-import { uncachedValidateRequest } from '@/lib/auth/lucia';
+import { validateRequest } from '@/lib/auth/lucia';
 import { db } from '@/server/db';
+import { apiTokens, DatabaseUser, users } from '@/server/db/schema/users';
+import { StatusInClub } from '@/server/db/zod/enums';
 import { getStatusInTournament } from '@/server/queries/get-status-in-tournament';
 import { getUserClubIds } from '@/server/queries/get-user-clubs';
 import { initTRPC, TRPCError } from '@trpc/server';
+import crypto from 'crypto';
+import { eq } from 'drizzle-orm';
+import { Session } from 'lucia';
 import { NextRequest } from 'next/server';
 import superjson from 'superjson';
+import { OpenApiMeta } from 'trpc-to-openapi';
 import { z, ZodError } from 'zod';
-
 /**
  * 1. CONTEXT
  *
@@ -32,12 +37,50 @@ export const createTRPCContext = async (opts: {
   headers: Headers;
   req: NextRequest;
 }) => {
-  const { session, user } = await uncachedValidateRequest();
-  const clubs = user ? await getUserClubIds({ userId: user.id }) : [];
+  let user: DatabaseUser | null = null;
+
+  const authHeader = opts.headers.get('authorization');
+
+  if (authHeader?.startsWith('Bearer ')) {
+    const token = authHeader.substring(7);
+
+    if (token) {
+      const parts = token.split('_');
+      const [prefix, id, secret] = parts;
+
+      if (prefix === 'mktour' && id && secret) {
+        const tokenHash = crypto
+          .createHash('sha256')
+          .update(secret)
+          .digest('hex');
+
+        const apiToken = await db.query.apiTokens.findFirst({
+          where: eq(apiTokens.id, id),
+        });
+
+        if (apiToken && apiToken.tokenHash === tokenHash) {
+          const dbUser = await db.query.users.findFirst({
+            where: eq(users.id, apiToken.userId),
+          });
+
+          if (dbUser) {
+            user = dbUser;
+            db.update(apiTokens)
+              .set({ lastUsedAt: new Date() })
+              .where(eq(apiTokens.id, id))
+              .run();
+          }
+        } else {
+          console.log('Hash mismatch or token not found');
+        }
+      }
+    }
+  }
+
   return {
-    session,
+    session: null as Session | null,
     user,
-    clubs,
+    clubs: null as { [club_id: string]: StatusInClub } | null,
     db,
     headers: opts.headers,
   };
@@ -50,19 +93,21 @@ export const createTRPCContext = async (opts: {
  * ZodErrors so that you get typesafety on the frontend if your procedure fails due to validation
  * errors on the backend.
  */
-const t = initTRPC.context<typeof createTRPCContext>().create({
-  transformer: superjson,
-  errorFormatter({ shape, error }) {
-    return {
-      ...shape,
-      data: {
-        ...shape.data,
-        zodError:
-          error.cause instanceof ZodError ? error.cause.flatten() : null,
-      },
-    };
-  },
-});
+const t = initTRPC
+  .meta<OpenApiMeta>()
+  .context<Awaited<ReturnType<typeof createTRPCContext>>>()
+  .create({
+    transformer: superjson,
+    errorFormatter({ shape, error }) {
+      return {
+        ...shape,
+        data: {
+          ...shape.data,
+          zodError: error.cause instanceof ZodError ? error.cause : null,
+        },
+      };
+    },
+  });
 
 /**
  * 3. ROUTER & PROCEDURE (THE IMPORTANT BIT)
@@ -95,22 +140,48 @@ export const publicProcedure = t.procedure;
  *
  * @see https://trpc.io/docs/procedures
  */
-export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
-  if (!ctx.session || !ctx.user) {
+export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
+  let { session, user } = ctx;
+
+  if (!user) {
+    const result = await validateRequest();
+    user = result.user;
+    session = result.session;
+  }
+
+  if (!user) {
     throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
   return next({
     ctx: {
-      session: { ...ctx.session },
-      user: { ...ctx.user },
+      session,
+      user,
+    },
+  });
+});
+
+export const authProcedure = t.procedure.use(async ({ ctx, next }) => {
+  let { session, user } = ctx;
+
+  if (!user) {
+    const result = await validateRequest();
+    user = result.user;
+    session = result.session;
+  }
+
+  return next({
+    ctx: {
+      session,
+      user,
     },
   });
 });
 
 export const clubAdminProcedure = protectedProcedure
   .input(z.object({ clubId: z.string() }))
-  .use((opts) => {
-    const isAdmin = opts.ctx.clubs.find(
+  .use(async (opts) => {
+    const clubs = await getUserClubIds({ userId: opts.ctx.user.id });
+    const isAdmin = Object.keys(clubs).find(
       (clubId) => clubId === opts.input.clubId,
     );
     if (!isAdmin) {
@@ -118,7 +189,12 @@ export const clubAdminProcedure = protectedProcedure
         code: 'FORBIDDEN',
       });
     }
-    return opts.next();
+    return opts.next({
+      ctx: {
+        clubs,
+        clubId: opts.input.clubId,
+      },
+    });
   });
 
 export const tournamentAdminProcedure = protectedProcedure
@@ -136,8 +212,4 @@ export const tournamentAdminProcedure = protectedProcedure
     return opts.next();
   });
 
-export type TRPCContext = Awaited<ReturnType<typeof createTRPCContext>>;
-export type ProtectedTRPCContext = TRPCContext & {
-  user: NonNullable<TRPCContext['user']>;
-  session: NonNullable<TRPCContext['session']>;
-};
+// export type TRPCContext = Awaited<ReturnType<typeof createTRPCContext>>;

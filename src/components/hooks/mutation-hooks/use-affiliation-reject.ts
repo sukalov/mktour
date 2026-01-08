@@ -14,7 +14,7 @@ export default function useAffiliationRejectMutation({
     trpc.player.affiliation.reject.mutationOptions({
       onSuccess: (_data, { clubId }) => {
         queryClient.invalidateQueries({
-          queryKey: trpc.club.notifications.queryKey({ clubId }),
+          queryKey: trpc.club.notifications.all.queryKey({ clubId }),
         });
       },
       onError: () => toast.error(t('server error')),

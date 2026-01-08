@@ -4,14 +4,14 @@
 /node_modules
 /.pnp
 .pnp.js
-.trunk
+.bruno
+
 
 # testing
 /coverage
 
 # next.js
 /.next/
-/out/
 
 # production
 /build
@@ -40,12 +40,8 @@ next-env.d.ts
 .turbo
 .bruno
 
-# local urls
-src/lib/config/urls.ts
-
 .million
 .archive
 
 # PWA service workers
-public/sw.js
-public/workbox-*.js
+public

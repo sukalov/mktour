@@ -14,14 +14,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Slider } from '@/components/ui/slider';
 import { newid } from '@/lib/utils';
-import {
-  newPlayerFormSchema,
-  NewPlayerFormType,
-} from '@/lib/zod/new-player-form';
-import {
-  DatabasePlayer,
-  InsertDatabasePlayer,
-} from '@/server/db/schema/players';
+import { PlayerFormModel, playerFormSchema } from '@/server/db/zod/players';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { Save } from 'lucide-react';
@@ -30,6 +23,7 @@ import { useParams } from 'next/navigation';
 import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useHotkeys } from 'react-hotkeys-hook';
+import { toast } from 'sonner';
 
 const AddNewPlayer = ({
   value,
@@ -40,7 +34,7 @@ const AddNewPlayer = ({
   const { id } = useParams<{ id: string }>();
   const tournament = useTournamentInfo(id);
   const queryClient = useQueryClient();
-  const { sendJsonMessage, userId } = useContext(DashboardContext);
+  const { sendJsonMessage } = useContext(DashboardContext);
   const { mutate } = useTournamentAddNewPlayer(
     id,
     queryClient,
@@ -50,45 +44,40 @@ const AddNewPlayer = ({
   const t = useTranslations('Tournament.AddPlayer');
   useHotkeys('escape', handleClose, { enableOnFormTags: true });
 
-  const form = useForm<NewPlayerFormType>({
-    resolver: zodResolver(newPlayerFormSchema),
+  const form = useForm<PlayerFormModel>({
+    resolver: zodResolver(playerFormSchema),
     defaultValues: {
-      name: value,
+      nickname: value,
       rating: 1500,
-      club_id: tournament.data?.club?.id,
+      clubId: tournament.data?.club?.id,
     },
     reValidateMode: 'onSubmit',
   });
 
-  const name = form.getValues('name');
+  const nickname = form.getValues('nickname');
 
   useEffect(() => {
-    setValue(name);
-  }, [name, setValue]);
+    setValue(nickname);
+  }, [nickname, setValue]);
 
-  function onSubmit(data: NewPlayerFormType) {
-    if (!userId) {
-      console.log('not found user id in context');
-      return;
-    }
-    const newPlayer: DatabasePlayer = {
-      id: newid(),
-      club_id: data.club_id,
-      nickname: data.name,
-      realname: data.name,
-      rating: data.rating,
-      user_id: null,
-      last_seen: 0,
-    };
-    mutate({ tournamentId: id, player: newPlayer, userId });
-    handleClose();
+  function onSubmit(player: PlayerFormModel) {
+    mutate(
+      { tournamentId: id, player: { ...player, id: newid() } },
+      {
+        onSuccess: () => {
+          form.reset();
+          form.setFocus('nickname');
+          toast.success(t('player added', { name: player.nickname }));
+        },
+      },
+    );
   }
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="h-svh space-y-8">
         <FormField
           control={form.control}
-          name="name"
+          name="nickname"
           render={({ field }) => (
             <FormItem>
               <FormControl>
@@ -122,7 +111,7 @@ const AddNewPlayer = ({
                   min={0}
                   max={3000}
                   className="w-full"
-                  defaultValue={[value]}
+                  value={[value ?? 1500]}
                   onValueChange={(vals) => {
                     onChange(vals[0]);
                   }}
@@ -131,7 +120,6 @@ const AddNewPlayer = ({
             </FormItem>
           )}
         />
-        <FormMessage />
         <Button
           type="submit"
           className="w-full"
@@ -140,12 +128,12 @@ const AddNewPlayer = ({
           {form.formState.isSubmitting || form.formState.isValidating ? (
             <>
               <LoadingSpinner />
-              &nbsp;{t('save')}
+              {t('save')}
             </>
           ) : (
             <>
               <Save />
-              &nbsp;{t('save')}
+              {t('save')}
             </>
           )}
         </Button>
@@ -155,7 +143,7 @@ const AddNewPlayer = ({
 };
 
 interface AddNewPlayerProps extends DrawerProps {
-  returnToNewPlayer: (_player: InsertDatabasePlayer) => void;
+  returnToNewPlayer: (_player: PlayerFormModel & { id?: string }) => void;
   handleClose: () => void;
 }
 

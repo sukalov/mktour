@@ -1,5 +1,4 @@
 import FormattedMessage from '@/components/formatted-message';
-import { Button } from '@/components/ui/button';
 import {
   Close,
   Content,
@@ -8,8 +7,9 @@ import {
   Root,
   Title,
   Trigger,
-} from '@/components/ui/combo-modal';
-import { PlayerModel } from '@/types/tournaments';
+} from '@/components/ui-custom/combo-modal';
+import { Button } from '@/components/ui/button';
+import { PlayerTournamentModel } from '@/server/db/zod/players';
 import { LogOut, Trash2 } from 'lucide-react';
 import { FC } from 'react';
 
@@ -28,7 +28,7 @@ export const DeleteButton: FC<{ handleDelete: () => void }> = ({
 );
 
 export const WithdrawButtonWithConfirmation: FC<{
-  selectedPlayer: PlayerModel;
+  selectedPlayer: PlayerTournamentModel;
 }> = ({ selectedPlayer }) => (
   <Root>
     <Trigger asChild>

@@ -9,8 +9,10 @@ const bundleAnalyzer = withBundleAnalyzer({
 });
 
 const nextConfig = {
+  cacheComponents: true,
   experimental: {
-    reactCompiler: true,
+    useCache: true,
+    turbopackFileSystemCacheForDev: true,
   },
   logging: {
     fetches: {

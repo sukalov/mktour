@@ -2,13 +2,24 @@
 
 import { db } from '@/server/db';
 import { players } from '@/server/db/schema/players';
-import { sql } from 'drizzle-orm';
+import { and, eq, sql } from 'drizzle-orm';
 
-export async function validateNewPlayer({ name }: { name: string }) {
+export async function validateNewPlayer({
+  nickname,
+  clubId,
+}: {
+  nickname: string;
+  clubId: string;
+}) {
   const isValid = await db
     .select()
     .from(players)
-    .where(sql`lower(${players.nickname}) = ${name.toLowerCase()}`)
+    .where(
+      and(
+        sql`lower(${players.nickname}) = ${nickname.toLowerCase()}`,
+        eq(players.clubId, clubId),
+      ),
+    )
     .get();
 
   return isValid === undefined;

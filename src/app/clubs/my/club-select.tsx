@@ -1,12 +1,12 @@
 'use client';
 
-import { useUserSelectClub } from '@/components/hooks/mutation-hooks/use-user-select-club';
+import { useAuthSelectClub } from '@/components/hooks/mutation-hooks/use-auth-select-club';
 import { useAuthClubs } from '@/components/hooks/query-hooks/use-user-clubs';
 import {
   Select,
   SelectContent,
   SelectItem,
-  SelectTriggerNoOutline,
+  SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -19,35 +19,39 @@ import { toast } from 'sonner';
 const ClubSelect: FC<{ user: DatabaseUser }> = ({ user }) => {
   const { data: clubs, status } = useAuthClubs();
   const queryClient = useQueryClient();
-  const clubSelection = useUserSelectClub(queryClient);
+  const clubSelection = useAuthSelectClub(queryClient);
   const t = useTranslations('Toasts');
+
   if (status === 'error')
     toast.error(t('server error'), {
       id: 'error',
       duration: 3000,
     });
-  if (status !== 'success') return <Skeleton className="h-6 w-48" />;
-  const placeholder = clubs.find((club) => club.id === user.selected_club)
-    ?.name ?? <Skeleton className="h-6 w-48" />;
+  if (status !== 'success') return <SelectSkeleton />;
+  const placeholder = clubs.find((club) => club.id === user.selectedClub)
+    ?.name ?? <SelectSkeleton />;
   const sortedClubs = clubs.sort((a, b) =>
-    a.id === user.selected_club ? -1 : b.id === user.selected_club ? 1 : 0,
+    a.id === user.selectedClub ? -1 : b.id === user.selectedClub ? 1 : 0,
   );
 
   return (
     <Select
-      value={user.selected_club}
+      value={user.selectedClub}
       onValueChange={(value) =>
         clubSelection.mutate({
           clubId: value,
-          userId: user.id,
         })
       }
     >
-      <SelectTriggerNoOutline className="bg-background/30 w-full rounded-none px-6 backdrop-blur-md">
+      <SelectTrigger className="bg-background placeholder:text-muted-foreground border-box focus:ring-ring md:py-mk flex h-12 w-full max-w-3xl items-center justify-between rounded-md border-0 px-3 text-sm shadow-none backdrop-blur-md focus:ring-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:mx-auto">
         <SelectValue placeholder={placeholder} />
-      </SelectTriggerNoOutline>
+      </SelectTrigger>
       {sortedClubs && (
-        <SelectContent position="popper" collisionPadding={0} className="-mt-1">
+        <SelectContent
+          position="item-aligned"
+          collisionPadding={0}
+          className="-translate-x-3 md:translate-0"
+        >
           {sortedClubs.map(SelectItemIteratee)}
         </SelectContent>
       )}
@@ -62,6 +66,11 @@ const SelectItemIteratee = (props: ClubSelectProps) => {
     </SelectItem>
   );
 };
+const SelectSkeleton = () => (
+  <div className="h-8 w-full px-5 pt-3 pb-1">
+    <Skeleton className="h-full w-full" />
+  </div>
+);
 
 type ClubSelectProps = { id: string; name: string };
 

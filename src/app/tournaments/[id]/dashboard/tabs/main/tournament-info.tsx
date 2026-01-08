@@ -55,14 +55,14 @@ const TournamentInfoList = () => {
     formattedDate.charAt(0).toLowerCase() + formattedDate.slice(1);
 
   return (
-    <div className="flex flex-col gap-4 p-2 pt-3">
+    <div className="px-mk flex flex-col gap-2 py-2">
       <InfoItem
         icon={HomeIcon}
         value={data.club?.name}
         href={`/clubs/${data.club?.id}`}
       />
       <InfoItem icon={UserRound} value={t(`Types.${data.tournament.type}`)} />
-      <InfoItem icon={Dices} value={t(data.tournament.format)} />
+      <InfoItem icon={Dices} value={data.tournament.format} format={true} />
       <InfoItem icon={CalendarDays} value={decapitalizedWeekday} />
       {/* {formattedStartedAt && (
         <InfoItem

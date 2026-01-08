@@ -1,7 +1,7 @@
 'use client';
 
 import { useTRPC } from '@/components/trpc/client';
-import { DashboardMessage } from '@/types/ws-events';
+import { DashboardMessage } from '@/types/tournament-ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
@@ -14,12 +14,12 @@ export default function useTournamentFinish(
   const trpc = useTRPC();
   return useMutation(
     trpc.tournament.finish.mutationOptions({
-      onSuccess: (_error, { closed_at }) => {
-        if (closed_at) {
+      onSuccess: (_error, { closedAt }) => {
+        if (closedAt) {
           toast.success(t('finished'));
           sendJsonMessage({
-            type: 'finish-tournament',
-            closed_at,
+            event: 'finish-tournament',
+            closedAt,
           });
         }
         queryClient.invalidateQueries({

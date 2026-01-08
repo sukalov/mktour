@@ -2,15 +2,16 @@
 
 import DeleteConfirmationForm from '@/app/clubs/my/(tabs)/settings/delete-form';
 import { LoadingSpinner } from '@/app/loading';
+import { useClubManagers } from '@/components/hooks/query-hooks/use-club-managers';
 import { useTRPC } from '@/components/trpc/client';
+import ComboModal from '@/components/ui-custom/combo-modal';
 import { Button } from '@/components/ui/button';
-import ComboModal from '@/components/ui/combo-modal';
 import { useIsMutating } from '@tanstack/react-query';
 import { Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import * as React from 'react';
 
-export default function ClubDelete({ id, userId }: ClubDeleteProps) {
+export default function ClubDelete({ id }: ClubDeleteProps) {
   const [open, setOpen] = React.useState(false);
   const t = useTranslations('Club.Settings');
   const trpc = useTRPC();
@@ -18,6 +19,15 @@ export default function ClubDelete({ id, userId }: ClubDeleteProps) {
   const deleting = useIsMutating({
     mutationKey: trpc.club.delete.mutationKey(),
   });
+  const { data } = useClubManagers(id);
+
+  if (
+    data?.some(
+      ({ clubs_to_users: { userId, status } }) =>
+        userId === userId && status !== 'co-owner',
+    )
+  )
+    return null;
 
   return (
     <ComboModal.Root open={open} onOpenChange={setOpen}>
@@ -39,11 +49,7 @@ export default function ClubDelete({ id, userId }: ClubDeleteProps) {
             {t('confirmation body')}
           </ComboModal.Description>
         </ComboModal.Header>
-        <DeleteConfirmationForm
-          id={id}
-          userId={userId}
-          setOpenAction={setOpen}
-        />
+        <DeleteConfirmationForm id={id} setOpenAction={setOpen} />
         <ComboModal.Close asChild>
           <Button variant="outline" className="w-full">
             {t('cancel')}

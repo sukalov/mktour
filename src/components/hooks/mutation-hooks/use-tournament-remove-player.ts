@@ -1,8 +1,7 @@
 import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
 import { useTRPC } from '@/components/trpc/client';
-import { generateRoundRobinRoundFunction } from '@/lib/client-actions/round-robin-generator';
-import { shuffle } from '@/lib/utils';
-import { DashboardMessage } from '@/types/ws-events';
+import { generateRandomRoundGames } from '@/lib/client-actions/random-pairs-generator';
+import { DashboardMessage } from '@/types/tournament-ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
@@ -84,21 +83,23 @@ export const useTournamentRemovePlayer = (
         }
       },
       onSuccess: (_err, data) => {
-        sendJsonMessage({ type: 'remove-player', id: data.playerId });
+        sendJsonMessage({ event: 'remove-player', id: data.playerId });
         if (
           queryClient.isMutating({
             mutationKey: trpc.tournament.removePlayer.mutationKey(),
           }) === 1
         ) {
-          const playersUnshuffled = queryClient.getQueryData(
+          const players = queryClient.getQueryData(
             trpc.tournament.playersIn.queryKey({ tournamentId }),
           );
-          const games = queryClient.getQueryData(
-            trpc.tournament.allGames.queryKey({ tournamentId }),
-          );
-          const newGames = generateRoundRobinRoundFunction({
-            players: playersUnshuffled ? shuffle(playersUnshuffled) : [],
-            games: games ?? [],
+          const newGames = generateRandomRoundGames({
+            players: players
+              ? players.map((player, i) => ({
+                  ...player,
+                  pairingNumber: i,
+                }))
+              : [],
+            games: [],
             roundNumber: 1,
             tournamentId,
           });
@@ -108,7 +109,7 @@ export const useTournamentRemovePlayer = (
               tournamentId,
               roundNumber: 1,
             }),
-            () => newGames.sort((a, b) => a.game_number - b.game_number),
+            () => newGames.sort((a, b) => a.gameNumber - b.gameNumber),
           );
         }
       },

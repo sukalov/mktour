@@ -18,8 +18,8 @@ export const emptyClubCheck = async ({
         .from(tournaments)
         .where(
           and(
-            eq(tournaments.club_id, clubsList[club].id),
-            isNotNull(tournaments.closed_at),
+            eq(tournaments.clubId, clubsList[club].id),
+            isNotNull(tournaments.closedAt),
           ),
         )
         .limit(1)

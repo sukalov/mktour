@@ -1,117 +1,108 @@
+import Loading from '@/app/loading';
+import { AffiliateButton } from '@/app/player/[id]/affiliate-button';
+import CancelAffiliationByUser from '@/app/player/[id]/cancel-affiliation-by-user';
 import ClaimPlayer from '@/app/player/[id]/claim-button';
-import DeletePlayer from '@/app/player/[id]/delete-button';
 import EditButton from '@/app/player/[id]/edit-button';
-import FormattedMessage from '@/components/formatted-message';
-import { makeProtectedCaller, publicCaller } from '@/server/api';
-import { DatabasePlayer } from '@/server/db/schema/players';
-import { DatabaseUser } from '@/server/db/schema/users';
-import { User2 } from 'lucide-react';
+import LastTournaments from '@/app/player/[id]/last-tournaments';
+import PlayerStats from '@/app/player/[id]/player-stats';
+import LichessLogo from '@/components/ui-custom/lichess-logo';
+import { Button } from '@/components/ui/button';
+import { publicCaller } from '@/server/api';
+import { ChevronRight, User2, Users2, UserX } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { FC } from 'react';
+import { Suspense } from 'react';
+import 'server-only';
 
 export default async function PlayerPage(props: PlayerPageProps) {
-  const { id } = await props.params;
-  const [user, playerData] = await Promise.all([
-    publicCaller.user.auth(),
-    publicCaller.player.info({ playerId: id }),
-  ]);
-  if (!playerData) notFound();
-  const { player, club, user: playerUser } = playerData;
-  const protectedCaller = await makeProtectedCaller();
-  const [userAffiliation, status] = await Promise.all([
-    user
-      ? protectedCaller.club.authAffiliation({
-          clubId: club.id,
-        })
-      : undefined,
-    publicCaller.club.authStatus({ clubId: club.id }),
-  ]);
-
-  const isOwnPlayer = user && player.user_id === user.id;
-  const canEdit = status || isOwnPlayer;
-  const canClaim = !status && user && !player.user_id;
-
   return (
-    <div className="mk-container flex w-full flex-col gap-2">
-      <div className="flex w-full items-center justify-between border-b-2 pb-2 pl-2">
-        <div className="flex flex-col">
-          <span className="truncate text-2xl font-semibold text-wrap">
-            {player.nickname}
-          </span>
-          <UserLink user={playerUser} />
-        </div>
-        {user && (
-          <div className="text-muted-foreground flex self-end">
-            {canEdit && (
-              <>
-                <EditButton userId={user.id} player={player} />
-                {!isOwnPlayer && (
-                  <DeletePlayer userId={user.id} clubId={club.id} />
-                )}
-              </>
-            )}
-            {canClaim && (
-              <ClaimPlayer
-                userId={user.id}
-                clubId={club.id}
-                userAffiliation={userAffiliation}
-              />
-            )}
-          </div>
-        )}
-      </div>
-      <div className="flex flex-col gap-2 pl-2 text-sm">
-        <FullName player={player} user={playerUser} />
-        <span>
-          <FormattedMessage id="Player.rating" />
-          {': '}
-          {player.rating}
-        </span>
-        <p>
-          <FormattedMessage id="Player.club" />
-          {': '}
-          <Link className="mk-link" href={`/clubs/${player.club_id}`}>
-            {club.name}
-          </Link>
-        </p>
-        {playerUser && (
-          <p>
-            <FormattedMessage id="Player.lichess" />
-            {': '}
-            <Link
-              href={`https://lichess.org/@/${playerUser.username}`}
-              target="_blank"
-              className="mk-link"
-            >
-              {playerUser.username}
-            </Link>
-          </p>
-        )}
-      </div>
-    </div>
+    <Suspense fallback={<Loading />}>
+      <PlayerPageContent {...props} />
+    </Suspense>
   );
 }
 
-const FullName: FC<{ player: DatabasePlayer; user: DatabaseUser | null }> = ({
-  player,
-  user,
-}) => {
-  if (!player.realname && !user?.name) return null;
-  return <span className="font-semibold">{user?.name || player.realname}</span>;
-};
+async function PlayerPageContent(props: PlayerPageProps) {
+  const { id } = await props.params;
+  const [user, playerData] = await Promise.all([
+    publicCaller.auth.info(),
+    publicCaller.player.info({ playerId: id }),
+  ]);
+  if (!playerData) notFound();
 
-const UserLink: FC<{ user: DatabaseUser | null }> = ({ user }) => {
-  if (!user) return null;
+  const { user: playerUser, club, ...player } = playerData;
+  const [status, affiliation] = await Promise.all([
+    publicCaller.club.authStatus({
+      clubId: club.id,
+    }),
+    publicCaller.auth.affiliationInClub({ clubId: club.id }),
+  ]);
+  const playerLastTournaments = await publicCaller.player.lastTournaments({
+    playerId: player.id,
+  });
+
+  const isOwnPlayer = user && player.userId === user.id;
+  const canEdit = status !== null || isOwnPlayer;
+  const canClaim = !status && user && !player.userId;
+  console.log({ canClaim });
+  const canAffiliate = status !== null && !player.userId && !affiliation;
+  const t = await getTranslations('Player');
+
   return (
-    <Link href={`/user/${user.username}`}>
-      <span className="mk-link text-muted-foreground flex gap-1 truncate text-xs text-wrap">
-        <User2 className="size-4" />
-        <span>{user.username}</span>
-      </span>
-    </Link>
+    <div className="mk-container flex w-full flex-col gap-4">
+      {/* Club Context Bar */}
+      <Link
+        href={`/clubs/${club.id}`}
+        className="bg-secondary/50 hover:bg-secondary/70 flex items-center justify-between rounded-lg px-4 py-3 transition-colors"
+      >
+        <div className="flex items-center gap-2">
+          <Users2 className="text-muted-foreground size-4" />
+          <span className="text-sm font-medium">{club.name}</span>
+        </div>
+        <ChevronRight className="text-muted-foreground size-4" />
+      </Link>
+
+      {/* Action Toolbar */}
+      <div className="flex w-full justify-end gap-2">
+        {playerUser ? (
+          <Button variant="outline" className="gap-2" asChild>
+            <Link href={`/user/${playerUser.username}`}>
+              <User2 className="size-4" />
+              <span>{playerUser.username}</span>
+            </Link>
+          </Button>
+        ) : (
+          <Button variant="outline" className="gap-2" disabled>
+            <UserX className="size-4" />
+            <span>{t('not linked')}</span>
+          </Button>
+        )}
+        {playerUser && (
+          <Button variant="outline" size="icon" className="gap-2" asChild>
+            <Link
+              href={`https://lichess.org/@/${playerUser.username}`}
+              target="_blank"
+            >
+              <div className="size-4">
+                <LichessLogo />
+              </div>
+            </Link>
+          </Button>
+        )}
+        {canAffiliate && <AffiliateButton player={player} />}
+        {isOwnPlayer && status && (
+          <CancelAffiliationByUser playerId={player.id} />
+        )}
+        {user && canEdit && <EditButton player={player} status={status} />}
+        {canClaim && <ClaimPlayer userId={user.id} clubId={club.id} />}
+      </div>
+
+      <PlayerStats player={player} />
+      <LastTournaments tournaments={playerLastTournaments} />
+    </div>
   );
-};
+}
 
 export interface PlayerPageProps {
   params: Promise<{ id: string }>;

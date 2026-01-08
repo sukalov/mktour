@@ -1,4 +1,5 @@
-import NavWrapper from '@/components/navigation/nav-wrapper';
+import Loading from '@/app/loading';
+import Navigation from '@/components/navigation';
 import ErrorFallback from '@/components/providers/error-boundary';
 import IntlProvider from '@/components/providers/intl-provider';
 import MediaQueryProvider from '@/components/providers/media-query-provider';
@@ -6,26 +7,40 @@ import ThemeProvider from '@/components/providers/theme-provider';
 import { GlobalWebSocketProvider } from '@/components/providers/websocket-provider';
 import { TRPCReactProvider } from '@/components/trpc/client';
 import { Toaster } from '@/components/ui/sonner';
-import { getEncryptedAuthSession } from '@/lib/get-encrypted-auth-session';
 import '@/styles/globals.css';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata, Viewport } from 'next';
 import { getLocale, getMessages } from 'next-intl/server';
 import Script from 'next/script';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Monitoring } from 'react-scan/monitoring/next';
 
-export const experimental_ppr = true;
-
-async function RootLayout({ children }: PropsWithChildren) {
+async function LayoutContent({ children }: PropsWithChildren) {
   const locale = await getLocale();
   const messages = await getMessages();
-  const encryptedSession = await getEncryptedAuthSession();
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <IntlProvider messages={messages} locale={locale}>
+      <GlobalWebSocketProvider>
+        <Navigation />
+        <div className="pt-14">{children}</div>
+        <Analytics />
+        <SpeedInsights />
+        <Toaster richColors />
+        <Script
+          src="https://unpkg.com/react-scan/dist/install-hook.global.js"
+          strategy="beforeInteractive"
+        />
+      </GlobalWebSocketProvider>
+    </IntlProvider>
+  );
+}
+
+export default function RootLayout({ children }: PropsWithChildren) {
+  return (
+    <html suppressHydrationWarning>
       <body className="small-scrollbar">
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Monitoring
@@ -40,23 +55,13 @@ async function RootLayout({ children }: PropsWithChildren) {
             enableSystem
             disableTransitionOnChange
           >
-            <IntlProvider messages={messages} locale={locale}>
-              <MediaQueryProvider>
-                <TRPCReactProvider>
-                  <GlobalWebSocketProvider session={encryptedSession}>
-                    <NavWrapper />
-                    <div className="pt-14">{children}</div>
-                    <Analytics />
-                    <SpeedInsights />
-                    <Toaster richColors />
-                    <Script
-                      src="https://unpkg.com/react-scan/dist/install-hook.global.js"
-                      strategy="beforeInteractive"
-                    />
-                  </GlobalWebSocketProvider>
-                </TRPCReactProvider>
-              </MediaQueryProvider>
-            </IntlProvider>
+            <MediaQueryProvider>
+              <TRPCReactProvider>
+                <Suspense fallback={<Loading />}>
+                  <LayoutContent>{children}</LayoutContent>
+                </Suspense>
+              </TRPCReactProvider>
+            </MediaQueryProvider>
           </ThemeProvider>
         </ErrorBoundary>
       </body>
@@ -213,5 +218,3 @@ export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false,
 };
-
-export default RootLayout;

@@ -1,34 +1,24 @@
 import { emptyClubCheck } from '@/app/clubs/create/empty-club-check';
 import ForwardToEmpryClub from '@/app/clubs/create/forward-to-empty-club';
-import NewClubForm, { TeamSlice } from '@/app/clubs/create/new-club-form';
+import NewClubForm from '@/app/clubs/create/new-club-form';
+import { getUserLichessTeams } from '@/lib/api/lichess';
 import { publicCaller } from '@/server/api';
-import { Team } from '@/types/lichess-api';
 import { redirect } from 'next/navigation';
 
 export default async function CreateClubPage() {
-  const user = await publicCaller.user.auth();
+  const user = await publicCaller.auth.info();
   if (!user) redirect('/sign-in');
   const club = await emptyClubCheck({ user });
-  let teams: Array<TeamSlice> = [];
-  try {
-    const res = await fetch(`https://lichess.org/api/team/of/${user.username}`);
-    const teamsFull = (await res.json()) as Array<Team>;
-    teams = teamsFull
-      .filter((team) =>
-        team.leaders.find((leader) => leader.id === user.username),
-      )
-      .map((el) => ({
-        label: el.name.toLowerCase(),
-        value: el.id,
-      }));
-  } catch (e) {
-    console.log(`ERROR: unable to connect to lichess.  ${e}`);
-  }
+  const teamsFull = await getUserLichessTeams(user.username);
+  const teams = teamsFull.map((el) => ({
+    label: el.name.toLowerCase(),
+    value: el.id,
+  }));
 
   return (
     <div>
       {club ? (
-        <ForwardToEmpryClub club={club} userId={user.id} />
+        <ForwardToEmpryClub club={club} />
       ) : (
         <NewClubForm user={user} teams={teams} />
       )}

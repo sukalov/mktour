@@ -1,24 +1,33 @@
 'use client';
 
 import { ClubDashboardTab, tabMap } from '@/app/clubs/my/tabMap';
+import { useClubNotifications } from '@/components/hooks/query-hooks/use-club-notifications';
 import { CLUB_DASHBOARD_NAVBAR_ITEMS } from '@/components/navigation/club-dashboard-navbar-items';
 import { MediaQueryContext } from '@/components/providers/media-query-context';
+import Badge, { BadgeWithCount } from '@/components/ui-custom/badge';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LucideIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { FC, ReactNode, useContext } from 'react';
+import { FC, useContext } from 'react';
 
 const ClubDashboardTabList: FC<{
+  selectedClub: string;
   setTab: (_arg: ClubDashboardTab) => void;
   activeTab: ClubDashboardTab;
-}> = ({ setTab, activeTab }) => {
-  const t = useTranslations('Club.Dashboard');
+}> = ({ selectedClub, setTab, activeTab }) => {
   const { isMobile } = useContext(MediaQueryContext);
-  const preparedTabs = isMobile
-    ? (Object.keys(tabMap) as ClubDashboardTab[])
-    : (Object.keys(tabMap).filter((tab) =>
-        ['main', 'players', 'tournaments'].includes(tab),
-      ) as ClubDashboardTab[]);
+  const preparedTabs = Object.keys(tabMap) as ClubDashboardTab[];
+  const notifications = useClubNotifications(selectedClub);
+  const hasNewNotifications = Boolean(
+    notifications?.data?.pages?.some((page) =>
+      page.notifications.some(({ isSeen }) => !isSeen),
+    ),
+  );
+  const counter = notifications?.data?.pages?.reduce(
+    (acc, page) =>
+      acc + page.notifications.filter(({ isSeen }) => !isSeen).length,
+    0,
+  );
 
   return (
     <Tabs
@@ -30,11 +39,13 @@ const ClubDashboardTabList: FC<{
       <TabsList className="no-scrollbar w-full justify-around overflow-scroll rounded-none md:justify-start">
         {preparedTabs.map((tab) => (
           <TabsTrigger key={tab} className="w-full" value={tab}>
-            {isMobile ? (
-              <Logo tab={tab} activeTab={activeTab} />
-            ) : (
-              <>{t(tab)}</>
-            )}
+            <TabContent
+              tab={tab}
+              hasNewNotifications={hasNewNotifications}
+              activeTab={activeTab}
+              isMobile={isMobile}
+              counter={counter}
+            />
           </TabsTrigger>
         ))}
       </TabsList>
@@ -42,17 +53,33 @@ const ClubDashboardTabList: FC<{
   );
 };
 
-const Logo: FC<{ tab: ReactNode; activeTab: ClubDashboardTab }> = ({
-  tab,
-  activeTab,
-}) => {
-  const item = CLUB_DASHBOARD_NAVBAR_ITEMS.find((item) => item.title === tab);
+const TabContent: FC<{
+  tab: ClubDashboardTab;
+  activeTab: ClubDashboardTab;
+  hasNewNotifications: boolean;
+  isMobile: boolean;
+  counter?: number;
+}> = ({ tab, activeTab, hasNewNotifications, isMobile, counter }) => {
+  const item = CLUB_DASHBOARD_NAVBAR_ITEMS[tab];
   const isActive = tab === activeTab;
+  const t = useTranslations('Club.Dashboard');
+
   if (!item || !item.logo) return tab;
 
   const Icon: LucideIcon = item.logo;
+  const shouldShowBadge = hasNewNotifications && tab === 'notifications';
 
-  return <Icon size={18} strokeWidth={isActive ? 2.5 : 2} />;
+  return (
+    <div className="gap-mk relative flex w-fit items-center">
+      {isMobile ? <Icon size={18} strokeWidth={isActive ? 2.5 : 2} /> : t(tab)}
+      {shouldShowBadge &&
+        (isMobile ? (
+          <Badge className="top-0" />
+        ) : (
+          <BadgeWithCount count={counter!} />
+        ))}
+    </div>
+  );
 };
 
 export default ClubDashboardTabList;

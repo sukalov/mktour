@@ -1,7 +1,6 @@
 import { cn } from '@/lib/utils';
 import { Loader2 } from 'lucide-react';
 
-// FIXME intl
 export default function Loading() {
   return (
     <div className="flex h-[calc(100svh-3.5rem)] w-full flex-auto items-center justify-center">
@@ -12,5 +11,5 @@ export default function Loading() {
 }
 
 export const LoadingSpinner = ({ className }: { className?: string }) => (
-  <Loader2 className={cn(`size-5 animate-spin`, className)} />
+  <Loader2 className={cn(`animate-spin`, className)} />
 );

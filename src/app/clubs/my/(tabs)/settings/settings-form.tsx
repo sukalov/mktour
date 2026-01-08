@@ -17,95 +17,94 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { shallowEqual } from '@/lib/utils';
-import { EditClubFormType, editClubFormSchema } from '@/lib/zod/edit-club-form';
+import { ClubFormType, clubsInsertSchema } from '@/server/db/zod/clubs';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { Save } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { FC } from 'react';
+import { FC, PropsWithChildren } from 'react';
 import { useForm } from 'react-hook-form';
 
-const ClubSettingsForm: FC<ClubTabProps> = ({ selectedClub, userId }) => {
+const ClubSettingsForm: FC<ClubTabProps & PropsWithChildren> = ({
+  selectedClub,
+  children,
+}) => {
   const queryClient = useQueryClient();
   const { data, isFetching } = useClubInfo(selectedClub);
-  const defaultValues = {
-    name: data?.name,
-    description: data?.description,
-    lichess_team: data?.lichess_team,
-    id: selectedClub,
-  };
   const clubSettingsMutation = useEditClubMutation(queryClient);
 
-  const form = useForm<EditClubFormType>({
-    resolver: zodResolver(editClubFormSchema),
-    defaultValues: {
-      name: '',
-      description: '',
-      lichess_team: '',
-      id: selectedClub,
-    },
+  const defaultValues = {
+    name: '',
+    description: '',
+    lichessTeam: '',
+  };
+
+  const form = useForm<ClubFormType>({
+    resolver: zodResolver(clubsInsertSchema),
     values: data
       ? {
           name: data.name,
           description: data.description,
-          lichess_team: data.lichess_team,
-          id: selectedClub,
+          lichessTeam: data.lichessTeam,
         }
-      : undefined,
+      : defaultValues,
   });
 
   const t = useTranslations('Club.Settings');
 
   if (!data && isFetching) return <SkeletonList length={1} />;
+  if (!data && children) return children;
   return (
-    <Form {...form}>
-      <Card className="border-none shadow-none sm:border-solid sm:shadow-2xs">
-        <CardContent className="max-sm:p-0 sm:py-8">
-          <form
-            onSubmit={form.handleSubmit((data) =>
-              clubSettingsMutation.mutate({
-                clubId: data.id,
-                userId,
-                values: data,
-              }),
-            )}
-            className="flex flex-col gap-2"
-            name="edit-club-form"
-          >
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="pl-4">{t('name')}</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      disabled={isFetching}
-                      autoComplete="off"
-                      className="px-4"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+    <div className="gap-mk-2 flex flex-col">
+      <h2 className="pl-4 text-sm">{t('club settings')}</h2>
+      <Form {...form}>
+        <Card className="bg-background sm:bg-card border-none shadow-none sm:border-solid sm:shadow">
+          <CardContent className="p-0 sm:p-6">
+            <form
+              onSubmit={form.handleSubmit((data) =>
+                clubSettingsMutation.mutate({
+                  clubId: selectedClub,
+                  values: data,
+                }),
               )}
-            />
-            <FormField control={form.control} name="id" render={() => <></>} />
-            <Button
-              disabled={
-                shallowEqual(form.getValues(), defaultValues) ||
-                clubSettingsMutation.isPending ||
-                isFetching
-              }
-              className="w-full"
+              className="flex flex-col gap-2"
+              name="edit-club-form"
             >
-              {clubSettingsMutation.isPending ? <LoadingSpinner /> : <Save />}
-              &nbsp;{t('save')}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
-    </Form>
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="pl-4">{t('name')}</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        disabled={isFetching}
+                        autoComplete="off"
+                        className="px-4"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button
+                type="submit"
+                disabled={
+                  shallowEqual(form.getValues(), defaultValues) ||
+                  clubSettingsMutation.isPending ||
+                  isFetching
+                }
+                className="w-full"
+              >
+                {clubSettingsMutation.isPending ? <LoadingSpinner /> : <Save />}
+                &nbsp;{t('save')}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </Form>
+    </div>
   );
 };
 

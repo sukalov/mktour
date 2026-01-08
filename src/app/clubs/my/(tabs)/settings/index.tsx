@@ -12,27 +12,35 @@ import { useTranslations } from 'next-intl';
 export default function ClubSettings({ selectedClub, userId }: ClubTabProps) {
   const t = useTranslations('Club.Dashboard');
   const { mutate, isPending } = useClubLeaveMutation();
+
   return (
-    <section className="divide-ring mx-auto flex max-w-[min(640px,100%)] flex-col gap-12 p-2">
-      <ClubSettingsForm selectedClub={selectedClub} userId={userId} />
-      <ClubManagersList clubId={selectedClub} userId={userId} />
-      <div className="flex flex-col gap-2 sm:px-0">
-        <div className="pl-4 font-bold">{t('danger zone')}</div>
-        <Card className="border-none shadow-none sm:border-solid sm:shadow-2xs">
-          <CardContent className="flex flex-col gap-2 max-sm:p-0 sm:py-8">
-            <Button
-              variant="destructive"
-              className="w-full"
-              onClick={() => mutate({ clubId: selectedClub })}
-              disabled={isPending}
-            >
-              {isPending ? <LoadingSpinner /> : <DoorOpen />}
-              &nbsp;
-              {t('leave club')}
-            </Button>
-            <ClubDelete id={selectedClub} userId={userId} />
-          </CardContent>
-        </Card>
+    <section className="top-20 w-full overflow-scroll">
+      <div className="max-md:p-mk right-0 left-0 m-auto flex max-w-[min(640px,100%)] flex-col justify-between gap-8 p-0 pb-16 max-md:pb-16 max-sm:absolute">
+        <ClubSettingsForm selectedClub={selectedClub} userId={userId} />
+        <ClubManagersList clubId={selectedClub} userId={userId} />
+        <div className="flex flex-col gap-2">
+          <label htmlFor="danger-zone">
+            <h2 className="pl-4 text-sm">{t('danger zone')}</h2>
+          </label>
+          <Card
+            key="danger-zone"
+            className="bg-background sm:bg-card border-none shadow-none sm:border-solid sm:shadow"
+          >
+            <CardContent className="flex flex-col gap-2 max-sm:p-0 sm:py-8">
+              <Button
+                variant="destructive"
+                className="w-full"
+                onClick={() => mutate({ clubId: selectedClub })}
+                disabled={isPending}
+              >
+                {isPending ? <LoadingSpinner /> : <DoorOpen />}
+                &nbsp;
+                {t('leave club')}
+              </Button>
+              <ClubDelete id={selectedClub} userId={userId} />
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </section>
   );

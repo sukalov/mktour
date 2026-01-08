@@ -22,6 +22,7 @@ export default function ClubDescription({ form }: ClubDescriptionProps) {
             <Textarea
               placeholder={t('description placeholder')}
               {...field}
+              value={field.value ?? undefined}
               className="field-sizing-content min-h-26"
             />
           </FormControl>

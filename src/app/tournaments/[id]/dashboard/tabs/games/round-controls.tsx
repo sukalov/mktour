@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Dispatch, FC, SetStateAction } from 'react';
@@ -22,7 +22,7 @@ const RoundControls: FC<RoundControlProps> = ({
 
   return (
     <div
-      className={`sticky top-0 z-10 grid h-10 w-full grid-cols-3 items-center justify-between p-1 px-4 backdrop-blur-md`}
+      className={`px-mk sticky top-0 z-10 grid h-10 w-full grid-cols-3 items-center justify-between p-1 backdrop-blur-md`}
     >
       <Button
         style={{ visibility: roundInView === 1 ? 'hidden' : 'visible' }}
@@ -54,7 +54,7 @@ const RoundControls: FC<RoundControlProps> = ({
   );
 };
 
-const buttonProps: ButtonProps = {
+const buttonProps: React.ComponentProps<typeof Button> = {
   variant: 'ghost',
   size: 'sm',
   className: 'w-full',

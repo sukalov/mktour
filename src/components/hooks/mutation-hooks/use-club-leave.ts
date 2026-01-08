@@ -9,10 +9,7 @@ export const useClubLeaveMutation = () => {
     trpc.club.leave.mutationOptions({
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: trpc.user.auth.queryKey(),
-        });
-        queryClient.invalidateQueries({
-          queryKey: trpc.user.authClubs.queryKey(),
+          queryKey: trpc.auth.pathKey(),
         });
       },
       onError: (error) => {

@@ -1,5 +1,5 @@
 import { Card } from '@/components/ui/card';
-import { Result as ResultModel } from '@/types/tournaments';
+import { GameResult } from '@/server/db/zod/enums';
 import { FC } from 'react';
 
 const GameItemExpanded: FC<GameProps> = ({ result, player1, player2 }) => {
@@ -20,7 +20,7 @@ const GameItemExpanded: FC<GameProps> = ({ result, player1, player2 }) => {
   );
 };
 
-const Result = ({ result }: { result: ResultModel | null }) => {
+const Result = ({ result }: { result: GameResult | null }) => {
   // FIXME Intl
   const resultP1 = result === '1-0' ? '1' : result === '1/2-1/2' ? '½' : '0';
   const resultP2 = result === '1-0' ? '0' : result === '1/2-1/2' ? '½' : '1';
@@ -36,7 +36,7 @@ const Result = ({ result }: { result: ResultModel | null }) => {
 };
 
 interface GameProps {
-  result: ResultModel | null;
+  result: GameResult | null;
   setResult: () => void;
   player1: string;
   player2: string;

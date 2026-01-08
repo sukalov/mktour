@@ -13,8 +13,8 @@ import { useRoundData } from '@/components/hooks/use-round-data';
 import SkeletonList from '@/components/skeleton-list';
 import { useTRPC } from '@/components/trpc/client';
 import { Button } from '@/components/ui/button';
-import { generateRoundRobinRoundFunction } from '@/lib/client-actions/round-robin-generator';
-import { GameModel } from '@/types/tournaments';
+import { generateRoundRobinRound } from '@/lib/client-actions/round-robin-generator';
+import { GameModel } from '@/server/db/zod/tournaments';
 import { useQueryClient } from '@tanstack/react-query';
 import { ArrowRightIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -39,36 +39,32 @@ const RoundItem: FC<RoundItemProps> = ({ roundNumber }) => {
   if (isLoading || !info.data || !players)
     return (
       <div className="px-4 pt-2">
-        <SkeletonList length={8} height={16} />
+        <SkeletonList length={8} />
       </div>
     );
 
   if (isError) return <Center>error</Center>;
   if (!round) return <Center>no round</Center>;
 
-  const { ongoing_round, rounds_number, closed_at } = info.data.tournament;
+  const { ongoingRound, roundsNumber, closedAt } = info.data.tournament;
   const renderFinishButton =
-    status === 'organizer' && !closed_at && ongoing_round === rounds_number;
+    status === 'organizer' && !closedAt && ongoingRound === roundsNumber;
   const renderNewRoundButton =
-    roundNumber === ongoing_round &&
-    ongoing_round !== rounds_number &&
+    roundNumber === ongoingRound &&
+    ongoingRound !== roundsNumber &&
     ongoingGames === 0 &&
     status === 'organizer' &&
     round.length > 0;
 
-  const ActionButton = () => {
-    if (renderNewRoundButton)
-      return (
-        <NewRoundButton tournamentId={tournamentId} roundNumber={roundNumber} />
-      );
-    if (renderFinishButton)
-      return <FinishTournamentButton lastRoundNumber={rounds_number} />;
-    return null;
-  };
-
   return (
-    <div className="mk-list mk-container px-4 pt-2">
-      <ActionButton />
+    <div className="mk-list mk-container px-mk pt-2">
+      <ActionButton
+        renderNewRoundButton={renderNewRoundButton}
+        roundNumber={roundNumber}
+        roundsNumber={roundsNumber}
+        tournamentId={tournamentId}
+        renderFinishButton={renderFinishButton}
+      />
       {sortedRound.map((game, index) => {
         return <GamesIteratee key={index} {...game} />;
       })}
@@ -99,7 +95,7 @@ const NewRoundButton: FC<{ tournamentId: string; roundNumber: number }> = ({
     );
     const games = tournamentGames;
     if (!players || !games) return;
-    const newGames = generateRoundRobinRoundFunction({
+    const newGames = generateRoundRobinRound({
       players,
       games,
       roundNumber: roundNumber + 1,
@@ -117,21 +113,44 @@ const NewRoundButton: FC<{ tournamentId: string; roundNumber: number }> = ({
   );
 };
 
+const ActionButton = ({
+  renderNewRoundButton,
+  roundNumber,
+  roundsNumber,
+  tournamentId,
+  renderFinishButton,
+}: {
+  renderNewRoundButton: boolean;
+  roundNumber: number;
+  roundsNumber: number | null;
+  tournamentId: string;
+  renderFinishButton: boolean;
+}) => {
+  if (!roundsNumber) return null;
+  if (renderNewRoundButton)
+    return (
+      <NewRoundButton tournamentId={tournamentId} roundNumber={roundNumber} />
+    );
+  if (renderFinishButton)
+    return <FinishTournamentButton lastRoundNumber={roundsNumber} />;
+  return null;
+};
+
 const GamesIteratee = ({
   id,
   result,
-  white_nickname,
-  black_nickname,
-  white_id,
-  black_id,
-  round_number,
+  whiteNickname,
+  blackNickname,
+  whiteId,
+  blackId,
+  roundNumber,
 }: GameModel) => (
   <GameItem
     id={id}
     result={result}
-    playerLeft={{ white_id, white_nickname }}
-    playerRight={{ black_id, black_nickname }}
-    roundNumber={round_number}
+    playerLeft={{ whiteId, whiteNickname }}
+    playerRight={{ blackId, blackNickname }}
+    roundNumber={roundNumber}
   />
 );
 

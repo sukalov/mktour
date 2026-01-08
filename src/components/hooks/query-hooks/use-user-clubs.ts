@@ -8,5 +8,5 @@ export const useUserClubs = (userId: string) => {
 
 export const useAuthClubs = () => {
   const trpc = useTRPC();
-  return useQuery(trpc.user.authClubs.queryOptions());
+  return useQuery(trpc.auth.clubs.queryOptions());
 };

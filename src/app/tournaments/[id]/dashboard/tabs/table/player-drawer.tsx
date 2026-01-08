@@ -4,7 +4,6 @@ import {
   WithdrawButtonWithConfirmation,
 } from '@/app/tournaments/[id]/dashboard/tabs/table/destructive-buttons';
 import FormattedMessage from '@/components/formatted-message';
-import { Button } from '@/components/ui/button';
 import {
   Close,
   Content,
@@ -12,14 +11,15 @@ import {
   Header,
   Root,
   Title,
-} from '@/components/ui/combo-modal';
-import { PlayerModel } from '@/types/tournaments';
+} from '@/components/ui-custom/combo-modal';
+import { Button } from '@/components/ui/button';
+import { PlayerTournamentModel } from '@/server/db/zod/players';
 import { UserRound } from 'lucide-react';
 import Link from 'next/link';
-import { FC, useContext, useEffect, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useContext, useState } from 'react';
 
 const PlayerDrawer: FC<{
-  player: PlayerModel;
+  player: PlayerTournamentModel;
   setSelectedPlayer: (_arg: null) => void;
   handleDelete: () => void;
   hasEnded: boolean;
@@ -27,16 +27,6 @@ const PlayerDrawer: FC<{
 }> = ({ player, setSelectedPlayer, hasEnded, hasStarted, handleDelete }) => {
   const [open, setOpen] = useState(!!player);
   const { status } = useContext(DashboardContext);
-
-  const DestructiveButton = () => {
-    if (hasEnded) return null;
-    // prettier-ignore
-    return hasStarted 
-      ? <WithdrawButtonWithConfirmation selectedPlayer={player} />
-      : <DeleteButton handleDelete={() => { setOpen(false); handleDelete() }} />;
-  };
-
-  useEffect(() => setOpen(!!player), [player]);
 
   return (
     <Root
@@ -50,13 +40,26 @@ const PlayerDrawer: FC<{
           <Title>{player?.nickname}</Title>
           <Description hidden />
         </Header>
-        <Link href={`/player/${player?.id}`}>
-          <Button className="flex w-full gap-2" size="lg">
+        <Button
+          className="flex w-full gap-2"
+          size="lg"
+          onClick={() => setTimeout(() => setSelectedPlayer(null), 500)}
+          asChild
+        >
+          <Link href={`/player/${player?.id}`}>
             <UserRound />
             <FormattedMessage id="Tournament.Table.Player.profile" />
-          </Button>
-        </Link>
-        {status === 'organizer' && <DestructiveButton />}
+          </Link>
+        </Button>
+        {status === 'organizer' && (
+          <DestructiveButton
+            hasEnded={hasEnded}
+            hasStarted={hasStarted}
+            player={player}
+            handleDelete={handleDelete}
+            setOpen={setOpen}
+          />
+        )}
         <Close asChild>
           <Button size="lg" variant="outline">
             <FormattedMessage id="Common.close" />
@@ -65,6 +68,26 @@ const PlayerDrawer: FC<{
       </Content>
     </Root>
   );
+};
+
+const DestructiveButton = ({
+  hasEnded,
+  hasStarted,
+  player,
+  handleDelete,
+  setOpen,
+}: {
+  hasEnded: boolean;
+  hasStarted: boolean;
+  player: PlayerTournamentModel;
+  handleDelete: () => void;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+}) => {
+  if (hasEnded) return null;
+  // prettier-ignore
+  return hasStarted 
+      ? <WithdrawButtonWithConfirmation selectedPlayer={player} />
+      : <DeleteButton handleDelete={() => { setOpen(false); handleDelete() }} />;
 };
 
 export default PlayerDrawer;

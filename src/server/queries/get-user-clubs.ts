@@ -1,8 +1,11 @@
 'use server';
 
+import { CACHE_TAGS } from '@/lib/cache-tags';
 import { db } from '@/server/db';
 import { clubs, clubs_to_users } from '@/server/db/schema/clubs';
+import { StatusInClub } from '@/server/db/zod/enums';
 import { eq } from 'drizzle-orm';
+import { cacheLife, cacheTag } from 'next/cache';
 import { cache } from 'react';
 
 export async function getUserClubNames({ userId }: { userId: string }) {
@@ -12,8 +15,8 @@ export async function getUserClubNames({ userId }: { userId: string }) {
       name: clubs.name,
     })
     .from(clubs_to_users)
-    .where(eq(clubs_to_users.user_id, userId))
-    .innerJoin(clubs, eq(clubs_to_users.club_id, clubs.id));
+    .where(eq(clubs_to_users.userId, userId))
+    .innerJoin(clubs, eq(clubs_to_users.clubId, clubs.id));
 }
 
 export async function getUserClubs({ userId }: { userId: string }) {
@@ -21,21 +24,32 @@ export async function getUserClubs({ userId }: { userId: string }) {
     await db
       .select()
       .from(clubs_to_users)
-      .where(eq(clubs_to_users.user_id, userId))
-      .innerJoin(clubs, eq(clubs_to_users.club_id, clubs.id))
+      .where(eq(clubs_to_users.userId, userId))
+      .innerJoin(clubs, eq(clubs_to_users.clubId, clubs.id))
   ).map((el) => el.club);
 }
 
-export async function uncachedGetUserClubIds({ userId }: { userId: string }) {
+export const getUserClubIds = cache(async ({ userId }: { userId: string }) => {
+  'use cache';
+  cacheLife({
+    stale: 1000 * 60 * 60,
+    revalidate: 1000 * 60 * 60,
+  });
+  cacheTag(`${CACHE_TAGS.USER_CLUBS}:${userId}`);
   return (
     await db
       .select({
         id: clubs.id,
+        status: clubs_to_users.status,
       })
       .from(clubs_to_users)
-      .where(eq(clubs_to_users.user_id, userId))
-      .innerJoin(clubs, eq(clubs_to_users.club_id, clubs.id))
-  ).map((el) => el.id);
-}
-
-export const getUserClubIds = cache(uncachedGetUserClubIds);
+      .where(eq(clubs_to_users.userId, userId))
+      .innerJoin(clubs, eq(clubs_to_users.clubId, clubs.id))
+  ).reduce(
+    (acc, curr) => {
+      acc[curr.id] = curr.status;
+      return acc;
+    },
+    {} as Record<string, StatusInClub>,
+  );
+});

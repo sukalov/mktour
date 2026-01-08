@@ -21,7 +21,6 @@ import { useForm, useWatch } from 'react-hook-form';
 export default function DeleteConfirmationForm({
   className,
   id,
-  userId,
   setOpenAction,
 }: DeleteConfirmationFormProps) {
   const queryClient = useQueryClient();
@@ -47,7 +46,6 @@ export default function DeleteConfirmationForm({
         onSubmit={form.handleSubmit((data) => {
           mutate({
             clubId: data.id,
-            userId,
             userDeletion: false,
           });
         })}
@@ -84,6 +82,5 @@ export default function DeleteConfirmationForm({
 interface DeleteConfirmationFormProps {
   className?: string;
   id: string;
-  userId: string;
   setOpenAction: Dispatch<SetStateAction<boolean>>;
 }

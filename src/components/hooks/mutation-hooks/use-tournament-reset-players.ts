@@ -1,14 +1,13 @@
 'use client';
 
 import { useTRPC } from '@/components/trpc/client';
-import { DashboardMessage } from '@/types/ws-events';
+import { DashboardMessage } from '@/types/tournament-ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { Dispatch, SetStateAction } from 'react';
 import { toast } from 'sonner';
 
 export default function useTournamentResetPlayers(
-  tournamentId: string,
   queryClient: QueryClient,
   sendJsonMessage: (_message: DashboardMessage) => void,
   setRoundInView: Dispatch<SetStateAction<number>>,
@@ -18,7 +17,7 @@ export default function useTournamentResetPlayers(
   return useMutation(
     trpc.tournament.resetPlayers.mutationOptions({
       onSuccess: () => {
-        sendJsonMessage({ type: 'reset-tournament' });
+        sendJsonMessage({ event: 'reset-tournament' });
         queryClient.invalidateQueries({
           queryKey: trpc.tournament.pathKey(),
         });

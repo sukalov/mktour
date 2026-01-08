@@ -1,5 +1,5 @@
 import { useTRPC } from '@/components/trpc/client';
-import { DashboardMessage } from '@/types/ws-events';
+import { DashboardMessage } from '@/types/tournament-ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { Dispatch, SetStateAction } from 'react';
@@ -25,7 +25,7 @@ export default function useSaveRound(props: SaveRoundMutationProps) {
             trpc.tournament.info.queryKey({ tournamentId }),
             (cache) => {
               if (!cache) return cache;
-              cache.tournament.ongoing_round = roundNumber;
+              cache.tournament.ongoingRound = roundNumber;
               return cache;
             },
           );
@@ -38,7 +38,7 @@ export default function useSaveRound(props: SaveRoundMutationProps) {
       onSuccess: (_data, { tournamentId, roundNumber, newGames }) => {
         if (props.queryClient.isMutating() === 1) {
           props.sendJsonMessage({
-            type: 'new-round',
+            event: 'new-round',
             roundNumber,
             newGames,
             isTournamentGoing: props.isTournamentGoing,
@@ -67,7 +67,7 @@ export default function useSaveRound(props: SaveRoundMutationProps) {
           trpc.tournament.info.queryKey({ tournamentId }),
           (cache) => {
             if (!cache) return cache;
-            cache.tournament.ongoing_round = roundNumber - 1;
+            cache.tournament.ongoingRound = roundNumber - 1;
             return cache;
           },
         );

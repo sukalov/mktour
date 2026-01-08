@@ -28,7 +28,7 @@ export function shallowEqual(
     return false;
   }
 
-  for (let key of keys1) {
+  for (const key of keys1) {
     if (object1[key] !== object2[key]) {
       return false;
     }
@@ -50,7 +50,7 @@ export function selectRef(ref: HTMLDivElement) {
   };
 }
 
-export function shuffle(array: any[]) {
+export function shuffle<T>(array: T[]): T[] {
   const copy = [...array];
   for (let i = copy.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -92,4 +92,11 @@ export function debounce<T extends (..._args: any[]) => any>(
 
     if (callNow) func.apply(context, args);
   };
+}
+
+export function getSwissMinRoundsNumber(players: number): number {
+  if (players < 2) return 0;
+  if (players === 2) return 1;
+  if (players < 7) return Math.floor(Math.log2(players - 1)) + 2;
+  return Math.floor(Math.log2(players - 1)) + 3;
 }

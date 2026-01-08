@@ -1,5 +1,5 @@
 import { Status } from '@/server/queries/get-status-in-tournament';
-import { DashboardMessage } from '@/types/ws-events';
+import { DashboardMessage } from '@/types/tournament-ws-events';
 import { createContext, Dispatch, SetStateAction } from 'react';
 
 export const DashboardContext = createContext<DashboardContextType>({

@@ -2,27 +2,43 @@ import { db } from '@/server/db';
 import { club_notifications } from '@/server/db/schema/notifications';
 import { affiliations, players } from '@/server/db/schema/players';
 import { users } from '@/server/db/schema/users';
-import { eq, sql } from 'drizzle-orm';
+import { AnyClubNotificationExtended } from '@/types/notifications';
+import { desc, eq, getTableColumns, sql } from 'drizzle-orm';
 
-export default async function getClubNotifications(clubId: string) {
-  return await db
+export default async function getClubNotifications({
+  clubId,
+  cursor,
+  limit,
+}: {
+  clubId: string;
+  cursor: number;
+  limit: number;
+}) {
+  const result = (await db
     .select({
-      type: club_notifications.notification_type,
-      notification: club_notifications,
+      ...getTableColumns(club_notifications),
       affiliation: affiliations,
       user: users,
       player: players,
     })
     .from(club_notifications)
-    .where(eq(club_notifications.club_id, clubId))
+    .where(eq(club_notifications.clubId, clubId))
     .leftJoin(
       affiliations,
-      sql`json_extract(${club_notifications.metadata}, '$.affiliation_id') = ${affiliations.id}`,
+      sql`json_extract(${club_notifications.metadata}, '$.affiliationId') = ${affiliations.id}`,
     )
-    .leftJoin(users, eq(users.id, affiliations.user_id))
-    .leftJoin(players, eq(players.id, affiliations.player_id));
-}
+    .leftJoin(users, eq(users.id, affiliations.userId))
+    .leftJoin(players, eq(players.id, affiliations.playerId))
+    .orderBy(desc(club_notifications.createdAt))
+    .limit(limit + 1)
+    .offset(cursor)) as unknown as AnyClubNotificationExtended[];
 
-export type ClubNotification = Awaited<
-  ReturnType<typeof getClubNotifications>
->[0];
+  let nextCursor: number | null = null;
+  if (result.length > limit) {
+    nextCursor = cursor + limit;
+  }
+  return {
+    notifications: result.slice(0, limit),
+    nextCursor,
+  };
+}

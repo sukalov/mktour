@@ -1,4 +1,7 @@
-import { DATABASE_AUTH_TOKEN, DATABASE_URL } from '@/lib/config/non-next-urls';
+import {
+  getDatabaseAuthToken,
+  getDatabaseUrl,
+} from '@/lib/config/non-next-urls';
 import { Config, defineConfig } from 'drizzle-kit';
 
 export default defineConfig({
@@ -6,7 +9,7 @@ export default defineConfig({
   out: './src/server/db/migrations',
   dialect: 'turso',
   dbCredentials: {
-    url: DATABASE_URL,
-    authToken: DATABASE_AUTH_TOKEN,
+    url: getDatabaseUrl(),
+    authToken: getDatabaseAuthToken(),
   },
 } satisfies Config);

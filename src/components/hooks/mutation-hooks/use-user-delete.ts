@@ -7,7 +7,7 @@ export default function useDeleteUserMutation(queryClient: QueryClient) {
   const t = useTranslations('Toasts');
   const trpc = useTRPC();
   return useMutation(
-    trpc.user.delete.mutationOptions({
+    trpc.auth.delete.mutationOptions({
       onSuccess: () => {
         toast.success(t('user deleted'));
         queryClient.invalidateQueries({ queryKey: trpc.user.pathKey() });

@@ -1,8 +1,8 @@
 'use client';
 
 import { useTRPC } from '@/components/trpc/client';
-import { PlayerModel } from '@/types/tournaments';
-import { DashboardMessage } from '@/types/ws-events';
+import { PlayerTournamentModel } from '@/server/db/zod/players';
+import { DashboardMessage } from '@/types/tournament-ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
@@ -31,7 +31,7 @@ export default function useTournamentSetGameResult(
         { gameId, result, roundNumber, prevResult, whiteId, blackId },
       ) => {
         function updatePlayerStats(
-          player: PlayerModel,
+          player: PlayerTournamentModel,
           result: string,
           isWhite: boolean,
           isReset: boolean,
@@ -149,7 +149,7 @@ export default function useTournamentSetGameResult(
           });
         }
         sendJsonMessage({
-          type: 'set-game-result',
+          event: 'set-game-result',
           gameId,
           result,
           roundNumber,

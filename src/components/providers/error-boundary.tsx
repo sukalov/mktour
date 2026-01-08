@@ -1,10 +1,47 @@
 'use client';
 
-function ErrorFallback({ error }: { error: Error }) {
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from '@/components/ui/card';
+import { AlertTriangle } from 'lucide-react';
+
+function ErrorFallback({
+  error,
+  resetErrorBoundary,
+}: {
+  error: Error;
+  resetErrorBoundary?: () => void;
+}) {
   return (
-    <div role="alert">
-      <p>Something went wrong:</p>
-      <pre>{error.message}</pre>
+    <div
+      role="alert"
+      className="flex min-h-[50vh] items-center justify-center p-4"
+    >
+      <Card className="w-full max-w-md">
+        <CardHeader className="flex flex-row items-center gap-2">
+          <AlertTriangle className="text-destructive size-6" />
+          <h2 className="text-lg font-semibold">Something went wrong</h2>
+        </CardHeader>
+        <CardContent>
+          <pre className="bg-muted overflow-auto rounded-md p-3 text-sm">
+            {error.message}
+          </pre>
+        </CardContent>
+        <CardFooter className="flex gap-2">
+          {resetErrorBoundary && (
+            <Button onClick={resetErrorBoundary} variant="default">
+              Try again
+            </Button>
+          )}
+          <Button onClick={() => window.location.reload()} variant="outline">
+            Reload page
+          </Button>
+        </CardFooter>
+      </Card>
     </div>
   );
 }

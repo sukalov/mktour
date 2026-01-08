@@ -1,9 +1,9 @@
 'use client';
 
 import { LoadingSpinner } from '@/app/loading';
+import { ClaimActionButton } from '@/app/player/[id]/claim-button';
 import FormattedMessage from '@/components/formatted-message';
 import useAffiliationAbortRequestMutation from '@/components/hooks/mutation-hooks/use-affiliation-abort-request';
-import { Button } from '@/components/ui/button';
 import {
   Close,
   Content,
@@ -11,8 +11,8 @@ import {
   Root,
   Title,
   Trigger,
-} from '@/components/ui/combo-modal';
-import { DatabaseAffiliation } from '@/server/db/schema/players';
+} from '@/components/ui-custom/combo-modal';
+import { Button } from '@/components/ui/button';
 import { PointerOff } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { FC, useState } from 'react';
@@ -20,16 +20,17 @@ import { FC, useState } from 'react';
 const CancelClaimPlayer: FC<{
   userId: string;
   clubId: string;
-  affiliation: DatabaseAffiliation;
-}> = ({ userId, affiliation }) => {
+  affiliationId: string;
+  playerId: string;
+}> = ({ userId, clubId, affiliationId, playerId }) => {
   const [open, setOpen] = useState(false);
-  const { mutate, isPending } = useAffiliationAbortRequestMutation();
+  const { mutate, isPending } = useAffiliationAbortRequestMutation(clubId);
   const handleClick = () => {
     setOpen(false);
     mutate({
-      affiliationId: affiliation.id,
+      affiliationId,
       userId,
-      playerId: affiliation.player_id,
+      playerId,
     });
   };
   const t = useTranslations();
@@ -37,16 +38,11 @@ const CancelClaimPlayer: FC<{
   return (
     <Root open={open} onOpenChange={setOpen}>
       <Trigger asChild>
-        <Button
-          variant="ghost"
-          className="flex gap-2 px-2"
+        <ClaimActionButton
           disabled={isPending}
-        >
-          {isPending ? <LoadingSpinner /> : <PointerOff />}
-          <div className="text-[10px] text-nowrap">
-            <FormattedMessage id="Player.cancel claim" />
-          </div>
-        </Button>
+          icon={isPending ? LoadingSpinner : PointerOff}
+          messageId="Player.cancel claim"
+        />
       </Trigger>
       <Content>
         <Header>

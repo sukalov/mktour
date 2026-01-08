@@ -3,7 +3,6 @@
 import { LoadingSpinner } from '@/app/loading';
 import { DashboardContext } from '@/app/tournaments/[id]/dashboard/dashboard-context';
 import useTournamentDelete from '@/components/hooks/mutation-hooks/use-tournament-delete';
-import { Button } from '@/components/ui/button';
 import {
   Close,
   Content,
@@ -12,7 +11,8 @@ import {
   Root,
   Title,
   Trigger,
-} from '@/components/ui/combo-modal';
+} from '@/components/ui-custom/combo-modal';
+import { Button } from '@/components/ui/button';
 import { useQueryClient } from '@tanstack/react-query';
 import { CircleX } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -23,12 +23,12 @@ export default function DeleteTournamentButton() {
   const { id: tournamentId } = useParams<{ id: string }>();
   const queryClient = useQueryClient();
   const { sendJsonMessage } = useContext(DashboardContext);
+  const [open, setOpen] = useState(false);
   const { mutate, isPending } = useTournamentDelete(
-    tournamentId,
     queryClient,
     sendJsonMessage,
+    setOpen,
   );
-  const [open, setOpen] = useState(false);
   const t = useTranslations('Tournament.Main');
 
   return (
@@ -42,12 +42,16 @@ export default function DeleteTournamentButton() {
       <Content>
         <Header>
           <Title>{t('Delete.confirmation header')}</Title>
-          <Description>{t.rich('Delete.confirmation body')}</Description>
+          <Description className="text-balance">
+            {t.rich('Delete.confirmation body')}
+          </Description>
         </Header>
         <Button
           variant={'destructive'}
           className="w-full"
-          onClick={() => mutate({ tournamentId })}
+          onClick={() => {
+            mutate({ tournamentId });
+          }}
           disabled={isPending}
         >
           {isPending ? <LoadingSpinner /> : <CircleX />}

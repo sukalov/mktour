@@ -1,4 +1,5 @@
 import { LoadingSpinner } from '@/app/loading';
+import DeletePlayer from '@/app/player/[id]/delete-button';
 import FormattedMessage from '@/components/formatted-message';
 import useEditPlayerMutation from '@/components/hooks/mutation-hooks/use-player-edit';
 import { Button } from '@/components/ui/button';
@@ -11,18 +12,28 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { DatabasePlayer } from '@/server/db/schema/players';
+import { StatusInClub } from '@/server/db/zod/enums';
+import { PlayerEditModel } from '@/server/db/zod/players';
 import { Save } from 'lucide-react';
 import { MessageKeys, NestedKeyOf } from 'next-intl';
-import { FC } from 'react';
+import { useRouter } from 'next/navigation';
+import { Dispatch, FC, SetStateAction } from 'react';
 import { ControllerRenderProps, useForm, UseFormReturn } from 'react-hook-form';
 
 const EditPlayerForm: FC<{
   clubId: string;
-  player: EditPlayerFormValues;
-}> = ({ player: { id, nickname, realname, rating }, clubId }) => {
+  player: PlayerEditModel;
+  status: StatusInClub | null;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+}> = ({
+  player: { id, nickname, realname, rating },
+  clubId,
+  status,
+  setOpen,
+}) => {
   const editPlayerMutation = useEditPlayerMutation();
-  const form = useForm<EditPlayerFormValues>({
+  const router = useRouter();
+  const form = useForm<PlayerEditModel>({
     defaultValues: {
       id,
       nickname,
@@ -31,25 +42,36 @@ const EditPlayerForm: FC<{
     },
   });
 
-  const onSubmit = (values: EditPlayerFormValues) => {
-    editPlayerMutation.mutate({ clubId, values });
+  const onSubmit = (values: PlayerEditModel) => {
+    editPlayerMutation.mutate(
+      { ...values, clubId },
+      {
+        onSuccess: () => {
+          setOpen(false);
+          router.refresh();
+        },
+      },
+    );
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="gap-mk pb-mk flex flex-col"
+      >
         <Field name="nickname" placeholder={nickname} form={form} />
         <Field name="realname" placeholder={realname || ''} form={form} />
-        <div className="mt-4 flex w-full justify-end">
+        <div className="gap-mk mt-mk flex flex-col">
           <Button
             type="submit"
-            className="w-full md:w-fit"
+            className="w-full"
             disabled={editPlayerMutation.isPending}
           >
             {editPlayerMutation.isPending ? <LoadingSpinner /> : <Save />}
-            &nbsp;
             <FormattedMessage id="Common.save" />
           </Button>
+          {status && <DeletePlayer clubId={clubId} />}
         </div>
       </form>
     </Form>
@@ -90,17 +112,12 @@ const Field: FC<FieldProps> = ({ name, CustomInput, form, placeholder }) => (
   />
 );
 
-type EditPlayerFormValues = Pick<
-  DatabasePlayer,
-  'id' | 'nickname' | 'realname' | 'rating'
->;
-
 type FieldProps = {
-  name: keyof EditPlayerFormValues;
+  name: keyof PlayerEditModel;
   CustomInput?: FC<
-    ControllerRenderProps<EditPlayerFormValues, keyof EditPlayerFormValues>
+    ControllerRenderProps<PlayerEditModel, keyof PlayerEditModel>
   >;
-  form: UseFormReturn<EditPlayerFormValues>;
+  form: UseFormReturn<PlayerEditModel>;
   placeholder?: string | undefined;
 };
 

@@ -1,114 +1,61 @@
-import { validateRequest } from '@/lib/auth/lucia';
-import { protectedProcedure, publicProcedure } from '@/server/api/trpc';
+import meta from '@/server/api/meta';
+import { createTRPCRouter, publicProcedure } from '@/server/api/trpc';
 import { db } from '@/server/db';
 import { users } from '@/server/db/schema/users';
-import selectClub from '@/server/mutations/club-select';
-import { deleteUser, editUser } from '@/server/mutations/profile-managing';
+import { clubsSelectSchema } from '@/server/db/zod/clubs';
 import {
-  getUserClubNames,
-  getUserClubs,
-} from '@/server/queries/get-user-clubs';
-import getUserData from '@/server/queries/get-user-data';
-import getUserNotifications from '@/server/queries/get-user-notifications';
+  usersSelectPublicSchema,
+  usersSelectSchema,
+} from '@/server/db/zod/users';
+import { getUserClubNames } from '@/server/queries/get-user-clubs';
+import { getUserInfoByUsername } from '@/server/queries/get-user-data';
+import { TRPCError } from '@trpc/server';
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
 
-export const userRouter = {
-  all: publicProcedure.query(async () => {
-    const usersDb = await db.select().from(users);
-    return usersDb;
-  }),
+export const userRouter = createTRPCRouter({
+  all: publicProcedure
+    .meta(meta.usersAll)
+    .output(
+      z.array(usersSelectSchema.pick({ username: true, name: true, id: true })),
+    )
+    .query(async () => {
+      const usersDb = await db.select().from(users);
+      return usersDb;
+    }),
   info: publicProcedure
-    .input(z.object({ id: z.string() }))
+    .meta(meta.usersInfo)
+    .input(z.object({ userId: z.string() }))
+    .output(
+      usersSelectSchema
+        .pick({ username: true, name: true, rating: true })
+        .optional(),
+    )
     .query(async (opts) => {
       const { input } = opts;
       const [user] = await db
         .select()
         .from(users)
-        .where(eq(users.id, input.id));
+        .where(eq(users.id, input.userId));
       return user;
     }),
   infoByUsername: publicProcedure
+    .meta(meta.usersInfoByUsername)
+    .output(usersSelectPublicSchema)
     .input(z.object({ username: z.string() }))
     .query(async (opts) => {
       const { input } = opts;
-      return await getUserData(input.username);
-    }),
-  auth: publicProcedure.query(async () => {
-    const { user } = await validateRequest();
-    return user;
-  }),
-  create: publicProcedure
-    .input(
-      z.object({
-        id: z.string(),
-        name: z.string().optional(),
-        email: z.string(),
-        username: z.string(),
-        rating: z.number().optional(),
-        selected_club: z.string(),
-        created_at: z.date(),
-      }),
-    )
-    .mutation(async (opts) => {
-      const { input } = opts;
-      const user = await db.insert(users).values(input);
+      const user = await getUserInfoByUsername(input.username);
+      if (!user) throw new TRPCError({ code: 'NOT_FOUND' });
       return user;
     }),
-  selectClub: protectedProcedure
-    .input(
-      z.object({
-        clubId: z.string(),
-        userId: z.string(),
-      }),
-    )
-    .mutation(async (opts) => {
-      const { input } = opts;
-      const resultSet = await selectClub(input);
-      return resultSet;
-    }),
-  authNotifications: publicProcedure.query(async () => {
-    const { user } = await validateRequest();
-    if (!user) {
-      return [];
-    }
-    const userNotifications = await getUserNotifications();
-    return userNotifications;
-  }),
   clubs: publicProcedure
+    .meta(meta.userClubs)
+    .output(z.array(clubsSelectSchema.pick({ id: true, name: true })))
     .input(z.object({ userId: z.string() }))
     .query(async (opts) => {
       const { input } = opts;
       const userClubs = await getUserClubNames(input);
       return userClubs;
     }),
-  delete: protectedProcedure
-    .input(
-      z.object({
-        userId: z.string(),
-      }),
-    )
-    .mutation(async (opts) => {
-      const { input } = opts;
-      await deleteUser(input);
-    }),
-  edit: protectedProcedure
-    .input(
-      z.object({
-        userId: z.string(),
-        values: z.object({
-          name: z.string().optional(),
-          username: z.string().optional(),
-        }),
-      }),
-    )
-    .mutation(async (opts) => {
-      const { input } = opts;
-      await editUser(input);
-    }),
-  authClubs: protectedProcedure.query(async () => {
-    const { user } = await validateRequest();
-    if (!user) return [];
-    return await getUserClubs({ userId: user.id });
-  }),
-};
+});

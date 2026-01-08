@@ -1,13 +1,12 @@
 import useSaveRound from '@/components/hooks/mutation-hooks/use-tournament-save-round';
 import { useTRPC } from '@/components/trpc/client';
-import { generateRoundRobinRoundFunction } from '@/lib/client-actions/round-robin-generator';
-import { shuffle } from '@/lib/utils';
+import { generateRandomRoundGames } from '@/lib/client-actions/random-pairs-generator';
+import { newid } from '@/lib/utils';
 import {
-  DatabasePlayer,
-  InsertDatabasePlayer,
-} from '@/server/db/schema/players';
-import { PlayerModel } from '@/types/tournaments';
-import { DashboardMessage } from '@/types/ws-events';
+  PlayerFormModel,
+  PlayerTournamentModel,
+} from '@/server/db/zod/players';
+import { DashboardMessage } from '@/types/tournament-ws-events';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
@@ -16,7 +15,7 @@ export const useTournamentAddNewPlayer = (
   tournamentId: string,
   queryClient: QueryClient,
   sendJsonMessage: (_message: DashboardMessage) => void,
-  returnToNewPlayer: (_player: InsertDatabasePlayer) => void,
+  returnToNewPlayer: (_player: PlayerFormModel & { id?: string }) => void,
 ) => {
   const t = useTranslations('Errors');
   const saveRound = useSaveRound({
@@ -31,22 +30,23 @@ export const useTournamentAddNewPlayer = (
         await queryClient.cancelQueries({
           queryKey: trpc.tournament.playersIn.queryKey({ tournamentId }),
         });
-        const previousState: Array<DatabasePlayer> | undefined =
+        const previousState: Array<PlayerTournamentModel> | undefined =
           queryClient.getQueryData(
             trpc.tournament.playersIn.queryKey({ tournamentId }),
           );
 
-        const newPlayer: PlayerModel = {
-          id: player.id,
+        const newPlayer: PlayerTournamentModel = {
+          id: player.id ?? newid(),
           nickname: player.nickname,
           rating: player.rating,
-          realname: player.realname,
+          realname: player.realname ?? null,
           wins: 0,
           losses: 0,
           draws: 0,
-          color_index: 0,
+          colorIndex: 0,
           place: null,
-          is_out: null,
+          isOut: null,
+          pairingNumber: null,
         };
 
         queryClient.setQueryData(
@@ -58,7 +58,7 @@ export const useTournamentAddNewPlayer = (
       onError: (_err, data, context) => {
         if (context?.previousState) {
           queryClient.setQueryData(
-            trpc.tournament.playersOut.queryKey({ tournamentId }),
+            trpc.tournament.playersIn.queryKey({ tournamentId }),
             context.previousState,
           );
         }
@@ -75,23 +75,25 @@ export const useTournamentAddNewPlayer = (
         });
       },
       onSuccess: (_err, _data, context) => {
-        sendJsonMessage({ type: 'add-new-player', body: context.newPlayer });
-        const playersUnshuffled = queryClient.getQueryData(
+        sendJsonMessage({ event: 'add-new-player', body: context.newPlayer });
+        const players = queryClient.getQueryData(
           trpc.tournament.playersIn.queryKey({ tournamentId }),
         );
-        const games = queryClient.getQueryData(
-          trpc.tournament.allGames.queryKey({ tournamentId }),
-        );
-        const newGames = generateRoundRobinRoundFunction({
-          players: playersUnshuffled ? shuffle(playersUnshuffled) : [],
-          games: games ?? [],
+        const newGames = generateRandomRoundGames({
+          players: players
+            ? players.map((player, i) => ({
+                ...player,
+                pairingNumber: i,
+              }))
+            : [],
+          games: [],
           roundNumber: 1,
           tournamentId,
         });
         saveRound.mutate({ tournamentId, roundNumber: 1, newGames });
         queryClient.setQueryData(
           [tournamentId, 'games', { roundNumber: 1 }],
-          () => newGames.sort((a, b) => a.game_number - b.game_number),
+          () => newGames.sort((a, b) => a.gameNumber - b.gameNumber),
         );
       },
     }),
