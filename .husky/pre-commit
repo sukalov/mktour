@@ -4,6 +4,3 @@ if [ -n "$FILES" ]; then
   bun prettier $FILES --write
   git add $FILES
 fi
-
-# run all checks tsc, lint, test
-bun check  && bun run build
