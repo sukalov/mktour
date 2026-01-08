@@ -1,3 +1,10 @@
+# [1.0.0-beta.29](https://github.com/sukalov/mktour/compare/v1.0.0-beta.28...v1.0.0-beta.29) (2026-01-08)
+
+
+### Bug Fixes
+
+* **?:** running ci script in github workflow ([5ed1058](https://github.com/sukalov/mktour/commit/5ed10586e35711f36fb9ac500d70b9fbb2c60738))
+
 # [1.0.0-beta.28](https://github.com/sukalov/mktour/compare/v1.0.0-beta.27...v1.0.0-beta.28) (2026-01-08)
 
 
