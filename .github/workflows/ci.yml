@@ -24,6 +24,9 @@ jobs:
 
       - name: Run Checks (Lint, TSC, Test)
         run: bun run check
+        env:
+          MKTOURTEST: 'true'
+          NODE_ENV: test
 
       - name: Build
         run: bun run build
