@@ -32,7 +32,7 @@ const Menu: FC = () => {
     });
   };
 
-  const variants = useMemo(
+  const variants = useMemo<Variants>(
     () => ({
       open: {
         transition: { staggerChildren: 0.02, delayChildren: 0.15 },
