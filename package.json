@@ -1,8 +1,8 @@
 {
   "name": "mktour",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.30",
   "private": true,
-  "packageManager": "bun@1.3.3",
+  "packageManager": "bun@1.3.5",
   "scripts": {
     "dev": "bunx next dev",
     "dev:test": "MKTOURTEST=true bunx next dev",
