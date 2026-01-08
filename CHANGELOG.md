@@ -1,3 +1,10 @@
+# [1.0.0-beta.28](https://github.com/sukalov/mktour/compare/v1.0.0-beta.27...v1.0.0-beta.28) (2026-01-08)
+
+
+### Bug Fixes
+
+* **?:** add env to ci workflow ([ff14d2c](https://github.com/sukalov/mktour/commit/ff14d2cc70a57fe1d0db25a3f035584c12d8ccc4))
+
 # [1.0.0-beta.27](https://github.com/sukalov/mktour/compare/v1.0.0-beta.26...v1.0.0-beta.27) (2025-12-08)
 
 
