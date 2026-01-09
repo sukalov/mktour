@@ -2,6 +2,7 @@ import { getDatabaseAuthToken, getDatabaseUrl } from '@/lib/config/urls';
 import { createClient } from '@libsql/client';
 import { drizzle } from 'drizzle-orm/libsql';
 import { migrate } from 'drizzle-orm/libsql/migrator';
+import path from 'path';
 
 export async function POST(req: Request) {
   if (
@@ -26,7 +27,11 @@ export async function POST(req: Request) {
 
     console.log('running migrations...');
     const start = Date.now();
-    await migrate(db, { migrationsFolder: 'src/server/db/migrations' });
+    const migrationsFolder = path.join(
+      process.cwd(),
+      'src/server/db/migrations',
+    );
+    await migrate(db, { migrationsFolder });
     const duration = Date.now() - start;
     console.log('migrations completed in', duration, 'ms');
 

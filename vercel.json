@@ -5,5 +5,10 @@
       "schedule": "0 10 * * *"
     }
   ],
-  "bunVersion": "1.3.x"
+  "bunVersion": "1.3.x",
+  "functions": {
+    "src/app/api/db/migrate/route.ts": {
+      "includeFiles": "src/server/db/migrations/**"
+    }
+  }
 }
