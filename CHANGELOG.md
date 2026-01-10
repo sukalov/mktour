@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/sukalov/mktour/compare/v1.1.0...v1.1.1) (2026-01-10)
+
+
+### Bug Fixes
+
+* better loading states for both searches on club-page ([ca5d88b](https://github.com/sukalov/mktour/commit/ca5d88b5644572f1acf814d889862eb3bf8a8285))
+
 # [1.1.0](https://github.com/sukalov/mktour/compare/v1.0.0...v1.1.0) (2026-01-08)
 
 
