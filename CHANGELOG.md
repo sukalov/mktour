@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/mkeverything/mktour/compare/v1.0.0...v1.0.1) (2026-01-11)
+
+
+### Bug Fixes
+
+* version override ([ae274b9](https://github.com/mkeverything/mktour/commit/ae274b9249ed825c3ed3a36b4c849e61a42c9102))
+
 # 0.9.0 (2026-01-11)
 
 ### Bug Fixes
