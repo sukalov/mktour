@@ -62,12 +62,10 @@ export const useTournamentAddNewPlayer = (
             context.previousState,
           );
         }
-        setTimeout(() => {
-          returnToNewPlayer(data.player);
-          toast.error(t('add-player-error', { player: data.player.nickname }), {
-            id: `add-player-error-${data.player.id}`,
-          });
-        }, 1000);
+        returnToNewPlayer(data.player);
+        toast.error(t('add-player-error', { player: data.player.nickname }), {
+          id: `add-player-error-${data.player.id}`,
+        });
       },
       onSettled: () => {
         queryClient.invalidateQueries({
