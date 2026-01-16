@@ -91,7 +91,7 @@ const ClubHeader: FC<{
 
   return (
     <HalfCard>
-      <CardHeader className="pb-4">
+      <CardHeader className="pb-4 max-sm:p-4 max-sm:pt-2">
         <div className="flex items-start justify-between gap-4">
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-3">
@@ -147,7 +147,7 @@ const ClubHeader: FC<{
           )}
         </div>
       </CardHeader>
-      <CardContent className="pt-0">
+      <CardContent className="pt-0 max-sm:px-4 max-sm:pb-0">
         <Separator className="mb-4" />
         <div className="text-muted-foreground flex items-center gap-3 text-xs">
           <CalendarDays className="size-4" />
