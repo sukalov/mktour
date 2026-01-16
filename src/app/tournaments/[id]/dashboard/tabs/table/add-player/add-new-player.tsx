@@ -65,6 +65,7 @@ const AddNewPlayer = ({
       { tournamentId: id, player: { ...player, id: newid() } },
       {
         onSuccess: () => {
+          setValue('');
           form.reset();
           form.setFocus('nickname');
           toast.success(t('player added', { name: player.nickname }));
