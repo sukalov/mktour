@@ -1,3 +1,10 @@
+## [0.9.2](https://github.com/mkeverything/mktour/compare/v0.9.1...v0.9.2) (2026-01-16)
+
+
+### Bug Fixes
+
+* minor fix of adding new player to tournament flow ([d500cb2](https://github.com/mkeverything/mktour/commit/d500cb2f3163083da6a53ddbb1dbf46a103989eb))
+
 ## [0.9.1](https://github.com/mkeverything/mktour/compare/v0.9.0...v0.9.1) (2026-01-16)
 
 
