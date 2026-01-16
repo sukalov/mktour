@@ -57,7 +57,6 @@ const DeletePlayer: FC<{ clubId: string }> = ({ clubId }) => {
           disabled={isPending}
         >
           {isPending ? <LoadingSpinner /> : <CircleX />}
-          &nbsp;
           {t('delete')}
         </Button>
         <Close asChild>
