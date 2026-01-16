@@ -170,15 +170,15 @@ const ClubStats: FC<{ clubId: string }> = ({ clubId }) => {
   return (
     <div className="grid grid-cols-2 gap-3">
       <StatCard
-        icon={Users2}
-        label={t('players')}
-        value={stats?.playersCount}
-        isLoading={isPending}
-      />
-      <StatCard
         icon={Trophy}
         label={t('tournaments')}
         value={stats?.tournamentsCount}
+        isLoading={isPending}
+      />
+      <StatCard
+        icon={Users2}
+        label={t('players')}
+        value={stats?.playersCount}
         isLoading={isPending}
       />
     </div>
@@ -404,7 +404,7 @@ const ClubPlayersSection: FC<{ clubId: string }> = ({ clubId }) => {
         <CardTitle className="flex items-center gap-2 text-base">
           <Users2 className="size-4" />
           <FormattedMessage id="Club.Dashboard.players" />
-          {playersCount && playersCount > 0 && (
+          {!!playersCount && (
             <span className="text-muted-foreground font-normal">
               ({playersCount})
             </span>
