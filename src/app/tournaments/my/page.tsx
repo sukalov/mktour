@@ -16,7 +16,7 @@ export default async function MyTournaments() {
 
   if (!tournaments.length) {
     return (
-      <p className="text-muted-foreground flex flex-col pt-4 text-center text-sm text-balance">
+      <p className="text-muted-foreground mk-container flex flex-col pt-4 text-center text-sm text-balance">
         {t('no tournaments')}
         <Link
           href={'/tournaments/create'}
