@@ -44,7 +44,7 @@ const ClubPage: FC<{
       <ClubStats clubId={club.id} />
       <MostActivePlayers clubId={club.id} />
 
-      <div className="hidden gap-6 md:grid md:grid-cols-2">
+      <div className="hidden gap-4 md:grid md:grid-cols-2">
         <ClubTournamentsSection clubId={club.id} statusInClub={statusInClub} />
         <ClubPlayersSection clubId={club.id} />
       </div>
@@ -168,16 +168,16 @@ const ClubStats: FC<{ clubId: string }> = ({ clubId }) => {
   const t = useTranslations('Club.Stats');
 
   return (
-    <div className="grid grid-cols-2 gap-3">
+    <div className="grid grid-cols-2 gap-4">
       <StatCard
         icon={Trophy}
-        label={t('tournaments')}
+        label={t('tournaments', { count: stats?.tournamentsCount ?? 0 })}
         value={stats?.tournamentsCount}
         isLoading={isPending}
       />
       <StatCard
         icon={Users2}
-        label={t('players')}
+        label={t('players', { count: stats?.playersCount ?? 0 })}
         value={stats?.playersCount}
         isLoading={isPending}
       />
@@ -203,8 +203,10 @@ const StatCard: FC<{
         </>
       ) : (
         <>
-          <span className="text-2xl font-bold">{value ?? 0}</span>
-          <span className="text-muted-foreground text-xs">{label}</span>
+          <span className="text-2xl leading-none font-bold">{value ?? 0}</span>
+          <span className="text-muted-foreground text-xs leading-none">
+            {label}
+          </span>
         </>
       )}
     </div>

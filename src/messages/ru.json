@@ -147,8 +147,8 @@
     "dashboard": "управление клубом",
     "mostActive": "самые активные игроки",
     "Stats": {
-      "players": "игроки",
-      "tournaments": "турниры",
+      "players": "{count, plural, one {игрок} few {игрока} many {игроков} other {игроки}}",
+      "tournaments": "{count, plural, one {турнир} few {турнира} many {турниров} other {турниры}}",
       "tournamentsPlayed": "турниров"
     },
     "Settings": {

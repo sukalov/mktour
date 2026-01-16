@@ -147,8 +147,8 @@
     "dashboard": "club dashboard",
     "mostActive": "most active players",
     "Stats": {
-      "players": "players",
-      "tournaments": "tournaments",
+      "players": "{count, plural, one {player} other {players}}",
+      "tournaments": "{count, plural, one {tournament} other {tournaments}}",
       "tournamentsPlayed": "tournaments"
     },
     "Settings": {
