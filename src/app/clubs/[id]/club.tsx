@@ -289,6 +289,7 @@ const ClubTournamentsSection: FC<{
 }> = ({ clubId, statusInClub }) => {
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 300);
+  const secondDebouncedSearch = useDebounce(search, 290);
   const t = useTranslations();
   const { data: stats } = useClubStats(clubId);
   const queryClient = useQueryClient();
@@ -302,21 +303,30 @@ const ClubTournamentsSection: FC<{
   });
 
   useEffect(() => {
-    queryClient.setQueryData(
-      trpc.search.queryKey({
-        filter: { type: 'tournaments', clubId },
-        query: debouncedSearch,
-      }),
-      searchResults,
-    );
-    queryClient.invalidateQueries({
-      queryKey: trpc.search.queryKey({
-        filter: { type: 'tournaments', clubId },
-        query: debouncedSearch,
-      }),
-    });
+    if (
+      !queryClient.getQueryData(
+        trpc.search.queryKey({
+          filter: { type: 'tournaments', clubId },
+          query: secondDebouncedSearch,
+        }),
+      )
+    ) {
+      queryClient.setQueryData(
+        trpc.search.queryKey({
+          filter: { type: 'tournaments', clubId },
+          query: secondDebouncedSearch,
+        }),
+        searchResults,
+      );
+      queryClient.invalidateQueries({
+        queryKey: trpc.search.queryKey({
+          filter: { type: 'tournaments', clubId },
+          query: secondDebouncedSearch,
+        }),
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [clubId, queryClient, debouncedSearch, trpc.search]);
+  }, [clubId, queryClient, secondDebouncedSearch, trpc.search]);
 
   return (
     <Card className="flex flex-col">
@@ -339,9 +349,9 @@ const ClubTournamentsSection: FC<{
         </div>
       </CardHeader>
       <CardContent className="max-h-[400px] overflow-y-auto pt-0">
-        {!isSearchFetching && !searchResults?.tournaments?.length && (
+        {!searchResults?.tournaments?.length && (
           <p className="text-muted-foreground py-4 text-center text-sm">
-            {debouncedSearch.length
+            {stats?.tournamentsCount !== 0
               ? t('GlobalSearch.not found')
               : t('Empty.tournaments')}
           </p>
@@ -354,7 +364,7 @@ const ClubTournamentsSection: FC<{
             />
           ))}
         </div>
-        {statusInClub && !searchResults?.tournaments?.length && (
+        {statusInClub && stats?.tournamentsCount === 0 && (
           <Button size="sm" variant="default" className="mt-2 w-full" asChild>
             <Link href="/tournaments/create">
               <FormattedMessage id="Home.make tournament" />
@@ -369,6 +379,7 @@ const ClubTournamentsSection: FC<{
 const ClubPlayersSection: FC<{ clubId: string }> = ({ clubId }) => {
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 300);
+  const secondDebouncedSearch = useDebounce(search, 290);
 
   const t = useTranslations();
   const { playersCount } = useClubStats(clubId).data ?? {};
@@ -384,21 +395,30 @@ const ClubPlayersSection: FC<{ clubId: string }> = ({ clubId }) => {
   });
 
   useEffect(() => {
-    queryClient.setQueryData(
-      trpc.search.queryKey({
-        filter: { type: 'players', clubId },
-        query: search,
-      }),
-      searchResults,
-    );
-    queryClient.invalidateQueries({
-      queryKey: trpc.search.queryKey({
-        filter: { type: 'players', clubId },
-        query: search,
-      }),
-    });
+    if (
+      !queryClient.getQueryData(
+        trpc.search.queryKey({
+          filter: { type: 'players', clubId },
+          query: secondDebouncedSearch,
+        }),
+      )
+    ) {
+      queryClient.setQueryData(
+        trpc.search.queryKey({
+          filter: { type: 'players', clubId },
+          query: secondDebouncedSearch,
+        }),
+        searchResults,
+      );
+      queryClient.invalidateQueries({
+        queryKey: trpc.search.queryKey({
+          filter: { type: 'players', clubId },
+          query: secondDebouncedSearch,
+        }),
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [clubId, queryClient, search, trpc.search]);
+  }, [clubId, queryClient, secondDebouncedSearch, trpc.search]);
 
   return (
     <Card className="flex flex-col">
@@ -425,7 +445,7 @@ const ClubPlayersSection: FC<{ clubId: string }> = ({ clubId }) => {
       <CardContent className="max-h-[400px] overflow-y-auto pt-0">
         {searchResults?.players?.length === 0 && (
           <p className="text-muted-foreground py-4 text-center text-sm">
-            {searchResults?.players?.length === 0
+            {playersCount !== 0
               ? t('GlobalSearch.not found')
               : t('Empty.players')}
           </p>

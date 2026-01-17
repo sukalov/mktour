@@ -61,12 +61,18 @@ const AddNewPlayer = ({
   }, [nickname, setValue]);
 
   function onSubmit(player: PlayerFormModel) {
+    const playerWithId = { ...player, id: newid() };
+    setValue('');
+    form.reset();
+    form.setFocus('nickname');
     mutate(
-      { tournamentId: id, player: { ...player, id: newid() } },
+      { tournamentId: id, player: playerWithId },
       {
-        onSuccess: () => {
-          form.reset();
+        onError: () => {
+          form.reset(player);
           form.setFocus('nickname');
+        },
+        onSuccess: () => {
           toast.success(t('player added', { name: player.nickname }));
         },
       },
