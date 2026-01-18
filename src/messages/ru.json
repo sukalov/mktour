@@ -146,6 +146,7 @@
     "add manager": "добавить админа",
     "dashboard": "управление клубом",
     "mostActive": "самые активные игроки",
+    "tournaments": "турниры",
     "Stats": {
       "players": "{count, plural, one {игрок} few {игрока} many {игроков} other {игроки}}",
       "tournaments": "{count, plural, one {турнир} few {турнира} many {турниров} other {турниры}}",

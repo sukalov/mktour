@@ -251,9 +251,7 @@ const MostActivePlayers: FC<{ clubId: string }> = ({ clubId }) => {
               <TableHead className="text-right">
                 <FormattedMessage id="Player.rating" />
               </TableHead>
-              <TableHead className="text-right">
-                <FormattedMessage id="Club.Stats.tournaments" />
-              </TableHead>
+              <TableHead className="text-right">{t('tournaments')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
