@@ -70,7 +70,7 @@ const StatItem: FC<StatItemProps> = ({
   rank,
   isLoading,
 }) => (
-  <div className="bg-muted/50 flex flex-row items-center justify-center gap-4 rounded-lg p-4">
+  <div className="bg-muted/50 grid grid-cols-[auto_50%_auto] items-center justify-between gap-4 rounded-lg p-4">
     <Icon className="text-muted-foreground size-5" />
     <div className="flex flex-col">
       {isLoading ? (
@@ -81,13 +81,12 @@ const StatItem: FC<StatItemProps> = ({
       ) : (
         <>
           <span className="text-primary text-lg font-semibold">{value}</span>
-          <span className="text-muted-foreground text-left text-xs">
+          <span className="text-muted-foreground text-3xs truncate text-left sm:text-xs">
             {label}
           </span>
         </>
       )}
     </div>
-    <div className="flex-1" />
     {!isLoading && rank !== undefined && (
       <span className="text-muted-foreground text-xs">#{rank}</span>
     )}
