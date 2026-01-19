@@ -37,11 +37,12 @@ const ClubMain: FC<ClubTabProps> = ({ selectedClub }) => {
               })}
           </div>
         </div>
-        <Button variant="outline" size="icon" className="w-12 px-6 py-4">
-          <Link href={`/clubs/${club.id}`}>
+        <Link href={`/clubs/${club.id}`}>
+          <Button variant="outline">
             <BriefcaseBusiness />
-          </Link>
-        </Button>
+            <span className="text-sm max-sm:hidden">{t('Dashboard.page')}</span>
+          </Button>
+        </Link>
       </div>
     </HalfCard>
   );
