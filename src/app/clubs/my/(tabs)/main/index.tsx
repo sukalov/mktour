@@ -4,32 +4,46 @@ import { ClubTabProps } from '@/app/clubs/my/tabMap';
 import { InfoItem } from '@/app/tournaments/[id]/dashboard/tabs/main';
 import Empty from '@/components/empty';
 import { useClubInfo } from '@/components/hooks/query-hooks/use-club-info';
+import HalfCard from '@/components/ui-custom/half-card';
+import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { CalendarDays, ExternalLink, Info } from 'lucide-react';
-import { useLocale } from 'next-intl';
+import { BriefcaseBusiness, CalendarDays, Info } from 'lucide-react';
+import { useLocale, useTranslations } from 'next-intl';
+import Link from 'next/link';
 import { FC } from 'react';
 
 const ClubMain: FC<ClubTabProps> = ({ selectedClub }) => {
   const { data: club, isPending } = useClubInfo(selectedClub);
   const locale = useLocale();
+  const t = useTranslations('Club');
 
   if (isPending) return <Skeleton className="h-24 w-full" />;
   if (!club) return <Empty />;
 
-  const createdAt = club.createdAt.toLocaleDateString([locale], {
-    dateStyle: 'medium',
-  });
-
   return (
-    <div className="items-left mx-auto flex max-w-[min(640px,100%)] flex-col gap-4 border-t-2 p-2">
-      <InfoItem
-        icon={ExternalLink}
-        value={club.name}
-        href={`/clubs/${club.id}`}
-      />
-      {club.description && <InfoItem icon={Info} value={club.description} />}
-      <InfoItem icon={CalendarDays} value={createdAt} />
-    </div>
+    <HalfCard>
+      <div className="gap-mk p-mk-2 flex">
+        <div className="items-left m-auto flex grow flex-col gap-4">
+          {club.description && (
+            <InfoItem icon={Info} value={club.description} />
+          )}
+          <div className="text-muted-foreground flex items-center gap-3 text-xs">
+            <CalendarDays className="size-4" />
+            {club.createdAt &&
+              t('Page.createdAt', {
+                date: club.createdAt.toLocaleDateString(locale, {
+                  dateStyle: 'long',
+                }),
+              })}
+          </div>
+        </div>
+        <Button variant="outline" size="icon" className="w-12 px-6 py-4">
+          <Link href={`/clubs/${club.id}`}>
+            <BriefcaseBusiness />
+          </Link>
+        </Button>
+      </div>
+    </HalfCard>
   );
 };
 

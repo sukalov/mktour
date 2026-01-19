@@ -45,7 +45,7 @@ export default function Dashboard({ userId }: { userId: string }) {
         <ClubSelect user={data} />
       </div>
       <div className="fixed h-full w-full overflow-scroll">
-        <div ref={ref} className="mk-container relative pt-21">
+        <div ref={ref} className="mk-container relative pt-24">
           <div className="h-full pb-20">
             <ActiveTab userId={userId} selectedClub={data.selectedClub} />
           </div>
