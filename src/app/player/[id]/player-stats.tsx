@@ -17,7 +17,7 @@ export default function PlayerStats({ player }: { player: PlayerModel }) {
   return (
     <div className="flex flex-col gap-4">
       <HalfCard>
-        <CardContent className="pt-0">
+        <CardContent className="max-sm:p-mk pt-mk-3">
           <div className="grid grid-cols-2 gap-3">
             <StatItem
               icon={Trophy}
@@ -50,7 +50,6 @@ export default function PlayerStats({ player }: { player: PlayerModel }) {
           </div>
         </CardContent>
       </HalfCard>
-
       <AuthStatsCard playerId={player.id} playerNickname={player.nickname} />
     </div>
   );
