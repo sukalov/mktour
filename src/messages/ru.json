@@ -184,7 +184,7 @@
     "Page": {
       "no description": "без описания",
       "lichess team": "команда в личес",
-      "createdAt": "создана: {date}",
+      "createdAt": "создан: {date}",
       "tournaments": "турниры клуба:"
     },
     "Notifications": {
