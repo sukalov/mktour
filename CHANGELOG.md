@@ -1,3 +1,24 @@
+# [0.10.0](https://github.com/mkeverything/mktour/compare/v0.9.2...v0.10.0) (2026-01-19)
+
+
+### Bug Fixes
+
+* add-player side-drawer width on desktop ([b7d121e](https://github.com/mkeverything/mktour/commit/b7d121ee16a1017179b34532bd8ce35d7a7f8b9d))
+* broken translation in mostActivePlayers table ([4caf4d1](https://github.com/mkeverything/mktour/commit/4caf4d132f921df276826e8147e147db7b39b0d3))
+* club/[id] spacings ([0e1f0cb](https://github.com/mkeverything/mktour/commit/0e1f0cb3c6e5339d1ff42daa1ba7b060fb946102))
+* intl; minor styling ([338ad6d](https://github.com/mkeverything/mktour/commit/338ad6df576e92650a4e97411caecf83aedd06d2))
+* missing intl ([c46dafb](https://github.com/mkeverything/mktour/commit/c46dafb9924bce235d30655be608642d066ec96a))
+* missing responsiveness ([f892607](https://github.com/mkeverything/mktour/commit/f8926073be6f21134e3cf46cf921380072742c03))
+* player stat item layout ([360b792](https://github.com/mkeverything/mktour/commit/360b7925ab1a37f8e5e3590f0c025d1a4c46653e))
+* playersCount and cards order ([1931ff5](https://github.com/mkeverything/mktour/commit/1931ff5a9465521a95a26b7e0b51468f11e2cbbf))
+* wrong intl message ([9fd7108](https://github.com/mkeverything/mktour/commit/9fd71081b8962819ac078024c6829794c9fa9312))
+
+
+### Features
+
+* add link to club's public page from club dashboard ([6e93ebe](https://github.com/mkeverything/mktour/commit/6e93ebe2ad1cb0133f25a5d6a6c3c12715af8700))
+* quick player options access in club dashboard ([874f7fe](https://github.com/mkeverything/mktour/commit/874f7febc04670da2f15f14e2ffaff3d32c4fcdd))
+
 ## [0.9.2](https://github.com/mkeverything/mktour/compare/v0.9.1...v0.9.2) (2026-01-16)
 
 ### Bug Fixes
