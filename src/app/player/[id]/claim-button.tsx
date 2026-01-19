@@ -36,9 +36,6 @@ const ClaimPlayer: FC<{
   const t = useTranslations();
 
   const { data: userAffiliation } = useUserClubAffiliations(clubId);
-  console.log({ userAffiliation });
-  // if (!userAffiliation) return null;
-  // const { status, player } = userAffiliation;
 
   const hasClaimed =
     userAffiliation &&
