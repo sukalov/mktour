@@ -259,6 +259,7 @@
     "Main": {
       "start tournament": "start tournament",
       "reset progress": "reset progress",
+      "reset players": "reset players",
       "confirmation header": "are you sure?",
       "confirmation body": "all results and scores are going to be deleted. the tournament will get to 'not started' state",
       "cancel": "cancel",
