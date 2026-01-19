@@ -292,7 +292,7 @@ const ClubTournamentsSection: FC<{
   const { data: stats } = useClubStats(clubId);
   const queryClient = useQueryClient();
   const trpc = useTRPC();
-  const { data: searchResults, isFetching: isSearchFetching } = useSearchQuery({
+  const { data: searchResults } = useSearchQuery({
     query: debouncedSearch,
     filter: {
       type: 'tournaments',
