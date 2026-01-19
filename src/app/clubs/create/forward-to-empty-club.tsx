@@ -28,7 +28,6 @@ export default function ForwardToEmptyClub({ club }: { club: DatabaseClub }) {
             onClick={async () => await forwardAction({ clubId: club.id })}
           >
             <p>{`${t('button text')} ${club.name}`}</p>
-            &nbsp;
             <ArrowRight className="transition-all duration-200 group-hover:translate-x-0.5" />
           </Button>
         </CardContent>

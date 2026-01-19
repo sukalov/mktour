@@ -72,7 +72,7 @@ export default function DeleteConfirmationForm({
           variant="destructive"
         >
           {isPending ? <LoadingSpinner /> : <Trash2 />}
-          &nbsp;{t('delete club')}
+          {t('delete club')}
         </Button>
       </form>
     </Form>

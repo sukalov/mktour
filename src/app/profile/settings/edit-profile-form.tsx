@@ -81,7 +81,7 @@ export default function EditProfileForm() {
                 className="w-full"
               >
                 {editUserMutation.isPending ? <LoadingSpinner /> : <Save />}
-                &nbsp;{t('save')}
+                {t('save')}
               </Button>
             </form>
           </CardContent>

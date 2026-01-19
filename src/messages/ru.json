@@ -264,6 +264,7 @@
       "confirmation body": "все результаты игр будут удалены. турнир перейдет в состояние «не начался»",
       "confirmation header": "вы уверены?",
       "reset progress": "обнулить турнир",
+      "reset players": "обнулить игроков",
       "confirm reset": "сбросить турнир",
       "Delete": {
         "title": "удалить турнир",

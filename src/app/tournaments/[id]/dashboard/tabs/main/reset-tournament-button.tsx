@@ -37,7 +37,7 @@ export default function ResetTournamentButton() {
       <Trigger asChild>
         <Button variant="outline">
           <RotateCcw />
-          &nbsp;{t('reset progress')}
+          {t('reset progress')}
         </Button>
       </Trigger>
       <Content>
@@ -52,7 +52,6 @@ export default function ResetTournamentButton() {
           disabled={isPending}
         >
           {isPending ? <LoadingSpinner /> : <RotateCcw />}
-          &nbsp;
           {t('confirm reset')}
         </Button>
         <Close asChild>

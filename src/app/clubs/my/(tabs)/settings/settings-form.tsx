@@ -98,7 +98,7 @@ const ClubSettingsForm: FC<ClubTabProps & PropsWithChildren> = ({
                 className="w-full"
               >
                 {clubSettingsMutation.isPending ? <LoadingSpinner /> : <Save />}
-                &nbsp;{t('save')}
+                {t('save')}
               </Button>
             </form>
           </CardContent>

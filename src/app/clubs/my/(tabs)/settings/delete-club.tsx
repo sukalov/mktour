@@ -38,7 +38,6 @@ export default function ClubDelete({ id }: ClubDeleteProps) {
           disabled={mutating !== 0}
         >
           {deleting !== 0 ? <LoadingSpinner /> : <Trash2 />}
-          &nbsp;
           {t('delete club')}
         </Button>
       </ComboModal.Trigger>

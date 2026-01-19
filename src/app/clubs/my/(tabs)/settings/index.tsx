@@ -34,7 +34,6 @@ export default function ClubSettings({ selectedClub, userId }: ClubTabProps) {
                 disabled={isPending}
               >
                 {isPending ? <LoadingSpinner /> : <DoorOpen />}
-                &nbsp;
                 {t('leave club')}
               </Button>
               <ClubDelete id={selectedClub} userId={userId} />

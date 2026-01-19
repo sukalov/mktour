@@ -107,7 +107,6 @@ const NewRoundButton: FC<{ tournamentId: string; roundNumber: number }> = ({
   return (
     <Button className="w-full" onClick={newRound} disabled={mutating}>
       {!mutating ? <ArrowRightIcon /> : <LoadingSpinner />}
-      &nbsp;
       {t('new round button')}
     </Button>
   );

@@ -36,7 +36,7 @@ export default function ResetTournamentPButton() {
       <Trigger asChild>
         <Button variant="outline">
           <RotateCcw />
-          &nbsp;reset players
+          {t('reset players')}
         </Button>
       </Trigger>
       <Content>
@@ -51,7 +51,7 @@ export default function ResetTournamentPButton() {
           disabled={isPending}
         >
           {isPending ? <LoadingSpinner /> : <RotateCcw />}
-          &nbsp; reset players
+          {t('reset players')}
         </Button>
         <Close asChild>
           <Button className="w-full" variant="outline">

@@ -58,7 +58,6 @@ const CancelClaimPlayer: FC<{
           type="submit"
         >
           {isPending ? <LoadingSpinner /> : <PointerOff />}
-          &nbsp;
           {t('Player.cancel claim')}
         </Button>
         <Close asChild>

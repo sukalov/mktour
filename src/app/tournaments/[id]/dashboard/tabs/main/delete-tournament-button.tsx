@@ -36,7 +36,7 @@ export default function DeleteTournamentButton() {
       <Trigger asChild>
         <Button variant="destructive">
           <CircleX />
-          &nbsp;{t('Delete.title')}
+          {t('Delete.title')}
         </Button>
       </Trigger>
       <Content>
@@ -55,7 +55,6 @@ export default function DeleteTournamentButton() {
           disabled={isPending}
         >
           {isPending ? <LoadingSpinner /> : <CircleX />}
-          &nbsp;
           {t('Delete.confirm')}
         </Button>
         <Close asChild>

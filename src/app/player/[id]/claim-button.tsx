@@ -81,7 +81,6 @@ const ClaimPlayer: FC<{
             type="submit"
           >
             {isPending ? <LoadingSpinner /> : <Check />}
-            &nbsp;
             {t('Common.send')}
           </Button>
           <Close asChild>
