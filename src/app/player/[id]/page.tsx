@@ -45,7 +45,6 @@ async function PlayerPageContent(props: PlayerPageProps) {
   const isOwnPlayer = user && player.userId === user.id;
   const canEdit = status !== null || isOwnPlayer;
   const canClaim = !status && user && !player.userId;
-  console.log({ canClaim });
   const canAffiliate = status !== null && !player.userId && !affiliation;
   const t = await getTranslations('Player');
 
