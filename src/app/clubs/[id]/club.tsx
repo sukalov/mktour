@@ -237,7 +237,7 @@ const MostActivePlayers: FC<{ clubId: string }> = ({ clubId }) => {
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center gap-2 text-base">
           <Trophy className="size-4" />
-          {t('mostActive')}
+          {t('most active')}
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-0">

@@ -146,7 +146,7 @@
     "managers list": "managers",
     "add manager": "add new manager",
     "dashboard": "club dashboard",
-    "mostActive": "most active players",
+    "most active": "most active players",
     "tournaments": "tournaments",
     "Stats": {
       "players": "{count, plural, one {player} other {players}}",
