@@ -129,7 +129,7 @@ const DeleteManagerButton: FC<{
         <Button variant="destructive" className="flex gap-2" size="sm">
           <Trash2 />
           <div className="hidden sm:block">
-            <FormattedMessage id="Club.Settings.delete" />
+            <FormattedMessage id="Club.Dashboard.Settings.delete" />
           </div>
         </Button>
       </Trigger>
