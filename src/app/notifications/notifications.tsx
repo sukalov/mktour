@@ -57,7 +57,7 @@ const UserNotifications = () => {
             className="gap-mk flex text-xs"
             size="sm"
           >
-            <FormattedMessage id="Club.Notifications.mark all as read" />
+            <FormattedMessage id="Club.Dashboard.Notifications.mark all as read" />
             <Eye className="mr-0.5" />
           </Button>
         )}

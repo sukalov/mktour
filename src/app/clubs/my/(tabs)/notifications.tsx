@@ -13,7 +13,7 @@ import { useTranslations } from 'next-intl';
 import { FC } from 'react';
 
 const ClubInbox: FC<{ selectedClub: string }> = ({ selectedClub }) => {
-  const t = useTranslations('Club.Notifications');
+  const t = useTranslations('Club.Dashboard.Notifications');
   const {
     data: notifications,
     fetchNextPage,

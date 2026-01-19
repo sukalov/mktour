@@ -10,7 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useTranslations } from 'next-intl';
 
 export default function ClubDescription({ form }: ClubDescriptionProps) {
-  const t = useTranslations('NewClubForm');
+  const t = useTranslations('Club.New');
   return (
     <FormField
       control={form.control}

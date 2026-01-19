@@ -37,7 +37,7 @@ const ClubManagersList: FC<{ clubId: string; userId: string }> = ({
   userId,
 }) => {
   const { data, status } = useClubManagers(clubId);
-  const t = useTranslations('Club.Settings');
+  const t = useTranslations('Club.Dashboard.Settings');
   const user = data?.find(
     ({ clubs_to_users: { userId } }) => userId === userId,
   );

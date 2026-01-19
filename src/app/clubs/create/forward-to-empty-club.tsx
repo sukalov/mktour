@@ -10,7 +10,7 @@ import { ArrowRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 export default function ForwardToEmptyClub({ club }: { club: DatabaseClub }) {
-  const t = useTranslations('NewClubForm.ForwardToEmpty');
+  const t = useTranslations('Club.New.forward to empty');
   return (
     <div className="mk-container pt-mk-2">
       <HalfCard className="">

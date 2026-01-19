@@ -50,7 +50,7 @@ const ClubSettingsForm: FC<ClubTabProps & PropsWithChildren> = ({
       : defaultValues,
   });
 
-  const t = useTranslations('Club.Settings');
+  const t = useTranslations('Club.Dashboard.Settings');
 
   if (!data && isFetching) return <SkeletonList length={1} />;
   if (!data && children) return children;

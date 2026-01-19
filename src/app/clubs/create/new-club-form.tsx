@@ -35,7 +35,7 @@ export default function NewClubForm({ teams }: NewClubFormProps) {
     },
   });
 
-  const t = useTranslations('NewClubForm');
+  const t = useTranslations('Club.New');
   const { mutate, isPending: isMutating } = useClubCreate();
   const router = useRouter();
   const [isNavigating, startNavigation] = useTransition();

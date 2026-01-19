@@ -38,7 +38,7 @@ const AddManager = ({
     onSuccess: () => handleClose(),
   });
 
-  const t = useTranslations('Club.Settings');
+  const t = useTranslations('Club.Dashboard.Settings');
   useHotkeys('escape', () => handleClose, { enableOnFormTags: true });
 
   if (affiliatedUsers.status === 'pending' || foundUsers.status === 'pending')

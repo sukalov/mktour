@@ -75,7 +75,7 @@ export const AffiliationNotificationLi = ({
     >
       <p className="text-muted-foreground flex items-center gap-2 text-xs">
         <GitPullRequestCreateArrow className="size-4" />
-        <FormattedMessage id="Club.Notifications.affiliation" />
+        <FormattedMessage id="Club.Dashboard.Notifications.affiliation" />
       </p>
       <div className="flex items-center justify-between text-sm">
         <div className="flex items-center gap-2">

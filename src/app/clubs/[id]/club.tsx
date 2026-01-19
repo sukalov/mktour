@@ -56,7 +56,7 @@ const ClubPage: FC<{
               <FormattedMessage id="Menu.tournaments" />
             </TabsTrigger>
             <TabsTrigger value="players">
-              <FormattedMessage id="Club.Dashboard.players" />
+              <FormattedMessage id="Club.Page.players" />
             </TabsTrigger>
           </TabsList>
           <TabsContent value="tournaments">
@@ -215,7 +215,7 @@ const StatCard: FC<{
 
 const MostActivePlayers: FC<{ clubId: string }> = ({ clubId }) => {
   const { data: stats, isPending } = useClubStats(clubId);
-  const t = useTranslations('Club');
+  const t = useTranslations('Club.Page');
 
   if (isPending) {
     return (
@@ -423,7 +423,7 @@ const ClubPlayersSection: FC<{ clubId: string }> = ({ clubId }) => {
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center gap-2 text-base">
           <Users2 className="size-4" />
-          <FormattedMessage id="Club.Dashboard.players" />
+          <FormattedMessage id="Club.Page.players" />
           {!!playersCount && (
             <span className="text-muted-foreground font-normal">
               ({playersCount})

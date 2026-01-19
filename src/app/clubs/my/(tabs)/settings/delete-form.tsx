@@ -33,7 +33,7 @@ export default function DeleteConfirmationForm({
     resolver: zodResolver(deleteClubFormSchema),
     values: { name: '', id },
   });
-  const t = useTranslations('Club.Settings');
+  const t = useTranslations('Club.Dashboard.Settings');
 
   const watchedName = useWatch({
     control: form.control,
