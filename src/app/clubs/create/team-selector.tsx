@@ -21,7 +21,7 @@ import { useState } from 'react';
 
 export function TeamSelector({ teams, form }: TeamSelectorProps) {
   const [state, setState] = useState<boolean>(false);
-  const t = useTranslations('NewClubForm');
+  const t = useTranslations('Club.New');
   if (teams.length === 0) {
     return (
       <FormField

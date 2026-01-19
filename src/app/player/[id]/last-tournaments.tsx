@@ -12,7 +12,7 @@ const LastTournaments: FC<{ tournaments: PlayerToTournamentModel[] }> = ({
   if (!tournaments || tournaments.length === 0) return null;
 
   return (
-    <Card>
+    <Card className="max-sm:mx-mk">
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center gap-2 text-base">
           <Trophy className="size-4" />

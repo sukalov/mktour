@@ -7,12 +7,14 @@ import LastTournaments from '@/app/player/[id]/last-tournaments';
 import PlayerStats from '@/app/player/[id]/player-stats';
 import LichessLogo from '@/components/ui-custom/lichess-logo';
 import { Button } from '@/components/ui/button';
+import { CardTitle } from '@/components/ui/card';
 import { publicCaller } from '@/server/api';
+import { PlayerModel } from '@/server/db/zod/players';
 import { ChevronRight, User2, Users2, UserX } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Suspense } from 'react';
+import { FC, Suspense } from 'react';
 import 'server-only';
 
 export default async function PlayerPage(props: PlayerPageProps) {
@@ -45,7 +47,6 @@ async function PlayerPageContent(props: PlayerPageProps) {
   const isOwnPlayer = user && player.userId === user.id;
   const canEdit = status !== null || isOwnPlayer;
   const canClaim = !status && user && !player.userId;
-  console.log({ canClaim });
   const canAffiliate = status !== null && !player.userId && !affiliation;
   const t = await getTranslations('Player');
 
@@ -62,14 +63,14 @@ async function PlayerPageContent(props: PlayerPageProps) {
         </div>
         <ChevronRight className="text-muted-foreground size-4" />
       </Link>
-
+      <PlayerHeader player={player} />
       {/* Action Toolbar */}
-      <div className="flex w-full justify-end gap-2">
+      <div className="flex justify-end gap-2">
         {playerUser ? (
-          <Button variant="outline" className="gap-2" asChild>
+          <Button variant="outline" className="max-w-3/5 gap-2" asChild>
             <Link href={`/user/${playerUser.username}`}>
               <User2 className="size-4" />
-              <span>{playerUser.username}</span>
+              <span className="truncate">{playerUser.username}</span>
             </Link>
           </Button>
         ) : (
@@ -97,12 +98,29 @@ async function PlayerPageContent(props: PlayerPageProps) {
         {user && canEdit && <EditButton player={player} status={status} />}
         {canClaim && <ClaimPlayer userId={user.id} clubId={club.id} />}
       </div>
-
       <PlayerStats player={player} />
       <LastTournaments tournaments={playerLastTournaments} />
     </div>
   );
 }
+
+const PlayerHeader: FC<{ player: PlayerModel }> = ({ player }) => (
+  <div className="p-mk">
+    <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-1">
+        <CardTitle className="text-2xl">{player.nickname}</CardTitle>
+        {player.realname && (
+          <span className="text-muted-foreground text-sm">
+            {player.realname}
+          </span>
+        )}
+      </div>
+      <div className="flex flex-col items-end">
+        <span className="text-3xl font-bold">{player.rating}</span>
+      </div>
+    </div>
+  </div>
+);
 
 export interface PlayerPageProps {
   params: Promise<{ id: string }>;

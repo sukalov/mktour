@@ -36,9 +36,6 @@ const ClaimPlayer: FC<{
   const t = useTranslations();
 
   const { data: userAffiliation } = useUserClubAffiliations(clubId);
-  console.log({ userAffiliation });
-  // if (!userAffiliation) return null;
-  // const { status, player } = userAffiliation;
 
   const hasClaimed =
     userAffiliation &&
@@ -81,7 +78,6 @@ const ClaimPlayer: FC<{
             type="submit"
           >
             {isPending ? <LoadingSpinner /> : <Check />}
-            &nbsp;
             {t('Common.send')}
           </Button>
           <Close asChild>
@@ -102,12 +98,12 @@ export const ClaimActionButton: FC<ClaimActionButtonProps> = ({
 }) => (
   <Button
     variant="outline"
-    className="flex gap-2 text-nowrap"
+    className="flex gap-2 text-nowrap max-sm:size-9"
     disabled={disabled}
     {...props}
   >
     <Icon />
-    <span className="text-xs">
+    <span className="hidden text-xs md:block">
       <FormattedMessage id={messageId} />
     </span>
   </Button>

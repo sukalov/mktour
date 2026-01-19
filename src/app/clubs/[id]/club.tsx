@@ -44,7 +44,7 @@ const ClubPage: FC<{
       <ClubStats clubId={club.id} />
       <MostActivePlayers clubId={club.id} />
 
-      <div className="hidden gap-6 md:grid md:grid-cols-2">
+      <div className="hidden gap-4 md:grid md:grid-cols-2">
         <ClubTournamentsSection clubId={club.id} statusInClub={statusInClub} />
         <ClubPlayersSection clubId={club.id} />
       </div>
@@ -56,7 +56,7 @@ const ClubPage: FC<{
               <FormattedMessage id="Menu.tournaments" />
             </TabsTrigger>
             <TabsTrigger value="players">
-              <FormattedMessage id="Club.Dashboard.players" />
+              <FormattedMessage id="Club.Page.players" />
             </TabsTrigger>
           </TabsList>
           <TabsContent value="tournaments">
@@ -91,7 +91,7 @@ const ClubHeader: FC<{
 
   return (
     <HalfCard>
-      <CardHeader className="pb-4">
+      <CardHeader className="pb-4 max-sm:p-4 max-sm:pt-2">
         <div className="flex items-start justify-between gap-4">
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-3">
@@ -147,7 +147,7 @@ const ClubHeader: FC<{
           )}
         </div>
       </CardHeader>
-      <CardContent className="pt-0">
+      <CardContent className="pt-0 max-sm:px-4 max-sm:pb-0">
         <Separator className="mb-4" />
         <div className="text-muted-foreground flex items-center gap-3 text-xs">
           <CalendarDays className="size-4" />
@@ -168,17 +168,17 @@ const ClubStats: FC<{ clubId: string }> = ({ clubId }) => {
   const t = useTranslations('Club.Stats');
 
   return (
-    <div className="grid grid-cols-2 gap-3">
+    <div className="grid grid-cols-2 gap-4">
       <StatCard
-        icon={Users2}
-        label={t('players')}
-        value={stats?.playersCount}
+        icon={Trophy}
+        label={t('tournaments', { count: stats?.tournamentsCount ?? 0 })}
+        value={stats?.tournamentsCount}
         isLoading={isPending}
       />
       <StatCard
-        icon={Trophy}
-        label={t('tournaments')}
-        value={stats?.tournamentsCount}
+        icon={Users2}
+        label={t('players', { count: stats?.playersCount ?? 0 })}
+        value={stats?.playersCount}
         isLoading={isPending}
       />
     </div>
@@ -203,8 +203,10 @@ const StatCard: FC<{
         </>
       ) : (
         <>
-          <span className="text-2xl font-bold">{value ?? 0}</span>
-          <span className="text-muted-foreground text-xs">{label}</span>
+          <span className="text-2xl leading-none font-bold">{value ?? 0}</span>
+          <span className="text-muted-foreground text-xs leading-none">
+            {label}
+          </span>
         </>
       )}
     </div>
@@ -213,7 +215,7 @@ const StatCard: FC<{
 
 const MostActivePlayers: FC<{ clubId: string }> = ({ clubId }) => {
   const { data: stats, isPending } = useClubStats(clubId);
-  const t = useTranslations('Club');
+  const t = useTranslations('Club.Page');
 
   if (isPending) {
     return (
@@ -235,7 +237,7 @@ const MostActivePlayers: FC<{ clubId: string }> = ({ clubId }) => {
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center gap-2 text-base">
           <Trophy className="size-4" />
-          {t('mostActive')}
+          {t('most active')}
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-0">
@@ -249,9 +251,7 @@ const MostActivePlayers: FC<{ clubId: string }> = ({ clubId }) => {
               <TableHead className="text-right">
                 <FormattedMessage id="Player.rating" />
               </TableHead>
-              <TableHead className="text-right">
-                <FormattedMessage id="Club.Stats.tournaments" />
-              </TableHead>
+              <TableHead className="text-right">{t('tournaments')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -292,7 +292,7 @@ const ClubTournamentsSection: FC<{
   const { data: stats } = useClubStats(clubId);
   const queryClient = useQueryClient();
   const trpc = useTRPC();
-  const { data: searchResults, isFetching: isSearchFetching } = useSearchQuery({
+  const { data: searchResults } = useSearchQuery({
     query: debouncedSearch,
     filter: {
       type: 'tournaments',
@@ -423,8 +423,8 @@ const ClubPlayersSection: FC<{ clubId: string }> = ({ clubId }) => {
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center gap-2 text-base">
           <Users2 className="size-4" />
-          <FormattedMessage id="Club.Dashboard.players" />
-          {playersCount && playersCount > 0 && (
+          <FormattedMessage id="Club.Page.players" />
+          {!!playersCount && (
             <span className="text-muted-foreground font-normal">
               ({playersCount})
             </span>

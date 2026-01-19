@@ -10,7 +10,7 @@ import { DoorOpen } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 export default function ClubSettings({ selectedClub, userId }: ClubTabProps) {
-  const t = useTranslations('Club.Dashboard');
+  const t = useTranslations('Club.Dashboard.Settings');
   const { mutate, isPending } = useClubLeaveMutation();
 
   return (
@@ -34,7 +34,6 @@ export default function ClubSettings({ selectedClub, userId }: ClubTabProps) {
                 disabled={isPending}
               >
                 {isPending ? <LoadingSpinner /> : <DoorOpen />}
-                &nbsp;
                 {t('leave club')}
               </Button>
               <ClubDelete id={selectedClub} userId={userId} />

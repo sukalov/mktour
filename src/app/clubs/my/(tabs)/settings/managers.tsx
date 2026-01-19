@@ -37,7 +37,7 @@ const ClubManagersList: FC<{ clubId: string; userId: string }> = ({
   userId,
 }) => {
   const { data, status } = useClubManagers(clubId);
-  const t = useTranslations('Club.Settings');
+  const t = useTranslations('Club.Dashboard.Settings');
   const user = data?.find(
     ({ clubs_to_users: { userId } }) => userId === userId,
   );
@@ -129,7 +129,7 @@ const DeleteManagerButton: FC<{
         <Button variant="destructive" className="flex gap-2" size="sm">
           <Trash2 />
           <div className="hidden sm:block">
-            <FormattedMessage id="Club.Settings.delete" />
+            <FormattedMessage id="Club.Dashboard.Settings.delete" />
           </div>
         </Button>
       </Trigger>

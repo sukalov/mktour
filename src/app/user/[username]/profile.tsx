@@ -33,8 +33,8 @@ const Profile: FC<{
 
   return (
     <div className="mk-container flex w-full flex-col gap-6">
-      <HalfCard>
-        <CardHeader className="pb-4">
+      <HalfCard className="gap-mk-2 p-mk-2 sm:p-mk-3 flex flex-col">
+        <CardHeader className="p-0">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
               <div className="flex flex-col gap-1">
@@ -48,7 +48,7 @@ const Profile: FC<{
             </div>
           </div>
         </CardHeader>
-        <CardContent className="pt-0">
+        <CardContent className="p-0">
           <Separator className="mb-4" />
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <StatItem

@@ -1,12 +1,17 @@
 'use client';
 
 import { ClubTabProps } from '@/app/clubs/my/tabMap';
+import EditPlayerForm from '@/app/player/[id]/player-form';
 import Empty from '@/components/empty';
+import FormattedMessage from '@/components/formatted-message';
 import { useClubPlayers } from '@/components/hooks/query-hooks/use-club-players';
 import SkeletonList from '@/components/skeleton-list';
+import ComboModal from '@/components/ui-custom/combo-modal';
 import Paginator from '@/components/ui-custom/paginator';
+import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { DatabasePlayer } from '@/server/db/schema/players';
+import { UserRound } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { FC } from 'react';
@@ -48,15 +53,34 @@ const PlayerItem: FC<{ player: DatabasePlayer }> = ({ player }) => {
   //     : t('Player.never');
 
   return (
-    <Link href={`/player/${id}`}>
-      <Card
-        key={id}
-        className="mk-card flex items-center justify-between truncate"
-      >
-        <span className="text-sm">{nickname}</span>
-        <div className="text-muted-foreground text-xs">{rating}</div>
-      </Card>
-    </Link>
+    <ComboModal.Root>
+      <ComboModal.Trigger>
+        <Card
+          key={id}
+          className="mk-card flex items-center justify-between truncate"
+        >
+          <span className="text-sm">{nickname}</span>
+          <div className="text-muted-foreground text-xs">{rating}</div>
+        </Card>
+      </ComboModal.Trigger>
+      <ComboModal.Content>
+        <ComboModal.Title className="gap-mk flex items-center justify-between pl-2">
+          {nickname}
+          <Link href={`/player/${player?.id}`}>
+            <Button variant="outline" className="">
+              <UserRound />
+              <FormattedMessage id="Tournament.Table.Player.profile" />
+            </Button>
+          </Link>
+        </ComboModal.Title>
+        <EditPlayerForm
+          clubId={player.clubId}
+          player={player}
+          status={'admin'} // FIXME bad practice
+          setOpen={() => null}
+        />
+      </ComboModal.Content>
+    </ComboModal.Root>
   );
 };
 

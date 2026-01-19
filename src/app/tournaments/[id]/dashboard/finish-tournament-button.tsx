@@ -44,7 +44,6 @@ export default function FinishTournamentButton({
       disabled={isPending}
     >
       {isPending ? <LoadingSpinner /> : <Save />}
-      &nbsp;
       {t('finish tournament')}
     </Button>
   );

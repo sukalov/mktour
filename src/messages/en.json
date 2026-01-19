@@ -12,7 +12,8 @@
     "edit": "edit",
     "save": "save",
     "settings": "settings",
-    "search": "search"
+    "search": "search",
+    "profile": "profile"
   },
   "Menu": {
     "club": "club",
@@ -32,7 +33,7 @@
     "Descriptions": {
       "club": "it is your chess club dashboard. here you can manage your players, events and other club settings",
       "tournaments": "here are all the tournaments related to you. both, where you played and which were organized by your clubs",
-      "about us": "mktour is an open-source project. here you can learn more about the team and the app",
+      "about us": "mktour is an open-source project. here you can learn more about team and the app",
       "profile": "it's your own page with all your clubs, stats and more"
     },
     "Subs": {
@@ -83,7 +84,7 @@
     "club": "club",
     "claim": "it's me!",
     "cancel claim": "cancel application",
-    "claim confirmation": "you are gonna send application. as soon as admins confirm it, the player will be associated with your account",
+    "claim confirmation": "you are gonna send application. as soon as admins confirm it, player will be associated with your account",
     "last tournaments": "last tournaments",
     "linkedTo": "linked to",
     "not linked": "not linked to account",
@@ -117,57 +118,22 @@
     "lichess team connected": "sorry, this team is already here:",
     "player exists error": "this player already exists!",
     "name": "what's their name?",
-    "add-player-error": "sorry! couldn't add {player} to the tournament",
-    "remove-player-error": "sorry! couldn't remove {player} from the tournament",
+    "add-player-error": "sorry! couldn't add {player} to tournament",
+    "remove-player-error": "sorry! couldn't remove {player} from tournament",
     "internal-error": "internal error: {error}",
     "max 50": "max 50 characters",
     "min nickname length": "nickname must be at least 3 characters long",
     "max nickname length": "nickname must be at most 30 characters long"
   },
-  "NewClubForm": {
-    "new club": "new club",
-    "make new club": "make new club",
-    "making": "making...",
-    "name": "name",
-    "description": "description",
-    "description placeholder": "tell something about your club...\n\nP.S it's useful to mention here, how to contact admins",
-    "no lichess teams": "couldn't find your lichess teams",
-    "connect lichess team": "connect lichess team!",
-    "unselect lichess team": "don't select any team",
-    "club not saved": "sorry! server error happened, club wasn't saved",
-    "ForwardToEmpty": {
-      "message": "it seems that you have a club with no finished tournaments: <b>{club}</b>. you can just edit it!",
-      "button text": "go to"
-    },
-    "club not created": "sorry! some error happened. the club wasn't created"
-  },
   "Club": {
     "managers list": "managers",
-    "add manager": "add new manager",
     "dashboard": "club dashboard",
-    "mostActive": "most active players",
+    "most active": "most active players",
+    "tournaments": "tournaments",
     "Stats": {
-      "players": "players",
-      "tournaments": "tournaments",
+      "players": "{count, plural, one {player} other {players}}",
+      "tournaments": "{count, plural, one {tournament} other {tournaments}}",
       "tournamentsPlayed": "tournaments"
-    },
-    "Settings": {
-      "name": "name",
-      "save": "save",
-      "confirmation title": "you're about to delete everything!",
-      "danger zone": "danger zone",
-      "delete club": "delete club",
-      "confirmation body": "all players and tournaments will be deleted. if you're completely sure, type the name of the club you are deleting",
-      "cancel": "cancel",
-      "add manager": "add manager",
-      "search": "username",
-      "no affiliated users": "couldn't find users related to your club. start typing to search among all mktour users",
-      "search users error": "an error happened while searching",
-      "make admin": "make admin",
-      "make co-owner": "make co-owner",
-      "delete manager": "delete manager",
-      "delete": "delete",
-      "club settings": "general settings"
     },
     "Dashboard": {
       "no data": "no data",
@@ -176,20 +142,56 @@
       "tournaments": "tournaments",
       "notifications": "notifications",
       "settings": "settings",
-      "danger zone": "danger zone",
-      "leave club": "leave club"
+      "Settings": {
+        "club settings": "general settings",
+        "name": "name",
+        "save": "save",
+        "search": "username",
+        "cancel": "cancel",
+        "confirmation title": "you're about to delete everything!",
+        "confirmation body": "all players and tournaments will be deleted. if you're completely sure, type the name of the club you are deleting",
+        "danger zone": "danger zone",
+        "leave club": "leave club",
+        "delete club": "delete club",
+        "add manager": "add manager",
+        "no affiliated users": "couldn't find users related to your club. start typing to search among all mktour users",
+        "search users error": "an error happened while searching",
+        "make admin": "make admin",
+        "make co-owner": "make co-owner",
+        "delete manager": "delete manager",
+        "delete": "delete"
+      },
+      "Notifications": {
+        "loading": "loading...",
+        "empty": "claims to moderate tournaments, to link players to users and other club related notifications",
+        "affiliation": "affiliation request",
+        "mark all as read": "mark all as read"
+      }
     },
     "Page": {
       "no description": "no description",
       "lichess team": "lichess team",
       "createdAt": "created: {date}",
-      "tournaments": "club tournaments:"
+      "tournaments": "club tournaments:",
+      "players": "players",
+      "most active": "most active players"
     },
-    "Notifications": {
-      "loading": "loading...",
-      "empty": "claims to moderate tournaments, to link players to users and other club related notifications",
-      "affiliation": "affiliation request",
-      "mark all as read": "mark all as read"
+    "New": {
+      "new club": "new club",
+      "make new club": "make new club",
+      "making": "making...",
+      "name": "name",
+      "description": "description",
+      "description placeholder": "tell something about your club...\n\np.s it's useful to mention here, how to contact admins",
+      "no lichess teams": "couldn't find your lichess teams",
+      "connect lichess team": "connect lichess team!",
+      "unselect lichess team": "don't select any team",
+      "club not saved": "sorry! server error happened, club wasn't saved",
+      "forward to empty": {
+        "message": "it seems that you have a club with no finished tournaments: <b>{club}</b>. you can just edit it!",
+        "button text": "go to"
+      },
+      "club not created": "sorry! some error happened. the club wasn't created"
     }
   },
   "Status": {
@@ -258,6 +260,7 @@
     "Main": {
       "start tournament": "start tournament",
       "reset progress": "reset progress",
+      "reset players": "reset players",
       "confirmation header": "are you sure?",
       "confirmation body": "all results and scores are going to be deleted. the tournament will get to 'not started' state",
       "cancel": "cancel",
@@ -376,7 +379,7 @@
     "adding": "adding you right now!",
     "joined successfuly": "yeee, now you're in the team!",
     "join error": "some error happened, too bad...",
-    "toast header": "WELCOME TO MKTOUR",
+    "toast header": "welcome to mktour",
     "toast message": "in case you experience any difficulties while using our app, please describe the problem at <lichess>our lichess team </lichess> forum. do you want to join the team, where you can reach us any time?",
     "join team": "join team",
     "no join button": "don't join"
@@ -384,7 +387,7 @@
   "GlobalSearch": {
     "search dialog title": "global search menu",
     "search dialog description": "here you can find any club, tournament or mktour user",
-    "search placeholder": "whate are you looking for?",
+    "search placeholder": "what are you looking for?",
     "not found": "nothing found",
     "make tournament": "make tournament",
     "club dashboard": "club dashboard",
@@ -436,5 +439,6 @@
     "Club": {
       "affiliation requested": "request sent"
     }
-  }
+  },
+  "NewClubForm": {}
 }

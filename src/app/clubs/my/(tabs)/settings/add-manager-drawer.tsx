@@ -19,7 +19,7 @@ const AddManagerDrawer = ({
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
   const debouncedValue = useDebounce(value, 300);
-  const t = useTranslations('Club.Settings');
+  const t = useTranslations('Club.Dashboard.Settings');
   const [isAnimating, setIsAnimating] = useState(false);
 
   const handleChange = (state: boolean) => {

@@ -53,7 +53,6 @@ export default function StartTournamentButton() {
       ) : (
         <CirclePlay />
       )}
-      &nbsp;
       {t('start tournament')}
     </Button>
   );

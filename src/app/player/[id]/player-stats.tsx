@@ -3,7 +3,7 @@
 import AuthStatsCard from '@/app/player/[id]/auth-stats-card';
 import { usePlayerStats } from '@/components/hooks/query-hooks/use-player-stats';
 import HalfCard from '@/components/ui-custom/half-card';
-import { CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { PlayerModel } from '@/server/db/zod/players';
 import { Percent, Swords, TrendingUp, Trophy } from 'lucide-react';
@@ -17,8 +17,7 @@ export default function PlayerStats({ player }: { player: PlayerModel }) {
   return (
     <div className="flex flex-col gap-4">
       <HalfCard>
-        <PlayerHeader player={player} />
-        <CardContent className="pt-0">
+        <CardContent className="max-sm:p-mk pt-mk-3">
           <div className="grid grid-cols-2 gap-3">
             <StatItem
               icon={Trophy}
@@ -51,29 +50,10 @@ export default function PlayerStats({ player }: { player: PlayerModel }) {
           </div>
         </CardContent>
       </HalfCard>
-
       <AuthStatsCard playerId={player.id} playerNickname={player.nickname} />
     </div>
   );
 }
-
-const PlayerHeader: FC<{ player: PlayerModel }> = ({ player }) => (
-  <CardHeader className="pb-4">
-    <div className="flex items-center justify-between">
-      <div className="flex flex-col gap-1">
-        <CardTitle className="text-2xl">{player.nickname}</CardTitle>
-        {player.realname && (
-          <span className="text-muted-foreground text-sm">
-            {player.realname}
-          </span>
-        )}
-      </div>
-      <div className="flex flex-col items-end">
-        <span className="text-3xl font-bold">{player.rating}</span>
-      </div>
-    </div>
-  </CardHeader>
-);
 
 interface StatItemProps {
   icon: FC<{ className?: string }>;
@@ -90,7 +70,7 @@ const StatItem: FC<StatItemProps> = ({
   rank,
   isLoading,
 }) => (
-  <div className="bg-muted/50 flex flex-row items-center justify-center gap-4 rounded-lg p-4">
+  <div className="bg-muted/50 grid grid-cols-[auto_50%_auto] items-center justify-between gap-4 rounded-lg p-4">
     <Icon className="text-muted-foreground size-5" />
     <div className="flex flex-col">
       {isLoading ? (
@@ -101,13 +81,12 @@ const StatItem: FC<StatItemProps> = ({
       ) : (
         <>
           <span className="text-primary text-lg font-semibold">{value}</span>
-          <span className="text-muted-foreground text-left text-xs">
+          <span className="text-muted-foreground text-3xs truncate text-left sm:text-xs">
             {label}
           </span>
         </>
       )}
     </div>
-    <div className="flex-1" />
     {!isLoading && rank !== undefined && (
       <span className="text-muted-foreground text-xs">#{rank}</span>
     )}

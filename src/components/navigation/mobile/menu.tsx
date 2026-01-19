@@ -7,6 +7,7 @@ import MenuToggle from '@/components/navigation/mobile/menu-toggle';
 import ModeToggler from '@/components/navigation/mode-toggler';
 import { NAVMENU_ITEMS } from '@/components/navigation/nav-menu-items';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
 import { useQueryClient } from '@tanstack/react-query';
 import { motion, StyleTransitions, useCycle, Variants } from 'framer-motion';
 import { useTranslations } from 'next-intl';
@@ -105,7 +106,9 @@ const Menu: FC = () => {
                 ) : (
                   <MenuItemWithSubMenu toggleOpen={toggleOpen} item={item} />
                 )}
-                <MenuItem className="bg-muted-foreground my-3 h-px w-full" />
+                <MenuItem>
+                  <Separator className="my-3 h-px" />
+                </MenuItem>
               </div>
             ))}
             <MenuItem className="ml-3 text-2xl">

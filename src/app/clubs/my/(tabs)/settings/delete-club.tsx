@@ -13,7 +13,7 @@ import * as React from 'react';
 
 export default function ClubDelete({ id }: ClubDeleteProps) {
   const [open, setOpen] = React.useState(false);
-  const t = useTranslations('Club.Settings');
+  const t = useTranslations('Club.Dashboard.Settings');
   const trpc = useTRPC();
   const mutating = useIsMutating();
   const deleting = useIsMutating({
@@ -38,7 +38,6 @@ export default function ClubDelete({ id }: ClubDeleteProps) {
           disabled={mutating !== 0}
         >
           {deleting !== 0 ? <LoadingSpinner /> : <Trash2 />}
-          &nbsp;
           {t('delete club')}
         </Button>
       </ComboModal.Trigger>
