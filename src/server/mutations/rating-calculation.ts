@@ -1,17 +1,17 @@
-import { db } from '@/server/db';
-import {
-  games,
-  players_to_tournaments,
-  tournaments,
-} from '@/server/db/schema/tournaments';
-import { players } from '@/server/db/schema/players';
 import {
   glicko2Calculator,
   type GameResult,
   type RatingUpdate,
 } from '@/lib/glicko2';
-import { eq, and } from 'drizzle-orm';
+import { db } from '@/server/db';
+import { players } from '@/server/db/schema/players';
+import {
+  games,
+  players_to_tournaments,
+  tournaments,
+} from '@/server/db/schema/tournaments';
 import type { GameResult as DbGameResult } from '@/server/db/zod/enums';
+import { and, eq } from 'drizzle-orm';
 
 /**
  * Get all completed games for a tournament with player ratings
@@ -186,6 +186,7 @@ export async function calculateAndApplyGlickoRatings(tournamentId: string) {
     .select({
       id: players.id,
       rating: players.rating,
+      ratingPeak: players.ratingPeak,
       ratingDeviation: players.ratingDeviation,
       ratingVolatility: players.ratingVolatility,
     })
@@ -200,6 +201,7 @@ export async function calculateAndApplyGlickoRatings(tournamentId: string) {
   const ratingUpdates: Array<{
     playerId: string;
     update: RatingUpdate;
+    newPeak: number | null;
   }> = [];
 
   for (const player of tournamentPlayers) {
@@ -219,20 +221,33 @@ export async function calculateAndApplyGlickoRatings(tournamentId: string) {
       results,
     );
 
+    let newPeak = player.ratingPeak;
+    const isStable =
+      update.newRatingDeviation <
+      glicko2Calculator.getConstants().STABLE_RD_THRESHOLD;
+
+    if (isStable) {
+      if (newPeak === null || update.newRating > newPeak) {
+        newPeak = update.newRating;
+      }
+    }
+
     ratingUpdates.push({
       playerId: player.id,
       update,
+      newPeak,
     });
   }
 
   // Apply all updates in a transaction
   await db.transaction(async (tx) => {
-    for (const { playerId, update } of ratingUpdates) {
+    for (const { playerId, update, newPeak } of ratingUpdates) {
       // Update player's main rating
       await tx
         .update(players)
         .set({
           rating: update.newRating,
+          ratingPeak: newPeak,
           ratingDeviation: update.newRatingDeviation,
           ratingVolatility: update.newVolatility,
           ratingLastUpdateAt: new Date(),

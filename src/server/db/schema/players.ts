@@ -19,7 +19,7 @@ export const players = sqliteTable(
     realname: text('realname'),
     userId: text('user_id').references(() => users.id),
     rating: integer('rating').notNull().default(1500),
-    ratingPeak: integer('rating_peak').notNull().default(1500),
+    ratingPeak: integer('rating_peak'),
     ratingDeviation: integer('rating_deviation').notNull().default(350),
     ratingVolatility: real('rating_volatility').notNull().default(0.06),
     ratingLastUpdateAt: integer('rating_last_update_at', {

@@ -43,7 +43,7 @@ export default function PlayerStats({ player }: { player: PlayerModel }) {
             <StatItem
               icon={TrendingUp}
               label={t('ratingPeak')}
-              value={player.ratingPeak}
+              value={player.ratingPeak ?? '?'}
               rank={stats?.ratingPeakRank}
               isLoading={isPending}
             />
