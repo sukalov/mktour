@@ -10,7 +10,6 @@ import {
   Dices,
   HomeIcon,
   UserRound,
-  Zap,
 } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
