@@ -40,7 +40,7 @@ const ClubMain: FC<ClubTabProps> = ({ selectedClub }) => {
         <Link href={`/clubs/${club.id}`}>
           <Button variant="outline">
             <BriefcaseBusiness />
-            <span className="text-sm max-sm:hidden">{t('Dashboard.page')}</span>
+            <span className="text-sm max-sm:hidden">{t('page')}</span>
           </Button>
         </Link>
       </div>
