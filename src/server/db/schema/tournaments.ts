@@ -27,7 +27,7 @@ export const tournaments = sqliteTable('tournament', {
     .notNull(),
   rated: integer('rated', { mode: 'boolean' })
     .notNull()
-    .$default(() => false),
+    .$default(() => true),
 });
 
 export const players_to_tournaments = sqliteTable('players_to_tournaments', {

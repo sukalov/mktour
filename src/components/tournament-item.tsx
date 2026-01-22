@@ -10,7 +10,12 @@ const TournamentItem = ({ club, tournament }: Props) => {
   const locale = useLocale();
   const localizedDate = new Date(date).toLocaleDateString([locale]);
   const t = useTranslations('MakeTournament');
-  const details = [t(`Types.${type}`), t(format), localizedDate];
+  const details = [
+    tournament.rated ? t('rated') : t('unrated'),
+    t(format),
+    t(`Types.${type}`),
+    localizedDate,
+  ];
 
   const description = details.map((detail, i) => {
     const separator = i !== details.length - 1 && (

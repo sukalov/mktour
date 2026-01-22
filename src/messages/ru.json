@@ -128,6 +128,7 @@
   "Club": {
     "managers list": "админы",
     "dashboard": "управление клубом",
+    "page": "страница клуба",
     "Stats": {
       "players": "{count, plural, one {игрок} few {игрока} many {игроков} other {игроки}}",
       "tournaments": "{count, plural, one {турнир} few {турнира} many {турниров} other {турниры}}",
@@ -163,7 +164,13 @@
         "loading": "загрузка...",
         "empty": "здесь будут заявки на модерацию турниров, привязку игрока к юзеру и другие уведомления клуба",
         "affiliation": "заявка на аффиляцию игрока",
-        "mark all as read": "отметить все как прочитанные"
+        "mark all as read": "отметить все как прочитанные",
+        "Notification": {
+          "affiliation_request_approved": "игрок {player} был привязан к юзеру {user}",
+          "affiliation_request_rejected": "запрос {user} на привязку к {player} был отклонён",
+          "manager_left": "менеджер {user} покинул клуб",
+          "affiliation_cancelled": "юзер {user} отменил запрос на привязку к {player}"
+        }
       }
     },
     "Page": {
@@ -284,6 +291,7 @@
       "started at": "начался в",
       "ended at": "закончился в",
       "number of rounds": "туров",
+      "unrated": "не рейтинговый",
       "save": "сохранить"
     },
     "Results": {
@@ -365,7 +373,7 @@
     "no data": "данные не получены",
     "name": "название",
     "rated": "рейтинговый",
-    "comming soon": "скоро будет",
+    "unrated": "не рейтинговый",
     "error": "не получилось сделать турнир"
   },
   "Home": {
@@ -430,8 +438,8 @@
   },
   "Notifications": {
     "User": {
-      "affiliation approved": "аффиляция одобрена",
-      "affiliation rejected": "аффиляция отклонена",
+      "affiliation approved": "привязка к игроку одобрена",
+      "affiliation rejected": "привязка к игроку отклонена",
       "became club manager": "вас сделали админом клуба",
       "tournament won": "вы выиграли турнир!",
       "removed from club managers": "вас удалили из админов клуба"

@@ -119,7 +119,7 @@ export const createPlayer = async ({ player }: { player: PlayerFormModel }) => {
         ...player,
         lastSeenAt: new Date(),
         id: newid(),
-        ratingPeak: player.rating,
+        ratingPeak: null,
       })
       .returning()
   ).at(0);

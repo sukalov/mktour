@@ -28,10 +28,15 @@ const GLICKO2_CONSTANTS = {
   TAU: 0.5,
   EPSILON: 0.000001,
   SCALE_FACTOR: 173.7178,
+  STABLE_RD_THRESHOLD: 110,
 } as const;
 
 export class Glicko2Calculator {
   private readonly constants = GLICKO2_CONSTANTS;
+
+  public getConstants() {
+    return this.constants;
+  }
 
   private toGlicko2Scale(
     rating: number,

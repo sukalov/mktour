@@ -128,6 +128,7 @@
   "Club": {
     "managers list": "managers",
     "dashboard": "club dashboard",
+    "page": "club page",
     "most active": "most active players",
     "tournaments": "tournaments",
     "Stats": {
@@ -164,8 +165,14 @@
       "Notifications": {
         "loading": "loading...",
         "empty": "claims to moderate tournaments, to link players to users and other club related notifications",
-        "affiliation": "affiliation request",
-        "mark all as read": "mark all as read"
+        "affiliation": "link request",
+        "mark all as read": "mark all as read",
+        "Notification": {
+          "affiliation_request_approved": "player {player} is officially user {user}",
+          "affiliation_request_rejected": "{user}'s request to link with {player} was rejected",
+          "manager_left": "manager {user} has left the club",
+          "affiliation_cancelled": "{user} cancelled their request to link with {player}"
+        }
       }
     },
     "Page": {
@@ -284,6 +291,7 @@
       "started at": "started at",
       "ended at": "ended at",
       "number of rounds": "rounds",
+      "unrated": "unrated",
       "save": "save"
     },
     "Results": {
@@ -365,7 +373,7 @@
     "no data": "no data",
     "name": "name",
     "rated": "rated",
-    "comming soon": "coming soon",
+    "unrated": "unrated",
     "error": "tournament making failed"
   },
   "Home": {
@@ -430,8 +438,8 @@
   },
   "Notifications": {
     "User": {
-      "affiliation approved": "affiliated",
-      "affiliation rejected": "affiliation rejected",
+      "affiliation approved": "linked",
+      "affiliation rejected": "link rejected",
       "became club manager": "you became club manager",
       "tournament won": "you won the tournament!",
       "removed from club managers": "you were removed from club managers"

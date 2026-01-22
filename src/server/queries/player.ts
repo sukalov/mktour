@@ -103,7 +103,7 @@ export async function getPlayerStats(
     (a, b) => b.winRate - a.winRate,
   );
   const byRatingPeak = [...statsWithCalculations].sort(
-    (a, b) => b.ratingPeak - a.ratingPeak,
+    (a, b) => (b.ratingPeak ?? 0) - (a.ratingPeak ?? 0),
   );
 
   const playerStats = statsWithCalculations.find(

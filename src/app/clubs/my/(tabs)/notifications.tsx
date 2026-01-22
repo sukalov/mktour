@@ -27,6 +27,7 @@ const ClubInbox: FC<{ selectedClub: string }> = ({ selectedClub }) => {
 
   if (!notifications) return null;
   if (status === 'error') return <p>{error.message}</p>;
+
   const allNotifications = notifications.pages.flatMap(
     (page) => page.notifications,
   );
@@ -34,14 +35,23 @@ const ClubInbox: FC<{ selectedClub: string }> = ({ selectedClub }) => {
   if (!allNotifications.length) return <Empty>{t('empty')}</Empty>;
   return (
     <div className="mk-list">
-      {allNotifications.map(NotificationItemIteratee)}
+      {allNotifications.map((event) => (
+        <Notification
+          key={event.id}
+          data={event}
+          t={(value, values) => t(`Notification.${value}`, values)}
+        />
+      ))}
       {isFetchingNextPage && <SkeletonList />}
       {hasNextPage && <div ref={ref} />}
     </div>
   );
 };
 
-const NotificationItemIteratee = (data: ClubNotificationExtended) => {
+const Notification: FC<{
+  data: ClubNotificationExtended;
+  t: NotificationTranslator;
+}> = ({ data, t }) => {
   switch (data.event) {
     case 'affiliation_request':
       return <AffiliationNotificationLi key={data.id} {...data} />;
@@ -54,7 +64,10 @@ const NotificationItemIteratee = (data: ClubNotificationExtended) => {
           type="club"
           clubId={data.clubId}
         >
-          {data.player?.nickname} is officially user {data.user?.username}
+          {t(data.event, {
+            player: data.player?.nickname || '',
+            user: data.user?.username || '',
+          })}
         </NotificationItem>
       );
     case 'affiliation_request_rejected':
@@ -66,10 +79,10 @@ const NotificationItemIteratee = (data: ClubNotificationExtended) => {
           type="club"
           clubId={data.clubId}
         >
-          <div>
-            {data.user?.username}&apos;s request to affiliate with{' '}
-            {data.player?.nickname} was rejected
-          </div>
+          {t(data.event, {
+            user: data.user?.username || '',
+            player: data.player?.nickname || '',
+          })}
         </NotificationItem>
       );
     case 'manager_left':
@@ -81,8 +94,9 @@ const NotificationItemIteratee = (data: ClubNotificationExtended) => {
           type="club"
           clubId={data.clubId}
         >
-          {data.event}
-          {JSON.stringify(data.metadata)}
+          {t(data.event, {
+            user: data.user?.username || '',
+          })}
         </NotificationItem>
       );
     case 'affiliation_cancelled':
@@ -94,13 +108,20 @@ const NotificationItemIteratee = (data: ClubNotificationExtended) => {
           type="club"
           clubId={data.clubId}
         >
-          {data.event}
-          {JSON.stringify(data.metadata)}
+          {t(data.event, {
+            user: data.user?.username || '',
+            player: data.player?.nickname || '',
+          })}
         </NotificationItem>
       );
     default:
       return null;
   }
 };
+
+type NotificationTranslator = (
+  key: ClubNotificationExtended['event'],
+  values?: Record<string, string | number | Date>,
+) => string;
 
 export default ClubInbox;

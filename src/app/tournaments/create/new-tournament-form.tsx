@@ -54,7 +54,7 @@ export default function NewTournamentForm({
       date: new Date(),
       timestamp: 0,
       type: 'solo',
-      rated: false,
+      rated: true,
     },
   });
   const t = useTranslations('MakeTournament');
@@ -228,21 +228,14 @@ export default function NewTournamentForm({
               name="rated"
               render={({ field }) => (
                 <div className="flex items-center space-x-2">
-                  <div className="peer flex items-center space-x-2">
-                    <Label htmlFor="rated" className="text-muted-foreground">
-                      {t('rated')}
-                    </Label>
-                    <Switch
-                      id="rated"
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                      disabled
-                    />
-                  </div>
-                  <p className="text-muted-foreground hidden text-sm peer-hover:block">
-                    <span className="text-xs">*</span>
-                    {t('comming soon')}
-                  </p>
+                  <Label htmlFor="rated" className="text-muted-foreground">
+                    {t('rated')}
+                  </Label>
+                  <Switch
+                    id="rated"
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
                 </div>
               )}
             />
