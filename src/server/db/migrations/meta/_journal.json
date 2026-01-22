@@ -8,6 +8,13 @@
       "when": 1764978743238,
       "tag": "0000_previous_zaran",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1769053285946,
+      "tag": "0001_gorgeous_skin",
+      "breakpoints": true
     }
   ]
 }
