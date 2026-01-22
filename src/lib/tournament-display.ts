@@ -1,7 +1,7 @@
-import { DatabaseTournament } from '@/server/db/schema/tournaments';
+import { TournamentModel } from '@/server/db/zod/tournaments';
 
 export const getTournamentDisplayName = (
-  tournament: DatabaseTournament | null | undefined,
+  tournament: TournamentModel | null | undefined,
   t: (key: string) => string,
   format: {
     dateTime: (date: Date, options: { dateStyle?: 'short' }) => string;
