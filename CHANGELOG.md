@@ -1,3 +1,18 @@
+# [0.11.0](https://github.com/mkeverything/mktour/compare/v0.10.0...v0.11.0) (2026-01-22)
+
+
+### Bug Fixes
+
+* rm unused import ([11e5190](https://github.com/mkeverything/mktour/commit/11e5190c7cd168e062476d511d0d348adda0265f))
+
+
+### Features
+
+* add display is tournament rated or not ([b57dc7b](https://github.com/mkeverything/mktour/commit/b57dc7b3c65b4d27cfce15951b9a336db0245819))
+* all club notifications have intl bodies ([e95a475](https://github.com/mkeverything/mktour/commit/e95a475dfff5d9f1d11c3b2c9b35e8491ec6585f))
+* enable creating rated tournaments ([8a8a23a](https://github.com/mkeverything/mktour/commit/8a8a23a058954af396ad5c9d66fbe37e0861a95f))
+* implement players' peak rating tracking ([bd36929](https://github.com/mkeverything/mktour/commit/bd36929146f9cef8b411dd3a04547ba21cca970d))
+
 # [0.10.0](https://github.com/mkeverything/mktour/compare/v0.9.2...v0.10.0) (2026-01-19)
 
 
