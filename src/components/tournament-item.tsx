@@ -1,7 +1,7 @@
 import { Card, CardTitle } from '@/components/ui/card';
 import { getTournamentDisplayName } from '@/lib/tournament-display';
-import { DatabaseClub } from '@/server/db/schema/clubs';
-import { DatabaseTournament } from '@/server/db/schema/tournaments';
+import { ClubModel } from '@/server/db/zod/clubs';
+import { TournamentModel } from '@/server/db/zod/tournaments';
 import { Dot } from 'lucide-react';
 import { useFormatter, useTranslations } from 'next-intl';
 import Link from 'next/link';
@@ -56,6 +56,6 @@ const TournamentItemIteratee = ({ club, tournament }: Props) => (
   <TournamentItem tournament={tournament} club={club} />
 );
 
-type Props = { tournament: DatabaseTournament; club?: DatabaseClub };
+type Props = { tournament: TournamentModel; club?: ClubModel };
 
 export default TournamentItemIteratee;

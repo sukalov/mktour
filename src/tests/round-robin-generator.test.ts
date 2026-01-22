@@ -3,12 +3,11 @@ import { describe, expect, mock, test } from 'bun:test';
 import { RoundProps } from '@/lib/client-actions/common-generator';
 import { generateRoundRobinRound } from '@/lib/client-actions/round-robin-generator';
 import { newid } from '@/lib/utils';
-import { DatabaseClub } from '@/server/db/schema/clubs';
-import { DatabaseTournament } from '@/server/db/schema/tournaments';
-import { DatabaseUser } from '@/server/db/schema/users';
+import { ClubModel } from '@/server/db/zod/clubs';
 import { GameResult } from '@/server/db/zod/enums';
 import { PlayerTournamentModel } from '@/server/db/zod/players';
-import { GameModel } from '@/server/db/zod/tournaments';
+import { GameModel, TournamentModel } from '@/server/db/zod/tournaments';
+import { UserModel } from '@/server/db/zod/users';
 import { faker } from '@faker-js/faker';
 import assert from 'assert';
 
@@ -30,7 +29,7 @@ const RATING_FAKEOPTS = {
   max: 3000,
 };
 
-const generateDatabaseUser = mock<() => DatabaseUser>(() => {
+const generateDatabaseUser = mock<() => UserModel>(() => {
   const randomId = newid();
   const randomNickname = faker.internet.username();
   const randomRealName = faker.person.fullName();
@@ -39,7 +38,7 @@ const generateDatabaseUser = mock<() => DatabaseUser>(() => {
   const randomClubName = faker.company.name();
   const randomCreationDate = faker.date.anytime();
 
-  const randomUser: DatabaseUser = {
+  const randomUser: UserModel = {
     id: randomId,
     username: randomNickname,
     name: randomRealName,
@@ -51,13 +50,13 @@ const generateDatabaseUser = mock<() => DatabaseUser>(() => {
   return randomUser;
 });
 
-const generateRandomDatabaseClub = mock<() => DatabaseClub>(() => {
+const generateRandomDatabaseClub = mock<() => ClubModel>(() => {
   const randomId = newid();
   const randomTitle = faker.animal.cat();
   const randomDescription = faker.food.description();
   const randomCreatedAt = faker.date.anytime();
   const randomLichessTeam = faker.book.title();
-  const randomClub: DatabaseClub = {
+  const randomClub: ClubModel = {
     id: randomId,
     name: randomTitle,
     description: randomDescription,
@@ -67,7 +66,7 @@ const generateRandomDatabaseClub = mock<() => DatabaseClub>(() => {
   return randomClub;
 });
 
-const generateRandomDatabaseTournament = mock<() => DatabaseTournament>(() => {
+const generateRandomDatabaseTournament = mock<() => TournamentModel>(() => {
   const randomDate = faker.date.anytime();
   const randomId = newid();
   const randomTitle = faker.music.songName();
@@ -78,7 +77,7 @@ const generateRandomDatabaseTournament = mock<() => DatabaseTournament>(() => {
   const randomRoundsNumber = faker.number.int();
   const randomIsRated = faker.datatype.boolean();
 
-  const randomTournament: DatabaseTournament = {
+  const randomTournament: TournamentModel = {
     date: randomDate.toDateString(),
     id: randomId,
     title: randomTitle,
