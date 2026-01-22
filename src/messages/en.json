@@ -291,6 +291,7 @@
       "started at": "started at",
       "ended at": "ended at",
       "number of rounds": "rounds",
+      "unrated": "unrated",
       "save": "save"
     },
     "Results": {
@@ -372,6 +373,7 @@
     "no data": "no data",
     "name": "name",
     "rated": "rated",
+    "unrated": "unrated",
     "error": "tournament making failed"
   },
   "Home": {

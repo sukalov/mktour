@@ -4,7 +4,14 @@ import {
 } from '@/app/tournaments/[id]/dashboard/tabs/main';
 import Winners from '@/app/tournaments/[id]/dashboard/tabs/main/winners';
 import { useTournamentInfo } from '@/components/hooks/query-hooks/use-tournament-info';
-import { CalendarDays, Dices, HomeIcon, UserRound } from 'lucide-react';
+import {
+  CalendarDays,
+  ChartNoAxesCombinedIcon,
+  Dices,
+  HomeIcon,
+  UserRound,
+  Zap,
+} from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { toast } from 'sonner';
@@ -63,6 +70,10 @@ const TournamentInfoList = () => {
       />
       <InfoItem icon={UserRound} value={t(`Types.${data.tournament.type}`)} />
       <InfoItem icon={Dices} value={data.tournament.format} format={true} />
+      <InfoItem
+        icon={ChartNoAxesCombinedIcon}
+        value={data.tournament.rated ? t('rated') : t('unrated')}
+      />
       <InfoItem icon={CalendarDays} value={decapitalizedWeekday} />
       {/* {formattedStartedAt && (
         <InfoItem
