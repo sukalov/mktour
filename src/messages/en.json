@@ -282,6 +282,7 @@
       "round robin": "round robin",
       "swiss": "swiss",
       "single elimination": "single elimination",
+      "rated": "rated",
       "double elimination": "double elimination",
       "Types": {
         "solo": "solo",
